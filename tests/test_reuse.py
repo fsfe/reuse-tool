@@ -22,6 +22,8 @@
 
 """Tests for reuse."""
 
+from reuse import _core
+
 def test_nothing():
     """Test nothing."""
     assert True
@@ -30,4 +32,6 @@ def test_extract_license_from_file(file_with_license_comments):
     """Test whether you can correctly extract license information from a code
     file's comments.
     """
-    assert file_with_license_comments is not None
+    license = _core.extract_license_from_file(file_with_license_comments)
+    assert license.name == file_with_license_comments.license
+    assert license.filename == file_with_license_comments.license_file

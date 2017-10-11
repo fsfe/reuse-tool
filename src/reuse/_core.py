@@ -24,14 +24,17 @@
 
 import logging
 import os
+import re
+from collections import namedtuple
 from pathlib import Path
-from typing import Iterator, Union
+from typing import Iterator, IO, Union
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
+LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*?)\s')
+LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*?)\s')
 
-class License:
-    pass
+License = namedtuple('License', ['name', 'filename'])
 
 
 def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
@@ -75,3 +78,24 @@ def license_of(path: Union[Path, str]) -> License:
     else:
         # TODO
         _logger.debug('searching %s for license information', path)
+
+
+def extract_license_from_file(file_object: IO) -> License:
+    """Extract license information from comments in a file."""
+    # TODO: This feels wrong.  Somehow detect whether file contains text?  I
+    # don't frankly know how this is normally handled.
+    try:
+        text = file_object.read()
+    except UnicodeDecodeError as error:
+        # TODO: Find something better than ValueError
+        raise ValueError('binary file') from error
+
+    # TODO: Make this more efficient than doing a regex over the entire file.
+    # Though, on a sidenote, it's pretty damn fast.
+    license_match = LICENSE_PATTERN.search(text)
+    license_filename_match = LICENSE_FILENAME_PATTERN.search(text)
+
+    if any(x is None for x in (license_match, license_filename_match)):
+        raise ValueError('no license information found')
+
+    return License(license_match.group(1), license_filename_match.group(1))

@@ -344,7 +344,6 @@ LICENSES = [
     'Unicode-DFS-2016',
     'Unicode-TOU',
     'Unlicense',
-    'Updating the SPDX Licenses',
     'UPL-1.0',
     'Vim',
     'VOSTROM',
