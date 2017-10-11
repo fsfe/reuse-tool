@@ -25,7 +25,7 @@
 Last updated 2017-10-11.
 """
 
-licenses = [
+LICENSES = [
     '0BSD',
     'AAL',
     'Abstyles',

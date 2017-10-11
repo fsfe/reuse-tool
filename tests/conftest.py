@@ -30,7 +30,7 @@ from typing import Dict
 import jinja2
 import pytest
 
-from reuse.licenses import licenses
+from reuse.licenses import LICENSES
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / 'resources'
@@ -58,7 +58,7 @@ def render_code_files() -> Dict[NameAndLicense, str]:
 
         template = environment.get_template(file_.name)
 
-        for license in licenses:
+        for license in LICENSES:
             context = {
                 'license': license,
                 'license_file': 'LICENSES/{}.txt'.format(license),
