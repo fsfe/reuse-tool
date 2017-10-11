@@ -66,7 +66,7 @@ def render_code_files() -> Dict[NameAndLicense, str]:
 
             # Put some related information in a struct-like object.
             name_and_license = NameAndLicense(
-                '{}.{}'.format(license, file_.name),
+                '{}___{}'.format(license, file_.name),
                 **context)
 
             result[name_and_license] = template.render(context)
