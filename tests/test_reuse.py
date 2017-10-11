@@ -24,9 +24,6 @@
 
 from reuse import _core
 
-def test_nothing():
-    """Test nothing."""
-    assert True
 
 def test_extract_license_from_file(file_with_license_comments):
     """Test whether you can correctly extract license information from a code
