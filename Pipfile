@@ -1,0 +1,13 @@
+[packages]
+
+[dev-packages]
+Sphinx = '*'
+sphinx_rtd_theme = '*'
+
+pylint = '*'
+
+tox = '*'
+pytest = '*'
+pytest-cov = '*'
+
+wheel = '*'
