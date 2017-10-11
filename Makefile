@@ -36,7 +36,7 @@ clean-docs: ## remove docs build artifacts
 
 .PHONY: lint
 lint: ## check style with pylint
-	pipenv run pylint src/reuse
+	pipenv run pylint src/reuse tests/*.py
 
 .PHONY: test
 test: ## run tests quickly

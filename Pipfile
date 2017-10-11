@@ -9,5 +9,6 @@ pylint = '*'
 tox = '*'
 pytest = '*'
 pytest-cov = '*'
+jinja2 = '>=2.7'
 
 wheel = '*'

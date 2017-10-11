@@ -23,4 +23,5 @@
 """Tests for reuse."""
 
 def test_nothing():
+    """Test nothing."""
     assert True

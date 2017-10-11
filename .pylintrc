@@ -1,0 +1,5 @@
+[MESSAGES CONTROL]
+disable=no-member,fixme,redefined-builtin
+
+[FORMAT]
+max-line-length=79
