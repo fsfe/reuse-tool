@@ -22,6 +22,7 @@
 
 """Global fixtures and configuration."""
 
+from collections import namedtuple
 from io import StringIO
 from pathlib import Path
 from typing import Dict
@@ -29,20 +30,25 @@ from typing import Dict
 import jinja2
 import pytest
 
+from reuse.licenses import licenses
+
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / 'resources'
 CODE_FILES_DIRECTORY = RESOURCES_DIRECTORY / 'code_files'
 
-def render_code_files(license: str, license_file: str) -> Dict[str, str]:
+
+NameAndLicense = namedtuple(
+    'NameAndLicense',
+    ['name', 'license', 'license_file'],
+)
+
+
+def render_code_files() -> Dict[NameAndLicense, str]:
     """Compile all code files with Jinja2 and return a dictionary with the
-    filename as key, and rendered text as value.
+    file as key, and rendered text as value.
     """
     loader = jinja2.FileSystemLoader(str(CODE_FILES_DIRECTORY))
     environment = jinja2.Environment(loader=loader)
-    context = {
-        'license': license,
-        'license_file': license_file,
-    }
 
     result = dict()
 
@@ -51,12 +57,24 @@ def render_code_files(license: str, license_file: str) -> Dict[str, str]:
             continue
 
         template = environment.get_template(file_.name)
-        result[file_.name] = template.render(context)
+
+        for license in licenses:
+            context = {
+                'license': license,
+                'license_file': 'LICENSES/{}.txt'.format(license),
+            }
+
+            # Put some related information in a struct-like object.
+            name_and_license = NameAndLicense(
+                '{}.{}'.format(license, file_.name),
+                **context)
+
+            result[name_and_license] = template.render(context)
 
     return result
 
 
-COMPILED_GPL_CODE_FILES = render_code_files('GPL-3.0', 'LICENSES/GPL-3.0.txt')
+COMPILED_CODE_FILES = render_code_files()
 
 
 @pytest.fixture(scope='session')
@@ -70,23 +88,26 @@ def fake_repository(tmpdir_factory) -> Path:
     src = directory / 'src'
     src.mkdir()
 
-    rendered_texts = COMPILED_GPL_CODE_FILES
+    rendered_texts = COMPILED_CODE_FILES
 
-    for name, text in rendered_texts.items():
-        with (src / name).open('w') as out:
+    for name_and_license, text in rendered_texts.items():
+        with (src / name_and_license.name).open('w') as out:
             out.write(text)
 
     return directory
 
 
-@pytest.fixture(params=COMPILED_GPL_CODE_FILES.values())
+@pytest.fixture(params=COMPILED_CODE_FILES.items())
 def file_with_license_comments(request) -> StringIO:
     """Provide a code file that has REUSE license information in its header
     comments.
 
-    TODO: Somehow do not limit this to GPL-3.0.  I just don't know how to
-    transfer that information to the test...
-
-    The code file is a fake file (StringIO).
+    The code file is a fake file (StringIO).  It contains additional attributes
+    for the test to read.
     """
-    yield StringIO(request.param)
+    key, value = request.param
+    result = StringIO(value)
+    result.name = key.name
+    result.license = key.license
+    result.license_file = key.license_file
+    yield result
