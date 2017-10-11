@@ -22,6 +22,7 @@
 
 """Global fixtures and configuration."""
 
+from io import StringIO
 from pathlib import Path
 from typing import Dict
 
@@ -54,6 +55,10 @@ def render_code_files(license: str, license_file: str) -> Dict[str, str]:
 
     return result
 
+
+COMPILED_GPL_CODE_FILES = render_code_files('GPL-3.0', 'LICENSES/GPL-3.0.txt')
+
+
 @pytest.fixture(scope='session')
 def fake_repository(tmpdir_factory) -> Path:
     """Create a temporary fake repository.
@@ -65,10 +70,23 @@ def fake_repository(tmpdir_factory) -> Path:
     src = directory / 'src'
     src.mkdir()
 
-    rendered_texts = render_code_files('GPL-3.0', 'LICENSES/GPL-3.0.txt')
+    rendered_texts = COMPILED_GPL_CODE_FILES
 
     for name, text in rendered_texts.items():
         with (src / name).open('w') as out:
             out.write(text)
 
     return directory
+
+
+@pytest.fixture(params=COMPILED_GPL_CODE_FILES.values())
+def file_with_license_comments(request) -> StringIO:
+    """Provide a code file that has REUSE license information in its header
+    comments.
+
+    TODO: Somehow do not limit this to GPL-3.0.  I just don't know how to
+    transfer that information to the test...
+
+    The code file is a fake file (StringIO).
+    """
+    yield StringIO(request.param)
