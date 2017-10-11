@@ -25,8 +25,8 @@
 from pathlib import Path
 from typing import Dict
 
-import pytest
 import jinja2
+import pytest
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / 'resources'
