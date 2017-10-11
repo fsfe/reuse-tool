@@ -62,6 +62,7 @@ def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
             _logger.debug('yielding %s', file_)
             yield file_
 
+
 def license_of(path: Union[Path, str]) -> License:
     """Get the license information of *path*."""
     path = Path(path)
