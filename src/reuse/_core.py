@@ -26,15 +26,16 @@ import logging
 import os
 import re
 from collections import namedtuple
+from itertools import zip_longest
 from pathlib import Path
-from typing import Iterator, IO, Union
+from typing import IO, Iterator, List, Union
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*?)\s')
 LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*?)\s')
 
-License = namedtuple('License', ['name', 'filename'])
+LicenseInfo = namedtuple('LicenseInfo', ['name', 'filename'])
 
 
 def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
@@ -66,21 +67,23 @@ def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
             yield file_
 
 
-def license_of(path: Union[Path, str]) -> License:
+def license_of(path: Union[Path, str]) -> List[LicenseInfo]:
     """Get the license information of *path*."""
     path = Path(path)
     license_path = Path('{}.license'.format(path))
 
     # TODO: Maybe get license information from central config file if it exists
-    if license_path.exists():
-        # TODO
-        _logger.debug('detected %s', license_path)
-    else:
-        # TODO
+    if not license_path.exists():
+        license_path = path
         _logger.debug('searching %s for license information', path)
+    else:
+        _logger.debug('detected %s', license_path)
+
+    with license_path.open() as fp:
+        return extract_license_from_file(fp)
 
 
-def extract_license_from_file(file_object: IO) -> License:
+def extract_license_from_file(file_object: IO) -> List[LicenseInfo]:
     """Extract license information from comments in a file."""
     # TODO: This feels wrong.  Somehow detect whether file contains text?  I
     # don't frankly know how this is normally handled.
@@ -92,10 +95,19 @@ def extract_license_from_file(file_object: IO) -> License:
 
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
-    license_match = LICENSE_PATTERN.search(text)
-    license_filename_match = LICENSE_FILENAME_PATTERN.search(text)
+    license_matches = LICENSE_PATTERN.findall(text)
+    license_filename_matches = LICENSE_FILENAME_PATTERN.findall(text)
 
-    if any(x is None for x in (license_match, license_filename_match)):
+    if any(x is None for x in (license_matches, license_filename_matches)):
         raise ValueError('no license information found')
+    if len(license_matches) != len(license_filename_matches):
+        # TODO: Figure out if this is something that needs to be handled.  At
+        # first sight yes, but what if the two licenses are GPL-3.0 and
+        # GPL-3.0+ and they both point to the same file?
+        pass
 
-    return License(license_match.group(1), license_filename_match.group(1))
+    # TODO: This results in `None` being added to the list if the two lists are
+    # not of equal size.  This is obviously unclear behaviour.
+    return [
+        LicenseInfo(x, y)
+        for x, y in zip_longest(license_matches, license_filename_matches)]

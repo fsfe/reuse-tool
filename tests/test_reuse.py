@@ -29,6 +29,8 @@ def test_extract_license_from_file(file_with_license_comments):
     """Test whether you can correctly extract license information from a code
     file's comments.
     """
-    license = _core.extract_license_from_file(file_with_license_comments)
+    license_infos = _core.extract_license_from_file(file_with_license_comments)
+    assert len(license_infos) == 1
+    license = license_infos[0]
     assert license.name == file_with_license_comments.license
     assert license.filename == file_with_license_comments.license_file
