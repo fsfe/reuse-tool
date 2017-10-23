@@ -20,31 +20,33 @@
 # SPDX-License-Identifier: GPL-3.0+
 # License-Filename: LICENSES/GPL-3.0.txt
 
-"""Tests for reuse."""
+"""Entry functions for reuse."""
 
-from reuse import _core
+import logging
+from pathlib import Path
 
+import click
 
-def test_extract_license_from_file(file_with_license_comments):
-    """Test whether you can correctly extract license information from a code
-    file's comments.
-    """
-    license_infos = _core.extract_licenses_from_file(
-        file_with_license_comments)
-    assert len(license_infos) == 1
-    license = license_infos[0]
-    assert license == file_with_license_comments.license_info
+from . import _core
 
 
-def test_license_file_detected(empty_file_with_license_file):
-    """Test whether—when given a file and a license file—the license file is
-    detected and read.
-    """
-    directory = empty_file_with_license_file[0]
-    license_info = empty_file_with_license_file[1]
+@click.group()
+@click.option('--debug/--no-debug', default=False)
+def cli(debug):
+    logging.basicConfig(level=logging.DEBUG if debug else logging.WARNING)
 
-    all_files = list(_core.all_files(directory))
-    assert len(all_files) == 1
+@cli.command()
+@click.argument('path', required=False, default='.', type=click.Path(exists=True))
+@click.pass_context
+def unlicensed(context, path):
+    """List all unlicensed files."""
+    lint_result = 0
 
-    result = _core.licenses_of(all_files[0])
-    assert result[0] == license_info
+    for file_ in _core.all_files(Path(path)):
+        try:
+            licenses = _core.licenses_of(file_)
+        except _core.LicenseInfoNotFound as e:
+            click.echo(file_)
+            lint_result += 1
+
+    context.exit(lint_result)

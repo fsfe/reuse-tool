@@ -25,7 +25,7 @@
 from collections import namedtuple
 from io import StringIO
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Tuple
 
 import jinja2
 import pytest
@@ -111,3 +111,21 @@ def file_with_license_comments(request) -> StringIO:
     result.name = key.name
     result.license_info = key.license_info
     yield result
+
+
+@pytest.fixture(params=COMPILED_CODE_FILES.items(), scope='session')
+def empty_file_with_license_file(
+        request, tmpdir_factory) -> Tuple[Path, LicenseInfo]:
+    """Create a temporary directory that contains two files:  The code file and
+    the license file.
+    """
+    directory = Path(tmpdir_factory.mktemp('empty_file_with_license'))
+
+    key, value = request.param
+    with (directory / '{}.license'.format(key.name)).open('w') as out:
+        out.write(value)
+
+    with (directory / key.name).open('w') as out:
+        out.write('')
+
+    return (directory, key.license_info)

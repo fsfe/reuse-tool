@@ -23,7 +23,7 @@
 from setuptools import setup
 
 requirements = [
-    # Add requirements
+    'click',
 ]
 
 test_requirements = [
@@ -50,6 +50,9 @@ if __name__ == '__main__':
         ],
 
         entry_points={
+            'console_scripts': [
+                'reuse = reuse._main:cli',
+            ],
         },
 
         install_requires=requirements,

@@ -38,6 +38,14 @@ LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*?)\s')
 LicenseInfo = namedtuple('LicenseInfo', ['name', 'filename'])
 
 
+class ReuseException(Exception):
+    """Base exception."""
+
+
+class LicenseInfoNotFound(ReuseException):
+    """Could not find license for file."""
+
+
 def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
     """Yield all files in *directory* and its subdirectories.
 
@@ -68,10 +76,10 @@ def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
             if file_.endswith('.license'):
                 continue
             _logger.debug('yielding %s', file_)
-            yield file_
+            yield Path(root) / file_
 
 
-def license_of(path: Union[Path, str]) -> List[LicenseInfo]:
+def licenses_of(path: Union[Path, str]) -> List[LicenseInfo]:
     """Get the license information of *path*."""
     path = Path(path)
     license_path = Path('{}.license'.format(path))
@@ -84,26 +92,28 @@ def license_of(path: Union[Path, str]) -> List[LicenseInfo]:
         _logger.debug('detected %s', license_path)
 
     with license_path.open() as fp:
-        return extract_license_from_file(fp)
+        return extract_licenses_from_file(fp)
 
 
-def extract_license_from_file(file_object: IO) -> List[LicenseInfo]:
+def extract_licenses_from_file(file_object: IO) -> List[LicenseInfo]:
     """Extract license information from comments in a file."""
     # TODO: This feels wrong.  Somehow detect whether file contains text?  I
     # don't frankly know how this is normally handled.
     try:
         text = file_object.read()
     except UnicodeDecodeError as error:
-        # TODO: Find something better than ValueError
-        raise ValueError('binary file') from error
+        _logger.warning('%s is a binary file', file_object.name)
+        raise LicenseInfoNotFound('binary file') from error
 
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
     license_matches = LICENSE_PATTERN.findall(text)
     license_filename_matches = LICENSE_FILENAME_PATTERN.findall(text)
 
-    if any(x is None for x in (license_matches, license_filename_matches)):
-        raise ValueError('no license information found')
+    if any(not x for x in (license_matches, license_filename_matches)):
+        _logger.debug(
+            '%s does not contain license information', file_object.name)
+        raise LicenseInfoNotFound('no license information found')
     if len(license_matches) != len(license_filename_matches):
         # TODO: Figure out if this is something that needs to be handled.  At
         # first sight yes, but what if the two licenses are GPL-3.0 and
