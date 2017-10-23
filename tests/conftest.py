@@ -31,6 +31,7 @@ import jinja2
 import pytest
 
 from reuse.licenses import LICENSES
+from reuse._core import LicenseInfo
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / 'resources'
@@ -39,7 +40,7 @@ CODE_FILES_DIRECTORY = RESOURCES_DIRECTORY / 'code_files'
 
 NameAndLicense = namedtuple(
     'NameAndLicense',
-    ['name', 'license', 'license_file'],
+    ['name', 'license_info'],
 )
 
 
@@ -67,7 +68,7 @@ def render_code_files() -> Dict[NameAndLicense, str]:
             # Put some related information in a struct-like object.
             name_and_license = NameAndLicense(
                 '{}___{}'.format(license, file_.name),
-                **context)
+                LicenseInfo(context['license'], context['license_file']))
 
             result[name_and_license] = template.render(context)
 
@@ -108,6 +109,5 @@ def file_with_license_comments(request) -> StringIO:
     key, value = request.param
     result = StringIO(value)
     result.name = key.name
-    result.license = key.license
-    result.license_file = key.license_file
+    result.license_info = key.license_info
     yield result
