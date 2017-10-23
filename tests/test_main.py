@@ -20,39 +20,19 @@
 # SPDX-License-Identifier: GPL-3.0+
 # License-Filename: LICENSES/GPL-3.0.txt
 
-"""Entry functions for reuse."""
+"""Tests for the CLI for reuse."""
 
-import logging
-from pathlib import Path
+from click.testing import CliRunner
 
-import click
-
-from . import _core
+from reuse import _core, _main
 
 
-@click.group()
-@click.option('--debug/--no-debug', default=False)
-def cli(debug):
-    logging.basicConfig(level=logging.DEBUG if debug else logging.WARNING)
-
-@cli.command()
-@click.argument(
-    'path', required=False, default='.', type=click.Path(exists=True))
-@click.pass_context
-def unlicensed(context, path):
-    """List all unlicensed files.
-
-    This prints only the paths of the files for which a licence could not be
-    found, each file on a separate line.
+def test_unlicensed_none(fake_repository):
+    """Given a repository in which every file is licensed, return an exit code
+    of 0 and print nothing.
     """
-    lint_result = 0
+    runner = CliRunner()
+    result = runner.invoke(_main.unlicensed, [str(fake_repository)])
 
-    for file_ in _core.all_files(Path(path)):
-        try:
-            # pylint: disable=unused-variable
-            licenses = _core.licenses_of(file_)
-        except _core.LicenseInfoNotFound:
-            click.echo(file_)
-            lint_result += 1
-
-    context.exit(lint_result)
+    assert result.exit_code == 0
+    assert not result.output
