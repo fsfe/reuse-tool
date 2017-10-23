@@ -46,6 +46,8 @@ def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
     - Files ignored by VCS (e.g., see .gitignore)
 
     - Files ignored by reuse config file.
+
+    - Files with the *.license suffix.
     """
     if directory is None:
         directory = Path.cwd()
@@ -63,6 +65,8 @@ def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
 
         # TODO: Apply better filtering
         for file_ in files:
+            if file_.endswith('.license'):
+                continue
             _logger.debug('yielding %s', file_)
             yield file_
 
