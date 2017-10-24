@@ -35,6 +35,11 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*?)\s')
 LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*?)\s')
 
+LICENSE_FILE_PATTERNS = [
+    re.compile(r'^LICEN[CS]E'),
+    re.compile(r'^COPYING'),
+]
+
 LicenseInfo = namedtuple('LicenseInfo', ['name', 'filename'])
 
 
@@ -62,21 +67,42 @@ def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
     directory = Path(directory)
 
     for root, dirs, files in os.walk(directory):
+        root = Path(root)
         _logger.debug('currently walking in %s', root)
 
         # Don't walk VCS.
         vcs_dirs = {'.git', '.svn'}
         intersection = vcs_dirs.intersection(set(dirs))
         for ignored in intersection:
-            _logger.debug('ignoring %s - VCS', ignored)
+            _logger.debug('ignoring %s - VCS', root / ignored)
             dirs.remove(ignored)
 
+        # Don't walk LICENSES
+        LICENSES_DIR = 'LICENSES'
+        if LICENSES_DIR in dirs:
+            _logger.debug('ignoring %s - LICENSES', root / LICENSES_DIR)
+            dirs.remove(LICENSES_DIR)
+
+        # Filter files.
         # TODO: Apply better filtering
         for file_ in files:
+            # .license files
             if file_.endswith('.license'):
                 continue
+
+            # LICENSE/COPYING files
+            try:
+                for pattern in LICENSE_FILE_PATTERNS:
+                    if pattern.match(file_):
+                        _logger.debug('ignoring %s - license', root / file_)
+                        # Have to continue the outer loop here, so throw an
+                        # exception.  Not the cleanest solution.
+                        raise ReuseException()
+            except ReuseException:
+                continue
+
             _logger.debug('yielding %s', file_)
-            yield Path(root) / file_
+            yield root / file_
 
 
 def licenses_of(path: Union[Path, str]) -> List[LicenseInfo]:
@@ -87,9 +113,11 @@ def licenses_of(path: Union[Path, str]) -> List[LicenseInfo]:
     # TODO: Maybe get license information from central config file if it exists
     if not license_path.exists():
         license_path = path
-        _logger.debug('searching %s for license information', path)
     else:
-        _logger.debug('detected %s', license_path)
+        _logger.debug(
+            'detected %s license file, searching that instead', license_path)
+
+    _logger.debug('searching %s for license information', path)
 
     with license_path.open() as fp:
         return extract_licenses_from_file(fp)
