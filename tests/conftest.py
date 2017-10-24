@@ -22,6 +22,7 @@
 
 """Global fixtures and configuration."""
 
+import logging
 from collections import namedtuple
 from io import StringIO
 from pathlib import Path
@@ -30,8 +31,8 @@ from typing import Dict, Tuple
 import jinja2
 import pytest
 
-from reuse.licenses import LICENSES
 from reuse import LicenseInfo
+from reuse.licenses import LICENSES
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / 'resources'
@@ -42,6 +43,14 @@ NameAndLicense = namedtuple(
     'NameAndLicense',
     ['name', 'license_info'],
 )
+
+
+def pytest_configure(config):
+    """Called after command line options have been parsed and all plugins and
+    initial conftest files been loaded.
+    """
+    if config.getoption('--capture') == 'no':
+        logging.basicConfig(level=logging.DEBUG)
 
 
 def render_code_files() -> Dict[NameAndLicense, str]:
