@@ -47,6 +47,8 @@ _LICENSE_FILE_PATTERNS = [
 
 LicenseInfo = namedtuple('LicenseInfo', ['name', 'filename'])
 
+_PathLike = Union[Path, str]
+
 
 class ReuseException(Exception):
     """Base exception."""
@@ -56,7 +58,7 @@ class LicenseInfoNotFound(ReuseException):
     """Could not find license for file."""
 
 
-def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
+def all_files(directory: _PathLike = None) -> Iterator[Path]:
     """Yield all files in *directory* and its subdirectories.
 
     The files that are not yielded are:
@@ -110,7 +112,7 @@ def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
             yield root / file_
 
 
-def licenses_of(path: Union[Path, str]) -> List[LicenseInfo]:
+def licenses_of(path: _PathLike) -> List[LicenseInfo]:
     """Get the license information of *path*."""
     path = Path(path)
     license_path = Path('{}.license'.format(path))
@@ -160,7 +162,7 @@ def extract_licenses_from_file(file_object: IO) -> List[LicenseInfo]:
         for x, y in zip_longest(license_matches, license_filename_matches)]
 
 
-def unlicensed(path: Union[Path, str]) -> Iterator[Path]:
+def unlicensed(path: _PathLike) -> Iterator[Path]:
     """Yield all unlicensed files under path."""
     for file_ in all_files(path):
         try:
