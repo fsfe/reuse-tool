@@ -37,10 +37,10 @@ __version__ = '0.0.1'
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
-LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*?)\s')
-LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*?)\s')
+_LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*?)\s')
+_LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*?)\s')
 
-LICENSE_FILE_PATTERNS = [
+_LICENSE_FILE_PATTERNS = [
     re.compile(r'^LICEN[CS]E'),
     re.compile(r'^COPYING'),
 ]
@@ -97,7 +97,7 @@ def all_files(directory: Union[Path, str] = None) -> Iterator[Path]:
 
             # LICENSE/COPYING files
             try:
-                for pattern in LICENSE_FILE_PATTERNS:
+                for pattern in _LICENSE_FILE_PATTERNS:
                     if pattern.match(file_):
                         _logger.debug('ignoring %s - license', root / file_)
                         # Have to continue the outer loop here, so throw an
@@ -140,8 +140,8 @@ def extract_licenses_from_file(file_object: IO) -> List[LicenseInfo]:
 
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
-    license_matches = LICENSE_PATTERN.findall(text)
-    license_filename_matches = LICENSE_FILENAME_PATTERN.findall(text)
+    license_matches = _LICENSE_PATTERN.findall(text)
+    license_filename_matches = _LICENSE_FILENAME_PATTERN.findall(text)
 
     if any(not x for x in (license_matches, license_filename_matches)):
         _logger.debug(
