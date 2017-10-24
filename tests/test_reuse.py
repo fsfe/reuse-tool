@@ -22,14 +22,13 @@
 
 """Tests for reuse."""
 
-from reuse import _core
-
+import reuse
 
 def test_extract_license_from_file(file_with_license_comments):
     """Test whether you can correctly extract license information from a code
     file's comments.
     """
-    license_infos = _core.extract_licenses_from_file(
+    license_infos = reuse.extract_licenses_from_file(
         file_with_license_comments)
     assert len(license_infos) == 1
     license = license_infos[0]
@@ -43,8 +42,8 @@ def test_license_file_detected(empty_file_with_license_file):
     directory = empty_file_with_license_file[0]
     license_info = empty_file_with_license_file[1]
 
-    all_files = list(_core.all_files(directory))
+    all_files = list(reuse.all_files(directory))
     assert len(all_files) == 1
 
-    result = _core.licenses_of(all_files[0])
+    result = reuse.licenses_of(all_files[0])
     assert result[0] == license_info

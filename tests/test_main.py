@@ -24,7 +24,7 @@
 
 from click.testing import CliRunner
 
-from reuse import _core, _main
+from reuse import _main
 
 
 def test_unlicensed_none(fake_repository):

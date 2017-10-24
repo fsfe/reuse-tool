@@ -27,7 +27,7 @@ from pathlib import Path
 
 import click
 
-from . import _core
+from . import all_files, licenses_of, LicenseInfoNotFound
 
 
 @click.group()
@@ -47,11 +47,10 @@ def unlicensed(context, path):
     """
     lint_result = 0
 
-    for file_ in _core.all_files(Path(path)):
+    for file_ in all_files(Path(path)):
         try:
-            # pylint: disable=unused-variable
-            licenses = _core.licenses_of(file_)
-        except _core.LicenseInfoNotFound:
+            licenses_of(file_)
+        except LicenseInfoNotFound:
             click.echo(file_)
             lint_result += 1
 

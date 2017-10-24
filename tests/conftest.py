@@ -31,7 +31,7 @@ import jinja2
 import pytest
 
 from reuse.licenses import LICENSES
-from reuse._core import LicenseInfo
+from reuse import LicenseInfo
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / 'resources'
