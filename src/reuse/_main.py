@@ -22,12 +22,13 @@
 
 """Entry functions for reuse."""
 
+import importlib
 import logging
-from pathlib import Path
 
 import click
 
-from . import all_files, licenses_of, LicenseInfoNotFound
+# Import __init__.py.  I don't know how to do this cleanly
+reuse = importlib.import_module('..', __name__)
 
 
 @click.group()
@@ -45,13 +46,10 @@ def unlicensed(context, path):
     This prints only the paths of the files for which a licence could not be
     found, each file on a separate line.
     """
-    lint_result = 0
+    counter = 0
 
-    for file_ in all_files(Path(path)):
-        try:
-            licenses_of(file_)
-        except LicenseInfoNotFound:
-            click.echo(file_)
-            lint_result += 1
+    for file_ in reuse.unlicensed(path):
+        click.echo(file_)
+        counter += 1
 
-    context.exit(lint_result)
+    context.exit(counter)

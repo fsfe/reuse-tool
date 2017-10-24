@@ -158,3 +158,12 @@ def extract_licenses_from_file(file_object: IO) -> List[LicenseInfo]:
     return [
         LicenseInfo(x, y)
         for x, y in zip_longest(license_matches, license_filename_matches)]
+
+
+def unlicensed(path: Union[Path, str]) -> Iterator[Path]:
+    """Yield all unlicensed files under path."""
+    for file_ in all_files(path):
+        try:
+            licenses_of(file_)
+        except LicenseInfoNotFound:
+            yield file_
