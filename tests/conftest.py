@@ -23,6 +23,7 @@
 """Global fixtures and configuration."""
 
 import logging
+import os
 from collections import namedtuple
 from io import StringIO
 from pathlib import Path
@@ -34,6 +35,8 @@ from click.testing import CliRunner
 
 from reuse import LicenseInfo
 from reuse.licenses import LICENSES
+
+CWD = Path.cwd()
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / 'resources'
@@ -52,6 +55,12 @@ def pytest_configure(config):
     """
     if config.getoption('--capture') == 'no':
         logging.basicConfig(level=logging.DEBUG)
+
+
+def pytest_runtest_setup(item):
+    """Called before running a test."""
+    # Make sure to restore CWD
+    os.chdir(CWD)
 
 
 def render_code_files() -> Dict[NameAndLicense, str]:
@@ -105,6 +114,7 @@ def fake_repository(tmpdir_factory) -> Path:
         with (src / name_and_license.name).open('w') as out:
             out.write(text)
 
+    os.chdir(directory)
     return directory
 
 
@@ -138,6 +148,7 @@ def empty_file_with_license_file(
     with (directory / key.name).open('w') as out:
         out.write('')
 
+    os.chdir(directory)
     return (directory, key.license_info)
 
 @pytest.fixture
