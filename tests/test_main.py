@@ -22,17 +22,14 @@
 
 """Tests for the CLI for reuse."""
 
-from click.testing import CliRunner
-
 from reuse import _main
 
 
-def test_unlicensed_none(fake_repository):
+def test_unlicensed_none(fake_repository, runner):
     """Given a repository in which every file is licensed, return an exit code
     of 0 and print nothing.
     """
-    runner = CliRunner()
-    result = runner.invoke(_main.unlicensed, [str(fake_repository)])
+    result = runner.invoke(_main.cli, ['unlicensed', str(fake_repository)])
 
     assert result.exit_code == 0
     assert not result.output

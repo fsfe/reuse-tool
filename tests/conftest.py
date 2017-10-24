@@ -30,6 +30,7 @@ from typing import Dict, Tuple
 
 import jinja2
 import pytest
+from click.testing import CliRunner
 
 from reuse import LicenseInfo
 from reuse.licenses import LICENSES
@@ -138,3 +139,8 @@ def empty_file_with_license_file(
         out.write('')
 
     return (directory, key.license_info)
+
+@pytest.fixture
+def runner():
+    """Return a click CLI runner."""
+    return CliRunner()
