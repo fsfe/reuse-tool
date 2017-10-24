@@ -25,7 +25,10 @@
 import logging
 import os
 import re
+import shutil
+import subprocess
 from collections import namedtuple
+from functools import lru_cache
 from itertools import zip_longest
 from pathlib import Path
 from typing import IO, Iterator, List, Union
@@ -45,6 +48,8 @@ _LICENSE_FILE_PATTERNS = [
     re.compile(r'^COPYING'),
 ]
 
+_GIT_EXE = shutil.which('git')
+
 LicenseInfo = namedtuple('LicenseInfo', ['name', 'filename'])
 
 _PathLike = Union[Path, str]
@@ -56,6 +61,56 @@ class ReuseException(Exception):
 
 class LicenseInfoNotFound(ReuseException):
     """Could not find license for file."""
+
+
+@lru_cache()
+def _in_git_repo(cwd: _PathLike = None) -> bool:
+    """Is *cwd* inside of a git repository?
+
+    Always return False if git is not installed.
+    """
+    if _GIT_EXE is None:
+        return False
+
+    if cwd is None:
+        cwd = Path.cwd()
+
+    command = [_GIT_EXE, 'status']
+    _logger.debug('running %s', ' '.join(command))
+
+    result = subprocess.run(
+        command,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        cwd=cwd)
+    return not result.returncode
+
+
+def _ignored_by_git(path: _PathLike) -> bool:
+    """Is *path* covered by the ignore mechanism of git?
+
+    Always return False if git is not installed.
+    """
+    if _GIT_EXE is None:
+        return False
+
+    command = [_GIT_EXE, 'check-ignore', str(path)]
+    _logger.debug('running %s', ' '.join(command))
+
+    result = subprocess.run(
+        command,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL)
+
+    return not result.returncode
+
+
+def _ignored_by_vcs(path: _PathLike) -> bool:
+    """Is *path* covered by the ignore mechanism of the VCS (e.g., .gitignore)?
+    """
+    if _GIT_EXE:
+        if _in_git_repo():
+            return _ignored_by_git(path)
 
 
 def all_files(directory: _PathLike = None) -> Iterator[Path]:
@@ -90,6 +145,12 @@ def all_files(directory: _PathLike = None) -> Iterator[Path]:
             _logger.debug('ignoring %s - LICENSES', root / LICENSES_DIR)
             dirs.remove(LICENSES_DIR)
 
+        # Don't walk ignored folders
+        for directory in dirs:
+            if _ignored_by_vcs(root / directory):
+                _logger.debug('ignoring %s - ignored by vcs', root / directory)
+                dirs.remove(directory)
+
         # Filter files.
         # TODO: Apply better filtering
         for file_ in files:
@@ -106,6 +167,10 @@ def all_files(directory: _PathLike = None) -> Iterator[Path]:
                         # exception.  Not the cleanest solution.
                         raise ReuseException()
             except ReuseException:
+                continue
+
+            if _ignored_by_vcs(root / file_):
+                _logger.debug('ignoring %s - ignored by vcs', root / file_)
                 continue
 
             _logger.debug('yielding %s', file_)
