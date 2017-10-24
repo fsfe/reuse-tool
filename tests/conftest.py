@@ -141,6 +141,6 @@ def empty_file_with_license_file(
     return (directory, key.license_info)
 
 @pytest.fixture
-def runner():
+def runner() -> CliRunner:
     """Return a click CLI runner."""
     return CliRunner()
