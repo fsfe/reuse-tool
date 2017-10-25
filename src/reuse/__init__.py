@@ -29,9 +29,8 @@ import shutil
 import subprocess
 from collections import namedtuple
 from functools import lru_cache
-from itertools import zip_longest
 from pathlib import Path
-from typing import IO, Iterator, List, Optional, Union
+from typing import IO, Iterator, Optional, Union
 
 from debian import copyright
 
@@ -52,7 +51,7 @@ _LICENSE_FILE_PATTERNS = [
 
 _GIT_EXE = shutil.which('git')
 
-LicenseInfo = namedtuple('LicenseInfo', ['name', 'filename'])
+LicenseInfo = namedtuple('LicenseInfo', ['licenses', 'filenames'])
 
 _PathLike = Union[Path, str]
 
@@ -181,7 +180,7 @@ def all_files(directory: _PathLike = None) -> Iterator[Path]:
 
 def copyright_from_debian(
         path: _PathLike,
-        copyright_path: _PathLike = None) -> Optional[List[LicenseInfo]]:
+        copyright_path: _PathLike = None) -> Optional[LicenseInfo]:
     """Find the license information of *path* in the debian/copyright file
     found at *copyright_path*.  If *copyright_path* is None, look for the file
     at ${PWD}/debian/copyright.
@@ -190,7 +189,7 @@ def copyright_from_debian(
     """
 
 
-def licenses_of(path: _PathLike) -> List[LicenseInfo]:
+def license_info_of(path: _PathLike) -> LicenseInfo:
     """Get the license information of *path*."""
     path = Path(path)
     license_path = Path('{}.license'.format(path))
@@ -205,10 +204,10 @@ def licenses_of(path: _PathLike) -> List[LicenseInfo]:
     _logger.debug('searching %s for license information', path)
 
     with license_path.open() as fp:
-        return extract_licenses_from_file(fp)
+        return extract_license_info(fp)
 
 
-def extract_licenses_from_file(file_object: IO) -> List[LicenseInfo]:
+def extract_license_info(file_object: IO) -> LicenseInfo:
     """Extract license information from comments in a file."""
     # TODO: This feels wrong.  Somehow detect whether file contains text?  I
     # don't frankly know how this is normally handled.
@@ -223,7 +222,7 @@ def extract_licenses_from_file(file_object: IO) -> List[LicenseInfo]:
     license_matches = _LICENSE_PATTERN.findall(text)
     license_filename_matches = _LICENSE_FILENAME_PATTERN.findall(text)
 
-    if any(not x for x in (license_matches, license_filename_matches)):
+    if not any(license_matches):
         _logger.debug(
             '%s does not contain license information', file_object.name)
         raise LicenseInfoNotFound('no license information found')
@@ -235,15 +234,13 @@ def extract_licenses_from_file(file_object: IO) -> List[LicenseInfo]:
 
     # TODO: This results in `None` being added to the list if the two lists are
     # not of equal size.  This is obviously unclear behaviour.
-    return [
-        LicenseInfo(x, y)
-        for x, y in zip_longest(license_matches, license_filename_matches)]
+    return LicenseInfo(license_matches, license_filename_matches)
 
 
 def unlicensed(path: _PathLike) -> Iterator[Path]:
     """Yield all unlicensed files under path."""
     for file_ in all_files(path):
         try:
-            licenses_of(file_)
+            license_info_of(file_)
         except LicenseInfoNotFound:
             yield file_

@@ -22,17 +22,29 @@
 
 """Tests for reuse."""
 
+from itertools import zip_longest
+
 import reuse
+
+
+def _license_info_equal(first, second) -> bool:
+    """Compare two LicenseInfo objects.
+
+    This is necessary because (,) != [].
+    """
+    for a, b in zip_longest(first, second):
+        if tuple(a) != tuple(b):
+            return False
+    return True
 
 def test_extract_license_from_file(file_with_license_comments):
     """Test whether you can correctly extract license information from a code
     file's comments.
     """
-    license_infos = reuse.extract_licenses_from_file(
+    result = reuse.extract_license_info(
         file_with_license_comments)
-    assert len(license_infos) == 1
-    license = license_infos[0]
-    assert license == file_with_license_comments.license_info
+    assert _license_info_equal(result, file_with_license_comments.license_info)
+
 
 
 def test_license_file_detected(empty_file_with_license_file):
@@ -45,5 +57,5 @@ def test_license_file_detected(empty_file_with_license_file):
     all_files = list(reuse.all_files(directory))
     assert len(all_files) == 1
 
-    result = reuse.licenses_of(all_files[0])
-    assert result[0] == license_info
+    result = reuse.license_info_of(all_files[0])
+    assert _license_info_equal(result, license_info)
