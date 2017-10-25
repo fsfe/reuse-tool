@@ -31,7 +31,9 @@ from collections import namedtuple
 from functools import lru_cache
 from itertools import zip_longest
 from pathlib import Path
-from typing import IO, Iterator, List, Union
+from typing import IO, Iterator, List, Optional, Union
+
+from debian import copyright
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -175,6 +177,17 @@ def all_files(directory: _PathLike = None) -> Iterator[Path]:
 
             _logger.debug('yielding %s', file_)
             yield root / file_
+
+
+def copyright_from_debian(
+        path: _PathLike,
+        copyright_path: _PathLike = None) -> Optional[List[LicenseInfo]]:
+    """Find the license information of *path* in the debian/copyright file
+    found at *copyright_path*.  If *copyright_path* is None, look for the file
+    at ${PWD}/debian/copyright.
+
+    If no license information is found, return None.
+    """
 
 
 def licenses_of(path: _PathLike) -> List[LicenseInfo]:

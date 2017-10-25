@@ -1,5 +1,6 @@
 [packages]
 click = '*'
+python-debian = '*'
 
 [dev-packages]
 Sphinx = '*'
