@@ -34,13 +34,19 @@ import pytest
 from click.testing import CliRunner
 
 from reuse import LicenseInfo
-from reuse.licenses import LICENSES
 
 CWD = Path.cwd()
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / 'resources'
 CODE_FILES_DIRECTORY = RESOURCES_DIRECTORY / 'code_files'
+
+# Some licenses to test against
+LICENSES = [
+    'CC0-1.0',
+    'GPL-3.0+',
+    '(GPL-2.0 OR BSD-3-Clause)',
+]
 
 
 NameAndLicense = namedtuple(

@@ -41,8 +41,8 @@ __version__ = '0.0.1'
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
-_LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*?)\s')
-_LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*?)\s')
+_LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*)')
+_LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*)')
 
 _LICENSE_FILE_PATTERNS = [
     re.compile(r'^LICEN[CS]E'),
