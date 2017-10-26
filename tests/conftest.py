@@ -24,6 +24,7 @@
 
 import logging
 import os
+import shutil
 import subprocess
 from collections import namedtuple
 from io import StringIO
@@ -109,13 +110,20 @@ def fake_repository(tmpdir_factory) -> Path:
     """Create a temporary fake repository."""
     directory = Path(tmpdir_factory.mktemp('code_files'))
     src = directory / 'src'
+    debian_dir = directory / 'debian'
     src.mkdir()
+    debian_dir.mkdir()
 
     rendered_texts = COMPILED_CODE_FILES
 
     for name_and_license, text in rendered_texts.items():
-        with (src / name_and_license.name).open('w') as out:
-            out.write(text)
+        (src / name_and_license.name).write_text(text)
+
+    # debian/copyright
+    shutil.copy(
+        RESOURCES_DIRECTORY / 'debian/copyright',
+        debian_dir / 'copyright')
+    (src / 'no_license.py').touch()
 
     os.chdir(directory)
     return directory
@@ -125,12 +133,14 @@ def fake_repository(tmpdir_factory) -> Path:
 def git_repository(fake_repository: Path) -> Path:
     """Create a git repository with ignored files."""
     subprocess.run(['git', 'init', str(fake_repository)])
+
     GITIGNORE = "*.pyc\nbuild"
-    with (fake_repository / '.gitignore').open('w') as out:
-        out.write(GITIGNORE)
+    (fake_repository / '.gitignore').write_text(GITIGNORE)
+
     for file_ in (fake_repository / 'src').iterdir():
         if file_.suffix == '.py':
             file_.with_suffix('.pyc').touch()
+
     build_dir = fake_repository / 'build'
     build_dir.mkdir()
     (build_dir / 'hello.py').touch()

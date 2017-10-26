@@ -44,7 +44,14 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 _LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*)')
 _LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*)')
 
-_IGNORE_PATTERNS = [
+_IGNORE_DIR_PATTERNS = [
+    re.compile(r'\.git'),
+    re.compile(r'^\.svn$'),
+    re.compile(r'^LICEN[CS]ES$'),
+    re.compile(r'^debian$'),
+]
+
+_IGNORE_FILE_PATTERNS = [
     re.compile(r'^LICEN[CS]E'),
     re.compile(r'^COPYING'),
     re.compile(r'.*\.license$'),
@@ -73,6 +80,8 @@ def _copyright_from_debian(
 
     if result is None:
         raise LicenseInfoNotFound()
+
+    _logger.debug('%s covered by debian/copyright', path)
 
     return LicenseInfo([result.license.synopsis], [])
 
@@ -138,21 +147,12 @@ class Project:
             root = Path(root)
             _logger.debug('currently walking in %s', root)
 
-            # Don't walk VCS.
-            vcs_dirs = {'.git', '.svn'}
-            intersection = vcs_dirs.intersection(set(dirs))
-            for ignored in intersection:
-                _logger.debug('ignoring %s - VCS', root / ignored)
-                dirs.remove(ignored)
-
-            # Don't walk LICENSES
-            LICENSES_DIR = 'LICENSES'
-            if LICENSES_DIR in dirs:
-                _logger.debug('ignoring %s - LICENSES', root / LICENSES_DIR)
-                dirs.remove(LICENSES_DIR)
-
-            # Don't walk ignored folders
-            for directory in dirs:
+            # Don't walk ignored directories
+            for directory in list(dirs):
+                for pattern in _IGNORE_DIR_PATTERNS:
+                    if pattern.match(directory):
+                        _logger.debug('ignoring %s - reuse', root / directory)
+                        dirs.remove(directory)
                 if self._ignored_by_vcs(root / directory):
                     _logger.debug(
                         'ignoring %s - ignored by vcs', root / directory)
@@ -162,7 +162,7 @@ class Project:
             for file_ in files:
                 # General ignored files
                 try:
-                    for pattern in _IGNORE_PATTERNS:
+                    for pattern in _IGNORE_FILE_PATTERNS:
                         if pattern.match(file_):
                             _logger.debug('ignoring %s - reuse', root / file_)
                             # Have to continue the outer loop here, so throw an
@@ -199,7 +199,9 @@ class Project:
                 pass
 
         try:
-            return _copyright_from_debian(path, self._copyright)
+            return _copyright_from_debian(
+                self._relative_from_root(path),
+                self._copyright)
         except LicenseInfoNotFound as e:
             raise
 
@@ -254,3 +256,11 @@ class Project:
         if self.is_git_repo:
             return self._ignored_by_git(path)
         return False
+
+    def _relative_from_root(self, path: _PathLike) -> Path:
+        """If the project root is /tmp/project, and *path* is
+        /tmp/project/src/file, then return src/file.
+        """
+        path = path.resolve()
+        common = os.path.commonpath([path, self._root.resolve()]) + '/'
+        return str(path).replace(common, '')

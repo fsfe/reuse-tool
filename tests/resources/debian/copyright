@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Some project
+Upstream-Contact: Mary Sue
+Source: https://example.com/
+
+Files: src/*
+Copyright: 2017 Mary Sue
+License: CC0-1.0
