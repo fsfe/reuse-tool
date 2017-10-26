@@ -235,7 +235,7 @@ class Project:
 
         Always return False if git is not installed.
         """
-        path = Path(path)
+        path = self._relative_from_root(path)
         if GIT_EXE is None:
             return False
 
@@ -261,6 +261,6 @@ class Project:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
-        path = path.resolve()
+        path = Path(path).resolve()
         common = os.path.commonpath([path, self._root.resolve()]) + '/'
         return str(path).replace(common, '')
