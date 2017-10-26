@@ -29,7 +29,7 @@ import subprocess
 from collections import namedtuple
 from os import PathLike
 from pathlib import Path
-from typing import IO, Iterator, Optional, Union
+from typing import IO, Iterator, Optional
 
 from debian.copyright import Copyright
 
