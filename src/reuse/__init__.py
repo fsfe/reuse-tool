@@ -27,6 +27,7 @@ import os
 import re
 import subprocess
 from collections import namedtuple
+from os import PathLike
 from pathlib import Path
 from typing import IO, Iterator, Optional, Union
 
@@ -60,8 +61,6 @@ _IGNORE_FILE_PATTERNS = [
 
 LicenseInfo = namedtuple('LicenseInfo', ['licenses', 'filenames'])
 
-_PathLike = Union[Path, str]
-
 
 class ReuseException(Exception):
     """Base exception."""
@@ -72,7 +71,7 @@ class LicenseInfoNotFound(ReuseException):
 
 
 def _copyright_from_debian(
-        path: _PathLike,
+        path: PathLike,
         copyright: Copyright) -> Optional[LicenseInfo]:
     """Find the license information of *path* in the Debian copyright object.
     """
@@ -118,7 +117,7 @@ def extract_license_info(file_object: IO) -> LicenseInfo:
 
 class Project:
 
-    def __init__(self, root: _PathLike):
+    def __init__(self, root: PathLike):
         self._root = Path(root)
         if not self._root.is_dir():
             raise ReuseException('%s is no valid path' % self._root)
@@ -128,7 +127,7 @@ class Project:
         self._copyright_val = 0
 
 
-    def all_files(self, directory: _PathLike = None) -> Iterator[Path]:
+    def all_files(self, directory: PathLike = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
 
         The files that are not yielded are:
@@ -178,7 +177,7 @@ class Project:
                 _logger.debug('yielding %s', file_)
                 yield root / file_
 
-    def license_info_of(self, path: _PathLike) -> LicenseInfo:
+    def license_info_of(self, path: PathLike) -> LicenseInfo:
         """Get the license information of *path*."""
         path = Path(path)
         license_path = Path('{}.license'.format(path))
@@ -205,7 +204,7 @@ class Project:
         except LicenseInfoNotFound as e:
             raise
 
-    def unlicensed(self, path: _PathLike) -> Iterator[Path]:
+    def unlicensed(self, path: PathLike) -> Iterator[Path]:
         """Yield all unlicensed files under path."""
         for file_ in self.all_files(path):
             try:
@@ -230,7 +229,7 @@ class Project:
                 self._copyright_val = None
         return self._copyright_val
 
-    def _ignored_by_git(self, path: _PathLike) -> bool:
+    def _ignored_by_git(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of git?
 
         Always return False if git is not installed.
@@ -249,7 +248,7 @@ class Project:
             cwd=self._root)
         return not result.returncode
 
-    def _ignored_by_vcs(self, path: _PathLike) -> bool:
+    def _ignored_by_vcs(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of the VCS (e.g.,
         .gitignore)?
         """
@@ -257,7 +256,7 @@ class Project:
             return self._ignored_by_git(path)
         return False
 
-    def _relative_from_root(self, path: _PathLike) -> Path:
+    def _relative_from_root(self, path: PathLike) -> Path:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
