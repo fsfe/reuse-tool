@@ -32,7 +32,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import IO, Iterator, Optional, Union
 
-from debian import copyright
+from debian.copyright import Copyright
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -179,13 +179,15 @@ def all_files(directory: _PathLike = None) -> Iterator[Path]:
 
 def copyright_from_debian(
         path: _PathLike,
-        copyright_path: _PathLike = None) -> Optional[LicenseInfo]:
-    """Find the license information of *path* in the debian/copyright file
-    found at *copyright_path*.  If *copyright_path* is None, look for the file
-    at ${PWD}/debian/copyright.
-
-    If no license information is found, return None.
+        copyright: Copyright) -> Optional[LicenseInfo]:
+    """Find the license information of *path* in the Debian copyright object.
     """
+    result = copyright.find_files_paragraph(str(path))
+
+    if result is None:
+        raise LicenseInfoNotFound()
+
+    return LicenseInfo([result.license.synopsis], [])
 
 
 def license_info_of(path: _PathLike) -> LicenseInfo:
@@ -193,7 +195,6 @@ def license_info_of(path: _PathLike) -> LicenseInfo:
     path = Path(path)
     license_path = Path('{}.license'.format(path))
 
-    # TODO: Maybe get license information from central config file if it exists
     if license_path.exists():
         _logger.debug(
             'detected %s license file, searching that instead', license_path)
@@ -203,7 +204,16 @@ def license_info_of(path: _PathLike) -> LicenseInfo:
     _logger.debug('searching %s for license information', path)
 
     with license_path.open() as fp:
-        return extract_license_info(fp)
+        try:
+            return extract_license_info(fp)
+        except LicenseInfoNotFound:
+            pass
+
+    try:
+        # TODO: Fix this
+        return copyright_from_debian(path, None)
+    except LicenseInfoNotFound as e:
+        raise
 
 
 def extract_license_info(file_object: IO) -> LicenseInfo:
