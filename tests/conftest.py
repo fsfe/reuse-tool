@@ -24,6 +24,7 @@
 
 import logging
 import os
+import subprocess
 from collections import namedtuple
 from io import StringIO
 from pathlib import Path
@@ -103,13 +104,9 @@ def render_code_files() -> Dict[NameAndLicense, str]:
 COMPILED_CODE_FILES = render_code_files()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture()
 def fake_repository(tmpdir_factory) -> Path:
-    """Create a temporary fake repository.
-
-    .. IMPORTANT::
-        Do not write into this directory.
-    """
+    """Create a temporary fake repository."""
     directory = Path(tmpdir_factory.mktemp('code_files'))
     src = directory / 'src'
     src.mkdir()
@@ -122,6 +119,24 @@ def fake_repository(tmpdir_factory) -> Path:
 
     os.chdir(directory)
     return directory
+
+
+@pytest.fixture()
+def git_repository(fake_repository: Path) -> Path:
+    """Create a git repository with ignored files."""
+    subprocess.run(['git', 'init', str(fake_repository)])
+    GITIGNORE = "*.pyc\nbuild"
+    with (fake_repository / '.gitignore').open('w') as out:
+        out.write(GITIGNORE)
+    for file_ in (fake_repository / 'src').iterdir():
+        if file_.suffix == '.py':
+            file_.with_suffix('.pyc').touch()
+    build_dir = fake_repository / 'build'
+    build_dir.mkdir()
+    (build_dir / 'hello.py').touch()
+
+    os.chdir(fake_repository)
+    return fake_repository
 
 
 @pytest.fixture(params=COMPILED_CODE_FILES.items())

@@ -31,5 +31,13 @@ def test_unlicensed_none(fake_repository, runner):
     """
     result = runner.invoke(_main.cli, ['unlicensed', str(fake_repository)])
 
-    assert result.exit_code == 0
     assert not result.output
+    assert result.exit_code == 0
+
+
+def test_unlicensed_gitignore(git_repository, runner):
+    """Given a repository with files ignored by Git, skip over those files."""
+    result = runner.invoke(_main.cli, ['unlicensed', str(git_repository)])
+
+    assert not result.output
+    assert result.exit_code == 0

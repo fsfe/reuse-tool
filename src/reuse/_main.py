@@ -82,7 +82,7 @@ def unlicensed(context, path):
     counter = 0
 
     for file_ in reuse.unlicensed(path):
-        click.echo(quote(file_))
+        click.echo(quote(str(file_)))
         counter += 1
 
     context.exit(counter)

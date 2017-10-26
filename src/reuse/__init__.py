@@ -44,9 +44,11 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 _LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*)')
 _LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*)')
 
-_LICENSE_FILE_PATTERNS = [
+_IGNORE_PATTERNS = [
     re.compile(r'^LICEN[CS]E'),
     re.compile(r'^COPYING'),
+    re.compile(r'.*\.license$'),
+    re.compile(r'^\.gitignore$'),
 ]
 
 _GIT_EXE = shutil.which('git')
@@ -110,7 +112,8 @@ def _ignored_by_vcs(path: _PathLike) -> bool:
     """Is *path* covered by the ignore mechanism of the VCS (e.g., .gitignore)?
     """
     if _GIT_EXE:
-        if _in_git_repo():
+        # TODO: Pass along external cwd, maybe
+        if _in_git_repo(Path.cwd()):
             return _ignored_by_git(path)
 
 
@@ -155,15 +158,11 @@ def all_files(directory: _PathLike = None) -> Iterator[Path]:
         # Filter files.
         # TODO: Apply better filtering
         for file_ in files:
-            # .license files
-            if file_.endswith('.license'):
-                continue
-
-            # LICENSE/COPYING files
+            # General ignored files
             try:
-                for pattern in _LICENSE_FILE_PATTERNS:
+                for pattern in _IGNORE_PATTERNS:
                     if pattern.match(file_):
-                        _logger.debug('ignoring %s - license', root / file_)
+                        _logger.debug('ignoring %s - reuse', root / file_)
                         # Have to continue the outer loop here, so throw an
                         # exception.  Not the cleanest solution.
                         raise ReuseException()
