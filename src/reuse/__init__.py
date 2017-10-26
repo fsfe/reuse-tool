@@ -194,11 +194,11 @@ def license_info_of(path: _PathLike) -> LicenseInfo:
     license_path = Path('{}.license'.format(path))
 
     # TODO: Maybe get license information from central config file if it exists
-    if not license_path.exists():
-        license_path = path
-    else:
+    if license_path.exists():
         _logger.debug(
             'detected %s license file, searching that instead', license_path)
+    else:
+        license_path = path
 
     _logger.debug('searching %s for license information', path)
 
