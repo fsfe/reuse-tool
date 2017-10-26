@@ -24,17 +24,50 @@
 
 import importlib
 import logging
+from pipes import quote
 
 import click
 
 # Import __init__.py.  I don't know how to do this cleanly
 reuse = importlib.import_module('..', __name__)
 
+_logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+
 
 @click.group()
 @click.option('--debug/--no-debug', default=False)
 def cli(debug):
     logging.basicConfig(level=logging.DEBUG if debug else logging.WARNING)
+
+
+@cli.command()
+@click.argument(
+    'paths', nargs=-1, type=click.Path(exists=True))
+@click.pass_context
+def license(context, paths):
+    """Print the licenses and corresponding license files of each provided
+    file.
+    """
+    first = True
+    for path in paths:
+        if not first:
+            click.echo()
+        try:
+            license_info = reuse.license_info_of(path)
+        except IsADirectoryError:
+            context.fail('%s is a directory' % path)
+        except IOError:
+            context.fail('could not read %s' % path)
+        except reuse.LicenseInfoNotFound:
+            license_info = reuse.LicenseInfo(['none'], ['none'])
+        if not license_info.filenames:
+            license_info.filenames = ['none']
+        click.echo(quote(str(path)))
+        click.echo(' '.join(map(quote, license_info.licenses)))
+        click.echo(' '.join(map(quote, license_info.filenames)))
+
+        first = False
+
 
 @cli.command()
 @click.argument(
@@ -49,7 +82,7 @@ def unlicensed(context, path):
     counter = 0
 
     for file_ in reuse.unlicensed(path):
-        click.echo(file_)
+        click.echo(quote(file_))
         counter += 1
 
     context.exit(counter)
