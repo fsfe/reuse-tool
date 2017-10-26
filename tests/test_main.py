@@ -22,7 +22,14 @@
 
 """Tests for the CLI for reuse."""
 
+import shutil
+
+import pytest
 from reuse import _main
+
+git = pytest.mark.skipif(
+    not shutil.which('git'),
+    reason='requires git')
 
 
 def test_unlicensed_none(fake_repository, runner):
@@ -35,6 +42,7 @@ def test_unlicensed_none(fake_repository, runner):
     assert result.exit_code == 0
 
 
+@git
 def test_unlicensed_gitignore(git_repository, runner):
     """Given a repository with files ignored by Git, skip over those files."""
     result = runner.invoke(_main.cli, ['unlicensed', str(git_repository)])
