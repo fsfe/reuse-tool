@@ -25,14 +25,14 @@
 import logging
 import os
 import re
-import shutil
 import subprocess
 from collections import namedtuple
-from functools import lru_cache
 from pathlib import Path
 from typing import IO, Iterator, Optional, Union
 
 from debian.copyright import Copyright
+
+from ._util import GIT_EXE, in_git_repo
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -51,8 +51,6 @@ _IGNORE_PATTERNS = [
     re.compile(r'^\.gitignore$'),
 ]
 
-_GIT_EXE = shutil.which('git')
-
 LicenseInfo = namedtuple('LicenseInfo', ['licenses', 'filenames'])
 
 _PathLike = Union[Path, str]
@@ -66,118 +64,7 @@ class LicenseInfoNotFound(ReuseException):
     """Could not find license for file."""
 
 
-@lru_cache()
-def _in_git_repo(cwd: _PathLike = None) -> bool:
-    """Is *cwd* inside of a git repository?
-
-    Always return False if git is not installed.
-    """
-    if _GIT_EXE is None:
-        return False
-
-    if cwd is None:
-        cwd = Path.cwd()
-
-    command = [_GIT_EXE, 'status']
-    _logger.debug('running %s', ' '.join(command))
-
-    result = subprocess.run(
-        command,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        cwd=cwd)
-    return not result.returncode
-
-
-def _ignored_by_git(path: _PathLike) -> bool:
-    """Is *path* covered by the ignore mechanism of git?
-
-    Always return False if git is not installed.
-    """
-    if _GIT_EXE is None:
-        return False
-
-    command = [_GIT_EXE, 'check-ignore', str(path)]
-    _logger.debug('running %s', ' '.join(command))
-
-    result = subprocess.run(
-        command,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL)
-
-    return not result.returncode
-
-
-def _ignored_by_vcs(path: _PathLike) -> bool:
-    """Is *path* covered by the ignore mechanism of the VCS (e.g., .gitignore)?
-    """
-    if _GIT_EXE:
-        # TODO: Pass along external cwd, maybe
-        if _in_git_repo(Path.cwd()):
-            return _ignored_by_git(path)
-
-
-def all_files(directory: _PathLike = None) -> Iterator[Path]:
-    """Yield all files in *directory* and its subdirectories.
-
-    The files that are not yielded are:
-
-    - Files ignored by VCS (e.g., see .gitignore)
-
-    - Files ignored by reuse config file.
-
-    - Files with the *.license suffix.
-    """
-    if directory is None:
-        directory = Path.cwd()
-    directory = Path(directory)
-
-    for root, dirs, files in os.walk(directory):
-        root = Path(root)
-        _logger.debug('currently walking in %s', root)
-
-        # Don't walk VCS.
-        vcs_dirs = {'.git', '.svn'}
-        intersection = vcs_dirs.intersection(set(dirs))
-        for ignored in intersection:
-            _logger.debug('ignoring %s - VCS', root / ignored)
-            dirs.remove(ignored)
-
-        # Don't walk LICENSES
-        LICENSES_DIR = 'LICENSES'
-        if LICENSES_DIR in dirs:
-            _logger.debug('ignoring %s - LICENSES', root / LICENSES_DIR)
-            dirs.remove(LICENSES_DIR)
-
-        # Don't walk ignored folders
-        for directory in dirs:
-            if _ignored_by_vcs(root / directory):
-                _logger.debug('ignoring %s - ignored by vcs', root / directory)
-                dirs.remove(directory)
-
-        # Filter files.
-        # TODO: Apply better filtering
-        for file_ in files:
-            # General ignored files
-            try:
-                for pattern in _IGNORE_PATTERNS:
-                    if pattern.match(file_):
-                        _logger.debug('ignoring %s - reuse', root / file_)
-                        # Have to continue the outer loop here, so throw an
-                        # exception.  Not the cleanest solution.
-                        raise ReuseException()
-            except ReuseException:
-                continue
-
-            if _ignored_by_vcs(root / file_):
-                _logger.debug('ignoring %s - ignored by vcs', root / file_)
-                continue
-
-            _logger.debug('yielding %s', file_)
-            yield root / file_
-
-
-def copyright_from_debian(
+def _copyright_from_debian(
         path: _PathLike,
         copyright: Copyright) -> Optional[LicenseInfo]:
     """Find the license information of *path* in the Debian copyright object.
@@ -188,32 +75,6 @@ def copyright_from_debian(
         raise LicenseInfoNotFound()
 
     return LicenseInfo([result.license.synopsis], [])
-
-
-def license_info_of(path: _PathLike) -> LicenseInfo:
-    """Get the license information of *path*."""
-    path = Path(path)
-    license_path = Path('{}.license'.format(path))
-
-    if license_path.exists():
-        _logger.debug(
-            'detected %s license file, searching that instead', license_path)
-    else:
-        license_path = path
-
-    _logger.debug('searching %s for license information', path)
-
-    with license_path.open() as fp:
-        try:
-            return extract_license_info(fp)
-        except LicenseInfoNotFound:
-            pass
-
-    try:
-        # TODO: Fix this
-        return copyright_from_debian(path, None)
-    except LicenseInfoNotFound as e:
-        raise
 
 
 def extract_license_info(file_object: IO) -> LicenseInfo:
@@ -246,10 +107,150 @@ def extract_license_info(file_object: IO) -> LicenseInfo:
     return LicenseInfo(license_matches, license_filename_matches)
 
 
-def unlicensed(path: _PathLike) -> Iterator[Path]:
-    """Yield all unlicensed files under path."""
-    for file_ in all_files(path):
+class Project:
+
+    def __init__(self, root: _PathLike):
+        self._root = Path(root)
+        if not self._root.is_dir():
+            raise ReuseException('%s is no valid path' % self._root)
+
+        self._is_git_repo = None
+        # Use '0' as None, because None is a valid value...
+        self._copyright_val = 0
+
+
+    def all_files(self, directory: _PathLike = None) -> Iterator[Path]:
+        """Yield all files in *directory* and its subdirectories.
+
+        The files that are not yielded are:
+
+        - Files ignored by VCS (e.g., see .gitignore)
+
+        - Files ignored by reuse config file.
+
+        - Files with the *.license suffix.
+        """
+        if directory is None:
+            directory = self._root
+        directory = Path(directory)
+
+        for root, dirs, files in os.walk(directory):
+            root = Path(root)
+            _logger.debug('currently walking in %s', root)
+
+            # Don't walk VCS.
+            vcs_dirs = {'.git', '.svn'}
+            intersection = vcs_dirs.intersection(set(dirs))
+            for ignored in intersection:
+                _logger.debug('ignoring %s - VCS', root / ignored)
+                dirs.remove(ignored)
+
+            # Don't walk LICENSES
+            LICENSES_DIR = 'LICENSES'
+            if LICENSES_DIR in dirs:
+                _logger.debug('ignoring %s - LICENSES', root / LICENSES_DIR)
+                dirs.remove(LICENSES_DIR)
+
+            # Don't walk ignored folders
+            for directory in dirs:
+                if self._ignored_by_vcs(root / directory):
+                    _logger.debug(
+                        'ignoring %s - ignored by vcs', root / directory)
+                    dirs.remove(directory)
+
+            # Filter files.
+            for file_ in files:
+                # General ignored files
+                try:
+                    for pattern in _IGNORE_PATTERNS:
+                        if pattern.match(file_):
+                            _logger.debug('ignoring %s - reuse', root / file_)
+                            # Have to continue the outer loop here, so throw an
+                            # exception.  Not the cleanest solution.
+                            raise ReuseException()
+                except ReuseException:
+                    continue
+
+                if self._ignored_by_vcs(root / file_):
+                    _logger.debug('ignoring %s - ignored by vcs', root / file_)
+                    continue
+
+                _logger.debug('yielding %s', file_)
+                yield root / file_
+
+    def license_info_of(self, path: _PathLike) -> LicenseInfo:
+        """Get the license information of *path*."""
+        path = Path(path)
+        license_path = Path('{}.license'.format(path))
+
+        if license_path.exists():
+            _logger.debug(
+                'detected %s license file, searching that instead',
+                license_path)
+        else:
+            license_path = path
+
+        _logger.debug('searching %s for license information', path)
+
+        with license_path.open() as fp:
+            try:
+                return extract_license_info(fp)
+            except LicenseInfoNotFound:
+                pass
+
         try:
-            license_info_of(file_)
-        except LicenseInfoNotFound:
-            yield file_
+            return _copyright_from_debian(path, self._copyright)
+        except LicenseInfoNotFound as e:
+            raise
+
+    def unlicensed(self, path: _PathLike) -> Iterator[Path]:
+        """Yield all unlicensed files under path."""
+        for file_ in self.all_files(path):
+            try:
+                self.license_info_of(file_)
+            except LicenseInfoNotFound:
+                yield file_
+
+    @property
+    def is_git_repo(self):
+        if self._is_git_repo is None:
+            self._is_git_repo = in_git_repo(self._root)
+        return self._is_git_repo
+
+    @property
+    def _copyright(self):
+        if self._copyright_val == 0:
+            copyright_path = self._root / 'debian' / 'copyright'
+            if copyright_path.exists():
+                with copyright_path.open() as fp:
+                    self._copyright_val = Copyright(fp)
+            else:
+                self._copyright_val = None
+        return self._copyright_val
+
+    def _ignored_by_git(self, path: _PathLike) -> bool:
+        """Is *path* covered by the ignore mechanism of git?
+
+        Always return False if git is not installed.
+        """
+        path = Path(path)
+        if GIT_EXE is None:
+            return False
+
+        command = [GIT_EXE, 'check-ignore', str(path)]
+        _logger.debug('running %s', ' '.join(command))
+
+        result = subprocess.run(
+            command,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            cwd=self._root)
+        return not result.returncode
+
+    def _ignored_by_vcs(self, path: _PathLike) -> bool:
+        """Is *path* covered by the ignore mechanism of the VCS (e.g.,
+        .gitignore)?
+        """
+        if self.is_git_repo:
+            return self._ignored_by_git(path)
+        return False

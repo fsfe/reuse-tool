@@ -24,14 +24,27 @@
 
 import importlib
 import logging
+from pathlib import Path
 from pipes import quote
 
 import click
+
+from ._util import find_root
 
 # Import __init__.py.  I don't know how to do this cleanly
 reuse = importlib.import_module('..', __name__)
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+
+
+def _create_project() -> reuse.Project:
+    """Create a project object.  Try to find the project root from $PWD,
+    otherwise treat $PWD as root.
+    """
+    root = find_root()
+    if root is None:
+        root = Path.cwd()
+    return reuse.Project(root)
 
 
 @click.group()
@@ -48,12 +61,13 @@ def license(context, paths):
     """Print the licenses and corresponding license files of each provided
     file.
     """
+    project = _create_project()
     first = True
     for path in paths:
         if not first:
             click.echo()
         try:
-            license_info = reuse.license_info_of(path)
+            license_info = project.license_info_of(path)
         except IsADirectoryError:
             context.fail('%s is a directory' % path)
         except IOError:
@@ -81,7 +95,8 @@ def unlicensed(context, path):
     """
     counter = 0
 
-    for file_ in reuse.unlicensed(path):
+    project = _create_project()
+    for file_ in project.unlicensed(path):
         click.echo(quote(str(file_)))
         counter += 1
 

@@ -54,8 +54,10 @@ def test_license_file_detected(empty_file_with_license_file):
     directory = empty_file_with_license_file[0]
     license_info = empty_file_with_license_file[1]
 
-    all_files = list(reuse.all_files(directory))
+    project = reuse.Project(directory)
+
+    all_files = list(project.all_files(directory))
     assert len(all_files) == 1
 
-    result = reuse.license_info_of(all_files[0])
+    result = project.license_info_of(all_files[0])
     assert _license_info_equal(result, license_info)
