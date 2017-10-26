@@ -173,14 +173,13 @@ def empty_file_with_license_file(
     directory = Path(tmpdir_factory.mktemp('empty_file_with_license'))
 
     key, value = request.param
-    with (directory / '{}.license'.format(key.name)).open('w') as out:
-        out.write(value)
 
-    with (directory / key.name).open('w') as out:
-        out.write('')
+    (directory / '{}.license'.format(key.name)).write_text(value)
+    (directory / key.name).touch()
 
     os.chdir(directory)
     return (directory, key.license_info)
+
 
 @pytest.fixture
 def runner() -> CliRunner:
