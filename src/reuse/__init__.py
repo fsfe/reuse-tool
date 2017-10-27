@@ -134,9 +134,7 @@ class Project:
 
         - Files ignored by VCS (e.g., see .gitignore)
 
-        - Files ignored by reuse config file.
-
-        - Files with the *.license suffix.
+        - Files/directories matching IGNORE_*_PATTERNS.
         """
         if directory is None:
             directory = self._root
