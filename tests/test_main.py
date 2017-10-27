@@ -22,13 +22,12 @@
 
 """Tests for the CLI for reuse."""
 
-import shutil
-
 import pytest
-from reuse import _main
+
+from reuse import _main, _util
 
 git = pytest.mark.skipif(
-    not shutil.which('git'),
+    not _util.GIT_EXE,
     reason='requires git')
 
 
