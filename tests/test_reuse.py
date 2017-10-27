@@ -46,7 +46,6 @@ def test_extract_license_from_file(file_with_license_comments):
     assert _license_info_equal(result, file_with_license_comments.license_info)
 
 
-
 def test_license_file_detected(empty_file_with_license_file):
     """Test whether—when given a file and a license file—the license file is
     detected and read.
