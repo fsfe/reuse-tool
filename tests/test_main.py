@@ -49,3 +49,15 @@ def test_lint_gitignore(git_repository, runner):
 
     assert not result.output
     assert result.exit_code == 0
+
+
+def test_lint_ignore_debian(fake_repository, runner):
+    """When debian/copyright is ignored, non-compliant files are found."""
+    result = runner.invoke(
+        _main.cli,
+        ['--ignore-debian', 'lint', str(fake_repository)])
+
+    output_lines = result.output.splitlines()
+    assert len(output_lines) == 1
+    assert 'no_license.py' in output_lines[0]
+    assert result.exit_code

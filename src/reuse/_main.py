@@ -48,10 +48,21 @@ def _create_project() -> reuse.Project:
 
 
 @click.group()
-@click.option('--debug/--no-debug', default=False)
-def cli(debug):
+@click.option(
+    '--ignore-debian',
+    is_flag=True,
+    help='Do not use debian/copyright to extract license information')
+@click.option(
+    '--debug/--no-debug',
+    default=False,
+    help='Enable debug statements')
+@click.pass_context
+def cli(context, debug, ignore_debian):
     """TODO: docstring"""
     logging.basicConfig(level=logging.DEBUG if debug else logging.WARNING)
+    context.obj = dict()
+    context.obj['ignore_debian'] = ignore_debian
+
 
 
 @cli.command()
@@ -68,7 +79,9 @@ def license(context, paths):
         if not first:
             click.echo()
         try:
-            license_info = project.license_info_of(path)
+            license_info = project.license_info_of(
+                path,
+                ignore_debian=context.obj['ignore_debian'])
         except IsADirectoryError:
             context.fail('%s is a directory' % path)
         except IOError:
@@ -97,7 +110,9 @@ def lint(context, path):
     counter = 0
 
     project = _create_project()
-    for file_ in project.unlicensed(path):
+    for file_ in project.unlicensed(
+            path,
+            ignore_debian=context.obj['ignore_debian']):
         click.echo(quote(str(file_)))
         counter += 1
 

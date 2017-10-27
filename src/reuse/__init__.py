@@ -180,7 +180,10 @@ class Project:
                 _logger.debug('yielding %s', file_)
                 yield root / file_
 
-    def license_info_of(self, path: PathLike) -> LicenseInfo:
+    def license_info_of(
+            self,
+            path: PathLike,
+            ignore_debian: bool = False) -> LicenseInfo:
         """Get the license information of *path*."""
         path = Path(path)
         license_path = Path('{}.license'.format(path))
@@ -200,6 +203,9 @@ class Project:
             except LicenseInfoNotFound:
                 pass
 
+        if ignore_debian:
+            raise LicenseInfoNotFound()
+
         try:
             return _copyright_from_debian(
                 self._relative_from_root(path),
@@ -207,11 +213,14 @@ class Project:
         except LicenseInfoNotFound:
             raise
 
-    def unlicensed(self, path: PathLike) -> Iterator[Path]:
+    def unlicensed(
+            self,
+            path: PathLike,
+            ignore_debian: bool = False) -> Iterator[Path]:
         """Yield all unlicensed files under path."""
         for file_ in self.all_files(path):
             try:
-                self.license_info_of(file_)
+                self.license_info_of(file_, ignore_debian=ignore_debian)
             except LicenseInfoNotFound:
                 yield file_
 
