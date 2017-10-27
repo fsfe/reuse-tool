@@ -87,8 +87,8 @@ def license(context, paths):
 @click.argument(
     'path', required=False, default='.', type=click.Path(exists=True))
 @click.pass_context
-def unlicensed(context, path):
-    """List all unlicensed files.
+def lint(context, path):
+    """List all unlicensed (non-compliant) files.
 
     This prints only the paths of the files for which a licence could not be
     found, each file on a separate line.

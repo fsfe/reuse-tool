@@ -32,20 +32,20 @@ git = pytest.mark.skipif(
     reason='requires git')
 
 
-def test_unlicensed_none(fake_repository, runner):
+def test_lint_none(fake_repository, runner):
     """Given a repository in which every file is licensed, return an exit code
     of 0 and print nothing.
     """
-    result = runner.invoke(_main.cli, ['unlicensed', str(fake_repository)])
+    result = runner.invoke(_main.cli, ['lint', str(fake_repository)])
 
     assert not result.output
     assert result.exit_code == 0
 
 
 @git
-def test_unlicensed_gitignore(git_repository, runner):
+def test_lint_gitignore(git_repository, runner):
     """Given a repository with files ignored by Git, skip over those files."""
-    result = runner.invoke(_main.cli, ['unlicensed', str(git_repository)])
+    result = runner.invoke(_main.cli, ['lint', str(git_repository)])
 
     assert not result.output
     assert result.exit_code == 0
