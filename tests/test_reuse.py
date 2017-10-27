@@ -32,8 +32,8 @@ def _license_info_equal(first, second) -> bool:
 
     This is necessary because (,) != [].
     """
-    for a, b in zip_longest(first, second):
-        if tuple(a) != tuple(b):
+    for left, right in zip_longest(first, second):
+        if tuple(left) != tuple(right):
             return False
     return True
 

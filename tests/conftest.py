@@ -22,6 +22,8 @@
 
 """Global fixtures and configuration."""
 
+# pylint: disable=redefined-outer-name
+
 import logging
 import os
 import shutil
@@ -67,6 +69,7 @@ def pytest_configure(config):
 
 def pytest_runtest_setup(item):
     """Called before running a test."""
+    # pylint: disable=unused-argument
     # Make sure to restore CWD
     os.chdir(CWD)
 
@@ -134,8 +137,8 @@ def git_repository(fake_repository: Path) -> Path:
     """Create a git repository with ignored files."""
     subprocess.run(['git', 'init', str(fake_repository)])
 
-    GITIGNORE = "*.pyc\nbuild"
-    (fake_repository / '.gitignore').write_text(GITIGNORE)
+    gitignore = "*.pyc\nbuild"
+    (fake_repository / '.gitignore').write_text(gitignore)
 
     for file_ in (fake_repository / 'src').iterdir():
         if file_.suffix == '.py':

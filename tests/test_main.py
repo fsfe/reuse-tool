@@ -26,6 +26,7 @@ import pytest
 
 from reuse import _main, _util
 
+# pylint: disable=invalid-name
 git = pytest.mark.skipif(
     not _util.GIT_EXE,
     reason='requires git')

@@ -32,7 +32,7 @@ import click
 from ._util import find_root
 
 # Import __init__.py.  I don't know how to do this cleanly
-reuse = importlib.import_module('..', __name__)
+reuse = importlib.import_module('..', __name__)  # pylint: disable=invalid-name
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -50,6 +50,7 @@ def _create_project() -> reuse.Project:
 @click.group()
 @click.option('--debug/--no-debug', default=False)
 def cli(debug):
+    """TODO: docstring"""
     logging.basicConfig(level=logging.DEBUG if debug else logging.WARNING)
 
 

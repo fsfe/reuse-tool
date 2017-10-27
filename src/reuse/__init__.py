@@ -22,6 +22,8 @@
 
 """reuse is a tool for REUSE compliance."""
 
+# pylint: disable=ungrouped-imports
+
 import logging
 import os
 import re
@@ -115,6 +117,10 @@ def extract_license_info(file_object: IO) -> LicenseInfo:
 
 
 class Project:
+    """Holds a project's root, more or less.  This is very convenient, because
+    a lot of interactions require knowing where you are in relation to the
+    project root.
+    """
 
     def __init__(self, root: PathLike):
         self._root = Path(root)
@@ -144,15 +150,15 @@ class Project:
             _logger.debug('currently walking in %s', root)
 
             # Don't walk ignored directories
-            for directory in list(dirs):
+            for dir_ in list(dirs):
                 for pattern in _IGNORE_DIR_PATTERNS:
-                    if pattern.match(directory):
-                        _logger.debug('ignoring %s - reuse', root / directory)
-                        dirs.remove(directory)
-                if self._ignored_by_vcs(root / directory):
+                    if pattern.match(dir_):
+                        _logger.debug('ignoring %s - reuse', root / dir_)
+                        dirs.remove(dir_)
+                if self._ignored_by_vcs(root / dir_):
                     _logger.debug(
-                        'ignoring %s - ignored by vcs', root / directory)
-                    dirs.remove(directory)
+                        'ignoring %s - ignored by vcs', root / dir_)
+                    dirs.remove(dir_)
 
             # Filter files.
             for file_ in files:
@@ -198,7 +204,7 @@ class Project:
             return _copyright_from_debian(
                 self._relative_from_root(path),
                 self._copyright)
-        except LicenseInfoNotFound as e:
+        except LicenseInfoNotFound:
             raise
 
     def unlicensed(self, path: PathLike) -> Iterator[Path]:
@@ -210,13 +216,14 @@ class Project:
                 yield file_
 
     @property
-    def is_git_repo(self):
+    def is_git_repo(self) -> bool:
+        """Is the project a git repository?  Cache the result."""
         if self._is_git_repo is None:
             self._is_git_repo = in_git_repo(self._root)
         return self._is_git_repo
 
     @property
-    def _copyright(self):
+    def _copyright(self) -> Optional[Copyright]:
         if self._copyright_val == 0:
             copyright_path = self._root / 'debian' / 'copyright'
             if copyright_path.exists():
