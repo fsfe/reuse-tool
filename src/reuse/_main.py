@@ -53,8 +53,8 @@ def _create_project() -> reuse.Project:
     is_flag=True,
     help='Do not use debian/copyright to extract license information')
 @click.option(
-    '--debug/--no-debug',
-    default=False,
+    '--debug',
+    is_flag=True,
     help='Enable debug statements')
 @click.pass_context
 def cli(context, debug, ignore_debian):
