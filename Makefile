@@ -51,6 +51,10 @@ docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 	pipenv run sphinx-apidoc --separate -o docs/ src/reuse
 	pipenv run $(MAKE) -C docs html
 
+.PHONY: tox
+tox: ## run all tests against multiple versions of Python
+	tox
+
 .PHONY: dist
 dist: clean ## builds source and wheel package
 	pipenv run python setup.py sdist
