@@ -3,7 +3,7 @@
 #
 # This file is part of reuse.  It is copyrighted by the contributors recorded
 # in the version control history of the file, available from its original
-# location: https://git.fsfe.org/carmenbianca/reuse
+# location: https://git.fsfe.org/reuse/reuse
 #
 # reuse is free software: you can redistribute it and/or modify it under the
 # terms of the GNU General Public License as published by the Free Software
