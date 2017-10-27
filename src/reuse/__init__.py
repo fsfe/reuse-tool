@@ -111,8 +111,6 @@ def extract_license_info(file_object: IO) -> LicenseInfo:
         # GPL-3.0+ and they both point to the same file?
         pass
 
-    # TODO: This results in `None` being added to the list if the two lists are
-    # not of equal size.  This is obviously unclear behaviour.
     return LicenseInfo(license_matches, license_filename_matches)
 
 
