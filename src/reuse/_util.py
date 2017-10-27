@@ -27,11 +27,30 @@ import shutil
 import subprocess
 from os import PathLike
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 
 GIT_EXE = shutil.which('git')
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+
+
+def execute_command(
+        command: List[str],
+        logger: logging.Logger,
+        **kwargs) -> subprocess.CompletedProcess:
+    """Run the given command with subprocess.run.  Forward kwargs.  Silence
+    output into a pipe unless kwargs override it.
+    """
+    logger.debug('running %s', ' '.join(command))
+
+    stdout = kwargs.get('stdout', subprocess.PIPE)
+    stderr = kwargs.get('stderr', subprocess.PIPE)
+
+    return subprocess.run(
+        command,
+        stdout=stdout,
+        stderr=stderr,
+        **kwargs)
 
 
 def find_root() -> Optional[PathLike]:
@@ -41,13 +60,8 @@ def find_root() -> Optional[PathLike]:
     cwd = Path.cwd()
     if in_git_repo(cwd):
         command = [GIT_EXE, 'rev-parse', '--show-toplevel']
-        _logger.debug('running %s', ' '.join(command))
+        result = execute_command(command, _logger, cwd=cwd)
 
-        result = subprocess.run(
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-            cwd=cwd)
         if not result.returncode:
             return Path(result.stdout.decode('utf-8')[:-1])
     return None
@@ -65,11 +79,6 @@ def in_git_repo(cwd: PathLike = None) -> bool:
         cwd = Path.cwd()
 
     command = [GIT_EXE, 'status']
-    _logger.debug('running %s', ' '.join(command))
+    result = execute_command(command, _logger, cwd=cwd)
 
-    result = subprocess.run(
-        command,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        cwd=cwd)
     return not result.returncode

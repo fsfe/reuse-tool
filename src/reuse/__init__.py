@@ -25,7 +25,6 @@
 import logging
 import os
 import re
-import subprocess
 from collections import namedtuple
 from os import PathLike
 from pathlib import Path
@@ -33,7 +32,7 @@ from typing import IO, Iterator, Optional
 
 from debian.copyright import Copyright
 
-from ._util import GIT_EXE, in_git_repo
+from ._util import GIT_EXE, execute_command, in_git_repo
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -237,13 +236,8 @@ class Project:
             return False
 
         command = [GIT_EXE, 'check-ignore', str(path)]
-        _logger.debug('running %s', ' '.join(command))
+        result = execute_command(command, _logger, cwd=self._root)
 
-        result = subprocess.run(
-            command,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            cwd=self._root)
         return not result.returncode
 
     def _ignored_by_vcs(self, path: PathLike) -> bool:
