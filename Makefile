@@ -11,6 +11,7 @@ clean: clean-build clean-pyc clean-test clean-docs ## remove all build, test, co
 clean-build: ## remove build artifacts
 	rm -fr build/
 	rm -fr dist/
+	rm -fr .cache/
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
