@@ -11,6 +11,7 @@ Welcome to reuse's documentation!
 
    readme
    authors
+   history
    Modules<modules>
 
 

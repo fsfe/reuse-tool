@@ -154,6 +154,7 @@ instance/
 docs/_build/
 docs/reuse*.rst
 docs/modules.rst
+docs/history.rst
 
 # PyBuilder
 target/

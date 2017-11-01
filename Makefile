@@ -34,6 +34,7 @@ clean-docs: ## remove docs build artifacts
 	-pipenv run $(MAKE) -C docs clean
 	rm -f docs/en_pyssant*.rst
 	rm -f docs/modules.rst
+	rm -f docs/history.rst
 
 .PHONY: lint
 lint: ## check style with pylint
@@ -50,6 +51,7 @@ coverage: ## check code coverage quickly
 .PHONY: docs
 docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 	pipenv run sphinx-apidoc --separate -o docs/ src/reuse
+	changelogdir -o docs/history.rst
 	pipenv run $(MAKE) -C docs html
 
 .PHONY: tox
@@ -57,10 +59,18 @@ tox: ## run all tests against multiple versions of Python
 	tox
 
 .PHONY: dist
-dist: clean ## builds source and wheel package
+dist: clean docs ## builds source and wheel package
 	pipenv run python setup.py sdist
 	pipenv run python setup.py bdist_wheel
 	ls -l dist
+
+.PHONY: test-release
+test-release: dist  ## package and upload to testpypi
+	twine upload -r testpypi dist/*
+
+.PHONY: release
+release: dist  ## package and upload a release
+	twine upload -r pypi dist/*
 
 .PHONY: develop
 develop: ## set up virtualenv for development

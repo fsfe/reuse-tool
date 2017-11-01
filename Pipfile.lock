@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b745183f9a45639fb9e86ccd6d56d6d5a8038f00953423a118653de2d75094f9"
+            "sha256": "b9ba49682601e2fdf3051091534dd420fced10ec7b2d6fc5becf11c4424c4f8b"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -83,6 +83,13 @@
                 "sha256:40523d2efb60523e113b44602298f0960e900388cf3bb6043f645cf57ea9e3f5"
             ],
             "version": "==2017.7.27.1"
+        },
+        "changelogdir": {
+            "hashes": [
+                "sha256:7c5594fd62efbe4b6b961ff2dcc90b9e9b6819358d010bc0507754d35e71d3d6",
+                "sha256:ce5b67cdb0f97013f9eed75f118009d21ec875f30c1f945a1fdcfc3d23c89872"
+            ],
+            "version": "==3.1.0"
         },
         "chardet": {
             "hashes": [
@@ -223,6 +230,13 @@
             ],
             "version": "==0.6.1"
         },
+        "pkginfo": {
+            "hashes": [
+                "sha256:31a49103180ae1518b65d3f4ce09c784e2bc54e338197668b4fb7dc539521024",
+                "sha256:bb1a6aeabfc898f5df124e7e00303a5b3ec9a489535f346bfbddb081af93f89e"
+            ],
+            "version": "==1.4.1"
+        },
         "pluggy": {
             "hashes": [
                 "sha256:bd60171dbb250fdebafad46ed16d97065369da40568ae948ef7117eee8536e94"
@@ -285,6 +299,13 @@
             ],
             "version": "==2.18.4"
         },
+        "requests-toolbelt": {
+            "hashes": [
+                "sha256:42c9c170abc2cacb78b8ab23ac957945c7716249206f90874651971a4acff237",
+                "sha256:f6a531936c6fa4c6cfce1b9c10d5c4f498d16528d2a54a22ca00011205a187b5"
+            ],
+            "version": "==0.8.0"
+        },
         "six": {
             "hashes": [
                 "sha256:832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb",
@@ -326,6 +347,20 @@
                 "sha256:752f5ec561c6c08c5ecb167d3b20f4f4ffc158c0ab78855701a75f5cef05f4b8"
             ],
             "version": "==2.9.1"
+        },
+        "tqdm": {
+            "hashes": [
+                "sha256:733ce813ab83e17a03da34043c6265e29f6731e3cbbbe305b12694ced0af6770",
+                "sha256:7ca803c2ea268c6bdb541e2dac74a3af23cf4bf7b4132a6a78926d255f8c8df1"
+            ],
+            "version": "==4.19.4"
+        },
+        "twine": {
+            "hashes": [
+                "sha256:d3ce5c480c22ccfb761cd358526e862b32546d2fe4bc93d46b5cf04ea3cc46ca",
+                "sha256:caa45b7987fc96321258cd7668e3be2ff34064f5c66d2d975b641adca659c1ab"
+            ],
+            "version": "==1.9.1"
         },
         "urllib3": {
             "hashes": [
