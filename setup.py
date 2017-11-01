@@ -36,6 +36,7 @@ if __name__ == '__main__':
         name='reuse',
         version='0.0.1',
         url='https://git.fsfe.org/reuse/reuse',
+        license='GPL-3.0+',
 
         author='Carmen Bianca Bakker',
         author_email='carmenbianca@fsfe.org',
