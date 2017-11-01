@@ -201,7 +201,7 @@ class Project:
             except LicenseInfoNotFound:
                 pass
 
-        if ignore_debian:
+        if ignore_debian or not self._copyright:
             raise LicenseInfoNotFound()
 
         try:
