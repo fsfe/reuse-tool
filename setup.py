@@ -24,6 +24,7 @@ from setuptools import setup
 
 requirements = [
     'click',
+    'python-debian',
 ]
 
 test_requirements = [
