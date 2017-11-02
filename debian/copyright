@@ -1,0 +1,20 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: reuse
+Upstream-Contact: Carmen Bianca Bakker <carmenbianca@fsfe.org>
+Source: https://git.fsfe.org/reuse/reuse
+
+Files: AUTHORS.rst docs/*.rst README.rst
+Copyright: 2017 Free Software Foundation Europe
+License: CC-BY-SA-4.0
+
+Files: CHANGELOG/*
+Copyright: 2017 Free Software Foundation Europe
+License: CC-BY-SA-4.0
+
+Files: .editorconfig .pylintrc MANIFEST.in Makefile Pipfile docs/Makefile setup.cfg tox.ini
+Copyright: 2017 Free Software Foundation Europe
+License: GPL-3.0+
+
+Files: Pipfile.lock
+Copyright: None
+License: CC0-1.0
