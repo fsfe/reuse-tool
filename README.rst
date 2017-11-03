@@ -21,7 +21,7 @@ Install
 To install reuse, make sure that you have Python >=3.5 and Pip installed, then
 run the following command::
 
-    pip3 install --user reuse
+    pip3 install --user fsfe-reuse
 
 Usage
 -----
