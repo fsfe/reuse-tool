@@ -3,6 +3,7 @@ stages:
 
 pages:
     stage: deploy
+    image: python:latest
     only:
         - master
     script:
