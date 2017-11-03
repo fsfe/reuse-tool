@@ -7,6 +7,14 @@ reuse is a tool for compliance with the `REUSE Project
 
 - Free Software: GPL-3.0+
 
+- Documentation: https://reuse.gitlab.io
+
+- Source code: https://git.fsfe.org/reuse/reuse
+
+- PyPI: https://pypi.python.org/pypi/reuse
+
+- Python: 3.5+
+
 Install
 -------
 
