@@ -20,7 +20,7 @@
 # SPDX-License-Identifier: GPL-3.0+
 # License-Filename: LICENSES/GPL-3.0.txt
 
-"""reuse is a tool for REUSE compliance."""
+"""reuse is a tool for compliance with the REUSE Project recommendations."""
 
 # pylint: disable=ungrouped-imports
 
