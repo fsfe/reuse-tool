@@ -1,0 +1,15 @@
+stages:
+    - deploy
+
+pages:
+    stage: deploy
+    only:
+        - master
+    script:
+        - pip install pipenv
+        - make develop
+        - make docs
+        - mv docs/_build/html public
+    artifacts:
+        paths:
+            - public
