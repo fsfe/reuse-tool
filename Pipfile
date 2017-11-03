@@ -16,3 +16,4 @@ jinja2 = '>=2.7'
 
 wheel = '*'
 twine = '*'
+bumpversion = '*'
