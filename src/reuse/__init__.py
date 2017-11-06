@@ -24,13 +24,17 @@
 
 # pylint: disable=ungrouped-imports
 
+import datetime
+import hashlib
 import logging
 import os
 import re
 from collections import namedtuple
+from io import StringIO
 from os import PathLike
 from pathlib import Path
-from typing import IO, Iterator, Optional
+from typing import BinaryIO, Iterator, Optional, TextIO
+from uuid import uuid4
 
 from debian.copyright import Copyright
 
@@ -71,6 +75,15 @@ class LicenseInfoNotFound(ReuseException):
     """Could not find license for file."""
 
 
+def _checksum(file_object: BinaryIO, hash_function):
+    """Return checksum of *file_object*."""
+    result = hash_function()
+    for chunk in iter(
+            lambda: file_object.read(128 * hash_function.block_size), b''):
+        result.update(chunk)
+    return result.hexdigest()
+
+
 def _copyright_from_debian(
         path: PathLike,
         copyright: Copyright) -> Optional[LicenseInfo]:
@@ -86,7 +99,7 @@ def _copyright_from_debian(
     return LicenseInfo([result.license.synopsis], [])
 
 
-def extract_license_info(file_object: IO) -> LicenseInfo:
+def extract_license_info(file_object: TextIO) -> LicenseInfo:
     """Extract license information from comments in a file."""
     # TODO: This feels wrong.  Somehow detect whether file contains text?  I
     # don't frankly know how this is normally handled.
@@ -222,6 +235,50 @@ class Project:
             except LicenseInfoNotFound:
                 yield file_
 
+    def bill_of_materials(self) -> str:
+        """Generate a bill of materials from the project.
+
+        See https://spdx.org/specifications.
+        """
+        out = StringIO()
+
+        # Write mandatory tags
+        out.write('SPDXVersion: SPDX-2.1\n')
+        out.write('DataLicense: CC0-1.0\n')
+        out.write('SPDXID: SPDXRef-DOCUMENT\n')
+
+        out.write('DocumentName: {}\n'.format(self._root.name))
+        # TODO: Generate UUID from git revision maybe
+        # TODO: Fix the URL
+        out.write(
+            'DocumentNamespace: '
+            'http://spdx.org/spdxdocs/spdx-v2.1-{}\n'.format(uuid4()))
+
+        # Author
+        # TODO: Fix Person and Organization
+        out.write('Creator: Person: Anonymous ()\n')
+        out.write('Creator: Organization: Anonymous ()\n')
+        out.write('Creator: Tool: reuse-{}\n'.format(__version__))
+
+        now = datetime.datetime.utcnow()
+        out.write('Created: {}\n'.format(now.isoformat(timespec='seconds')))
+        out.write(
+            'CreatorComment: <text>This document was created automatically '
+            'using available license information consistent with the '
+            'REUSE project.</text>\n')
+
+        # TODO: Here add "DESCRIBES" relationships (i.e., 'SPDXRef-DOCMENT
+        # describes $file')
+
+        # File information
+        for file_ in self.all_files():
+            out.write('\n')
+            out.write(self._file_information(file_))
+
+        # TODO: Licenses
+
+        return out.getvalue()
+
     @property
     def is_git_repo(self) -> bool:
         """Is the project a git repository?  Cache the result."""
@@ -269,3 +326,35 @@ class Project:
         path = Path(path).resolve()
         common = os.path.commonpath([path, self._root.resolve()]) + '/'
         return str(path).replace(common, '')
+
+    def _file_information(self, path: PathLike) -> str:
+        """Create SPDX File Information for *path*."""
+        out = StringIO()
+
+        relative = self._relative_from_root(path)
+        out.write('FileName: ./{}\n'.format(relative))
+        out.write('SPDXID: SPDXRef-{}\n'.format(hashlib.sha256(relative)))
+
+        with path.open('rb') as fp:
+            out.write(
+                'FileChecksum: SHA1: {}\n'.format(
+                    _checksum(fp, hashlib.sha1)))
+
+        # IMPORTANT: Make no assertion about concluded license.  This tool
+        # cannot, with full certainty, determine the license of a file.
+        out.write('LicenseConcluded: NOASSERTION\n')
+
+        license_info = self.license_info_of(path)
+
+        for spdx in license_info.licenses:
+            out.write('LicenseInfoInFile: {}\n'.format(spdx))
+
+        for filename in license_info.filenames:
+            out.write(
+                'LicenseInfoInFile: LicenseRef-{}\n'.format(
+                    hashlib.sha256(filename)))
+
+        # TODO: Extract FileCopyrightText also
+        out.write('FileCopyrightText: NONE\n')
+
+        return out.getvalue()
