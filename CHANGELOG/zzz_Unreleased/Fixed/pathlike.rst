@@ -1,0 +1,1 @@
+- Removed dependency on ``os.PathLike`` so that Python 3.5 is actually supported
