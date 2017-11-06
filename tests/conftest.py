@@ -71,7 +71,7 @@ def pytest_runtest_setup(item):
     """Called before running a test."""
     # pylint: disable=unused-argument
     # Make sure to restore CWD
-    os.chdir(CWD)
+    os.chdir(str(CWD))
 
 
 def render_code_files() -> Dict[NameAndLicense, str]:
@@ -111,7 +111,7 @@ COMPILED_CODE_FILES = render_code_files()
 @pytest.fixture()
 def fake_repository(tmpdir_factory) -> Path:
     """Create a temporary fake repository."""
-    directory = Path(tmpdir_factory.mktemp('code_files'))
+    directory = Path(str(tmpdir_factory.mktemp('code_files')))
     src = directory / 'src'
     debian_dir = directory / 'debian'
     src.mkdir()
@@ -124,11 +124,11 @@ def fake_repository(tmpdir_factory) -> Path:
 
     # debian/copyright
     shutil.copy(
-        RESOURCES_DIRECTORY / 'debian/copyright',
-        debian_dir / 'copyright')
+        str(RESOURCES_DIRECTORY / 'debian/copyright'),
+        str(debian_dir / 'copyright'))
     (src / 'no_license.py').touch()
 
-    os.chdir(directory)
+    os.chdir(str(directory))
     return directory
 
 
@@ -148,7 +148,7 @@ def git_repository(fake_repository: Path) -> Path:
     build_dir.mkdir()
     (build_dir / 'hello.py').touch()
 
-    os.chdir(fake_repository)
+    os.chdir(str(fake_repository))
     return fake_repository
 
 
@@ -173,14 +173,14 @@ def empty_file_with_license_file(
     """Create a temporary directory that contains two files:  The code file and
     the license file.
     """
-    directory = Path(tmpdir_factory.mktemp('empty_file_with_license'))
+    directory = Path(str(tmpdir_factory.mktemp('empty_file_with_license')))
 
     key, value = request.param
 
     (directory / '{}.license'.format(key.name)).write_text(value)
     (directory / key.name).touch()
 
-    os.chdir(directory)
+    os.chdir(str(directory))
     return (directory, key.license_info)
 
 

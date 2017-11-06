@@ -25,13 +25,15 @@
 import logging
 import shutil
 import subprocess
-from os import PathLike
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Union
 
 GIT_EXE = shutil.which('git')
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+
+
+PathLike = Union[Path, str]
 
 
 def execute_command(
@@ -60,7 +62,7 @@ def find_root() -> Optional[PathLike]:
     cwd = Path.cwd()
     if in_git_repo(cwd):
         command = [GIT_EXE, 'rev-parse', '--show-toplevel']
-        result = execute_command(command, _logger, cwd=cwd)
+        result = execute_command(command, _logger, cwd=str(cwd))
 
         if not result.returncode:
             return Path(result.stdout.decode('utf-8')[:-1])
@@ -79,6 +81,6 @@ def in_git_repo(cwd: PathLike = None) -> bool:
         cwd = Path.cwd()
 
     command = [GIT_EXE, 'status']
-    result = execute_command(command, _logger, cwd=cwd)
+    result = execute_command(command, _logger, cwd=str(cwd))
 
     return not result.returncode

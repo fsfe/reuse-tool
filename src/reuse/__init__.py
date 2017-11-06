@@ -28,13 +28,12 @@ import logging
 import os
 import re
 from collections import namedtuple
-from os import PathLike
 from pathlib import Path
 from typing import IO, Iterator, Optional
 
 from debian.copyright import Copyright
 
-from ._util import GIT_EXE, execute_command, in_git_repo
+from ._util import GIT_EXE, PathLike, execute_command, in_git_repo
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -143,7 +142,7 @@ class Project:
             directory = self._root
         directory = Path(directory)
 
-        for root, dirs, files in os.walk(directory):
+        for root, dirs, files in os.walk(str(directory)):
             root = Path(root)
             _logger.debug('currently walking in %s', root)
 
@@ -250,7 +249,7 @@ class Project:
             return False
 
         command = [GIT_EXE, 'check-ignore', str(path)]
-        result = execute_command(command, _logger, cwd=self._root)
+        result = execute_command(command, _logger, cwd=str(self._root))
 
         return not result.returncode
 
@@ -267,5 +266,5 @@ class Project:
         /tmp/project/src/file, then return src/file.
         """
         path = Path(path).resolve()
-        common = os.path.commonpath([path, self._root.resolve()]) + '/'
-        return str(path).replace(common, '')
+        common = os.path.commonpath([str(path), str(self._root.resolve())])
+        return Path(str(path).replace(common + '/', ''))
