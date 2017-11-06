@@ -93,8 +93,8 @@ def extract_license_info(file_object: IO) -> LicenseInfo:
     try:
         text = file_object.read()
     except UnicodeDecodeError as error:
-        _logger.warning('%s is a binary file', file_object.name)
-        raise LicenseInfoNotFound('binary file') from error
+        _logger.warning('%s could not be decoded as Unicode', file_object.name)
+        raise LicenseInfoNotFound('could not decode') from error
 
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
