@@ -38,7 +38,7 @@ from ._util import GIT_EXE, PathLike, execute_command, in_git_repo
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
 __license__ = 'GPLv3+'
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
