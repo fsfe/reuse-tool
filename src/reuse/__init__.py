@@ -75,7 +75,7 @@ class LicenseInfoNotFound(ReuseException):
     """Could not find license for file."""
 
 
-def _checksum(file_object: BinaryIO, hash_function):
+def _checksum(file_object: BinaryIO, hash_function) -> str:
     """Return checksum of *file_object*."""
     result = hash_function()
     for chunk in iter(
