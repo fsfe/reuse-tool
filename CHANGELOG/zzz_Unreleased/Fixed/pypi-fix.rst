@@ -1,0 +1,1 @@
+- Fixed the link to PyPI in the README.

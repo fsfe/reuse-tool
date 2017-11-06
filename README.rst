@@ -11,7 +11,7 @@ reuse is a tool for compliance with the `REUSE Project
 
 - Source code: https://git.fsfe.org/reuse/reuse
 
-- PyPI: https://pypi.python.org/pypi/reuse
+- PyPI: https://pypi.python.org/pypi/fsfe-reuse
 
 - Python: 3.5+
 
