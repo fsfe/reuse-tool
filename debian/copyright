@@ -11,7 +11,7 @@ Files: CHANGELOG/*
 Copyright: 2017 Free Software Foundation Europe
 License: CC-BY-SA-4.0
 
-Files: .editorconfig .pylintrc MANIFEST.in Makefile Pipfile docs/Makefile setup.cfg tox.ini
+Files: .gitlab-ci.yml .editorconfig .pylintrc MANIFEST.in Makefile Pipfile docs/Makefile setup.cfg tox.ini
 Copyright: 2017 Free Software Foundation Europe
 License: GPL-3.0+
 
