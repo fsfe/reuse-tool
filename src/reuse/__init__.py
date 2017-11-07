@@ -267,11 +267,20 @@ class Project:
             'using available license information consistent with the '
             'REUSE project.</text>\n')
 
-        # TODO: Here add "DESCRIBES" relationships (i.e., 'SPDXRef-DOCMENT
-        # describes $file')
+        all_files = list(self.all_files())
+
+        # List all DESCRIBES relationships.  This involves some code
+        # duplication in determining the relative path to the file and its
+        # hash.
+        for file_ in all_files:
+            relative = self._relative_from_root(file_)
+            ref = hashlib.sha1(relative.encode('utf-8')).hexdigest()
+            out.write(
+                'Relationship: SPDXRef-DOCUMENT describes '
+                'SPDXRef-{}\n'.format(ref))
 
         # File information
-        for file_ in self.all_files():
+        for file_ in all_files:
             out.write('\n')
             out.write(self._file_information(file_))
 
