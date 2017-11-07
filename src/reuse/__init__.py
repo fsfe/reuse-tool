@@ -362,7 +362,10 @@ class Project:
         # cannot, with full certainty, determine the license of a file.
         out.write('LicenseConcluded: NOASSERTION\n')
 
-        license_info = self.license_info_of(path)
+        try:
+            license_info = self.license_info_of(path)
+        except LicenseInfoNotFound:
+            license_info = LicenseInfo([], [])
 
         for spdx in license_info.licenses:
             out.write('LicenseInfoInFile: {}\n'.format(spdx))
