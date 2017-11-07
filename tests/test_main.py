@@ -61,3 +61,13 @@ def test_lint_ignore_debian(fake_repository, runner):
     assert len(output_lines) == 1
     assert 'no_license.py' in output_lines[0]
     assert result.exit_code
+
+
+def test_compile(fake_repository, runner):
+    """A correct bill of materials is generated."""
+    result = runner.invoke(
+        _main.cli,
+        ['compile'])
+
+    # TODO: Assert ... something
+    assert result.output
