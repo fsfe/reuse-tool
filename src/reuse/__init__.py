@@ -348,8 +348,6 @@ class Project:
 
     def _file_information(self, path: PathLike, out) -> None:
         """Create SPDX File Information for *path*."""
-        out = StringIO()
-
         relative = self._relative_from_root(path)
         encoded = relative.encode('utf-8')
         out.write('FileName: ./{}\n'.format(relative))
