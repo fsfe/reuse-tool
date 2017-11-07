@@ -30,7 +30,6 @@ import logging
 import os
 import re
 from collections import namedtuple
-from io import StringIO
 from os import PathLike
 from pathlib import Path
 from typing import BinaryIO, Iterator, Optional, TextIO
