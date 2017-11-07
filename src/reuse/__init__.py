@@ -79,7 +79,7 @@ def _checksum(file_object: BinaryIO, hash_function) -> str:
     """Return checksum of *file_object*."""
     result = hash_function()
     for chunk in iter(
-            lambda: file_object.read(128 * hash_function.block_size), b''):
+            lambda: file_object.read(128 * result.block_size), b''):
         result.update(chunk)
     return result.hexdigest()
 
@@ -247,7 +247,7 @@ class Project:
         out.write('DataLicense: CC0-1.0\n')
         out.write('SPDXID: SPDXRef-DOCUMENT\n')
 
-        out.write('DocumentName: {}\n'.format(self._root.name))
+        out.write('DocumentName: {}\n'.format(self._root.resolve().name))
         # TODO: Generate UUID from git revision maybe
         # TODO: Fix the URL
         out.write(
@@ -332,8 +332,10 @@ class Project:
         out = StringIO()
 
         relative = self._relative_from_root(path)
+        encoded = relative.encode('utf-8')
         out.write('FileName: ./{}\n'.format(relative))
-        out.write('SPDXID: SPDXRef-{}\n'.format(hashlib.sha256(relative)))
+        out.write('SPDXID: SPDXRef-{}\n'.format(
+            hashlib.sha1(encoded).hexdigest()))
 
         with path.open('rb') as fp:
             out.write(
@@ -352,7 +354,7 @@ class Project:
         for filename in license_info.filenames:
             out.write(
                 'LicenseInfoInFile: LicenseRef-{}\n'.format(
-                    hashlib.sha256(filename)))
+                    hashlib.sha1(filename.encode('utf-8')).hexdigest()))
 
         # TODO: Extract FileCopyrightText also
         out.write('FileCopyrightText: NONE\n')
