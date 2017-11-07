@@ -287,18 +287,18 @@ class Project:
 
         # Licenses
         for file_ in self._detected_license_files:
+            if not Path(file_).exists():
+                _logger.warning('could not find %s', file_)
+                continue
             out.write('\n')
             out.write(
                 'LicenseID: LicenseRef-{}\n'.format(
                     hashlib.sha1(str(file_).encode('utf-8')).hexdigest()))
             # TODO: Maybe do an assertion here
             out.write('LicenseName: NOASSERTION\n')
-            try:
-                with (self._root / file_).open() as fp:
-                    out.write('ExtractedText: <text>{}</text>'.format(fp.read()))
-            except FileNotFoundError:
-                # TODO: Handle this
-                pass
+
+            with (self._root / file_).open() as fp:
+                out.write('ExtractedText: <text>{}</text>'.format(fp.read()))
 
         return out.getvalue()
 
