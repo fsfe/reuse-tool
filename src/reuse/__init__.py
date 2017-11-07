@@ -295,7 +295,7 @@ class Project:
             out.write('LicenseName: NOASSERTION\n')
 
             with (self._root / file_).open() as fp:
-                out.write('ExtractedText: <text>{}</text>'.format(fp.read()))
+                out.write('ExtractedText: <text>{}</text>\n'.format(fp.read()))
 
     @property
     def is_git_repo(self) -> bool:
