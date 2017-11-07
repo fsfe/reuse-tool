@@ -141,6 +141,7 @@ class Project:
         self._is_git_repo = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
+        self._detected_license_files = set()
 
 
     def all_files(self, directory: PathLike = None) -> Iterator[Path]:
@@ -284,7 +285,20 @@ class Project:
             out.write('\n')
             out.write(self._file_information(file_))
 
-        # TODO: Licenses
+        # Licenses
+        for file_ in self._detected_license_files:
+            out.write('\n')
+            out.write(
+                'LicenseID: LicenseRef-{}\n'.format(
+                    hashlib.sha1(str(file_).encode('utf-8')).hexdigest()))
+            # TODO: Maybe do an assertion here
+            out.write('LicenseName: NOASSERTION\n')
+            try:
+                with (self._root / file_).open() as fp:
+                    out.write('ExtractedText: <text>{}</text>'.format(fp.read()))
+            except FileNotFoundError:
+                # TODO: Handle this
+                pass
 
         return out.getvalue()
 
@@ -364,6 +378,7 @@ class Project:
             out.write(
                 'LicenseInfoInFile: LicenseRef-{}\n'.format(
                     hashlib.sha1(filename.encode('utf-8')).hexdigest()))
+            self._detected_license_files.add(filename)
 
         # TODO: Extract FileCopyrightText also
         out.write('FileCopyrightText: NONE\n')
