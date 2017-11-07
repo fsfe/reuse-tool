@@ -236,13 +236,11 @@ class Project:
             except LicenseInfoNotFound:
                 yield file_
 
-    def bill_of_materials(self) -> str:
+    def bill_of_materials(self, out) -> None:
         """Generate a bill of materials from the project.
 
         See https://spdx.org/specifications.
         """
-        out = StringIO()
-
         # Write mandatory tags
         out.write('SPDXVersion: SPDX-2.1\n')
         out.write('DataLicense: CC0-1.0\n')
@@ -283,7 +281,7 @@ class Project:
         # File information
         for file_ in all_files:
             out.write('\n')
-            out.write(self._file_information(file_))
+            self._file_information(file_, out)
 
         # Licenses
         for file_ in self._detected_license_files:
@@ -299,8 +297,6 @@ class Project:
 
             with (self._root / file_).open() as fp:
                 out.write('ExtractedText: <text>{}</text>'.format(fp.read()))
-
-        return out.getvalue()
 
     @property
     def is_git_repo(self) -> bool:
@@ -350,7 +346,7 @@ class Project:
         common = os.path.commonpath([path, self._root.resolve()]) + '/'
         return str(path).replace(common, '')
 
-    def _file_information(self, path: PathLike) -> str:
+    def _file_information(self, path: PathLike, out) -> None:
         """Create SPDX File Information for *path*."""
         out = StringIO()
 
@@ -382,5 +378,3 @@ class Project:
 
         # TODO: Extract FileCopyrightText also
         out.write('FileCopyrightText: NONE\n')
-
-        return out.getvalue()

@@ -24,6 +24,7 @@
 
 import importlib
 import logging
+import sys
 from pathlib import Path
 from pipes import quote
 
@@ -63,6 +64,13 @@ def cli(context, debug, ignore_debian):
     context.obj = dict()
     context.obj['ignore_debian'] = ignore_debian
 
+
+@cli.command()
+@click.pass_context
+def compile(context):
+    """Print the project's bill of materials."""
+    project = _create_project()
+    project.bill_of_materials(sys.stdout)
 
 
 @cli.command()
