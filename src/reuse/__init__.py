@@ -29,6 +29,7 @@ import hashlib
 import logging
 import os
 import re
+import sys
 from collections import namedtuple
 from os import PathLike
 from pathlib import Path
@@ -142,7 +143,6 @@ class Project:
         self._copyright_val = 0
         self._detected_license_files = set()
 
-
     def all_files(self, directory: PathLike = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
 
@@ -235,7 +235,7 @@ class Project:
             except LicenseInfoNotFound:
                 yield file_
 
-    def bill_of_materials(self, out) -> None:
+    def bill_of_materials(self, out=sys.stdout) -> None:
         """Generate a bill of materials from the project.
 
         See https://spdx.org/specifications.
@@ -345,7 +345,7 @@ class Project:
         common = os.path.commonpath([path, self._root.resolve()]) + '/'
         return str(path).replace(common, '')
 
-    def _file_information(self, path: PathLike, out) -> None:
+    def _file_information(self, path: PathLike, out=sys.stdout) -> None:
         """Create SPDX File Information for *path*."""
         relative = self._relative_from_root(path)
         encoded = relative.encode('utf-8')
