@@ -49,6 +49,7 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 _LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*)')
 _LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*)')
+_COPYRIGHT_PATTERN = re.compile(r'(Copyright .*)')
 
 _IGNORE_DIR_PATTERNS = [
     re.compile(r'\.git'),
@@ -64,7 +65,9 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r'^\.gitignore$'),
 ]
 
-LicenseInfo = namedtuple('LicenseInfo', ['licenses', 'filenames'])
+LicenseInfo = namedtuple(
+    'LicenseInfo',
+    ['licenses', 'filenames', 'copyright_lines'])
 
 
 class ReuseException(Exception):
@@ -96,7 +99,10 @@ def _copyright_from_debian(
 
     _logger.debug('%s covered by debian/copyright', path)
 
-    return LicenseInfo([result.license.synopsis], [])
+    return LicenseInfo(
+        [result.license.synopsis],
+        [],
+        list(map(str.strip, result.copyright.splitlines())))
 
 
 def extract_license_info(file_object: TextIO) -> LicenseInfo:
@@ -113,6 +119,7 @@ def extract_license_info(file_object: TextIO) -> LicenseInfo:
     # Though, on a sidenote, it's pretty damn fast.
     license_matches = _LICENSE_PATTERN.findall(text)
     license_filename_matches = _LICENSE_FILENAME_PATTERN.findall(text)
+    copyright_matches = _COPYRIGHT_PATTERN.findall(text)
 
     if not any(license_matches):
         _logger.debug(
@@ -124,7 +131,10 @@ def extract_license_info(file_object: TextIO) -> LicenseInfo:
         # GPL-3.0+ and they both point to the same file?
         pass
 
-    return LicenseInfo(license_matches, license_filename_matches)
+    return LicenseInfo(
+        license_matches,
+        license_filename_matches,
+        copyright_matches)
 
 
 class Project:
@@ -236,7 +246,8 @@ class Project:
                 yield file_
 
     def bill_of_materials(self, out=sys.stdout) -> None:
-        """Generate a bill of materials from the project.
+        """Generate a bill of materials from the project.  The bill of
+        materials is written to *out*.
 
         See https://spdx.org/specifications.
         """
@@ -365,7 +376,7 @@ class Project:
         try:
             license_info = self.license_info_of(path)
         except LicenseInfoNotFound:
-            license_info = LicenseInfo([], [])
+            license_info = LicenseInfo([], [], [])
 
         for spdx in license_info.licenses:
             out.write('LicenseInfoInFile: {}\n'.format(spdx))
@@ -376,5 +387,8 @@ class Project:
                     hashlib.sha1(filename.encode('utf-8')).hexdigest()))
             self._detected_license_files.add(filename)
 
-        # TODO: Extract FileCopyrightText also
-        out.write('FileCopyrightText: NONE\n')
+        if license_info.copyright_lines:
+            for line in license_info.copyright_lines:
+                out.write('FileCopyrightText: <text>{}</text>\n'.format(line))
+        else:
+            out.write('FileCopyrightText: NONE\n')

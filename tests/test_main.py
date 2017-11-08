@@ -96,7 +96,7 @@ SPDXID: SPDXRef-bb5656f1b5e8283a8e930c54afd9a8bfebe7a548
 FileChecksum: SHA1: da39a3ee5e6b4b0d3255bfef95601890afd80709
 LicenseConcluded: NOASSERTION
 LicenseInfoInFile: CC0-1.0
-FileCopyrightText: NONE
+FileCopyrightText: <text>2017 Mary Sue</text>
 
 LicenseID: LicenseRef-411cba51252f446399ab79a894958900a0ba444b
 LicenseName: NOASSERTION
