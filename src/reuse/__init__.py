@@ -62,6 +62,7 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r'^LICEN[CS]E'),
     re.compile(r'^COPYING'),
     re.compile(r'.*\.license$'),
+    re.compile(r'.*\.spdx$'),
     re.compile(r'^\.gitignore$'),
 ]
 
