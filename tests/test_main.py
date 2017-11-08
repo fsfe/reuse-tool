@@ -64,7 +64,7 @@ def test_lint_ignore_debian(fake_repository, runner):
     assert result.exit_code
 
 
-def test_compile(tiny_repository, runner):  # pylint: disable=unused-argument
+def test_compile(tiny_repository, runner):
     """A correct bill of materials is generated."""
     result = runner.invoke(
         _main.cli,
@@ -73,7 +73,7 @@ def test_compile(tiny_repository, runner):  # pylint: disable=unused-argument
     expected = """SPDXVersion: SPDX-2.1
 DataLicense: CC0-1.0
 SPDXID: SPDXRef-DOCUMENT
-DocumentName: tiny0
+DocumentName: {dirname}
 DocumentNamespace: http://spdx.org/spdxdocs/spdx-v2.1-04c223f0-4415-47fd-9860-7074a07f753e
 Creator: Person: Anonymous ()
 Creator: Organization: Anonymous ()
@@ -100,7 +100,9 @@ FileCopyrightText: NONE
 
 LicenseID: LicenseRef-411cba51252f446399ab79a894958900a0ba444b
 LicenseName: NOASSERTION
-ExtractedText: <text>GPL-3.0</text>""".format(version=__version__)
+ExtractedText: <text>GPL-3.0</text>""".format(
+        dirname=tiny_repository.name,
+        version=__version__)
 
     for result_line, expected_line in zip_longest(
             result.output.splitlines(),
