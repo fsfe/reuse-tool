@@ -66,8 +66,7 @@ def cli(context, debug, ignore_debian):
 
 
 @cli.command()
-@click.pass_context
-def compile(context):
+def compile():
     """Print the project's bill of materials."""
     project = _create_project()
     project.bill_of_materials(sys.stdout)
