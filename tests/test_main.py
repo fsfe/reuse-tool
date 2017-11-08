@@ -22,9 +22,10 @@
 
 """Tests for the CLI for reuse."""
 
-import pytest
+from itertools import zip_longest
 
-from reuse import _main, _util
+import pytest
+from reuse import _main, _util, __version__
 
 # pylint: disable=invalid-name
 git = pytest.mark.skipif(
@@ -63,11 +64,51 @@ def test_lint_ignore_debian(fake_repository, runner):
     assert result.exit_code
 
 
-def test_compile(fake_repository, runner):
+def test_compile(tiny_repository, runner):  # pylint: disable=unused-argument
     """A correct bill of materials is generated."""
     result = runner.invoke(
         _main.cli,
         ['compile'])
 
-    # TODO: Assert ... something
-    assert result.output
+    expected = """SPDXVersion: SPDX-2.1
+DataLicense: CC0-1.0
+SPDXID: SPDXRef-DOCUMENT
+DocumentName: tiny0
+DocumentNamespace: http://spdx.org/spdxdocs/spdx-v2.1-04c223f0-4415-47fd-9860-7074a07f753e
+Creator: Person: Anonymous ()
+Creator: Organization: Anonymous ()
+Creator: Tool: reuse-{version}
+Created: 2017-11-08T11:07:30
+CreatorComment: <text>This document was created automatically using available license information consistent with the REUSE project.</text>
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-8008eeb8d2000e5aa6eaa51b1cdc944d726e1107
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-bb5656f1b5e8283a8e930c54afd9a8bfebe7a548
+
+FileName: ./src/code.py
+SPDXID: SPDXRef-8008eeb8d2000e5aa6eaa51b1cdc944d726e1107
+FileChecksum: SHA1: d209e0212e7ecf809b6566aa59b1030dc69ae3a8
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: GPL-3.0
+LicenseInfoInFile: LicenseRef-411cba51252f446399ab79a894958900a0ba444b
+FileCopyrightText: NONE
+
+FileName: ./src/no_license.py
+SPDXID: SPDXRef-bb5656f1b5e8283a8e930c54afd9a8bfebe7a548
+FileChecksum: SHA1: da39a3ee5e6b4b0d3255bfef95601890afd80709
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: CC0-1.0
+FileCopyrightText: NONE
+
+LicenseID: LicenseRef-411cba51252f446399ab79a894958900a0ba444b
+LicenseName: NOASSERTION
+ExtractedText: <text>GPL-3.0</text>""".format(version=__version__)
+
+    for result_line, expected_line in zip_longest(
+            result.output.splitlines(),
+            expected.splitlines()):
+        # Just ignore these
+        if 'DocumentNamespace' in result_line:
+            continue
+        if 'Created' in result_line:
+            continue
+
+        assert result_line == expected_line

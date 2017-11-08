@@ -109,6 +109,35 @@ COMPILED_CODE_FILES = render_code_files()
 
 
 @pytest.fixture()
+def tiny_repository(tmpdir_factory) -> Path:
+    """Create a tiny temporary fake repository."""
+    directory = Path(tmpdir_factory.mktemp('tiny'))
+    src = directory / 'src'
+    debian_dir = directory / 'debian'
+    licenses_dir = directory / 'LICENSES'
+    src.mkdir()
+    debian_dir.mkdir()
+    licenses_dir.mkdir()
+
+    text = """
+    # SPDX-License-Identifier: GPL-3.0
+    # License-Filename: LICENSES/GPL-3.0.txt
+    """
+    (src / 'code.py').write_text(text)
+    (src / 'no_license.py').touch()
+
+    shutil.copy(
+        RESOURCES_DIRECTORY / 'debian/copyright',
+        debian_dir / 'copyright')
+
+    # Fake text
+    (licenses_dir / 'GPL-3.0.txt').write_text("GPL-3.0")
+
+    os.chdir(str(directory))
+    return directory
+
+
+@pytest.fixture()
 def fake_repository(tmpdir_factory) -> Path:
     """Create a temporary fake repository."""
     directory = Path(tmpdir_factory.mktemp('code_files'))
