@@ -270,7 +270,7 @@ class Project:
         out.write('Creator: Tool: reuse-{}\n'.format(__version__))
 
         now = datetime.datetime.utcnow()
-        out.write('Created: {}\n'.format(now.isoformat(timespec='seconds')))
+        out.write('Created: {}Z\n'.format(now.isoformat(timespec='seconds')))
         out.write(
             'CreatorComment: <text>This document was created automatically '
             'using available license information consistent with the '
