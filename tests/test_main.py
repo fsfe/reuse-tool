@@ -101,8 +101,8 @@ FileCopyrightText: <text>2017 Mary Sue</text>
 LicenseID: LicenseRef-411cba51252f446399ab79a894958900a0ba444b
 LicenseName: NOASSERTION
 ExtractedText: <text>GPL-3.0</text>""".format(
-        dirname=tiny_repository.name,
-        version=__version__)
+    dirname=tiny_repository.name,
+    version=__version__)
 
     for result_line, expected_line in zip_longest(
             result.output.splitlines(),
