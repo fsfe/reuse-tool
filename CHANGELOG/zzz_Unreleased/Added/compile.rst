@@ -1,0 +1,1 @@
+- Added `reuse compile`, which creates an SPDX bill of materials.

@@ -98,7 +98,10 @@ def render_code_files() -> Dict[NameAndLicense, str]:
             # Put some related information in a struct-like object.
             name_and_license = NameAndLicense(
                 '{}___{}'.format(license, file_.name),
-                LicenseInfo((context['license'],), (context['license_file'],)))
+                LicenseInfo(
+                    (context['license'],),
+                    (context['license_file'],),
+                    tuple()))
 
             result[name_and_license] = template.render(context)
 
@@ -106,6 +109,35 @@ def render_code_files() -> Dict[NameAndLicense, str]:
 
 
 COMPILED_CODE_FILES = render_code_files()
+
+
+@pytest.fixture()
+def tiny_repository(tmpdir_factory) -> Path:
+    """Create a tiny temporary fake repository."""
+    directory = Path(str(tmpdir_factory.mktemp('tiny')))
+    src = directory / 'src'
+    debian_dir = directory / 'debian'
+    licenses_dir = directory / 'LICENSES'
+    src.mkdir()
+    debian_dir.mkdir()
+    licenses_dir.mkdir()
+
+    text = """
+    # SPDX-License-Identifier: GPL-3.0
+    # License-Filename: LICENSES/GPL-3.0.txt
+    """
+    (src / 'code.py').write_text(text)
+    (src / 'no_license.py').touch()
+
+    shutil.copy(
+        str(RESOURCES_DIRECTORY / 'debian/copyright'),
+        str(debian_dir / 'copyright'))
+
+    # Fake text
+    (licenses_dir / 'GPL-3.0.txt').write_text("GPL-3.0")
+
+    os.chdir(str(directory))
+    return directory
 
 
 @pytest.fixture()
