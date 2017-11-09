@@ -52,11 +52,11 @@ def _create_project() -> reuse.Project:
 @click.option(
     '--ignore-debian',
     is_flag=True,
-    help='Do not use debian/copyright to extract license information')
+    help='Do not use debian/copyright to extract license information.')
 @click.option(
     '--debug',
     is_flag=True,
-    help='Enable debug statements')
+    help='Enable debug statements.')
 @click.pass_context
 def cli(context, debug, ignore_debian):
     """TODO: docstring"""
@@ -66,10 +66,17 @@ def cli(context, debug, ignore_debian):
 
 
 @cli.command()
-def compile():
+@click.option(
+    '--output', '-o',
+    help='Write to file.',
+    type=click.File('w'))
+def compile(output):
     """Print the project's bill of materials."""
     project = _create_project()
-    project.bill_of_materials(sys.stdout)
+    out = sys.stdout
+    if output:
+        out = output
+    project.bill_of_materials(out)
 
 
 @cli.command()
