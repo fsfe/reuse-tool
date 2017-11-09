@@ -94,12 +94,19 @@ def license(context, paths):
         except IOError:
             context.fail('could not read %s' % path)
         except reuse.LicenseInfoNotFound:
-            license_info = reuse.LicenseInfo(['none'], ['none'])
-        if not license_info.filenames:
-            license_info.filenames = ['none']
+            license_info = reuse.LicenseInfo([], [], [])
+
         click.echo(quote(str(path)))
-        click.echo(' '.join(map(quote, license_info.licenses)))
-        click.echo(' '.join(map(quote, license_info.filenames)))
+
+        if license_info.licenses:
+            click.echo(' '.join(map(quote, license_info.licenses)))
+        else:
+            click.echo('none')
+
+        if license_info.filenames:
+            click.echo(' '.join(map(quote, license_info.filenames)))
+        else:
+            click.echo('none')
 
         first = False
 
