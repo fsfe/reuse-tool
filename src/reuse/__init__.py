@@ -123,7 +123,7 @@ def extract_license_info(file_object: TextIO) -> LicenseInfo:
 
     if not any(license_matches):
         _logger.debug(
-            '%s does not contain license information', file_object.name)
+            '%s does not contain license information', file_object)
         raise LicenseInfoNotFound('no license information found')
     if len(license_matches) != len(license_filename_matches):
         # TODO: Figure out if this is something that needs to be handled.  At

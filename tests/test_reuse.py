@@ -22,9 +22,9 @@
 
 """Tests for reuse."""
 
+from io import StringIO, TextIOWrapper
 from itertools import zip_longest
 from unittest import mock
-from io import TextIOWrapper
 
 import pytest
 
@@ -67,6 +67,12 @@ def test_extract_from_binary():
 
     with pytest.raises(reuse.LicenseInfoNotFound):
         reuse.extract_license_info(file_object)
+
+
+def test_extract_no_license_info():
+    """Given a file without license information, raise LicenseInfoNotFound."""
+    with pytest.raises(reuse.LicenseInfoNotFound):
+        reuse.extract_license_info(StringIO())
 
 
 def test_license_file_detected(empty_file_with_license_file):
