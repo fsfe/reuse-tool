@@ -48,9 +48,16 @@ __version__ = '0.0.4'
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
-_LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*)')
-_LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*)')
-_COPYRIGHT_PATTERN = re.compile(r'(Copyright .*)')
+_END_PATTERN = r'(?:\*/)*(?:-->)*$'
+_LICENSE_PATTERN = re.compile(
+    r'SPDX-License-Identifier: (.*?)' + _END_PATTERN,
+    re.MULTILINE)
+_LICENSE_FILENAME_PATTERN = re.compile(
+    r'License-Filename: (.*?)' + _END_PATTERN,
+    re.MULTILINE)
+_COPYRIGHT_PATTERN = re.compile(
+    r'(Copyright .*?)' + _END_PATTERN,
+    re.MULTILINE)
 
 _IGNORE_DIR_PATTERNS = [
     re.compile(r'\.git'),
@@ -119,9 +126,10 @@ def extract_license_info(file_object: TextIO) -> LicenseInfo:
 
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
-    license_matches = _LICENSE_PATTERN.findall(text)
-    license_filename_matches = _LICENSE_FILENAME_PATTERN.findall(text)
-    copyright_matches = _COPYRIGHT_PATTERN.findall(text)
+    license_matches = list(map(str.strip, _LICENSE_PATTERN.findall(text)))
+    license_filename_matches = list(map(
+        str.strip, _LICENSE_FILENAME_PATTERN.findall(text)))
+    copyright_matches = list(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
 
     if not any(license_matches):
         _logger.debug(
