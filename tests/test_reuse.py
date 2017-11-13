@@ -37,6 +37,7 @@ def _license_info_equal(first, second) -> bool:
             return False
     return True
 
+
 def test_extract_license_from_file(file_with_license_comments):
     """Test whether you can correctly extract license information from a code
     file's comments.

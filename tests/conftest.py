@@ -101,7 +101,8 @@ def render_code_files() -> Dict[NameAndLicense, str]:
                 LicenseInfo(
                     (context['license'],),
                     (context['license_file'],),
-                    tuple()))
+                    ('Copyright (C) 2017  Free Software Foundation Europe '
+                     'e.V.',)))
 
             result[name_and_license] = template.render(context)
 
@@ -123,6 +124,8 @@ def tiny_repository(tmpdir_factory) -> Path:
     licenses_dir.mkdir()
 
     text = """
+    # Copyright (C) 2017  Free Software Foundation Europe e.V.
+    #
     # SPDX-License-Identifier: GPL-3.0
     # License-Filename: LICENSES/GPL-3.0.txt
     """
