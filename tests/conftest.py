@@ -163,6 +163,14 @@ def fake_repository(tmpdir_factory) -> Path:
         str(debian_dir / 'copyright'))
     (src / 'no_license.py').touch()
 
+    (directory / 'README.md').write_text(
+        """
+        # Copyright (C) 2017  Free Software Foundation Europe e.V.
+        #
+        # SPDX-License-Identifier: CC0-1.0
+        # License-Filename: LICENSES/CC0-1.0
+        """)
+
     os.chdir(str(directory))
     return directory
 
