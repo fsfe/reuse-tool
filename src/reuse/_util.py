@@ -33,7 +33,7 @@ GIT_EXE = shutil.which('git')
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
-PathLike = Union[Path, str]
+PathLike = Union[Path, str]  # pylint: disable=invalid-name
 
 
 def execute_command(
