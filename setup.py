@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
+# Copyright (C) 2017  Free Software Foundation Europe e.V.
+#
 # This file is part of reuse.  It is copyrighted by the contributors recorded
 # in the version control history of the file, available from its original
 # location: https://git.fsfe.org/reuse/reuse
