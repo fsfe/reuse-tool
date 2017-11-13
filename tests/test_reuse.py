@@ -24,7 +24,15 @@
 
 from itertools import zip_longest
 
+import pytest
+
 import reuse
+from reuse import _util
+
+# pylint: disable=invalid-name
+git = pytest.mark.skipif(
+    not _util.GIT_EXE,
+    reason='requires git')
 
 
 def _license_info_equal(first, second) -> bool:
@@ -61,3 +69,33 @@ def test_license_file_detected(empty_file_with_license_file):
 
     result = project.license_info_of(all_files[0])
     assert _license_info_equal(result, license_info)
+
+
+def test_all_licensed(fake_repository):
+    """Given a repository where all files are licensed, check if
+    Project.unlicensed yields nothing.
+    """
+    project = reuse.Project(fake_repository)
+
+    assert not list(project.unlicensed())
+
+
+def test_one_unlicensed(fake_repository):
+    """Given a repository where one file is not licensed, check if
+    Project.unlicensed yields that file.
+    """
+    (fake_repository / 'foo.py').touch()
+
+    project = reuse.Project(fake_repository)
+
+    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+
+
+@git
+def test_unlicensed_but_ignored_by_git(git_repository):
+    """Given a Git repository where some files are unlicensed---but ignored by
+    git---check if Project.unlicensed yields nothing.
+    """
+    project = reuse.Project(git_repository)
+
+    assert not list(project.unlicensed())
