@@ -53,15 +53,15 @@ _LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*)')
 _COPYRIGHT_PATTERN = re.compile(r'(Copyright .*)')
 
 _IGNORE_DIR_PATTERNS = [
-    re.compile(r'\.git'),
+    re.compile(r'^\.git$'),
     re.compile(r'^\.svn$'),
     re.compile(r'^LICEN[CS]ES$'),
-    re.compile(r'^debian$'),
 ]
 
 _IGNORE_FILE_PATTERNS = [
     re.compile(r'^LICEN[CS]E'),
     re.compile(r'^COPYING'),
+    re.compile(r'^copyright$'),
     re.compile(r'.*\.license$'),
     re.compile(r'.*\.spdx$'),
     re.compile(r'^\.gitignore$'),
