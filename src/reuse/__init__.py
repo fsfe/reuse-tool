@@ -236,9 +236,14 @@ class Project:
 
     def unlicensed(
             self,
-            path: PathLike,
+            path: PathLike = None,
             ignore_debian: bool = False) -> Iterator[Path]:
-        """Yield all unlicensed files under path."""
+        """Yield all unlicensed files under *path*.
+
+        If *path* is not specified, it becomes root.
+        """
+        if path is None:
+            path = self._root
         for file_ in self.all_files(path):
             try:
                 self.license_info_of(file_, ignore_debian=ignore_debian)

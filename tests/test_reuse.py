@@ -48,8 +48,8 @@ def test_extract_license_from_file(file_with_license_comments):
 
 
 def test_license_file_detected(empty_file_with_license_file):
-    """Test whether—when given a file and a license file—the license file is
-    detected and read.
+    """Test whether---when given a file and a license file---the license file
+    is detected and read.
     """
     directory = empty_file_with_license_file[0]
     license_info = empty_file_with_license_file[1]
