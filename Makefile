@@ -35,6 +35,7 @@ clean-docs: ## remove docs build artifacts
 	rm -f docs/en_pyssant*.rst
 	rm -f docs/modules.rst
 	rm -f docs/history.rst
+	rm -f docs/readme.md
 
 .PHONY: lint
 lint: ## check style with pylint
