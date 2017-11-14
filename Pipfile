@@ -5,6 +5,7 @@ python-debian = '*'
 [dev-packages]
 Sphinx = '*'
 sphinx_rtd_theme = '*'
+recommonmark = '*'
 changelogdir = '>=3.1.0'
 
 pylint = '*'

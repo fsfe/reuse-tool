@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
         description='reuse is a tool for compliance with the REUSE Project '
             'recommendations.',
-        long_description=open('README.rst').read(),
+        long_description=open('README.md').read(),
 
         package_dir={
             '': 'src'
