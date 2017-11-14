@@ -3,7 +3,7 @@ Upstream-Name: reuse
 Upstream-Contact: Carmen Bianca Bakker <carmenbianca@fsfe.org>
 Source: https://git.fsfe.org/reuse/reuse
 
-Files: AUTHORS.rst docs/*.rst README.rst
+Files: AUTHORS.rst docs/*.rst README.md
 Copyright: 2017 Free Software Foundation Europe
 License: CC-BY-SA-4.0
 
