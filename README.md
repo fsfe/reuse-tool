@@ -5,11 +5,11 @@ recommendations.
 
 - Free Software: GPL-3.0+
 
-- Documentation: https://reuse.gitlab.io
+- Documentation: <https://reuse.gitlab.io>
 
-- Source code: https://git.fsfe.org/reuse/reuse
+- Source code: <https://git.fsfe.org/reuse/reuse>
 
-- PyPI: https://pypi.python.org/pypi/fsfe-reuse
+- PyPI: <https://pypi.python.org/pypi/fsfe-reuse>
 
 - Python: 3.5+
 
@@ -35,9 +35,9 @@ All the listed files have no licence information associated with them.
 
 ## Maintainers
 
-- Carmen Bianca Bakker <carmenbianca at fsfe dot org>
+- Carmen Bianca Bakker - carmenbianca at fsfe dot org
 
-- Jonas Öberg <jonas at fsfe dot org>
+- Jonas Öberg - jonas at fsfe dot org
 
 ## License
 
