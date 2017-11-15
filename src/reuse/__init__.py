@@ -22,7 +22,7 @@
 # SPDX-License-Identifier: GPL-3.0+
 # License-Filename: LICENSES/GPL-3.0.txt
 
-"""reuse is a tool for compliance with the REUSE Project recommendations."""
+"""reuse is a tool for compliance with the REUSE Initiative recommendations."""
 
 # pylint: disable=ungrouped-imports
 
@@ -282,7 +282,7 @@ class Project:
         out.write(
             'CreatorComment: <text>This document was created automatically '
             'using available license information consistent with the '
-            'REUSE project.</text>\n')
+            'REUSE Initiative.</text>\n')
 
         all_files = list(self.all_files())
 

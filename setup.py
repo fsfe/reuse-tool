@@ -43,7 +43,7 @@ if __name__ == '__main__':
         author='Carmen Bianca Bakker',
         author_email='carmenbianca at fsfe dot org',
 
-        description='reuse is a tool for compliance with the REUSE Project '
+        description='reuse is a tool for compliance with the REUSE Initiative '
             'recommendations.',
         long_description=open('README.md').read(),
 
