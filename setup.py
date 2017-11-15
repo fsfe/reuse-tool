@@ -41,11 +41,11 @@ if __name__ == '__main__':
         license='GPL-3.0+',
 
         author='Carmen Bianca Bakker',
-        author_email='carmenbianca@fsfe.org',
+        author_email='carmenbianca at fsfe dot org',
 
         description='reuse is a tool for compliance with the REUSE Project '
             'recommendations.',
-        long_description=open('README.rst').read(),
+        long_description=open('README.md').read(),
 
         package_dir={
             '': 'src'

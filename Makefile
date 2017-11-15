@@ -35,6 +35,7 @@ clean-docs: ## remove docs build artifacts
 	rm -f docs/en_pyssant*.rst
 	rm -f docs/modules.rst
 	rm -f docs/history.rst
+	rm -f docs/readme.md
 
 .PHONY: lint
 lint: ## check style with pylint
@@ -52,6 +53,7 @@ coverage: ## check code coverage quickly
 docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 	pipenv run sphinx-apidoc --separate -o docs/ src/reuse
 	pipenv run changelogdir -o docs/history.rst
+	cp README.md docs/readme.md  # Because markdown cannot include...
 	pipenv run $(MAKE) -C docs html
 
 .PHONY: tox
