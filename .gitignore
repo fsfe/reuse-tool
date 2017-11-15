@@ -195,3 +195,5 @@ venv.bak/
 .mypy_cache/
 
 # End of https://www.gitignore.io/api/c,c++,linux,python
+
+Pipfile.lock
