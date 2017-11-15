@@ -2,10 +2,10 @@
 
 [![PyPI](https://img.shields.io/pypi/l/fsfe-reuse.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![PyPI](https://img.shields.io/pypi/v/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
-[![PyPI](https://img.shields.io/pypi/pyversions/fsfe-reuse.svg)]()
+[![PyPI](https://img.shields.io/pypi/pyversions/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
 [![reuse compliant](https://reuse.software/badge/reuse-compliant.svg)](https://reuse.software/)
 [![standard-readme compliant](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
-[![PyPI](https://img.shields.io/pypi/status/fsfe-reuse.svg)]()
+[![PyPI](https://img.shields.io/pypi/status/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
 
 > reuse is a tool for compliance with the [REUSE
 > Initiative](https://reuse.software/) recommendations.
