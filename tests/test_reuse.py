@@ -24,9 +24,7 @@
 
 """Tests for reuse."""
 
-from io import StringIO, TextIOWrapper
 from itertools import zip_longest
-from unittest import mock
 
 import pytest
 
