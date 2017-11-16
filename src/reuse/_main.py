@@ -59,6 +59,7 @@ def _create_project() -> reuse.Project:
     '--debug',
     is_flag=True,
     help='Enable debug statements.')
+@click.version_option(version=reuse.__version__)
 @click.pass_context
 def cli(context, debug, ignore_debian):
     """TODO: docstring"""
