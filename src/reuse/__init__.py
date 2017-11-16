@@ -132,6 +132,7 @@ class Project:
     a lot of interactions require knowing where you are in relation to the
     project root.
     """
+
     def __init__(self, root: PathLike):
         self._root = Path(root)
         if not self._root.is_dir():
