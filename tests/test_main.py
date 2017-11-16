@@ -81,7 +81,7 @@ Creator: Person: Anonymous ()
 Creator: Organization: Anonymous ()
 Creator: Tool: reuse-{version}
 Created: 2017-11-08T11:07:30Z
-CreatorComment: <text>This document was created automatically using available license information consistent with the REUSE project.</text>
+CreatorComment: <text>This document was created automatically using available license information consistent with the REUSE Initiative.</text>
 Relationship: SPDXRef-DOCUMENT describes SPDXRef-8008eeb8d2000e5aa6eaa51b1cdc944d726e1107
 Relationship: SPDXRef-DOCUMENT describes SPDXRef-bb5656f1b5e8283a8e930c54afd9a8bfebe7a548
 

@@ -55,26 +55,14 @@ def test_extract_license_from_file(file_with_license_comments):
     file's comments.
     """
     result = reuse.extract_license_info(
-        file_with_license_comments)
+        file_with_license_comments.getvalue())
     assert _license_info_equal(result, file_with_license_comments.license_info)
-
-
-def test_extract_from_binary():
-    """When giving a binary file to extract_license_info, raise
-    LicenseInfoNotFound.
-    """
-    file_object = mock.Mock(spec=TextIOWrapper)
-    # No idea how the UnicodeDecodeError arguments work: Just leave it as is.
-    file_object.read.side_effect = UnicodeDecodeError('utf-8', b'', 0, 0, '')
-
-    with pytest.raises(reuse.LicenseInfoNotFound):
-        reuse.extract_license_info(file_object)
 
 
 def test_extract_no_license_info():
     """Given a file without license information, raise LicenseInfoNotFound."""
-    with pytest.raises(reuse.LicenseInfoNotFound):
-        reuse.extract_license_info(StringIO())
+    result = reuse.extract_license_info('')
+    assert _license_info_equal(result, reuse.LicenseInfo([], [], []))
 
 
 def test_license_file_detected(empty_file_with_license_file):

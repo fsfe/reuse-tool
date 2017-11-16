@@ -1,6 +1,7 @@
 [packages]
 click = '*'
 python-debian = '*'
+chardet = '*'
 
 [dev-packages]
 Sphinx = '*'
