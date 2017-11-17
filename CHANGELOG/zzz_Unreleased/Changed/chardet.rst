@@ -1,0 +1,1 @@
+- ``chardet`` added as dependency.

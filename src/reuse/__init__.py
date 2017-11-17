@@ -34,12 +34,13 @@ import re
 import sys
 from collections import namedtuple
 from pathlib import Path
-from typing import BinaryIO, Iterator, Optional, TextIO
+from typing import BinaryIO, Iterator, Optional
 from uuid import uuid4
 
-from debian.copyright import Copyright
+from debian.copyright import Copyright, NotMachineReadableError
 
-from ._util import GIT_EXE, PathLike, execute_command, in_git_repo
+from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
+                    execute_command, in_git_repo)
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -47,6 +48,11 @@ __license__ = 'GPLv3+'
 __version__ = '0.0.4'
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+
+# Amount of bytes that we assume will be big enough to contain the entire
+# comment header (including SPDX tags), so that we don't need to read the
+# entire file.
+_HEADER_BYTES = 4096
 
 _LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*)')
 _LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*)')
@@ -107,31 +113,13 @@ def _copyright_from_debian(
         list(map(str.strip, result.copyright.splitlines())))
 
 
-def extract_license_info(file_object: TextIO) -> LicenseInfo:
+def extract_license_info(text: str) -> LicenseInfo:
     """Extract license information from comments in a file."""
-    # TODO: This feels wrong.  Somehow detect whether file contains text?  I
-    # don't frankly know how this is normally handled.
-    try:
-        text = file_object.read()
-    except UnicodeDecodeError as error:
-        _logger.warning('%s could not be decoded as Unicode', file_object.name)
-        raise LicenseInfoNotFound('could not decode') from error
-
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
     license_matches = _LICENSE_PATTERN.findall(text)
     license_filename_matches = _LICENSE_FILENAME_PATTERN.findall(text)
     copyright_matches = _COPYRIGHT_PATTERN.findall(text)
-
-    if not any(license_matches):
-        _logger.debug(
-            '%s does not contain license information', file_object)
-        raise LicenseInfoNotFound('no license information found')
-    if len(license_matches) != len(license_filename_matches):
-        # TODO: Figure out if this is something that needs to be handled.  At
-        # first sight yes, but what if the two licenses are GPL-3.0 and
-        # GPL-3.0+ and they both point to the same file?
-        pass
 
     return LicenseInfo(
         license_matches,
@@ -207,34 +195,59 @@ class Project:
             self,
             path: PathLike,
             ignore_debian: bool = False) -> LicenseInfo:
-        """Get the license information of *path*."""
+        """Get the license information of *path*.
+
+        This function will return any license information that it can found.
+        It will only raise a LicenseInfoNotFound error if no license
+        information could be found at all.  It is up to the user to apply
+        further logic to the findings.
+        """
         path = Path(path)
         license_path = Path('{}.license'.format(path))
 
+        # Find the correct path to search.  Prioritise 'path.license'.
         if license_path.exists():
             _logger.debug(
-                'detected %s license file, searching that instead',
+                'detected %s .license file, searching that instead',
                 license_path)
         else:
             license_path = path
-
         _logger.debug('searching %s for license information', path)
 
-        with license_path.open() as fp:
+        # Try to extract license information from the file.
+        license_result = None
+        try:
+            fp = license_path.open('rb')
+        except IOError as error:
+            raise LicenseInfoNotFound(
+                '{} does not exist or could not be '
+                'opened'.format(path))from error
+        try:
+            license_result = extract_license_info(
+                decoded_text_from_binary(fp, size=_HEADER_BYTES))
+            # Only return if the result contains a SPDX-License-Identifier
+            # tag.  If it does not, the file may have contained a copyright
+            # line.  That means we first want to check debian/copyright.
+            if any(license_result.licenses):
+                return license_result
+        finally:
+            fp.close()
+
+        # Search the debian/copyright file for copyright information.
+        if not ignore_debian and self._copyright:
             try:
-                return extract_license_info(fp)
+                return _copyright_from_debian(
+                    self._relative_from_root(path),
+                    self._copyright)
             except LicenseInfoNotFound:
                 pass
 
-        if ignore_debian or not self._copyright:
-            raise LicenseInfoNotFound()
+        # Return the result we found earlier if debian/copyright didn't contain
+        # more information.
+        if license_result is not None and any(license_result):
+            return license_result
 
-        try:
-            return _copyright_from_debian(
-                self._relative_from_root(path),
-                self._copyright)
-        except LicenseInfoNotFound:
-            raise
+        raise LicenseInfoNotFound()
 
     def unlicensed(
             self,
@@ -248,8 +261,13 @@ class Project:
             path = self._root
         for file_ in self.all_files(path):
             try:
-                self.license_info_of(file_, ignore_debian=ignore_debian)
+                license_info = self.license_info_of(
+                    file_,
+                    ignore_debian=ignore_debian)
             except LicenseInfoNotFound:
+                yield file_
+
+            if not any(license_info.licenses):
                 yield file_
 
     def bill_of_materials(self, out=sys.stdout) -> None:
@@ -327,10 +345,17 @@ class Project:
     def _copyright(self) -> Optional[Copyright]:
         if self._copyright_val == 0:
             copyright_path = self._root / 'debian' / 'copyright'
-            if copyright_path.exists():
+            try:
                 with copyright_path.open() as fp:
                     self._copyright_val = Copyright(fp)
-            else:
+            except (IOError, OSError):
+                _logger.debug('no debian/copyright file, or could not read it')
+            except NotMachineReadableError:
+                _logger.exception('debian/copyright has syntax errors')
+
+            # This check is a bit redundant, but otherwise I'd have to repeat
+            # this line under each exception.
+            if not self._copyright_val:
                 self._copyright_val = None
         return self._copyright_val
 
@@ -381,10 +406,7 @@ class Project:
         # cannot, with full certainty, determine the license of a file.
         out.write('LicenseConcluded: NOASSERTION\n')
 
-        try:
-            license_info = self.license_info_of(path)
-        except LicenseInfoNotFound:
-            license_info = LicenseInfo([], [], [])
+        license_info = self.license_info_of(path)
 
         for spdx in license_info.licenses:
             out.write('LicenseInfoInFile: {}\n'.format(spdx))

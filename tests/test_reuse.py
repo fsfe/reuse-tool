@@ -24,9 +24,10 @@
 
 """Tests for reuse."""
 
-from io import StringIO, TextIOWrapper
+import os
+import shutil
 from itertools import zip_longest
-from unittest import mock
+from pathlib import Path
 
 import pytest
 
@@ -55,26 +56,54 @@ def test_extract_license_from_file(file_with_license_comments):
     file's comments.
     """
     result = reuse.extract_license_info(
-        file_with_license_comments)
+        file_with_license_comments.getvalue())
     assert _license_info_equal(result, file_with_license_comments.license_info)
-
-
-def test_extract_from_binary():
-    """When giving a binary file to extract_license_info, raise
-    LicenseInfoNotFound.
-    """
-    file_object = mock.Mock(spec=TextIOWrapper)
-    # No idea how the UnicodeDecodeError arguments work: Just leave it as is.
-    file_object.read.side_effect = UnicodeDecodeError('utf-8', b'', 0, 0, '')
-
-    with pytest.raises(reuse.LicenseInfoNotFound):
-        reuse.extract_license_info(file_object)
 
 
 def test_extract_no_license_info():
     """Given a file without license information, raise LicenseInfoNotFound."""
+    result = reuse.extract_license_info('')
+    assert _license_info_equal(result, reuse.LicenseInfo([], [], []))
+
+
+def test_license_info_of_file_does_not_exist(fake_repository):
+    """Raise a LicenseInfoNotFound error when asking for the license info of a
+    file that does not exist.
+    """
+    project = reuse.Project(fake_repository)
     with pytest.raises(reuse.LicenseInfoNotFound):
-        reuse.extract_license_info(StringIO())
+        project.license_info_of('does_not_exist')
+
+
+def test_license_info_of_only_copyright(fake_repository):
+    """A file contains only a copyright line.  Test whether it correctly picks
+    up on that.
+    """
+    (fake_repository / 'foo.py').write_text('Copyright (C) 2017  Mary Sue')
+    project = reuse.Project(fake_repository)
+    license_info = project.license_info_of('foo.py')
+    assert not any(license_info.licenses)
+    assert len(license_info.copyright_lines) == 1
+    assert license_info.copyright_lines[0] == 'Copyright (C) 2017  Mary Sue'
+
+
+def test_license_info_of_only_copyright_but_covered_by_debian(fake_repository):
+    """A file contains only a copyright line, but debian/copyright also has
+    information on this file.  Prioritise debian/copyright's output.
+    """
+    (fake_repository / 'src/foo.py').write_text('Copyright ignore-me')
+    project = reuse.Project(fake_repository)
+    license_info = project.license_info_of('src/foo.py')
+    assert any(license_info.licenses)
+    assert license_info.copyright_lines[0] != 'Copyright ignore-me'
+
+
+def test_error_in_debian_copyright(fake_repository):
+    """If there is an error in debian/copyright, just ignore its existence."""
+    (fake_repository / 'debian/copyright').write_text('invalid')
+    project = reuse.Project(fake_repository)
+    with pytest.raises(reuse.LicenseInfoNotFound):
+        project.license_info_of('src/no_license.py')
 
 
 def test_license_file_detected(empty_file_with_license_file):
@@ -102,6 +131,18 @@ def test_all_licensed(fake_repository):
     assert not list(project.unlicensed())
 
 
+def test_all_licensed_no_debian_copyright(fake_repository):
+    """The exact same as test_all_licensed, but now without
+    debian/copyright.
+    """
+    shutil.rmtree(str(fake_repository / 'debian'))
+    os.remove(str(fake_repository / 'src/no_license.py'))
+
+    project = reuse.Project(fake_repository)
+
+    assert not list(project.unlicensed())
+
+
 def test_one_unlicensed(fake_repository):
     """Given a repository where one file is not licensed, check if
     Project.unlicensed yields that file.
@@ -121,3 +162,14 @@ def test_unlicensed_but_ignored_by_git(git_repository):
     project = reuse.Project(git_repository)
 
     assert not list(project.unlicensed())
+
+
+def test_encoding():
+    """Given a source code file, correctly detect its encoding and read it."""
+    tests_directory = Path(__file__).parent.resolve()
+    encoding_directory = tests_directory / 'resources/encoding'
+    project = reuse.Project(encoding_directory)
+
+    for path in encoding_directory.iterdir():
+        license_info = project.license_info_of(path)
+        assert license_info.copyright_lines[0] == 'Copyright © 2017  Liberté'

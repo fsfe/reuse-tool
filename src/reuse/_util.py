@@ -28,7 +28,9 @@ import logging
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Optional, List, Union
+from typing import BinaryIO, List, Optional, Union
+
+import chardet
 
 GIT_EXE = shutil.which('git')
 
@@ -86,3 +88,18 @@ def in_git_repo(cwd: PathLike = None) -> bool:
     result = execute_command(command, _logger, cwd=str(cwd))
 
     return not result.returncode
+
+
+def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
+    """Given a binary file object, detect its encoding and return its contents
+    as a decoded string.  Do not throw any errors if the encoding contains
+    errors:  Just replace the false characters.
+
+    If *size* is specified, only read so many bytes.
+    """
+    rawdata = binary_file.read(size)
+    result = chardet.detect(rawdata)
+    encoding = result.get('encoding')
+    if encoding is None:
+        encoding = 'utf-8'
+    return rawdata.decode(encoding, errors='replace')
