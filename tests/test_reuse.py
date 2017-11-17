@@ -25,6 +25,7 @@
 """Tests for reuse."""
 
 from itertools import zip_longest
+from pathlib import Path
 
 import pytest
 
@@ -147,3 +148,14 @@ def test_unlicensed_but_ignored_by_git(git_repository):
     project = reuse.Project(git_repository)
 
     assert not list(project.unlicensed())
+
+
+def test_encoding():
+    """Given a source code file, correctly detect its encoding and read it."""
+    tests_directory = Path(__file__).parent.resolve()
+    encoding_directory = tests_directory / 'resources/encoding'
+    project = reuse.Project(encoding_directory)
+
+    for path in encoding_directory.iterdir():
+        license_info = project.license_info_of(path)
+        assert license_info.copyright_lines[0] == 'Copyright © 2017  Liberté'
