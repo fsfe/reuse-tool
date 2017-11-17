@@ -37,7 +37,7 @@ from pathlib import Path
 from typing import BinaryIO, Iterator, Optional
 from uuid import uuid4
 
-from debian.copyright import Copyright
+from debian.copyright import Copyright, NotMachineReadableError
 
 from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
@@ -216,14 +216,22 @@ class Project:
 
         # Try to extract license information from the file.
         license_result = None
-        with license_path.open('rb') as fp:
+        try:
+            fp = license_path.open('rb')
+        except IOError as error:
+            raise LicenseInfoNotFound(
+                '{} does not exist or could not be '
+                'opened'.format(path))from error
+        try:
             license_result = extract_license_info(
                 decoded_text_from_binary(fp, size=_HEADER_BYTES))
             # Only return if the result contains a SPDX-License-Identifier
             # tag.  If it does not, the file may have contained a copyright
             # line.  That means we first want to check debian/copyright.
-            if license_result.licenses:
+            if any(license_result.licenses):
                 return license_result
+        finally:
+            fp.close()
 
         # Search the debian/copyright file for copyright information.
         if not ignore_debian:
@@ -236,7 +244,7 @@ class Project:
 
         # Return the result we found earlier if debian/copyright didn't contain
         # more information.
-        if license_result is not None:
+        if license_result is not None and any(license_result):
             return license_result
 
         raise LicenseInfoNotFound()
@@ -252,10 +260,14 @@ class Project:
         if path is None:
             path = self._root
         for file_ in self.all_files(path):
-            license_info = self.license_info_of(
-                file_,
-                ignore_debian=ignore_debian)
-            if not license_info.licenses:
+            try:
+                license_info = self.license_info_of(
+                    file_,
+                    ignore_debian=ignore_debian)
+            except LicenseInfoNotFound:
+                yield file_
+
+            if not any(license_info.licenses):
                 yield file_
 
     def bill_of_materials(self, out=sys.stdout) -> None:
@@ -333,10 +345,17 @@ class Project:
     def _copyright(self) -> Optional[Copyright]:
         if self._copyright_val == 0:
             copyright_path = self._root / 'debian' / 'copyright'
-            if copyright_path.exists():
+            try:
                 with copyright_path.open() as fp:
                     self._copyright_val = Copyright(fp)
-            else:
+            except IOError:
+                _logger.debug('no debian/copyright file, or could not read it')
+            except NotMachineReadableError:
+                _logger.exception('debian/copyright has syntax errors')
+
+            # This check is a bit redundant, but otherwise I'd have to repeat
+            # this line under each exception.
+            if not self._copyright_val:
                 self._copyright_val = None
         return self._copyright_val
 

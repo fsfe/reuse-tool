@@ -63,6 +63,46 @@ def test_extract_no_license_info():
     assert _license_info_equal(result, reuse.LicenseInfo([], [], []))
 
 
+def test_license_info_of_file_does_not_exist(fake_repository):
+    """Raise a LicenseInfoNotFound error when asking for the license info of a
+    file that does not exist.
+    """
+    project = reuse.Project(fake_repository)
+    with pytest.raises(reuse.LicenseInfoNotFound):
+        project.license_info_of('does_not_exist')
+
+
+def test_license_info_of_only_copyright(fake_repository):
+    """A file contains only a copyright line.  Test whether it correctly picks
+    up on that.
+    """
+    (fake_repository / 'foo.py').write_text('Copyright (C) 2017  Mary Sue')
+    project = reuse.Project(fake_repository)
+    license_info = project.license_info_of('foo.py')
+    assert not any(license_info.licenses)
+    assert len(license_info.copyright_lines) == 1
+    assert license_info.copyright_lines[0] == 'Copyright (C) 2017  Mary Sue'
+
+
+def test_license_info_of_only_copyright_but_covered_by_debian(fake_repository):
+    """A file contains only a copyright line, but debian/copyright also has
+    information on this file.  Prioritise debian/copyright's output.
+    """
+    (fake_repository / 'src/foo.py').write_text('Copyright ignore-me')
+    project = reuse.Project(fake_repository)
+    license_info = project.license_info_of('src/foo.py')
+    assert any(license_info.licenses)
+    assert license_info.copyright_lines[0] != 'Copyright ignore-me'
+
+
+def test_error_in_debian_copyright(fake_repository):
+    """If there is an error in debian/copyright, just ignore its existence."""
+    (fake_repository / 'debian/copyright').write_text('invalid')
+    project = reuse.Project(fake_repository)
+    with pytest.raises(reuse.LicenseInfoNotFound):
+        project.license_info_of('src/no_license.py')
+
+
 def test_license_file_detected(empty_file_with_license_file):
     """Test whether---when given a file and a license file---the license file
     is detected and read.
