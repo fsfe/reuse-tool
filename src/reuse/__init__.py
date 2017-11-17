@@ -54,9 +54,16 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 # entire file.
 _HEADER_BYTES = 4096
 
-_LICENSE_PATTERN = re.compile(r'SPDX-License-Identifier: (.*)')
-_LICENSE_FILENAME_PATTERN = re.compile(r'License-Filename: (.*)')
-_COPYRIGHT_PATTERN = re.compile(r'(Copyright .*)')
+_END_PATTERN = r'(?:\*/)*(?:-->)*$'
+_LICENSE_PATTERN = re.compile(
+    r'SPDX-License-Identifier: (.*?)' + _END_PATTERN,
+    re.MULTILINE)
+_LICENSE_FILENAME_PATTERN = re.compile(
+    r'License-Filename: (.*?)' + _END_PATTERN,
+    re.MULTILINE)
+_COPYRIGHT_PATTERN = re.compile(
+    r'(Copyright .*?)' + _END_PATTERN,
+    re.MULTILINE)
 
 _IGNORE_DIR_PATTERNS = [
     re.compile(r'^\.git$'),
@@ -117,9 +124,10 @@ def extract_license_info(text: str) -> LicenseInfo:
     """Extract license information from comments in a file."""
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
-    license_matches = _LICENSE_PATTERN.findall(text)
-    license_filename_matches = _LICENSE_FILENAME_PATTERN.findall(text)
-    copyright_matches = _COPYRIGHT_PATTERN.findall(text)
+    license_matches = list(map(str.strip, _LICENSE_PATTERN.findall(text)))
+    license_filename_matches = list(map(
+        str.strip, _LICENSE_FILENAME_PATTERN.findall(text)))
+    copyright_matches = list(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
 
     return LicenseInfo(
         license_matches,
