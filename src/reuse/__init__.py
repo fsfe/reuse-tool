@@ -234,7 +234,7 @@ class Project:
             fp.close()
 
         # Search the debian/copyright file for copyright information.
-        if not ignore_debian:
+        if not ignore_debian and self._copyright:
             try:
                 return _copyright_from_debian(
                     self._relative_from_root(path),
@@ -348,7 +348,7 @@ class Project:
             try:
                 with copyright_path.open() as fp:
                     self._copyright_val = Copyright(fp)
-            except IOError:
+            except (IOError, OSError):
                 _logger.debug('no debian/copyright file, or could not read it')
             except NotMachineReadableError:
                 _logger.exception('debian/copyright has syntax errors')
