@@ -24,6 +24,8 @@
 
 """Tests for reuse."""
 
+import os
+import shutil
 from itertools import zip_longest
 from pathlib import Path
 
@@ -124,6 +126,18 @@ def test_all_licensed(fake_repository):
     """Given a repository where all files are licensed, check if
     Project.unlicensed yields nothing.
     """
+    project = reuse.Project(fake_repository)
+
+    assert not list(project.unlicensed())
+
+
+def test_all_licensed_no_debian_copyright(fake_repository):
+    """The exact same as test_all_licensed, but now without
+    debian/copyright.
+    """
+    shutil.rmtree(str(fake_repository / 'debian'))
+    os.remove(str(fake_repository / 'src/no_license.py'))
+
     project = reuse.Project(fake_repository)
 
     assert not list(project.unlicensed())
