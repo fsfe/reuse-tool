@@ -26,6 +26,7 @@
 # pylint: disable=ungrouped-imports
 
 import datetime
+import glob
 import hashlib
 import logging
 import os
@@ -33,7 +34,7 @@ import re
 import sys
 from collections import namedtuple
 from pathlib import Path
-from typing import BinaryIO, Iterator, Optional
+from typing import BinaryIO, Dict, Iterator, Optional
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
@@ -139,9 +140,9 @@ class Project:
             raise ReuseException('%s is no valid path' % self._root)
 
         self._is_git_repo = None
+        self._license_files = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
-        self._detected_license_files = set()
 
     def all_files(self, directory: PathLike = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
@@ -343,6 +344,40 @@ class Project:
         return self._is_git_repo
 
     @property
+    def license_files(self) -> Dict[str, Path]:
+        """Return a dictionary of all license files in the project, with their
+        SPDX identifiers as names and paths as values.
+
+        If no name could be found for a license file, name it
+        "LicenseRef-Unknown0" and count upwards for every other unknown file.
+        """
+        if self._license_files is not None:
+            return self._license_files
+
+        unknown_counter = 0
+        license_files = dict()
+
+        patterns = [
+            'LICENSE*', 'LICENCE*', 'COPYING*', 'COPYRIGHT*', 'LICENSES/**']
+        for pattern in patterns:
+            pattern = str(self._root.resolve() / pattern)
+            for path in glob.iglob(pattern, recursive=True):
+                path = self._relative_from_root(path)
+                # TODO: Implement this
+                try:
+                    identifier = self._identifier_of_license(path)
+                except:
+                    identifier = 'LicenseRef-Unknown{}'.format(unknown_counter)
+                    unknown_counter += 1
+                    _logger.warning(
+                        'Could not resolve SPDX identifier of %s, '
+                        'resolving to %s', path, identifier)
+                license_files[identifier] = path
+
+        self._license_files = license_files
+        return self._license_files
+
+    @property
     def _copyright(self) -> Optional[Copyright]:
         if self._copyright_val == 0:
             copyright_path = self._root / 'debian' / 'copyright'
@@ -411,8 +446,6 @@ class Project:
 
         for spdx in reuse_info.spdx_expressions:
             out.write('LicenseInfoInFile: {}\n'.format(spdx))
-
-        # TODO: Link to LicenseRef licenses here
 
         if reuse_info.copyright_lines:
             for line in reuse_info.copyright_lines:
