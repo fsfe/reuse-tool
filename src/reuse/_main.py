@@ -20,7 +20,6 @@
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0.txt
 
 """Entry functions for reuse."""
 
@@ -54,7 +53,7 @@ def _create_project() -> reuse.Project:
 @click.option(
     '--ignore-debian',
     is_flag=True,
-    help='Do not use debian/copyright to extract license information.')
+    help='Do not use debian/copyright to extract reuse information.')
 @click.option(
     '--debug',
     is_flag=True,

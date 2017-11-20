@@ -84,7 +84,7 @@ To generate a bill of materials, use `reuse compile`:
     Creator: Organization: Anonymous ()
     Creator: Tool: reuse-0.0.4
     Created: 2017-11-15T11:42:28Z
-    CreatorComment: <text>This document was created automatically using available license information consistent with the REUSE Initiative.</text>
+    CreatorComment: <text>This document was created automatically using available reuse information consistent with the REUSE Initiative.</text>
     [...]
 
 Ideally, you would distribute this bill of materials together with the tarfile

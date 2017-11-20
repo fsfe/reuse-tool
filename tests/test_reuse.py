@@ -20,7 +20,6 @@
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0.txt
 
 """Tests for reuse."""
 
@@ -40,8 +39,8 @@ git = pytest.mark.skipif(
     reason='requires git')
 
 
-def _license_info_equal(first, second) -> bool:
-    """Compare two LicenseInfo objects.
+def _reuse_info_equal(first, second) -> bool:
+    """Compare two ReuseInfo objects.
 
     This is necessary because (,) != [].
     """
@@ -52,58 +51,58 @@ def _license_info_equal(first, second) -> bool:
 
 
 def test_extract_license_from_file(file_with_license_comments):
-    """Test whether you can correctly extract license information from a code
+    """Test whether you can correctly extract reuse information from a code
     file's comments.
     """
-    result = reuse.extract_license_info(
+    result = reuse.extract_reuse_info(
         file_with_license_comments.getvalue())
-    assert _license_info_equal(result, file_with_license_comments.license_info)
+    assert _reuse_info_equal(result, file_with_license_comments.reuse_info)
 
 
 def test_extract_no_license_info():
-    """Given a file without license information, raise LicenseInfoNotFound."""
-    result = reuse.extract_license_info('')
-    assert _license_info_equal(result, reuse.LicenseInfo([], [], []))
+    """Given a file without reuse information, raise LicenseInfoNotFound."""
+    result = reuse.extract_reuse_info('')
+    assert _reuse_info_equal(result, reuse.ReuseInfo([], []))
 
 
-def test_license_info_of_file_does_not_exist(fake_repository):
-    """Raise a LicenseInfoNotFound error when asking for the license info of a
+def test_reuse_info_of_file_does_not_exist(fake_repository):
+    """Raise a LicenseInfoNotFound error when asking for the reuse info of a
     file that does not exist.
     """
     project = reuse.Project(fake_repository)
-    with pytest.raises(reuse.LicenseInfoNotFound):
-        project.license_info_of('does_not_exist')
+    with pytest.raises(reuse.ReuseInfoNotFound):
+        project.reuse_info_of('does_not_exist')
 
 
-def test_license_info_of_only_copyright(fake_repository):
+def test_reuse_info_of_only_copyright(fake_repository):
     """A file contains only a copyright line.  Test whether it correctly picks
     up on that.
     """
     (fake_repository / 'foo.py').write_text('Copyright (C) 2017  Mary Sue')
     project = reuse.Project(fake_repository)
-    license_info = project.license_info_of('foo.py')
-    assert not any(license_info.licenses)
-    assert len(license_info.copyright_lines) == 1
-    assert license_info.copyright_lines[0] == 'Copyright (C) 2017  Mary Sue'
+    reuse_info = project.reuse_info_of('foo.py')
+    assert not any(reuse_info.spdx_expressions)
+    assert len(reuse_info.copyright_lines) == 1
+    assert reuse_info.copyright_lines[0] == 'Copyright (C) 2017  Mary Sue'
 
 
-def test_license_info_of_only_copyright_but_covered_by_debian(fake_repository):
+def test_reuse_info_of_only_copyright_but_covered_by_debian(fake_repository):
     """A file contains only a copyright line, but debian/copyright also has
     information on this file.  Prioritise debian/copyright's output.
     """
     (fake_repository / 'src/foo.py').write_text('Copyright ignore-me')
     project = reuse.Project(fake_repository)
-    license_info = project.license_info_of('src/foo.py')
-    assert any(license_info.licenses)
-    assert license_info.copyright_lines[0] != 'Copyright ignore-me'
+    reuse_info = project.reuse_info_of('src/foo.py')
+    assert any(reuse_info.spdx_expressions)
+    assert reuse_info.copyright_lines[0] != 'Copyright ignore-me'
 
 
 def test_error_in_debian_copyright(fake_repository):
     """If there is an error in debian/copyright, just ignore its existence."""
     (fake_repository / 'debian/copyright').write_text('invalid')
     project = reuse.Project(fake_repository)
-    with pytest.raises(reuse.LicenseInfoNotFound):
-        project.license_info_of('src/no_license.py')
+    with pytest.raises(reuse.ReuseInfoNotFound):
+        project.reuse_info_of('src/no_license.py')
 
 
 def test_license_file_detected(empty_file_with_license_file):
@@ -111,15 +110,15 @@ def test_license_file_detected(empty_file_with_license_file):
     is detected and read.
     """
     directory = empty_file_with_license_file[0]
-    license_info = empty_file_with_license_file[1]
+    reuse_info = empty_file_with_license_file[1]
 
     project = reuse.Project(directory)
 
     all_files = list(project.all_files(directory))
     assert len(all_files) == 1
 
-    result = project.license_info_of(all_files[0])
-    assert _license_info_equal(result, license_info)
+    result = project.reuse_info_of(all_files[0])
+    assert _reuse_info_equal(result, reuse_info)
 
 
 def test_all_licensed(fake_repository):
@@ -171,5 +170,5 @@ def test_encoding():
     project = reuse.Project(encoding_directory)
 
     for path in encoding_directory.iterdir():
-        license_info = project.license_info_of(path)
-        assert license_info.copyright_lines[0] == 'Copyright © 2017  Liberté'
+        reuse_info = project.reuse_info_of(path)
+        assert reuse_info.copyright_lines[0] == 'Copyright © 2017  Liberté'

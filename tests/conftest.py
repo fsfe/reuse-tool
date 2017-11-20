@@ -20,7 +20,6 @@
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0.txt
 
 """Global fixtures and configuration."""
 
@@ -39,7 +38,7 @@ import jinja2
 import pytest
 from click.testing import CliRunner
 
-from reuse import LicenseInfo
+from reuse import ReuseInfo
 
 CWD = Path.cwd()
 
@@ -57,7 +56,7 @@ LICENSES = [
 
 NameAndLicense = namedtuple(
     'NameAndLicense',
-    ['name', 'license_info'],
+    ['name', 'reuse_info'],
 )
 
 
@@ -94,15 +93,13 @@ def render_code_files() -> Dict[NameAndLicense, str]:
         for license in LICENSES:
             context = {
                 'license': license,
-                'license_file': 'LICENSES/{}.txt'.format(license),
             }
 
             # Put some related information in a struct-like object.
             name_and_license = NameAndLicense(
                 '{}___{}'.format(license, file_.name),
-                LicenseInfo(
+                ReuseInfo(
                     (context['license'],),
-                    (context['license_file'],),
                     ('Copyright (C) 2017  Free Software Foundation Europe '
                      'e.V.',)))
 
@@ -208,13 +205,13 @@ def file_with_license_comments(request) -> StringIO:
     key, value = request.param
     result = StringIO(value)
     result.name = key.name
-    result.license_info = key.license_info
+    result.reuse_info = key.reuse_info
     yield result
 
 
 @pytest.fixture(params=COMPILED_CODE_FILES.items(), scope='session')
 def empty_file_with_license_file(
-        request, tmpdir_factory) -> Tuple[Path, LicenseInfo]:
+        request, tmpdir_factory) -> Tuple[Path, ReuseInfo]:
     """Create a temporary directory that contains two files:  The code file and
     the license file.
     """
@@ -226,7 +223,7 @@ def empty_file_with_license_file(
     (directory / key.name).touch()
 
     os.chdir(str(directory))
-    return (directory, key.license_info)
+    return (directory, key.reuse_info)
 
 
 @pytest.fixture
