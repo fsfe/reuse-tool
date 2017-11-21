@@ -437,7 +437,6 @@ class Project:
                 self._copyright_val = None
         return self._copyright_val
 
-
     def _identifiers_of_license(self, path: PathLike) -> List[str]:
         """Figure out the SPDX identifier(s) of a license given its path.
 
