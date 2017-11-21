@@ -300,7 +300,7 @@ class Project:
 
                 keys = licensing.license_keys(parsed)
                 for key in keys:
-                    if key.strip('+') not in self.licenses:
+                    if key.rstrip('+') not in self.licenses:
                         _logger.error(
                             '%s is licensed under %s, but its license file '
                             'could not be found', file_, key)
