@@ -2,6 +2,8 @@
 click = '*'
 python-debian = '*'
 chardet = '*'
+license_expression = '*'
+'boolean.py' = '*'
 
 [dev-packages]
 Sphinx = '*'

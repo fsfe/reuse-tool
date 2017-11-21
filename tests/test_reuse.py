@@ -134,6 +134,21 @@ def test_all_licensed(fake_repository):
     assert not list(project.unlicensed())
 
 
+def test_all_licensed_from_different_pwd(fake_repository):
+    """Same as the other test, but try a different PWD."""
+    os.chdir('/')
+    project = reuse.Project(fake_repository)
+
+    assert not list(project.unlicensed())
+
+
+def test_empty_directory_is_licensed(empty_directory):
+    """An empty directory is licensed."""
+    project = reuse.Project(empty_directory)
+
+    assert not list(project.unlicensed())
+
+
 def test_all_licensed_no_debian_copyright(fake_repository):
     """The exact same as test_all_licensed, but now without
     debian/copyright.
@@ -151,6 +166,40 @@ def test_one_unlicensed(fake_repository):
     Project.unlicensed yields that file.
     """
     (fake_repository / 'foo.py').touch()
+
+    project = reuse.Project(fake_repository)
+
+    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+
+
+def test_all_licensed_but_unknown_license(fake_repository):
+    """If a file points to a license that does not exist, it is unlicensed."""
+    (fake_repository / 'foo.py').write_text(
+        'SPDX-License-Identifier: LicenseRef-foo')
+
+    project = reuse.Project(fake_repository)
+
+    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+
+
+def test_all_licensed_but_error_in_spdx_expression(fake_repository):
+    """If a file contains an SPDX expression that cannot be parsed, it is
+    unlicensed.
+    """
+    (fake_repository / 'foo.py').write_text(
+        'SPDX-License-Identifier: this is an invalid expression')
+
+    project = reuse.Project(fake_repository)
+
+    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+
+
+def test_all_licensed_but_only_copyright(fake_repository):
+    """If a file has only copyright information associated with it, it is
+    unlicensed.
+    """
+    (fake_repository / 'foo.py').write_text(
+        'Copyright (C) 2017  Mary Sue')
 
     project = reuse.Project(fake_repository)
 

@@ -37,7 +37,10 @@ from pathlib import Path
 from typing import BinaryIO, Dict, Iterator, List, Optional
 from uuid import uuid4
 
+from boolean.boolean import ParseError
 from debian.copyright import Copyright, NotMachineReadableError
+
+import license_expression
 
 from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
@@ -274,14 +277,38 @@ class Project:
         if path is None:
             path = self._root
         for file_ in self.all_files(path):
+            # Test if file has reuse info.
             try:
-                license_info = self.reuse_info_of(
+                reuse_info = self.reuse_info_of(
                     file_,
                     ignore_debian=ignore_debian)
             except ReuseInfoNotFound:
                 yield file_
 
-            if not any(license_info.spdx_expressions):
+            # Test if all licenses in the expression have an associated license
+            # file.  If not, warn the user and yield the file.
+            for expression in reuse_info.spdx_expressions:
+                licensing = license_expression.Licensing()
+                try:
+                    parsed = licensing.parse(expression)
+                except (ParseError, license_expression.ExpressionError):
+                    _logger.error(
+                        '%s from %s is not a valid SPDX expression',
+                        expression, file_)
+                    yield file_
+                    continue
+
+                keys = licensing.license_keys(parsed)
+                for key in keys:
+                    if key.strip('+') not in self.licenses:
+                        _logger.error(
+                            '%s is licensed under %s, but its license file '
+                            'could not be found', file_, key)
+                        yield file_
+
+            # If there is reuse information for the file, but no SPDX
+            # expressions, yield the file.
+            if not any(reuse_info.spdx_expressions):
                 yield file_
 
     def bill_of_materials(self, out=sys.stdout) -> None:
@@ -377,11 +404,9 @@ class Project:
             for path in glob.iglob(pattern, recursive=True):
                 # For some reason, LICENSES/** is resolved even though it
                 # doesn't exist.  I have no idea why.  Deal with that here.
-                if not Path(path).exists():
+                if not Path(path).exists() or Path(path).is_dir():
                     continue
                 path = self._relative_from_root(path)
-                if path.is_dir():
-                    continue
                 try:
                     identifiers = self._identifiers_of_license(path)
                 except IdentifierNotFound:
@@ -434,10 +459,10 @@ class Project:
         """
         path = Path(path)
 
-        license_path = Path('{}.license'.format(path))
+        license_path = '{}.license'.format(path)
 
         # Find the correct path to search.  Prioritise 'path.license'.
-        if license_path.exists():
+        if (self._root / license_path).exists():
             _logger.debug(
                 'detected %s .license file, searching that instead',
                 license_path)
