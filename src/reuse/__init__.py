@@ -37,10 +37,7 @@ from pathlib import Path
 from typing import BinaryIO, Dict, Iterator, List, Optional
 from uuid import uuid4
 
-from boolean.boolean import ParseError
 from debian.copyright import Copyright, NotMachineReadableError
-
-import license_expression
 
 from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
@@ -125,6 +122,22 @@ def _copyright_from_debian(
     return ReuseInfo(
         [result.license.synopsis],
         list(map(str.strip, result.copyright.splitlines())))
+
+
+def _identifiers_from_expression(expression: str) -> List[str]:
+    """Given an SPDX expression, return a list of the identifiers within.
+
+    >>> _identifiers_from_expression('MIT AND (GPL-3.0+ OR CC0-1.0)')
+    ['MIT', 'GPL-3.0+', 'CC0-1.0']
+    """
+    # All substrings that need to be removed for just the identifiers to
+    # remain.
+    to_replace = ['OR', 'AND', '(', ')']
+
+    for substring in to_replace:
+        expression = expression.replace(substring, '')
+
+    return expression.split()
 
 
 def extract_reuse_info(text: str) -> ReuseInfo:
@@ -288,23 +301,15 @@ class Project:
             # Test if all licenses in the expression have an associated license
             # file.  If not, warn the user and yield the file.
             for expression in reuse_info.spdx_expressions:
-                licensing = license_expression.Licensing()
-                try:
-                    parsed = licensing.parse(expression)
-                except (ParseError, license_expression.ExpressionError):
-                    _logger.error(
-                        '%s from %s is not a valid SPDX expression',
-                        expression, file_)
-                    yield file_
-                    continue
+                identifiers = _identifiers_from_expression(expression)
 
-                keys = licensing.license_keys(parsed)
-                for key in keys:
-                    if key.rstrip('+') not in self.licenses:
+                for identifier in identifiers:
+                    if identifier.rstrip('+') not in self.licenses:
                         _logger.error(
                             '%s is licensed under %s, but its license file '
-                            'could not be found', file_, key)
+                            'could not be found', file_, identifier)
                         yield file_
+                        break
 
             # If there is reuse information for the file, but no SPDX
             # expressions, yield the file.
