@@ -478,7 +478,6 @@ class Project:
         raise IdentifierNotFound(
             'Could not find SPDX identifier for {}'.format(path))
 
-
     def _ignored_by_git(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of git?
 
