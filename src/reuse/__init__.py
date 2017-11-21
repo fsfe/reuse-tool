@@ -236,11 +236,7 @@ class Project:
         license_path = Path('{}.license'.format(path))
 
         # Find the correct path to search.  Prioritise 'path.license'.
-        if license_path.exists():
-            _logger.debug(
-                'detected %s .license file, searching that instead',
-                license_path)
-        else:
+        if not license_path.exists():
             license_path = path
         _logger.debug('searching %s for reuse information', path)
 
@@ -251,7 +247,7 @@ class Project:
         except (OSError, IOError) as error:
             raise ReuseInfoNotFound(
                 '{} does not exist or could not be '
-                'opened'.format(path))from error
+                'opened'.format(path)) from error
         try:
             file_result = extract_reuse_info(
                 decoded_text_from_binary(fp, size=_HEADER_BYTES))
@@ -467,11 +463,7 @@ class Project:
         license_path = '{}.license'.format(path)
 
         # Find the correct path to search.  Prioritise 'path.license'.
-        if (self._root / license_path).exists():
-            _logger.debug(
-                'detected %s .license file, searching that instead',
-                license_path)
-        else:
+        if not (self._root / license_path).exists():
             license_path = path
 
         with (self._root / license_path).open('rb') as fp:
