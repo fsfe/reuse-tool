@@ -39,6 +39,10 @@ git = pytest.mark.skipif(
     reason='requires git')
 
 
+# Set of licenses used in tests.  This is a bit of duplication from conftest.
+USED_LICENSES = set(['CC0-1.0', 'GPL-3.0', 'GPL-2.0', 'BSD-3-Clause'])
+
+
 def _reuse_info_equal(first, second) -> bool:
     """Compare two ReuseInfo objects.
 
@@ -151,6 +155,72 @@ def test_one_unlicensed(fake_repository):
     project = reuse.Project(fake_repository)
 
     assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+
+
+def test_licenses_from_filenames(fake_repository):
+    """Given a repository, extract the license identifiers from the
+    filenames.
+    """
+    project = reuse.Project(fake_repository)
+
+    assert set(project.licenses.keys()) == USED_LICENSES
+    assert set(
+        map(str, project.licenses.values())) == \
+        set(['LICENSES/{}.txt'.format(spdx) for spdx in USED_LICENSES])
+
+
+def test_licenses_licenseref_from_filename(empty_directory):
+    """Extract SPDX identifier from filename if it begins with 'LicenseRef-'"""
+    (empty_directory / 'LICENSES').mkdir()
+    (empty_directory / 'LICENSES/LicenseRef-hello.txt').touch()
+
+    project = reuse.Project(empty_directory)
+
+    assert set(project.licenses.keys()) == {'LicenseRef-hello'}
+
+
+@pytest.mark.parametrize(
+    'license_file',
+    ['COPYING', 'COPYING.md', 'LICENSE', 'LICENCE', 'COPYRIGHT',
+     'LICENSES/MIT.txt', 'LICENSES/subdir/MIT.txt'])
+def test_license_from_tag(empty_directory, license_file):
+    """Extract license identifiers from the license file itself."""
+    (empty_directory / license_file).parent.mkdir(parents=True, exist_ok=True)
+    (empty_directory / license_file).write_text(
+        'Valid-License-Identifier: MIT')
+
+    project = reuse.Project(empty_directory)
+    assert list(project.licenses.keys()) == ['MIT']
+    assert list(project.licenses.values()) == [Path(license_file)]
+
+
+def test_licenses_priority(empty_directory):
+    """.license files are prioritised over the files themselves."""
+    (empty_directory / 'COPYING').write_text('Valid-License-Identifier: MIT')
+    (empty_directory / 'COPYING.license').write_text(
+        'Valid-License-Identifier: GPL-3.0')
+
+    project = reuse.Project(empty_directory)
+    assert list(project.licenses.keys()) == ['GPL-3.0']
+
+
+def test_licenses_from_different_pwd(empty_directory):
+    """If the PWD is different, still provide correct licenses."""
+    os.chdir('/')
+    (empty_directory / 'COPYING').write_text('Valid-License-Identifier: MIT')
+
+    project = reuse.Project(empty_directory)
+    assert list(project.licenses.keys()) == ['MIT']
+
+
+def test_licenses_multiple_in_file(empty_directory):
+    """If there are multiple licenses in a file, return them all."""
+    (empty_directory / 'COPYING').write_text(
+        'Valid-License-Identifier: GPL-3.0\n'
+        'Valid-License-Identifier: GPL-3.0+')
+
+    project = reuse.Project(empty_directory)
+    assert set(project.licenses.keys()) == {'GPL-3.0', 'GPL-3.0+'}
 
 
 @git

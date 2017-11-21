@@ -143,13 +143,24 @@ def tiny_repository(tmpdir_factory) -> Path:
 
 
 @pytest.fixture()
+def empty_directory(tmpdir_factory) -> Path:
+    """Create a temporary empty directory."""
+    directory = Path(str(tmpdir_factory.mktemp('empty_directory')))
+
+    os.chdir(str(directory))
+    return directory
+
+
+@pytest.fixture()
 def fake_repository(tmpdir_factory) -> Path:
     """Create a temporary fake repository."""
-    directory = Path(str(tmpdir_factory.mktemp('code_files')))
+    directory = Path(str(tmpdir_factory.mktemp('fake_repository')))
     src = directory / 'src'
-    debian_dir = directory / 'debian'
     src.mkdir()
+    debian_dir = directory / 'debian'
     debian_dir.mkdir()
+    licenses_dir = directory / 'LICENSES'
+    licenses_dir.mkdir()
 
     rendered_texts = COMPILED_CODE_FILES
 
@@ -169,6 +180,11 @@ def fake_repository(tmpdir_factory) -> Path:
         # SPDX-License-Identifier: CC0-1.0
         # License-Filename: LICENSES/CC0-1.0
         """)
+
+    # TODO: Write full licence texts
+    licenses = ['CC0-1.0', 'GPL-3.0', 'GPL-2.0', 'BSD-3-Clause']
+    for license in licenses:
+        (licenses_dir / '{}.txt'.format(license)).touch()
 
     os.chdir(str(directory))
     return directory

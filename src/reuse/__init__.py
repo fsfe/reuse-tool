@@ -34,13 +34,14 @@ import re
 import sys
 from collections import namedtuple
 from pathlib import Path
-from typing import BinaryIO, Dict, Iterator, Optional
+from typing import BinaryIO, Dict, Iterator, List, Optional
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
 
 from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
+from .licenses import LICENSES
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -60,6 +61,9 @@ _LICENSE_PATTERN = re.compile(
     re.MULTILINE)
 _COPYRIGHT_PATTERN = re.compile(
     r'(Copyright .*?)' + _END_PATTERN,
+    re.MULTILINE)
+_VALID_LICENSE_PATTERN = re.compile(
+    r'Valid-License-Identifier: (.*?)' + _END_PATTERN,
     re.MULTILINE)
 
 _IGNORE_DIR_PATTERNS = [
@@ -88,6 +92,10 @@ class ReuseException(Exception):
 
 class ReuseInfoNotFound(ReuseException):
     """Could not find license for file."""
+
+
+class IdentifierNotFound(ReuseException):
+    """Could not find SPDX identifier for license file."""
 
 
 def _checksum(file_object: BinaryIO, hash_function) -> str:
@@ -126,6 +134,11 @@ def extract_reuse_info(text: str) -> ReuseInfo:
     return ReuseInfo(
         license_matches,
         copyright_matches)
+
+
+def extract_valid_license(text: str) -> str:
+    """Extract SPDX identifier from a file."""
+    return list(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
 
 
 class Project:
@@ -219,7 +232,7 @@ class Project:
         file_result = None
         try:
             fp = license_path.open('rb')
-        except IOError as error:
+        except (OSError, IOError) as error:
             raise ReuseInfoNotFound(
                 '{} does not exist or could not be '
                 'opened'.format(path))from error
@@ -344,9 +357,9 @@ class Project:
         return self._is_git_repo
 
     @property
-    def license_files(self) -> Dict[str, Path]:
-        """Return a dictionary of all license files in the project, with their
-        SPDX identifiers as names and paths as values.
+    def licenses(self) -> Dict[str, Path]:
+        """Return a dictionary of all licenses in the project, with their SPDX
+        identifiers as names and paths as values.
 
         If no name could be found for a license file, name it
         "LicenseRef-Unknown0" and count upwards for every other unknown file.
@@ -362,17 +375,25 @@ class Project:
         for pattern in patterns:
             pattern = str(self._root.resolve() / pattern)
             for path in glob.iglob(pattern, recursive=True):
+                # For some reason, LICENSES/** is resolved even though it
+                # doesn't exist.  I have no idea why.  Deal with that here.
+                if not Path(path).exists():
+                    continue
                 path = self._relative_from_root(path)
-                # TODO: Implement this
+                if path.is_dir():
+                    continue
                 try:
-                    identifier = self._identifier_of_license(path)
-                except:
+                    identifiers = self._identifiers_of_license(path)
+                except IdentifierNotFound:
                     identifier = 'LicenseRef-Unknown{}'.format(unknown_counter)
+                    identifiers = [identifier]
                     unknown_counter += 1
                     _logger.warning(
                         'Could not resolve SPDX identifier of %s, '
                         'resolving to %s', path, identifier)
-                license_files[identifier] = path
+
+                for identifier in identifiers:
+                    license_files[identifier] = path
 
         self._license_files = license_files
         return self._license_files
@@ -394,6 +415,47 @@ class Project:
             if not self._copyright_val:
                 self._copyright_val = None
         return self._copyright_val
+
+
+    def _identifiers_of_license(self, path: PathLike) -> List[str]:
+        """Figure out the SPDX identifier(s) of a license given its path.
+
+        The order of precedence is:
+
+        - A .license file containing the `Valid-License-Identifier` tag.
+
+        - A `Valid-License-Identifier` tag within the license file itself.
+
+        - The name of the file (minus extension) if:
+
+          - The name is an SPDX license.
+
+          - The name starts with 'LicenseRef-'.
+        """
+        path = Path(path)
+
+        license_path = Path('{}.license'.format(path))
+
+        # Find the correct path to search.  Prioritise 'path.license'.
+        if license_path.exists():
+            _logger.debug(
+                'detected %s .license file, searching that instead',
+                license_path)
+        else:
+            license_path = path
+
+        with (self._root / license_path).open('rb') as fp:
+            result = extract_valid_license(
+                decoded_text_from_binary(fp, size=_HEADER_BYTES))
+            if any(result):
+                return result
+
+        if path.stem in LICENSES or path.stem.startswith('LicenseRef-'):
+            return [path.stem]
+
+        raise IdentifierNotFound(
+            'Could not find SPDX identifier for {}'.format(path))
+
 
     def _ignored_by_git(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of git?
