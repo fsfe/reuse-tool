@@ -361,21 +361,16 @@ class Project:
             out.write('\n')
             self._file_information(file_, out)
 
-        # TODO: Rewrite this
         # Licenses
-        # for file_ in self._detected_license_files:
-        #     if not Path(file_).exists():
-        #         _logger.warning('could not find %s', file_)
-        #         continue
-        #     out.write('\n')
-        #     out.write(
-        #         'LicenseID: LicenseRef-{}\n'.format(
-        #             hashlib.sha1(str(file_).encode('utf-8')).hexdigest()))
-        #     # TODO: Maybe do an assertion here
-        #     out.write('LicenseName: NOASSERTION\n')
-        #
-        #     with (self._root / file_).open() as fp:
-        #         out.write('ExtractedText: <text>{}</text>\n'.format(fp.read()))
+        for license, path in self.licenses.items():
+            if license.startswith('LicenseRef-'):
+                out.write('\n')
+                out.write('LicenseID: {}\n'.format(license))
+                out.write('LicenseName: NOASSERTION\n')
+
+                with (self._root / path).open() as fp:
+                    out.write(
+                        'ExtractedText: <text>{}</text>\n'.format(fp.read()))
 
     @property
     def is_git_repo(self) -> bool:
