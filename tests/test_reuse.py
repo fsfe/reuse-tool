@@ -272,6 +272,17 @@ def test_licenses_multiple_in_file(empty_directory):
     assert set(project.licenses.keys()) == {'GPL-3.0', 'GPL-3.0+'}
 
 
+def test_licenses_unknown(empty_directory):
+    """If a license has no known license identifier, create one for it."""
+    (empty_directory / 'COPYING').touch()
+    (empty_directory / 'LICENSES').mkdir()
+    (empty_directory / 'LICENSES/NOT-IN-SPDX-LIST.txt').touch()
+
+    project = reuse.Project(empty_directory)
+    assert set(project.licenses.keys()) == {
+        'LicenseRef-Unknown0', 'LicenseRef-Unknown1'}
+
+
 @git
 def test_unlicensed_but_ignored_by_git(git_repository):
     """Given a Git repository where some files are unlicensed---but ignored by
