@@ -3,9 +3,8 @@
 #
 # Copyright (C) 2017  Free Software Foundation Europe e.V.
 #
-# This file is part of reuse.  It is copyrighted by the contributors recorded
-# in the version control history of the file, available from its original
-# location: https://git.fsfe.org/reuse/reuse
+# This file is part of reuse, available from its original location:
+# <https://git.fsfe.org/reuse/reuse/>.
 #
 # reuse is free software: you can redistribute it and/or modify it under the
 # terms of the GNU General Public License as published by the Free Software
