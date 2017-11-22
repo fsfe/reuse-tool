@@ -54,10 +54,20 @@ REUSE Initiative recommendations.
 
 ## Install
 
-To install reuse, make sure that you have Python >=3.5 and Pip installed, then
-run the following command::
+To install reuse, you need to have the following pieces of software on your
+computer:
+
+- Python 3.5+
+
+- Pip
+
+- `python3-pygit2`
+
+Then to install reuse, you only need to run the following command::
 
     pip3 install --user fsfe-reuse
+
+After this, make sure that `~/.local/bin` is in your `$PATH`.
 
 ## Usage
 
