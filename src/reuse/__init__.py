@@ -314,8 +314,9 @@ class Project:
     def contains_invalid_identifiers(
             self,
             reuse_info: ReuseInfo) -> Union[bool, str]:
-        """Are all SPDX identifiers in the reuse information valid.  i.e., do
-        they refer to a file that exists in Project.licenses?
+        """Does the reuse information contain any invalid SPDX identifiers?
+        i.e., does any identifier refer to a file that does not exist in
+        Project.licenses?
 
         Return the faulty identifier.
 
