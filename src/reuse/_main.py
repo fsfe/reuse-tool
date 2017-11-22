@@ -60,7 +60,24 @@ def _create_project() -> reuse.Project:
 @click.version_option(version=reuse.__version__)
 @click.pass_context
 def cli(context, debug, ignore_debian):
-    """TODO: docstring"""
+    """reuse  Copyright (C) 2017  Free Software Foundation Europe e.V.
+
+    reuse is a tool for compliance with the REUSE Initiative recommendations.
+    See <https://reuse.software/> for more information.
+
+    reuse is free software: you can redistribute it and/or modify it under the
+    terms of the GNU General Public License as published by the Free Software
+    Foundation, either version 3 of the License, or (at your option) any later
+    version.
+
+    reuse is distributed in the hope that it will be useful, but WITHOUT ANY
+    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+    details.
+
+    You should have received a copy of the GNU General Public License along
+    with reuse.  If not, see <http://www.gnu.org/licenses/>.
+    """
     logging.basicConfig(level=logging.DEBUG if debug else logging.WARNING)
     context.obj = dict()
     context.obj['ignore_debian'] = ignore_debian
