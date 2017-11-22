@@ -34,7 +34,7 @@ import re
 import sys
 from collections import namedtuple
 from pathlib import Path
-from typing import BinaryIO, Dict, Iterator, List, Optional
+from typing import BinaryIO, Dict, Iterator, List, Optional, Union
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
@@ -294,24 +294,40 @@ class Project:
                     ignore_debian=ignore_debian)
             except ReuseInfoNotFound:
                 yield file_
+                continue
 
             # Test if all licenses in the expression have an associated license
             # file.  If not, warn the user and yield the file.
-            for expression in reuse_info.spdx_expressions:
-                identifiers = _identifiers_from_expression(expression)
-
-                for identifier in identifiers:
-                    if identifier.rstrip('+') not in self.licenses:
-                        _logger.error(
-                            '%s is licensed under %s, but its license file '
-                            'could not be found', file_, identifier)
-                        yield file_
-                        break
+            wrong_identifier = self.contains_invalid_identifiers(reuse_info)
+            if wrong_identifier:
+                _logger.error(
+                    '%s is licensed under %s, but its license file '
+                    'could not be found', file_, wrong_identifier)
+                yield file_
+                continue
 
             # If there is reuse information for the file, but no SPDX
             # expressions, yield the file.
             if not any(reuse_info.spdx_expressions):
                 yield file_
+
+    def contains_invalid_identifiers(
+            self,
+            reuse_info: ReuseInfo) -> Union[bool, str]:
+        """Are all SPDX identifiers in the reuse information valid.  i.e., do
+        they refer to a file that exists in Project.licenses?
+
+        Return the faulty identifier.
+
+        If the info contains no SPDX identifiers at all, return False.
+        """
+        for expression in reuse_info.spdx_expressions:
+            identifiers = _identifiers_from_expression(expression)
+
+            for identifier in identifiers:
+                if identifier.rstrip('+') not in self.licenses:
+                    return identifier
+        return False
 
     def bill_of_materials(self, out=sys.stdout) -> None:
         """Generate a bill of materials from the project.  The bill of
