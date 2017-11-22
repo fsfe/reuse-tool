@@ -37,6 +37,7 @@ from typing import BinaryIO, Dict, Iterator, List, Optional, Union
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
+from pygit2 import Repository, GitError
 
 from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
@@ -167,7 +168,10 @@ class Project:
         if not self._root.is_dir():
             raise ReuseException('%s is no valid path' % self._root)
 
-        self._is_git_repo = None
+        try:
+            self._git_repo = Repository(str(self._root))
+        except GitError:
+            self._git_repo = None
         self._license_files = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
@@ -195,10 +199,12 @@ class Project:
                     if pattern.match(dir_):
                         _logger.debug('ignoring %s - reuse', root / dir_)
                         dirs.remove(dir_)
-                if self._ignored_by_vcs(root / dir_):
-                    _logger.debug(
-                        'ignoring %s - ignored by vcs', root / dir_)
-                    dirs.remove(dir_)
+                        break
+                else:
+                    if self._ignored_by_vcs(root / dir_):
+                        _logger.debug(
+                            'ignoring %s - ignored by vcs', root / dir_)
+                        dirs.remove(dir_)
 
             # Filter files.
             for file_ in files:
@@ -390,13 +396,6 @@ class Project:
                         'ExtractedText: <text>{}</text>\n'.format(fp.read()))
 
     @property
-    def is_git_repo(self) -> bool:
-        """Is the project a git repository?  Cache the result."""
-        if self._is_git_repo is None:
-            self._is_git_repo = in_git_repo(self._root)
-        return self._is_git_repo
-
-    @property
     def licenses(self) -> Dict[str, Path]:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
@@ -495,19 +494,14 @@ class Project:
         Always return False if git is not installed.
         """
         path = self._relative_from_root(path)
-        if GIT_EXE is None:
-            return False
 
-        command = [GIT_EXE, 'check-ignore', str(path)]
-        result = execute_command(command, _logger, cwd=str(self._root))
-
-        return not result.returncode
+        return self._git_repo.path_is_ignored(str(path))
 
     def _ignored_by_vcs(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of the VCS (e.g.,
         .gitignore)?
         """
-        if self.is_git_repo:
+        if self._git_repo:
             return self._ignored_by_git(path)
         return False
 
