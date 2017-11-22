@@ -279,7 +279,8 @@ class Project:
             self,
             path: PathLike = None,
             ignore_debian: bool = False) -> Iterator[Path]:
-        """Yield all unlicensed files under *path*.
+        """Yield all unlicensed files under *path*.  Files which refer to SPDX
+        identifiers that do not exist are also considered unlicensed.
 
         If *path* is not specified, it becomes root.
         """
