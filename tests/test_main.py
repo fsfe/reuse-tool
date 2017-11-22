@@ -20,7 +20,6 @@
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0.txt
 
 """Tests for the CLI for reuse."""
 
@@ -81,7 +80,7 @@ Creator: Person: Anonymous ()
 Creator: Organization: Anonymous ()
 Creator: Tool: reuse-{version}
 Created: 2017-11-08T11:07:30Z
-CreatorComment: <text>This document was created automatically using available license information consistent with the REUSE Initiative.</text>
+CreatorComment: <text>This document was created automatically using available reuse information consistent with the REUSE Initiative.</text>
 Relationship: SPDXRef-DOCUMENT describes SPDXRef-8008eeb8d2000e5aa6eaa51b1cdc944d726e1107
 Relationship: SPDXRef-DOCUMENT describes SPDXRef-bb5656f1b5e8283a8e930c54afd9a8bfebe7a548
 
@@ -90,7 +89,6 @@ SPDXID: SPDXRef-8008eeb8d2000e5aa6eaa51b1cdc944d726e1107
 FileChecksum: SHA1: 7ca7aa0d3d999b03f727523a48280424db99adde
 LicenseConcluded: NOASSERTION
 LicenseInfoInFile: GPL-3.0
-LicenseInfoInFile: LicenseRef-411cba51252f446399ab79a894958900a0ba444b
 FileCopyrightText: <text>Copyright (C) 2017  Free Software Foundation Europe e.V.</text>
 
 FileName: ./src/no_license.py
@@ -98,11 +96,7 @@ SPDXID: SPDXRef-bb5656f1b5e8283a8e930c54afd9a8bfebe7a548
 FileChecksum: SHA1: da39a3ee5e6b4b0d3255bfef95601890afd80709
 LicenseConcluded: NOASSERTION
 LicenseInfoInFile: CC0-1.0
-FileCopyrightText: <text>2017 Mary Sue</text>
-
-LicenseID: LicenseRef-411cba51252f446399ab79a894958900a0ba444b
-LicenseName: NOASSERTION
-ExtractedText: <text>GPL-3.0</text>""".format(
+FileCopyrightText: <text>2017 Mary Sue</text>""".format(
     dirname=tiny_repository.name,
     version=__version__)
 

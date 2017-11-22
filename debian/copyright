@@ -18,3 +18,7 @@ License: GPL-3.0+
 Files: Pipfile.lock
 Copyright: None
 License: CC0-1.0
+
+Files: tests/resources/*
+Copyright: 2017 Free Software Foundation Europe
+License: GPL-3.0+

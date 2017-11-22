@@ -20,7 +20,6 @@
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0.txt
 
 """Tests for reuse."""
 
@@ -40,8 +39,12 @@ git = pytest.mark.skipif(
     reason='requires git')
 
 
-def _license_info_equal(first, second) -> bool:
-    """Compare two LicenseInfo objects.
+# Set of licenses used in tests.  This is a bit of duplication from conftest.
+USED_LICENSES = set(['CC0-1.0', 'GPL-3.0', 'GPL-2.0', 'BSD-3-Clause'])
+
+
+def _reuse_info_equal(first, second) -> bool:
+    """Compare two ReuseInfo objects.
 
     This is necessary because (,) != [].
     """
@@ -52,58 +55,58 @@ def _license_info_equal(first, second) -> bool:
 
 
 def test_extract_license_from_file(file_with_license_comments):
-    """Test whether you can correctly extract license information from a code
+    """Test whether you can correctly extract reuse information from a code
     file's comments.
     """
-    result = reuse.extract_license_info(
+    result = reuse.extract_reuse_info(
         file_with_license_comments.getvalue())
-    assert _license_info_equal(result, file_with_license_comments.license_info)
+    assert _reuse_info_equal(result, file_with_license_comments.reuse_info)
 
 
 def test_extract_no_license_info():
-    """Given a file without license information, raise LicenseInfoNotFound."""
-    result = reuse.extract_license_info('')
-    assert _license_info_equal(result, reuse.LicenseInfo([], [], []))
+    """Given a file without reuse information, raise LicenseInfoNotFound."""
+    result = reuse.extract_reuse_info('')
+    assert _reuse_info_equal(result, reuse.ReuseInfo([], []))
 
 
-def test_license_info_of_file_does_not_exist(fake_repository):
-    """Raise a LicenseInfoNotFound error when asking for the license info of a
+def test_reuse_info_of_file_does_not_exist(fake_repository):
+    """Raise a LicenseInfoNotFound error when asking for the reuse info of a
     file that does not exist.
     """
     project = reuse.Project(fake_repository)
-    with pytest.raises(reuse.LicenseInfoNotFound):
-        project.license_info_of('does_not_exist')
+    with pytest.raises(reuse.ReuseInfoNotFound):
+        project.reuse_info_of('does_not_exist')
 
 
-def test_license_info_of_only_copyright(fake_repository):
+def test_reuse_info_of_only_copyright(fake_repository):
     """A file contains only a copyright line.  Test whether it correctly picks
     up on that.
     """
     (fake_repository / 'foo.py').write_text('Copyright (C) 2017  Mary Sue')
     project = reuse.Project(fake_repository)
-    license_info = project.license_info_of('foo.py')
-    assert not any(license_info.licenses)
-    assert len(license_info.copyright_lines) == 1
-    assert license_info.copyright_lines[0] == 'Copyright (C) 2017  Mary Sue'
+    reuse_info = project.reuse_info_of('foo.py')
+    assert not any(reuse_info.spdx_expressions)
+    assert len(reuse_info.copyright_lines) == 1
+    assert reuse_info.copyright_lines[0] == 'Copyright (C) 2017  Mary Sue'
 
 
-def test_license_info_of_only_copyright_but_covered_by_debian(fake_repository):
+def test_reuse_info_of_only_copyright_but_covered_by_debian(fake_repository):
     """A file contains only a copyright line, but debian/copyright also has
     information on this file.  Prioritise debian/copyright's output.
     """
     (fake_repository / 'src/foo.py').write_text('Copyright ignore-me')
     project = reuse.Project(fake_repository)
-    license_info = project.license_info_of('src/foo.py')
-    assert any(license_info.licenses)
-    assert license_info.copyright_lines[0] != 'Copyright ignore-me'
+    reuse_info = project.reuse_info_of('src/foo.py')
+    assert any(reuse_info.spdx_expressions)
+    assert reuse_info.copyright_lines[0] != 'Copyright ignore-me'
 
 
 def test_error_in_debian_copyright(fake_repository):
     """If there is an error in debian/copyright, just ignore its existence."""
     (fake_repository / 'debian/copyright').write_text('invalid')
     project = reuse.Project(fake_repository)
-    with pytest.raises(reuse.LicenseInfoNotFound):
-        project.license_info_of('src/no_license.py')
+    with pytest.raises(reuse.ReuseInfoNotFound):
+        project.reuse_info_of('src/no_license.py')
 
 
 def test_license_file_detected(empty_file_with_license_file):
@@ -111,15 +114,15 @@ def test_license_file_detected(empty_file_with_license_file):
     is detected and read.
     """
     directory = empty_file_with_license_file[0]
-    license_info = empty_file_with_license_file[1]
+    reuse_info = empty_file_with_license_file[1]
 
     project = reuse.Project(directory)
 
     all_files = list(project.all_files(directory))
     assert len(all_files) == 1
 
-    result = project.license_info_of(all_files[0])
-    assert _license_info_equal(result, license_info)
+    result = project.reuse_info_of(all_files[0])
+    assert _reuse_info_equal(result, reuse_info)
 
 
 def test_all_licensed(fake_repository):
@@ -127,6 +130,21 @@ def test_all_licensed(fake_repository):
     Project.unlicensed yields nothing.
     """
     project = reuse.Project(fake_repository)
+
+    assert not list(project.unlicensed())
+
+
+def test_all_licensed_from_different_pwd(fake_repository):
+    """Same as the other test, but try a different PWD."""
+    os.chdir('/')
+    project = reuse.Project(fake_repository)
+
+    assert not list(project.unlicensed())
+
+
+def test_empty_directory_is_licensed(empty_directory):
+    """An empty directory is licensed."""
+    project = reuse.Project(empty_directory)
 
     assert not list(project.unlicensed())
 
@@ -154,6 +172,125 @@ def test_one_unlicensed(fake_repository):
     assert list(project.unlicensed()) == [fake_repository / 'foo.py']
 
 
+def test_all_licensed_but_unknown_license(fake_repository):
+    """If a file points to a license that does not exist, it is unlicensed."""
+    (fake_repository / 'foo.py').write_text(
+        'SPDX-License-Identifier: LicenseRef-foo')
+
+    project = reuse.Project(fake_repository)
+
+    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+
+
+def test_all_licensed_but_error_in_spdx_expression(fake_repository):
+    """If a file contains an SPDX expression that cannot be parsed, it is
+    unlicensed.
+    """
+    (fake_repository / 'foo.py').write_text(
+        'SPDX-License-Identifier: this is an invalid expression')
+
+    project = reuse.Project(fake_repository)
+
+    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+
+
+def test_all_licensed_but_only_copyright(fake_repository):
+    """If a file has only copyright information associated with it, it is
+    unlicensed.
+    """
+    (fake_repository / 'foo.py').write_text(
+        'Copyright (C) 2017  Mary Sue')
+
+    project = reuse.Project(fake_repository)
+
+    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+
+
+def test_contains_invalid_identifiers(empty_directory):
+    """If a ReuseInfo object contains invalid SPDX identifiers, return it."""
+    project = reuse.Project(empty_directory)
+
+    reuse_info = reuse.ReuseInfo(['foo'], [])
+    assert project.contains_invalid_identifiers(reuse_info) == 'foo'
+
+
+def test_licenses_from_filenames(fake_repository):
+    """Given a repository, extract the license identifiers from the
+    filenames.
+    """
+    project = reuse.Project(fake_repository)
+
+    assert set(project.licenses.keys()) == USED_LICENSES
+    assert set(
+        map(str, project.licenses.values())) == \
+        set(['LICENSES/{}.txt'.format(spdx) for spdx in USED_LICENSES])
+
+
+def test_licenses_licenseref_from_filename(empty_directory):
+    """Extract SPDX identifier from filename if it begins with 'LicenseRef-'"""
+    (empty_directory / 'LICENSES').mkdir()
+    (empty_directory / 'LICENSES/LicenseRef-hello.txt').touch()
+
+    project = reuse.Project(empty_directory)
+
+    assert set(project.licenses.keys()) == {'LicenseRef-hello'}
+
+
+@pytest.mark.parametrize(
+    'license_file',
+    ['COPYING', 'COPYING.md', 'LICENSE', 'LICENCE', 'COPYRIGHT',
+     'LICENSES/MIT.txt', 'LICENSES/subdir/MIT.txt'])
+def test_license_from_tag(empty_directory, license_file):
+    """Extract license identifiers from the license file itself."""
+    (empty_directory / license_file).parent.mkdir(parents=True, exist_ok=True)
+    (empty_directory / license_file).write_text(
+        'Valid-License-Identifier: MIT')
+
+    project = reuse.Project(empty_directory)
+    assert list(project.licenses.keys()) == ['MIT']
+    assert list(project.licenses.values()) == [Path(license_file)]
+
+
+def test_licenses_priority(empty_directory):
+    """.license files are prioritised over the files themselves."""
+    (empty_directory / 'COPYING').write_text('Valid-License-Identifier: MIT')
+    (empty_directory / 'COPYING.license').write_text(
+        'Valid-License-Identifier: GPL-3.0')
+
+    project = reuse.Project(empty_directory)
+    assert list(project.licenses.keys()) == ['GPL-3.0']
+
+
+def test_licenses_from_different_pwd(empty_directory):
+    """If the PWD is different, still provide correct licenses."""
+    os.chdir('/')
+    (empty_directory / 'COPYING').write_text('Valid-License-Identifier: MIT')
+
+    project = reuse.Project(empty_directory)
+    assert list(project.licenses.keys()) == ['MIT']
+
+
+def test_licenses_multiple_in_file(empty_directory):
+    """If there are multiple licenses in a file, return them all."""
+    (empty_directory / 'COPYING').write_text(
+        'Valid-License-Identifier: GPL-3.0\n'
+        'Valid-License-Identifier: GPL-3.0+')
+
+    project = reuse.Project(empty_directory)
+    assert set(project.licenses.keys()) == {'GPL-3.0', 'GPL-3.0+'}
+
+
+def test_licenses_unknown(empty_directory):
+    """If a license has no known license identifier, create one for it."""
+    (empty_directory / 'COPYING').touch()
+    (empty_directory / 'LICENSES').mkdir()
+    (empty_directory / 'LICENSES/NOT-IN-SPDX-LIST.txt').touch()
+
+    project = reuse.Project(empty_directory)
+    assert set(project.licenses.keys()) == {
+        'LicenseRef-Unknown0', 'LicenseRef-Unknown1'}
+
+
 @git
 def test_unlicensed_but_ignored_by_git(git_repository):
     """Given a Git repository where some files are unlicensed---but ignored by
@@ -171,5 +308,5 @@ def test_encoding():
     project = reuse.Project(encoding_directory)
 
     for path in encoding_directory.iterdir():
-        license_info = project.license_info_of(path)
-        assert license_info.copyright_lines[0] == 'Copyright © 2017  Liberté'
+        reuse_info = project.reuse_info_of(path)
+        assert reuse_info.copyright_lines[0] == 'Copyright © 2017  Liberté'

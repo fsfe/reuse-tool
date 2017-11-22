@@ -20,7 +20,6 @@
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0.txt
 
 """Global fixtures and configuration."""
 
@@ -39,7 +38,7 @@ import jinja2
 import pytest
 from click.testing import CliRunner
 
-from reuse import LicenseInfo
+from reuse import ReuseInfo
 
 CWD = Path.cwd()
 
@@ -57,7 +56,7 @@ LICENSES = [
 
 NameAndLicense = namedtuple(
     'NameAndLicense',
-    ['name', 'license_info'],
+    ['name', 'reuse_info'],
 )
 
 
@@ -94,15 +93,13 @@ def render_code_files() -> Dict[NameAndLicense, str]:
         for license in LICENSES:
             context = {
                 'license': license,
-                'license_file': 'LICENSES/{}.txt'.format(license),
             }
 
             # Put some related information in a struct-like object.
             name_and_license = NameAndLicense(
                 '{}___{}'.format(license, file_.name),
-                LicenseInfo(
+                ReuseInfo(
                     (context['license'],),
-                    (context['license_file'],),
                     ('Copyright (C) 2017  Free Software Foundation Europe '
                      'e.V.',)))
 
@@ -146,13 +143,24 @@ def tiny_repository(tmpdir_factory) -> Path:
 
 
 @pytest.fixture()
+def empty_directory(tmpdir_factory) -> Path:
+    """Create a temporary empty directory."""
+    directory = Path(str(tmpdir_factory.mktemp('empty_directory')))
+
+    os.chdir(str(directory))
+    return directory
+
+
+@pytest.fixture()
 def fake_repository(tmpdir_factory) -> Path:
     """Create a temporary fake repository."""
-    directory = Path(str(tmpdir_factory.mktemp('code_files')))
+    directory = Path(str(tmpdir_factory.mktemp('fake_repository')))
     src = directory / 'src'
-    debian_dir = directory / 'debian'
     src.mkdir()
+    debian_dir = directory / 'debian'
     debian_dir.mkdir()
+    licenses_dir = directory / 'LICENSES'
+    licenses_dir.mkdir()
 
     rendered_texts = COMPILED_CODE_FILES
 
@@ -172,6 +180,11 @@ def fake_repository(tmpdir_factory) -> Path:
         # SPDX-License-Identifier: CC0-1.0
         # License-Filename: LICENSES/CC0-1.0
         """)
+
+    # TODO: Write full licence texts
+    licenses = ['CC0-1.0', 'GPL-3.0', 'GPL-2.0', 'BSD-3-Clause']
+    for license in licenses:
+        (licenses_dir / '{}.txt'.format(license)).touch()
 
     os.chdir(str(directory))
     return directory
@@ -208,13 +221,13 @@ def file_with_license_comments(request) -> StringIO:
     key, value = request.param
     result = StringIO(value)
     result.name = key.name
-    result.license_info = key.license_info
+    result.reuse_info = key.reuse_info
     yield result
 
 
 @pytest.fixture(params=COMPILED_CODE_FILES.items(), scope='session')
 def empty_file_with_license_file(
-        request, tmpdir_factory) -> Tuple[Path, LicenseInfo]:
+        request, tmpdir_factory) -> Tuple[Path, ReuseInfo]:
     """Create a temporary directory that contains two files:  The code file and
     the license file.
     """
@@ -226,7 +239,7 @@ def empty_file_with_license_file(
     (directory / key.name).touch()
 
     os.chdir(str(directory))
-    return (directory, key.license_info)
+    return (directory, key.reuse_info)
 
 
 @pytest.fixture

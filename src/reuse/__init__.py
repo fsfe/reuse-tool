@@ -20,13 +20,13 @@
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0.txt
 
 """reuse is a tool for compliance with the REUSE Initiative recommendations."""
 
 # pylint: disable=ungrouped-imports
 
 import datetime
+import glob
 import hashlib
 import logging
 import os
@@ -34,13 +34,14 @@ import re
 import sys
 from collections import namedtuple
 from pathlib import Path
-from typing import BinaryIO, Iterator, Optional
+from typing import BinaryIO, Dict, Iterator, List, Optional, Union
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
 
 from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
+from .licenses import LICENSES
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -58,11 +59,11 @@ _END_PATTERN = r'(?:\*/)*(?:-->)*$'
 _LICENSE_PATTERN = re.compile(
     r'SPDX-License-Identifier: (.*?)' + _END_PATTERN,
     re.MULTILINE)
-_LICENSE_FILENAME_PATTERN = re.compile(
-    r'License-Filename: (.*?)' + _END_PATTERN,
-    re.MULTILINE)
 _COPYRIGHT_PATTERN = re.compile(
     r'(Copyright .*?)' + _END_PATTERN,
+    re.MULTILINE)
+_VALID_LICENSE_PATTERN = re.compile(
+    r'Valid-License-Identifier: (.*?)' + _END_PATTERN,
     re.MULTILINE)
 
 _IGNORE_DIR_PATTERNS = [
@@ -80,17 +81,21 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r'^\.gitignore$'),
 ]
 
-LicenseInfo = namedtuple(
-    'LicenseInfo',
-    ['licenses', 'filenames', 'copyright_lines'])
+ReuseInfo = namedtuple(
+    'ReuseInfo',
+    ['spdx_expressions', 'copyright_lines'])
 
 
 class ReuseException(Exception):
     """Base exception."""
 
 
-class LicenseInfoNotFound(ReuseException):
+class ReuseInfoNotFound(ReuseException):
     """Could not find license for file."""
+
+
+class IdentifierNotFound(ReuseException):
+    """Could not find SPDX identifier for license file."""
 
 
 def _checksum(file_object: BinaryIO, hash_function) -> str:
@@ -104,35 +109,52 @@ def _checksum(file_object: BinaryIO, hash_function) -> str:
 
 def _copyright_from_debian(
         path: PathLike,
-        copyright: Copyright) -> Optional[LicenseInfo]:
-    """Find the license information of *path* in the Debian copyright object.
+        copyright: Copyright) -> Optional[ReuseInfo]:
+    """Find the reuse information of *path* in the Debian copyright object.
     """
     result = copyright.find_files_paragraph(str(path))
 
     if result is None:
-        raise LicenseInfoNotFound()
+        raise ReuseInfoNotFound()
 
     _logger.debug('%s covered by debian/copyright', path)
 
-    return LicenseInfo(
+    return ReuseInfo(
         [result.license.synopsis],
-        [],
         list(map(str.strip, result.copyright.splitlines())))
 
 
-def extract_license_info(text: str) -> LicenseInfo:
-    """Extract license information from comments in a file."""
+def _identifiers_from_expression(expression: str) -> List[str]:
+    """Given an SPDX expression, return a list of the identifiers within.
+
+    >>> _identifiers_from_expression('MIT AND (GPL-3.0+ OR CC0-1.0)')
+    ['MIT', 'GPL-3.0+', 'CC0-1.0']
+    """
+    # All substrings that need to be removed for just the identifiers to
+    # remain.
+    to_replace = ['OR', 'AND', '(', ')']
+
+    for substring in to_replace:
+        expression = expression.replace(substring, '')
+
+    return expression.split()
+
+
+def extract_reuse_info(text: str) -> ReuseInfo:
+    """Extract reuse information from comments in a file."""
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
     license_matches = list(map(str.strip, _LICENSE_PATTERN.findall(text)))
-    license_filename_matches = list(map(
-        str.strip, _LICENSE_FILENAME_PATTERN.findall(text)))
     copyright_matches = list(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
 
-    return LicenseInfo(
+    return ReuseInfo(
         license_matches,
-        license_filename_matches,
         copyright_matches)
+
+
+def extract_valid_license(text: str) -> str:
+    """Extract SPDX identifier from a file."""
+    return list(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
 
 
 class Project:
@@ -147,9 +169,9 @@ class Project:
             raise ReuseException('%s is no valid path' % self._root)
 
         self._is_git_repo = None
+        self._license_files = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
-        self._detected_license_files = set()
 
     def all_files(self, directory: PathLike = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
@@ -199,14 +221,14 @@ class Project:
                 _logger.debug('yielding %s', file_)
                 yield root / file_
 
-    def license_info_of(
+    def reuse_info_of(
             self,
             path: PathLike,
-            ignore_debian: bool = False) -> LicenseInfo:
-        """Get the license information of *path*.
+            ignore_debian: bool = False) -> ReuseInfo:
+        """Get the reuse information of *path*.
 
-        This function will return any license information that it can found.
-        It will only raise a LicenseInfoNotFound error if no license
+        This function will return any reuse information that it can found.
+        It will only raise a ReuseInfoNotFound error if no reuse
         information could be found at all.  It is up to the user to apply
         further logic to the findings.
         """
@@ -214,30 +236,26 @@ class Project:
         license_path = Path('{}.license'.format(path))
 
         # Find the correct path to search.  Prioritise 'path.license'.
-        if license_path.exists():
-            _logger.debug(
-                'detected %s .license file, searching that instead',
-                license_path)
-        else:
+        if not license_path.exists():
             license_path = path
-        _logger.debug('searching %s for license information', path)
+        _logger.debug('searching %s for reuse information', path)
 
-        # Try to extract license information from the file.
-        license_result = None
+        # Try to extract reuse information from the file.
+        file_result = None
         try:
             fp = license_path.open('rb')
-        except IOError as error:
-            raise LicenseInfoNotFound(
+        except (OSError, IOError) as error:
+            raise ReuseInfoNotFound(
                 '{} does not exist or could not be '
-                'opened'.format(path))from error
+                'opened'.format(path)) from error
         try:
-            license_result = extract_license_info(
+            file_result = extract_reuse_info(
                 decoded_text_from_binary(fp, size=_HEADER_BYTES))
             # Only return if the result contains a SPDX-License-Identifier
             # tag.  If it does not, the file may have contained a copyright
             # line.  That means we first want to check debian/copyright.
-            if any(license_result.licenses):
-                return license_result
+            if any(file_result.spdx_expressions):
+                return file_result
         finally:
             fp.close()
 
@@ -247,36 +265,70 @@ class Project:
                 return _copyright_from_debian(
                     self._relative_from_root(path),
                     self._copyright)
-            except LicenseInfoNotFound:
+            except ReuseInfoNotFound:
                 pass
 
         # Return the result we found earlier if debian/copyright didn't contain
         # more information.
-        if license_result is not None and any(license_result):
-            return license_result
+        if file_result is not None and any(file_result):
+            return file_result
 
-        raise LicenseInfoNotFound()
+        raise ReuseInfoNotFound()
 
     def unlicensed(
             self,
             path: PathLike = None,
             ignore_debian: bool = False) -> Iterator[Path]:
-        """Yield all unlicensed files under *path*.
+        """Yield all unlicensed files under *path*.  Files which refer to SPDX
+        identifiers that do not exist are also considered unlicensed.
 
         If *path* is not specified, it becomes root.
         """
         if path is None:
             path = self._root
         for file_ in self.all_files(path):
+            # Test if file has reuse info.
             try:
-                license_info = self.license_info_of(
+                reuse_info = self.reuse_info_of(
                     file_,
                     ignore_debian=ignore_debian)
-            except LicenseInfoNotFound:
+            except ReuseInfoNotFound:
+                yield file_
+                continue
+
+            # Test if all licenses in the expression have an associated license
+            # file.  If not, warn the user and yield the file.
+            wrong_identifier = self.contains_invalid_identifiers(reuse_info)
+            if wrong_identifier:
+                _logger.error(
+                    '%s is licensed under %s, but its license file '
+                    'could not be found', file_, wrong_identifier)
+                yield file_
+                continue
+
+            # If there is reuse information for the file, but no SPDX
+            # expressions, yield the file.
+            if not any(reuse_info.spdx_expressions):
                 yield file_
 
-            if not any(license_info.licenses):
-                yield file_
+    def contains_invalid_identifiers(
+            self,
+            reuse_info: ReuseInfo) -> Union[bool, str]:
+        """Does the reuse information contain any invalid SPDX identifiers?
+        i.e., does any identifier refer to a file that does not exist in
+        Project.licenses?
+
+        Return the faulty identifier.
+
+        If the info contains no SPDX identifiers at all, return False.
+        """
+        for expression in reuse_info.spdx_expressions:
+            identifiers = _identifiers_from_expression(expression)
+
+            for identifier in identifiers:
+                if identifier.rstrip('+') not in self.licenses:
+                    return identifier
+        return False
 
     def bill_of_materials(self, out=sys.stdout) -> None:
         """Generate a bill of materials from the project.  The bill of
@@ -307,7 +359,7 @@ class Project:
         out.write('Created: {}Z\n'.format(now.isoformat()))
         out.write(
             'CreatorComment: <text>This document was created automatically '
-            'using available license information consistent with the '
+            'using available reuse information consistent with the '
             'REUSE Initiative.</text>\n')
 
         all_files = list(self.all_files())
@@ -328,19 +380,15 @@ class Project:
             self._file_information(file_, out)
 
         # Licenses
-        for file_ in self._detected_license_files:
-            if not Path(file_).exists():
-                _logger.warning('could not find %s', file_)
-                continue
-            out.write('\n')
-            out.write(
-                'LicenseID: LicenseRef-{}\n'.format(
-                    hashlib.sha1(str(file_).encode('utf-8')).hexdigest()))
-            # TODO: Maybe do an assertion here
-            out.write('LicenseName: NOASSERTION\n')
+        for license, path in self.licenses.items():
+            if license.startswith('LicenseRef-'):
+                out.write('\n')
+                out.write('LicenseID: {}\n'.format(license))
+                out.write('LicenseName: NOASSERTION\n')
 
-            with (self._root / file_).open() as fp:
-                out.write('ExtractedText: <text>{}</text>\n'.format(fp.read()))
+                with (self._root / path).open() as fp:
+                    out.write(
+                        'ExtractedText: <text>{}</text>\n'.format(fp.read()))
 
     @property
     def is_git_repo(self) -> bool:
@@ -348,6 +396,46 @@ class Project:
         if self._is_git_repo is None:
             self._is_git_repo = in_git_repo(self._root)
         return self._is_git_repo
+
+    @property
+    def licenses(self) -> Dict[str, Path]:
+        """Return a dictionary of all licenses in the project, with their SPDX
+        identifiers as names and paths as values.
+
+        If no name could be found for a license file, name it
+        "LicenseRef-Unknown0" and count upwards for every other unknown file.
+        """
+        if self._license_files is not None:
+            return self._license_files
+
+        unknown_counter = 0
+        license_files = dict()
+
+        patterns = [
+            'LICENSE*', 'LICENCE*', 'COPYING*', 'COPYRIGHT*', 'LICENSES/**']
+        for pattern in patterns:
+            pattern = str(self._root.resolve() / pattern)
+            for path in glob.iglob(pattern, recursive=True):
+                # For some reason, LICENSES/** is resolved even though it
+                # doesn't exist.  I have no idea why.  Deal with that here.
+                if not Path(path).exists() or Path(path).is_dir():
+                    continue
+                path = self._relative_from_root(path)
+                try:
+                    identifiers = self._identifiers_of_license(path)
+                except IdentifierNotFound:
+                    identifier = 'LicenseRef-Unknown{}'.format(unknown_counter)
+                    identifiers = [identifier]
+                    unknown_counter += 1
+                    _logger.warning(
+                        'Could not resolve SPDX identifier of %s, '
+                        'resolving to %s', path, identifier)
+
+                for identifier in identifiers:
+                    license_files[identifier] = path
+
+        self._license_files = license_files
+        return self._license_files
 
     @property
     def _copyright(self) -> Optional[Copyright]:
@@ -366,6 +454,41 @@ class Project:
             if not self._copyright_val:
                 self._copyright_val = None
         return self._copyright_val
+
+    def _identifiers_of_license(self, path: PathLike) -> List[str]:
+        """Figure out the SPDX identifier(s) of a license given its path.
+
+        The order of precedence is:
+
+        - A .license file containing the `Valid-License-Identifier` tag.
+
+        - A `Valid-License-Identifier` tag within the license file itself.
+
+        - The name of the file (minus extension) if:
+
+          - The name is an SPDX license.
+
+          - The name starts with 'LicenseRef-'.
+        """
+        path = Path(path)
+
+        license_path = '{}.license'.format(path)
+
+        # Find the correct path to search.  Prioritise 'path.license'.
+        if not (self._root / license_path).exists():
+            license_path = path
+
+        with (self._root / license_path).open('rb') as fp:
+            result = extract_valid_license(
+                decoded_text_from_binary(fp, size=_HEADER_BYTES))
+            if any(result):
+                return result
+
+        if path.stem in LICENSES or path.stem.startswith('LicenseRef-'):
+            return [path.stem]
+
+        raise IdentifierNotFound(
+            'Could not find SPDX identifier for {}'.format(path))
 
     def _ignored_by_git(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of git?
@@ -414,19 +537,13 @@ class Project:
         # cannot, with full certainty, determine the license of a file.
         out.write('LicenseConcluded: NOASSERTION\n')
 
-        license_info = self.license_info_of(path)
+        reuse_info = self.reuse_info_of(path)
 
-        for spdx in license_info.licenses:
+        for spdx in reuse_info.spdx_expressions:
             out.write('LicenseInfoInFile: {}\n'.format(spdx))
 
-        for filename in license_info.filenames:
-            out.write(
-                'LicenseInfoInFile: LicenseRef-{}\n'.format(
-                    hashlib.sha1(filename.encode('utf-8')).hexdigest()))
-            self._detected_license_files.add(filename)
-
-        if license_info.copyright_lines:
-            for line in license_info.copyright_lines:
+        if reuse_info.copyright_lines:
+            for line in reuse_info.copyright_lines:
                 out.write('FileCopyrightText: <text>{}</text>\n'.format(line))
         else:
             out.write('FileCopyrightText: NONE\n')

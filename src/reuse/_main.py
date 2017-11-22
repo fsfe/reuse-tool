@@ -20,7 +20,6 @@
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0.txt
 
 """Entry functions for reuse."""
 
@@ -54,7 +53,7 @@ def _create_project() -> reuse.Project:
 @click.option(
     '--ignore-debian',
     is_flag=True,
-    help='Do not use debian/copyright to extract license information.')
+    help='Do not use debian/copyright to extract reuse information.')
 @click.option(
     '--debug',
     is_flag=True,
@@ -87,34 +86,27 @@ def compile(output):
     'paths', nargs=-1, type=click.Path(exists=True))
 @click.pass_context
 def license(context, paths):
-    """Print the licenses and corresponding license files of each provided
-    file.
-    """
+    """Print the SPDX expressions of each provided file."""
     project = _create_project()
     first = True
     for path in paths:
         if not first:
             click.echo()
         try:
-            license_info = project.license_info_of(
+            reuse_info = project.reuse_info_of(
                 path,
                 ignore_debian=context.obj['ignore_debian'])
         except IsADirectoryError:
             context.fail('%s is a directory' % path)
         except IOError:
             context.fail('could not read %s' % path)
-        except reuse.LicenseInfoNotFound:
-            license_info = reuse.LicenseInfo([], [], [])
+        except reuse.ReuseInfoNotFound:
+            reuse_info = reuse.ReuseInfo([], [])
 
         click.echo(quote(str(path)))
 
-        if license_info.licenses:
-            click.echo(' '.join(map(quote, license_info.licenses)))
-        else:
-            click.echo('none')
-
-        if license_info.filenames:
-            click.echo(' '.join(map(quote, license_info.filenames)))
+        if any(reuse_info.spdx_expressions):
+            click.echo(', '.join(map(quote, reuse_info.spdx_expressions)))
         else:
             click.echo('none')
 
