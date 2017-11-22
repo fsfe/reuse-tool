@@ -110,9 +110,8 @@ Starting local development is very simple, just execute the following commands:
 
     git clone git@git.fsfe.org:reuse/reuse.git
     cd reuse/
-    # We need pipenv to manage our virtualenv
-    pip3 install --user pipenv
-    # At this point, make sure that ~/.local/bin is in PATH
+    python3 -mvenv venv
+    source venv/bin/activate
     make develop
 
 You need to run `make develop` at least once to set up the virtualenv.

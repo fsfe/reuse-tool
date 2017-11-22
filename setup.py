@@ -20,12 +20,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0+
 
+import os
+
 from setuptools import setup
 
 requirements = [
     'click',
     'python-debian',
 ]
+
+if not os.environ.get('REUSE_DEV'):
+    requirements.append('pygit2')
 
 test_requirements = [
     'pytest',
