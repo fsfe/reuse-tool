@@ -115,7 +115,7 @@ def license(context, paths):
 
 @cli.command()
 @click.argument(
-    'path', required=False, default='.', type=click.Path(exists=True))
+    'path', required=False, type=click.Path(exists=True))
 @click.pass_context
 def lint(context, path):
     """List all unlicensed (non-compliant) files.
