@@ -63,7 +63,12 @@ computer:
 
 - `python3-pygit2`
 
-Then to install reuse, you only need to run the following command::
+Then to install reuse, you only need to run the following command:
+
+    pip3 install --user fsfe-reuse[git]
+
+If you do not have `python3-pygit2` available, you can install reuse without it.
+The caveat is that reuse will not ignore files ignored by Git:
 
     pip3 install --user fsfe-reuse
 

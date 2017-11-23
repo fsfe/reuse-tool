@@ -37,11 +37,17 @@ from typing import BinaryIO, Dict, Iterator, List, Optional, Union
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
-from pygit2 import Repository, GitError
 
-from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
-                    execute_command, in_git_repo)
+from ._util import (PathLike, decoded_text_from_binary)
+
 from .licenses import LICENSES
+
+try:
+    from pygit2 import Repository, GitError
+    PYGIT2 = True
+except ImportError:
+    PYGIT2 = False
+
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -168,10 +174,12 @@ class Project:
         if not self._root.is_dir():
             raise ReuseException('%s is no valid path' % self._root)
 
-        try:
-            self._git_repo = Repository(str(self._root))
-        except GitError:
-            self._git_repo = None
+        self._git_repo = None
+        if PYGIT2:
+            try:
+                self._git_repo = Repository(str(self._root))
+            except GitError:
+                pass
         self._license_files = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0

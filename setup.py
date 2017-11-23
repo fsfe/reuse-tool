@@ -28,9 +28,10 @@ requirements = [
     'click',
     'python-debian',
 ]
+git_extras = []
 
 if not os.environ.get('REUSE_DEV'):
-    requirements.append('pygit2')
+    git_extras.append('pygit2')
 
 test_requirements = [
     'pytest',
@@ -65,6 +66,9 @@ if __name__ == '__main__':
 
         install_requires=requirements,
         tests_require=test_requirements,
+        extras_require={
+            'git': git_extras,
+        },
 
         classifiers=[
             'Development Status :: 2 - Pre-Alpha',
