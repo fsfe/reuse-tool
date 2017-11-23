@@ -39,8 +39,8 @@ from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
 
-from ._util import (PathLike, decoded_text_from_binary)
-
+from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
+                    execute_command, in_git_repo)
 from .licenses import LICENSES
 
 try:
@@ -179,6 +179,10 @@ class Project:
         if PYGIT2:
             with contextlib.suppress(GitError):
                 self._git_repo = Repository(str(self._root))
+        elif GIT_EXE:
+            self._git_repo = in_git_repo(self._root)
+        else:
+            _logger.warning('could not find Git')
         self._license_files = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
@@ -502,7 +506,16 @@ class Project:
         """
         path = self._relative_from_root(path)
 
-        return self._git_repo.path_is_ignored(str(path))
+        if PYGIT2:
+            return self._git_repo.path_is_ignored(str(path))
+        elif GIT_EXE:
+            command = [GIT_EXE, 'check-ignore', str(path)]
+
+            result = execute_command(command, _logger, cwd=str(self._root))
+            return not result.returncode
+        else:
+            return False
+
 
     def _ignored_by_vcs(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of the VCS (e.g.,

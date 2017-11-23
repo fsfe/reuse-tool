@@ -39,10 +39,10 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 _EPILOG_TEXT = ''
 _PYGIT2_WARN = (
-    'You do not have pygit2 installed.  reuse will not ignore build artifacts '
-    'ignored by Git.\n'
+    'You do not have pygit2 installed.  reuse will slow down significantly '
+    'because of this.\n'
     '\n'
-    'For full functionality, please install your distribution\'s version of '
+    'For better performance, please install your distribution\'s version of '
     'pygit2.')
 if not reuse.PYGIT2:
     _EPILOG_TEXT = _EPILOG_TEXT + _PYGIT2_WARN
