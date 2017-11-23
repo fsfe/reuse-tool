@@ -37,6 +37,16 @@ reuse = importlib.import_module('..', __name__)  # pylint: disable=invalid-name
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
+_EPILOG_TEXT = ''
+_PYGIT2_WARN = (
+    'You do not have pygit2 installed.  reuse will not ignore build artifacts '
+    'ignored by Git.\n'
+    '\n'
+    'For full functionality, please install your distribution\'s version of '
+    'pygit2.')
+if not reuse.PYGIT2:
+    _EPILOG_TEXT = _EPILOG_TEXT + _PYGIT2_WARN
+
 
 def _create_project() -> reuse.Project:
     """Create a project object.  Try to find the project root from $PWD,
@@ -48,7 +58,7 @@ def _create_project() -> reuse.Project:
     return reuse.Project(root)
 
 
-@click.group()
+@click.group(epilog=_EPILOG_TEXT)
 @click.option(
     '--ignore-debian',
     is_flag=True,
@@ -81,6 +91,9 @@ def cli(context, debug, ignore_debian):
     logging.basicConfig(level=logging.DEBUG if debug else logging.WARNING)
     context.obj = dict()
     context.obj['ignore_debian'] = ignore_debian
+
+    if not reuse.PYGIT2:
+        _logger.warning(_PYGIT2_WARN)
 
 
 @cli.command()
