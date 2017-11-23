@@ -515,7 +515,6 @@ class Project:
             return not result.returncode
         return False
 
-
     def _ignored_by_vcs(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of the VCS (e.g.,
         .gitignore)?
