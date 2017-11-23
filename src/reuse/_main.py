@@ -30,7 +30,7 @@ from pipes import quote
 
 import click
 
-from ._util import find_root
+from ._util import find_root, setup_logging
 
 # Import __init__.py.  I don't know how to do this cleanly
 reuse = importlib.import_module('..', __name__)  # pylint: disable=invalid-name
@@ -78,7 +78,7 @@ def cli(context, debug, ignore_debian):
     You should have received a copy of the GNU General Public License along
     with reuse.  If not, see <http://www.gnu.org/licenses/>.
     """
-    logging.basicConfig(level=logging.DEBUG if debug else logging.WARNING)
+    setup_logging(level=logging.DEBUG if debug else logging.WARNING)
     context.obj = dict()
     context.obj['ignore_debian'] = ignore_debian
 
