@@ -24,6 +24,7 @@
 
 # pylint: disable=ungrouped-imports
 
+import contextlib
 import datetime
 import glob
 import hashlib
@@ -176,10 +177,8 @@ class Project:
 
         self._git_repo = None
         if PYGIT2:
-            try:
+            with contextlib.suppress(GitError):
                 self._git_repo = Repository(str(self._root))
-            except GitError:
-                pass
         self._license_files = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
