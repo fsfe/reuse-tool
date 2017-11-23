@@ -513,8 +513,7 @@ class Project:
 
             result = execute_command(command, _logger, cwd=str(self._root))
             return not result.returncode
-        else:
-            return False
+        return False
 
 
     def _ignored_by_vcs(self, path: PathLike) -> bool:
