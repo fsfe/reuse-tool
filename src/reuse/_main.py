@@ -39,8 +39,8 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 _EPILOG_TEXT = ''
 _PYGIT2_WARN = (
-    'You do not have pygit2 installed.  reuse will slow down significantly '
-    'because of this.\n'
+    'IMPORTANT: You do not have pygit2 installed.  reuse will slow down '
+    'significantly because of this.\n'
     '\n'
     'For better performance, please install your distribution\'s version of '
     'pygit2.')
