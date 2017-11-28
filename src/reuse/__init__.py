@@ -124,8 +124,6 @@ def _copyright_from_debian(
     if result is None:
         raise ReuseInfoNotFound()
 
-    _logger.debug('%s covered by debian/copyright', path)
-
     return ReuseInfo(
         [result.license.synopsis],
         list(map(str.strip, result.copyright.splitlines())))
@@ -278,9 +276,11 @@ class Project:
         # Search the debian/copyright file for copyright information.
         if not ignore_debian and self._copyright:
             try:
-                return _copyright_from_debian(
+                reuse_info = _copyright_from_debian(
                     self._relative_from_root(path),
                     self._copyright)
+                _logger.info('%s covered by debian/copyright', path)
+                return reuse_info
             except ReuseInfoNotFound:
                 pass
 
@@ -316,7 +316,7 @@ class Project:
             # file.  If not, warn the user and yield the file.
             wrong_identifier = self.contains_invalid_identifiers(reuse_info)
             if wrong_identifier:
-                _logger.error(
+                _logger.warning(
                     '%s is licensed under %s, but its license file '
                     'could not be found', file_, wrong_identifier)
                 yield file_

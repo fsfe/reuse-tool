@@ -38,6 +38,20 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 PathLike = Union[Path, str]  # pylint: disable=invalid-name
 
 
+def setup_logging(level: int = logging.WARNING) -> None:
+    """Configure logging for reuse."""
+    # library_logger is the root logger for reuse.  We configure logging solely
+    # for reuse, not for any other libraries.
+    library_logger = logging.getLogger('reuse')
+    library_logger.setLevel(level)
+
+    if not library_logger.hasHandlers():
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        library_logger.addHandler(handler)
+
+
 def execute_command(
         command: List[str],
         logger: logging.Logger,

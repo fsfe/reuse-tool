@@ -38,6 +38,7 @@ import pytest
 from click.testing import CliRunner
 
 from reuse import ReuseInfo
+from reuse._util import setup_logging
 
 CWD = Path.cwd()
 
@@ -64,7 +65,7 @@ def pytest_configure(config):
     initial conftest files been loaded.
     """
     if config.getoption('--capture') == 'no':
-        logging.basicConfig(level=logging.DEBUG)
+        setup_logging(level=logging.DEBUG)
 
 
 def pytest_runtest_setup(item):
