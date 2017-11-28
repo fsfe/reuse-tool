@@ -37,15 +37,24 @@ reuse = importlib.import_module('..', __name__)  # pylint: disable=invalid-name
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
-_EPILOG_TEXT = ''
+_EPILOG_TEXT = (
+    """
+Support the FSFE's work:
+
+    Donations are critical to our strength and autonomy.  They enable us to
+continue working for Free Software wherever necessary.  Please consider
+making a donation at <https://fsfe.org/donate/>.""")
 _PYGIT2_WARN = (
-    'IMPORTANT: You do not have pygit2 installed.  reuse will slow down '
-    'significantly because of this.\n'
-    '\n'
-    'For better performance, please install your distribution\'s version of '
-    'pygit2.')
+    """
+IMPORTANT:
+
+    You do not have pygit2 installed.  reuse will slow down significantly
+because of this.
+
+    For better performance, please install your distribution's version of
+pygit2.""")
 if not reuse.PYGIT2:
-    _EPILOG_TEXT = _EPILOG_TEXT + _PYGIT2_WARN
+    _EPILOG_TEXT = _EPILOG_TEXT + '\n\n' + _PYGIT2_WARN
 
 
 def _create_project() -> reuse.Project:
