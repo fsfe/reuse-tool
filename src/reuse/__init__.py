@@ -46,7 +46,7 @@ from .licenses import LICENSES
 try:
     from pygit2 import Repository, GitError
     PYGIT2 = True
-except ImportError:
+except ImportError:  # pragma: no cover
     PYGIT2 = False
 
 
