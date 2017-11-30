@@ -530,9 +530,7 @@ class Project:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
-        path = Path(path).resolve()
-        common = os.path.commonpath([str(path), str(self._root.resolve())])
-        return Path(str(path).replace(common + '/', ''))
+        return Path(os.path.relpath(str(path), start=str(self._root)))
 
     def _file_information(self, path: PathLike, out=sys.stdout) -> None:
         """Create SPDX File Information for *path*."""
