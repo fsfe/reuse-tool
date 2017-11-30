@@ -1,0 +1,1 @@
+- Added ``--ignore-missing`` to `reuse lint`.
