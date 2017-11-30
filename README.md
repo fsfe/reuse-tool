@@ -54,10 +54,24 @@ REUSE Initiative recommendations.
 
 ## Install
 
-To install reuse, make sure that you have Python >=3.5 and Pip installed, then
-run the following command::
+To install reuse, you need to have the following pieces of software on your
+computer:
+
+- Python 3.5+
+
+- Pip
+
+- `python3-pygit2`
+
+If you do not have `python3-pygit2` available, you can install and use reuse
+without it.  The caveat is that the performance of reuse will degrade
+significantly as the amount of files increases.
+
+To install reuse, you only need to run the following command:
 
     pip3 install --user fsfe-reuse
+
+After this, make sure that `~/.local/bin` is in your `$PATH`.
 
 ## Usage
 
@@ -110,9 +124,8 @@ Starting local development is very simple, just execute the following commands:
 
     git clone git@git.fsfe.org:reuse/reuse.git
     cd reuse/
-    # We need pipenv to manage our virtualenv
-    pip3 install --user pipenv
-    # At this point, make sure that ~/.local/bin is in PATH
+    python3 -mvenv venv
+    source venv/bin/activate
     make develop
 
 You need to run `make develop` at least once to set up the virtualenv.

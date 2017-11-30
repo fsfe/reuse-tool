@@ -24,6 +24,7 @@
 
 # pylint: disable=ungrouped-imports
 
+import contextlib
 import datetime
 import glob
 import hashlib
@@ -33,7 +34,7 @@ import re
 import sys
 from collections import namedtuple
 from pathlib import Path
-from typing import BinaryIO, Dict, Iterator, List, Optional, Union
+from typing import BinaryIO, Dict, Iterable, Iterator, List, Optional, Union
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
@@ -41,6 +42,13 @@ from debian.copyright import Copyright, NotMachineReadableError
 from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
 from .licenses import LICENSES
+
+try:
+    from pygit2 import Repository, GitError
+    PYGIT2 = True
+except ImportError:  # pragma: no cover
+    PYGIT2 = False
+
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -165,7 +173,14 @@ class Project:
         if not self._root.is_dir():
             raise ReuseException('%s is no valid path' % self._root)
 
-        self._is_git_repo = None
+        self._git_repo = None
+        if PYGIT2:
+            with contextlib.suppress(GitError):
+                self._git_repo = Repository(str(self._root))
+        elif GIT_EXE:
+            self._git_repo = in_git_repo(self._root)
+        else:
+            _logger.warning('could not find Git')
         self._license_files = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
@@ -193,10 +208,12 @@ class Project:
                     if pattern.match(dir_):
                         _logger.debug('ignoring %s - reuse', root / dir_)
                         dirs.remove(dir_)
-                if self._ignored_by_vcs(root / dir_):
-                    _logger.debug(
-                        'ignoring %s - ignored by vcs', root / dir_)
-                    dirs.remove(dir_)
+                        break
+                else:
+                    if self._ignored_by_vcs(root / dir_):
+                        _logger.debug(
+                            'ignoring %s - ignored by vcs', root / dir_)
+                        dirs.remove(dir_)
 
             # Filter files.
             for file_ in files:
@@ -277,7 +294,8 @@ class Project:
     def unlicensed(
             self,
             path: PathLike = None,
-            ignore_debian: bool = False) -> Iterator[Path]:
+            ignore_debian: bool = False,
+            ignore_missing: bool = False) -> Iterator[Path]:
         """Yield all unlicensed files under *path*.  Files which refer to SPDX
         identifiers that do not exist are also considered unlicensed.
 
@@ -295,15 +313,17 @@ class Project:
                 yield file_
                 continue
 
-            # Test if all licenses in the expression have an associated license
-            # file.  If not, warn the user and yield the file.
-            wrong_identifier = self.contains_invalid_identifiers(reuse_info)
-            if wrong_identifier:
-                _logger.warning(
-                    '%s is licensed under %s, but its license file '
-                    'could not be found', file_, wrong_identifier)
-                yield file_
-                continue
+            if not ignore_missing:
+                # Test if all licenses in the expression have an associated
+                # license file.  If not, warn the user and yield the file.
+                wrong_identifier = self.contains_invalid_identifiers(
+                    reuse_info.spdx_expressions)
+                if wrong_identifier:
+                    _logger.warning(
+                        '%s is licensed under %s, but its license file '
+                        'could not be found', file_, wrong_identifier)
+                    yield file_
+                    continue
 
             # If there is reuse information for the file, but no SPDX
             # expressions, yield the file.
@@ -312,16 +332,16 @@ class Project:
 
     def contains_invalid_identifiers(
             self,
-            reuse_info: ReuseInfo) -> Union[bool, str]:
-        """Does the reuse information contain any invalid SPDX identifiers?
+            expressions: Iterable[str]) -> Union[bool, str]:
+        """Does the list of expressions contain any invalid SPDX identifiers?
         i.e., does any identifier refer to a file that does not exist in
         Project.licenses?
 
         Return the faulty identifier.
 
-        If the info contains no SPDX identifiers at all, return False.
+        If the list contains no SPDX identifiers at all, return False.
         """
-        for expression in reuse_info.spdx_expressions:
+        for expression in expressions:
             identifiers = _identifiers_from_expression(expression)
 
             for identifier in identifiers:
@@ -388,13 +408,6 @@ class Project:
                 with (self._root / path).open() as fp:
                     out.write(
                         'ExtractedText: <text>{}</text>\n'.format(fp.read()))
-
-    @property
-    def is_git_repo(self) -> bool:
-        """Is the project a git repository?  Cache the result."""
-        if self._is_git_repo is None:
-            self._is_git_repo = in_git_repo(self._root)
-        return self._is_git_repo
 
     @property
     def licenses(self) -> Dict[str, Path]:
@@ -495,19 +508,21 @@ class Project:
         Always return False if git is not installed.
         """
         path = self._relative_from_root(path)
-        if GIT_EXE is None:
-            return False
 
-        command = [GIT_EXE, 'check-ignore', str(path)]
-        result = execute_command(command, _logger, cwd=str(self._root))
+        if PYGIT2:
+            return self._git_repo.path_is_ignored(str(path))
+        elif GIT_EXE:
+            command = [GIT_EXE, 'check-ignore', str(path)]
 
-        return not result.returncode
+            result = execute_command(command, _logger, cwd=str(self._root))
+            return not result.returncode
+        return False
 
     def _ignored_by_vcs(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of the VCS (e.g.,
         .gitignore)?
         """
-        if self.is_git_repo:
+        if self._git_repo:
             return self._ignored_by_git(path)
         return False
 

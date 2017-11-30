@@ -7,7 +7,6 @@ pages:
     only:
         - master
     script:
-        - pip install pipenv
         - make develop
         - make docs
         - mv docs/_build/html public

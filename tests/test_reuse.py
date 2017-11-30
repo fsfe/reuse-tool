@@ -209,8 +209,8 @@ def test_contains_invalid_identifiers(empty_directory):
     """If a ReuseInfo object contains invalid SPDX identifiers, return it."""
     project = reuse.Project(empty_directory)
 
-    reuse_info = reuse.ReuseInfo(['foo'], [])
-    assert project.contains_invalid_identifiers(reuse_info) == 'foo'
+    expressions = ['foo']
+    assert project.contains_invalid_identifiers(expressions) == 'foo'
 
 
 def test_licenses_from_filenames(fake_repository):

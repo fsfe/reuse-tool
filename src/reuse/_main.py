@@ -37,6 +37,25 @@ reuse = importlib.import_module('..', __name__)  # pylint: disable=invalid-name
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
+_EPILOG_TEXT = (
+    """
+Support the FSFE's work:
+
+    Donations are critical to our strength and autonomy.  They enable us to
+continue working for Free Software wherever necessary.  Please consider
+making a donation at <https://fsfe.org/donate/>.""")
+_PYGIT2_WARN = (
+    """
+IMPORTANT:
+
+    You do not have pygit2 installed.  reuse will slow down significantly
+because of this.
+
+    For better performance, please install your distribution's version of
+pygit2.""")
+if not reuse.PYGIT2:
+    _EPILOG_TEXT = _EPILOG_TEXT + '\n\n' + _PYGIT2_WARN
+
 
 def _create_project() -> reuse.Project:
     """Create a project object.  Try to find the project root from $PWD,
@@ -48,7 +67,7 @@ def _create_project() -> reuse.Project:
     return reuse.Project(root)
 
 
-@click.group()
+@click.group(epilog=_EPILOG_TEXT)
 @click.option(
     '--ignore-debian',
     is_flag=True,
@@ -81,6 +100,9 @@ def cli(context, debug, ignore_debian):
     setup_logging(level=logging.DEBUG if debug else logging.WARNING)
     context.obj = dict()
     context.obj['ignore_debian'] = ignore_debian
+
+    if not reuse.PYGIT2:
+        _logger.warning(_PYGIT2_WARN)
 
 
 @cli.command()
@@ -130,21 +152,28 @@ def license(context, paths):
 
 
 @cli.command()
+@click.option(
+    '--ignore-missing',
+    is_flag=True,
+    help='Ignore missing licenses.')
 @click.argument(
     'path', required=False, type=click.Path(exists=True))
 @click.pass_context
-def lint(context, path):
+def lint(context, path, ignore_missing):
     """List all unlicensed (non-compliant) files.
 
     This prints only the paths of the files for which a licence could not be
     found, each file on a separate line.
+
+    Error and warning messages are output to STDERR.
     """
     counter = 0
 
     project = _create_project()
     for file_ in project.unlicensed(
             path,
-            ignore_debian=context.obj['ignore_debian']):
+            ignore_debian=context.obj['ignore_debian'],
+            ignore_missing=ignore_missing):
         click.echo(quote(str(file_)))
         counter += 1
 
