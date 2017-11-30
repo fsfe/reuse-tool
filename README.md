@@ -82,7 +82,23 @@ After this, make sure that `~/.local/bin` is in your `$PATH`.
 
 ## Usage
 
-To check your project for REUSE compliance, use `reuse lint`:
+First, read the [REUSE recommendations](https://reuse.software/practices/).  In
+a nutshell:
+
+- Include the texts of all used licenses in your project.
+
+- Add a comment header to each file that says `SPDX-License-Identifier:
+  GPL-3.0+`.  Replace `GPL-3.0+` with the license that applies to the file.  If
+  you cannot edit the comment header, include a `debian/copyright` file.
+
+- Add a comment header to each file that says `Copyright (C) YEAR  NAME`.  You
+  can be flexible with the format, just make sure that the line starts with
+  `Copyright`.  You can add multiple lines.
+
+Once you have taken those steps (again, read the actual recommendations for
+better instructions), you can use this tool to verify whether your project is
+fully compliant with the REUSE recommendations.  To check against the
+recommendations, use `reuse lint`:
 
     ~/Projects/curl$ reuse lint
     .gitattributes
