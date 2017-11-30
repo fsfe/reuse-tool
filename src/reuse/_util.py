@@ -23,6 +23,7 @@
 """Misc. utilities for reuse."""
 
 import logging
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -71,7 +72,7 @@ def execute_command(
         **kwargs)
 
 
-def find_root() -> Optional[PathLike]:
+def find_root() -> Optional[Path]:
     """Try to find the root of the project from $PWD.  If none is found, return
     None.
     """
@@ -81,7 +82,8 @@ def find_root() -> Optional[PathLike]:
         result = execute_command(command, _logger, cwd=str(cwd))
 
         if not result.returncode:
-            return Path(result.stdout.decode('utf-8')[:-1])
+            path = result.stdout.decode('utf-8')[:-1]
+            return Path(os.path.relpath(path, str(cwd)))
     return None
 
 
