@@ -34,7 +34,7 @@ import re
 import sys
 from collections import namedtuple
 from pathlib import Path
-from typing import BinaryIO, Dict, Iterator, List, Optional, Union
+from typing import BinaryIO, Dict, Iterable, Iterator, List, Optional, Union
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
@@ -294,7 +294,8 @@ class Project:
     def unlicensed(
             self,
             path: PathLike = None,
-            ignore_debian: bool = False) -> Iterator[Path]:
+            ignore_debian: bool = False,
+            ignore_missing: bool = False) -> Iterator[Path]:
         """Yield all unlicensed files under *path*.  Files which refer to SPDX
         identifiers that do not exist are also considered unlicensed.
 
@@ -312,15 +313,17 @@ class Project:
                 yield file_
                 continue
 
-            # Test if all licenses in the expression have an associated license
-            # file.  If not, warn the user and yield the file.
-            wrong_identifier = self.contains_invalid_identifiers(reuse_info)
-            if wrong_identifier:
-                _logger.warning(
-                    '%s is licensed under %s, but its license file '
-                    'could not be found', file_, wrong_identifier)
-                yield file_
-                continue
+            if not ignore_missing:
+                # Test if all licenses in the expression have an associated
+                # license file.  If not, warn the user and yield the file.
+                wrong_identifier = self.contains_invalid_identifiers(
+                    reuse_info.spdx_expressions)
+                if wrong_identifier:
+                    _logger.warning(
+                        '%s is licensed under %s, but its license file '
+                        'could not be found', file_, wrong_identifier)
+                    yield file_
+                    continue
 
             # If there is reuse information for the file, but no SPDX
             # expressions, yield the file.
@@ -329,16 +332,16 @@ class Project:
 
     def contains_invalid_identifiers(
             self,
-            reuse_info: ReuseInfo) -> Union[bool, str]:
-        """Does the reuse information contain any invalid SPDX identifiers?
+            expressions: Iterable[str]) -> Union[bool, str]:
+        """Does the list of expressions contain any invalid SPDX identifiers?
         i.e., does any identifier refer to a file that does not exist in
         Project.licenses?
 
         Return the faulty identifier.
 
-        If the info contains no SPDX identifiers at all, return False.
+        If the list contains no SPDX identifiers at all, return False.
         """
-        for expression in reuse_info.spdx_expressions:
+        for expression in expressions:
             identifiers = _identifiers_from_expression(expression)
 
             for identifier in identifiers:
