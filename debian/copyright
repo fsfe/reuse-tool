@@ -7,6 +7,10 @@ Files: AUTHORS.rst docs/*.rst README.md
 Copyright: 2017 Free Software Foundation Europe
 License: CC-BY-SA-4.0
 
+Files: AUTHORS.rst README.md
+Copyright: 2017 Sebastian Schuberth
+License: CC-BY-SA-4.0
+
 Files: CHANGELOG/*
 Copyright: 2017 Free Software Foundation Europe
 License: CC-BY-SA-4.0
