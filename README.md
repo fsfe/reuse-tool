@@ -63,9 +63,16 @@ computer:
 
 - `python3-pygit2`
 
-If you do not have `python3-pygit2` available, you can install and use reuse
-without it.  The caveat is that the performance of reuse will degrade
-significantly as the amount of files increases.
+You can install `python3-pygit2` via your operating system's package
+manager. For Debian-like GNU/Linux distributions this would be:
+
+    apt-get install python3-pygit2
+
+Note that simply installing `pygit2` via `pip` does not work as this omits
+the `libgit2` dependency.
+
+You can also use reuse without `python3-pygit2` at the cost of significantly
+degraded performance as the amount of files to process increases.
 
 To install reuse, you only need to run the following command:
 
