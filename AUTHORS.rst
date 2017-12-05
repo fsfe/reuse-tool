@@ -10,4 +10,4 @@ Development Lead
 Contributors
 ------------
 
-[Sebastian Schuberth](https://git.fsfe.org/sschuberth)
+- Sebastian Schuberth <schuberth at fsfe dot org>
