@@ -4,22 +4,22 @@ Upstream-Contact: Carmen Bianca Bakker <carmenbianca@fsfe.org>
 Source: https://git.fsfe.org/reuse/reuse
 
 Files: docs/*.rst
-Copyright: 2017  Free Software Foundation Europe
+Copyright: 2017  Free Software Foundation Europe e.V.
 License: CC-BY-SA-4.0
 
 Files: README.md
-Copyright: 2017  Free Software Foundation Europe
+Copyright: 2017  Free Software Foundation Europe e.V.
            2017  Sebastian Schuberth
 License: CC-BY-SA-4.0
 
 Files: CHANGELOG/*
-Copyright: 2017  Free Software Foundation Europe
+Copyright: 2017  Free Software Foundation Europe e.V.
 License: CC-BY-SA-4.0
 
 Files: .gitlab-ci.yml .editorconfig .pylintrc MANIFEST.in Makefile Pipfile docs/Makefile setup.cfg requirements.txt tox.ini
-Copyright: 2017  Free Software Foundation Europe
+Copyright: 2017  Free Software Foundation Europe e.V.
 License: GPL-3.0+
 
 Files: tests/resources/*
-Copyright: 2017  Free Software Foundation Europe
+Copyright: 2017  Free Software Foundation Europe e.V.
 License: GPL-3.0+
