@@ -7,6 +7,7 @@ pages:
     only:
         - master
     script:
+        - apt-get -qq update
         - apt-get -y -qq install build-essential cmake
         - make develop
         - make docs
