@@ -119,13 +119,13 @@ def _checksum(file_object: BinaryIO, hash_function) -> str:
 
 def _copyright_from_debian(
         path: PathLike,
-        copyright: Copyright) -> Optional[ReuseInfo]:
+        copyright: Copyright) -> ReuseInfo:
     """Find the reuse information of *path* in the Debian copyright object.
     """
     result = copyright.find_files_paragraph(str(path))
 
     if result is None:
-        raise ReuseInfoNotFound()
+        return ReuseInfo([], [])
 
     return ReuseInfo(
         [result.license.synopsis],
@@ -243,10 +243,8 @@ class Project:
             ignore_debian: bool = False) -> ReuseInfo:
         """Get the reuse information of *path*.
 
-        This function will return any reuse information that it can found.
-        It will only raise a ReuseInfoNotFound error if no reuse
-        information could be found at all.  It is up to the user to apply
-        further logic to the findings.
+        This function will return any reuse information that it can find.  If
+        none is found, an empty ReuseInfo object is returned.
         """
         path = Path(path)
         license_path = Path('{}.license'.format(path))
@@ -258,40 +256,41 @@ class Project:
 
         # Try to extract reuse information from the file.
         file_result = None
+        fp = None
         try:
             fp = license_path.open('rb')
         except (OSError, IOError) as error:
-            raise ReuseInfoNotFound(
-                '{} does not exist or could not be '
-                'opened'.format(path)) from error
-        try:
-            file_result = extract_reuse_info(
-                decoded_text_from_binary(fp, size=_HEADER_BYTES))
-            # Only return if the result contains a SPDX-License-Identifier
-            # tag.  If it does not, the file may have contained a copyright
-            # line.  That means we first want to check debian/copyright.
-            if any(file_result.spdx_expressions):
-                return file_result
-        finally:
-            fp.close()
+            _logger.exception('%s does not exist or could not be opened', path)
+
+        if fp is not None:
+            try:
+                file_result = extract_reuse_info(
+                    decoded_text_from_binary(fp, size=_HEADER_BYTES))
+                # Only return if the result contains a SPDX-License-Identifier
+                # tag.  If it does not, the file may have contained a copyright
+                # line.  That means we first want to check debian/copyright.
+                if any(file_result.spdx_expressions):
+                    return file_result
+            except UnicodeDecodeError:
+                _logger.exception('%s could not be decoded', path)
+            finally:
+                fp.close()
 
         # Search the debian/copyright file for copyright information.
         if not ignore_debian and self._copyright:
-            try:
-                reuse_info = _copyright_from_debian(
-                    self._relative_from_root(path),
-                    self._copyright)
+            reuse_info = _copyright_from_debian(
+                self._relative_from_root(path),
+                self._copyright)
+            if any(reuse_info):
                 _logger.info('%s covered by debian/copyright', path)
                 return reuse_info
-            except ReuseInfoNotFound:
-                pass
 
         # Return the result we found earlier if debian/copyright didn't contain
         # more information.
         if file_result is not None and any(file_result):
             return file_result
 
-        raise ReuseInfoNotFound()
+        return ReuseInfo([], [])
 
     def unlicensed(
             self,
@@ -307,11 +306,10 @@ class Project:
             path = self._root
         for file_ in self.all_files(path):
             # Test if file has reuse info.
-            try:
-                reuse_info = self.reuse_info_of(
-                    file_,
-                    ignore_debian=ignore_debian)
-            except ReuseInfoNotFound:
+            reuse_info = self.reuse_info_of(
+                file_,
+                ignore_debian=ignore_debian)
+            if not any(reuse_info):
                 yield file_
                 continue
 
@@ -331,6 +329,7 @@ class Project:
             # expressions, yield the file.
             if not any(reuse_info.spdx_expressions):
                 yield file_
+                continue
 
     def contains_invalid_identifiers(
             self,
@@ -485,7 +484,6 @@ class Project:
           - The name starts with 'LicenseRef-'.
         """
         path = Path(path)
-
         license_path = '{}.license'.format(path)
 
         # Find the correct path to search.  Prioritise 'path.license'.
