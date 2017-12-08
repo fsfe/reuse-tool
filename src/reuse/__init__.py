@@ -101,10 +101,6 @@ class ReuseException(Exception):
     """Base exception."""
 
 
-class ReuseInfoNotFound(ReuseException):
-    """Could not find license for file."""
-
-
 class IdentifierNotFound(ReuseException):
     """Could not find SPDX identifier for license file."""
 
