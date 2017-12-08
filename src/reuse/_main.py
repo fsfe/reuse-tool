@@ -157,9 +157,9 @@ def license(context, paths):
     is_flag=True,
     help='Ignore missing licenses.')
 @click.argument(
-    'path', required=False, type=click.Path(exists=True))
+    'paths', required=False, nargs=-1, type=click.Path(exists=True))
 @click.pass_context
-def lint(context, path, ignore_missing):
+def lint(context, paths, ignore_missing):
     """List all unlicensed (non-compliant) files.
 
     This prints only the paths of the files for which a licence could not be
@@ -168,13 +168,21 @@ def lint(context, path, ignore_missing):
     Error and warning messages are output to STDERR.
     """
     counter = 0
+    found = set()
 
     project = _create_project()
-    for file_ in project.unlicensed(
-            path,
-            ignore_debian=context.obj['ignore_debian'],
-            ignore_missing=ignore_missing):
-        click.echo(quote(str(file_)))
-        counter += 1
+    if not paths:
+        paths = [project._root]
+
+    for path in paths:
+        for file_ in project.unlicensed(
+                path,
+                ignore_debian=context.obj['ignore_debian'],
+                ignore_missing=ignore_missing):
+            output = quote(str(file_))
+            if output not in found:
+                click.echo(output)
+                found.add(output)
+                counter += 1
 
     context.exit(counter)

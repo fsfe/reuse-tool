@@ -195,10 +195,16 @@ class Project:
         - Files ignored by VCS (e.g., see .gitignore)
 
         - Files/directories matching IGNORE_*_PATTERNS.
+
+        If directory is a file, yield it if it is not ignored.
         """
         if directory is None:
             directory = self._root
         directory = Path(directory)
+
+        if directory.is_file() and not self._is_path_ignored(directory):
+            _logger.debug('yielding %s', directory)
+            yield directory
 
         for root, dirs, files in os.walk(str(directory)):
             root = Path(root)
@@ -206,32 +212,14 @@ class Project:
 
             # Don't walk ignored directories
             for dir_ in list(dirs):
-                for pattern in _IGNORE_DIR_PATTERNS:
-                    if pattern.match(dir_):
-                        _logger.debug('ignoring %s - reuse', root / dir_)
-                        dirs.remove(dir_)
-                        break
-                else:
-                    if self._ignored_by_vcs(root / dir_):
-                        _logger.debug(
-                            'ignoring %s - ignored by vcs', root / dir_)
-                        dirs.remove(dir_)
+                if self._is_path_ignored(root / dir_):
+                    _logger.debug('ignoring %s', root / dir_)
+                    dirs.remove(dir_)
 
             # Filter files.
             for file_ in files:
-                # General ignored files
-                try:
-                    for pattern in _IGNORE_FILE_PATTERNS:
-                        if pattern.match(file_):
-                            _logger.debug('ignoring %s - reuse', root / file_)
-                            # Have to continue the outer loop here, so throw an
-                            # exception.  Not the cleanest solution.
-                            raise ReuseException()
-                except ReuseException:
-                    continue
-
-                if self._ignored_by_vcs(root / file_):
-                    _logger.debug('ignoring %s - ignored by vcs', root / file_)
+                if self._is_path_ignored(root / file_):
+                    _logger.debug('ignoring %s', root / file_)
                     continue
 
                 _logger.debug('yielding %s', file_)
@@ -524,6 +512,24 @@ class Project:
         """
         if self._git_repo:
             return self._ignored_by_git(path)
+        return False
+
+    def _is_path_ignored(self, path: PathLike) -> bool:
+        """Is *path* ignored by some mechanism?"""
+        path = Path(path)
+
+        if path.is_file():
+            for pattern in _IGNORE_FILE_PATTERNS:
+                if pattern.match(path.name):
+                    return True
+        elif path.is_dir():
+            for pattern in _IGNORE_DIR_PATTERNS:
+                if pattern.match(path.name):
+                    return True
+
+        if self._ignored_by_vcs(path):
+            return True
+
         return False
 
     def _relative_from_root(self, path: PathLike) -> Path:

@@ -64,6 +64,20 @@ def test_lint_ignore_debian(fake_repository, runner):
     assert result.exit_code
 
 
+def test_lint_twice_path(fake_repository, runner):
+    """When providing the same path twice, only output those files once."""
+    (fake_repository / 'foo.py').touch()
+    (fake_repository / 'bar.py').touch()
+    result = runner.invoke(
+        _main.cli,
+        ['lint'] + [str(fake_repository / 'foo.py')] * 2)
+
+    output_lines = result.output.splitlines()
+    assert len(output_lines) == 1
+    assert 'foo.py' in output_lines[0]
+    assert result.exit_code
+
+
 def test_compile(tiny_repository, runner):
     """A correct bill of materials is generated."""
     result = runner.invoke(
