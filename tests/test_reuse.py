@@ -108,6 +108,28 @@ def test_error_in_debian_copyright(fake_repository):
         project.reuse_info_of('src/no_license.py')
 
 
+def test_all_files(empty_directory):
+    """Given a directory with some files, yield all files."""
+    (empty_directory / 'foo').touch()
+    (empty_directory / 'bar').touch()
+
+    project = reuse.Project(empty_directory)
+    assert {file_.name for file_ in project.all_files()} == {'foo', 'bar'}
+
+
+def test_all_files_on_single_file(empty_directory):
+    """When a file is given as parameter instead of a directory, just yield the
+    file.
+    """
+    (empty_directory / 'foo').touch()
+
+    project = reuse.Project(empty_directory)
+    result = list(project.all_files(empty_directory / 'foo'))
+
+    assert len(result) == 1
+    assert result[0].name == 'foo'
+
+
 def test_license_file_detected(empty_file_with_license_file):
     """Test whether---when given a file and a license file---the license file
     is detected and read.
