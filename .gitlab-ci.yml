@@ -9,6 +9,8 @@ pages:
     script:
         - apt-get -qq update
         - apt-get -y -qq install build-essential cmake
+        - python3 -mvenv venv
+        - source venv/bin/activate
         - make develop
         - make docs
         - mv docs/_build/html public
