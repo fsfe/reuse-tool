@@ -259,7 +259,7 @@ class Project:
         fp = None
         try:
             fp = license_path.open('rb')
-        except (OSError, IOError) as error:
+        except (OSError, IOError):
             _logger.exception('%s does not exist or could not be opened', path)
 
         if fp is not None:
