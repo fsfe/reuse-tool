@@ -88,6 +88,7 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r'^\.gitignore$'),
 ]
 
+#: Simple structure for holding REUSE information.
 ReuseInfo = NamedTuple(
     'ReuseInfo',
     [
@@ -165,9 +166,8 @@ def extract_valid_license(text: str) -> str:
 
 
 class Project:
-    """Holds a project's root, more or less.  This is very convenient, because
-    a lot of interactions require knowing where you are in relation to the
-    project root.
+    """Simple object that holds the project's root, which is necessary for many
+    interactions.
     """
 
     def __init__(self, root: PathLike):
