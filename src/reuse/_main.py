@@ -172,7 +172,7 @@ def lint(context, paths, ignore_missing):
 
     project = _create_project()
     if not paths:
-        paths = [project._root]
+        paths = [project.root]
 
     for path in paths:
         for file_ in project.unlicensed(

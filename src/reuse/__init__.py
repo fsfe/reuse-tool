@@ -199,7 +199,7 @@ class Project:
         If directory is a file, yield it if it is not ignored.
         """
         if directory is None:
-            directory = self._root
+            directory = self.root
         directory = Path(directory)
 
         if directory.is_file() and not self._is_path_ignored(directory):
@@ -291,7 +291,7 @@ class Project:
         If *path* is not specified, it becomes root.
         """
         if path is None:
-            path = self._root
+            path = self.root
         for file_ in self.all_files(path):
             # Test if file has reuse info.
             reuse_info = self.reuse_info_of(
@@ -349,7 +349,7 @@ class Project:
         out.write('DataLicense: CC0-1.0\n')
         out.write('SPDXID: SPDXRef-DOCUMENT\n')
 
-        out.write('DocumentName: {}\n'.format(self._root.resolve().name))
+        out.write('DocumentName: {}\n'.format(self.root.resolve().name))
         # TODO: Generate UUID from git revision maybe
         # TODO: Fix the URL
         out.write(
@@ -394,7 +394,7 @@ class Project:
                 out.write('LicenseID: {}\n'.format(license))
                 out.write('LicenseName: NOASSERTION\n')
 
-                with (self._root / path).open() as fp:
+                with (self.root / path).open() as fp:
                     out.write(
                         'ExtractedText: <text>{}</text>\n'.format(fp.read()))
 
@@ -415,7 +415,7 @@ class Project:
         patterns = [
             'LICENSE*', 'LICENCE*', 'COPYING*', 'COPYRIGHT*', 'LICENSES/**']
         for pattern in patterns:
-            pattern = str(self._root.resolve() / pattern)
+            pattern = str(self.root.resolve() / pattern)
             for path in glob.iglob(pattern, recursive=True):
                 # For some reason, LICENSES/** is resolved even though it
                 # doesn't exist.  I have no idea why.  Deal with that here.
@@ -439,9 +439,13 @@ class Project:
         return self._license_files
 
     @property
+    def root(self):
+        return self._root
+
+    @property
     def _copyright(self) -> Optional[Copyright]:
         if self._copyright_val == 0:
-            copyright_path = self._root / 'debian' / 'copyright'
+            copyright_path = self.root / 'debian' / 'copyright'
             try:
                 with copyright_path.open() as fp:
                     self._copyright_val = Copyright(fp)
@@ -475,10 +479,10 @@ class Project:
         license_path = '{}.license'.format(path)
 
         # Find the correct path to search.  Prioritise 'path.license'.
-        if not (self._root / license_path).exists():
+        if not (self.root / license_path).exists():
             license_path = path
 
-        with (self._root / license_path).open('rb') as fp:
+        with (self.root / license_path).open('rb') as fp:
             result = extract_valid_license(
                 decoded_text_from_binary(fp, size=_HEADER_BYTES))
             if any(result):
@@ -502,7 +506,7 @@ class Project:
         elif GIT_EXE:
             command = [GIT_EXE, 'check-ignore', str(path)]
 
-            result = execute_command(command, _logger, cwd=str(self._root))
+            result = execute_command(command, _logger, cwd=str(self.root))
             return not result.returncode
         return False
 
@@ -536,7 +540,7 @@ class Project:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
-        return Path(os.path.relpath(str(path), start=str(self._root)))
+        return Path(os.path.relpath(str(path), start=str(self.root)))
 
     def _file_information(self, path: PathLike, out=sys.stdout) -> None:
         """Create SPDX File Information for *path*."""
