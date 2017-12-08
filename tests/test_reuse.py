@@ -63,18 +63,28 @@ def test_extract_license_from_file(file_with_license_comments):
 
 
 def test_extract_no_license_info():
-    """Given a file without reuse information, raise LicenseInfoNotFound."""
+    """Given a file without reuse information, return an empty ReuseInfo
+    object.
+    """
     result = reuse.extract_reuse_info('')
     assert _reuse_info_equal(result, reuse.ReuseInfo([], []))
 
 
 def test_reuse_info_of_file_does_not_exist(fake_repository):
-    """Raise a LicenseInfoNotFound error when asking for the reuse info of a
-    file that does not exist.
+    """Return an empty ReuseInfo object when asking for the reuse information
+    of a file that does not exist.
     """
     project = reuse.Project(fake_repository)
-    with pytest.raises(reuse.ReuseInfoNotFound):
-        project.reuse_info_of('does_not_exist')
+    assert not any(project.reuse_info_of('does_not_exist'))
+
+
+def test_reuse_info_of_unlicensed_file(fake_repository):
+    """Return an empty ReuseInfo object when asking for the reuse information
+    of a file that has no reuse information.
+    """
+    (fake_repository / 'foo.py').touch()
+    project = reuse.Project(fake_repository)
+    assert not any(project.reuse_info_of('foo.py'))
 
 
 def test_reuse_info_of_only_copyright(fake_repository):
@@ -104,8 +114,7 @@ def test_error_in_debian_copyright(fake_repository):
     """If there is an error in debian/copyright, just ignore its existence."""
     (fake_repository / 'debian/copyright').write_text('invalid')
     project = reuse.Project(fake_repository)
-    with pytest.raises(reuse.ReuseInfoNotFound):
-        project.reuse_info_of('src/no_license.py')
+    assert not any(project.reuse_info_of('src/no_license.py'))
 
 
 def test_license_file_detected(empty_file_with_license_file):
