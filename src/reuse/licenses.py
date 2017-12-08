@@ -26,6 +26,7 @@
 Last updated 2017-10-11.
 """
 
+#: All licenses in the SPDX specification.
 LICENSES = [
     '0BSD',
     'AAL',
