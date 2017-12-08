@@ -399,9 +399,17 @@ class Project:
                 # doesn't exist.  I have no idea why.  Deal with that here.
                 if not Path(path).exists() or Path(path).is_dir():
                     continue
+                if Path(path).suffix == '.license':
+                    continue
+
                 path = self._relative_from_root(path)
+                license_path = Path('{}.license'.format(path))
+                if not license_path.exists():
+                    license_path = path
+                _logger.debug('searching %s for license tags', license_path)
+
                 try:
-                    identifiers = self._identifiers_of_license(path)
+                    identifiers = self._identifiers_of_license(license_path)
                 except IdentifierNotFound:
                     identifier = 'LicenseRef-Unknown{}'.format(unknown_counter)
                     identifiers = [identifier]
@@ -411,6 +419,15 @@ class Project:
                         'resolving to %s', path, identifier)
 
                 for identifier in identifiers:
+                    if identifier in license_files:
+                        _logger.critical(
+                            '%s is the SPDX identifier of both %s and %s',
+                            identifier,
+                            path,
+                            license_files[identifier])
+                        raise RuntimeError(
+                            'Multiple licenses resolve to {}'.format(
+                                identifier))
                     license_files[identifier] = path
 
         self._license_files = license_files

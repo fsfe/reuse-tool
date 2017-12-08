@@ -313,6 +313,20 @@ def test_licenses_unknown(empty_directory):
         'LicenseRef-Unknown0', 'LicenseRef-Unknown1'}
 
 
+def test_licenses_conflict(empty_directory):
+    """If two license files both resolve to the same identifier, raise a
+    RuntimeError.
+    """
+    (empty_directory / 'COPYING').write_text(
+        'Valid-License-Identifier: MIT')
+    (empty_directory / 'LICENSE').write_text(
+        'Valid-License-Identifier: MIT')
+
+    project = reuse.Project(empty_directory)
+    with pytest.raises(RuntimeError):
+        project.licenses
+
+
 @git
 def test_unlicensed_but_ignored_by_git(git_repository):
     """Given a Git repository where some files are unlicensed---but ignored by
