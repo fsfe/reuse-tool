@@ -32,9 +32,9 @@ import logging
 import os
 import re
 import sys
-from collections import namedtuple
 from pathlib import Path
-from typing import BinaryIO, Dict, Iterable, Iterator, List, Optional, Union
+from typing import (BinaryIO, Dict, Iterable, Iterator, List, NamedTuple,
+                    Optional, Union)
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
@@ -88,10 +88,12 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r'^\.gitignore$'),
 ]
 
-ReuseInfo = namedtuple(
+ReuseInfo = NamedTuple(
     'ReuseInfo',
-    ['spdx_expressions', 'copyright_lines'])
-
+    [
+        ('spdx_expressions', List[str]),
+        ('copyright_lines', List[str])
+    ])
 
 class ReuseException(Exception):
     """Base exception."""
