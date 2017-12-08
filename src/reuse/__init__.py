@@ -64,13 +64,13 @@ _HEADER_BYTES = 4096
 
 _END_PATTERN = r'(?:\*/)*(?:-->)*$'
 _LICENSE_PATTERN = re.compile(
-    r'SPDX-License-Identifier: (.*?)' + _END_PATTERN,
+    r'SPDX-Licen[cs]e-Identifier: (.*?)' + _END_PATTERN,
     re.MULTILINE)
 _COPYRIGHT_PATTERN = re.compile(
     r'(Copyright .*?)' + _END_PATTERN,
     re.MULTILINE)
 _VALID_LICENSE_PATTERN = re.compile(
-    r'Valid-License-Identifier: (.*?)' + _END_PATTERN,
+    r'Valid-Licen[cs]e-Identifier: (.*?)' + _END_PATTERN,
     re.MULTILINE)
 
 _IGNORE_DIR_PATTERNS = [
@@ -83,7 +83,7 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r'^LICEN[CS]E'),
     re.compile(r'^COPYING'),
     re.compile(r'^copyright$'),
-    re.compile(r'.*\.license$'),
+    re.compile(r'.*\.licen[cs]e$'),
     re.compile(r'.*\.spdx$'),
     re.compile(r'^\.gitignore$'),
 ]
