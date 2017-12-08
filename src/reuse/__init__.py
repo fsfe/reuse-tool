@@ -96,6 +96,7 @@ ReuseInfo = NamedTuple(
         ('copyright_lines', List[str])
     ])
 
+
 class ReuseException(Exception):
     """Base exception."""
 
