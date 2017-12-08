@@ -236,14 +236,6 @@ def test_all_licensed_but_only_copyright(fake_repository):
     assert list(project.unlicensed()) == [fake_repository / 'foo.py']
 
 
-def test_contains_invalid_identifiers(empty_directory):
-    """If a ReuseInfo object contains invalid SPDX identifiers, return it."""
-    project = reuse.Project(empty_directory)
-
-    expressions = ['foo']
-    assert project.contains_invalid_identifiers(expressions) == 'foo'
-
-
 def test_licenses_from_filenames(fake_repository):
     """Given a repository, extract the license identifiers from the
     filenames.

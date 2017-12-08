@@ -301,7 +301,7 @@ class Project:
             if not ignore_missing:
                 # Test if all licenses in the expression have an associated
                 # license file.  If not, warn the user and yield the file.
-                wrong_identifier = self.contains_invalid_identifiers(
+                wrong_identifier = self._contains_invalid_identifiers(
                     reuse_info.spdx_expressions)
                 if wrong_identifier:
                     _logger.warning(
@@ -315,25 +315,6 @@ class Project:
             if not any(reuse_info.spdx_expressions):
                 yield file_
                 continue
-
-    def contains_invalid_identifiers(
-            self,
-            expressions: Iterable[str]) -> Union[bool, str]:
-        """Does the list of expressions contain any invalid SPDX identifiers?
-        i.e., does any identifier refer to a file that does not exist in
-        Project.licenses?
-
-        Return the faulty identifier.
-
-        If the list contains no SPDX identifiers at all, return False.
-        """
-        for expression in expressions:
-            identifiers = _identifiers_from_expression(expression)
-
-            for identifier in identifiers:
-                if identifier.rstrip('+') not in self.licenses:
-                    return identifier
-        return False
 
     def bill_of_materials(self, out=sys.stdout) -> None:
         """Generate a bill of materials from the project.  The bill of
@@ -456,6 +437,25 @@ class Project:
             if not self._copyright_val:
                 self._copyright_val = None
         return self._copyright_val
+
+    def _contains_invalid_identifiers(
+            self,
+            expressions: Iterable[str]) -> Union[bool, str]:
+        """Does the list of expressions contain any invalid SPDX identifiers?
+        i.e., does any identifier refer to a file that does not exist in
+        Project.licenses?
+
+        Return the faulty identifier.
+
+        If the list contains no SPDX identifiers at all, return False.
+        """
+        for expression in expressions:
+            identifiers = _identifiers_from_expression(expression)
+
+            for identifier in identifiers:
+                if identifier.rstrip('+') not in self.licenses:
+                    return identifier
+        return False
 
     def _identifiers_of_license(self, path: PathLike) -> List[str]:
         """Figure out the SPDX identifier(s) of a license given its path.
