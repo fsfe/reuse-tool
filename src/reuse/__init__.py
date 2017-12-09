@@ -277,44 +277,83 @@ class Project:
 
         return ReuseInfo([], [])
 
-    def unlicensed(
+    def lint(
             self,
             path: PathLike = None,
+            spdx_mandatory: bool = True,
+            copyright_mandatory: bool = True,
             ignore_debian: bool = False,
             ignore_missing: bool = False) -> Iterator[Path]:
-        """Yield all unlicensed files under *path*.  Files which refer to SPDX
-        identifiers that do not exist are also considered unlicensed.
+        """Yield all files under *path* that are not compliant with the REUSE
+        recommendations.
 
         If *path* is not specified, it becomes root.
+
+        The modifiers are explained in :meth:`~Project.lint_file`.
         """
         if path is None:
             path = self.root
         for file_ in self.all_files(path):
-            # Test if file has reuse info.
-            reuse_info = self.reuse_info_of(
-                file_,
-                ignore_debian=ignore_debian)
-            if not any(reuse_info):
+            if self.lint_file(
+                    file_,
+                    spdx_mandatory=spdx_mandatory,
+                    copyright_mandatory=copyright_mandatory,
+                    ignore_debian=ignore_debian,
+                    ignore_missing=ignore_missing):
                 yield file_
-                continue
 
-            if not ignore_missing:
-                # Test if all licenses in the expression have an associated
-                # license file.  If not, warn the user and yield the file.
-                wrong_identifier = self._contains_invalid_identifiers(
-                    reuse_info.spdx_expressions)
-                if wrong_identifier:
-                    _logger.warning(
-                        '%s is licensed under %s, but its license file '
-                        'could not be found', file_, wrong_identifier)
-                    yield file_
-                    continue
+    def lint_file(
+            self,
+            path: PathLike,
+            spdx_mandatory: bool = True,
+            copyright_mandatory: bool = True,
+            ignore_debian: bool = False,
+            ignore_missing: bool = False) -> int:
+        """
+        :param path: A path to a file.  If it is not a file, raise a
+            ValueError.
+        :keyword spdx_mandatory: The file must have an SPDX expression in its
+            reuse information.
+        :keyword copyright_mandatory: The file must have a copyright line in its
+            reuse information.
+        :keyword ignore_debian: copyright/debian will not be checked for reuse
+            information.
+        :keyword ignore_missing: Declared licences in SPDX expression that
+            could not be found in :attr:`~Project.licenses` will not affect the
+            linter.
 
-            # If there is reuse information for the file, but no SPDX
-            # expressions, yield the file.
-            if not any(reuse_info.spdx_expressions):
-                yield file_
-                continue
+        Check whether *path* complies with the REUSE recommendations.  If it
+        does, return 0.  If it does not, return a non-zero integer.  In a
+        future version, the non-zero integer may be a bit mask.
+
+        If both *spdx_mandatory* and *copyright_mandatory* are false, this
+        function more or less becomes useless.  Common sense is advised.
+        """
+        path = Path(path)
+        if not path.is_file():
+            raise ValueError('{} is not a file'.format(path))
+
+        reuse_info = self.reuse_info_of(
+            path,
+            ignore_debian=ignore_debian)
+
+        if spdx_mandatory and not any(reuse_info.spdx_expressions):
+            return 1
+        if copyright_mandatory and not any(reuse_info.copyright_lines):
+            return 1
+
+        if not ignore_missing:
+            # Test if all licenses in the expression have an associated
+            # license file.  If not, warn the user and yield the file.
+            wrong_identifier = self._contains_invalid_identifiers(
+                reuse_info.spdx_expressions)
+            if wrong_identifier:
+                _logger.warning(
+                    '%s is licensed under %s, but its license file '
+                    'could not be found', path, wrong_identifier)
+                return 1
+
+        return 0
 
     def bill_of_materials(self, out=sys.stdout) -> None:
         """Generate a bill of materials from the project.  The bill of

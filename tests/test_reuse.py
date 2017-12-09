@@ -157,11 +157,11 @@ def test_license_file_detected(empty_file_with_license_file):
 
 def test_all_licensed(fake_repository):
     """Given a repository where all files are licensed, check if
-    Project.unlicensed yields nothing.
+    Project.lint yields nothing.
     """
     project = reuse.Project(fake_repository)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_all_licensed_from_different_pwd(fake_repository):
@@ -169,14 +169,14 @@ def test_all_licensed_from_different_pwd(fake_repository):
     os.chdir('/')
     project = reuse.Project(fake_repository)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_empty_directory_is_licensed(empty_directory):
     """An empty directory is licensed."""
     project = reuse.Project(empty_directory)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_all_licensed_no_debian_copyright(fake_repository):
@@ -188,7 +188,7 @@ def test_all_licensed_no_debian_copyright(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_one_unlicensed(fake_repository):
@@ -199,7 +199,7 @@ def test_one_unlicensed(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+    assert list(project.lint()) == [fake_repository / 'foo.py']
 
 
 def test_all_licensed_but_unknown_license(fake_repository):
@@ -209,7 +209,7 @@ def test_all_licensed_but_unknown_license(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+    assert list(project.lint()) == [fake_repository / 'foo.py']
 
 
 def test_all_licensed_but_error_in_spdx_expression(fake_repository):
@@ -221,19 +221,39 @@ def test_all_licensed_but_error_in_spdx_expression(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+    assert list(project.lint()) == [fake_repository / 'foo.py']
 
 
-def test_all_licensed_but_only_copyright(fake_repository):
+def test_lint_only_copyright(empty_directory):
     """If a file has only copyright information associated with it, it is
     unlicensed.
     """
-    (fake_repository / 'foo.py').write_text(
+    (empty_directory / 'foo.py').write_text(
         'Copyright (C) 2017  Mary Sue')
 
-    project = reuse.Project(fake_repository)
+    project = reuse.Project(empty_directory)
 
-    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+    assert project.lint_file(empty_directory / 'foo.py')
+    assert not project.lint_file(
+        empty_directory / 'foo.py',
+        spdx_mandatory=False)
+
+
+def test_lint_only_spdx(empty_directory):
+    """If a file has only SPDX information associated with it, it is
+    unlicensed.
+    """
+    (empty_directory / 'foo.py').write_text(
+        'SPDX-License-Identifier: MIT')
+    (empty_directory / 'COPYING').write_text(
+        'Valid-License-Identifier: MIT')
+
+    project = reuse.Project(empty_directory)
+
+    assert project.lint_file(empty_directory / 'foo.py')
+    assert not project.lint_file(
+        empty_directory / 'foo.py',
+        copyright_mandatory=False)
 
 
 def test_licenses_from_filenames(fake_repository):
@@ -334,7 +354,7 @@ def test_unlicensed_but_ignored_by_git(git_repository):
     """
     project = reuse.Project(git_repository)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_encoding():

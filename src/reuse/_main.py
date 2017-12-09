@@ -160,7 +160,15 @@ def license(context, paths):
     'paths', required=False, nargs=-1, type=click.Path(exists=True))
 @click.pass_context
 def lint(context, paths, ignore_missing):
-    """List all unlicensed (non-compliant) files.
+    """List all non-compliant files.
+
+    A file is non-compliant when:
+
+    - It has no copyright information.
+
+    - It has no license (declared as SPDX expression).
+
+    - Its license could not be found.
 
     This prints only the paths of the files for which a licence could not be
     found, each file on a separate line.
@@ -175,7 +183,7 @@ def lint(context, paths, ignore_missing):
         paths = [project.root]
 
     for path in paths:
-        for file_ in project.unlicensed(
+        for file_ in project.lint(
                 path,
                 ignore_debian=context.obj['ignore_debian'],
                 ignore_missing=ignore_missing):
