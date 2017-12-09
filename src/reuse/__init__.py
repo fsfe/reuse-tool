@@ -193,7 +193,7 @@ class Project:
 
         - Files/directories matching IGNORE_*_PATTERNS.
 
-        If directory is a file, yield it if it is not ignored.
+        If *directory* is a file, yield it if it is not ignored.
         """
         if directory is None:
             directory = self.root
