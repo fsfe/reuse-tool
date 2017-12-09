@@ -128,18 +128,19 @@ def license(context, paths):
     project = _create_project()
     first = True
     for path in paths:
-        if not first:
-            click.echo()
         try:
             reuse_info = project.reuse_info_of(
                 path,
                 ignore_debian=context.obj['ignore_debian'])
         except IsADirectoryError:
-            context.fail('%s is a directory' % path)
+            _logger.error('%s is a directory', path)
+            continue
         except IOError:
-            context.fail('could not read %s' % path)
-        except reuse.ReuseInfoNotFound:
-            reuse_info = reuse.ReuseInfo([], [])
+            _logger.error('could not read %s', path)
+            continue
+
+        if not first:
+            click.echo()
 
         click.echo(quote(str(path)))
 

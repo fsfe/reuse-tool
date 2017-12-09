@@ -71,11 +71,20 @@ def test_extract_no_license_info():
 
 
 def test_reuse_info_of_file_does_not_exist(fake_repository):
-    """Return an empty ReuseInfo object when asking for the reuse information
-    of a file that does not exist.
+    """Raise FileNotFoundError when asking for the reuse info of a file that
+    does not exist.
     """
     project = reuse.Project(fake_repository)
-    assert not any(project.reuse_info_of('does_not_exist'))
+    with pytest.raises(FileNotFoundError):
+        project.reuse_info_of(fake_repository / 'does_not_exist')
+
+
+def test_reuse_info_of_directory(empty_directory):
+    (empty_directory / 'src').mkdir()
+
+    project = reuse.Project(empty_directory)
+    with pytest.raises(IsADirectoryError):
+        project.reuse_info_of(empty_directory / 'src')
 
 
 def test_reuse_info_of_unlicensed_file(fake_repository):

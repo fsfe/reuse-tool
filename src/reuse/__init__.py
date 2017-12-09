@@ -241,13 +241,8 @@ class Project:
 
         # Try to extract reuse information from the file.
         file_result = None
-        fp = None
-        try:
-            fp = license_path.open('rb')
-        except (OSError, IOError):
-            _logger.exception('%s does not exist or could not be opened', path)
 
-        if fp is not None:
+        with license_path.open('rb') as fp:
             try:
                 file_result = extract_reuse_info(
                     decoded_text_from_binary(fp, size=_HEADER_BYTES))
@@ -258,8 +253,6 @@ class Project:
                     return file_result
             except UnicodeDecodeError:
                 _logger.exception('%s could not be decoded', path)
-            finally:
-                fp.close()
 
         # Search the debian/copyright file for copyright information.
         if not ignore_debian and self._copyright:
