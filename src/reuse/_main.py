@@ -110,13 +110,18 @@ def cli(context, debug, ignore_debian):
     '--output', '-o',
     help='Write to file.',
     type=click.File('w'))
-def compile(output):
+@click.pass_context
+def compile(context, output):
     """Print the project's bill of materials."""
     project = _create_project()
     out = sys.stdout
     if output:
         out = output
-    project.bill_of_materials(out)
+        if not output.endswith('.spdx'):
+            _logger.warning('output file does not end with .spdx')
+    project.bill_of_materials(
+        out,
+        ignore_debian=context.obj['ignore_debian'])
 
 
 @cli.command()

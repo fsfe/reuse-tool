@@ -348,7 +348,10 @@ class Project:
 
         return 0
 
-    def bill_of_materials(self, out=sys.stdout) -> None:
+    def bill_of_materials(
+            self,
+            out=sys.stdout,
+            ignore_debian: bool = False) -> None:
         """Generate a bill of materials from the project.  The bill of
         materials is written to *out*.
 
@@ -395,7 +398,7 @@ class Project:
         # File information
         for file_ in all_files:
             out.write('\n')
-            self._file_information(file_, out)
+            self._file_information(file_, out, ignore_debian=ignore_debian)
 
         # Licenses
         for license, path in self.licenses.items():
@@ -589,7 +592,11 @@ class Project:
         """
         return Path(os.path.relpath(str(path), start=str(self.root)))
 
-    def _file_information(self, path: PathLike, out=sys.stdout) -> None:
+    def _file_information(
+            self,
+            path: PathLike,
+            out=sys.stdout,
+            ignore_debian: bool = False) -> None:
         """Create SPDX File Information for *path*."""
         relative = self._relative_from_root(path)
         encoded = str(relative).encode('utf-8')
@@ -606,7 +613,7 @@ class Project:
         # cannot, with full certainty, determine the license of a file.
         out.write('LicenseConcluded: NOASSERTION\n')
 
-        reuse_info = self.reuse_info_of(path)
+        reuse_info = self.reuse_info_of(path, ignore_debian=ignore_debian)
 
         for spdx in reuse_info.spdx_expressions:
             out.write('LicenseInfoInFile: {}\n'.format(spdx))
