@@ -307,8 +307,8 @@ class Project:
             ValueError.
         :keyword spdx_mandatory: The file must have an SPDX expression in its
             reuse information.
-        :keyword copyright_mandatory: The file must have a copyright line in its
-            reuse information.
+        :keyword copyright_mandatory: The file must have a copyright line in
+            its reuse information.
         :keyword ignore_debian: copyright/debian will not be checked for reuse
             information.
         :keyword ignore_missing: Declared licences in SPDX expression that
