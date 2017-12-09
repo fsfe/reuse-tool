@@ -153,13 +153,21 @@ def license(context, paths):
 
 @cli.command()
 @click.option(
+    '--spdx-mandatory/--no-spdx-mandatory',
+    default=True,
+    help='SPDX expressions are mandatory for compliance.')
+@click.option(
+    '--copyright-mandatory/--no-copyright-mandatory',
+    default=True,
+    help='Copyright notices are mandatory for compliance.')
+@click.option(
     '--ignore-missing',
     is_flag=True,
     help='Ignore missing licenses.')
 @click.argument(
     'paths', required=False, nargs=-1, type=click.Path(exists=True))
 @click.pass_context
-def lint(context, paths, ignore_missing):
+def lint(context, paths, copyright_mandatory, spdx_mandatory, ignore_missing):
     """List all non-compliant files.
 
     A file is non-compliant when:
@@ -185,6 +193,8 @@ def lint(context, paths, ignore_missing):
     for path in paths:
         for file_ in project.lint(
                 path,
+                spdx_mandatory=spdx_mandatory,
+                copyright_mandatory=copyright_mandatory,
                 ignore_debian=context.obj['ignore_debian'],
                 ignore_missing=ignore_missing):
             output = quote(str(file_))
