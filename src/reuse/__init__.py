@@ -473,7 +473,8 @@ class Project:
         return self._license_files
 
     @property
-    def root(self):
+    def root(self) -> Path:
+        """Path to the root of the project."""
         return self._root
 
     @property
