@@ -175,7 +175,7 @@ def lint(context, paths, ignore_missing):
         paths = [project.root]
 
     for path in paths:
-        for file_ in project.unlicensed(
+        for file_ in project.lint(
                 path,
                 ignore_debian=context.obj['ignore_debian'],
                 ignore_missing=ignore_missing):

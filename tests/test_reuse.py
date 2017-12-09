@@ -157,11 +157,11 @@ def test_license_file_detected(empty_file_with_license_file):
 
 def test_all_licensed(fake_repository):
     """Given a repository where all files are licensed, check if
-    Project.unlicensed yields nothing.
+    Project.lint yields nothing.
     """
     project = reuse.Project(fake_repository)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_all_licensed_from_different_pwd(fake_repository):
@@ -169,14 +169,14 @@ def test_all_licensed_from_different_pwd(fake_repository):
     os.chdir('/')
     project = reuse.Project(fake_repository)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_empty_directory_is_licensed(empty_directory):
     """An empty directory is licensed."""
     project = reuse.Project(empty_directory)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_all_licensed_no_debian_copyright(fake_repository):
@@ -188,7 +188,7 @@ def test_all_licensed_no_debian_copyright(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_one_unlicensed(fake_repository):
@@ -199,7 +199,7 @@ def test_one_unlicensed(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+    assert list(project.lint()) == [fake_repository / 'foo.py']
 
 
 def test_all_licensed_but_unknown_license(fake_repository):
@@ -209,7 +209,7 @@ def test_all_licensed_but_unknown_license(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+    assert list(project.lint()) == [fake_repository / 'foo.py']
 
 
 def test_all_licensed_but_error_in_spdx_expression(fake_repository):
@@ -221,7 +221,7 @@ def test_all_licensed_but_error_in_spdx_expression(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+    assert list(project.lint()) == [fake_repository / 'foo.py']
 
 
 def test_all_licensed_but_only_copyright(fake_repository):
@@ -233,7 +233,7 @@ def test_all_licensed_but_only_copyright(fake_repository):
 
     project = reuse.Project(fake_repository)
 
-    assert list(project.unlicensed()) == [fake_repository / 'foo.py']
+    assert list(project.lint()) == [fake_repository / 'foo.py']
 
 
 def test_licenses_from_filenames(fake_repository):
@@ -334,7 +334,7 @@ def test_unlicensed_but_ignored_by_git(git_repository):
     """
     project = reuse.Project(git_repository)
 
-    assert not list(project.unlicensed())
+    assert not list(project.lint())
 
 
 def test_encoding():
