@@ -170,7 +170,7 @@ class Project:
     def __init__(self, root: PathLike):
         self._root = Path(root)
         if not self._root.is_dir():
-            raise ReuseException('%s is no valid path' % self._root)
+            raise NotADirectoryError('%s is no valid path' % self._root)
 
         self._git_repo = None
         if PYGIT2:

@@ -70,6 +70,13 @@ def test_extract_no_license_info():
     assert _reuse_info_equal(result, reuse.ReuseInfo([], []))
 
 
+def test_project_not_a_directory(empty_directory):
+    """Cannot create a Project without a valid directory."""
+    (empty_directory / 'foo.py').touch()
+    with pytest.raises(NotADirectoryError):
+        reuse.Project(empty_directory / 'foo.py')
+
+
 def test_reuse_info_of_file_does_not_exist(fake_repository):
     """Raise FileNotFoundError when asking for the reuse info of a file that
     does not exist.
@@ -263,6 +270,25 @@ def test_lint_only_spdx(empty_directory):
     assert not project.lint_file(
         empty_directory / 'foo.py',
         copyright_mandatory=False)
+
+
+def test_lint_not_a_file(fake_repository):
+    """lint_file raises an OSError when called on a non-file."""
+    project = reuse.Project(fake_repository)
+    with pytest.raises(OSError):
+        project.lint_file(fake_repository / 'src')
+
+
+def test_lint_license_not_found(empty_directory):
+    """If a license is used that doesn't appear in Project.licenses, lint
+    complains.
+    """
+    (empty_directory / 'foo.py').write_text(
+        'Copyright (C) 2017  Mary Sue\n'
+        'SPDX-License-Identifier: MIT')
+    project = reuse.Project(empty_directory)
+
+    assert any(project.lint())
 
 
 def test_licenses_from_filenames(fake_repository):
