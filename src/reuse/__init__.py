@@ -287,12 +287,16 @@ class Project:
         if path is None:
             path = self.root
         for file_ in self.all_files(path):
-            if self.lint_file(
-                    file_,
-                    spdx_mandatory=spdx_mandatory,
-                    copyright_mandatory=copyright_mandatory,
-                    ignore_debian=ignore_debian,
-                    ignore_missing=ignore_missing):
+            try:
+                if self.lint_file(
+                        file_,
+                        spdx_mandatory=spdx_mandatory,
+                        copyright_mandatory=copyright_mandatory,
+                        ignore_debian=ignore_debian,
+                        ignore_missing=ignore_missing):
+                    yield file_
+            except OSError:
+                _logger.error('Could not read %s', file_)
                 yield file_
 
     def lint_file(
@@ -303,8 +307,8 @@ class Project:
             ignore_debian: bool = False,
             ignore_missing: bool = False) -> int:
         """
-        :param path: A path to a file.  If it is not a file, raise a
-            ValueError.
+        :param path: A path to a file.  If it is not a file, raise an
+            OSError.
         :keyword spdx_mandatory: The file must have an SPDX expression in its
             reuse information.
         :keyword copyright_mandatory: The file must have a copyright line in
@@ -324,7 +328,7 @@ class Project:
         """
         path = Path(path)
         if not path.is_file():
-            raise ValueError('{} is not a file'.format(path))
+            raise OSError('{} is not a file'.format(path))
 
         reuse_info = self.reuse_info_of(
             path,
