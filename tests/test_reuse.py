@@ -87,6 +87,7 @@ def test_reuse_info_of_file_does_not_exist(fake_repository):
 
 
 def test_reuse_info_of_directory(empty_directory):
+    """Raise IsADirectoryError when calling reuse_info_of on a directory."""
     (empty_directory / 'src').mkdir()
 
     project = reuse.Project(empty_directory)
