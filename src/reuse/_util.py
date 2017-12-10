@@ -104,6 +104,17 @@ def in_git_repo(cwd: PathLike = None) -> bool:
     return not result.returncode
 
 
+def _is_binary_string(bytes_string: bytes) -> bool:
+    """Given a bytes object, does it look like a binary string or a text
+    string?
+
+    Behaviour is based on file(1).
+    """
+    textchars = bytearray(
+        {7, 8, 9, 10, 12, 13, 27} | set(range(0x20, 0x100)) - {0x7f})
+    return bool(bytes_string.translate(None, textchars))
+
+
 def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
     """Given a binary file object, detect its encoding and return its contents
     as a decoded string.  Do not throw any errors if the encoding contains
@@ -112,6 +123,8 @@ def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
     If *size* is specified, only read so many bytes.
     """
     rawdata = binary_file.read(size)
+    if _is_binary_string(rawdata):
+        raise UnicodeError('cannot decode binary data')
     result = chardet.detect(rawdata)
     encoding = result.get('encoding')
     if encoding is None:
@@ -120,4 +133,4 @@ def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
         return rawdata.decode(encoding, errors='replace')
     # Handle unknown encodings.
     except LookupError as error:
-        raise UnicodeDecodeError(encoding, b'', 0, 1, 'unknown') from error
+        raise UnicodeError('could not decode {}'.format(encoding))

@@ -251,8 +251,8 @@ class Project:
                 # line.  That means we first want to check debian/copyright.
                 if any(file_result.spdx_expressions):
                     return file_result
-            except UnicodeDecodeError:
-                _logger.exception('%s could not be decoded', path)
+            except UnicodeError:
+                _logger.info('%s could not be decoded', path)
 
         # Search the debian/copyright file for copyright information.
         if not ignore_debian and self._copyright:
