@@ -307,8 +307,7 @@ class Project:
             ignore_debian: bool = False,
             ignore_missing: bool = False) -> int:
         """
-        :param path: A path to a file.  If it is not a file, raise an
-            OSError.
+        :param path: A path to a file.  If it is not a file, raise an OSError.
         :keyword spdx_mandatory: The file must have an SPDX expression in its
             reuse information.
         :keyword copyright_mandatory: The file must have a copyright line in
