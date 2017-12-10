@@ -116,4 +116,8 @@ def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
     encoding = result.get('encoding')
     if encoding is None:
         encoding = 'utf-8'
-    return rawdata.decode(encoding, errors='replace')
+    try:
+        return rawdata.decode(encoding, errors='replace')
+    # Handle unknown encodings.
+    except LookupError as error:
+        raise UnicodeDecodeError(encoding, b'', 0, 1, 'unknown') from error
