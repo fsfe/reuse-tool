@@ -146,7 +146,7 @@ def _identifiers_from_expression(expression: str) -> List[str]:
 
 
 def extract_reuse_info(text: str) -> ReuseInfo:
-    """Extract reuse information from comments in a file."""
+    """Extract reuse information from comments in a string."""
     # TODO: Make this more efficient than doing a regex over the entire file.
     # Though, on a sidenote, it's pretty damn fast.
     license_matches = list(map(str.strip, _LICENSE_PATTERN.findall(text)))
@@ -158,7 +158,7 @@ def extract_reuse_info(text: str) -> ReuseInfo:
 
 
 def extract_valid_license(text: str) -> str:
-    """Extract SPDX identifier from a file."""
+    """Extract SPDX identifier from a string."""
     return list(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
 
 
