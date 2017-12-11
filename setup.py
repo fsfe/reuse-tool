@@ -40,7 +40,7 @@ test_requirements = [
 if __name__ == '__main__':
     setup(
         name='fsfe-reuse',
-        version='0.0.4',
+        version='0.1.0',
         url='https://git.fsfe.org/reuse/reuse',
         license='GPL-3.0+',
 
