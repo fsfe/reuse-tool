@@ -29,6 +29,14 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Allow to specify multiple paths to `reuse lint`.
 
+- `chardet` added as dependency.
+
+- `pygit2` added as soft dependency.  reuse remains usable without it, but the
+  performance with `pygit2` is significantly better.  Because `pygit2`
+  has a non-Python dependency (`libgit2`), it must be installed independently
+  by the user.  In the future, when reuse is packaged natively, this will not be
+  an issue.
+
 ### Changed
 
 - Updated to version 2.0 of the REUSE Initiative recommendations.  The most
@@ -36,22 +44,16 @@ The versions follow [semantic versioning](https://semver.org).
   filename is deducted from `SPDX-License-Identifier`.  This change is **NOT**
   backwards compatible.
 
-- If the license file associated with a source code file could not be found,
-  `reuse lint` will report this file as unlicensed.
+- The conditions for linting have changed.  A file is now non-compliant when:
 
-- `chardet` added as dependency.
+  - The license associated with the file could not be found.
 
-- Files are now non-compliant also if there is no copyright information, instead
-  of solely when there is no license information.
+  - There is no SPDX expression associated with the file.
+
+  - There is no copyright notice associated with the file.
 
 - Only read the first 4 KiB (by default) from code files rather than the entire
   file when searching for SPDX tags.  This speeds up the tool a bit.
-
-- `pygit2` added as soft dependency.  reuse remains usable without it, but the
-  performance with `pygit2` is significantly better.  Because `pygit2`
-  has a non-Python dependency (`libgit2`), it must be installed independently
-  by the user.  In the future, when reuse is packaged natively, this will not be
-  an issue.
 
 - `Project.reuse_info_of` no longer raises an exception.  Instead, it returns
   an empty `ReuseInfo` object when no reuse information is found.
