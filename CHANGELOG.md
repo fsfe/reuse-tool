@@ -58,6 +58,8 @@ The versions follow [semantic versioning](https://semver.org).
 - `Project.reuse_info_of` no longer raises an exception.  Instead, it returns
   an empty `ReuseInfo` object when no reuse information is found.
 
+- Logging is a lot prettier now.  Only output entries from the `reuse` module.
+
 ### Fixed
 
 - `reuse --ignore-debian compile` now works as expected.
