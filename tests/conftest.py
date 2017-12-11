@@ -127,8 +127,7 @@ def tiny_repository(tmpdir_factory) -> Path:
     text = """
     # Copyright (C) 2017  Free Software Foundation Europe e.V.
     #
-    # SPDX-License-Identifier: GPL-3.0
-    # License-Filename: LICENSES/GPL-3.0.txt
+    # SPDX-License-Identifier: GPL-3.0+
     """
     (src / 'code.py').write_text(text)
     (src / 'no_license.py').touch()

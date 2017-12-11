@@ -99,9 +99,9 @@ Relationship: SPDXRef-DOCUMENT describes SPDXRef-bb5656f1b5e8283a8e930c54afd9a8b
 
 FileName: ./src/code.py
 SPDXID: SPDXRef-8008eeb8d2000e5aa6eaa51b1cdc944d726e1107
-FileChecksum: SHA1: 7ca7aa0d3d999b03f727523a48280424db99adde
+FileChecksum: SHA1: fb17c6dd60b8b8c35128c8a14905e1ef328b1534
 LicenseConcluded: NOASSERTION
-LicenseInfoInFile: GPL-3.0
+LicenseInfoInFile: GPL-3.0+
 FileCopyrightText: <text>Copyright (C) 2017  Free Software Foundation Europe e.V.</text>
 
 FileName: ./src/no_license.py
