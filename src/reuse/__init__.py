@@ -427,7 +427,8 @@ class Project:
         license_files = dict()
 
         patterns = [
-            'LICENSE*', 'LICENCE*', 'COPYING*', 'COPYRIGHT*', 'LICENSES/**']
+            'LICENSE*', 'LICENCE*', 'COPYING*', 'COPYRIGHT*', 'LICENCES/**',
+            'LICENSES/**']
         for pattern in patterns:
             pattern = str(self.root.resolve() / pattern)
             for path in glob.iglob(pattern, recursive=True):
