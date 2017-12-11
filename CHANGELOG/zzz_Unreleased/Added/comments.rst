@@ -1,1 +1,0 @@
-- Successfully parse old-style C and HTML comments now.
