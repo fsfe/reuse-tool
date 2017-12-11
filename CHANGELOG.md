@@ -25,21 +25,21 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Added `reuse compile`, which creates an SPDX bill of materials.
 
-- Added ``--ignore-missing`` to `reuse lint`.
+- Added `--ignore-missing` to `reuse lint`.
 
-- Allow to specify multiple paths to ``reuse lint``.
+- Allow to specify multiple paths to `reuse lint`.
 
 ### Changed
 
 - Updated to version 2.0 of the REUSE Initiative recommendations.  The most
-  important change is that ``License-Filename`` is no longer used.  Instead, the
-  filename is deducted from ``SPDX-License-Identifier``.  This change is **NOT**
+  important change is that `License-Filename` is no longer used.  Instead, the
+  filename is deducted from `SPDX-License-Identifier`.  This change is **NOT**
   backwards compatible.
 
 - If the license file associated with a source code file could not be found,
-  ``reuse lint`` will report this file as unlicensed.
+  `reuse lint` will report this file as unlicensed.
 
-- ``chardet`` added as dependency.
+- `chardet` added as dependency.
 
 - Files are now non-compliant also if there is no copyright information, instead
   of solely when there is no license information.
@@ -47,21 +47,21 @@ The versions follow [semantic versioning](https://semver.org).
 - Only read the first 4 KiB (by default) from code files rather than the entire
   file when searching for SPDX tags.  This speeds up the tool a bit.
 
-- ``pygit2`` added as soft dependency.  reuse remains usable without it, but the
-  performance with ``pygit2`` is significantly better.  Because ``pygit2``
-  has a non-Python dependency (``libgit2``), it must be installed independently
+- `pygit2` added as soft dependency.  reuse remains usable without it, but the
+  performance with `pygit2` is significantly better.  Because `pygit2`
+  has a non-Python dependency (`libgit2`), it must be installed independently
   by the user.  In the future, when reuse is packaged natively, this will not be
   an issue.
 
-- ``Project.reuse_info_of`` no longer raises an exception.  Instead, it returns
-  an empty ``ReuseInfo`` object when no reuse information is found.
+- `Project.reuse_info_of` no longer raises an exception.  Instead, it returns
+  an empty `ReuseInfo` object when no reuse information is found.
 
 ### Fixed
 
-- ``reuse --ignore-debian compile`` now works as expected.
+- `reuse --ignore-debian compile` now works as expected.
 
 - The tool no longer breaks when reading a file that has a non-UTF-8 encoding.
-  Instead, ``chardet`` is used to detect the encoding before reading the file.
+  Instead, `chardet` is used to detect the encoding before reading the file.
   If a file still has errors during decoding, those errors are silently ignored
   and replaced.
 
@@ -69,7 +69,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
-- Removed dependency on ``os.PathLike`` so that Python 3.5 is actually supported
+- Removed dependency on `os.PathLike` so that Python 3.5 is actually supported
 
 ## 0.0.3 - 2017-11-06
 
