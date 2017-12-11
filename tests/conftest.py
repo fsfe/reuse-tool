@@ -87,6 +87,8 @@ def render_code_files() -> Dict[NameAndLicense, str]:
     for file_ in CODE_FILES_DIRECTORY.iterdir():
         if not file_.is_file():
             continue
+        if file_.suffix == '.license':
+            continue
 
         template = environment.get_template(file_.name)
 
