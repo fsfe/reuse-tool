@@ -22,7 +22,7 @@
 
 """reuse is a tool for compliance with the REUSE Initiative recommendations."""
 
-# pylint: disable=ungrouped-imports
+# pylint: disable=ungrouped-imports,too-many-arguments
 
 import contextlib
 import datetime
