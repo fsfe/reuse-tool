@@ -1,1 +1,0 @@
-- ``reuse --ignore-debian compile`` now works as expected.

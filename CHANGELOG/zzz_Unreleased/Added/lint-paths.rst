@@ -1,1 +1,0 @@
-- Allow to specify multiple paths to ``reuse lint``.

@@ -1,7 +1,0 @@
-- Updated to version 2.0 of the REUSE Initiative recommendations.  The most
-  important change is that ``License-Filename`` is no longer used.  Instead, the
-  filename is deducted from ``SPDX-License-Identifier``.  This change is **NOT**
-  backwards compatible.
-
-- If the license file associated with a source code file could not be found,
-  ``reuse lint`` will report this file as unlicensed.
