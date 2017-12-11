@@ -137,7 +137,7 @@ def tiny_repository(tmpdir_factory) -> Path:
         str(debian_dir / 'copyright'))
 
     # Fake text
-    (licenses_dir / 'GPL-3.0.txt').write_text("GPL-3.0")
+    (licenses_dir / 'GPL-3.0.txt').write_text('GPL-3.0')
 
     os.chdir(str(directory))
     return directory
