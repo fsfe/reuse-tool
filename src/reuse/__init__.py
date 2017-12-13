@@ -306,14 +306,14 @@ class Project:
             ignore_missing: bool = False) -> int:
         """
         :param path: A path to a file.  If it is not a file, raise an OSError.
-        :keyword spdx_mandatory: The file must have an SPDX expression in its
+        :param spdx_mandatory: The file must have an SPDX expression in its
             reuse information.
-        :keyword copyright_mandatory: The file must have a copyright line in
-            its reuse information.
-        :keyword ignore_debian: copyright/debian will not be checked for reuse
+        :param copyright_mandatory: The file must have a copyright line in its
+            reuse information.
+        :param ignore_debian: copyright/debian will not be checked for reuse
             information.
-        :keyword ignore_missing: Declared licences in SPDX expression that
-            could not be found in :attr:`~Project.licenses` will not affect the
+        :param ignore_missing: Declared licences in SPDX expression that could
+            not be found in :attr:`~Project.licenses` will not affect the
             linter.
 
         Check whether *path* complies with the REUSE recommendations.  If it
