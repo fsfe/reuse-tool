@@ -89,7 +89,9 @@ a nutshell:
 
 - Add a comment header to each file that says `SPDX-License-Identifier:
   GPL-3.0+`.  Replace `GPL-3.0+` with the license that applies to the file.  If
-  you cannot edit the comment header, include a `debian/copyright` file.
+  you cannot edit the comment header, include a
+  [debian/copyright](https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/)
+  file.
 
 - Add a comment header to each file that says `Copyright (C) YEAR  NAME`.  You
   can be flexible with the format, just make sure that the line starts with
