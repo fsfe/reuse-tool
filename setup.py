@@ -25,6 +25,7 @@ import os
 from setuptools import setup
 
 requirements = [
+    'chardet',
     'click',
     'python-debian',
 ]
@@ -35,6 +36,7 @@ if not os.environ.get('REUSE_DEV'):
 
 test_requirements = [
     'pytest',
+    'jinja2',
 ]
 
 if __name__ == '__main__':
