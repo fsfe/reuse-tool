@@ -1,5 +1,4 @@
 include README.rst
-include CHANGELOG.md
 
 recursive-include LICENSES *
 recursive-include docs *
