@@ -62,8 +62,8 @@ tox: ## run all tests against multiple versions of Python
 
 .PHONY: dist
 dist: clean docs ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	RST_ERROR=1 python setup.py sdist
+	RST_ERROR=1 python setup.py bdist_wheel
 	ls -l dist
 
 .PHONY: test-release

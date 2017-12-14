@@ -47,6 +47,8 @@ def readme_rst():
         result = subprocess.run(command, stdout=subprocess.PIPE)
         return result.stdout.decode('utf-8')
     except FileNotFoundError:
+        if os.environ.get('RST_ERROR'):
+            raise
         return open('README.md').read()
 
 
