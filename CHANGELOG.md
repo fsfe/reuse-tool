@@ -19,6 +19,18 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased
 
+## 0.1.1 - 2017-12-14
+
+### Changed
+
+- The `reuse --help` text has been tidied up a little bit.
+
+### Fixed
+
+- Release date in change log fixed.
+
+- The PyPI homepage now gets reStructuredText instead of Markdown.
+
 ## 0.1.0 - 2017-12-14
 
 ### Added
