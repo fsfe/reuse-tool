@@ -21,6 +21,7 @@
 # SPDX-License-Identifier: GPL-3.0+
 
 import os
+import subprocess
 
 from setuptools import setup
 
@@ -39,6 +40,16 @@ test_requirements = [
     'jinja2',
 ]
 
+
+def readme_rst():
+    try:
+        command = ['pandoc', 'README.md', '-t', 'rst']
+        result = subprocess.run(command, stdout=subprocess.PIPE)
+        return result.stdout.decode('utf-8')
+    except FileNotFoundError:
+        return open('README.md').read()
+
+
 if __name__ == '__main__':
     setup(
         name='fsfe-reuse',
@@ -51,7 +62,7 @@ if __name__ == '__main__':
 
         description='reuse is a tool for compliance with the REUSE Initiative '
             'recommendations.',
-        long_description=open('README.md').read(),
+        long_description=readme_rst(),
 
         package_dir={
             '': 'src'
