@@ -53,7 +53,7 @@ except ImportError:  # pragma: no cover
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
 __license__ = 'GPLv3+'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 

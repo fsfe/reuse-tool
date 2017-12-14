@@ -53,7 +53,7 @@ def readme_rst():
 if __name__ == '__main__':
     setup(
         name='fsfe-reuse',
-        version='0.1.0',
+        version='0.1.1',
         url='https://git.fsfe.org/reuse/reuse',
         license='GPL-3.0+',
 
