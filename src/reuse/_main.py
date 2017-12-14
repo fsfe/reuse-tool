@@ -117,8 +117,8 @@ def compile(context, output):
     out = sys.stdout
     if output:
         out = output
-        if not output.endswith('.spdx'):
-            _logger.warning('output file does not end with .spdx')
+        if not output.name.endswith('.spdx'):
+            _logger.warning('%s does not end with .spdx', output.name)
     project.bill_of_materials(
         out,
         ignore_debian=context.obj['ignore_debian'])

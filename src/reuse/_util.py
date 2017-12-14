@@ -133,4 +133,4 @@ def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
         return rawdata.decode(encoding, errors='replace')
     # Handle unknown encodings.
     except LookupError as error:
-        raise UnicodeError('could not decode {}'.format(encoding))
+        raise UnicodeError('could not decode {}'.format(encoding)) from error

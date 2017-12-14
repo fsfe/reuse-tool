@@ -19,6 +19,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased
 
+## 0.1.0 - 2017-12-11
+
 ### Added
 
 - Successfully parse old-style C and HTML comments now.

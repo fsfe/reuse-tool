@@ -380,7 +380,7 @@ def test_licenses_conflict(empty_directory):
 
     project = reuse.Project(empty_directory)
     with pytest.raises(RuntimeError):
-        project.licenses
+        assert project.licenses
 
 
 @git
