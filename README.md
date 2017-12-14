@@ -129,7 +129,7 @@ To generate a bill of materials, use `reuse compile`:
 Ideally, you would distribute this bill of materials together with the tarfile
 distribution of your project.
 
-Make sure that, when outputting to a file, that this file ends in the `.spdx`
+Make sure that, when outputting to a file, this file ends in the `.spdx`
 extension.  If you do not do this, the tool will attempt to include the file
 itself into the bill of materials, which obviously will not work.
 
