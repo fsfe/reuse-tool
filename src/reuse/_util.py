@@ -30,7 +30,19 @@ from typing import BinaryIO, List, Optional, Union
 
 import chardet
 
+
 GIT_EXE = shutil.which('git')
+
+
+try:
+    from pygit2 import Repository, GitError
+    GIT_METHOD = 'pygit2'
+except ImportError:  # pragma: no cover
+    if GIT_EXE:
+        GIT_METHOD = 'git'
+    else:
+        GIT_METHOD = None
+
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 

@@ -38,19 +38,14 @@ from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
 
-from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
+from ._util import (GIT_EXE, GIT_METHOD, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
 from .licenses import LICENSES
 
 try:
     from pygit2 import Repository, GitError
-    GIT_METHOD = 'pygit2'
 except ImportError:  # pragma: no cover
-    if GIT_EXE:
-        GIT_METHOD = 'git'
-    else:
-        GIT_METHOD = None
-
+    pass
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
