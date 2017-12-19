@@ -41,12 +41,10 @@ _PYGIT2_WARN = (
     """
 IMPORTANT:
 
-  You do not have pygit2 installed.  reuse will slow down significantly
-because of this.
-
-  For better performance, please install your distribution's version of
+  You do not have pygit2 installed.  reuse will slow down significantly because
+of this. For better performance, please install your distribution's version of
 pygit2.""")
-if not reuse.PYGIT2:
+if not reuse.GIT_METHOD == 'pygit2':
     _EPILOG_TEXT = _EPILOG_TEXT + '\n\n' + _PYGIT2_WARN
 
 
@@ -100,7 +98,7 @@ def cli(context, debug, ignore_debian):
     context.obj = dict()
     context.obj['ignore_debian'] = ignore_debian
 
-    if not reuse.PYGIT2:
+    if not reuse.GIT_METHOD == 'pygit2':
         _logger.warning(_PYGIT2_WARN)
 
 
