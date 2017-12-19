@@ -79,6 +79,7 @@ def test_lint_twice_path(fake_repository, runner):
     assert result.exit_code
 
 
+@pytest.mark.xfail(reason='Order of files is not reliable')
 def test_compile(tiny_repository, runner):
     """A correct bill of materials is generated."""
     result = runner.invoke(
