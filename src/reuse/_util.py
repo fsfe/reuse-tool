@@ -89,12 +89,16 @@ def find_root() -> Optional[Path]:
     """
     cwd = Path.cwd()
     if in_git_repo(cwd):
-        command = [GIT_EXE, 'rev-parse', '--show-toplevel']
-        result = execute_command(command, _logger, cwd=str(cwd))
+        if GIT_METHOD == 'pygit2':
+            repo = Repository(str(cwd))
+            return Path(repo.path).parent
+        elif GIT_METHOD == 'git':
+            command = [GIT_EXE, 'rev-parse', '--show-toplevel']
+            result = execute_command(command, _logger, cwd=str(cwd))
 
-        if not result.returncode:
-            path = result.stdout.decode('utf-8')[:-1]
-            return Path(os.path.relpath(path, str(cwd)))
+            if not result.returncode:
+                path = result.stdout.decode('utf-8')[:-1]
+                return Path(os.path.relpath(path, str(cwd)))
     return None
 
 
@@ -103,16 +107,22 @@ def in_git_repo(cwd: PathLike = None) -> bool:
 
     Always return False if git is not installed.
     """
-    if GIT_EXE is None:
-        return False
-
     if cwd is None:
         cwd = Path.cwd()
 
-    command = [GIT_EXE, 'status']
-    result = execute_command(command, _logger, cwd=str(cwd))
+    if GIT_METHOD == 'pygit2':
+        try:
+            Repository(str(cwd))
+            return True
+        except GitError:
+            return False
+    elif GIT_METHOD == 'git':
+        command = [GIT_EXE, 'status']
+        result = execute_command(command, _logger, cwd=str(cwd))
 
-    return not result.returncode
+        return not result.returncode
+
+    return False
 
 
 def _is_binary_string(bytes_string: bytes) -> bool:

@@ -29,7 +29,7 @@ from reuse import __version__, _main, _util
 
 # pylint: disable=invalid-name
 git = pytest.mark.skipif(
-    not _util.GIT_EXE,
+    not _util.GIT_METHOD,
     reason='requires git')
 
 
