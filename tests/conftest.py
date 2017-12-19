@@ -30,14 +30,13 @@ import subprocess
 from collections import namedtuple
 from io import StringIO
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 import jinja2
 import pytest
 from click.testing import CliRunner
-
 from reuse import ReuseInfo
-from reuse._util import setup_logging
+from reuse._util import GIT_EXE, GIT_METHOD, setup_logging
 
 CWD = Path.cwd()
 
@@ -51,6 +50,12 @@ LICENSES = [
     'GPL-3.0+',
     '(GPL-2.0 OR BSD-3-Clause)',
 ]
+
+GIT_METHODS = [None]
+if GIT_EXE:
+    GIT_METHODS.append('git')
+if GIT_METHOD == 'pygit2':
+    GIT_METHODS.append('pygit2')
 
 
 NameAndLicense = namedtuple(
@@ -110,6 +115,14 @@ def render_code_files() -> Dict[NameAndLicense, str]:
 
 
 COMPILED_CODE_FILES = render_code_files()
+
+
+@pytest.fixture(autouse=True, params=GIT_METHODS)
+def git_method(request, monkeypatch) -> Optional[str]:
+    """Run the test with multiple methods of git usage."""
+    monkeypatch.setattr('reuse.GIT_METHOD', request.param)
+    monkeypatch.setattr('reuse._util.GIT_METHOD', request.param)
+    yield request.param
 
 
 @pytest.fixture()
@@ -191,8 +204,11 @@ def fake_repository(tmpdir_factory) -> Path:
 
 
 @pytest.fixture()
-def git_repository(fake_repository: Path) -> Path:
+def git_repository(fake_repository: Path, git_method: Optional[str]) -> Path:
     """Create a git repository with ignored files."""
+    if git_method is None:
+        pytest.skip('cannot run this test without git')
+
     subprocess.run(['git', 'init', str(fake_repository)])
 
     gitignore = "*.pyc\nbuild"

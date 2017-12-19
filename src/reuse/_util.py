@@ -74,7 +74,7 @@ def execute_command(
     logger.debug('running %s', ' '.join(command))
 
     stdout = kwargs.get('stdout', subprocess.PIPE)
-    stderr = kwargs.get('stderr', subprocess.PIPE)
+    stderr = kwargs.get('stderr', None)
 
     return subprocess.run(
         command,
