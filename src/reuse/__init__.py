@@ -242,36 +242,29 @@ class Project:
         path = _determine_license_path(path)
         _logger.debug('searching %s for reuse information', path)
 
-        # Try to extract reuse information from the file.
-        file_result = None
+        spdx_expressions = []
+        copyright_lines = []
 
         with path.open('rb') as fp:
             try:
                 file_result = extract_reuse_info(
                     decoded_text_from_binary(fp, size=_HEADER_BYTES))
-                # Only return if the result contains a SPDX-License-Identifier
-                # tag.  If it does not, the file may have contained a copyright
-                # line.  That means we first want to check debian/copyright.
-                if any(file_result.spdx_expressions):
-                    return file_result
+                spdx_expressions.extend(file_result.spdx_expressions)
+                copyright_lines.extend(file_result.copyright_lines)
             except UnicodeError:
                 _logger.info('%s could not be decoded', path)
 
         # Search the debian/copyright file for copyright information.
         if not ignore_debian and self._copyright:
-            reuse_info = _copyright_from_debian(
+            debian_result = _copyright_from_debian(
                 self._relative_from_root(path),
                 self._copyright)
-            if any(reuse_info):
+            if any(debian_result):
                 _logger.info('%s covered by debian/copyright', path)
-                return reuse_info
+                spdx_expressions.extend(debian_result.spdx_expressions)
+                copyright_lines.extend(debian_result.copyright_lines)
 
-        # Return the result we found earlier if debian/copyright didn't contain
-        # more information.
-        if file_result is not None and any(file_result):
-            return file_result
-
-        return ReuseInfo([], [])
+        return ReuseInfo(spdx_expressions, copyright_lines)
 
     def lint(
             self,

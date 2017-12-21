@@ -25,6 +25,7 @@ import os
 import shutil
 from itertools import zip_longest
 from pathlib import Path
+from textwrap import dedent
 
 import pytest
 
@@ -115,15 +116,35 @@ def test_reuse_info_of_only_copyright(fake_repository):
     assert reuse_info.copyright_lines[0] == 'Copyright (C) 2017  Mary Sue'
 
 
-def test_reuse_info_of_only_copyright_but_covered_by_debian(fake_repository):
+def test_reuse_info_of_only_copyright_also_covered_by_debian(fake_repository):
     """A file contains only a copyright line, but debian/copyright also has
-    information on this file.  Prioritise debian/copyright's output.
+    information on this file.  Use both.
     """
-    (fake_repository / 'doc/foo.py').write_text('Copyright ignore-me')
+    (fake_repository / 'doc/foo.py').write_text('Copyright in file')
     project = reuse.Project(fake_repository)
     reuse_info = project.reuse_info_of('doc/foo.py')
     assert any(reuse_info.spdx_expressions)
-    assert reuse_info.copyright_lines[0] != 'Copyright ignore-me'
+    assert len(reuse_info.copyright_lines) == 2
+    assert 'Copyright in file' in reuse_info.copyright_lines
+    assert '2017 Mary Sue' in reuse_info.copyright_lines
+
+
+def test_reuse_info_of_also_covered_by_debian(fake_repository):
+    """A file contains all reuse information, but debian/copyright also
+    provides information on this file.  Use both.
+    """
+    (fake_repository / 'doc/foo.py').write_text(
+        dedent("""
+            SPDX-License-Identifier: GPL-3.0
+            Copyright in file"""))
+    project = reuse.Project(fake_repository)
+    reuse_info = project.reuse_info_of('doc/foo.py')
+    for thing in reuse_info:
+        assert len(thing) == 2
+    assert 'GPL-3.0' in reuse_info.spdx_expressions
+    assert 'CC0-1.0' in reuse_info.spdx_expressions
+    assert 'Copyright in file' in reuse_info.copyright_lines
+    assert '2017 Mary Sue' in reuse_info.copyright_lines
 
 
 def test_error_in_debian_copyright(fake_repository):
