@@ -119,9 +119,9 @@ def test_reuse_info_of_only_copyright_but_covered_by_debian(fake_repository):
     """A file contains only a copyright line, but debian/copyright also has
     information on this file.  Prioritise debian/copyright's output.
     """
-    (fake_repository / 'src/foo.py').write_text('Copyright ignore-me')
+    (fake_repository / 'doc/foo.py').write_text('Copyright ignore-me')
     project = reuse.Project(fake_repository)
-    reuse_info = project.reuse_info_of('src/foo.py')
+    reuse_info = project.reuse_info_of('doc/foo.py')
     assert any(reuse_info.spdx_expressions)
     assert reuse_info.copyright_lines[0] != 'Copyright ignore-me'
 
@@ -130,7 +130,7 @@ def test_error_in_debian_copyright(fake_repository):
     """If there is an error in debian/copyright, just ignore its existence."""
     (fake_repository / 'debian/copyright').write_text('invalid')
     project = reuse.Project(fake_repository)
-    assert not any(project.reuse_info_of('src/no_license.py'))
+    assert not any(project.reuse_info_of('doc/index.rst'))
 
 
 def test_all_files(empty_directory):
@@ -200,7 +200,7 @@ def test_all_licensed_no_debian_copyright(fake_repository):
     debian/copyright.
     """
     shutil.rmtree(str(fake_repository / 'debian'))
-    os.remove(str(fake_repository / 'src/no_license.py'))
+    os.remove(str(fake_repository / 'doc/index.rst'))
 
     project = reuse.Project(fake_repository)
 

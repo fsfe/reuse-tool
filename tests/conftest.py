@@ -161,6 +161,8 @@ def fake_repository(tmpdir_factory) -> Path:
     debian_dir.mkdir()
     licenses_dir = directory / 'LICENSES'
     licenses_dir.mkdir()
+    doc = directory / 'doc'
+    doc.mkdir()
 
     rendered_texts = COMPILED_CODE_FILES
 
@@ -171,7 +173,7 @@ def fake_repository(tmpdir_factory) -> Path:
     shutil.copy(
         str(RESOURCES_DIRECTORY / 'debian/copyright'),
         str(debian_dir / 'copyright'))
-    (src / 'no_license.py').touch()
+    (doc / 'index.rst').touch()
 
     (directory / 'README.md').write_text(
         """

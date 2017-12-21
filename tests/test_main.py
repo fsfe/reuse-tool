@@ -60,7 +60,7 @@ def test_lint_ignore_debian(fake_repository, runner):
 
     output_lines = result.output.splitlines()
     assert len(output_lines) == 1
-    assert 'no_license.py' in output_lines[0]
+    assert 'index.rst' in output_lines[0]
     assert result.exit_code
 
 
