@@ -70,6 +70,20 @@ def test_extract_no_license_info():
     assert _reuse_info_equal(result, reuse.ReuseInfo([], []))
 
 
+def test_extract_expression():
+    """Parse various expressions."""
+    expressions = [
+        'GPL-3.0+',
+        'GPL-3.0 AND CC0-1.0',
+        'nonsense',
+    ]
+    for expression in expressions:
+        result = reuse.extract_reuse_info(
+            'SPDX-License-'
+            'Identifier: {}'.format(expression))
+        assert result.spdx_expressions == {expression}
+
+
 def test_project_not_a_directory(empty_directory):
     """Cannot create a Project without a valid directory."""
     (empty_directory / 'foo.py').touch()
