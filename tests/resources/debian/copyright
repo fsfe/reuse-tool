@@ -3,6 +3,6 @@ Upstream-Name: Some project
 Upstream-Contact: Mary Sue
 Source: https://example.com/
 
-Files: src/*
+Files: doc/*
 Copyright: 2017 Mary Sue
 License: CC0-1.0

@@ -33,7 +33,7 @@ import re
 import sys
 from pathlib import Path
 from typing import (BinaryIO, Dict, Iterable, Iterator, List, NamedTuple,
-                    Optional, Union)
+                    Optional, Set, Union)
 from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
@@ -91,8 +91,8 @@ _IGNORE_FILE_PATTERNS = [
 ReuseInfo = NamedTuple(
     'ReuseInfo',
     [
-        ('spdx_expressions', List[str]),
-        ('copyright_lines', List[str])
+        ('spdx_expressions', Set[str]),
+        ('copyright_lines', Set[str])
     ])
 
 
@@ -121,11 +121,11 @@ def _copyright_from_debian(
     result = copyright.find_files_paragraph(str(path))
 
     if result is None:
-        return ReuseInfo([], [])
+        return ReuseInfo(set(), set())
 
     return ReuseInfo(
-        [result.license.synopsis],
-        list(map(str.strip, result.copyright.splitlines())))
+        set([result.license.synopsis]),
+        set(map(str.strip, result.copyright.splitlines())))
 
 
 def _identifiers_from_expression(expression: str) -> List[str]:
@@ -157,17 +157,17 @@ def _determine_license_path(path: PathLike) -> Path:
 
 def extract_reuse_info(text: str) -> ReuseInfo:
     """Extract reuse information from comments in a string."""
-    license_matches = list(map(str.strip, _LICENSE_PATTERN.findall(text)))
-    copyright_matches = list(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
+    license_matches = set(map(str.strip, _LICENSE_PATTERN.findall(text)))
+    copyright_matches = set(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
 
     return ReuseInfo(
         license_matches,
         copyright_matches)
 
 
-def extract_valid_license(text: str) -> str:
+def extract_valid_license(text: str) -> Set[str]:
     """Extract SPDX identifier from a string."""
-    return list(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
+    return set(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
 
 
 class Project:
@@ -236,42 +236,40 @@ class Project:
             ignore_debian: bool = False) -> ReuseInfo:
         """Get the reuse information of *path*.
 
-        This function will return any reuse information that it can find.  If
-        none is found, an empty ReuseInfo object is returned.
+        This function will return any reuse information that it can find, both
+        from within the file and from the debian/copyright file.  If none is
+        found, an empty ReuseInfo object is returned.
         """
         path = _determine_license_path(path)
         _logger.debug('searching %s for reuse information', path)
 
-        # Try to extract reuse information from the file.
-        file_result = None
+        spdx_expressions = set()
+        copyright_lines = set()
 
         with path.open('rb') as fp:
             try:
                 file_result = extract_reuse_info(
                     decoded_text_from_binary(fp, size=_HEADER_BYTES))
-                # Only return if the result contains a SPDX-License-Identifier
-                # tag.  If it does not, the file may have contained a copyright
-                # line.  That means we first want to check debian/copyright.
-                if any(file_result.spdx_expressions):
-                    return file_result
+                spdx_expressions = spdx_expressions.union(
+                    file_result.spdx_expressions)
+                copyright_lines = copyright_lines.union(
+                    file_result.copyright_lines)
             except UnicodeError:
                 _logger.info('%s could not be decoded', path)
 
         # Search the debian/copyright file for copyright information.
         if not ignore_debian and self._copyright:
-            reuse_info = _copyright_from_debian(
+            debian_result = _copyright_from_debian(
                 self._relative_from_root(path),
                 self._copyright)
-            if any(reuse_info):
+            if any(debian_result):
                 _logger.info('%s covered by debian/copyright', path)
-                return reuse_info
+                spdx_expressions = spdx_expressions.union(
+                    debian_result.spdx_expressions)
+                copyright_lines = copyright_lines.union(
+                    debian_result.copyright_lines)
 
-        # Return the result we found earlier if debian/copyright didn't contain
-        # more information.
-        if file_result is not None and any(file_result):
-            return file_result
-
-        return ReuseInfo([], [])
+        return ReuseInfo(spdx_expressions, copyright_lines)
 
     def lint(
             self,
