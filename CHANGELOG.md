@@ -19,6 +19,11 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased
 
+### Changed
+
+- `Project.reuse_info_of` now extracts, combines and returns information both
+  from the file itself and from debian/copyright.
+
 ## 0.1.1 - 2017-12-14
 
 ### Changed
