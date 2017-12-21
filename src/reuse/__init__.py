@@ -144,6 +144,17 @@ def _identifiers_from_expression(expression: str) -> List[str]:
     return expression.split()
 
 
+def _determine_license_path(path: PathLike) -> Path:
+    """Given a path FILE, return FILE.license if it exists, otherwise return
+    FILE.
+    """
+    path = Path(path)
+    license_path = Path('{}.license'.format(path))
+    if not license_path.exists():
+        license_path = path
+    return license_path
+
+
 def extract_reuse_info(text: str) -> ReuseInfo:
     """Extract reuse information from comments in a string."""
     license_matches = list(map(str.strip, _LICENSE_PATTERN.findall(text)))
@@ -228,18 +239,13 @@ class Project:
         This function will return any reuse information that it can find.  If
         none is found, an empty ReuseInfo object is returned.
         """
-        path = Path(path)
-        license_path = Path('{}.license'.format(path))
-
-        # Find the correct path to search.  Prioritise 'path.license'.
-        if not license_path.exists():
-            license_path = path
+        path = _determine_license_path(path)
         _logger.debug('searching %s for reuse information', path)
 
         # Try to extract reuse information from the file.
         file_result = None
 
-        with license_path.open('rb') as fp:
+        with path.open('rb') as fp:
             try:
                 file_result = extract_reuse_info(
                     decoded_text_from_binary(fp, size=_HEADER_BYTES))
@@ -438,14 +444,12 @@ class Project:
                 if Path(path).suffix == '.license':
                     continue
 
+                path = _determine_license_path(path)
                 path = self._relative_from_root(path)
-                license_path = Path('{}.license'.format(path))
-                if not license_path.exists():
-                    license_path = path
-                _logger.debug('searching %s for license tags', license_path)
+                _logger.debug('searching %s for license tags', path)
 
                 try:
-                    identifiers = self._identifiers_of_license(license_path)
+                    identifiers = self._identifiers_of_license(path)
                 except IdentifierNotFound:
                     identifier = 'LicenseRef-Unknown{}'.format(unknown_counter)
                     identifiers = [identifier]
@@ -526,14 +530,9 @@ class Project:
 
           - The name starts with 'LicenseRef-'.
         """
-        path = Path(path)
-        license_path = '{}.license'.format(path)
+        path = _determine_license_path(path)
 
-        # Find the correct path to search.  Prioritise 'path.license'.
-        if not (self.root / license_path).exists():
-            license_path = path
-
-        with (self.root / license_path).open('rb') as fp:
+        with (self.root / path).open('rb') as fp:
             result = extract_valid_license(
                 decoded_text_from_binary(fp, size=_HEADER_BYTES))
             if any(result):
