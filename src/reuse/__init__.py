@@ -536,7 +536,10 @@ class Project:
             if any(result):
                 return result
 
-        if path.stem in LICENSES or path.stem.startswith('LicenseRef-'):
+        for name in (path.stem, path.name):
+            if name in LICENSES:
+                return [name]
+        if path.stem.startswith('LicenseRef-'):
             return [path.stem]
 
         raise IdentifierNotFound(
