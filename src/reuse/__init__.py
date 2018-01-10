@@ -509,7 +509,12 @@ class Project:
             identifiers = _identifiers_from_expression(expression)
 
             for identifier in identifiers:
-                if identifier.rstrip('+') not in self.licenses:
+                to_remove = ['+', '-only', '-or-later']
+                for string in to_remove:
+                    if identifier.endswith(string):
+                        identifier = identifier.replace(string, '')
+
+                if identifier not in self.licenses:
                     return identifier
         return False
 
