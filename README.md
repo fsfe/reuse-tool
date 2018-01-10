@@ -87,9 +87,13 @@ a nutshell:
 
 - Include the texts of all used licenses in your project.
 
+  - A special note on the GPL: If you use `Valid-License-Identifier: GPL-3.0` or
+    name the file `LICENSES/GPL-3.0.txt`, this will catch all the following
+    licenses: `GPL-3.0`, `GPL-3.0+`, `GPL-3.0-only` and `GPL-3.0-or-later`.
+
 - Add a comment header to each file that says `SPDX-License-Identifier:
-  GPL-3.0+`.  Replace `GPL-3.0+` with the license that applies to the file.  If
-  you cannot edit the comment header, include a
+  GPL-3.0-or-later`.  Replace `GPL-3.0-or-later` with the license that applies
+  to the file.  If you cannot edit the comment header, include a
   [debian/copyright](https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/)
   file.
 
