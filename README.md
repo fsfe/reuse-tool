@@ -90,6 +90,7 @@ a nutshell:
   - A special note on the GPL: If you use `Valid-License-Identifier: GPL-3.0` or
     name the file `LICENSES/GPL-3.0.txt`, this will catch all the following
     licenses: `GPL-3.0`, `GPL-3.0+`, `GPL-3.0-only` and `GPL-3.0-or-later`.
+    This applies to the entire GPL family of licenses.
 
 - Add a comment header to each file that says `SPDX-License-Identifier:
   GPL-3.0-or-later`.  Replace `GPL-3.0-or-later` with the license that applies
