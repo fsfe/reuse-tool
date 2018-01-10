@@ -10,7 +10,7 @@
 > reuse is a tool for compliance with the [REUSE
 > Initiative](https://reuse.software/) recommendations.
 
-- Free Software: GPL-3.0+
+- Free Software: GPL-3.0-or-later
 
 - Documentation: <https://reuse.gitlab.io>
 

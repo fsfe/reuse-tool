@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License along with
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
-# SPDX-License-Identifier: GPL-3.0+
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 import subprocess
@@ -57,7 +57,7 @@ if __name__ == '__main__':
         name='fsfe-reuse',
         version='0.1.1',
         url='https://git.fsfe.org/reuse/reuse',
-        license='GPL-3.0+',
+        license='GPL-3.0-or-later',
 
         author='Carmen Bianca Bakker',
         author_email='carmenbianca@fsfe.org',
