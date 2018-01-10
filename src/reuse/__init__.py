@@ -142,7 +142,8 @@ def _identifiers_from_expression(expression: str) -> List[str]:
 
     boolean_words = ['OR', 'AND']
     for word in boolean_words:
-        expression = re.sub(r'\w{}\w'.format(word), '', expression)
+        expression = re.sub(
+            r'\s{}\s'.format(word), ' ', expression, flags=re.IGNORECASE)
 
     return expression.split()
 
