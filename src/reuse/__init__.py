@@ -136,10 +136,13 @@ def _identifiers_from_expression(expression: str) -> List[str]:
     """
     # All substrings that need to be removed for just the identifiers to
     # remain.
-    to_replace = ['OR', 'or', 'AND', 'and', '(', ')']
-
+    to_replace = ['(', ')']
     for substring in to_replace:
         expression = expression.replace(substring, '')
+
+    boolean_words = ['OR', 'AND']
+    for word in boolean_words:
+        expression = re.sub(r'\w{}\w'.format(word), '', expression)
 
     return expression.split()
 
