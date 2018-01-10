@@ -68,11 +68,11 @@ dist: clean docs ## builds source and wheel package
 
 .PHONY: test-release
 test-release: dist  ## package and upload to testpypi
-	twine upload -r testpypi dist/*
+	twine upload --sign -r testpypi dist/*
 
 .PHONY: release
 release: dist  ## package and upload a release
-	twine upload -r pypi dist/*
+	twine upload --sign -r pypi dist/*
 
 .PHONY: develop
 develop: ## set up virtualenv for development
