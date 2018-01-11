@@ -38,16 +38,14 @@ from uuid import uuid4
 
 from debian.copyright import Copyright, NotMachineReadableError
 
-from ._util import (GIT_EXE, PathLike, decoded_text_from_binary,
+from ._util import (GIT_EXE, GIT_METHOD, PathLike, decoded_text_from_binary,
                     execute_command, in_git_repo)
 from .licenses import LICENSES
 
 try:
     from pygit2 import Repository, GitError
-    PYGIT2 = True
 except ImportError:  # pragma: no cover
-    PYGIT2 = False
-
+    pass
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -185,10 +183,10 @@ class Project:
             raise NotADirectoryError('%s is no valid path' % self._root)
 
         self._git_repo = None
-        if PYGIT2:
+        if GIT_METHOD == 'pygit2':
             with contextlib.suppress(GitError):
                 self._git_repo = Repository(str(self._root))
-        elif GIT_EXE:
+        elif GIT_METHOD == 'git':
             self._git_repo = in_git_repo(self._root)
         else:
             _logger.warning('could not find Git')
@@ -561,9 +559,9 @@ class Project:
         """
         path = self._relative_from_root(path)
 
-        if PYGIT2:
+        if GIT_METHOD == 'pygit2':
             return self._git_repo.path_is_ignored(str(path))
-        elif GIT_EXE:
+        elif GIT_METHOD == 'git':
             command = [GIT_EXE, 'check-ignore', str(path)]
 
             result = execute_command(command, _logger, cwd=str(self.root))
