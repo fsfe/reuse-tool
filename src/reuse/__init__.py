@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License along with
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
-# SPDX-License-Identifier: GPL-3.0+
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """reuse is a tool for compliance with the REUSE Initiative recommendations."""
 
@@ -134,10 +134,14 @@ def _identifiers_from_expression(expression: str) -> List[str]:
     """
     # All substrings that need to be removed for just the identifiers to
     # remain.
-    to_replace = ['OR', 'or', 'AND', 'and', '(', ')']
-
+    to_replace = ['(', ')']
     for substring in to_replace:
         expression = expression.replace(substring, '')
+
+    boolean_words = ['OR', 'AND']
+    for word in boolean_words:
+        expression = re.sub(
+            r'\s{}\s'.format(word), ' ', expression, flags=re.IGNORECASE)
 
     return expression.split()
 
@@ -507,7 +511,12 @@ class Project:
             identifiers = _identifiers_from_expression(expression)
 
             for identifier in identifiers:
-                if identifier.rstrip('+') not in self.licenses:
+                to_remove = ['+', '-only', '-or-later']
+                for string in to_remove:
+                    if identifier.endswith(string):
+                        identifier = identifier.replace(string, '')
+
+                if identifier not in self.licenses:
                     return identifier
         return False
 
@@ -534,7 +543,10 @@ class Project:
             if any(result):
                 return result
 
-        if path.stem in LICENSES or path.stem.startswith('LicenseRef-'):
+        for name in (path.stem, path.name):
+            if name in LICENSES:
+                return [name]
+        if path.stem.startswith('LicenseRef-'):
             return [path.stem]
 
         raise IdentifierNotFound(

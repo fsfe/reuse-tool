@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License along with
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
-# SPDX-License-Identifier: GPL-3.0+
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for reuse."""
 
@@ -363,6 +363,15 @@ def test_licenses_licenseref_from_filename(empty_directory):
     project = reuse.Project(empty_directory)
 
     assert set(project.licenses.keys()) == {'LicenseRef-hello'}
+
+
+def test_licenses_no_file_extension(fake_repository):
+    """Given a license file with no extension, correctly identify it."""
+    (fake_repository / 'LICENSES/GPL-3.0.txt').rename(
+        fake_repository / 'LICENSES/GPL-3.0')
+    project = reuse.Project(fake_repository)
+
+    assert set(project.licenses.keys()) == USED_LICENSES
 
 
 @pytest.mark.parametrize(

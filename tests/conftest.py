@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License along with
 # reuse.  If not, see <http://www.gnu.org/licenses/>.
 #
-# SPDX-License-Identifier: GPL-3.0+
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Global fixtures and configuration."""
 
@@ -47,8 +47,11 @@ CODE_FILES_DIRECTORY = RESOURCES_DIRECTORY / 'code_files'
 # Some licenses to test against
 LICENSES = [
     'CC0-1.0',
+    'GPL-3.0',
     'GPL-3.0+',
-    '(GPL-2.0 OR BSD-3-Clause)',
+    'GPL-3.0-only',
+    'GPL-3.0-or-later',
+    '(GPL-2.0-only OR BSD-3-Clause)',
 ]
 
 GIT_METHODS = [None]

@@ -19,6 +19,12 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased
 
+### Fixed
+
+- The license list of SPDX 3.0 has deprecated `GPL-3.0` and `GPL-3.0+` et al in
+  favour of `GPL-3.0-only` and `GPL-3.0-or-later`.  The program has been
+  amended to accommodate sufficiently for those licenses.
+
 ### Changed
 
 - `Project.reuse_info_of` now extracts, combines and returns information both
