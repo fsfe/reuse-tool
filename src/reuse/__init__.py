@@ -342,8 +342,6 @@ class Project:
             return 1
 
         if not ignore_missing:
-            # Test if all licenses in the expression have an associated
-            # license file.  If not, warn the user and yield the file.
             wrong_identifier = self._contains_invalid_identifiers(
                 reuse_info.spdx_expressions)
             if wrong_identifier:
