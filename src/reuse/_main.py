@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2017  Free Software Foundation Europe e.V.
+# Copyright (C) 2017  Carmen Bianca Bakker
 #
 # This file is part of reuse, available from its original location:
 # <https://git.fsfe.org/reuse/reuse/>.
@@ -21,14 +22,16 @@
 
 """Entry functions for reuse."""
 
+import argparse
 import importlib
 import logging
 import sys
 from pathlib import Path
 from pipes import quote
+from textwrap import dedent
+from typing import List
 
-import click
-
+from ._format import INDENT, fill_all, fill_paragraph
 from ._util import GIT_METHOD, find_root, setup_logging
 
 # Import __init__.py.  I don't know how to do this cleanly
@@ -36,14 +39,50 @@ reuse = importlib.import_module('..', __name__)  # pylint: disable=invalid-name
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
-_EPILOG_TEXT = ''
-_PYGIT2_WARN = (
-    """
-IMPORTANT:
+_DESCRIPTION_LINES = [
+    'reuse  Copyright (C) 2017-2018  Free Software Foundation Europe e.V.',
 
-  You do not have pygit2 installed.  reuse will slow down significantly because
-of this. For better performance, please install your distribution's version of
-pygit2.""")
+    dedent("""
+        reuse is a tool for compliance with the REUSE Initiative
+        recommendations.  See <https://reuse.software/> for more
+        information."""),
+
+    dedent("""
+        reuse is free software: you can redistribute it and/or modify it
+        under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version."""),
+
+    dedent("""
+        reuse is distributed in the hope that it will be useful, but WITHOUT
+        ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+        FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+        for more details."""),
+
+    dedent("""
+        You should have received a copy of the GNU General Public License
+        along with reuse.  If not, see <http://www.gnu.org/licenses/>."""),
+
+    "Support the FSFE's work:"]
+_INDENTED_LINE = dedent("""
+    Donations are critical to our strength and autonomy.  They enable us to
+    continue working for Free Software wherever necessary.  Please consider
+    making a donation at <https://fsfe.org/donate/>.""")
+
+_DESCRIPTION_TEXT = (
+    fill_all('\n\n'.join(_DESCRIPTION_LINES))
+    + '\n\n'
+    + fill_paragraph(_INDENTED_LINE, indent_width=INDENT))
+
+
+_EPILOG_TEXT = ''
+_PYGIT2_WARN = '\n\n'.join([
+    'IMPORTANT:',
+
+    fill_paragraph(dedent("""
+    You do not have pygit2 installed.  reuse will slow down significantly
+    because of this. For better performance, please install your distribution's
+    version of pygit2."""), indent_width=INDENT)])
 if not GIT_METHOD == 'pygit2':
     _EPILOG_TEXT = _EPILOG_TEXT + '\n\n' + _PYGIT2_WARN
 
@@ -58,82 +97,29 @@ def _create_project() -> reuse.Project:
     return reuse.Project(root)
 
 
-@click.group(epilog=_EPILOG_TEXT)
-@click.option(
-    '--ignore-debian',
-    is_flag=True,
-    help='Do not use debian/copyright to extract reuse information.')
-@click.option(
-    '--debug',
-    is_flag=True,
-    help='Enable debug statements.')
-@click.version_option(version=reuse.__version__)
-@click.pass_context
-def cli(context, debug, ignore_debian):
-    """reuse  Copyright (C) 2017  Free Software Foundation Europe e.V.
-
-    reuse is a tool for compliance with the REUSE Initiative recommendations.
-    See <https://reuse.software/> for more information.
-
-    reuse is free software: you can redistribute it and/or modify it under the
-    terms of the GNU General Public License as published by the Free Software
-    Foundation, either version 3 of the License, or (at your option) any later
-    version.
-
-    reuse is distributed in the hope that it will be useful, but WITHOUT ANY
-    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-    FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-    details.
-
-    You should have received a copy of the GNU General Public License along
-    with reuse.  If not, see <http://www.gnu.org/licenses/>.
-
-    Support the FSFE's work:
-
-      Donations are critical to our strength and autonomy.  They enable us to
-      continue working for Free Software wherever necessary.  Please consider
-      making a donation at <https://fsfe.org/donate/>.
-    """
-    setup_logging(level=logging.DEBUG if debug else logging.WARNING)
-    context.obj = dict()
-    context.obj['ignore_debian'] = ignore_debian
-
-    if not GIT_METHOD == 'pygit2':
-        _logger.warning(_PYGIT2_WARN)
-
-
-@cli.command()
-@click.option(
-    '--output', '-o',
-    help='Write to file.',
-    type=click.File('w'))
-@click.pass_context
-def compile(context, output):
+def compile(args):
     """Print the project's bill of materials."""
     project = _create_project()
     out = sys.stdout
-    if output:
-        out = output
-        if not output.name.endswith('.spdx'):
-            _logger.warning('%s does not end with .spdx', output.name)
+    if args.output:
+        out = args.output
+        if not out.name.endswith('.spdx'):
+            _logger.warning('%s does not end with .spdx', out.name)
     project.bill_of_materials(
         out,
-        ignore_debian=context.obj['ignore_debian'])
+        ignore_debian=args.ignore_debian)
 
 
-@cli.command()
-@click.argument(
-    'paths', nargs=-1, type=click.Path(exists=True))
-@click.pass_context
-def license(context, paths):
+def license(args):
     """Print the SPDX expressions of each provided file."""
     project = _create_project()
     first = True
-    for path in paths:
+
+    for path in args.paths:
         try:
             reuse_info = project.reuse_info_of(
                 path,
-                ignore_debian=context.obj['ignore_debian'])
+                ignore_debian=args.ignore_debian)
         except IsADirectoryError:
             _logger.error('%s is a directory', path)
             continue
@@ -142,68 +128,116 @@ def license(context, paths):
             continue
 
         if not first:
-            click.echo()
+            print()
 
-        click.echo(quote(str(path)))
+        print(quote(str(path)))
 
         if any(reuse_info.spdx_expressions):
-            click.echo(', '.join(map(quote, reuse_info.spdx_expressions)))
+            print(', '.join(map(quote, reuse_info.spdx_expressions)))
         else:
-            click.echo('none')
+            print('none')
 
         first = False
 
 
-@cli.command()
-@click.option(
-    '--spdx-mandatory/--no-spdx-mandatory',
-    default=True,
-    help='SPDX expressions are mandatory for compliance.')
-@click.option(
-    '--copyright-mandatory/--no-copyright-mandatory',
-    default=True,
-    help='Copyright notices are mandatory for compliance.')
-@click.option(
-    '--ignore-missing',
-    is_flag=True,
-    help='Ignore missing licenses.')
-@click.argument(
-    'paths', required=False, nargs=-1, type=click.Path(exists=True))
-@click.pass_context
-def lint(context, paths, copyright_mandatory, spdx_mandatory, ignore_missing):
-    """List all non-compliant files.
-
-    A file is non-compliant when:
-
-    - It has no copyright information.
-
-    - It has no license (declared as SPDX expression).
-
-    - Its license could not be found.
-
-    This prints only the paths of the files for which a licence could not be
-    found, each file on a separate line.
-
-    Error and warning messages are output to STDERR.
-    """
+def lint(args):
+    """List all non-compliant files."""
     counter = 0
     found = set()
 
     project = _create_project()
-    if not paths:
-        paths = [project.root]
 
-    for path in paths:
+    for path in args.paths:
         for file_ in project.lint(
                 path,
-                spdx_mandatory=spdx_mandatory,
-                copyright_mandatory=copyright_mandatory,
-                ignore_debian=context.obj['ignore_debian'],
-                ignore_missing=ignore_missing):
+                spdx_mandatory=args.spdx_mandatory,
+                copyright_mandatory=args.copyright_mandatory,
+                ignore_debian=args.ignore_debian,
+                ignore_missing=args.ignore_missing):
             output = quote(str(file_))
             if output not in found:
-                click.echo(output)
+                print(output)
                 found.add(output)
                 counter += 1
 
-    context.exit(counter)
+    sys.exit(counter)
+
+
+def parser() -> argparse.ArgumentParser:
+    """Create the parser and return it."""
+    # pylint: disable=redefined-outer-name
+    parser = argparse.ArgumentParser(
+        'reuse', formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=(_DESCRIPTION_TEXT), epilog=_EPILOG_TEXT)
+    parser.add_argument(
+        '--debug', action='store_true', help='Enable debug statements.')
+    parser.add_argument(
+        '--ignore-debian', action='store_true',
+        help='Do not use debian/copyright to extract reuse information.')
+    parser.add_argument(
+        '--version', action='version',
+        version='reuse, version %s' % reuse.__version__)
+    parser.set_defaults(func=lambda x: parser.print_help())
+
+    subparsers = parser.add_subparsers(description='')
+
+    compile_parser = subparsers.add_parser(
+        'compile',
+        help="Print the project's bill of materials.")
+    compile_parser.add_argument(
+        '--output', '-o', action='store', type=argparse.FileType('w'))
+    compile_parser.set_defaults(func=compile)
+
+    lint_parser = subparsers.add_parser(
+        'lint', formatter_class=argparse.RawDescriptionHelpFormatter,
+        help='List all non-compliant files.',
+        description=fill_all(dedent("""
+            List all non-compliant files.
+
+            A file is non-compliant when:
+
+            - It has no copyright information.
+
+            - It has no license (declared as SPDX expression).
+
+            - Its license could not be found.
+
+            This prints only the paths of the files for which a licence could
+            not be found, each file on a separate line.
+
+            Error and warning messages are output to STDERR.""")))
+    lint_parser.add_argument(
+        'paths', action='store', nargs='*')
+    lint_parser.add_argument(
+        '--spdx-mandatory', action='store_true', default=True,
+        help='SPDX expressions are mandatory for compliance.')
+    lint_parser.add_argument(
+        '--copyright-mandatory', action='store_true', default=True,
+        help='Copyright notices are mandatory for compliance.')
+    lint_parser.add_argument(
+        '--ignore-missing', action='store_true',
+        help='Ignore missing licenses.')
+    lint_parser.set_defaults(func=lint)
+
+    license_parser = subparsers.add_parser(
+        'license',
+        help='Print the SPDX expressions of each provided file.')
+    license_parser.add_argument(
+        'paths', action='store', nargs='*')
+    license_parser.set_defaults(func=license)
+
+    return parser
+
+
+def main(args: List[str] = None) -> None:
+    """Main entry function."""
+    if args is None:
+        args = sys.argv[1:]
+
+    main_parser = parser()
+    parsed_args = main_parser.parse_args(args)
+
+    setup_logging(
+        level=logging.DEBUG if parsed_args.debug else logging.WARNING)
+
+    parsed_args.func(parsed_args)

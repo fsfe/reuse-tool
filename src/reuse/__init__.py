@@ -172,7 +172,7 @@ def extract_valid_license(text: str) -> Set[str]:
     return set(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
 
 
-class Project:
+class Project:  # pylint: disable=unused-variable
     """Simple object that holds the project's root, which is necessary for many
     interactions.
     """
