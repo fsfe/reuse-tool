@@ -181,8 +181,8 @@ def parser() -> argparse.ArgumentParser:
         '--ignore-debian', action='store_true',
         help=_('do not use debian/copyright to extract reuse information'))
     parser.add_argument(
-        '--version', action='version',
-        version=_('reuse, version {}').format(reuse.__version__))
+        '--version', action='store_true',
+        help=_("show program's version number and exit"))
     parser.set_defaults(func=lambda x: parser.print_help())
 
     subparsers = parser.add_subparsers()
@@ -246,4 +246,7 @@ def main(args: List[str] = None) -> None:
     setup_logging(
         level=logging.DEBUG if parsed_args.debug else logging.WARNING)
 
-    parsed_args.func(parsed_args)
+    if parsed_args.version:
+        print(_('reuse, version {}').format(reuse.__version__))
+    else:
+        parsed_args.func(parsed_args)
