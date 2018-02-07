@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 18:24+0100\n"
-"PO-Revision-Date: 2018-02-07 17:57+0100\n"
+"POT-Creation-Date: 2018-02-07 19:00+0100\n"
+"PO-Revision-Date: 2018-02-07 19:02+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: eo\n"
@@ -187,27 +187,27 @@ msgstr "ne povis legi %s"
 msgid "none"
 msgstr "neniu"
 
-#: src/reuse/_main.py:176
+#: src/reuse/_main.py:179
 msgid "enable debug statements"
 msgstr "ŝalti sencimigajn ordonojn"
 
-#: src/reuse/_main.py:179
+#: src/reuse/_main.py:182
 msgid "do not use debian/copyright to extract reuse information"
 msgstr "ne uzi debian/copyright por eltiri reuse-informon"
 
-#: src/reuse/_main.py:182
-msgid "reuse, version {}"
-msgstr "reuse, versio {}"
+#: src/reuse/_main.py:185
+msgid "show program's version number and exit"
+msgstr "montri versionumeron de programo kaj eliri"
 
-#: src/reuse/_main.py:189
+#: src/reuse/_main.py:192
 msgid "print the project's bill of materials"
 msgstr "presi la pecolisto de la projekto"
 
-#: src/reuse/_main.py:196
+#: src/reuse/_main.py:199
 msgid "list all non-compliant files"
 msgstr "listigi ĉiujn nekonformajn dosierojn"
 
-#: src/reuse/_main.py:198
+#: src/reuse/_main.py:201
 msgid ""
 "List all non-compliant files.\n"
 "\n"
@@ -239,21 +239,25 @@ msgstr ""
 "\n"
 "Eraraj kaj avertaj mesaĝoj estas presata al STDERR."
 
-#: src/reuse/_main.py:216
+#: src/reuse/_main.py:219
 msgid "SPDX expressions are mandatory for compliance"
 msgstr "SPDX-esprimoj nepras por konformiĝo"
 
-#: src/reuse/_main.py:219
+#: src/reuse/_main.py:222
 msgid "copyright notices are mandatory for compliance"
 msgstr "kopirajtafiŝoj nepras por konformiĝo"
 
-#: src/reuse/_main.py:222
+#: src/reuse/_main.py:225
 msgid "ignore missing licenses"
 msgstr "ignori mankantaj permesiloj"
 
-#: src/reuse/_main.py:227
+#: src/reuse/_main.py:230
 msgid "print the SPDX expressions of each provided file"
 msgstr "presi la SPDX-esprimon de ĉiu donita dosiero"
+
+#: src/reuse/_main.py:250
+msgid "reuse, version {}"
+msgstr "reuse, versio {}"
 
 #: /usr/lib/python3.6/argparse.py:304
 msgid "usage: "

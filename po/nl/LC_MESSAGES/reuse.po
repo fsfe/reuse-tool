@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 18:24+0100\n"
-"PO-Revision-Date: 2018-02-07 18:54+0100\n"
+"POT-Creation-Date: 2018-02-07 19:00+0100\n"
+"PO-Revision-Date: 2018-02-07 19:01+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: nl\n"
@@ -193,27 +193,27 @@ msgstr "kon %s niet lezen"
 msgid "none"
 msgstr "geen"
 
-#: src/reuse/_main.py:176
+#: src/reuse/_main.py:179
 msgid "enable debug statements"
 msgstr "zet debug statements aan"
 
-#: src/reuse/_main.py:179
+#: src/reuse/_main.py:182
 msgid "do not use debian/copyright to extract reuse information"
 msgstr "debian/copyright niet gebruiken om reuse informatie te extraheren"
 
-#: src/reuse/_main.py:182
-msgid "reuse, version {}"
-msgstr "reuse, versie {}"
+#: src/reuse/_main.py:185
+msgid "show program's version number and exit"
+msgstr "programma's versienummer laten zien en verlaten"
 
-#: src/reuse/_main.py:189
+#: src/reuse/_main.py:192
 msgid "print the project's bill of materials"
 msgstr "de stuklijst van het project printen"
 
-#: src/reuse/_main.py:196
+#: src/reuse/_main.py:199
 msgid "list all non-compliant files"
 msgstr "lijst maken van niet-voldoenende bestanden"
 
-#: src/reuse/_main.py:198
+#: src/reuse/_main.py:201
 msgid ""
 "List all non-compliant files.\n"
 "\n"
@@ -245,21 +245,25 @@ msgstr ""
 "\n"
 "Fout- en waarschuwingsmeldingen worden geprint naar STDERR."
 
-#: src/reuse/_main.py:216
+#: src/reuse/_main.py:219
 msgid "SPDX expressions are mandatory for compliance"
 msgstr "SPDX-uitdrukkingen zijn verplicht voor voldoening"
 
-#: src/reuse/_main.py:219
+#: src/reuse/_main.py:222
 msgid "copyright notices are mandatory for compliance"
 msgstr "auteursrechtnotities zijn verplicht voor voldoening"
 
-#: src/reuse/_main.py:222
+#: src/reuse/_main.py:225
 msgid "ignore missing licenses"
 msgstr "missende licenties negeren"
 
-#: src/reuse/_main.py:227
+#: src/reuse/_main.py:230
 msgid "print the SPDX expressions of each provided file"
 msgstr "de SPDX-uitdrukkingen van elke gegeven file printen"
+
+#: src/reuse/_main.py:250
+msgid "reuse, version {}"
+msgstr "reuse, versie {}"
 
 #: /usr/lib/python3.6/argparse.py:304
 msgid "usage: "
