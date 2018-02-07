@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2017  Free Software Foundation Europe e.V.
-# Copyright (C) 2017  Carmen Bianca Bakker
+# Copyright (C) 2018  Carmen Bianca Bakker
 #
 # This file is part of reuse, available from its original location:
 # <https://git.fsfe.org/reuse/reuse/>.
