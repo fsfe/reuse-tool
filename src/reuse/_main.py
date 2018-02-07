@@ -29,7 +29,6 @@ import sys
 from gettext import gettext as _
 from pathlib import Path
 from pipes import quote
-from textwrap import dedent
 from typing import List
 
 from ._format import INDENT, fill_all, fill_paragraph
@@ -43,32 +42,32 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 _DESCRIPTION_LINES = [
     _('reuse  Copyright (C) 2017-2018  Free Software Foundation Europe e.V.'),
 
-    dedent(_("""\
-        reuse is a tool for compliance with the REUSE Initiative
-        recommendations.  See <https://reuse.software/> for more
-        information.""")),
+    _(
+        'reuse is a tool for compliance with the REUSE Initiative '
+        'recommendations.  See <https://reuse.software/> for more '
+        'information.'),
 
-    dedent(_("""\
-        reuse is free software: you can redistribute it and/or modify it
-        under the terms of the GNU General Public License as published by
-        the Free Software Foundation, either version 3 of the License, or
-        (at your option) any later version.""")),
+    _(
+        'reuse is free software: you can redistribute it and/or modify it '
+        'under the terms of the GNU General Public License as published by '
+        'the Free Software Foundation, either version 3 of the License, or '
+        '(at your option) any later version.'),
 
-    dedent(_("""\
-        reuse is distributed in the hope that it will be useful, but WITHOUT
-        ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-        FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-        for more details.""")),
+    _(
+        'reuse is distributed in the hope that it will be useful, but WITHOUT '
+        'ANY WARRANTY; without even the implied warranty of MERCHANTABILITY '
+        'or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public '
+        'License for more details.'),
 
-    dedent(_("""\
-        You should have received a copy of the GNU General Public License
-        along with reuse.  If not, see <http://www.gnu.org/licenses/>.""")),
+    _(
+        'You should have received a copy of the GNU General Public License '
+        'along with reuse.  If not, see <http://www.gnu.org/licenses/>.'),
 
     _("Support the FSFE's work:")]
-_INDENTED_LINE = dedent(_("""\
-    Donations are critical to our strength and autonomy.  They enable us to
-    continue working for Free Software wherever necessary.  Please consider
-    making a donation at <https://fsfe.org/donate/>."""))
+_INDENTED_LINE = _(
+    'Donations are critical to our strength and autonomy.  They enable us to '
+    'continue working for Free Software wherever necessary.  Please consider '
+    'making a donation at <https://fsfe.org/donate/>.'))
 
 _DESCRIPTION_TEXT = (
     fill_all('\n\n'.join(_DESCRIPTION_LINES))
@@ -80,10 +79,10 @@ _EPILOG_TEXT = ''
 _PYGIT2_WARN = '\n\n'.join([
     _('IMPORTANT:'),
 
-    fill_paragraph(dedent(_("""\
-    You do not have pygit2 installed.  reuse will slow down significantly
-    because of this. For better performance, please install your distribution's
-    version of pygit2.""")), indent_width=INDENT)])
+    fill_paragraph(_(
+    'You do not have pygit2 installed.  reuse will slow down significantly '
+    'because of this.  For better performance, please install your '
+    "distribution's version of pygit2."), indent_width=INDENT)])
 if not GIT_METHOD == 'pygit2':
     _EPILOG_TEXT = _EPILOG_TEXT + '\n\n' + _PYGIT2_WARN
 
@@ -192,21 +191,21 @@ def parser() -> argparse.ArgumentParser:
     lint_parser = subparsers.add_parser(
         'lint', formatter_class=argparse.RawDescriptionHelpFormatter,
         help=_('list all non-compliant files'),
-        description=fill_all(dedent(_("""\
-            List all non-compliant files.
-
-            A file is non-compliant when:
-
-            - It has no copyright information.
-
-            - It has no license (declared as SPDX expression).
-
-            - Its license could not be found.
-
-            This prints only the paths of the files that do not comply, each
-            file on a separate line.
-
-            Error and warning messages are output to STDERR."""))))
+        description=fill_all(_(
+            'List all non-compliant files.\n'
+            '\n'
+            'A file is non-compliant when:\n'
+            '\n'
+            '- It has no copyright information.\n'
+            '\n'
+            '- It has no license (declared as SPDX expression).\n'
+            '\n'
+            '- Its license could not be found.\n'
+            '\n'
+            'This prints only the paths of the files that do not comply, each '
+            'file on a separate line.\n'
+            '\n'
+            'Error and warning messages are output to STDERR.'))))
     lint_parser.add_argument(
         'paths', action='store', nargs='*')
     lint_parser.add_argument(

@@ -2,21 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Carmen Bianca Bakker <carmen@carmenbianca.eu>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 15:41+0100\n"
-"PO-Revision-Date: 2018-02-07 15:33+0100\n"
+"POT-Creation-Date: 2018-02-07 17:38+0100\n"
+"PO-Revision-Date: 2018-02-07 17:38+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
-"Language-Team: \n"
+"Language-Team: Esperanto <>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.7\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/reuse/__init__.py:211
 msgid "could not find Git"
@@ -87,173 +88,160 @@ msgstr "neniu debian/copyright dosiero, aŭ ne povis legi ĝin"
 msgid "debian/copyright has syntax errors"
 msgstr "debian/copyright enhavas sintakserarojn"
 
-#: src/reuse/_main.py:44
+#: src/reuse/_main.py:43
 msgid "reuse  Copyright (C) 2017-2018  Free Software Foundation Europe e.V."
 msgstr "reuse  Kopirajto (C) 2017-2018  Free Software Foundation Europe e.V."
 
 #: src/reuse/_main.py:46
 msgid ""
-"        reuse is a tool for compliance with the REUSE Initiative\n"
-"        recommendations.  See <https://reuse.software/> for more\n"
-"        information."
+"reuse is a tool for compliance with the REUSE Initiative recommendations.  "
+"See <https://reuse.software/> for more information."
 msgstr ""
-"        reuse estas ilo por konformiĝo al la REUSE Iniciato rekomendoj.\n"
-"        Vidu <https://reuse.software/> por pli da informo."
+"reuse estas ilo por konformiĝo al la REUSE Iniciato rekomendoj.\n"
+"Vidu <https://reuse.software/> por pli da informo."
 
 #: src/reuse/_main.py:51
 msgid ""
-"        reuse is free software: you can redistribute it and/or modify it\n"
-"        under the terms of the GNU General Public License as published by\n"
-"        the Free Software Foundation, either version 3 of the License, or\n"
-"        (at your option) any later version."
+"reuse is free software: you can redistribute it and/or modify it under the "
+"terms of the GNU General Public License as published by the Free Software "
+"Foundation, either version 3 of the License, or (at your option) any later "
+"version."
 msgstr ""
-"        reuse estas libera programaro: vi povas ĝin pludistribui kaj/aŭ "
-"modifi\n"
-"        je la kondiĉoj de la GNU Ĝenerala Pubika Permesilo, eldonita de\n"
-"        la Free Software Foundation, laŭ la versio 3 de la permesilo, aŭ\n"
-"        (se vi preferas) ajna posta versio."
+"reuse estas libera programaro: vi povas ĝin pludistribui kaj/aŭ modifi je la "
+"kondiĉoj de la GNU Ĝenerala Pubika Permesilo, eldonita de la Free Software "
+"Foundation, laŭ la versio 3 de la permesilo, aŭ (se vi preferas) ajna posta "
+"versio."
 
 #: src/reuse/_main.py:57
 msgid ""
-"        reuse is distributed in the hope that it will be useful, but "
-"WITHOUT\n"
-"        ANY WARRANTY; without even the implied warranty of MERCHANTABILITY "
-"or\n"
-"        FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public "
-"License\n"
-"        for more details."
+"reuse is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
+"details."
 msgstr ""
-"        Ni distribuas reuse esperante, ke ĝi estos utila, tamen SEN\n"
-"        IA AJN GARANTIO, i.a. sen la implica garantio pri SURMERKATIGEBLO "
-"aŭ\n"
-"        TAŬGECO POR IU KONKRETA CELO.  Pliajn detalojn vidu en la GNU\n"
-"        Ĝenerala Publika Permesilo."
+"Ni distribuas reuse esperante, ke ĝi estos utila, tamen SEN IA AJN GARANTIO, "
+"i.a. sen la implica garantio pri SURMERKATIGEBLO aŭ TAŬGECO POR IU KONKRETA "
+"CELO.  Pliajn detalojn vidu en la GNU Ĝenerala Publika Permesilo."
 
 #: src/reuse/_main.py:63
 msgid ""
-"        You should have received a copy of the GNU General Public License\n"
-"        along with reuse.  If not, see <http://www.gnu.org/licenses/>."
+"You should have received a copy of the GNU General Public License along with "
+"reuse.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
-"        Ekzemplaro de la GNU Ĝenerala Publika Permesilo devas esti liverita "
-"al vi\n"
-"        kun reuse.  Se ne, vidu <http://www.gnu.org/licenses/>."
+"Ekzemplaro de la GNU Ĝenerala Publika Permesilo devas esti liverita al vi "
+"kun reuse.  Se ne, vidu <http://www.gnu.org/licenses/>."
 
-#: src/reuse/_main.py:67
+#: src/reuse/_main.py:66
 msgid "Support the FSFE's work:"
 msgstr "Subtenu la laboradon de FSFE:"
 
 #: src/reuse/_main.py:68
 msgid ""
-"    Donations are critical to our strength and autonomy.  They enable us to\n"
-"    continue working for Free Software wherever necessary.  Please consider\n"
-"    making a donation at <https://fsfe.org/donate/>."
+"Donations are critical to our strength and autonomy.  They enable us to "
+"continue working for Free Software wherever necessary.  Please consider "
+"making a donation at <https://fsfe.org/donate/>."
 msgstr ""
-"    Donacoj estas gravega por nia forto kaj aŭtonomeco.  Ili ebligi nin "
-"daŭrigi\n"
-"    laboradon por libera programaro, kie ajn necesas.  Bonvolu prepensi "
-"fari\n"
-"    donacon ĉe <https://fsfe.org/donate/>."
+"Donacoj estas gravega por nia forto kaj aŭtonomeco.  Ili ebligi nin daŭrigi "
+"laboradon por libera programaro, kie ajn necesas.  Bonvolu prepensi fari "
+"donacon ĉe <https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:81
+#: src/reuse/_main.py:80
 msgid "IMPORTANT:"
 msgstr "GRAVA:"
 
 #: src/reuse/_main.py:83
 msgid ""
-"    You do not have pygit2 installed.  reuse will slow down significantly\n"
-"    because of this. For better performance, please install your "
-"distribution's\n"
-"    version of pygit2."
+"You do not have pygit2 installed.  reuse will slow down significantly "
+"because of this.  For better performance, please install your distribution's "
+"version of pygit2."
 msgstr ""
-"    Vi ne jam instalis pygit2.  reuse malrapidiĝas ege pro ĉi tio.\n"
-"    Por akiri pli bona rendimento, bonvolu instali version de pygit2 de\n"
-"    via distribuo."
+"Vi ne jam instalis pygit2.  reuse malrapidiĝas ege pro ĉi tio.  Por akiri "
+"pli bona rendimento, bonvolu instali version de pygit2 de via distribuo."
 
-#: src/reuse/_main.py:108
+#: src/reuse/_main.py:107
 #, python-format
 msgid "%s does not end with .spdx"
 msgstr "%s ne finiĝas per .spdx"
 
-#: src/reuse/_main.py:125
+#: src/reuse/_main.py:124
 #, python-format
 msgid "%s is a directory"
 msgstr "%s estas dosierujo"
 
-#: src/reuse/_main.py:128
+#: src/reuse/_main.py:127
 #, python-format
 msgid "could not read %s"
 msgstr "ne povis legi %s"
 
-#: src/reuse/_main.py:139
+#: src/reuse/_main.py:138
 msgid "none"
 msgstr "neniu"
 
-#: src/reuse/_main.py:174
+#: src/reuse/_main.py:173
 msgid "enable debug statements"
 msgstr "ŝalti sencimigajn ordonojn"
 
-#: src/reuse/_main.py:177
+#: src/reuse/_main.py:176
 msgid "do not use debian/copyright to extract reuse information"
 msgstr "ne uzi debian/copyright por eltiri reuse-informon"
 
-#: src/reuse/_main.py:180
+#: src/reuse/_main.py:179
 msgid "reuse, version {}"
 msgstr "reuse, versio {}"
 
-#: src/reuse/_main.py:187
+#: src/reuse/_main.py:186
 msgid "print the project's bill of materials"
 msgstr "presi la pecolisto de la projekto"
 
-#: src/reuse/_main.py:194
+#: src/reuse/_main.py:193
 msgid "list all non-compliant files"
 msgstr "listigi ĉiujn nekonformajn dosierojn"
 
 #: src/reuse/_main.py:195
 msgid ""
-"            List all non-compliant files.\n"
+"List all non-compliant files.\n"
 "\n"
-"            A file is non-compliant when:\n"
+"A file is non-compliant when:\n"
 "\n"
-"            - It has no copyright information.\n"
+"- It has no copyright information.\n"
 "\n"
-"            - It has no license (declared as SPDX expression).\n"
+"- It has no license (declared as SPDX expression).\n"
 "\n"
-"            - Its license could not be found.\n"
+"- Its license could not be found.\n"
 "\n"
-"            This prints only the paths of the files that do not comply, "
-"each\n"
-"            file on a separate line.\n"
+"This prints only the paths of the files that do not comply, each file on a "
+"separate line.\n"
 "\n"
-"            Error and warning messages are output to STDERR."
+"Error and warning messages are output to STDERR."
 msgstr ""
-"            Listigi ĉiujn nekonformajn dosierojn.\n"
+"Listigi ĉiujn nekonformajn dosierojn.\n"
 "\n"
-"            Dosiero nekonformas kiam:\n"
+"Dosiero nekonformas kiam:\n"
 "\n"
-"            - Ĝi havas neniun kopirajtinformon.\n"
+"- Ĝi havas neniun kopirajtinformon.\n"
 "\n"
-"            - Ĝi havas neniun permesilon (deklaritan kiel SPDX-esprimo).\n"
+"- Ĝi havas neniun permesilon (deklaritan kiel SPDX-esprimo).\n"
 "\n"
-"            - Ĝian permesilon ne troveblas.\n"
+"- Ĝian permesilon ne troveblas.\n"
 "\n"
-"            Ĉi tiu komando presas nur la dosierindikojn, kiuj ne konformas.\n"
-"            Ĉiu dosiero estas presata sur propra linio.\n"
+"Ĉi tiu komando presas nur la dosierindikojn, kiuj ne konformas.  Ĉiu dosiero "
+"estas presata sur propra linio.\n"
 "\n"
-"            Eraraj kaj avertaj mesaĝoj estas presata al STDERR."
+"Eraraj kaj avertaj mesaĝoj estas presata al STDERR."
 
-#: src/reuse/_main.py:214
+#: src/reuse/_main.py:213
 msgid "SPDX expressions are mandatory for compliance"
 msgstr "SPDX-esprimoj nepras por konformiĝo"
 
-#: src/reuse/_main.py:217
+#: src/reuse/_main.py:216
 msgid "copyright notices are mandatory for compliance"
 msgstr "kopirajtafiŝoj nepras por konformiĝo"
 
-#: src/reuse/_main.py:220
+#: src/reuse/_main.py:219
 msgid "ignore missing licenses"
 msgstr "ignori mankantaj permesiloj"
 
-#: src/reuse/_main.py:225
+#: src/reuse/_main.py:224
 msgid "print the SPDX expressions of each provided file"
 msgstr "presi la SPDX-esprimon de ĉiu donita dosiero"
 
@@ -273,7 +261,7 @@ msgstr "nekonata analizilo %(parser_name)r (elektoj: %(choices)s)"
 #: /usr/lib/python3.6/argparse.py:1186
 #, python-format
 msgid "argument \"-\" with mode %r"
-msgstr ""
+msgstr "argumento \"-\" kun moduso %r"
 
 #: /usr/lib/python3.6/argparse.py:1194
 #, python-format
@@ -300,23 +288,23 @@ msgstr ""
 #: /usr/lib/python3.6/argparse.py:1478
 #, python-format
 msgid "dest= is required for options like %r"
-msgstr ""
+msgstr "dest= nepras por opcioj kiel %r"
 
 #: /usr/lib/python3.6/argparse.py:1495
 #, python-format
 msgid "invalid conflict_resolution value: %r"
-msgstr ""
+msgstr "nevalida conflict_resolution valoro: %r"
 
 #: /usr/lib/python3.6/argparse.py:1513
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "konfliktanta opcioĉeno: %s"
+msgstr[1] "konfliktantaj opcioĉenoj: %s"
 
 #: /usr/lib/python3.6/argparse.py:1579
 msgid "mutually exclusive arguments must be optional"
-msgstr ""
+msgstr "reciproke ekskluzivaj argumentoj devas esti malnepraj"
 
 #: /usr/lib/python3.6/argparse.py:1642
 msgid "positional arguments"
@@ -332,78 +320,78 @@ msgstr "montri ĉi tiu helpmesaĝo kaj eliri"
 
 #: /usr/lib/python3.6/argparse.py:1689
 msgid "cannot have multiple subparser arguments"
-msgstr ""
+msgstr "ne povas havi pluraj subanalizilaj argumentoj"
 
 #: /usr/lib/python3.6/argparse.py:1741
 #, python-format
 msgid "unrecognized arguments: %s"
-msgstr ""
+msgstr "nekonataj argumentoj: %s"
 
 #: /usr/lib/python3.6/argparse.py:1838
 #, python-format
 msgid "not allowed with argument %s"
-msgstr ""
+msgstr "ne permesita kun argumento: %s"
 
 #: /usr/lib/python3.6/argparse.py:1884 /usr/lib/python3.6/argparse.py:1898
 #, python-format
 msgid "ignored explicit argument %r"
-msgstr ""
+msgstr "ignoris eksplicitan argumenton %r"
 
 #: /usr/lib/python3.6/argparse.py:2005
 #, python-format
 msgid "the following arguments are required: %s"
-msgstr ""
+msgstr "la sekvantaj argumentoj nepras: %s"
 
 #: /usr/lib/python3.6/argparse.py:2020
 #, python-format
 msgid "one of the arguments %s is required"
-msgstr ""
+msgstr "unu el la argumentoj %s nepras"
 
 #: /usr/lib/python3.6/argparse.py:2063
 msgid "expected one argument"
-msgstr ""
+msgstr "anticipis unu argumento"
 
 #: /usr/lib/python3.6/argparse.py:2064
 msgid "expected at most one argument"
-msgstr ""
+msgstr "anticipis maksimume unu argumento"
 
 #: /usr/lib/python3.6/argparse.py:2065
 msgid "expected at least one argument"
-msgstr ""
+msgstr "anticipis minimume unu argumento"
 
 #: /usr/lib/python3.6/argparse.py:2067
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "anticipis %s argumento"
+msgstr[1] "anticipis %s argumentoj"
 
 #: /usr/lib/python3.6/argparse.py:2127
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
-msgstr ""
+msgstr "dubsenca opcio: %(option)s povus egali %(matches)s"
 
 #: /usr/lib/python3.6/argparse.py:2190
 #, python-format
 msgid "unexpected option string: %s"
-msgstr ""
+msgstr "neanticipita opcioĉeno: %s"
 
 #: /usr/lib/python3.6/argparse.py:2294
 #, python-format
 msgid "%r is not callable"
-msgstr ""
+msgstr "%r ne alvokeblas"
 
 #: /usr/lib/python3.6/argparse.py:2311
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
-msgstr ""
+msgstr "nevalida %(type)s valoro: %(value)r"
 
 #: /usr/lib/python3.6/argparse.py:2322
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
-msgstr ""
+msgstr "nevalida elekto: %(value)r (elektu el %(choices)s)"
 
 #: /usr/lib/python3.6/argparse.py:2398
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
-msgstr ""
+msgstr "%(prog)s: eraro: %(message)s\n"
