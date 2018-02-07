@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 10:07+0100\n"
-"PO-Revision-Date: 2018-02-07 10:25+0100\n"
+"POT-Creation-Date: 2018-02-07 14:41+0100\n"
+"PO-Revision-Date: 2018-02-07 14:44+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: \n"
 "Language: eo\n"
@@ -18,72 +18,72 @@ msgstr ""
 "X-Generator: Poedit 2.0.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/reuse/__init__.py:207
+#: src/reuse/__init__.py:211
 msgid "could not find Git"
 msgstr "ne povis trovi Git"
 
-#: src/reuse/__init__.py:228 src/reuse/__init__.py:247
+#: src/reuse/__init__.py:232 src/reuse/__init__.py:251
 #, python-format
 msgid "yielding %s"
 msgstr "cedante %s"
 
-#: src/reuse/__init__.py:233
+#: src/reuse/__init__.py:237
 #, python-format
 msgid "currently walking in %s"
 msgstr "ĉimomente irante en %s"
 
-#: src/reuse/__init__.py:238 src/reuse/__init__.py:244
+#: src/reuse/__init__.py:242 src/reuse/__init__.py:248
 #, python-format
 msgid "ignoring %s"
 msgstr "ignoras %s"
 
-#: src/reuse/__init__.py:261
+#: src/reuse/__init__.py:265
 #, python-format
 msgid "searching %s for reuse information"
 msgstr "serĉante %s por reuse informo"
 
-#: src/reuse/__init__.py:275
+#: src/reuse/__init__.py:279
 #, python-format
 msgid "%s could not be decoded"
 msgstr "ne povis malkodi %s"
 
-#: src/reuse/__init__.py:283
+#: src/reuse/__init__.py:287
 #, python-format
 msgid "%s covered by debian/copyright"
 msgstr "debian/copyright ampleksas %s"
 
-#: src/reuse/__init__.py:317
+#: src/reuse/__init__.py:321
 #, python-format
 msgid "Could not read %s"
 msgstr "Ne povis legi %s"
 
-#: src/reuse/__init__.py:364
+#: src/reuse/__init__.py:368
 #, python-brace-format
 msgid ""
 "{path} is licensed under {identifier}, but its license file could not be "
 "found"
 msgstr "{path} subas {identifier}, sed tia permesildosiero mankas"
 
-#: src/reuse/__init__.py:464
+#: src/reuse/__init__.py:468
 #, python-format
 msgid "searching %s for license tags"
 msgstr "serĉante permesiletikedojn en %s"
 
-#: src/reuse/__init__.py:473
+#: src/reuse/__init__.py:477
 #, python-brace-format
 msgid "Could not resolve SPDX identifier of {path}, resolving to {identifier}"
 msgstr "Ne povis determini SPD-identigilo de {path}, do uziĝas {identifier}"
 
-#: src/reuse/__init__.py:480
+#: src/reuse/__init__.py:484
 #, python-brace-format
 msgid "{identifier} is the SPDX identifier of both {path} and {other_path}"
 msgstr "{identifier} estas la SPDX-identigilo de kaj {path} kaj {other_path}"
 
-#: src/reuse/__init__.py:506
+#: src/reuse/__init__.py:510
 msgid "no debian/copyright file, or could not read it"
 msgstr "neniu debian/copyright dosiero, aŭ ne povis legi ĝin"
 
-#: src/reuse/__init__.py:508
+#: src/reuse/__init__.py:512
 msgid "debian/copyright has syntax errors"
 msgstr "debian/copyright enhavas sintakserarojn"
 
@@ -203,9 +203,8 @@ msgid "reuse, version {}"
 msgstr "reuse, versio {}"
 
 #: src/reuse/_main.py:187
-#, fuzzy
 msgid "Print the project's bill of materials."
-msgstr "Presi la X de projekto."
+msgstr "Presi la pecolisto de la projekto."
 
 #: src/reuse/_main.py:194
 msgid "List all non-compliant files."
@@ -223,9 +222,9 @@ msgid ""
 "\n"
 "            - Its license could not be found.\n"
 "\n"
-"            This prints only the paths of the files for which a licence "
-"could\n"
-"            not be found, each file on a separate line.\n"
+"            This prints only the paths of the files that do not comply, "
+"each\n"
+"            file on a separate line.\n"
 "\n"
 "            Error and warning messages are output to STDERR."
 msgstr ""
@@ -239,10 +238,9 @@ msgstr ""
 "\n"
 "            - Ĝian permesilon ne troveblas.\n"
 "\n"
-"            Ĉi tiu komando presas nur la dosierindikojn por kiuj ni ne "
-"povis\n"
-"            trovi reuse-informon.  Ĉiu dosiero estas presata sur propra "
-"linio.\n"
+"            Ĉi tiu komando presas nur la dosierindikojn, kiuj ne "
+"konformas.\n"
+"            Ĉiu dosiero estas presata sur propra linio.\n"
 "\n"
 "            Eraraj kaj avertaj mesaĝoj estas presata al STDERR."
 

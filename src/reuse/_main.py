@@ -203,8 +203,8 @@ def parser() -> argparse.ArgumentParser:
 
             - Its license could not be found.
 
-            This prints only the paths of the files for which a licence could
-            not be found, each file on a separate line.
+            This prints only the paths of the files that do not comply, each
+            file on a separate line.
 
             Error and warning messages are output to STDERR."""))))
     lint_parser.add_argument(
