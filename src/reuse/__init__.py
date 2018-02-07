@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2017-2018  Free Software Foundation Europe e.V.
+# Copyright (C) 2018  Carmen Bianca Bakker
 #
 # This file is part of reuse, available from its original location:
 # <https://git.fsfe.org/reuse/reuse/>.
@@ -25,12 +26,14 @@
 
 import contextlib
 import datetime
+import gettext
 import glob
 import hashlib
 import logging
 import os
 import re
 import sys
+from gettext import gettext as _
 from pathlib import Path
 from typing import (BinaryIO, Dict, Iterable, Iterator, List, NamedTuple,
                     Optional, Set, Union)
@@ -46,6 +49,18 @@ try:
     from pygit2 import Repository, GitError
 except ImportError:  # pragma: no cover
     pass
+
+_LOCALE_DIRS = [
+    sys.prefix + '/share/locale',
+    str(Path.home()) + '/.local/share/locale'
+]
+
+for dir in _LOCALE_DIRS:
+    # 'eo' is only used here because I am certain that this translation exists.
+    if (Path(dir) / 'eo/LC_MESSAGES/reuse.mo').exists():
+        gettext.bindtextdomain('reuse', dir)
+        gettext.textdomain('reuse')
+        break
 
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
@@ -180,7 +195,7 @@ class Project:  # pylint: disable=unused-variable
     def __init__(self, root: PathLike):
         self._root = Path(root)
         if not self._root.is_dir():
-            raise NotADirectoryError('%s is no valid path' % self._root)
+            raise NotADirectoryError('{} is no valid path'.format(self._root))
 
         self._git_repo = None
         if GIT_METHOD == 'pygit2':
@@ -189,7 +204,7 @@ class Project:  # pylint: disable=unused-variable
         elif GIT_METHOD == 'git':
             self._git_repo = in_git_repo(self._root)
         else:
-            _logger.warning('could not find Git')
+            _logger.warning(_('could not find Git'))
         self._license_files = None
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
@@ -210,26 +225,26 @@ class Project:  # pylint: disable=unused-variable
         directory = Path(directory)
 
         if directory.is_file() and not self._is_path_ignored(directory):
-            _logger.debug('yielding %s', directory)
+            _logger.debug(_('yielding %s'), directory)
             yield directory
 
         for root, dirs, files in os.walk(str(directory)):
             root = Path(root)
-            _logger.debug('currently walking in %s', root)
+            _logger.debug(_('currently walking in %s'), root)
 
             # Don't walk ignored directories
             for dir_ in list(dirs):
                 if self._is_path_ignored(root / dir_):
-                    _logger.debug('ignoring %s', root / dir_)
+                    _logger.debug(_('ignoring %s'), root / dir_)
                     dirs.remove(dir_)
 
             # Filter files.
             for file_ in files:
                 if self._is_path_ignored(root / file_):
-                    _logger.debug('ignoring %s', root / file_)
+                    _logger.debug(_('ignoring %s'), root / file_)
                     continue
 
-                _logger.debug('yielding %s', file_)
+                _logger.debug(_('yielding %s'), file_)
                 yield root / file_
 
     def reuse_info_of(
@@ -243,7 +258,7 @@ class Project:  # pylint: disable=unused-variable
         found, an empty ReuseInfo object is returned.
         """
         path = _determine_license_path(path)
-        _logger.debug('searching %s for reuse information', path)
+        _logger.debug(_('searching %s for reuse information'), path)
 
         spdx_expressions = set()
         copyright_lines = set()
@@ -257,7 +272,7 @@ class Project:  # pylint: disable=unused-variable
                 copyright_lines = copyright_lines.union(
                     file_result.copyright_lines)
             except UnicodeError:
-                _logger.info('%s could not be decoded', path)
+                _logger.info(_('%s could not be decoded'), path)
 
         # Search the debian/copyright file for copyright information.
         if not ignore_debian and self._copyright:
@@ -265,7 +280,7 @@ class Project:  # pylint: disable=unused-variable
                 self._relative_from_root(path),
                 self._copyright)
             if any(debian_result):
-                _logger.info('%s covered by debian/copyright', path)
+                _logger.info(_('%s covered by debian/copyright'), path)
                 spdx_expressions = spdx_expressions.union(
                     debian_result.spdx_expressions)
                 copyright_lines = copyright_lines.union(
@@ -299,7 +314,7 @@ class Project:  # pylint: disable=unused-variable
                         ignore_missing=ignore_missing):
                     yield file_
             except OSError:
-                _logger.error('Could not read %s', file_)
+                _logger.error(_('Could not read %s'), file_)
                 yield file_
 
     def lint_file(
@@ -345,9 +360,11 @@ class Project:  # pylint: disable=unused-variable
             wrong_identifier = self._contains_invalid_identifiers(
                 reuse_info.spdx_expressions)
             if wrong_identifier:
-                _logger.warning(
-                    '%s is licensed under %s, but its license file '
-                    'could not be found', path, wrong_identifier)
+                _logger.warning(_(
+                    '{path} is licensed under {identifier}, but its '
+                    'license file could not be found').format(
+                        path=path, identifier=wrong_identifier))
+
                 return 1
 
         return 0
@@ -444,7 +461,7 @@ class Project:  # pylint: disable=unused-variable
 
                 path = _determine_license_path(path)
                 path = self._relative_from_root(path)
-                _logger.debug('searching %s for license tags', path)
+                _logger.debug(_('searching %s for license tags'), path)
 
                 try:
                     identifiers = self._identifiers_of_license(path)
@@ -452,17 +469,18 @@ class Project:  # pylint: disable=unused-variable
                     identifier = 'LicenseRef-Unknown{}'.format(unknown_counter)
                     identifiers = [identifier]
                     unknown_counter += 1
-                    _logger.warning(
-                        'Could not resolve SPDX identifier of %s, '
-                        'resolving to %s', path, identifier)
+                    _logger.warning(_(
+                        'Could not resolve SPDX identifier of {path}, '
+                        'resolving to {identifier}').format(
+                            path=path, identifier=identifier))
 
                 for identifier in identifiers:
                     if identifier in license_files:
-                        _logger.critical(
-                            '%s is the SPDX identifier of both %s and %s',
-                            identifier,
-                            path,
-                            license_files[identifier])
+                        _logger.critical(_(
+                            '{identifier} is the SPDX identifier of both '
+                            '{path} and {other_path}').format(
+                                identifier=identifier, path=path,
+                                other_path=license_files[identifier]))
                         raise RuntimeError(
                             'Multiple licenses resolve to {}'.format(
                                 identifier))
@@ -484,9 +502,10 @@ class Project:  # pylint: disable=unused-variable
                 with copyright_path.open() as fp:
                     self._copyright_val = Copyright(fp)
             except (IOError, OSError):
-                _logger.debug('no debian/copyright file, or could not read it')
+                _logger.debug(
+                    _('no debian/copyright file, or could not read it'))
             except NotMachineReadableError:
-                _logger.exception('debian/copyright has syntax errors')
+                _logger.exception(_('debian/copyright has syntax errors'))
 
             # This check is a bit redundant, but otherwise I'd have to repeat
             # this line under each exception.

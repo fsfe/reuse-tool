@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2017  Free Software Foundation Europe e.V.
+# Copyright (C) 2018  Carmen Bianca Bakker
 #
 # This file is part of reuse, available from its original location:
 # <https://git.fsfe.org/reuse/reuse/>.
@@ -21,7 +22,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import glob
 import subprocess
+from pathlib import Path
 
 from setuptools import setup
 
@@ -51,7 +54,15 @@ def readme_rst():
         return open('README.md').read()
 
 
+def mo_files():
+    paths = glob.glob('po/**/**/reuse.mo')
+    return [
+        ('share/locale/{}/LC_MESSAGES'.format(Path(path).parts[1]), [path])
+        for path in paths]
+
+
 if __name__ == '__main__':
+    subprocess.call(['make', 'compile-mo'])
     setup(
         name='fsfe-reuse',
         version='0.1.1',
@@ -71,6 +82,8 @@ if __name__ == '__main__':
         packages=[
             'reuse',
         ],
+
+        data_files=mo_files(),
 
         entry_points={
             'console_scripts': [

@@ -196,4 +196,5 @@ venv.bak/
 
 # End of https://www.gitignore.io/api/c,c++,linux,python
 
-Pipfile.lock
+po/reuse.pot
+*.mo

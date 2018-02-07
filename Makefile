@@ -13,6 +13,7 @@ clean-build: ## remove build artifacts
 	rm -fr dist/
 	rm -fr .cache/
 	rm -fr .eggs/
+	find ./po -name '*.mo' -exec rm -f {} +
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -fr {} +
 
@@ -78,3 +79,11 @@ release: dist  ## package and upload a release
 develop: ## set up virtualenv for development
 	pip install -r requirements.txt
 	REUSE_DEV=1 python setup.py develop
+
+.PHONY: create-pot
+create-pot: ## generate .pot file
+	xgettext --files-from=po/POTFILES.in --output=po/reuse.pot
+
+.PHONY: compile-mo
+compile-mo: ## compile .mo files
+	find ./po -name "*.po" | while read f; do msgfmt $$f -o $${f%.po}.mo; done

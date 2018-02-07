@@ -1,0 +1,224 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-02-07 01:47+0100\n"
+"PO-Revision-Date: 2018-02-07 01:49+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: nl\n"
+
+#: src/reuse/__init__.py:207
+msgid "could not find Git"
+msgstr ""
+
+#: src/reuse/__init__.py:228 src/reuse/__init__.py:247
+#, python-format
+msgid "yielding %s"
+msgstr ""
+
+#: src/reuse/__init__.py:233
+#, python-format
+msgid "currently walking in %s"
+msgstr ""
+
+#: src/reuse/__init__.py:238 src/reuse/__init__.py:244
+#, python-format
+msgid "ignoring %s"
+msgstr ""
+
+#: src/reuse/__init__.py:261
+#, python-format
+msgid "searching %s for reuse information"
+msgstr ""
+
+#: src/reuse/__init__.py:275
+#, python-format
+msgid "%s could not be decoded"
+msgstr ""
+
+#: src/reuse/__init__.py:283
+#, python-format
+msgid "%s covered by debian/copyright"
+msgstr ""
+
+#: src/reuse/__init__.py:317
+#, python-format
+msgid "Could not read %s"
+msgstr ""
+
+#: src/reuse/__init__.py:364
+#, python-brace-format
+msgid ""
+"{path} is licensed under {identifier}, but its license file could not be "
+"found"
+msgstr ""
+
+#: src/reuse/__init__.py:464
+#, python-format
+msgid "searching %s for license tags"
+msgstr ""
+
+#: src/reuse/__init__.py:473
+#, python-brace-format
+msgid "Could not resolve SPDX identifier of {path}, resolving to {identifier}"
+msgstr ""
+
+#: src/reuse/__init__.py:480
+#, python-brace-format
+msgid "{identifier} is the SPDX identifier of both {path} and {other_path}"
+msgstr ""
+
+#: src/reuse/__init__.py:506
+msgid "no debian/copyright file, or could not read it"
+msgstr ""
+
+#: src/reuse/__init__.py:508
+msgid "debian/copyright has syntax errors"
+msgstr ""
+
+#: src/reuse/_main.py:44
+msgid "reuse  Copyright (C) 2017-2018  Free Software Foundation Europe e.V."
+msgstr ""
+
+#: src/reuse/_main.py:46
+msgid ""
+"        reuse is a tool for compliance with the REUSE Initiative\n"
+"        recommendations.  See <https://reuse.software/> for more\n"
+"        information."
+msgstr ""
+
+#: src/reuse/_main.py:51
+msgid ""
+"        reuse is free software: you can redistribute it and/or modify it\n"
+"        under the terms of the GNU General Public License as published by\n"
+"        the Free Software Foundation, either version 3 of the License, or\n"
+"        (at your option) any later version."
+msgstr ""
+
+#: src/reuse/_main.py:57
+msgid ""
+"        reuse is distributed in the hope that it will be useful, but "
+"WITHOUT\n"
+"        ANY WARRANTY; without even the implied warranty of MERCHANTABILITY "
+"or\n"
+"        FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public "
+"License\n"
+"        for more details."
+msgstr ""
+
+#: src/reuse/_main.py:63
+msgid ""
+"        You should have received a copy of the GNU General Public License\n"
+"        along with reuse.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+
+#: src/reuse/_main.py:67
+msgid "Support the FSFE's work:"
+msgstr ""
+
+#: src/reuse/_main.py:68
+msgid ""
+"    Donations are critical to our strength and autonomy.  They enable us "
+"to\n"
+"    continue working for Free Software wherever necessary.  Please "
+"consider\n"
+"    making a donation at <https://fsfe.org/donate/>."
+msgstr ""
+
+#: src/reuse/_main.py:81
+msgid "IMPORTANT:"
+msgstr ""
+
+#: src/reuse/_main.py:83
+msgid ""
+"    You do not have pygit2 installed.  reuse will slow down significantly\n"
+"    because of this. For better performance, please install your "
+"distribution's\n"
+"    version of pygit2."
+msgstr ""
+
+#: src/reuse/_main.py:108
+#, python-format
+msgid "%s does not end with .spdx"
+msgstr ""
+
+#: src/reuse/_main.py:125
+#, python-format
+msgid "%s is a directory"
+msgstr ""
+
+#: src/reuse/_main.py:128
+#, python-format
+msgid "could not read %s"
+msgstr ""
+
+#: src/reuse/_main.py:139
+msgid "none"
+msgstr ""
+
+#: src/reuse/_main.py:174
+msgid "Enable debug statements."
+msgstr ""
+
+#: src/reuse/_main.py:177
+msgid "Do not use debian/copyright to extract reuse information."
+msgstr ""
+
+#: src/reuse/_main.py:180
+msgid "reuse, version {}"
+msgstr "reuse, versie {}"
+
+#: src/reuse/_main.py:187
+msgid "Print the project's bill of materials."
+msgstr ""
+
+#: src/reuse/_main.py:194
+msgid "List all non-compliant files."
+msgstr ""
+
+#: src/reuse/_main.py:195
+msgid ""
+"\n"
+"            List all non-compliant files.\n"
+"\n"
+"            A file is non-compliant when:\n"
+"\n"
+"            - It has no copyright information.\n"
+"\n"
+"            - It has no license (declared as SPDX expression).\n"
+"\n"
+"            - Its license could not be found.\n"
+"\n"
+"            This prints only the paths of the files for which a licence "
+"could\n"
+"            not be found, each file on a separate line.\n"
+"\n"
+"            Error and warning messages are output to STDERR."
+msgstr ""
+
+#: src/reuse/_main.py:214
+msgid "SPDX expressions are mandatory for compliance."
+msgstr ""
+
+#: src/reuse/_main.py:217
+msgid "Copyright notices are mandatory for compliance."
+msgstr ""
+
+#: src/reuse/_main.py:220
+msgid "Ignore missing licenses."
+msgstr ""
+
+#: src/reuse/_main.py:225
+msgid "Print the SPDX expressions of each provided file."
+msgstr ""
