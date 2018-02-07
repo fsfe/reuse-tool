@@ -62,7 +62,7 @@ tox: ## run all tests against multiple versions of Python
 	tox
 
 .PHONY: dist
-dist: clean docs ## builds source and wheel package
+dist: clean docs compile-mo ## builds source and wheel package
 	RST_ERROR=1 python setup.py sdist
 	RST_ERROR=1 python setup.py bdist_wheel
 	ls -l dist
@@ -75,9 +75,17 @@ test-release: dist  ## package and upload to testpypi
 release: dist  ## package and upload a release
 	twine upload --sign -r pypi dist/*
 
-.PHONY: develop
-develop: ## set up virtualenv for development
+install-requirements:  ## install requirements
 	pip install -r requirements.txt
+
+uninstall:  ## uninstall reuse
+	-pip uninstall -y fsfe-reuse
+
+install: uninstall install-requirements dist  ## install reuse
+	pip install dist/*.whl
+
+.PHONY: develop
+develop: uninstall install-requirements  ## install source directory
 	REUSE_DEV=1 python setup.py develop
 
 .PHONY: create-pot

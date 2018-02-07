@@ -62,7 +62,6 @@ def mo_files():
 
 
 if __name__ == '__main__':
-    subprocess.call(['make', 'compile-mo'])
     setup(
         name='fsfe-reuse',
         version='0.1.1',
