@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 17:38+0100\n"
-"PO-Revision-Date: 2018-02-07 17:38+0100\n"
+"POT-Creation-Date: 2018-02-07 18:24+0100\n"
+"PO-Revision-Date: 2018-02-07 17:57+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: eo\n"
@@ -23,68 +23,78 @@ msgstr ""
 msgid "could not find Git"
 msgstr "ne povis trovi Git"
 
-#: src/reuse/__init__.py:232 src/reuse/__init__.py:251
+#. Translators: %s is a directory path.  This is inside a loop that
+#. yields all files that will be checked for REUSE information
+#. (i.e., some files are ignored, and thus not yielded).
+#: src/reuse/__init__.py:235 src/reuse/__init__.py:256
 #, python-format
 msgid "yielding %s"
 msgstr "cedante %s"
 
-#: src/reuse/__init__.py:237
+#. Translators: %s is a directory path.
+#: src/reuse/__init__.py:241
 #, python-format
 msgid "currently walking in %s"
 msgstr "ĉimomente irante en %s"
 
-#: src/reuse/__init__.py:242 src/reuse/__init__.py:248
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:247 src/reuse/__init__.py:253
 #, python-format
 msgid "ignoring %s"
 msgstr "ignoras %s"
 
-#: src/reuse/__init__.py:265
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:271
 #, python-format
 msgid "searching %s for reuse information"
 msgstr "serĉante %s por reuse informo"
 
-#: src/reuse/__init__.py:279
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:286
 #, python-format
 msgid "%s could not be decoded"
 msgstr "ne povis malkodi %s"
 
-#: src/reuse/__init__.py:287
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:295
 #, python-format
 msgid "%s covered by debian/copyright"
 msgstr "debian/copyright ampleksas %s"
 
-#: src/reuse/__init__.py:321
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:330
 #, python-format
 msgid "Could not read %s"
 msgstr "Ne povis legi %s"
 
-#: src/reuse/__init__.py:368
+#: src/reuse/__init__.py:377
 #, python-brace-format
 msgid ""
 "{path} is licensed under {identifier}, but its license file could not be "
 "found"
 msgstr "{path} subas {identifier}, sed tia permesildosiero mankas"
 
-#: src/reuse/__init__.py:468
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:478
 #, python-format
 msgid "searching %s for license tags"
 msgstr "serĉante permesiletikedojn en %s"
 
-#: src/reuse/__init__.py:477
+#: src/reuse/__init__.py:487
 #, python-brace-format
 msgid "Could not resolve SPDX identifier of {path}, resolving to {identifier}"
 msgstr "Ne povis determini SPD-identigilo de {path}, do uziĝas {identifier}"
 
-#: src/reuse/__init__.py:484
+#: src/reuse/__init__.py:494
 #, python-brace-format
 msgid "{identifier} is the SPDX identifier of both {path} and {other_path}"
 msgstr "{identifier} estas la SPDX-identigilo de kaj {path} kaj {other_path}"
 
-#: src/reuse/__init__.py:510
+#: src/reuse/__init__.py:520
 msgid "no debian/copyright file, or could not read it"
 msgstr "neniu debian/copyright dosiero, aŭ ne povis legi ĝin"
 
-#: src/reuse/__init__.py:512
+#: src/reuse/__init__.py:522
 msgid "debian/copyright has syntax errors"
 msgstr "debian/copyright enhavas sintakserarojn"
 
@@ -100,34 +110,32 @@ msgstr ""
 "reuse estas ilo por konformiĝo al la REUSE Iniciato rekomendoj.\n"
 "Vidu <https://reuse.software/> por pli da informo."
 
-#: src/reuse/_main.py:51
+#. Translators: Find an (un)official translation of the GPL for this
+#. bit.
+#: src/reuse/_main.py:53
 msgid ""
 "reuse is free software: you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
 "Foundation, either version 3 of the License, or (at your option) any later "
-"version."
-msgstr ""
-"reuse estas libera programaro: vi povas ĝin pludistribui kaj/aŭ modifi je la "
-"kondiĉoj de la GNU Ĝenerala Pubika Permesilo, eldonita de la Free Software "
-"Foundation, laŭ la versio 3 de la permesilo, aŭ (se vi preferas) ajna posta "
-"versio."
-
-#: src/reuse/_main.py:57
-msgid ""
+"version.\n"
+"\n"
 "reuse is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-"details."
-msgstr ""
-"Ni distribuas reuse esperante, ke ĝi estos utila, tamen SEN IA AJN GARANTIO, "
-"i.a. sen la implica garantio pri SURMERKATIGEBLO aŭ TAŬGECO POR IU KONKRETA "
-"CELO.  Pliajn detalojn vidu en la GNU Ĝenerala Publika Permesilo."
-
-#: src/reuse/_main.py:63
-msgid ""
+"details.\n"
+"\n"
 "You should have received a copy of the GNU General Public License along with "
 "reuse.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
+"reuse estas libera programaro: vi povas ĝin pludistribui kaj/aŭ modifi je la "
+"kondiĉoj de la GNU Ĝenerala Pubika Permesilo, eldonita de la Free Software  "
+"Foundation, laŭ la versio 3 de la permesilo, aŭ (se vi preferas) ajna posta "
+"versio.\n"
+"\n"
+"Ni distribuas reuse esperante, ke ĝi estos utila, tamen SEN IA AJN GARANTIO, "
+"i.a. sen la implica garantio pri SURMERKATIGEBLO aŭ TAŬGECO POR IU KONKRETA "
+"CELO.  Pliajn detalojn vidu en la GNU Ĝenerala Publika Permesilo.\n"
+"\n"
 "Ekzemplaro de la GNU Ĝenerala Publika Permesilo devas esti liverita al vi "
 "kun reuse.  Se ne, vidu <http://www.gnu.org/licenses/>."
 
@@ -135,7 +143,7 @@ msgstr ""
 msgid "Support the FSFE's work:"
 msgstr "Subtenu la laboradon de FSFE:"
 
-#: src/reuse/_main.py:68
+#: src/reuse/_main.py:69
 msgid ""
 "Donations are critical to our strength and autonomy.  They enable us to "
 "continue working for Free Software wherever necessary.  Please consider "
@@ -145,11 +153,11 @@ msgstr ""
 "laboradon por libera programaro, kie ajn necesas.  Bonvolu prepensi fari "
 "donacon ĉe <https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:80
+#: src/reuse/_main.py:81
 msgid "IMPORTANT:"
 msgstr "GRAVA:"
 
-#: src/reuse/_main.py:83
+#: src/reuse/_main.py:84
 msgid ""
 "You do not have pygit2 installed.  reuse will slow down significantly "
 "because of this.  For better performance, please install your distribution's "
@@ -158,46 +166,48 @@ msgstr ""
 "Vi ne jam instalis pygit2.  reuse malrapidiĝas ege pro ĉi tio.  Por akiri "
 "pli bona rendimento, bonvolu instali version de pygit2 de via distribuo."
 
-#: src/reuse/_main.py:107
+#. Translators: %s is a file name.
+#: src/reuse/_main.py:109
 #, python-format
 msgid "%s does not end with .spdx"
 msgstr "%s ne finiĝas per .spdx"
 
-#: src/reuse/_main.py:124
+#: src/reuse/_main.py:126
 #, python-format
 msgid "%s is a directory"
 msgstr "%s estas dosierujo"
 
-#: src/reuse/_main.py:127
+#. Translators: %s is a file.
+#: src/reuse/_main.py:130
 #, python-format
 msgid "could not read %s"
 msgstr "ne povis legi %s"
 
-#: src/reuse/_main.py:138
+#: src/reuse/_main.py:141
 msgid "none"
 msgstr "neniu"
 
-#: src/reuse/_main.py:173
+#: src/reuse/_main.py:176
 msgid "enable debug statements"
 msgstr "ŝalti sencimigajn ordonojn"
 
-#: src/reuse/_main.py:176
+#: src/reuse/_main.py:179
 msgid "do not use debian/copyright to extract reuse information"
 msgstr "ne uzi debian/copyright por eltiri reuse-informon"
 
-#: src/reuse/_main.py:179
+#: src/reuse/_main.py:182
 msgid "reuse, version {}"
 msgstr "reuse, versio {}"
 
-#: src/reuse/_main.py:186
+#: src/reuse/_main.py:189
 msgid "print the project's bill of materials"
 msgstr "presi la pecolisto de la projekto"
 
-#: src/reuse/_main.py:193
+#: src/reuse/_main.py:196
 msgid "list all non-compliant files"
 msgstr "listigi ĉiujn nekonformajn dosierojn"
 
-#: src/reuse/_main.py:195
+#: src/reuse/_main.py:198
 msgid ""
 "List all non-compliant files.\n"
 "\n"
@@ -229,19 +239,19 @@ msgstr ""
 "\n"
 "Eraraj kaj avertaj mesaĝoj estas presata al STDERR."
 
-#: src/reuse/_main.py:213
+#: src/reuse/_main.py:216
 msgid "SPDX expressions are mandatory for compliance"
 msgstr "SPDX-esprimoj nepras por konformiĝo"
 
-#: src/reuse/_main.py:216
+#: src/reuse/_main.py:219
 msgid "copyright notices are mandatory for compliance"
 msgstr "kopirajtafiŝoj nepras por konformiĝo"
 
-#: src/reuse/_main.py:219
+#: src/reuse/_main.py:222
 msgid "ignore missing licenses"
 msgstr "ignori mankantaj permesiloj"
 
-#: src/reuse/_main.py:224
+#: src/reuse/_main.py:227
 msgid "print the SPDX expressions of each provided file"
 msgstr "presi la SPDX-esprimon de ĉiu donita dosiero"
 

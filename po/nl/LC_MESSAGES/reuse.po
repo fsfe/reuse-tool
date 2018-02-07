@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 17:38+0100\n"
-"PO-Revision-Date: 2018-02-07 17:41+0100\n"
+"POT-Creation-Date: 2018-02-07 18:24+0100\n"
+"PO-Revision-Date: 2018-02-07 18:28+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: nl\n"
@@ -23,42 +23,51 @@ msgstr ""
 msgid "could not find Git"
 msgstr "kon Git niet vinden"
 
-#: src/reuse/__init__.py:232 src/reuse/__init__.py:251
+#. Translators: %s is a directory path.  This is inside a loop that
+#. yields all files that will be checked for REUSE information
+#. (i.e., some files are ignored, and thus not yielded).
+#: src/reuse/__init__.py:235 src/reuse/__init__.py:256
 #, python-format
 msgid "yielding %s"
 msgstr "%s aan het verwerken"
 
-#: src/reuse/__init__.py:237
+#. Translators: %s is a directory path.
+#: src/reuse/__init__.py:241
 #, python-format
 msgid "currently walking in %s"
 msgstr "aan het lopen door %s"
 
-#: src/reuse/__init__.py:242 src/reuse/__init__.py:248
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:247 src/reuse/__init__.py:253
 #, python-format
 msgid "ignoring %s"
 msgstr "%s negeren"
 
-#: src/reuse/__init__.py:265
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:271
 #, python-format
 msgid "searching %s for reuse information"
 msgstr "%s aan het doorzoeken voor reuse informatie"
 
-#: src/reuse/__init__.py:279
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:286
 #, python-format
 msgid "%s could not be decoded"
 msgstr "%s kon niet gedecodeerd worden"
 
-#: src/reuse/__init__.py:287
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:295
 #, python-format
 msgid "%s covered by debian/copyright"
 msgstr "debian/copyright omvat %s"
 
-#: src/reuse/__init__.py:321
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:330
 #, python-format
 msgid "Could not read %s"
 msgstr "Kon %s niet lezen"
 
-#: src/reuse/__init__.py:368
+#: src/reuse/__init__.py:377
 #, python-brace-format
 msgid ""
 "{path} is licensed under {identifier}, but its license file could not be "
@@ -67,26 +76,27 @@ msgstr ""
 "{path} valt onder {identifier}, maar het licentiebestand kon niet gevonden "
 "worden"
 
-#: src/reuse/__init__.py:468
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:478
 #, python-format
 msgid "searching %s for license tags"
 msgstr "%s aan het doorzoeken voor licentie-tags"
 
-#: src/reuse/__init__.py:477
+#: src/reuse/__init__.py:487
 #, python-brace-format
 msgid "Could not resolve SPDX identifier of {path}, resolving to {identifier}"
 msgstr "Kon SPDX-identifier van {path} niet oplossen, gebruik {identifier}"
 
-#: src/reuse/__init__.py:484
+#: src/reuse/__init__.py:494
 #, python-brace-format
 msgid "{identifier} is the SPDX identifier of both {path} and {other_path}"
 msgstr "{identifier} is de SPDX-identifier van beide {path} en {other_path}"
 
-#: src/reuse/__init__.py:510
+#: src/reuse/__init__.py:520
 msgid "no debian/copyright file, or could not read it"
 msgstr "geen debian/copyright bestand, of kon het niet lezen"
 
-#: src/reuse/__init__.py:512
+#: src/reuse/__init__.py:522
 msgid "debian/copyright has syntax errors"
 msgstr "debian/copyright heeft syntax-fouten"
 
@@ -103,35 +113,33 @@ msgstr ""
 "reuse is een tool voor voldoening aan de REUSE Initiatief aanbevelingen:  "
 "Zie <https://reuse.software/> voor meer informatie."
 
-#: src/reuse/_main.py:51
+#. Translators: Find an (un)official translation of the GPL for this
+#. bit.
+#: src/reuse/_main.py:53
 msgid ""
 "reuse is free software: you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
 "Foundation, either version 3 of the License, or (at your option) any later "
-"version."
+"version.\n"
+"\n"
+"reuse is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
+"details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"reuse.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
 "reuse is vrije software: je mag het herdistribueren en/of wijzigen onder de "
 "voorwaarden van de GNU Algemene Publieke Licentie zoals gepubliceerd door de "
 "Free Software Foundation, onder versie 3 van de Licentie of (naar jouw "
-"keuze) elke latere versie."
-
-#: src/reuse/_main.py:57
-msgid ""
-"reuse is distributed in the hope that it will be useful, but WITHOUT ANY "
-"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-"details."
-msgstr ""
+"keuze) elke latere versie.\n"
+"\n"
 "reuse is gedistribueerd in de hoop dat het nuttig zal zijn maar ZONDER ENIGE "
 "GARANTIE; zelfs zonder de impliciete garanties die GEBRUIKELIJK ZIJN IN DE "
 "HANDEL of voor BRUIKBAARHEID VOOR EEN SPECIFIEK DOEL.  Zie de GNU Algemene "
-"Publieke Licentie voor meer details."
-
-#: src/reuse/_main.py:63
-msgid ""
-"You should have received a copy of the GNU General Public License along with "
-"reuse.  If not, see <http://www.gnu.org/licenses/>."
-msgstr ""
+"Publieke Licentie voor meer details.\n"
+"\n"
 "Je hoort een kopie van de GNU Algemene Publieke Licentie te hebben ontvangen "
 "samen met reuse.  Als dat niet het geval is, zie <http://www.gnu.org/"
 "licenses/>."
@@ -140,7 +148,7 @@ msgstr ""
 msgid "Support the FSFE's work:"
 msgstr "Ondersteun het werk van de FSFE:"
 
-#: src/reuse/_main.py:68
+#: src/reuse/_main.py:69
 msgid ""
 "Donations are critical to our strength and autonomy.  They enable us to "
 "continue working for Free Software wherever necessary.  Please consider "
@@ -150,11 +158,11 @@ msgstr ""
 "om verder te werken voor vrije software waar nodig.  Overweeg alstublieft om "
 "een donatie te maken bij <https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:80
+#: src/reuse/_main.py:81
 msgid "IMPORTANT:"
 msgstr "BELANGRIJK:"
 
-#: src/reuse/_main.py:83
+#: src/reuse/_main.py:84
 msgid ""
 "You do not have pygit2 installed.  reuse will slow down significantly "
 "because of this.  For better performance, please install your distribution's "
@@ -164,46 +172,48 @@ msgstr ""
 "draaien.  Voor betere prestatie, installeer alstublieft uw distributie's "
 "versie van pygit2."
 
-#: src/reuse/_main.py:107
+#. Translators: %s is a file name.
+#: src/reuse/_main.py:109
 #, python-format
 msgid "%s does not end with .spdx"
 msgstr "%s eindigt niet met .spdx"
 
-#: src/reuse/_main.py:124
+#: src/reuse/_main.py:126
 #, python-format
 msgid "%s is a directory"
 msgstr "%s is een map"
 
-#: src/reuse/_main.py:127
+#. Translators: %s is a file.
+#: src/reuse/_main.py:130
 #, python-format
 msgid "could not read %s"
 msgstr "kon %s niet lezen"
 
-#: src/reuse/_main.py:138
+#: src/reuse/_main.py:141
 msgid "none"
 msgstr "geen"
 
-#: src/reuse/_main.py:173
+#: src/reuse/_main.py:176
 msgid "enable debug statements"
 msgstr "zet debug statements aan"
 
-#: src/reuse/_main.py:176
+#: src/reuse/_main.py:179
 msgid "do not use debian/copyright to extract reuse information"
 msgstr "debian/copyright niet gebruiken om reuse informatie te extraheren"
 
-#: src/reuse/_main.py:179
+#: src/reuse/_main.py:182
 msgid "reuse, version {}"
 msgstr "reuse, versie {}"
 
-#: src/reuse/_main.py:186
+#: src/reuse/_main.py:189
 msgid "print the project's bill of materials"
 msgstr "de stuklijst van het project printen"
 
-#: src/reuse/_main.py:193
+#: src/reuse/_main.py:196
 msgid "list all non-compliant files"
 msgstr "lijst maken van niet-voldoenende bestanden"
 
-#: src/reuse/_main.py:195
+#: src/reuse/_main.py:198
 msgid ""
 "List all non-compliant files.\n"
 "\n"
@@ -235,19 +245,19 @@ msgstr ""
 "\n"
 "Fout- en waarschuwingsmeldingen worden geprint naar STDERR."
 
-#: src/reuse/_main.py:213
+#: src/reuse/_main.py:216
 msgid "SPDX expressions are mandatory for compliance"
 msgstr "SPDX-uitdrukkingen zijn verplicht voor voldoening"
 
-#: src/reuse/_main.py:216
+#: src/reuse/_main.py:219
 msgid "copyright notices are mandatory for compliance"
 msgstr "auteursrechtnotities zijn verplicht voor voldoening"
 
-#: src/reuse/_main.py:219
+#: src/reuse/_main.py:222
 msgid "ignore missing licenses"
 msgstr "missende licenties negeren"
 
-#: src/reuse/_main.py:224
+#: src/reuse/_main.py:227
 msgid "print the SPDX expressions of each provided file"
 msgstr "de SPDX-uitdrukkingen van elke gegeven file printen"
 

@@ -70,8 +70,8 @@ dist: clean docs compile-mo ## builds source and wheel package
 
 .PHONY: create-pot
 create-pot:  ## generate .pot file
-	xgettext --output=po/reuse.pot --files-from=po/POTFILES.in
-	xgettext --output=po/argparse.pot /usr/lib*/python3*/argparse.py
+	xgettext --add-comments --output=po/reuse.pot --files-from=po/POTFILES.in
+	xgettext --add-comments --output=po/argparse.pot /usr/lib*/python3*/argparse.py
 	msgcat --output=po/reuse.pot po/reuse.pot po/argparse.pot
 
 .PHONY: update-po-files

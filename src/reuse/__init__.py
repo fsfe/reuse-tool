@@ -229,16 +229,21 @@ class Project:  # pylint: disable=unused-variable
         directory = Path(directory)
 
         if directory.is_file() and not self._is_path_ignored(directory):
+            # Translators: %s is a directory path.  This is inside a loop that
+            # yields all files that will be checked for REUSE information
+            # (i.e., some files are ignored, and thus not yielded).
             _logger.debug(_('yielding %s'), directory)
             yield directory
 
         for root, dirs, files in os.walk(str(directory)):
             root = Path(root)
+            # Translators: %s is a directory path.
             _logger.debug(_('currently walking in %s'), root)
 
             # Don't walk ignored directories
             for dir_ in list(dirs):
                 if self._is_path_ignored(root / dir_):
+                    # Translators: %s is a path.
                     _logger.debug(_('ignoring %s'), root / dir_)
                     dirs.remove(dir_)
 
@@ -262,6 +267,7 @@ class Project:  # pylint: disable=unused-variable
         found, an empty ReuseInfo object is returned.
         """
         path = _determine_license_path(path)
+        # Translators: %s is a path.
         _logger.debug(_('searching %s for reuse information'), path)
 
         spdx_expressions = set()
@@ -276,6 +282,7 @@ class Project:  # pylint: disable=unused-variable
                 copyright_lines = copyright_lines.union(
                     file_result.copyright_lines)
             except UnicodeError:
+                # Translators: %s is a path.
                 _logger.info(_('%s could not be decoded'), path)
 
         # Search the debian/copyright file for copyright information.
@@ -284,6 +291,7 @@ class Project:  # pylint: disable=unused-variable
                 self._relative_from_root(path),
                 self._copyright)
             if any(debian_result):
+                # Translators: %s is a path.
                 _logger.info(_('%s covered by debian/copyright'), path)
                 spdx_expressions = spdx_expressions.union(
                     debian_result.spdx_expressions)
@@ -318,6 +326,7 @@ class Project:  # pylint: disable=unused-variable
                         ignore_missing=ignore_missing):
                     yield file_
             except OSError:
+                # Translators: %s is a path.
                 _logger.error(_('Could not read %s'), file_)
                 yield file_
 
@@ -465,6 +474,7 @@ class Project:  # pylint: disable=unused-variable
 
                 path = _determine_license_path(path)
                 path = self._relative_from_root(path)
+                # Translators: %s is a path.
                 _logger.debug(_('searching %s for license tags'), path)
 
                 try:

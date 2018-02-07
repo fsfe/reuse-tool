@@ -48,22 +48,23 @@ _DESCRIPTION_LINES = [
         'information.'),
 
     _(
+        # Translators: Find an (un)official translation of the GPL for this
+        # bit.
         'reuse is free software: you can redistribute it and/or modify it '
         'under the terms of the GNU General Public License as published by '
         'the Free Software Foundation, either version 3 of the License, or '
-        '(at your option) any later version.'),
-
-    _(
+        '(at your option) any later version.\n'
+        '\n'
         'reuse is distributed in the hope that it will be useful, but WITHOUT '
         'ANY WARRANTY; without even the implied warranty of MERCHANTABILITY '
         'or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public '
-        'License for more details.'),
-
-    _(
+        'License for more details.\n'
+        '\n'
         'You should have received a copy of the GNU General Public License '
         'along with reuse.  If not, see <http://www.gnu.org/licenses/>.'),
 
     _("Support the FSFE's work:")]
+
 _INDENTED_LINE = _(
     'Donations are critical to our strength and autonomy.  They enable us to '
     'continue working for Free Software wherever necessary.  Please consider '
@@ -104,6 +105,7 @@ def compile(args):
     if args.output:
         out = args.output
         if not out.name.endswith('.spdx'):
+            # Translators: %s is a file name.
             _logger.warning(_('%s does not end with .spdx'), out.name)
     project.bill_of_materials(
         out,
@@ -124,6 +126,7 @@ def license(args):
             _logger.error(_('%s is a directory'), path)
             continue
         except IOError:
+            # Translators: %s is a file.
             _logger.error(_('could not read %s'), path)
             continue
 
