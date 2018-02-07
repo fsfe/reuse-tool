@@ -68,7 +68,7 @@ _DESCRIPTION_LINES = [
 _INDENTED_LINE = _(
     'Donations are critical to our strength and autonomy.  They enable us to '
     'continue working for Free Software wherever necessary.  Please consider '
-    'making a donation at <https://fsfe.org/donate/>.'))
+    'making a donation at <https://fsfe.org/donate/>.')
 
 _DESCRIPTION_TEXT = (
     fill_all('\n\n'.join(_DESCRIPTION_LINES))
@@ -149,6 +149,8 @@ def lint(args):
     found = set()
 
     project = _create_project()
+    if not args.paths:
+        paths = [project.root]
 
     for path in args.paths:
         for file_ in project.lint(
@@ -208,7 +210,7 @@ def parser() -> argparse.ArgumentParser:
             'This prints only the paths of the files that do not comply, each '
             'file on a separate line.\n'
             '\n'
-            'Error and warning messages are output to STDERR.'))))
+            'Error and warning messages are output to STDERR.')))
     lint_parser.add_argument(
         'paths', action='store', nargs='*')
     lint_parser.add_argument(
