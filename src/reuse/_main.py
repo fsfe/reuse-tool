@@ -149,10 +149,11 @@ def lint(args):
     found = set()
 
     project = _create_project()
-    if not args.paths:
+    paths = args.paths
+    if not len(paths):
         paths = [project.root]
 
-    for path in args.paths:
+    for path in paths:
         for file_ in project.lint(
                 path,
                 spdx_mandatory=args.spdx_mandatory,
