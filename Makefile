@@ -67,6 +67,14 @@ dist: clean docs compile-mo ## builds source and wheel package
 	RST_ERROR=1 python setup.py bdist_wheel
 	ls -l dist
 
+.PHONY: create-pot
+create-pot: ## generate .pot file
+	xgettext --files-from=po/POTFILES.in --output=po/reuse.pot
+
+.PHONY: compile-mo
+compile-mo: ## compile .mo files
+	find ./po -name "*.po" | while read f; do msgfmt $$f -o $${f%.po}.mo; done
+
 .PHONY: test-release
 test-release: dist  ## package and upload to testpypi
 	twine upload --sign -r testpypi dist/*
@@ -87,11 +95,3 @@ install: uninstall install-requirements dist  ## install reuse
 .PHONY: develop
 develop: uninstall install-requirements  ## install source directory
 	REUSE_DEV=1 python setup.py develop
-
-.PHONY: create-pot
-create-pot: ## generate .pot file
-	xgettext --files-from=po/POTFILES.in --output=po/reuse.pot
-
-.PHONY: compile-mo
-compile-mo: ## compile .mo files
-	find ./po -name "*.po" | while read f; do msgfmt $$f -o $${f%.po}.mo; done
