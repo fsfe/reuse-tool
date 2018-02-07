@@ -14,6 +14,7 @@ clean-build: ## remove build artifacts
 	rm -fr .cache/
 	rm -fr .eggs/
 	find ./po -name '*.mo' -exec rm -f {} +
+	find ./po -name '*.pot' -exec rm -f {} +
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -fr {} +
 
@@ -68,11 +69,17 @@ dist: clean docs compile-mo ## builds source and wheel package
 	ls -l dist
 
 .PHONY: create-pot
-create-pot: ## generate .pot file
-	xgettext --files-from=po/POTFILES.in --output=po/reuse.pot
+create-pot:  ## generate .pot file
+	xgettext --output=po/reuse.pot --files-from=po/POTFILES.in
+	xgettext --output=po/argparse.pot /usr/lib*/python3*/argparse.py
+	msgcat --output=po/reuse.pot po/reuse.pot po/argparse.pot
+
+.PHONY: update-po-files
+update-po-files: create-pot  ## update .po files
+	find ./po -name "*.po" -exec msgmerge --output={} {} po/reuse.pot \;
 
 .PHONY: compile-mo
-compile-mo: ## compile .mo files
+compile-mo:  ## compile .mo files
 	find ./po -name "*.po" | while read f; do msgfmt $$f -o $${f%.po}.mo; done
 
 .PHONY: test-release

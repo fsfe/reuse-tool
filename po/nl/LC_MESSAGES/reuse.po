@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 14:41+0100\n"
+"POT-Creation-Date: 2018-02-07 15:14+0100\n"
 "PO-Revision-Date: 2018-02-07 14:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -141,8 +141,7 @@ msgid ""
 "        You should have received a copy of the GNU General Public License\n"
 "        along with reuse.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
-"        Je hoort een kopie van de GNU Algemene Publieke Licentie te "
-"hebben \n"
+"        Je hoort een kopie van de GNU Algemene Publieke Licentie te hebben \n"
 "        ontvangen samen met reuse.  Als dat niet het geval is, zie \n"
 "        <http://www.gnu.org/licenses/>."
 
@@ -152,10 +151,8 @@ msgstr "Ondersteun het werk van de FSFE:"
 
 #: src/reuse/_main.py:68
 msgid ""
-"    Donations are critical to our strength and autonomy.  They enable us "
-"to\n"
-"    continue working for Free Software wherever necessary.  Please "
-"consider\n"
+"    Donations are critical to our strength and autonomy.  They enable us to\n"
+"    continue working for Free Software wherever necessary.  Please consider\n"
 "    making a donation at <https://fsfe.org/donate/>."
 msgstr ""
 "    Donaties zijn belangrijk voor onze sterkte en autonomie.  Ze staan ons\n"
@@ -267,3 +264,153 @@ msgstr "Negeer missende licenties."
 #: src/reuse/_main.py:225
 msgid "Print the SPDX expressions of each provided file."
 msgstr "Print de SPDX-uitdrukkingen van elke gegeven file."
+
+#: /usr/lib/python3.6/argparse.py:304
+msgid "usage: "
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:835
+msgid ".__call__() not defined"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1132
+#, python-format
+msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1186
+#, python-format
+msgid "argument \"-\" with mode %r"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1194
+#, python-format
+msgid "can't open '%s': %s"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1398
+#, python-format
+msgid "cannot merge actions - two groups are named %r"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1436
+msgid "'required' is an invalid argument for positionals"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1458
+#, python-format
+msgid ""
+"invalid option string %(option)r: must start with a character "
+"%(prefix_chars)r"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1478
+#, python-format
+msgid "dest= is required for options like %r"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1495
+#, python-format
+msgid "invalid conflict_resolution value: %r"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1513
+#, python-format
+msgid "conflicting option string: %s"
+msgid_plural "conflicting option strings: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /usr/lib/python3.6/argparse.py:1579
+msgid "mutually exclusive arguments must be optional"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1642
+msgid "positional arguments"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1643
+msgid "optional arguments"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1658
+msgid "show this help message and exit"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1689
+msgid "cannot have multiple subparser arguments"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1741
+#, python-format
+msgid "unrecognized arguments: %s"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1838
+#, python-format
+msgid "not allowed with argument %s"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:1884 /usr/lib/python3.6/argparse.py:1898
+#, python-format
+msgid "ignored explicit argument %r"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2005
+#, python-format
+msgid "the following arguments are required: %s"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2020
+#, python-format
+msgid "one of the arguments %s is required"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2063
+msgid "expected one argument"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2064
+msgid "expected at most one argument"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2065
+msgid "expected at least one argument"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2067
+#, python-format
+msgid "expected %s argument"
+msgid_plural "expected %s arguments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /usr/lib/python3.6/argparse.py:2127
+#, python-format
+msgid "ambiguous option: %(option)s could match %(matches)s"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2190
+#, python-format
+msgid "unexpected option string: %s"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2294
+#, python-format
+msgid "%r is not callable"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2311
+#, python-format
+msgid "invalid %(type)s value: %(value)r"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2322
+#, python-format
+msgid "invalid choice: %(value)r (choose from %(choices)s)"
+msgstr ""
+
+#: /usr/lib/python3.6/argparse.py:2398
+#, python-format
+msgid "%(prog)s: error: %(message)s\n"
+msgstr ""
