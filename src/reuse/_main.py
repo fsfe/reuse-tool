@@ -171,10 +171,10 @@ def parser() -> argparse.ArgumentParser:
         'reuse', formatter_class=argparse.RawDescriptionHelpFormatter,
         description=(_DESCRIPTION_TEXT), epilog=_EPILOG_TEXT)
     parser.add_argument(
-        '--debug', action='store_true', help=_('Enable debug statements.'))
+        '--debug', action='store_true', help=_('enable debug statements'))
     parser.add_argument(
         '--ignore-debian', action='store_true',
-        help=_('Do not use debian/copyright to extract reuse information.'))
+        help=_('do not use debian/copyright to extract reuse information'))
     parser.add_argument(
         '--version', action='version',
         version=_('reuse, version {}').format(reuse.__version__))
@@ -184,14 +184,14 @@ def parser() -> argparse.ArgumentParser:
 
     compile_parser = subparsers.add_parser(
         'compile',
-        help=_("Print the project's bill of materials."))
+        help=_("print the project's bill of materials"))
     compile_parser.add_argument(
         '--output', '-o', action='store', type=argparse.FileType('w'))
     compile_parser.set_defaults(func=compile)
 
     lint_parser = subparsers.add_parser(
         'lint', formatter_class=argparse.RawDescriptionHelpFormatter,
-        help=_('List all non-compliant files.'),
+        help=_('list all non-compliant files'),
         description=fill_all(dedent(_("""\
             List all non-compliant files.
 
@@ -211,18 +211,18 @@ def parser() -> argparse.ArgumentParser:
         'paths', action='store', nargs='*')
     lint_parser.add_argument(
         '--spdx-mandatory', action='store_true', default=True,
-        help=_('SPDX expressions are mandatory for compliance.'))
+        help=_('SPDX expressions are mandatory for compliance'))
     lint_parser.add_argument(
         '--copyright-mandatory', action='store_true', default=True,
-        help=_('Copyright notices are mandatory for compliance.'))
+        help=_('copyright notices are mandatory for compliance'))
     lint_parser.add_argument(
         '--ignore-missing', action='store_true',
-        help=_('Ignore missing licenses.'))
+        help=_('ignore missing licenses'))
     lint_parser.set_defaults(func=lint)
 
     license_parser = subparsers.add_parser(
         'license',
-        help=_('Print the SPDX expressions of each provided file.'))
+        help=_('print the SPDX expressions of each provided file'))
     license_parser.add_argument(
         'paths', action='store', nargs='*')
     license_parser.set_defaults(func=license)

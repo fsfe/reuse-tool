@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 15:14+0100\n"
-"PO-Revision-Date: 2018-02-07 14:42+0100\n"
+"POT-Creation-Date: 2018-02-07 15:28+0100\n"
+"PO-Revision-Date: 2018-02-07 15:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -141,7 +141,8 @@ msgid ""
 "        You should have received a copy of the GNU General Public License\n"
 "        along with reuse.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
-"        Je hoort een kopie van de GNU Algemene Publieke Licentie te hebben \n"
+"        Je hoort een kopie van de GNU Algemene Publieke Licentie te "
+"hebben \n"
 "        ontvangen samen met reuse.  Als dat niet het geval is, zie \n"
 "        <http://www.gnu.org/licenses/>."
 
@@ -151,8 +152,10 @@ msgstr "Ondersteun het werk van de FSFE:"
 
 #: src/reuse/_main.py:68
 msgid ""
-"    Donations are critical to our strength and autonomy.  They enable us to\n"
-"    continue working for Free Software wherever necessary.  Please consider\n"
+"    Donations are critical to our strength and autonomy.  They enable us "
+"to\n"
+"    continue working for Free Software wherever necessary.  Please "
+"consider\n"
 "    making a donation at <https://fsfe.org/donate/>."
 msgstr ""
 "    Donaties zijn belangrijk voor onze sterkte en autonomie.  Ze staan ons\n"
@@ -196,25 +199,24 @@ msgid "none"
 msgstr "geen"
 
 #: src/reuse/_main.py:174
-#, fuzzy
-msgid "Enable debug statements."
-msgstr "Zet debug statements aan."
+msgid "enable debug statements"
+msgstr "zet debug statements aan"
 
 #: src/reuse/_main.py:177
-msgid "Do not use debian/copyright to extract reuse information."
-msgstr "Gebruik debian/copyright niet om reuse informatie te extraheren."
+msgid "do not use debian/copyright to extract reuse information"
+msgstr "debian/copyright niet gebruiken om reuse informatie te extraheren"
 
 #: src/reuse/_main.py:180
 msgid "reuse, version {}"
 msgstr "reuse, versie {}"
 
 #: src/reuse/_main.py:187
-msgid "Print the project's bill of materials."
-msgstr "Print de stuklijst van het project."
+msgid "print the project's bill of materials"
+msgstr "de stuklijst van het project printen"
 
 #: src/reuse/_main.py:194
-msgid "List all non-compliant files."
-msgstr "Lijst maken van niet-voldoenende bestanden."
+msgid "list all non-compliant files"
+msgstr "lijst maken van niet-voldoenende bestanden"
 
 #: src/reuse/_main.py:195
 msgid ""
@@ -250,20 +252,20 @@ msgstr ""
 "            Fout- en waarschuwingsmeldingen worden geprint naar STDERR."
 
 #: src/reuse/_main.py:214
-msgid "SPDX expressions are mandatory for compliance."
-msgstr "SPDX-uitdrukkingen zijn verplicht voor voldoening."
+msgid "SPDX expressions are mandatory for compliance"
+msgstr "SPDX-uitdrukkingen zijn verplicht voor voldoening"
 
 #: src/reuse/_main.py:217
-msgid "Copyright notices are mandatory for compliance."
-msgstr "Auteursrechtnotities zijn verplicht voor voldoening."
+msgid "copyright notices are mandatory for compliance"
+msgstr "auteursrechtnotities zijn verplicht voor voldoening"
 
 #: src/reuse/_main.py:220
-msgid "Ignore missing licenses."
-msgstr "Negeer missende licenties."
+msgid "ignore missing licenses"
+msgstr "missende licenties negeren"
 
 #: src/reuse/_main.py:225
-msgid "Print the SPDX expressions of each provided file."
-msgstr "Print de SPDX-uitdrukkingen van elke gegeven file."
+msgid "print the SPDX expressions of each provided file"
+msgstr "de SPDX-uitdrukkingen van elke gegeven file printen"
 
 #: /usr/lib/python3.6/argparse.py:304
 msgid "usage: "
