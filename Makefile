@@ -76,7 +76,7 @@ create-pot:  ## generate .pot file
 
 .PHONY: update-po-files
 update-po-files: create-pot  ## update .po files
-	find ./po -name "*.po" -exec msgmerge --output={} {} po/reuse.pot \;
+	find ./po -name "*.po" -exec msgmerge --width=79 --output={} {} po/reuse.pot \;
 
 .PHONY: compile-mo
 compile-mo:  ## compile .mo files
