@@ -180,7 +180,7 @@ def parser() -> argparse.ArgumentParser:
         version=_('reuse, version {}').format(reuse.__version__))
     parser.set_defaults(func=lambda x: parser.print_help())
 
-    subparsers = parser.add_subparsers(description='')
+    subparsers = parser.add_subparsers()
 
     compile_parser = subparsers.add_parser(
         'compile',
@@ -192,7 +192,7 @@ def parser() -> argparse.ArgumentParser:
     lint_parser = subparsers.add_parser(
         'lint', formatter_class=argparse.RawDescriptionHelpFormatter,
         help=_('List all non-compliant files.'),
-        description=fill_all(dedent(_("""
+        description=fill_all(dedent(_("""\
             List all non-compliant files.
 
             A file is non-compliant when:

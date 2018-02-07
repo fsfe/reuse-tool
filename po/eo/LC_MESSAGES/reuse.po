@@ -7,89 +7,89 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 01:47+0100\n"
-"PO-Revision-Date: 2018-02-07 01:49+0100\n"
+"POT-Creation-Date: 2018-02-07 10:07+0100\n"
+"PO-Revision-Date: 2018-02-07 10:25+0100\n"
+"Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: \n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.5\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: eo\n"
 
 #: src/reuse/__init__.py:207
 msgid "could not find Git"
-msgstr ""
+msgstr "ne povis trovi Git"
 
 #: src/reuse/__init__.py:228 src/reuse/__init__.py:247
 #, python-format
 msgid "yielding %s"
-msgstr ""
+msgstr "cedante %s"
 
 #: src/reuse/__init__.py:233
 #, python-format
 msgid "currently walking in %s"
-msgstr ""
+msgstr "ĉimomente irante en %s"
 
 #: src/reuse/__init__.py:238 src/reuse/__init__.py:244
 #, python-format
 msgid "ignoring %s"
-msgstr ""
+msgstr "ignoras %s"
 
 #: src/reuse/__init__.py:261
 #, python-format
 msgid "searching %s for reuse information"
-msgstr ""
+msgstr "serĉante %s por reuse informo"
 
 #: src/reuse/__init__.py:275
 #, python-format
 msgid "%s could not be decoded"
-msgstr ""
+msgstr "ne povis malkodi %s"
 
 #: src/reuse/__init__.py:283
 #, python-format
 msgid "%s covered by debian/copyright"
-msgstr ""
+msgstr "debian/copyright ampleksas %s"
 
 #: src/reuse/__init__.py:317
 #, python-format
 msgid "Could not read %s"
-msgstr ""
+msgstr "Ne povis legi %s"
 
 #: src/reuse/__init__.py:364
 #, python-brace-format
 msgid ""
 "{path} is licensed under {identifier}, but its license file could not be "
 "found"
-msgstr ""
+msgstr "{path} subas {identifier}, sed tia permesildosiero mankas"
 
 #: src/reuse/__init__.py:464
 #, python-format
 msgid "searching %s for license tags"
-msgstr ""
+msgstr "serĉante permesiletikedojn en %s"
 
 #: src/reuse/__init__.py:473
 #, python-brace-format
 msgid "Could not resolve SPDX identifier of {path}, resolving to {identifier}"
-msgstr ""
+msgstr "Ne povis determini SPD-identigilo de {path}, do uziĝas {identifier}"
 
 #: src/reuse/__init__.py:480
 #, python-brace-format
 msgid "{identifier} is the SPDX identifier of both {path} and {other_path}"
-msgstr ""
+msgstr "{identifier} estas la SPDX-identigilo de kaj {path} kaj {other_path}"
 
 #: src/reuse/__init__.py:506
 msgid "no debian/copyright file, or could not read it"
-msgstr ""
+msgstr "neniu debian/copyright dosiero, aŭ ne povis legi ĝin"
 
 #: src/reuse/__init__.py:508
 msgid "debian/copyright has syntax errors"
-msgstr ""
+msgstr "debian/copyright enhavas sintakserarojn"
 
 #: src/reuse/_main.py:44
 msgid "reuse  Copyright (C) 2017-2018  Free Software Foundation Europe e.V."
-msgstr ""
+msgstr "reuse  Kopirajto (C) 2017-2018  Free Software Foundation Europe e.V."
 
 #: src/reuse/_main.py:46
 msgid ""
@@ -97,6 +97,8 @@ msgid ""
 "        recommendations.  See <https://reuse.software/> for more\n"
 "        information."
 msgstr ""
+"        reuse estas ilo por konformiĝo al la REUSE Iniciato rekomendoj.\n"
+"        Vidu <https://reuse.software/> por pli da informo."
 
 #: src/reuse/_main.py:51
 msgid ""
@@ -105,6 +107,11 @@ msgid ""
 "        the Free Software Foundation, either version 3 of the License, or\n"
 "        (at your option) any later version."
 msgstr ""
+"        reuse estas libera programaro: vi povas ĝin pludistribui kaj/aŭ "
+"modifi\n"
+"        je la kondiĉoj de la GNU Ĝenerala Pubika Permesilo, eldonita de\n"
+"        la Free Software Foundation, laŭ la versio 3 de la permesilo, aŭ\n"
+"        (se vi preferas) ajna posta versio."
 
 #: src/reuse/_main.py:57
 msgid ""
@@ -116,16 +123,24 @@ msgid ""
 "License\n"
 "        for more details."
 msgstr ""
+"        Ni distribuas reuse esperante, ke ĝi estos utila, tamen SEN\n"
+"        IA AJN GARANTIO, i.a. sen la implica garantio pri SURMERKATIGEBLO "
+"aŭ\n"
+"        TAŬGECO POR IU KONKRETA CELO.  Pliajn detalojn vidu en la GNU\n"
+"        Ĝenerala Publika Permesilo."
 
 #: src/reuse/_main.py:63
 msgid ""
 "        You should have received a copy of the GNU General Public License\n"
 "        along with reuse.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
+"        Ekzemplaro de la GNU Ĝenerala Publika Permesilo devas esti liverita "
+"al vi\n"
+"        kun reuse.  Se ne, vidu <http://www.gnu.org/licenses/>."
 
 #: src/reuse/_main.py:67
 msgid "Support the FSFE's work:"
-msgstr ""
+msgstr "Subtenu la laboradon de FSFE:"
 
 #: src/reuse/_main.py:68
 msgid ""
@@ -135,10 +150,15 @@ msgid ""
 "consider\n"
 "    making a donation at <https://fsfe.org/donate/>."
 msgstr ""
+"    Donacoj estas gravega por nia forto kaj aŭtonomeco.  Ili ebligi nin "
+"daŭrigi\n"
+"    laboradon por libera programaro, kie ajn necesas.  Bonvolu prepensi "
+"fari\n"
+"    donacon ĉe <https://fsfe.org/donate/>."
 
 #: src/reuse/_main.py:81
 msgid "IMPORTANT:"
-msgstr ""
+msgstr "GRAVA:"
 
 #: src/reuse/_main.py:83
 msgid ""
@@ -147,49 +167,52 @@ msgid ""
 "distribution's\n"
 "    version of pygit2."
 msgstr ""
+"    Vi ne jam instalis pygit2.  reuse malrapidiĝas ege pro ĉi tio.\n"
+"    Por akiri pli bona rendimento, bonvolu instali version de pygit2 de\n"
+"    via distribuo."
 
 #: src/reuse/_main.py:108
 #, python-format
 msgid "%s does not end with .spdx"
-msgstr ""
+msgstr "%s ne finiĝas per .spdx"
 
 #: src/reuse/_main.py:125
 #, python-format
 msgid "%s is a directory"
-msgstr ""
+msgstr "%s estas dosierujo"
 
 #: src/reuse/_main.py:128
 #, python-format
 msgid "could not read %s"
-msgstr ""
+msgstr "ne povis legi %s"
 
 #: src/reuse/_main.py:139
 msgid "none"
-msgstr ""
+msgstr "neniu"
 
 #: src/reuse/_main.py:174
 msgid "Enable debug statements."
-msgstr ""
+msgstr "Ŝalti sencimigajn ordonojn."
 
 #: src/reuse/_main.py:177
 msgid "Do not use debian/copyright to extract reuse information."
-msgstr ""
+msgstr "Ne uzu debian/copyright por eltiri reuse-informon."
 
 #: src/reuse/_main.py:180
 msgid "reuse, version {}"
 msgstr "reuse, versio {}"
 
 #: src/reuse/_main.py:187
+#, fuzzy
 msgid "Print the project's bill of materials."
-msgstr ""
+msgstr "Presi la X de projekto."
 
 #: src/reuse/_main.py:194
 msgid "List all non-compliant files."
-msgstr ""
+msgstr "Listigi ĉiujn nekonformajn dosierojn."
 
 #: src/reuse/_main.py:195
 msgid ""
-"\n"
 "            List all non-compliant files.\n"
 "\n"
 "            A file is non-compliant when:\n"
@@ -206,19 +229,35 @@ msgid ""
 "\n"
 "            Error and warning messages are output to STDERR."
 msgstr ""
+"            Listigi ĉiujn nekonformajn dosierojn.\n"
+"\n"
+"            Dosiero nekonformas kiam:\n"
+"\n"
+"            - Ĝi havas neniun kopirajtinformon.\n"
+"\n"
+"            - Ĝi havas neniun permesilon (deklaritan kiel SPDX-esprimo).\n"
+"\n"
+"            - Ĝian permesilon ne troveblas.\n"
+"\n"
+"            Ĉi tiu komando presas nur la dosierindikojn por kiuj ni ne "
+"povis\n"
+"            trovi reuse-informon.  Ĉiu dosiero estas presata sur propra "
+"linio.\n"
+"\n"
+"            Eraraj kaj avertaj mesaĝoj estas presata al STDERR."
 
 #: src/reuse/_main.py:214
 msgid "SPDX expressions are mandatory for compliance."
-msgstr ""
+msgstr "SPDX-esprimoj nepras por konformiĝo."
 
 #: src/reuse/_main.py:217
 msgid "Copyright notices are mandatory for compliance."
-msgstr ""
+msgstr "Kopirajtafiŝoj nepras por konformiĝo."
 
 #: src/reuse/_main.py:220
 msgid "Ignore missing licenses."
-msgstr ""
+msgstr "Ignori mankantaj permesiloj."
 
 #: src/reuse/_main.py:225
 msgid "Print the SPDX expressions of each provided file."
-msgstr ""
+msgstr "Presi la SPDX-esprimon de ĉiu donita dosiero."
