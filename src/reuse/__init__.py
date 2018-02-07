@@ -39,6 +39,7 @@ from typing import (BinaryIO, Dict, Iterable, Iterator, List, NamedTuple,
                     Optional, Set, Union)
 from uuid import uuid4
 
+import pkg_resources
 from debian.copyright import Copyright, NotMachineReadableError
 
 from ._util import (GIT_EXE, GIT_METHOD, PathLike, decoded_text_from_binary,
@@ -52,7 +53,10 @@ except ImportError:  # pragma: no cover
 
 _LOCALE_DIRS = [
     sys.prefix + '/share/locale',
-    str(Path.home()) + '/.local/share/locale'
+    str(Path.home()) + '/.local/share/locale',
+    pkg_resources.resource_filename(
+        pkg_resources.Requirement.parse('fsfe-reuse'),
+        'share/locale'),
 ]
 
 for dir in _LOCALE_DIRS:
