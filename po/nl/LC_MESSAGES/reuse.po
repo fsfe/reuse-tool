@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-07 18:24+0100\n"
-"PO-Revision-Date: 2018-02-07 18:28+0100\n"
+"PO-Revision-Date: 2018-02-07 18:54+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: nl\n"
@@ -267,31 +267,31 @@ msgstr "gebruik: "
 
 #: /usr/lib/python3.6/argparse.py:835
 msgid ".__call__() not defined"
-msgstr ""
+msgstr ".__call__() is niet gedefinieerd"
 
 #: /usr/lib/python3.6/argparse.py:1132
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
-msgstr ""
+msgstr "onbekende parser %(parser_name)r (keuzes: %(choices)s)"
 
 #: /usr/lib/python3.6/argparse.py:1186
 #, python-format
 msgid "argument \"-\" with mode %r"
-msgstr ""
+msgstr "argument \"-\" met mode %r"
 
 #: /usr/lib/python3.6/argparse.py:1194
 #, python-format
 msgid "can't open '%s': %s"
-msgstr ""
+msgstr "kan '%s' niet openen: %s"
 
 #: /usr/lib/python3.6/argparse.py:1398
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
-msgstr ""
+msgstr "kan acties niet samenvoegen - twee groepen delen de naam %r"
 
 #: /usr/lib/python3.6/argparse.py:1436
 msgid "'required' is an invalid argument for positionals"
-msgstr ""
+msgstr "'required' is een ongeldig argument voor positionele argumenten"
 
 #: /usr/lib/python3.6/argparse.py:1458
 #, python-format
@@ -299,114 +299,117 @@ msgid ""
 "invalid option string %(option)r: must start with a character "
 "%(prefix_chars)r"
 msgstr ""
+"ongeldige optiestring %(option)r: moet beginnen met een karakter "
+"%(prefix_chars)r"
 
 #: /usr/lib/python3.6/argparse.py:1478
 #, python-format
 msgid "dest= is required for options like %r"
-msgstr ""
+msgstr "dest= is benodigd voor opties zoals %r"
 
 #: /usr/lib/python3.6/argparse.py:1495
 #, python-format
 msgid "invalid conflict_resolution value: %r"
-msgstr ""
+msgstr "ongeldige conflictresolutiewaarde: %r"
 
 #: /usr/lib/python3.6/argparse.py:1513
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tegenstrijdige optiestring: %s"
+msgstr[1] "tegenstrijdige optiestrings: %s"
 
 #: /usr/lib/python3.6/argparse.py:1579
 msgid "mutually exclusive arguments must be optional"
-msgstr ""
+msgstr "Argumenten die elkaar uitsluiten moeten optioneel zijn"
 
 #: /usr/lib/python3.6/argparse.py:1642
 msgid "positional arguments"
-msgstr ""
+msgstr "positionele argumenten"
 
 #: /usr/lib/python3.6/argparse.py:1643
 msgid "optional arguments"
-msgstr ""
+msgstr "optionele argumenten"
 
 #: /usr/lib/python3.6/argparse.py:1658
 msgid "show this help message and exit"
-msgstr ""
+msgstr "dit helpbericht laten zien en verlaten"
 
 #: /usr/lib/python3.6/argparse.py:1689
 msgid "cannot have multiple subparser arguments"
-msgstr ""
+msgstr "kan niet meerdere subparser-argumenten hebben"
 
 #: /usr/lib/python3.6/argparse.py:1741
 #, python-format
 msgid "unrecognized arguments: %s"
-msgstr ""
+msgstr "niet erkende argumenten: %s"
 
 #: /usr/lib/python3.6/argparse.py:1838
 #, python-format
 msgid "not allowed with argument %s"
-msgstr ""
+msgstr "niet toegestaan met argument %s"
 
 #: /usr/lib/python3.6/argparse.py:1884 /usr/lib/python3.6/argparse.py:1898
 #, python-format
 msgid "ignored explicit argument %r"
-msgstr ""
+msgstr "expliciet argument %r genegeerd"
 
 #: /usr/lib/python3.6/argparse.py:2005
 #, python-format
 msgid "the following arguments are required: %s"
-msgstr ""
+msgstr "de volgende argumenten zijn verplicht: %s"
 
 #: /usr/lib/python3.6/argparse.py:2020
 #, python-format
 msgid "one of the arguments %s is required"
-msgstr ""
+msgstr "één van de argumenten %s is benodigd"
 
 #: /usr/lib/python3.6/argparse.py:2063
 msgid "expected one argument"
-msgstr ""
+msgstr "verwachtte één argument"
 
 #: /usr/lib/python3.6/argparse.py:2064
 msgid "expected at most one argument"
-msgstr ""
+msgstr "verwachtte maximaal één argument"
 
 #: /usr/lib/python3.6/argparse.py:2065
 msgid "expected at least one argument"
-msgstr ""
+msgstr "verwachtte minimaal één argument"
 
 #: /usr/lib/python3.6/argparse.py:2067
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "verwachtte %s argument"
+msgstr[1] "verwachtte %s argumenten"
 
 #: /usr/lib/python3.6/argparse.py:2127
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr ""
+"dubbelzinnige optie: %(option)s zou ook gelijk kunnen zijn aan %(matches)s"
 
 #: /usr/lib/python3.6/argparse.py:2190
 #, python-format
 msgid "unexpected option string: %s"
-msgstr ""
+msgstr "onverwachtte optiestring: %s"
 
 #: /usr/lib/python3.6/argparse.py:2294
 #, python-format
 msgid "%r is not callable"
-msgstr ""
+msgstr "%r is niet callable"
 
 #: /usr/lib/python3.6/argparse.py:2311
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
-msgstr ""
+msgstr "ongeldige %(type)s waarde: %(value)r"
 
 #: /usr/lib/python3.6/argparse.py:2322
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
-msgstr ""
+msgstr "ongeldige keuze: %(value)r (kiezen uit %(choices)s)"
 
 #: /usr/lib/python3.6/argparse.py:2398
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
-msgstr ""
+msgstr "%(prog)s: fout: %(message)s\n"
