@@ -34,7 +34,6 @@ from typing import Dict, Optional, Tuple
 
 import jinja2
 import pytest
-from click.testing import CliRunner
 from reuse import ReuseInfo
 from reuse._util import GIT_EXE, GIT_METHOD, setup_logging
 
@@ -261,9 +260,3 @@ def empty_file_with_license_file(
 
     os.chdir(str(directory))
     return (directory, key.reuse_info)
-
-
-@pytest.fixture
-def runner() -> CliRunner:
-    """Return a click CLI runner."""
-    return CliRunner()
