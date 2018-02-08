@@ -52,8 +52,11 @@ except ImportError:  # pragma: no cover
     pass
 
 _LOCALE_DIRS = [
+    # sys.prefix is usually /usr, but can also be the root of the virtualenv.
     sys.prefix + '/share/locale',
+    # Relevant for `pip install --user` installations.
     str(Path.home()) + '/.local/share/locale',
+    # This somehow works for egg installations.
     pkg_resources.resource_filename(
         pkg_resources.Requirement.parse('fsfe-reuse'),
         'share/locale'),
