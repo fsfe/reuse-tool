@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-07 19:00+0100\n"
-"PO-Revision-Date: 2018-02-07 19:53+0100\n"
+"PO-Revision-Date: 2018-02-12 00:53+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: eo\n"
@@ -164,7 +164,7 @@ msgid ""
 "version of pygit2."
 msgstr ""
 "Vi ne jam instalis pygit2.  reuse malrapidiĝas ege pro ĉi tio.  Por akiri "
-"pli bona rendimento, bonvolu instali version de pygit2 de via distribuo."
+"pli bonan rendimenton, bonvolu instali version de pygit2 de via distribuo."
 
 #. Translators: %s is a file name.
 #: src/reuse/_main.py:109
