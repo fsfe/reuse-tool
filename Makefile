@@ -90,12 +90,15 @@ test-release: dist  ## package and upload to testpypi
 release: dist  ## package and upload a release
 	twine upload --sign -r pypi dist/*
 
+.PHONY: install-requirements
 install-requirements:  ## install requirements
 	pip install -r requirements.txt
 
+.PHONY: uninstall
 uninstall:  ## uninstall reuse
 	-pip uninstall -y fsfe-reuse
 
+.PHONY: install
 install: uninstall install-requirements dist  ## install reuse
 	pip install dist/*.whl
 
