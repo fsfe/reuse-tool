@@ -189,7 +189,7 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument(
         '--version', action='store_true',
         help=_("show program's version number and exit"))
-    parser.set_defaults(func=lambda x: parser.print_help())
+    parser.set_defaults(func=lambda x, y: parser.print_help())
 
     subparsers = parser.add_subparsers()
 
