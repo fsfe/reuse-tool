@@ -72,7 +72,7 @@ for dir in _LOCALE_DIRS:
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
 __license__ = 'GPLv3+'
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
