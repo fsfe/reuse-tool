@@ -98,10 +98,9 @@ def _create_project() -> reuse.Project:
     return reuse.Project(root)
 
 
-def compile(args):
+def compile(args, out=sys.stdout):
     """Print the project's bill of materials."""
     project = _create_project()
-    out = sys.stdout
     if args.output:
         out = args.output
         if not out.name.endswith('.spdx'):
@@ -111,8 +110,10 @@ def compile(args):
         out,
         ignore_debian=args.ignore_debian)
 
+    return 0
 
-def license(args):
+
+def license(args, out=sys.stdout):
     """Print the SPDX expressions of each provided file."""
     project = _create_project()
     first = True
@@ -131,19 +132,23 @@ def license(args):
             continue
 
         if not first:
-            print()
+            out.write('\n')
 
-        print(quote(str(path)))
+        out.write(quote(str(path)))
+        out.write('\n')
 
         if any(reuse_info.spdx_expressions):
-            print(', '.join(map(quote, reuse_info.spdx_expressions)))
+            out.write(', '.join(map(quote, reuse_info.spdx_expressions)))
+            out.write('\n')
         else:
-            print(_('none'))
+            out.write(_('none\n'))
 
         first = False
 
+    return 0
 
-def lint(args):
+
+def lint(args, out=sys.stdout):
     """List all non-compliant files."""
     counter = 0
     found = set()
@@ -162,11 +167,12 @@ def lint(args):
                 ignore_missing=args.ignore_missing):
             output = quote(str(file_))
             if output not in found:
-                print(output)
+                out.write(output)
+                out.write('\n')
                 found.add(output)
                 counter += 1
 
-    sys.exit(counter)
+    return counter
 
 
 def parser() -> argparse.ArgumentParser:
@@ -235,7 +241,7 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(args: List[str] = None) -> None:
+def main(args: List[str] = None, out=sys.stdout) -> None:
     """Main entry function."""
     if args is None:
         args = sys.argv[1:]
@@ -247,6 +253,7 @@ def main(args: List[str] = None) -> None:
         level=logging.DEBUG if parsed_args.debug else logging.WARNING)
 
     if parsed_args.version:
-        print(_('reuse, version {}').format(reuse.__version__))
+        out.write(_('reuse, version {}\n').format(reuse.__version__))
+        return 0
     else:
-        parsed_args.func(parsed_args)
+        return parsed_args.func(parsed_args, out)
