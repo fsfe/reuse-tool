@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2017  Free Software Foundation Europe e.V.
+# Copyright (C) 2018  Carmen Bianca Bakker
 #
 # This file is part of reuse, available from its original location:
 # <https://git.fsfe.org/reuse/reuse/>.
@@ -21,13 +22,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import glob
 import subprocess
+from pathlib import Path
 
 from setuptools import setup
 
 requirements = [
     'chardet',
-    'click',
     'python-debian',
 ]
 git_extras = []
@@ -52,6 +54,13 @@ def readme_rst():
         return open('README.md').read()
 
 
+def mo_files():
+    paths = glob.glob('po/**/**/reuse.mo')
+    return [
+        ('share/locale/{}/LC_MESSAGES'.format(Path(path).parts[1]), [path])
+        for path in paths]
+
+
 if __name__ == '__main__':
     setup(
         name='fsfe-reuse',
@@ -73,9 +82,11 @@ if __name__ == '__main__':
             'reuse',
         ],
 
+        data_files=mo_files(),
+
         entry_points={
             'console_scripts': [
-                'reuse = reuse._main:cli',
+                'reuse = reuse._main:main',
             ],
         },
 

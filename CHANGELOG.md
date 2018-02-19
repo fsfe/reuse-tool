@@ -19,6 +19,16 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased
 
+### Added
+
+- Internationalisation support added.  Initial support for:
+
+  - English.
+
+  - Dutch.
+
+  - Esperanto.
+
 ### Fixed
 
 - The license list of SPDX 3.0 has deprecated `GPL-3.0` and `GPL-3.0+` et al in
@@ -34,6 +44,9 @@ The versions follow [semantic versioning](https://semver.org).
 
   - As a result of this, `ReuseInfo` will not hold duplicates of copyright lines
     or SPDX expressions.
+
+- click removed as dependency.  Good old argparse from the library is used
+  instead.
 
 ## 0.1.1 - 2017-12-14
 
