@@ -80,10 +80,12 @@ _EPILOG_TEXT = ''
 _PYGIT2_WARN = '\n\n'.join([
     _('IMPORTANT:'),
 
-    fill_paragraph(_(
-    'You do not have pygit2 installed.  reuse will slow down significantly '
-    'because of this.  For better performance, please install your '
-    "distribution's version of pygit2."), indent_width=INDENT)])
+    fill_paragraph(
+        _(
+            'You do not have pygit2 installed.  reuse will slow down '
+            'significantly because of this.  For better performance, please '
+            "install your distribution's version of pygit2."),
+        indent_width=INDENT)])
 if not GIT_METHOD == 'pygit2':
     _EPILOG_TEXT = _EPILOG_TEXT + '\n\n' + _PYGIT2_WARN
 
@@ -155,7 +157,7 @@ def lint(args, out=sys.stdout):
 
     project = _create_project()
     paths = args.paths
-    if not len(paths):
+    if not paths:
         paths = [project.root]
 
     for path in paths:
@@ -255,5 +257,4 @@ def main(args: List[str] = None, out=sys.stdout) -> None:
     if parsed_args.version:
         out.write(_('reuse, version {}\n').format(reuse.__version__))
         return 0
-    else:
-        return parsed_args.func(parsed_args, out)
+    return parsed_args.func(parsed_args, out)
