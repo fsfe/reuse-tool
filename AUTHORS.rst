@@ -1,6 +1,7 @@
 ..
   Copyright (C) 2017  Free Software Foundation Europe e.V.
-  Copyright (C) 2017  Sebastian Schuberth
+  Copyright (C) 2017  Sebastian Schuberth <schuberth@fsfe.org>
+  Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
   This file is part of reuse, available from its original location:
   <https://git.fsfe.org/reuse/reuse/>.
