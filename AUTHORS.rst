@@ -37,10 +37,17 @@ Translators
 -----------
 
 - Dutch:
+
   + André Ockers <ao@fsfe.org>
+
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
+
 - Esperanto:
+
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
+
 - Spanish:
+
   + pd <euklade@gmail.com>
+
   + flow <adolflow@sindominio.net>
