@@ -140,9 +140,9 @@ itself into the bill of materials, which obviously will not work.
 
 ## Maintainers
 
-- Carmen Bianca Bakker - carmenbianca at fsfe dot org
+- Carmen Bianca Bakker - <carmenbianca@fsfe.org>
 
-- Jonas Öberg - jonas at fsfe dot org
+- Jonas Öberg - <jonas@fsfe.org>
 
 ## Contribute
 
