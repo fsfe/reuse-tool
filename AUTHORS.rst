@@ -26,9 +26,21 @@ Credits
 Development Lead
 ----------------
 
-- Carmen Bianca Bakker <carmenbianca at fsfe dot org>
+- Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
 Contributors
 ------------
 
-- Sebastian Schuberth <schuberth at fsfe dot org>
+- Sebastian Schuberth <schuberth@fsfe.org>
+
+Translators
+-----------
+
+- Dutch:
+  + André Ockers <ao@fsfe.org>
+  + Carmen Bianca Bakker <carmenbianca@fsfe.org>
+- Esperanto:
+  + Carmen Bianca Bakker <carmenbianca@fsfe.org>
+- Spanish:
+  + pd <euklade@gmail.com>
+  + flow <adolflow@sindominio.net>

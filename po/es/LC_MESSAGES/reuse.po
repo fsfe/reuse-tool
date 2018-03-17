@@ -1,0 +1,335 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"Project-Id-Version: FSFE reuse\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
+"Language-Team: \n"
+
+#: src/reuse/__init__.py:214
+msgid "could not find Git"
+msgstr "no puedo encontrar Git"
+
+#. Translators: %s is a directory path.  This is inside a loop that
+#. yields all files that will be checked for REUSE information
+#. (i.e., some files are ignored, and thus not yielded).
+#: src/reuse/__init__.py:238 src/reuse/__init__.py:259
+msgid "yielding %s"
+msgstr "apuntando a %s"
+
+#. Translators: %s is a directory path.
+#: src/reuse/__init__.py:244
+msgid "currently walking in %s"
+msgstr "actualmente recorriendo %s"
+
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:250 src/reuse/__init__.py:256
+msgid "ignoring %s"
+msgstr "ignorando %s"
+
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:274
+msgid "searching %s for reuse information"
+msgstr "buscando información de reuse en %s"
+
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:289
+msgid "%s could not be decoded"
+msgstr "%s no se pudo decodificar"
+
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:298
+msgid "%s covered by debian/copyright"
+msgstr "%s cubierto por debian/copyright"
+
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:333
+msgid "Could not read %s"
+msgstr "No se pudo leer %s"
+
+#: src/reuse/__init__.py:380
+msgid "{path} is licensed under {identifier}, but its license file could not be found"
+msgstr "{path} con licencia {identifier}, pero no se encontró el archivo con la licencia"
+
+#. Translators: %s is a path.
+#: src/reuse/__init__.py:481
+msgid "searching %s for license tags"
+msgstr "buscando etiquetas de licencia en %s"
+
+#: src/reuse/__init__.py:490
+msgid "Could not resolve SPDX identifier of {path}, resolving to {identifier}"
+msgstr "No se pudo resolver el identificador SPDX de {path}, resolviendo a {identifier}"
+
+#: src/reuse/__init__.py:497
+msgid "{identifier} is the SPDX identifier of both {path} and {other_path}"
+msgstr "{identifier} es el identificador SPDX tanto de {path} como de {other_path}"
+
+#: src/reuse/__init__.py:523
+msgid "no debian/copyright file, or could not read it"
+msgstr "no existe o no se pudo leer el archivo debian/copyright"
+
+#: src/reuse/__init__.py:525
+msgid "debian/copyright has syntax errors"
+msgstr "debian/copyright tiene errores de sintaxis"
+
+#: src/reuse/_main.py:43
+msgid "reuse  Copyright (C) 2017-2018  Free Software Foundation Europe e.V."
+msgstr "Copyright (C) 2017-2018 de reuse Free Software Foundation Europe e.V."
+
+#: src/reuse/_main.py:46
+msgid "reuse is a tool for compliance with the REUSE Initiative recommendations.  See <https://reuse.software/> for more information."
+msgstr "reuse is una herramienta para cumplir con las recomendaciones de la iniciativa REUSE. Más información en <https://reuse.software/>."
+
+#. Translators: Find an (un)official translation of the GPL for this
+#. bit.
+#: src/reuse/_main.py:53
+msgid ""
+"reuse is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n"
+"\n"
+"reuse is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with reuse.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"reuse es software libre: puedes redistribuirlo y/o modificarlo bajo los términos de la Licencia Pública General GNU (GNU GPL) tal y como está publicada por la Free Software Foundation, tanto la versión 3 de la Licencia, o (a tu elección) cualquier versión posterior.\n"
+"\n"
+"reuse se distribuye con la esperanza de ser útil, pero SIN NINGUNA GARANTIA; ni siquiera la garantia implícita de COMERCIABILIDAD o ADECUACIÓN PARA UN PROPÓSITO PARTICULAR. Consulta la Licencia Pública General GNU para más detalles.\n"
+"\n"
+"Deberías haber recibido una copia de la Licencia Pública General GNU con reuse. Si no es así, consulta <http://www.gnu.org/licenses/>."
+
+#: src/reuse/_main.py:66
+msgid "Support the FSFE's work:"
+msgstr "Apoya el trabajo de la FSFE:"
+
+#: src/reuse/_main.py:69
+msgid "Donations are critical to our strength and autonomy.  They enable us to continue working for Free Software wherever necessary.  Please consider making a donation at <https://fsfe.org/donate/>."
+msgstr "Las donaciones son esenciales para nuestra fortaleza y autonomía. Nos permiten continuar trabajando por el Software Libre allá donde sea necesario. Por favor, considera hacer una donación en <https://fsfe.org/donate/>."
+
+#: src/reuse/_main.py:81
+msgid "IMPORTANT:"
+msgstr "IMPORTANTE:"
+
+#: src/reuse/_main.py:84
+msgid "You do not have pygit2 installed.  reuse will slow down significantly because of this.  For better performance, please install your distribution's version of pygit2."
+msgstr "No tienes instalado pygit2 por lo que reuse funcionará significativamente más lento. Por favor, instala la versión de pygit2 de tu distribución para un mejor rendimiento."
+
+#. Translators: %s is a file name.
+#: src/reuse/_main.py:108
+msgid "%s does not end with .spdx"
+msgstr "%s no acaba en .spdx"
+
+#: src/reuse/_main.py:127
+msgid "%s is a directory"
+msgstr "%s es un directorio"
+
+#. Translators: %s is a file.
+#: src/reuse/_main.py:131
+msgid "could not read %s"
+msgstr "no se pudo leer %s"
+
+#: src/reuse/_main.py:144
+msgid "none\n"
+msgstr "nada\n"
+
+#: src/reuse/_main.py:185
+msgid "enable debug statements"
+msgstr "habilita instrucciones de depuración"
+
+#: src/reuse/_main.py:188
+msgid "do not use debian/copyright to extract reuse information"
+msgstr "no use debian/copyright para extraer información de reuse"
+
+#: src/reuse/_main.py:191
+msgid "show program's version number and exit"
+msgstr "muestra la versión del programa y sal"
+
+#: src/reuse/_main.py:198
+msgid "print the project's bill of materials"
+msgstr "imprime la lista de materiales del proyecto"
+
+#: src/reuse/_main.py:205
+msgid "list all non-compliant files"
+msgstr "lista todos los ficheros no compatibles"
+
+#: src/reuse/_main.py:207
+msgid ""
+"List all non-compliant files.\n"
+"\n"
+"A file is non-compliant when:\n"
+"\n"
+"- It has no copyright information.\n"
+"\n"
+"- It has no license (declared as SPDX expression).\n"
+"\n"
+"- Its license could not be found.\n"
+"\n"
+"This prints only the paths of the files that do not comply, each file on a separate line.\n"
+"\n"
+"Error and warning messages are output to STDERR."
+msgstr ""
+"Lista todos los ficheros no compatibles.\n"
+"\n"
+"Un fichero es no compatible si:\n"
+"\n"
+"- no tiene información de copyright.\n"
+"\n"
+"- no tiene licencia (declarada como una expresión SPDX).\n"
+"\n"
+"- su licencia no se encuentra.\n"
+"\n"
+"Esto imprime únicamente las rutas de los ficheros no compatibles, cada fichero en una línea separada.\n"
+"\n"
+"Los mensajes de error y aviso se muestran en STDERR."
+
+#: src/reuse/_main.py:225
+msgid "SPDX expressions are mandatory for compliance"
+msgstr "Las expresiones SPDX son de obligatorio cumplimiento"
+
+#: src/reuse/_main.py:228
+msgid "copyright notices are mandatory for compliance"
+msgstr "las notas de copyright son de obligatorio cumplimiento"
+
+#: src/reuse/_main.py:231
+msgid "ignore missing licenses"
+msgstr "ignora las licencias inexistentes"
+
+#: src/reuse/_main.py:236
+msgid "print the SPDX expressions of each provided file"
+msgstr "imprime las expresiones SPDX de cada fichero proporcionado"
+
+#: src/reuse/_main.py:256
+msgid "reuse, version {}\n"
+msgstr "reuse, versión {}\n"
+
+#: /usr/lib64/python3.6/argparse.py:295
+msgid "usage: "
+msgstr "uso: "
+
+#: /usr/lib64/python3.6/argparse.py:826
+msgid ".__call__() not defined"
+msgstr ".__call__() no está definido"
+
+#: /usr/lib64/python3.6/argparse.py:1123
+msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
+msgstr "analizador gramatical desconocido %(parser_name)r (alternativas: %(choices)s)"
+
+#: /usr/lib64/python3.6/argparse.py:1177
+msgid "argument \"-\" with mode %r"
+msgstr "argumento \"-\" con modo %r"
+
+#: /usr/lib64/python3.6/argparse.py:1185
+msgid "can't open '%s': %s"
+msgstr "no se puede abrir '%s': %s"
+
+#: /usr/lib64/python3.6/argparse.py:1389
+msgid "cannot merge actions - two groups are named %r"
+msgstr "no se pueden fusionar las acciones - dos grupos se llaman %r"
+
+#: /usr/lib64/python3.6/argparse.py:1427
+msgid "'required' is an invalid argument for positionals"
+msgstr "'required' es un argumento inválido para posicionales"
+
+#: /usr/lib64/python3.6/argparse.py:1449
+msgid "invalid option string %(option)r: must start with a character %(prefix_chars)r"
+msgstr "cadena de opción inválida %(option)r: debe comenzar con un carácter %(prefix_chars)r"
+
+#: /usr/lib64/python3.6/argparse.py:1469
+msgid "dest= is required for options like %r"
+msgstr "se requiere dest= para opciones como %r"
+
+#: /usr/lib64/python3.6/argparse.py:1486
+msgid "invalid conflict_resolution value: %r"
+msgstr "valor inválido de conflict_resolution: %r"
+
+#: /usr/lib64/python3.6/argparse.py:1504
+msgid "conflicting option string: %s"
+msgid_plural "conflicting option strings: %s"
+msgstr[0] "cadena de opción conflictiva: %s"
+msgstr[1] "cadenas de opción conflictivas: %s"
+
+#: /usr/lib64/python3.6/argparse.py:1570
+msgid "mutually exclusive arguments must be optional"
+msgstr "los argumentos mútuamente excluyentes deben ser opcionales"
+
+#: /usr/lib64/python3.6/argparse.py:1633
+msgid "positional arguments"
+msgstr "argumentos posicionales"
+
+#: /usr/lib64/python3.6/argparse.py:1634
+msgid "optional arguments"
+msgstr "argumentos opcionales"
+
+#: /usr/lib64/python3.6/argparse.py:1649
+msgid "show this help message and exit"
+msgstr "muestra este mensaje de ayuda y sal"
+
+#: /usr/lib64/python3.6/argparse.py:1680
+msgid "cannot have multiple subparser arguments"
+msgstr "no puede tener múltiples argumentos del subanalizador"
+
+#: /usr/lib64/python3.6/argparse.py:1732
+msgid "unrecognized arguments: %s"
+msgstr "argumentos irreconocibles: %s"
+
+#: /usr/lib64/python3.6/argparse.py:1829
+msgid "not allowed with argument %s"
+msgstr "no permitido con el argumento %s"
+
+#: /usr/lib64/python3.6/argparse.py:1875 /usr/lib64/python3.6/argparse.py:1889
+msgid "ignored explicit argument %r"
+msgstr "se ignora el argumento explicito %r"
+
+#: /usr/lib64/python3.6/argparse.py:1996
+msgid "the following arguments are required: %s"
+msgstr "se requiren los siguientes argumentos: %s"
+
+#: /usr/lib64/python3.6/argparse.py:2011
+msgid "one of the arguments %s is required"
+msgstr "se requiere uno de los argumentos %s"
+
+#: /usr/lib64/python3.6/argparse.py:2054
+msgid "expected one argument"
+msgstr "se espera un argumento"
+
+#: /usr/lib64/python3.6/argparse.py:2055
+msgid "expected at most one argument"
+msgstr "se espera un argumento como máximo"
+
+#: /usr/lib64/python3.6/argparse.py:2056
+msgid "expected at least one argument"
+msgstr "se espera un argumento como mínimo"
+
+#: /usr/lib64/python3.6/argparse.py:2058
+msgid "expected %s argument"
+msgid_plural "expected %s arguments"
+msgstr[0] "argumento %s esperado"
+msgstr[1] "argumentos %s esperados"
+
+#: /usr/lib64/python3.6/argparse.py:2118
+msgid "ambiguous option: %(option)s could match %(matches)s"
+msgstr "opción ambigua: %(option)s puede coincidir con %(matches)s"
+
+#: /usr/lib64/python3.6/argparse.py:2181
+msgid "unexpected option string: %s"
+msgstr "cadena de opción inesperada: %s"
+
+#: /usr/lib64/python3.6/argparse.py:2285
+msgid "%r is not callable"
+msgstr "%r no se puede invocar"
+
+#: /usr/lib64/python3.6/argparse.py:2302
+msgid "invalid %(type)s value: %(value)r"
+msgstr "valor inválido %(type)s: %(value)r"
+
+#: /usr/lib64/python3.6/argparse.py:2313
+msgid "invalid choice: %(value)r (choose from %(choices)s)"
+msgstr "elección inválida: %(value)r (elige entre %(choices)s)"
+
+#: /usr/lib64/python3.6/argparse.py:2389
+msgid "%(prog)s: error: %(message)s\n"
+msgstr "%(prog)s: error: %(message)s\n"
