@@ -23,7 +23,3 @@ License: GPL-3.0-or-later
 Files: tests/resources/*
 Copyright: 2017  Free Software Foundation Europe e.V.
 License: GPL-3.0-or-later
-
-Files: po/*
-Copyright: 2018  Free Software Foundation Europe e.V.
-License: GPL-3.0-or-later
