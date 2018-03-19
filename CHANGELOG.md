@@ -29,6 +29,8 @@ The versions follow [semantic versioning](https://semver.org).
 
   - Esperanto.
 
+  - Spanish.
+
 ### Fixed
 
 - The license list of SPDX 3.0 has deprecated `GPL-3.0` and `GPL-3.0+` et al in
