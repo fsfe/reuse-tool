@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-19 14:56+0100\n"
-"PO-Revision-Date: 2018-03-19 11:55+0100\n"
+"PO-Revision-Date: 2018-03-19 12:07+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: eo\n"
@@ -42,7 +42,7 @@ msgstr "ne povis trovi programaron Git"
 #: src/reuse/__init__.py:238 src/reuse/__init__.py:259
 #, python-format
 msgid "yielding %s"
-msgstr "cedante %s"
+msgstr "traktante %s"
 
 #. Translators: %s is a directory path.
 #: src/reuse/__init__.py:244
