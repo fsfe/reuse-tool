@@ -1,4 +1,5 @@
-# Copyright (C) 2018  Carmen Bianca Bakker
+# Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# Copyright (C) 2018  Tirifto <tirifto@posteo.cz>
 #
 # This file is part of reuse, available from its original location:
 # <https://git.fsfe.org/reuse/reuse/>.
@@ -21,7 +22,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-19 14:56+0100\n"
-"PO-Revision-Date: 2018-03-17 13:08+0100\n"
+"PO-Revision-Date: 2018-03-19 11:55+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: eo\n"
@@ -33,7 +34,7 @@ msgstr ""
 
 #: src/reuse/__init__.py:214
 msgid "could not find Git"
-msgstr "ne povis trovi Git"
+msgstr "ne povis trovi programaron Git"
 
 #. Translators: %s is a directory path.  This is inside a loop that
 #. yields all files that will be checked for REUSE information
@@ -59,7 +60,7 @@ msgstr "ignoras %s"
 #: src/reuse/__init__.py:274
 #, python-format
 msgid "searching %s for reuse information"
-msgstr "serĉante %s por reuse informo"
+msgstr "serĉanta en %s por reuse-informoj"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:289
@@ -71,7 +72,7 @@ msgstr "ne povis malkodi %s"
 #: src/reuse/__init__.py:298
 #, python-format
 msgid "%s covered by debian/copyright"
-msgstr "debian/copyright ampleksas %s"
+msgstr "debian/copyright ampleksas al %s"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:333
@@ -84,7 +85,7 @@ msgstr "Ne povis legi %s"
 msgid ""
 "{path} is licensed under {identifier}, but its license file could not be "
 "found"
-msgstr "{path} subas {identifier}, sed tia permesildosiero mankas"
+msgstr "{path} subas permesilon {identifier}, sed ties dosiero mankas"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:481
@@ -119,7 +120,7 @@ msgid ""
 "reuse is a tool for compliance with the REUSE Initiative recommendations.  "
 "See <https://reuse.software/> for more information."
 msgstr ""
-"reuse estas ilo por konformiĝo al la REUSE Iniciato rekomendoj.\n"
+"reuse estas ilo por konformiĝo al la rekomendoj de Iniciato REUSE.\n"
 "Vidu <https://reuse.software/> por pli da informo."
 
 #. Translators: Find an (un)official translation of the GPL for this
@@ -161,9 +162,9 @@ msgid ""
 "continue working for Free Software wherever necessary.  Please consider "
 "making a donation at <https://fsfe.org/donate/>."
 msgstr ""
-"Donacoj estas gravega por nia forto kaj aŭtonomeco.  Ili ebligi nin daŭrigi "
-"laboradon por libera programaro, kie ajn necesas.  Bonvolu prepensi fari "
-"donacon ĉe <https://fsfe.org/donate/>."
+"Donacoj estas gravegaj por niaj forto kaj aŭtonomeco.  Ili ebligas nin "
+"daŭrigi laboradon por libera programaro, kie ajn tio necesas.  Bonvolu "
+"pripensi fari donacon ĉe <https://fsfe.org/donate/>."
 
 #: src/reuse/_main.py:81
 msgid "IMPORTANT:"
@@ -193,7 +194,7 @@ msgstr "%s estas dosierujo"
 #: src/reuse/_main.py:131
 #, python-format
 msgid "could not read %s"
-msgstr "ne povis legi %s"
+msgstr "ne povis legi dosieron %s"
 
 #: src/reuse/_main.py:144
 msgid "none\n"
@@ -244,12 +245,12 @@ msgstr ""
 "\n"
 "- Ĝi havas neniun permesilon (deklaritan kiel SPDX-esprimo).\n"
 "\n"
-"- Ĝian permesilon ne troveblas.\n"
+"- Ĝia permesilo ne troveblas.\n"
 "\n"
 "Ĉi tiu komando presas nur la dosierindikojn, kiuj ne konformas.  Ĉiu dosiero "
 "estas presata sur propra linio.\n"
 "\n"
-"Eraraj kaj avertaj mesaĝoj estas presata al STDERR."
+"Eraraj kaj avertaj mesaĝoj estas presotaj al STDERR."
 
 #: src/reuse/_main.py:225
 msgid "SPDX expressions are mandatory for compliance"
@@ -261,7 +262,7 @@ msgstr "kopirajtafiŝoj nepras por konformiĝo"
 
 #: src/reuse/_main.py:231
 msgid "ignore missing licenses"
-msgstr "ignori mankantaj permesiloj"
+msgstr "ignori mankantajn permesilojn"
 
 #: src/reuse/_main.py:236
 msgid "print the SPDX expressions of each provided file"
@@ -309,24 +310,25 @@ msgid ""
 "invalid option string %(option)r: must start with a character "
 "%(prefix_chars)r"
 msgstr ""
-"nevalida opcia ĉeno %(option)r: devas startiĝas per signo %(prefix_chars)r"
+"nevalida elektebla ĉeno %(option)r: devas komenciĝi per signo "
+"%(prefix_chars)r"
 
 #: /usr/lib64/python3.6/argparse.py:1469
 #, python-format
 msgid "dest= is required for options like %r"
-msgstr "dest= nepras por opcioj kiel %r"
+msgstr "dest= nepras por elektebloj kiel %r"
 
 #: /usr/lib64/python3.6/argparse.py:1486
 #, python-format
 msgid "invalid conflict_resolution value: %r"
-msgstr "nevalida conflict_resolution valoro: %r"
+msgstr "nevalida valoro de conflict_resolution: %r"
 
 #: /usr/lib64/python3.6/argparse.py:1504
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
-msgstr[0] "konfliktanta opcioĉeno: %s"
-msgstr[1] "konfliktantaj opcioĉenoj: %s"
+msgstr[0] "konfliktanta elektebla ĉeno: %s"
+msgstr[1] "konfliktantaj elekteblaj ĉenoj: %s"
 
 #: /usr/lib64/python3.6/argparse.py:1570
 msgid "mutually exclusive arguments must be optional"
@@ -346,7 +348,7 @@ msgstr "montri ĉi tiun helpmesaĝon kaj eliri"
 
 #: /usr/lib64/python3.6/argparse.py:1680
 msgid "cannot have multiple subparser arguments"
-msgstr "ne povas havi pluraj subanalizilaj argumentoj"
+msgstr "ne povas havi plurajn subanalizilajn argumentojn"
 
 #: /usr/lib64/python3.6/argparse.py:1732
 #, python-format
@@ -361,12 +363,12 @@ msgstr "ne permesita kun argumento: %s"
 #: /usr/lib64/python3.6/argparse.py:1875 /usr/lib64/python3.6/argparse.py:1889
 #, python-format
 msgid "ignored explicit argument %r"
-msgstr "ignoris eksplicitan argumenton %r"
+msgstr "ignoris malimplicitan argumenton %r"
 
 #: /usr/lib64/python3.6/argparse.py:1996
 #, python-format
 msgid "the following arguments are required: %s"
-msgstr "la sekvantaj argumentoj nepras: %s"
+msgstr "la sekvaj argumentoj nepras: %s"
 
 #: /usr/lib64/python3.6/argparse.py:2011
 #, python-format
@@ -375,32 +377,32 @@ msgstr "unu el la argumentoj %s nepras"
 
 #: /usr/lib64/python3.6/argparse.py:2054
 msgid "expected one argument"
-msgstr "anticipis unu argumento"
+msgstr "atendis unu argumenton"
 
 #: /usr/lib64/python3.6/argparse.py:2055
 msgid "expected at most one argument"
-msgstr "anticipis maksimume unu argumento"
+msgstr "atendis maksimume unu argumenton"
 
 #: /usr/lib64/python3.6/argparse.py:2056
 msgid "expected at least one argument"
-msgstr "anticipis minimume unu argumento"
+msgstr "atendis minimume unu argumenton"
 
 #: /usr/lib64/python3.6/argparse.py:2058
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
-msgstr[0] "anticipis %s argumento"
-msgstr[1] "anticipis %s argumentoj"
+msgstr[0] "atendis %s argumenton"
+msgstr[1] "atendis %s argumentojn"
 
 #: /usr/lib64/python3.6/argparse.py:2118
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
-msgstr "dubsenca opcio: %(option)s povus egali %(matches)s"
+msgstr "dubsenca elekteblo: %(option)s povus egali al %(matches)s"
 
 #: /usr/lib64/python3.6/argparse.py:2181
 #, python-format
 msgid "unexpected option string: %s"
-msgstr "neanticipita opcioĉeno: %s"
+msgstr "neatendita elektebla ĉeno: %s"
 
 #: /usr/lib64/python3.6/argparse.py:2285
 #, python-format
@@ -410,7 +412,7 @@ msgstr "%r ne alvokeblas"
 #: /usr/lib64/python3.6/argparse.py:2302
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
-msgstr "nevalida %(type)s valoro: %(value)r"
+msgstr "nevalida %(type)s-valoro: %(value)r"
 
 #: /usr/lib64/python3.6/argparse.py:2313
 #, python-format
