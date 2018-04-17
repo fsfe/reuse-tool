@@ -17,7 +17,7 @@ Every release contains the following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
-## Unreleased
+## 0.2.0 - 2018-04-17
 
 ### Added
 
