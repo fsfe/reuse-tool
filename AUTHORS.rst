@@ -47,8 +47,10 @@ Translators
 
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
+  + Tirifto <tirifto@posteo.cz>
+
 - Spanish:
 
-  + pd <euklade@gmail.com>
-
   + flow <adolflow@sindominio.net>
+
+  + pd <euklade@gmail.com>
