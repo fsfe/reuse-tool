@@ -1,6 +1,7 @@
 ..
   Copyright (C) 2017  Free Software Foundation Europe e.V.
-  Copyright (C) 2017  Sebastian Schuberth
+  Copyright (C) 2017  Sebastian Schuberth <schuberth@fsfe.org>
+  Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
   This file is part of reuse, available from its original location:
   <https://git.fsfe.org/reuse/reuse/>.
@@ -26,9 +27,30 @@ Credits
 Development Lead
 ----------------
 
-- Carmen Bianca Bakker <carmenbianca at fsfe dot org>
+- Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
 Contributors
 ------------
 
-- Sebastian Schuberth <schuberth at fsfe dot org>
+- Sebastian Schuberth <schuberth@fsfe.org>
+
+Translators
+-----------
+
+- Dutch:
+
+  + André Ockers <ao@fsfe.org>
+
+  + Carmen Bianca Bakker <carmenbianca@fsfe.org>
+
+- Esperanto:
+
+  + Carmen Bianca Bakker <carmenbianca@fsfe.org>
+
+  + Tirifto <tirifto@posteo.cz>
+
+- Spanish:
+
+  + flow <adolflow@sindominio.net>
+
+  + pd <euklade@gmail.com>

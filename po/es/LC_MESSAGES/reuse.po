@@ -1,5 +1,5 @@
-# Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
-# Copyright (C) 2018  Tirifto <tirifto@posteo.cz>
+# Copyright (C) 2018  pd <euklade@gmail.com>
+# Copyright (C) 2018  flow <adolflow@sindominio.net>
 #
 # This file is part of reuse, available from its original location:
 # <https://git.fsfe.org/reuse/reuse/>.
@@ -19,206 +19,161 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-19 14:56+0100\n"
-"PO-Revision-Date: 2018-03-19 12:07+0100\n"
-"Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
-"Language-Team: Esperanto <>\n"
-"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.6\n"
+"Project-Id-Version: FSFE reuse\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
+"Language-Team: \n"
 
 #: src/reuse/__init__.py:214
 msgid "could not find Git"
-msgstr "ne povis trovi programaron Git"
+msgstr "no puedo encontrar Git"
 
 #. Translators: %s is a directory path.  This is inside a loop that
 #. yields all files that will be checked for REUSE information
 #. (i.e., some files are ignored, and thus not yielded).
 #: src/reuse/__init__.py:238 src/reuse/__init__.py:259
-#, python-format
 msgid "yielding %s"
-msgstr "traktante %s"
+msgstr "apuntando a %s"
 
 #. Translators: %s is a directory path.
 #: src/reuse/__init__.py:244
-#, python-format
 msgid "currently walking in %s"
-msgstr "ĉimomente irante en %s"
+msgstr "actualmente recorriendo %s"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:250 src/reuse/__init__.py:256
-#, python-format
 msgid "ignoring %s"
-msgstr "ignoras %s"
+msgstr "ignorando %s"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:274
-#, python-format
 msgid "searching %s for reuse information"
-msgstr "serĉanta en %s por reuse-informoj"
+msgstr "buscando información de reuse en %s"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:289
-#, python-format
 msgid "%s could not be decoded"
-msgstr "ne povis malkodi %s"
+msgstr "%s no se pudo decodificar"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:298
-#, python-format
 msgid "%s covered by debian/copyright"
-msgstr "debian/copyright ampleksas al %s"
+msgstr "%s cubierto por debian/copyright"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:333
-#, python-format
 msgid "Could not read %s"
-msgstr "Ne povis legi %s"
+msgstr "No se pudo leer %s"
 
 #: src/reuse/__init__.py:380
-#, python-brace-format
-msgid ""
-"{path} is licensed under {identifier}, but its license file could not be "
-"found"
-msgstr "{path} subas permesilon {identifier}, sed ties dosiero mankas"
+msgid "{path} is licensed under {identifier}, but its license file could not be found"
+msgstr "{path} con licencia {identifier}, pero no se encontró el archivo con la licencia"
 
 #. Translators: %s is a path.
 #: src/reuse/__init__.py:481
-#, python-format
 msgid "searching %s for license tags"
-msgstr "serĉante permesiletikedojn en %s"
+msgstr "buscando etiquetas de licencia en %s"
 
 #: src/reuse/__init__.py:490
-#, python-brace-format
 msgid "Could not resolve SPDX identifier of {path}, resolving to {identifier}"
-msgstr "Ne povis determini SPD-identigilo de {path}, do uziĝas {identifier}"
+msgstr "No se pudo resolver el identificador SPDX de {path}, resolviendo a {identifier}"
 
 #: src/reuse/__init__.py:497
-#, python-brace-format
 msgid "{identifier} is the SPDX identifier of both {path} and {other_path}"
-msgstr "{identifier} estas la SPDX-identigilo de kaj {path} kaj {other_path}"
+msgstr "{identifier} es el identificador SPDX tanto de {path} como de {other_path}"
 
 #: src/reuse/__init__.py:523
 msgid "no debian/copyright file, or could not read it"
-msgstr "neniu debian/copyright dosiero, aŭ ne povis legi ĝin"
+msgstr "no existe o no se pudo leer el archivo debian/copyright"
 
 #: src/reuse/__init__.py:525
 msgid "debian/copyright has syntax errors"
-msgstr "debian/copyright enhavas sintakserarojn"
+msgstr "debian/copyright tiene errores de sintaxis"
 
 #: src/reuse/_main.py:43
 msgid "reuse  Copyright (C) 2017-2018  Free Software Foundation Europe e.V."
-msgstr "reuse  Kopirajto (C) 2017-2018  Free Software Foundation Europe e.V."
+msgstr "Copyright (C) 2017-2018 de reuse Free Software Foundation Europe e.V."
 
 #: src/reuse/_main.py:46
-msgid ""
-"reuse is a tool for compliance with the REUSE Initiative recommendations.  "
-"See <https://reuse.software/> for more information."
-msgstr ""
-"reuse estas ilo por konformiĝo al la rekomendoj de Iniciato REUSE.\n"
-"Vidu <https://reuse.software/> por pli da informo."
+msgid "reuse is a tool for compliance with the REUSE Initiative recommendations.  See <https://reuse.software/> for more information."
+msgstr "reuse is una herramienta para cumplir con las recomendaciones de la iniciativa REUSE. Más información en <https://reuse.software/>."
 
 #. Translators: Find an (un)official translation of the GPL for this
 #. bit.
 #: src/reuse/_main.py:53
 msgid ""
-"reuse is free software: you can redistribute it and/or modify it under the "
-"terms of the GNU General Public License as published by the Free Software "
-"Foundation, either version 3 of the License, or (at your option) any later "
-"version.\n"
+"reuse is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n"
 "\n"
-"reuse is distributed in the hope that it will be useful, but WITHOUT ANY "
-"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-"details.\n"
+"reuse is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with "
-"reuse.  If not, see <http://www.gnu.org/licenses/>."
+"You should have received a copy of the GNU General Public License along with reuse.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
-"reuse estas libera programaro: vi povas ĝin pludistribui kaj/aŭ modifi je la "
-"kondiĉoj de la GNU Ĝenerala Pubika Permesilo, eldonita de la Free Software  "
-"Foundation, laŭ la versio 3 de la permesilo, aŭ (se vi preferas) ajna posta "
-"versio.\n"
+"reuse es software libre: puedes redistribuirlo y/o modificarlo bajo los términos de la Licencia Pública General GNU (GNU GPL) tal y como está publicada por la Free Software Foundation, tanto la versión 3 de la Licencia, o (a tu elección) cualquier versión posterior.\n"
 "\n"
-"Ni distribuas reuse esperante, ke ĝi estos utila, tamen SEN IA AJN GARANTIO, "
-"i.a. sen la implica garantio pri SURMERKATIGEBLO aŭ TAŬGECO POR IU KONKRETA "
-"CELO.  Pliajn detalojn vidu en la GNU Ĝenerala Publika Permesilo.\n"
+"reuse se distribuye con la esperanza de ser útil, pero SIN NINGUNA GARANTIA; ni siquiera la garantia implícita de COMERCIABILIDAD o ADECUACIÓN PARA UN PROPÓSITO PARTICULAR. Consulta la Licencia Pública General GNU para más detalles.\n"
 "\n"
-"Ekzemplaro de la GNU Ĝenerala Publika Permesilo devas esti liverita al vi "
-"kun reuse.  Se ne, vidu <http://www.gnu.org/licenses/>."
+"Deberías haber recibido una copia de la Licencia Pública General GNU con reuse. Si no es así, consulta <http://www.gnu.org/licenses/>."
 
 #: src/reuse/_main.py:66
 msgid "Support the FSFE's work:"
-msgstr "Subtenu la laboradon de FSFE:"
+msgstr "Apoya el trabajo de la FSFE:"
 
 #: src/reuse/_main.py:69
-msgid ""
-"Donations are critical to our strength and autonomy.  They enable us to "
-"continue working for Free Software wherever necessary.  Please consider "
-"making a donation at <https://fsfe.org/donate/>."
-msgstr ""
-"Donacoj estas gravegaj por niaj forto kaj aŭtonomeco.  Ili ebligas nin "
-"daŭrigi laboradon por libera programaro, kie ajn tio necesas.  Bonvolu "
-"pripensi fari donacon ĉe <https://fsfe.org/donate/>."
+msgid "Donations are critical to our strength and autonomy.  They enable us to continue working for Free Software wherever necessary.  Please consider making a donation at <https://fsfe.org/donate/>."
+msgstr "Las donaciones son esenciales para nuestra fortaleza y autonomía. Nos permiten continuar trabajando por el Software Libre allá donde sea necesario. Por favor, considera hacer una donación en <https://fsfe.org/donate/>."
 
 #: src/reuse/_main.py:81
 msgid "IMPORTANT:"
-msgstr "GRAVA:"
+msgstr "IMPORTANTE:"
 
 #: src/reuse/_main.py:84
-msgid ""
-"You do not have pygit2 installed.  reuse will slow down significantly "
-"because of this.  For better performance, please install your distribution's "
-"version of pygit2."
-msgstr ""
-"Vi ne jam instalis pygit2.  reuse malrapidiĝas ege pro ĉi tio.  Por akiri "
-"pli bonan rendimenton, bonvolu instali version de pygit2 de via distribuo."
+msgid "You do not have pygit2 installed.  reuse will slow down significantly because of this.  For better performance, please install your distribution's version of pygit2."
+msgstr "No tienes instalado pygit2 por lo que reuse funcionará significativamente más lento. Por favor, instala la versión de pygit2 de tu distribución para un mejor rendimiento."
 
 #. Translators: %s is a file name.
 #: src/reuse/_main.py:108
-#, python-format
 msgid "%s does not end with .spdx"
-msgstr "%s ne finiĝas per .spdx"
+msgstr "%s no acaba en .spdx"
 
 #: src/reuse/_main.py:127
-#, python-format
 msgid "%s is a directory"
-msgstr "%s estas dosierujo"
+msgstr "%s es un directorio"
 
 #. Translators: %s is a file.
 #: src/reuse/_main.py:131
-#, python-format
 msgid "could not read %s"
-msgstr "ne povis legi dosieron %s"
+msgstr "no se pudo leer %s"
 
 #: src/reuse/_main.py:144
 msgid "none\n"
-msgstr "neniu\n"
+msgstr "nada\n"
 
 #: src/reuse/_main.py:185
 msgid "enable debug statements"
-msgstr "ŝalti sencimigajn ordonojn"
+msgstr "habilita instrucciones de depuración"
 
 #: src/reuse/_main.py:188
 msgid "do not use debian/copyright to extract reuse information"
-msgstr "ne uzi debian/copyright por eltiri reuse-informon"
+msgstr "no use debian/copyright para extraer información de reuse"
 
 #: src/reuse/_main.py:191
 msgid "show program's version number and exit"
-msgstr "montri versionumeron de programo kaj eliri"
+msgstr "muestra la versión del programa y sal"
 
 #: src/reuse/_main.py:198
 msgid "print the project's bill of materials"
-msgstr "presi la pecoliston de la projekto"
+msgstr "imprime la lista de materiales del proyecto"
 
 #: src/reuse/_main.py:205
 msgid "list all non-compliant files"
-msgstr "listigi ĉiujn nekonformajn dosierojn"
+msgstr "lista todos los ficheros no compatibles"
 
 #: src/reuse/_main.py:207
 msgid ""
@@ -232,194 +187,168 @@ msgid ""
 "\n"
 "- Its license could not be found.\n"
 "\n"
-"This prints only the paths of the files that do not comply, each file on a "
-"separate line.\n"
+"This prints only the paths of the files that do not comply, each file on a separate line.\n"
 "\n"
 "Error and warning messages are output to STDERR."
 msgstr ""
-"Listigi ĉiujn nekonformajn dosierojn.\n"
+"Lista todos los ficheros no compatibles.\n"
 "\n"
-"Dosiero nekonformas kiam:\n"
+"Un fichero es no compatible si:\n"
 "\n"
-"- Ĝi havas neniun kopirajtinformon.\n"
+"- no tiene información de copyright.\n"
 "\n"
-"- Ĝi havas neniun permesilon (deklaritan kiel SPDX-esprimo).\n"
+"- no tiene licencia (declarada como una expresión SPDX).\n"
 "\n"
-"- Ĝia permesilo ne troveblas.\n"
+"- su licencia no se encuentra.\n"
 "\n"
-"Ĉi tiu komando presas nur la dosierindikojn, kiuj ne konformas.  Ĉiu dosiero "
-"estas presata sur propra linio.\n"
+"Esto imprime únicamente las rutas de los ficheros no compatibles, cada fichero en una línea separada.\n"
 "\n"
-"Eraraj kaj avertaj mesaĝoj estas presotaj al STDERR."
+"Los mensajes de error y aviso se muestran en STDERR."
 
 #: src/reuse/_main.py:225
 msgid "SPDX expressions are mandatory for compliance"
-msgstr "SPDX-esprimoj nepras por konformiĝo"
+msgstr "Las expresiones SPDX son de obligatorio cumplimiento"
 
 #: src/reuse/_main.py:228
 msgid "copyright notices are mandatory for compliance"
-msgstr "kopirajtafiŝoj nepras por konformiĝo"
+msgstr "las notas de copyright son de obligatorio cumplimiento"
 
 #: src/reuse/_main.py:231
 msgid "ignore missing licenses"
-msgstr "ignori mankantajn permesilojn"
+msgstr "ignora las licencias inexistentes"
 
 #: src/reuse/_main.py:236
 msgid "print the SPDX expressions of each provided file"
-msgstr "presi la SPDX-esprimon de ĉiu donita dosiero"
+msgstr "imprime las expresiones SPDX de cada fichero proporcionado"
 
 #: src/reuse/_main.py:256
 msgid "reuse, version {}\n"
-msgstr "reuse, versio {}\n"
+msgstr "reuse, versión {}\n"
 
 #: /usr/lib64/python3.6/argparse.py:295
 msgid "usage: "
-msgstr "uzo: "
+msgstr "uso: "
 
 #: /usr/lib64/python3.6/argparse.py:826
 msgid ".__call__() not defined"
-msgstr ".__call__() ne difiniĝas"
+msgstr ".__call__() no está definido"
 
 #: /usr/lib64/python3.6/argparse.py:1123
-#, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
-msgstr "nekonata analizilo %(parser_name)r (elektoj: %(choices)s)"
+msgstr "analizador gramatical desconocido %(parser_name)r (alternativas: %(choices)s)"
 
 #: /usr/lib64/python3.6/argparse.py:1177
-#, python-format
 msgid "argument \"-\" with mode %r"
-msgstr "argumento \"-\" kun moduso %r"
+msgstr "argumento \"-\" con modo %r"
 
 #: /usr/lib64/python3.6/argparse.py:1185
-#, python-format
 msgid "can't open '%s': %s"
-msgstr "ne povas malfermi '%s': %s"
+msgstr "no se puede abrir '%s': %s"
 
 #: /usr/lib64/python3.6/argparse.py:1389
-#, python-format
 msgid "cannot merge actions - two groups are named %r"
-msgstr "ne povas kunigi agojn - du grupoj nomiĝas %r"
+msgstr "no se pueden fusionar las acciones - dos grupos se llaman %r"
 
 #: /usr/lib64/python3.6/argparse.py:1427
 msgid "'required' is an invalid argument for positionals"
-msgstr "'required' estas nevalida argumento por poziciaj"
+msgstr "'required' es un argumento inválido para posicionales"
 
 #: /usr/lib64/python3.6/argparse.py:1449
-#, python-format
-msgid ""
-"invalid option string %(option)r: must start with a character "
-"%(prefix_chars)r"
-msgstr ""
-"nevalida elektebla ĉeno %(option)r: devas komenciĝi per signo "
-"%(prefix_chars)r"
+msgid "invalid option string %(option)r: must start with a character %(prefix_chars)r"
+msgstr "cadena de opción inválida %(option)r: debe comenzar con un carácter %(prefix_chars)r"
 
 #: /usr/lib64/python3.6/argparse.py:1469
-#, python-format
 msgid "dest= is required for options like %r"
-msgstr "dest= nepras por elektebloj kiel %r"
+msgstr "se requiere dest= para opciones como %r"
 
 #: /usr/lib64/python3.6/argparse.py:1486
-#, python-format
 msgid "invalid conflict_resolution value: %r"
-msgstr "nevalida valoro de conflict_resolution: %r"
+msgstr "valor inválido de conflict_resolution: %r"
 
 #: /usr/lib64/python3.6/argparse.py:1504
-#, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
-msgstr[0] "konfliktanta elektebla ĉeno: %s"
-msgstr[1] "konfliktantaj elekteblaj ĉenoj: %s"
+msgstr[0] "cadena de opción conflictiva: %s"
+msgstr[1] "cadenas de opción conflictivas: %s"
 
 #: /usr/lib64/python3.6/argparse.py:1570
 msgid "mutually exclusive arguments must be optional"
-msgstr "reciproke ekskluzivaj argumentoj devas esti malnepraj"
+msgstr "los argumentos mútuamente excluyentes deben ser opcionales"
 
 #: /usr/lib64/python3.6/argparse.py:1633
 msgid "positional arguments"
-msgstr "poziciaj argumentoj"
+msgstr "argumentos posicionales"
 
 #: /usr/lib64/python3.6/argparse.py:1634
 msgid "optional arguments"
-msgstr "malnepraj argumentoj"
+msgstr "argumentos opcionales"
 
 #: /usr/lib64/python3.6/argparse.py:1649
 msgid "show this help message and exit"
-msgstr "montri ĉi tiun helpmesaĝon kaj eliri"
+msgstr "muestra este mensaje de ayuda y sal"
 
 #: /usr/lib64/python3.6/argparse.py:1680
 msgid "cannot have multiple subparser arguments"
-msgstr "ne povas havi plurajn subanalizilajn argumentojn"
+msgstr "no puede tener múltiples argumentos del subanalizador"
 
 #: /usr/lib64/python3.6/argparse.py:1732
-#, python-format
 msgid "unrecognized arguments: %s"
-msgstr "nekonataj argumentoj: %s"
+msgstr "argumentos irreconocibles: %s"
 
 #: /usr/lib64/python3.6/argparse.py:1829
-#, python-format
 msgid "not allowed with argument %s"
-msgstr "ne permesita kun argumento: %s"
+msgstr "no permitido con el argumento %s"
 
 #: /usr/lib64/python3.6/argparse.py:1875 /usr/lib64/python3.6/argparse.py:1889
-#, python-format
 msgid "ignored explicit argument %r"
-msgstr "ignoris malimplicitan argumenton %r"
+msgstr "se ignora el argumento explicito %r"
 
 #: /usr/lib64/python3.6/argparse.py:1996
-#, python-format
 msgid "the following arguments are required: %s"
-msgstr "la sekvaj argumentoj nepras: %s"
+msgstr "se requiren los siguientes argumentos: %s"
 
 #: /usr/lib64/python3.6/argparse.py:2011
-#, python-format
 msgid "one of the arguments %s is required"
-msgstr "unu el la argumentoj %s nepras"
+msgstr "se requiere uno de los argumentos %s"
 
 #: /usr/lib64/python3.6/argparse.py:2054
 msgid "expected one argument"
-msgstr "atendis unu argumenton"
+msgstr "se espera un argumento"
 
 #: /usr/lib64/python3.6/argparse.py:2055
 msgid "expected at most one argument"
-msgstr "atendis maksimume unu argumenton"
+msgstr "se espera un argumento como máximo"
 
 #: /usr/lib64/python3.6/argparse.py:2056
 msgid "expected at least one argument"
-msgstr "atendis minimume unu argumenton"
+msgstr "se espera un argumento como mínimo"
 
 #: /usr/lib64/python3.6/argparse.py:2058
-#, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
-msgstr[0] "atendis %s argumenton"
-msgstr[1] "atendis %s argumentojn"
+msgstr[0] "argumento %s esperado"
+msgstr[1] "argumentos %s esperados"
 
 #: /usr/lib64/python3.6/argparse.py:2118
-#, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
-msgstr "dubsenca elekteblo: %(option)s povus egali al %(matches)s"
+msgstr "opción ambigua: %(option)s puede coincidir con %(matches)s"
 
 #: /usr/lib64/python3.6/argparse.py:2181
-#, python-format
 msgid "unexpected option string: %s"
-msgstr "neatendita elektebla ĉeno: %s"
+msgstr "cadena de opción inesperada: %s"
 
 #: /usr/lib64/python3.6/argparse.py:2285
-#, python-format
 msgid "%r is not callable"
-msgstr "%r ne alvokeblas"
+msgstr "%r no se puede invocar"
 
 #: /usr/lib64/python3.6/argparse.py:2302
-#, python-format
 msgid "invalid %(type)s value: %(value)r"
-msgstr "nevalida %(type)s-valoro: %(value)r"
+msgstr "valor inválido %(type)s: %(value)r"
 
 #: /usr/lib64/python3.6/argparse.py:2313
-#, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
-msgstr "nevalida elekto: %(value)r (elektu el %(choices)s)"
+msgstr "elección inválida: %(value)r (elige entre %(choices)s)"
 
 #: /usr/lib64/python3.6/argparse.py:2389
-#, python-format
 msgid "%(prog)s: error: %(message)s\n"
-msgstr "%(prog)s: eraro: %(message)s\n"
+msgstr "%(prog)s: error: %(message)s\n"

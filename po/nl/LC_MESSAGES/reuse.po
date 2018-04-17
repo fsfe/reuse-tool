@@ -1,73 +1,86 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# Carmen Bianca Bakker <carmen@carmenbianca.eu>, 2018.
+# Copyright (C) 2018  Carmen Bianca Bakker
+# Copyright (C) 2017  André Ockers
 #
+# This file is part of reuse, available from its original location:
+# <https://git.fsfe.org/reuse/reuse/>.
+#
+# reuse is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# reuse is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# reuse.  If not, see <http://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 19:00+0100\n"
-"PO-Revision-Date: 2018-02-07 19:01+0100\n"
+"POT-Creation-Date: 2018-02-19 14:56+0100\n"
+"PO-Revision-Date: 2018-03-07 16:25+0100\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 2.91.7\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.0.6\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/reuse/__init__.py:211
+#: src/reuse/__init__.py:214
 msgid "could not find Git"
 msgstr "kon Git niet vinden"
 
 #. Translators: %s is a directory path.  This is inside a loop that
 #. yields all files that will be checked for REUSE information
 #. (i.e., some files are ignored, and thus not yielded).
-#: src/reuse/__init__.py:235 src/reuse/__init__.py:256
+#: src/reuse/__init__.py:238 src/reuse/__init__.py:259
 #, python-format
 msgid "yielding %s"
 msgstr "%s aan het verwerken"
 
 #. Translators: %s is a directory path.
-#: src/reuse/__init__.py:241
+#: src/reuse/__init__.py:244
 #, python-format
 msgid "currently walking in %s"
 msgstr "aan het lopen door %s"
 
 #. Translators: %s is a path.
-#: src/reuse/__init__.py:247 src/reuse/__init__.py:253
+#: src/reuse/__init__.py:250 src/reuse/__init__.py:256
 #, python-format
 msgid "ignoring %s"
 msgstr "%s negeren"
 
 #. Translators: %s is a path.
-#: src/reuse/__init__.py:271
+#: src/reuse/__init__.py:274
 #, python-format
 msgid "searching %s for reuse information"
 msgstr "%s aan het doorzoeken voor reuse informatie"
 
 #. Translators: %s is a path.
-#: src/reuse/__init__.py:286
+#: src/reuse/__init__.py:289
 #, python-format
 msgid "%s could not be decoded"
 msgstr "%s kon niet gedecodeerd worden"
 
 #. Translators: %s is a path.
-#: src/reuse/__init__.py:295
+#: src/reuse/__init__.py:298
 #, python-format
 msgid "%s covered by debian/copyright"
 msgstr "debian/copyright omvat %s"
 
 #. Translators: %s is a path.
-#: src/reuse/__init__.py:330
+#: src/reuse/__init__.py:333
 #, python-format
 msgid "Could not read %s"
 msgstr "Kon %s niet lezen"
 
-#: src/reuse/__init__.py:377
+#: src/reuse/__init__.py:380
 #, python-brace-format
 msgid ""
 "{path} is licensed under {identifier}, but its license file could not be "
@@ -77,26 +90,26 @@ msgstr ""
 "worden"
 
 #. Translators: %s is a path.
-#: src/reuse/__init__.py:478
+#: src/reuse/__init__.py:481
 #, python-format
 msgid "searching %s for license tags"
 msgstr "%s aan het doorzoeken voor licentie-tags"
 
-#: src/reuse/__init__.py:487
+#: src/reuse/__init__.py:490
 #, python-brace-format
 msgid "Could not resolve SPDX identifier of {path}, resolving to {identifier}"
 msgstr "Kon SPDX-identifier van {path} niet oplossen, gebruik {identifier}"
 
-#: src/reuse/__init__.py:494
+#: src/reuse/__init__.py:497
 #, python-brace-format
 msgid "{identifier} is the SPDX identifier of both {path} and {other_path}"
 msgstr "{identifier} is de SPDX-identifier van beide {path} en {other_path}"
 
-#: src/reuse/__init__.py:520
+#: src/reuse/__init__.py:523
 msgid "no debian/copyright file, or could not read it"
 msgstr "geen debian/copyright bestand, of kon het niet lezen"
 
-#: src/reuse/__init__.py:522
+#: src/reuse/__init__.py:525
 msgid "debian/copyright has syntax errors"
 msgstr "debian/copyright heeft syntax-fouten"
 
@@ -130,17 +143,17 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "reuse.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
-"reuse is vrije software: je mag het herdistribueren en/of wijzigen onder de "
+"reuse is vrije software: u mag het herdistribueren en/of wijzigen onder de "
 "voorwaarden van de GNU Algemene Publieke Licentie zoals gepubliceerd door de "
-"Free Software Foundation, onder versie 3 van de Licentie of (naar jouw "
-"keuze) elke latere versie.\n"
+"Free Software Foundation, onder versie 3 van de Licentie of (naar uw keuze) "
+"elke latere versie.\n"
 "\n"
 "reuse is gedistribueerd in de hoop dat het nuttig zal zijn maar ZONDER ENIGE "
 "GARANTIE; zelfs zonder de impliciete garanties die GEBRUIKELIJK ZIJN IN DE "
 "HANDEL of voor BRUIKBAARHEID VOOR EEN SPECIFIEK DOEL.  Zie de GNU Algemene "
 "Publieke Licentie voor meer details.\n"
 "\n"
-"Je hoort een kopie van de GNU Algemene Publieke Licentie te hebben ontvangen "
+"U hoort een kopie van de GNU Algemene Publieke Licentie te hebben ontvangen "
 "samen met reuse.  Als dat niet het geval is, zie <http://www.gnu.org/"
 "licenses/>."
 
@@ -168,52 +181,52 @@ msgid ""
 "because of this.  For better performance, please install your distribution's "
 "version of pygit2."
 msgstr ""
-"U heeft pygit2 niet geïnstalleerd.  reuse zal hierdoor significant slomer "
+"U heeft pygit2 niet geïnstalleerd.  reuse zal hierdoor significant langzamer "
 "draaien.  Voor betere prestatie, installeer alstublieft uw distributie's "
 "versie van pygit2."
 
 #. Translators: %s is a file name.
-#: src/reuse/_main.py:109
+#: src/reuse/_main.py:108
 #, python-format
 msgid "%s does not end with .spdx"
 msgstr "%s eindigt niet met .spdx"
 
-#: src/reuse/_main.py:126
+#: src/reuse/_main.py:127
 #, python-format
 msgid "%s is a directory"
-msgstr "%s is een map"
+msgstr "%s is een folder"
 
 #. Translators: %s is a file.
-#: src/reuse/_main.py:130
+#: src/reuse/_main.py:131
 #, python-format
 msgid "could not read %s"
 msgstr "kon %s niet lezen"
 
-#: src/reuse/_main.py:141
-msgid "none"
-msgstr "geen"
+#: src/reuse/_main.py:144
+msgid "none\n"
+msgstr "geen\n"
 
-#: src/reuse/_main.py:179
+#: src/reuse/_main.py:185
 msgid "enable debug statements"
 msgstr "zet debug statements aan"
 
-#: src/reuse/_main.py:182
+#: src/reuse/_main.py:188
 msgid "do not use debian/copyright to extract reuse information"
 msgstr "debian/copyright niet gebruiken om reuse informatie te extraheren"
 
-#: src/reuse/_main.py:185
+#: src/reuse/_main.py:191
 msgid "show program's version number and exit"
 msgstr "programma's versienummer laten zien en verlaten"
 
-#: src/reuse/_main.py:192
+#: src/reuse/_main.py:198
 msgid "print the project's bill of materials"
 msgstr "de stuklijst van het project printen"
 
-#: src/reuse/_main.py:199
+#: src/reuse/_main.py:205
 msgid "list all non-compliant files"
 msgstr "lijst maken van niet-voldoenende bestanden"
 
-#: src/reuse/_main.py:201
+#: src/reuse/_main.py:207
 msgid ""
 "List all non-compliant files.\n"
 "\n"
@@ -245,59 +258,59 @@ msgstr ""
 "\n"
 "Fout- en waarschuwingsmeldingen worden geprint naar STDERR."
 
-#: src/reuse/_main.py:219
+#: src/reuse/_main.py:225
 msgid "SPDX expressions are mandatory for compliance"
 msgstr "SPDX-uitdrukkingen zijn verplicht voor voldoening"
 
-#: src/reuse/_main.py:222
+#: src/reuse/_main.py:228
 msgid "copyright notices are mandatory for compliance"
 msgstr "auteursrechtnotities zijn verplicht voor voldoening"
 
-#: src/reuse/_main.py:225
+#: src/reuse/_main.py:231
 msgid "ignore missing licenses"
 msgstr "missende licenties negeren"
 
-#: src/reuse/_main.py:230
+#: src/reuse/_main.py:236
 msgid "print the SPDX expressions of each provided file"
 msgstr "de SPDX-uitdrukkingen van elke gegeven file printen"
 
-#: src/reuse/_main.py:250
-msgid "reuse, version {}"
-msgstr "reuse, versie {}"
+#: src/reuse/_main.py:256
+msgid "reuse, version {}\n"
+msgstr "reuse, versie {}\n"
 
-#: /usr/lib/python3.6/argparse.py:304
+#: /usr/lib64/python3.6/argparse.py:295
 msgid "usage: "
 msgstr "gebruik: "
 
-#: /usr/lib/python3.6/argparse.py:835
+#: /usr/lib64/python3.6/argparse.py:826
 msgid ".__call__() not defined"
 msgstr ".__call__() is niet gedefinieerd"
 
-#: /usr/lib/python3.6/argparse.py:1132
+#: /usr/lib64/python3.6/argparse.py:1123
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr "onbekende parser %(parser_name)r (keuzes: %(choices)s)"
 
-#: /usr/lib/python3.6/argparse.py:1186
+#: /usr/lib64/python3.6/argparse.py:1177
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr "argument \"-\" met mode %r"
 
-#: /usr/lib/python3.6/argparse.py:1194
+#: /usr/lib64/python3.6/argparse.py:1185
 #, python-format
 msgid "can't open '%s': %s"
 msgstr "kan '%s' niet openen: %s"
 
-#: /usr/lib/python3.6/argparse.py:1398
+#: /usr/lib64/python3.6/argparse.py:1389
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr "kan acties niet samenvoegen - twee groepen delen de naam %r"
 
-#: /usr/lib/python3.6/argparse.py:1436
+#: /usr/lib64/python3.6/argparse.py:1427
 msgid "'required' is an invalid argument for positionals"
 msgstr "'required' is een ongeldig argument voor positionele argumenten"
 
-#: /usr/lib/python3.6/argparse.py:1458
+#: /usr/lib64/python3.6/argparse.py:1449
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
@@ -306,114 +319,114 @@ msgstr ""
 "ongeldige optiestring %(option)r: moet beginnen met een karakter "
 "%(prefix_chars)r"
 
-#: /usr/lib/python3.6/argparse.py:1478
+#: /usr/lib64/python3.6/argparse.py:1469
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr "dest= is benodigd voor opties zoals %r"
 
-#: /usr/lib/python3.6/argparse.py:1495
+#: /usr/lib64/python3.6/argparse.py:1486
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr "ongeldige conflictresolutiewaarde: %r"
 
-#: /usr/lib/python3.6/argparse.py:1513
+#: /usr/lib64/python3.6/argparse.py:1504
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] "tegenstrijdige optiestring: %s"
 msgstr[1] "tegenstrijdige optiestrings: %s"
 
-#: /usr/lib/python3.6/argparse.py:1579
+#: /usr/lib64/python3.6/argparse.py:1570
 msgid "mutually exclusive arguments must be optional"
-msgstr "Argumenten die elkaar uitsluiten moeten optioneel zijn"
+msgstr "argumenten die elkaar uitsluiten moeten optioneel zijn"
 
-#: /usr/lib/python3.6/argparse.py:1642
+#: /usr/lib64/python3.6/argparse.py:1633
 msgid "positional arguments"
 msgstr "positionele argumenten"
 
-#: /usr/lib/python3.6/argparse.py:1643
+#: /usr/lib64/python3.6/argparse.py:1634
 msgid "optional arguments"
 msgstr "optionele argumenten"
 
-#: /usr/lib/python3.6/argparse.py:1658
+#: /usr/lib64/python3.6/argparse.py:1649
 msgid "show this help message and exit"
 msgstr "dit helpbericht laten zien en verlaten"
 
-#: /usr/lib/python3.6/argparse.py:1689
+#: /usr/lib64/python3.6/argparse.py:1680
 msgid "cannot have multiple subparser arguments"
 msgstr "kan niet meerdere subparser-argumenten hebben"
 
-#: /usr/lib/python3.6/argparse.py:1741
+#: /usr/lib64/python3.6/argparse.py:1732
 #, python-format
 msgid "unrecognized arguments: %s"
 msgstr "niet erkende argumenten: %s"
 
-#: /usr/lib/python3.6/argparse.py:1838
+#: /usr/lib64/python3.6/argparse.py:1829
 #, python-format
 msgid "not allowed with argument %s"
 msgstr "niet toegestaan met argument %s"
 
-#: /usr/lib/python3.6/argparse.py:1884 /usr/lib/python3.6/argparse.py:1898
+#: /usr/lib64/python3.6/argparse.py:1875 /usr/lib64/python3.6/argparse.py:1889
 #, python-format
 msgid "ignored explicit argument %r"
 msgstr "expliciet argument %r genegeerd"
 
-#: /usr/lib/python3.6/argparse.py:2005
+#: /usr/lib64/python3.6/argparse.py:1996
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr "de volgende argumenten zijn verplicht: %s"
 
-#: /usr/lib/python3.6/argparse.py:2020
+#: /usr/lib64/python3.6/argparse.py:2011
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr "één van de argumenten %s is benodigd"
 
-#: /usr/lib/python3.6/argparse.py:2063
+#: /usr/lib64/python3.6/argparse.py:2054
 msgid "expected one argument"
 msgstr "verwachtte één argument"
 
-#: /usr/lib/python3.6/argparse.py:2064
+#: /usr/lib64/python3.6/argparse.py:2055
 msgid "expected at most one argument"
 msgstr "verwachtte maximaal één argument"
 
-#: /usr/lib/python3.6/argparse.py:2065
+#: /usr/lib64/python3.6/argparse.py:2056
 msgid "expected at least one argument"
 msgstr "verwachtte minimaal één argument"
 
-#: /usr/lib/python3.6/argparse.py:2067
+#: /usr/lib64/python3.6/argparse.py:2058
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] "verwachtte %s argument"
 msgstr[1] "verwachtte %s argumenten"
 
-#: /usr/lib/python3.6/argparse.py:2127
+#: /usr/lib64/python3.6/argparse.py:2118
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr ""
 "dubbelzinnige optie: %(option)s zou ook gelijk kunnen zijn aan %(matches)s"
 
-#: /usr/lib/python3.6/argparse.py:2190
+#: /usr/lib64/python3.6/argparse.py:2181
 #, python-format
 msgid "unexpected option string: %s"
 msgstr "onverwachtte optiestring: %s"
 
-#: /usr/lib/python3.6/argparse.py:2294
+#: /usr/lib64/python3.6/argparse.py:2285
 #, python-format
 msgid "%r is not callable"
 msgstr "%r is niet callable"
 
-#: /usr/lib/python3.6/argparse.py:2311
+#: /usr/lib64/python3.6/argparse.py:2302
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr "ongeldige %(type)s waarde: %(value)r"
 
-#: /usr/lib/python3.6/argparse.py:2322
+#: /usr/lib64/python3.6/argparse.py:2313
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr "ongeldige keuze: %(value)r (kiezen uit %(choices)s)"
 
-#: /usr/lib/python3.6/argparse.py:2398
+#: /usr/lib64/python3.6/argparse.py:2389
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: fout: %(message)s\n"
