@@ -540,7 +540,9 @@ class Project:  # pylint: disable=unused-variable
                 self._copyright_val = None
         return self._copyright_val
 
-    def _contains_invalid_identifier(self, expression: str) -> Union[bool, str]:
+    def _contains_invalid_identifier(
+            self,
+            expression: str) -> Union[bool, str]:
         """Is the expression an invalid SPDX expression?  i.e., does any
         identifier refer to a file that does not exist in Project.licenses?
 
