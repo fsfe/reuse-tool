@@ -35,8 +35,8 @@ import re
 import sys
 from gettext import gettext as _
 from pathlib import Path
-from typing import (BinaryIO, Dict, Iterable, Iterator, List, NamedTuple,
-                    Optional, Set, Union)
+from typing import (BinaryIO, Dict, Iterator, List, NamedTuple, Optional, Set,
+                    Union)
 from uuid import uuid4
 
 import pkg_resources
