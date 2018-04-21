@@ -553,7 +553,9 @@ class Project:  # pylint: disable=unused-variable
         identifiers = _identifiers_from_expression(expression)
 
         for identifier in identifiers:
-            if _strip_gpl_extension(identifier) not in self.licenses:
+            if (
+                    identifier not in self.licenses
+                    and _strip_gpl_extension(identifier) not in self.licenses):
                 return identifier
         return False
 
