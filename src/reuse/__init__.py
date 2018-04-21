@@ -35,8 +35,8 @@ import re
 import sys
 from gettext import gettext as _
 from pathlib import Path
-from typing import (BinaryIO, Dict, Iterable, Iterator, List, NamedTuple,
-                    Optional, Set, Union)
+from typing import (BinaryIO, Dict, Iterator, List, NamedTuple, Optional, Set,
+                    Union)
 from uuid import uuid4
 
 import pkg_resources
@@ -166,6 +166,15 @@ def _identifiers_from_expression(expression: str) -> List[str]:
             r'\s{}\s'.format(word), ' ', expression, flags=re.IGNORECASE)
 
     return expression.split()
+
+
+def _strip_gpl_extension(identifier: str) -> List[str]:
+    """Strip '+', '-only' and '-or-later' from *identifier*."""
+    to_remove = ['+', '-only', '-or-later']
+    for string in to_remove:
+        if identifier.endswith(string):
+            identifier = identifier.replace(string, '')
+    return identifier
 
 
 def _determine_license_path(path: PathLike) -> Path:
@@ -373,15 +382,16 @@ class Project:  # pylint: disable=unused-variable
             return 1
 
         if not ignore_missing:
-            wrong_identifier = self._contains_invalid_identifiers(
-                reuse_info.spdx_expressions)
-            if wrong_identifier:
-                _logger.warning(_(
-                    '{path} is licensed under {identifier}, but its '
-                    'license file could not be found').format(
-                        path=path, identifier=wrong_identifier))
+            for expression in reuse_info.spdx_expressions:
+                wrong_identifier = self._contains_invalid_identifier(
+                    expression)
+                if wrong_identifier:
+                    _logger.warning(_(
+                        '{path} is licensed under {identifier}, but its '
+                        'license file could not be found').format(
+                            path=path, identifier=wrong_identifier))
 
-                return 1
+                    return 1
 
         return 0
 
@@ -530,28 +540,23 @@ class Project:  # pylint: disable=unused-variable
                 self._copyright_val = None
         return self._copyright_val
 
-    def _contains_invalid_identifiers(
+    def _contains_invalid_identifier(
             self,
-            expressions: Iterable[str]) -> Union[bool, str]:
-        """Does the list of expressions contain any invalid SPDX identifiers?
-        i.e., does any identifier refer to a file that does not exist in
-        Project.licenses?
+            expression: str) -> Union[bool, str]:
+        """Is the expression an invalid SPDX expression?  i.e., does any
+        identifier refer to a file that does not exist in Project.licenses?
 
         Return the faulty identifier.
 
-        If the list contains no SPDX identifiers at all, return False.
+        If all identifiers are valid, return False.
         """
-        for expression in expressions:
-            identifiers = _identifiers_from_expression(expression)
+        identifiers = _identifiers_from_expression(expression)
 
-            for identifier in identifiers:
-                to_remove = ['+', '-only', '-or-later']
-                for string in to_remove:
-                    if identifier.endswith(string):
-                        identifier = identifier.replace(string, '')
-
-                if identifier not in self.licenses:
-                    return identifier
+        for identifier in identifiers:
+            if (
+                    identifier not in self.licenses
+                    and _strip_gpl_extension(identifier) not in self.licenses):
+                return identifier
         return False
 
     def _identifiers_of_license(self, path: PathLike) -> List[str]:
