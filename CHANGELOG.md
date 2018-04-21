@@ -17,6 +17,17 @@ Every release contains the following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased
+
+### Fixed
+
+- When a GPL license could not be found, the correct `-only` or `-or-later`
+  extension is now used in the warning message, rather than a bare `GPL-3.0`.
+
+- If you have a license listed as `SPDX-Valid-License: GPL-3.0-or-later`, this
+  now correctly matches corresponding SPDX identifiers.  Still it is recommended
+  to use `SPDX-Valid-License: GPL-3.0` instead.
+
 ## 0.2.0 - 2018-04-17
 
 ### Added
