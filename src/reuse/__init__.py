@@ -666,7 +666,7 @@ class Project:  # pylint: disable=unused-variable
             out.write('LicenseInfoInFile: {}\n'.format(spdx))
 
         if reuse_info.copyright_lines:
-            for line in reuse_info.copyright_lines:
+            for line in sorted(reuse_info.copyright_lines):
                 out.write('FileCopyrightText: <text>{}</text>\n'.format(line))
         else:
             out.write('FileCopyrightText: NONE\n')
