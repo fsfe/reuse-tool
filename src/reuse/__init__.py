@@ -662,7 +662,7 @@ class Project:  # pylint: disable=unused-variable
 
         reuse_info = self.reuse_info_of(path, ignore_debian=ignore_debian)
 
-        for spdx in reuse_info.spdx_expressions:
+        for spdx in sorted(reuse_info.spdx_expressions):
             out.write('LicenseInfoInFile: {}\n'.format(spdx))
 
         if reuse_info.copyright_lines:
