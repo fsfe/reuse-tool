@@ -431,6 +431,7 @@ class Project:  # pylint: disable=unused-variable
             'REUSE Initiative.</text>\n')
 
         all_files = list(self.all_files())
+        all_files.sort()
 
         # List all DESCRIBES relationships.  This involves some code
         # duplication in determining the relative path to the file and its
