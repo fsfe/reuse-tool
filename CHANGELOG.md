@@ -19,6 +19,11 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased
 
+### Changed
+
+- The output of `reuse compile` is now deterministic.  The files, copyright
+  lines and SPDX expressions are sorted alphabetically.
+
 ### Fixed
 
 - When a GPL license could not be found, the correct `-only` or `-or-later`
