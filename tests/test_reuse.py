@@ -461,7 +461,7 @@ def test_find_root_in_git_repo(git_repository):
     os.chdir('src')
     result = _util.find_root()
 
-    assert Path(result).absolute().resolve() == Path(os.getcwd()).parent
+    assert Path(result).absolute().resolve() == git_repository
 
 
 def test_encoding():
