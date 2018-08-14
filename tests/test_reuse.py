@@ -232,8 +232,8 @@ def test_all_licensed(fake_repository):
     assert not list(project.lint())
 
 
-def test_all_licensed_from_different_pwd(fake_repository):
-    """Same as the other test, but try a different PWD."""
+def test_all_licensed_from_different_cwd(fake_repository):
+    """Same as the other test, but try a different CWD."""
     os.chdir('/')
     project = reuse.Project(fake_repository)
 
@@ -399,8 +399,8 @@ def test_licenses_priority(empty_directory):
     assert list(project.licenses.keys()) == ['GPL-3.0']
 
 
-def test_licenses_from_different_pwd(empty_directory):
-    """If the PWD is different, still provide correct licenses."""
+def test_licenses_from_different_cwd(empty_directory):
+    """If the CWD is different, still provide correct licenses."""
     os.chdir('/')
     (empty_directory / 'COPYING').write_text('Valid-License-Identifier: MIT')
 
@@ -451,6 +451,17 @@ def test_unlicensed_but_ignored_by_git(git_repository):
     project = reuse.Project(git_repository)
 
     assert not list(project.lint())
+
+
+@git
+def test_find_root_in_git_repo(git_repository):
+    """When using reuse from a child directory in a Git repo, always find the
+    root directory.
+    """
+    os.chdir('src')
+    result = _util.find_root()
+
+    assert Path(result).absolute().resolve() == Path(os.getcwd()).parent
 
 
 def test_encoding():

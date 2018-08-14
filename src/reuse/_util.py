@@ -35,7 +35,7 @@ GIT_EXE = shutil.which('git')
 
 
 try:
-    from pygit2 import Repository, GitError
+    from pygit2 import GitError, discover_repository
     GIT_METHOD = 'pygit2'
 except ImportError:  # pragma: no cover
     if GIT_EXE:
@@ -90,8 +90,8 @@ def find_root() -> Optional[Path]:
     cwd = Path.cwd()
     if in_git_repo(cwd):
         if GIT_METHOD == 'pygit2':
-            repo = Repository(str(cwd))
-            return Path(repo.path).parent
+            repo = discover_repository(str(cwd))
+            return Path(repo).parent
         elif GIT_METHOD == 'git':
             command = [GIT_EXE, 'rev-parse', '--show-toplevel']
             result = execute_command(command, _logger, cwd=str(cwd))
@@ -112,9 +112,9 @@ def in_git_repo(cwd: PathLike = None) -> bool:
 
     if GIT_METHOD == 'pygit2':
         try:
-            Repository(str(cwd))
+            discover_repository(str(cwd))
             return True
-        except GitError:
+        except KeyError:
             return False
     elif GIT_METHOD == 'git':
         command = [GIT_EXE, 'status']

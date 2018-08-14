@@ -17,6 +17,12 @@ Every release contains the following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased
+
+### Fixed
+
+- When using reuse from a child directory using pygit2, correctly find the root.
+
 ## 0.3.0 - 2018-05-16
 
 ### Changed
