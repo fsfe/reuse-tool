@@ -83,11 +83,11 @@ compile-mo:  ## compile .mo files
 	find ./po -name "*.po" | while read f; do msgfmt $$f -o $${f%.po}.mo; done
 
 .PHONY: test-release
-test-release: dist  ## package and upload to testpypi
+test-release: install dist  ## package and upload to testpypi
 	twine upload --sign -r testpypi dist/*
 
 .PHONY: release
-release: dist  ## package and upload a release
+release: install dist  ## package and upload a release
 	twine upload --sign -r pypi dist/*
 
 .PHONY: install-requirements
