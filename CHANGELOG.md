@@ -17,6 +17,12 @@ Every release contains the following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## 0.3.2 - 2018-07-15
+
+### Fixed
+
+- The documentation now builds under Python 3.7.
+
 ## 0.3.1 - 2018-07-14
 
 ### Fixed
