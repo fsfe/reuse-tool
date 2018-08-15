@@ -600,7 +600,7 @@ class Project:  # pylint: disable=unused-variable
 
         if GIT_METHOD == 'pygit2':
             return self._git_repo.path_is_ignored(str(path))
-        elif GIT_METHOD == 'git':
+        if GIT_METHOD == 'git':
             command = [GIT_EXE, 'check-ignore', str(path)]
 
             result = execute_command(command, _logger, cwd=str(self.root))
