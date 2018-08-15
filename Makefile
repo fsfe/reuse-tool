@@ -34,7 +34,7 @@ clean-test: ## remove test and coverage artifacts
 .PHONY: clean-docs
 clean-docs: ## remove docs build artifacts
 	-$(MAKE) -C docs clean
-	rm -f docs/en_pyssant*.rst
+	rm -f docs/reuse*.rst
 	rm -f docs/modules.rst
 	rm -f docs/history.md
 	rm -f docs/readme.md
