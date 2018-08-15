@@ -8,7 +8,7 @@ pages:
         - /v[0-9]+.*/
     script:
         - apt-get -qq update
-        - apt-get -y -qq install build-essential cmake
+        - apt-get -y -qq install build-essential cmake gettext
         - python3 -mvenv venv
         - source venv/bin/activate
         - make install
