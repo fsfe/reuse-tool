@@ -352,7 +352,7 @@ def test_licenses_from_filenames(fake_repository):
     assert set(project.licenses.keys()) == USED_LICENSES
     assert set(
         map(str, project.licenses.values())) == \
-        set(['LICENSES/{}.txt'.format(spdx) for spdx in USED_LICENSES])
+        set('LICENSES/{}.txt'.format(spdx) for spdx in USED_LICENSES)
 
 
 def test_licenses_licenseref_from_filename(empty_directory):

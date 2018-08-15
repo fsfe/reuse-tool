@@ -72,7 +72,7 @@ for dir in _LOCALE_DIRS:
 __author__ = 'Carmen Bianca Bakker'
 __email__ = 'carmenbianca@fsfe.org'
 __license__ = 'GPLv3+'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -600,7 +600,7 @@ class Project:  # pylint: disable=unused-variable
 
         if GIT_METHOD == 'pygit2':
             return self._git_repo.path_is_ignored(str(path))
-        elif GIT_METHOD == 'git':
+        if GIT_METHOD == 'git':
             command = [GIT_EXE, 'check-ignore', str(path)]
 
             result = execute_command(command, _logger, cwd=str(self.root))

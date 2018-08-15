@@ -34,7 +34,7 @@ clean-test: ## remove test and coverage artifacts
 .PHONY: clean-docs
 clean-docs: ## remove docs build artifacts
 	-$(MAKE) -C docs clean
-	rm -f docs/en_pyssant*.rst
+	rm -f docs/reuse*.rst
 	rm -f docs/modules.rst
 	rm -f docs/history.md
 	rm -f docs/readme.md
@@ -51,11 +51,13 @@ test: ## run tests quickly
 coverage: ## check code coverage quickly
 	py.test --cov-report term-missing --cov=src/reuse
 
-.PHONY: docs
-docs: clean-docs ## generate Sphinx HTML documentation, including API docs
+_pre-docs: clean-docs
 	sphinx-apidoc --separate -o docs/ src/reuse
 	cp README.md docs/readme.md  # Because markdown cannot include...
 	cp CHANGELOG.md docs/history.md
+
+.PHONY: docs
+docs: _pre-docs ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs html
 
 .PHONY: tox
@@ -63,7 +65,7 @@ tox: ## run all tests against multiple versions of Python
 	tox
 
 .PHONY: dist
-dist: clean docs compile-mo ## builds source and wheel package
+dist: clean _pre-docs compile-mo ## builds source and wheel package
 	RST_ERROR=1 python setup.py sdist
 	RST_ERROR=1 python setup.py bdist_wheel
 	ls -l dist
@@ -83,11 +85,11 @@ compile-mo:  ## compile .mo files
 	find ./po -name "*.po" | while read f; do msgfmt $$f -o $${f%.po}.mo; done
 
 .PHONY: test-release
-test-release: install dist  ## package and upload to testpypi
+test-release: dist  ## package and upload to testpypi
 	twine upload --sign -r testpypi dist/*
 
 .PHONY: release
-release: install dist  ## package and upload a release
+release: dist  ## package and upload a release
 	twine upload --sign -r pypi dist/*
 
 .PHONY: install-requirements
