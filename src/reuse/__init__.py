@@ -484,6 +484,8 @@ class Project:  # pylint: disable=unused-variable
                     continue
                 if Path(path).suffix == '.license':
                     continue
+                if Path(path).suffix == '.spdx':
+                    continue
 
                 path = _determine_license_path(path)
                 path = self._relative_from_root(path)

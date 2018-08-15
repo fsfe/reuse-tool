@@ -343,6 +343,16 @@ def test_lint_license_not_found(empty_directory):
     assert any(project.lint())
 
 
+def test_license_spdx_not_a_license(empty_directory):
+    """If a project contains a file called LICENSE.spdx, ignore it while
+    searching for licenses.
+    """
+    (empty_directory / 'LICENSE.spdx').touch()
+    project = reuse.Project(empty_directory)
+
+    assert not project.licenses
+
+
 def test_licenses_from_filenames(fake_repository):
     """Given a repository, extract the license identifiers from the
     filenames.

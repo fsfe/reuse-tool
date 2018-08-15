@@ -17,6 +17,12 @@ Every release contains the following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased
+
+### Fixed
+
+- Any files with the suffix `.spdx` are no longer considered licenses.
+
 ## 0.3.2 - 2018-07-15
 
 ### Fixed
