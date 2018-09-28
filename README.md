@@ -98,9 +98,9 @@ a nutshell:
   [debian/copyright](https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/)
   file.
 
-- Add a comment header to each file that says `Copyright (C) YEAR  NAME`.  You
+- Add a comment header to each file that says `© YEAR  NAME`.  You
   can be flexible with the format, just make sure that the line starts with
-  `Copyright`.  You can add multiple lines.
+  the copyright sign: `©`.  You can add multiple lines.
 
 Once you have taken those steps (again, read the actual recommendations for
 better instructions), you can use this tool to verify whether your project is
