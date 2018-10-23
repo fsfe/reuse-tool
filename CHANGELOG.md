@@ -17,6 +17,13 @@ Every release contains the following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased
+
+### Added
+
+- Copyrights can now start with `©` in addition to `Copyright`.  The former is
+  now recommended, but they are functionally similar.
+
 ## 0.3.3 - 2018-07-15
 
 ### Fixed
