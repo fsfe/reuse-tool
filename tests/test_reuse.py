@@ -65,6 +65,13 @@ def test_extract_copyright_format():
     result = reuse.extract_reuse_info(text)
     assert result.copyright_lines == lines
 
+
+def test_extract_no_double_match():
+    """When given `Copyright © ...`,do not match twice."""
+    result = reuse.extract_reuse_info('Copyright © 2018  Mary Sue')
+    assert result.copyright_lines == set(['Copyright © 2018  Mary Sue'])
+
+
 def test_extract_license_from_file(file_with_license_comments):
     """Test whether you can correctly extract reuse information from a code
     file's comments.
