@@ -55,12 +55,21 @@ def _reuse_info_equal(first, second) -> bool:
 
 def test_extract_copyright_format():
     """Test whether `©` and `Copyright` are functionally identical."""
-    text = 'Copyright (C) 2018  Mary Sue\n© 2018  Mary Sue'
-    result = reuse.extract_reuse_info(text)
-    assert result.copyright_lines == set([
+    lines = set([
         'Copyright (C) 2018  Mary Sue',
+        'Copyright © 2018  Mary Sue',
+        'Copyright 2018  Mary Sue',
         '© 2018  Mary Sue',
     ])
+    text = '\n'.join(lines)
+    result = reuse.extract_reuse_info(text)
+    assert result.copyright_lines == lines
+
+
+def test_extract_no_double_match():
+    """When given `Copyright © ...`,do not match twice."""
+    result = reuse.extract_reuse_info('Copyright © 2018  Mary Sue')
+    assert result.copyright_lines == set(['Copyright © 2018  Mary Sue'])
 
 
 def test_extract_license_from_file(file_with_license_comments):

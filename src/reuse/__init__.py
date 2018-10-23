@@ -86,7 +86,7 @@ _LICENSE_PATTERN = re.compile(
     r'SPDX-Licen[cs]e-Identifier: (.*?)' + _END_PATTERN,
     re.MULTILINE)
 _COPYRIGHT_PATTERNS = [
-    re.compile(r'(© .*?)' + _END_PATTERN, re.MULTILINE),
+    re.compile(r'((?<!Copyright\s)© .*?)' + _END_PATTERN, re.MULTILINE),
     re.compile(r'(Copyright .*?)' + _END_PATTERN, re.MULTILINE),
 ]
 _VALID_LICENSE_PATTERN = re.compile(
