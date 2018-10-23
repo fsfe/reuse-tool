@@ -85,9 +85,10 @@ _END_PATTERN = r'(?:\*/)*(?:-->)*$'
 _LICENSE_PATTERN = re.compile(
     r'SPDX-Licen[cs]e-Identifier: (.*?)' + _END_PATTERN,
     re.MULTILINE)
-_COPYRIGHT_PATTERN = re.compile(
-    r'(Copyright .*?)' + _END_PATTERN,
-    re.MULTILINE)
+_COPYRIGHT_PATTERNS = [
+    re.compile(r'(© .*?)' + _END_PATTERN, re.MULTILINE),
+    re.compile(r'(Copyright .*?)' + _END_PATTERN, re.MULTILINE),
+]
 _VALID_LICENSE_PATTERN = re.compile(
     r'Valid-Licen[cs]e-Identifier: (.*?)' + _END_PATTERN,
     re.MULTILINE)
@@ -191,7 +192,10 @@ def _determine_license_path(path: PathLike) -> Path:
 def extract_reuse_info(text: str) -> ReuseInfo:
     """Extract reuse information from comments in a string."""
     license_matches = set(map(str.strip, _LICENSE_PATTERN.findall(text)))
-    copyright_matches = set(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
+    copyright_matches = set()
+    for pattern in _COPYRIGHT_PATTERNS:
+        copyright_matches = copyright_matches.union(
+            set(map(str.strip, pattern.findall(text))))
 
     return ReuseInfo(
         license_matches,
