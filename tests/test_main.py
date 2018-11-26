@@ -3,7 +3,7 @@
 # Copyright (C) 2017  Free Software Foundation Europe e.V.
 #
 # This file is part of reuse, available from its original location:
-# <https://git.fsfe.org/reuse/reuse/>.
+# <https://gitlab.com/reuse/reuse/>.
 #
 # reuse is free software: you can redistribute it and/or modify it under the
 # terms of the GNU General Public License as published by the Free Software
@@ -29,9 +29,7 @@ import pytest
 from reuse import __version__, _main, _util
 
 # pylint: disable=invalid-name
-git = pytest.mark.skipif(
-    not _util.GIT_EXE,
-    reason='requires git')
+git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
 
 
 def test_lint_none(fake_repository):
@@ -39,7 +37,7 @@ def test_lint_none(fake_repository):
     of 0 and print nothing.
     """
     out = StringIO()
-    result = _main.main(['lint', str(fake_repository)], out)
+    result = _main.main(["lint", str(fake_repository)], out)
 
     assert result == 0
     assert not out.getvalue()
@@ -49,7 +47,7 @@ def test_lint_none(fake_repository):
 def test_lint_gitignore(git_repository):
     """Given a repository with files ignored by Git, skip over those files."""
     out = StringIO()
-    result = _main.main(['lint', str(git_repository)], out)
+    result = _main.main(["lint", str(git_repository)], out)
 
     assert result == 0
     assert not out.getvalue()
@@ -58,28 +56,28 @@ def test_lint_gitignore(git_repository):
 def test_lint_ignore_debian(fake_repository):
     """When debian/copyright is ignored, non-compliant files are found."""
     out = StringIO()
-    result = _main.main(['--ignore-debian', 'lint', str(fake_repository)], out)
+    result = _main.main(["--ignore-debian", "lint", str(fake_repository)], out)
 
     output_lines = out.getvalue().splitlines()
     assert len(output_lines) == 1
-    assert 'index.rst' in output_lines[0]
+    assert "index.rst" in output_lines[0]
     assert result
 
 
 def test_lint_twice_path(fake_repository):
     """When providing the same path twice, only output those files once."""
-    (fake_repository / 'foo.py').touch()
-    (fake_repository / 'bar.py').touch()
+    (fake_repository / "foo.py").touch()
+    (fake_repository / "bar.py").touch()
     out = StringIO()
-    result = _main.main(['lint'] + [str(fake_repository / 'foo.py')] * 2, out)
+    result = _main.main(["lint"] + [str(fake_repository / "foo.py")] * 2, out)
 
     output_lines = out.getvalue().splitlines()
     assert len(output_lines) == 1
-    assert 'foo.py' in output_lines[0]
+    assert "foo.py" in output_lines[0]
     assert result
 
 
-@pytest.mark.xfail(reason='Order of files is not reliable')
+@pytest.mark.xfail(reason="Order of files is not reliable")
 def test_compile(tiny_repository):
     """A correct bill of materials is generated."""
     # result = runner.invoke(
@@ -87,7 +85,8 @@ def test_compile(tiny_repository):
     #     ['compile'])
     result = None
 
-    expected = dedent("""\
+    expected = dedent(
+        """\
         SPDXVersion: SPDX-2.1
         DataLicense: CC0-1.0
         SPDXID: SPDXRef-DOCUMENT
@@ -114,16 +113,17 @@ def test_compile(tiny_repository):
         LicenseConcluded: NOASSERTION
         LicenseInfoInFile: CC0-1.0
         FileCopyrightText: <text>2017 Mary Sue</text>""".format(
-            dirname=tiny_repository.name,
-            version=__version__))
+            dirname=tiny_repository.name, version=__version__
+        )
+    )
 
     for result_line, expected_line in zip_longest(
-            result.output.splitlines(),
-            expected.splitlines()):
+        result.output.splitlines(), expected.splitlines()
+    ):
         # Just ignore these
-        if 'DocumentNamespace' in result_line:
+        if "DocumentNamespace" in result_line:
             continue
-        if 'Created' in result_line:
+        if "Created" in result_line:
             continue
 
         assert result_line == expected_line

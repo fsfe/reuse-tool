@@ -1,5 +1,4 @@
-# Copyright (C) 2017-2018  Free Software Foundation Europe e.V.
-# Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# Copyright (C) 2018  Carmen Bianca Bakker
 #
 # This file is part of reuse, available from its original location:
 # <https://gitlab.com/reuse/reuse/>.
@@ -18,28 +17,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-[tox]
-envlist = py{35,36,37}-test, lint, docs
-
-[testenv]
-deps =
-    -r{toxinidir}/requirements.txt
-usedevelop = True
-commands =
-    py.test --cov-report term-missing --cov=src/reuse
-
-
-[testenv:lint]
-basepython = python3
-deps =
-    -r{toxinidir}/requirements.txt
-commands =
-    /usr/bin/make lint
-    /usr/bin/make reuse
-
-[testenv:docs]
-basepython = python3
-deps =
-    -r{toxinidir}/requirements.txt
-commands =
-    /usr/bin/make docs
+[tool.black]
+line-length = 79
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)\
+'''

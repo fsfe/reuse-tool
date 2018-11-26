@@ -3,7 +3,7 @@
 # Copyright (C) 2018  Carmen Bianca Bakker
 #
 # This file is part of reuse, available from its original location:
-# <https://git.fsfe.org/reuse/reuse/>.
+# <https://gitlab.com/reuse/reuse/>.
 #
 # reuse is free software: you can redistribute it and/or modify it under the
 # terms of the GNU General Public License as published by the Free Software
@@ -30,14 +30,16 @@ INDENT = 2
 def fill_paragraph(text, width=WIDTH, indent_width=0):
     """Wrap a single paragraph."""
     return indent(
-        fill(text.strip(), width=width - indent_width), indent_width * ' ')
+        fill(text.strip(), width=width - indent_width), indent_width * " "
+    )
 
 
 def fill_all(text, width=WIDTH, indent_width=0):
     """Wrap all paragraphs."""
-    return '\n\n'.join(
+    return "\n\n".join(
         fill_paragraph(paragraph, width=width, indent_width=indent_width)
-        for paragraph in split_into_paragraphs(text))
+        for paragraph in split_into_paragraphs(text)
+    )
 
 
 def split_into_paragraphs(text):
@@ -45,20 +47,20 @@ def split_into_paragraphs(text):
     surrounded by empty lines.
     """
     lines = text.splitlines()
-    paragraph = ''
+    paragraph = ""
 
     for line in lines:
         if not line:
             if paragraph:
                 yield paragraph
-                paragraph = ''
+                paragraph = ""
             else:
                 continue
         else:
             if paragraph:
-                padding = ' '
+                padding = " "
             else:
-                padding = ''
-            paragraph = '{}{}{}'.format(paragraph, padding, line)
+                padding = ""
+            paragraph = "{}{}{}".format(paragraph, padding, line)
     if paragraph:
         yield paragraph

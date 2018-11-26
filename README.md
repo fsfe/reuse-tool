@@ -14,7 +14,7 @@
 
 - Documentation: <https://reuse.gitlab.io>
 
-- Source code: <https://git.fsfe.org/reuse/reuse>
+- Source code: <https://gitlab.com/reuse/reuse>
 
 - PyPI: <https://pypi.python.org/pypi/fsfe-reuse>
 
@@ -147,12 +147,12 @@ itself into the bill of materials, which obviously will not work.
 ## Contribute
 
 Any pull requests or suggestions are welcome at
-<https://git.fsfe.org/reuse/reuse> or via e-mail to one of the maintainers.
+<https://gitlab.com/reuse/reuse> or via e-mail to one of the maintainers.
 General inquiries can be sent to <contact@fsfe.org>.
 
 Starting local development is very simple, just execute the following commands:
 
-    git clone git@git.fsfe.org:reuse/reuse.git
+    git clone git@gitlab.com:reuse/reuse.git
     cd reuse/
     python3 -mvenv venv
     source venv/bin/activate

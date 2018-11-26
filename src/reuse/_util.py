@@ -3,7 +3,7 @@
 # Copyright (C) 2017  Free Software Foundation Europe e.V.
 #
 # This file is part of reuse, available from its original location:
-# <https://git.fsfe.org/reuse/reuse/>.
+# <https://gitlab.com/reuse/reuse/>.
 #
 # reuse is free software: you can redistribute it and/or modify it under the
 # terms of the GNU General Public License as published by the Free Software
@@ -31,15 +31,16 @@ from typing import BinaryIO, List, Optional, Union
 import chardet
 
 
-GIT_EXE = shutil.which('git')
+GIT_EXE = shutil.which("git")
 
 
 try:
     from pygit2 import discover_repository
-    GIT_METHOD = 'pygit2'
+
+    GIT_METHOD = "pygit2"
 except ImportError:  # pragma: no cover
     if GIT_EXE:
-        GIT_METHOD = 'git'
+        GIT_METHOD = "git"
     else:
         GIT_METHOD = None
 
@@ -54,33 +55,28 @@ def setup_logging(level: int = logging.WARNING) -> None:
     """Configure logging for reuse."""
     # library_logger is the root logger for reuse.  We configure logging solely
     # for reuse, not for any other libraries.
-    library_logger = logging.getLogger('reuse')
+    library_logger = logging.getLogger("reuse")
     library_logger.setLevel(level)
 
     if not library_logger.hasHandlers():
         handler = logging.StreamHandler()
-        formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
         handler.setFormatter(formatter)
         library_logger.addHandler(handler)
 
 
 def execute_command(
-        command: List[str],
-        logger: logging.Logger,
-        **kwargs) -> subprocess.CompletedProcess:
+    command: List[str], logger: logging.Logger, **kwargs
+) -> subprocess.CompletedProcess:
     """Run the given command with subprocess.run.  Forward kwargs.  Silence
     output into a pipe unless kwargs override it.
     """
-    logger.debug('running %s', ' '.join(command))
+    logger.debug("running %s", " ".join(command))
 
-    stdout = kwargs.get('stdout', subprocess.PIPE)
-    stderr = kwargs.get('stderr', None)
+    stdout = kwargs.get("stdout", subprocess.PIPE)
+    stderr = kwargs.get("stderr", None)
 
-    return subprocess.run(
-        command,
-        stdout=stdout,
-        stderr=stderr,
-        **kwargs)
+    return subprocess.run(command, stdout=stdout, stderr=stderr, **kwargs)
 
 
 def find_root() -> Optional[Path]:
@@ -89,15 +85,15 @@ def find_root() -> Optional[Path]:
     """
     cwd = Path.cwd()
     if in_git_repo(cwd):
-        if GIT_METHOD == 'pygit2':
+        if GIT_METHOD == "pygit2":
             repo = discover_repository(str(cwd))
             return Path(repo).parent
-        if GIT_METHOD == 'git':
-            command = [GIT_EXE, 'rev-parse', '--show-toplevel']
+        if GIT_METHOD == "git":
+            command = [GIT_EXE, "rev-parse", "--show-toplevel"]
             result = execute_command(command, _logger, cwd=str(cwd))
 
             if not result.returncode:
-                path = result.stdout.decode('utf-8')[:-1]
+                path = result.stdout.decode("utf-8")[:-1]
                 return Path(os.path.relpath(path, str(cwd)))
     return None
 
@@ -110,14 +106,14 @@ def in_git_repo(cwd: PathLike = None) -> bool:
     if cwd is None:
         cwd = Path.cwd()
 
-    if GIT_METHOD == 'pygit2':
+    if GIT_METHOD == "pygit2":
         try:
             discover_repository(str(cwd))
             return True
         except KeyError:
             return False
-    elif GIT_METHOD == 'git':
-        command = [GIT_EXE, 'status']
+    elif GIT_METHOD == "git":
+        command = [GIT_EXE, "status"]
         result = execute_command(command, _logger, cwd=str(cwd))
 
         return not result.returncode
@@ -132,7 +128,8 @@ def _is_binary_string(bytes_string: bytes) -> bool:
     Behaviour is based on file(1).
     """
     textchars = bytearray(
-        {7, 8, 9, 10, 12, 13, 27} | set(range(0x20, 0x100)) - {0x7f})
+        {7, 8, 9, 10, 12, 13, 27} | set(range(0x20, 0x100)) - {0x7F}
+    )
     return bool(bytes_string.translate(None, textchars))
 
 
@@ -145,13 +142,13 @@ def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
     """
     rawdata = binary_file.read(size)
     if _is_binary_string(rawdata):
-        raise UnicodeError('cannot decode binary data')
+        raise UnicodeError("cannot decode binary data")
     result = chardet.detect(rawdata)
-    encoding = result.get('encoding')
+    encoding = result.get("encoding")
     if encoding is None:
-        encoding = 'utf-8'
+        encoding = "utf-8"
     try:
-        return rawdata.decode(encoding, errors='replace')
+        return rawdata.decode(encoding, errors="replace")
     # Handle unknown encodings.
     except LookupError as error:
-        raise UnicodeError('could not decode {}'.format(encoding)) from error
+        raise UnicodeError("could not decode {}".format(encoding)) from error

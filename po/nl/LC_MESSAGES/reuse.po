@@ -2,7 +2,7 @@
 # Copyright (C) 2017  André Ockers
 #
 # This file is part of reuse, available from its original location:
-# <https://git.fsfe.org/reuse/reuse/>.
+# <https://gitlab.com/reuse/reuse/>.
 #
 # reuse is free software: you can redistribute it and/or modify it under the
 # terms of the GNU General Public License as published by the Free Software

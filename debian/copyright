@@ -1,24 +1,22 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: reuse
 Upstream-Contact: Carmen Bianca Bakker <carmenbianca@fsfe.org>
-Source: https://git.fsfe.org/reuse/reuse
+Source: https://gitlab.com/reuse/reuse
 
 Files: docs/*.rst
-Copyright: 2017  Free Software Foundation Europe e.V.
+Copyright: 2017-2018  Free Software Foundation Europe e.V.
 License: CC-BY-SA-4.0
 
 Files: README.md
-Copyright: 2017  Free Software Foundation Europe e.V.
+Copyright: 2017-2018  Free Software Foundation Europe e.V.
            2017  Sebastian Schuberth
+           2018  Carmen Bianca Bakker
 License: CC-BY-SA-4.0
 
 Files: CHANGELOG.md
-Copyright: 2017  Free Software Foundation Europe e.V.
+Copyright: 2017-2018  Free Software Foundation Europe e.V.
+           2018  Carmen Bianca Bakker
 License: CC-BY-SA-4.0
-
-Files: .gitlab-ci.yml .editorconfig .pylintrc MANIFEST.in Makefile Pipfile docs/Makefile setup.cfg requirements.txt tox.ini
-Copyright: 2017  Free Software Foundation Europe e.V.
-License: GPL-3.0-or-later
 
 Files: tests/resources/*
 Copyright: 2017  Free Software Foundation Europe e.V.

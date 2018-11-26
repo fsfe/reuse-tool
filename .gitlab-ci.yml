@@ -1,18 +1,79 @@
+# Copyright (C) 2017-2018  Free Software Foundation Europe e.V.
+# Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
+#
+# This file is part of reuse, available from its original location:
+# <https://gitlab.com/reuse/reuse/>.
+#
+# reuse is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# reuse is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# reuse.  If not, see <http://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 stages:
+    - test
     - deploy
+
+before_script:
+    - apt-get -qq update
+    - apt-get -qq install -y cmake libgit2-dev >> /dev/null
+
+.run_tox: &tox_definition
+    stage: test
+    script:
+        - pip install tox
+        - tox
+    tags:
+        - docker
+py35-test:
+    <<: *tox_definition
+    image: python:3.5
+    variables:
+        TOXENV: py35-test
+
+py36-test:
+    <<: *tox_definition
+    image: python:3.6
+    variables:
+        TOXENV: py36-test
+
+py37-test:
+    <<: *tox_definition
+    image: python:3.7
+    variables:
+        TOXENV: py37-test
+
+lint:
+    <<: *tox_definition
+    image: python:3.6
+    variables:
+        TOXENV: lint
+
+docs:
+    <<: *tox_definition
+    image: python:3.6
+    variables:
+        TOXENV: docs
+    artifacts:
+        paths:
+            - docs/_build/html
 
 pages:
     stage: deploy
     image: python:latest
     only:
         - /v[0-9]+.*/
+    dependencies:
+        - docs
     script:
-        - apt-get -qq update
-        - apt-get -y -qq install build-essential cmake gettext pandoc
-        - python3 -mvenv venv
-        - source venv/bin/activate
-        - make install
-        - make docs
         - mv docs/_build/html public
     artifacts:
         paths:

@@ -24,6 +24,10 @@ The versions follow [semantic versioning](https://semver.org).
 - Copyrights can now start with `©` in addition to `Copyright`.  The former is
   now recommended, but they are functionally similar.
 
+### Changed
+
+- The source code of reuse is now formatted with black.
+
 ## 0.3.3 - 2018-07-15
 
 ### Fixed
