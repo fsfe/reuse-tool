@@ -37,7 +37,7 @@ py35-test:
     <<: *tox_definition
     image: python:3.5
     before_script:
-        sed -i '/^black/d' requirements.txt
+        - sed -i '/^black/d' requirements.txt
     variables:
         TOXENV: py35-test
 
