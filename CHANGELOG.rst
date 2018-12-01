@@ -99,9 +99,9 @@ Fixed
    ``-or-later`` extension is now used in the warning message, rather
    than a bare ``GPL-3.0``.
 
-- If you have a license file listed as ``GPL-3.0-or-later``, this now correctly
-   matches corresponding SPDX identifiers. Still it is recommended to use
-   ``GPL-3.0`` instead.
+- If you have a license listed as ``SPDX-Valid-License: GPL-3.0-or-later``, this
+  now correctly matches corresponding SPDX identifiers.  Still it is recommended
+  to use ``SPDX-Valid-License: GPL-3.0`` instead.
 
 
 0.2.0 - 2018-04-17
