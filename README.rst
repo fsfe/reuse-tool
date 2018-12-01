@@ -111,7 +111,8 @@ recommendations <https://reuse.software/practices/>`__. In a nutshell:
       licenses.
 
 -  Add a comment header to each file that says
-   ``SPDX-License-Identifier: GPL-3.0-or-later``. Replace
+   ``SPDX-License-Identifier:
+   GPL-3.0-or-later``. Replace
    ``GPL-3.0-or-later`` with the license that applies to the file. If
    you cannot edit the comment header, include a
    `debian/copyright <https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/>`__
