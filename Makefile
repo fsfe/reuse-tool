@@ -63,6 +63,14 @@ clean-docs: ## remove docs build artifacts
 lint: ## check with pylint
 	pylint src/reuse tests/*.py
 
+.PHONY: blackcheck
+blackcheck: ## check with black
+	black --check .
+
+.PHONY: black
+black: ## format with black
+	black .
+
 .PHONY: reuse
 reuse:  ## check with self
 	reuse lint
