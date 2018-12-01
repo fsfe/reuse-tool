@@ -28,6 +28,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - The source code of reuse is now formatted with black.
 
+- The repository has been moved from <https://git.fsfe.org/reuse/reuse> to
+  <https://gitlab.com/reuse/reuse>.
+
 ## 0.3.3 - 2018-07-15
 
 ### Fixed
