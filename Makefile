@@ -85,7 +85,7 @@ coverage: ## check code coverage quickly
 
 _pre-docs: clean-docs
 	sphinx-apidoc --separate -o docs/ src/reuse
-	cp README.md docs/readme.md  # Because markdown cannot include...
+	# Because markdown cannot include...
 	cp CHANGELOG.md docs/history.md
 
 .PHONY: docs

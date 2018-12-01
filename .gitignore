@@ -156,7 +156,6 @@ docs/_build/
 docs/reuse*.rst
 docs/modules.rst
 docs/history.md
-docs/readme.md
 
 # PyBuilder
 target/

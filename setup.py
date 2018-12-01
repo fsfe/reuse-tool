@@ -23,7 +23,6 @@
 
 import os
 import glob
-import subprocess
 from pathlib import Path
 
 from setuptools import setup
@@ -38,14 +37,7 @@ test_requirements = ["pytest", "jinja2"]
 
 
 def readme_rst():
-    try:
-        command = ["pandoc", "README.md", "-t", "rst"]
-        result = subprocess.run(command, stdout=subprocess.PIPE)
-        return result.stdout.decode("utf-8")
-    except FileNotFoundError:
-        if os.environ.get("RST_ERROR"):
-            raise
-        return open("README.md").read()
+    return open("README.rst").read()
 
 
 def mo_files():
