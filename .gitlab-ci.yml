@@ -36,8 +36,10 @@ before_script:
 py35-test:
     <<: *tox_definition
     image: python:3.5
-    before_script:
+    script:
         - sed -i '/^black/d' requirements.txt
+        - pip install tox
+        - tox
     variables:
         TOXENV: py35-test
 
