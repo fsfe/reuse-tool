@@ -18,8 +18,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-include README.md
-include CHANGELOG.md
+include README.rst
+include CHANGELOG.rst
 include Makefile
 
 recursive-include LICENSES *

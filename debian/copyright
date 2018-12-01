@@ -7,11 +7,6 @@ Files: docs/*.rst
 Copyright: 2017-2018  Free Software Foundation Europe e.V.
 License: CC-BY-SA-4.0
 
-Files: CHANGELOG.md
-Copyright: 2017-2018  Free Software Foundation Europe e.V.
-           2018  Carmen Bianca Bakker
-License: CC-BY-SA-4.0
-
 Files: tests/resources/*
 Copyright: 2017  Free Software Foundation Europe e.V.
 License: GPL-3.0-or-later

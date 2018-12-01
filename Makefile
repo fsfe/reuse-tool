@@ -85,8 +85,6 @@ coverage: ## check code coverage quickly
 
 _pre-docs: clean-docs
 	sphinx-apidoc --separate -o docs/ src/reuse
-	# Because markdown cannot include...
-	cp CHANGELOG.md docs/history.md
 
 .PHONY: docs
 docs: _pre-docs ## generate Sphinx HTML documentation, including API docs
