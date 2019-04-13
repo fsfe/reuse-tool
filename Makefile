@@ -1,20 +1,4 @@
-# Copyright (C) 2017-2018  Free Software Foundation Europe e.V.
-# Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
-#
-# This file is part of reuse, available from its original location:
-# <https://gitlab.com/reuse/reuse/>.
-#
-# reuse is free software: you can redistribute it and/or modify it under the
-# terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
-#
-# reuse is distributed in the hope that it will be useful, but WITHOUT ANY
-# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-# A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along with
-# reuse.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-Copyright: 2017-2018 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -33,6 +17,7 @@ clean-build: ## remove build artifacts
 	rm -fr dist/
 	rm -fr .cache/
 	rm -fr .eggs/
+	rm -fr pip-wheel-metadata/
 	find ./po -name '*.mo' -exec rm -f {} +
 	find ./po -name '*.pot' -exec rm -f {} +
 	find . -name '*.egg-info' -exec rm -fr {} +
@@ -50,6 +35,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
 	rm -f .coverage
 	rm -fr htmlcov/
+	rm -fr .pytest_cache/
 
 .PHONY: clean-docs
 clean-docs: ## remove docs build artifacts
@@ -69,6 +55,7 @@ blackcheck: ## check with black
 
 .PHONY: black
 black: ## format with black
+	isort -y -s build -s dist
 	black .
 
 .PHONY: reuse
@@ -77,11 +64,11 @@ reuse:  ## check with self
 
 .PHONY: test
 test: ## run tests quickly
-	py.test
+	py.test --doctest-modules
 
 .PHONY: coverage
 coverage: ## check code coverage quickly
-	py.test --cov-report term-missing --cov=src/reuse
+	py.test --doctest-modules --cov-report term-missing --cov=src/reuse
 
 _pre-docs: clean-docs
 	sphinx-apidoc --separate -o docs/ src/reuse
@@ -136,4 +123,5 @@ install: uninstall install-requirements dist  ## install reuse
 
 .PHONY: develop
 develop: uninstall install-requirements  ## install source directory
-	REUSE_DEV=1 python setup.py develop
+	pre-commit install
+	python setup.py develop

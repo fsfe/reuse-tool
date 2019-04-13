@@ -1,21 +1,4 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright (C) 2017  Free Software Foundation Europe e.V.
-#
-# This file is part of reuse, available from its original location:
-# <https://gitlab.com/reuse/reuse/>.
-#
-# reuse is free software: you can redistribute it and/or modify it under the
-# terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
-#
-# reuse is distributed in the hope that it will be useful, but WITHOUT ANY
-# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-# A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along with
-# reuse.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-Copyright: 2017 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -80,7 +63,7 @@ author = "Free Software Foundation Europe"
 # built documents.
 #
 # The short X.Y version.
-version = "0.3.4"
+version = "0.4.0a1"
 # The full version, including alpha/beta/rc tags.
 release = version
 

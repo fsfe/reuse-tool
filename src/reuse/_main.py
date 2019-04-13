@@ -1,46 +1,27 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright (C) 2017  Free Software Foundation Europe e.V.
-# Copyright (C) 2018  Carmen Bianca Bakker
-#
-# This file is part of reuse, available from its original location:
-# <https://gitlab.com/reuse/reuse/>.
-#
-# reuse is free software: you can redistribute it and/or modify it under the
-# terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
-#
-# reuse is distributed in the hope that it will be useful, but WITHOUT ANY
-# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-# A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along with
-# reuse.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Entry functions for reuse."""
 
 import argparse
-import importlib
 import logging
 import sys
 from gettext import gettext as _
 from pathlib import Path
-from pipes import quote
 from typing import List
 
+from . import __version__
 from ._format import INDENT, fill_all, fill_paragraph
-from ._util import GIT_METHOD, find_root, setup_logging
-
-# Import __init__.py.  I don't know how to do this cleanly
-reuse = importlib.import_module("..", __name__)  # pylint: disable=invalid-name
+from ._util import find_root, setup_logging
+from .lint import lint
+from .project import Project
+from .report import ProjectReport
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 _DESCRIPTION_LINES = [
-    _("reuse  Copyright (C) 2017-2018  Free Software Foundation Europe e.V."),
+    _("reuse  Copyright (C) 2017-2019  Free Software Foundation Europe e.V."),
     _(
         "reuse is a tool for compliance with the REUSE Initiative "
         "recommendations.  See <https://reuse.software/> for more "
@@ -77,109 +58,46 @@ _DESCRIPTION_TEXT = (
     + fill_paragraph(_INDENTED_LINE, indent_width=INDENT)
 )
 
-
 _EPILOG_TEXT = ""
-_PYGIT2_WARN = "\n\n".join(
-    [
-        _("IMPORTANT:"),
-        fill_paragraph(
-            _(
-                "You do not have pygit2 installed.  reuse will slow down "
-                "significantly because of this.  For better performance, please "
-                "install your distribution's version of pygit2."
-            ),
-            indent_width=INDENT,
-        ),
-    ]
-)
-if not GIT_METHOD == "pygit2":
-    _EPILOG_TEXT = _EPILOG_TEXT + "\n\n" + _PYGIT2_WARN
 
 
-def _create_project() -> reuse.Project:
+def _create_project() -> Project:
     """Create a project object.  Try to find the project root from $PWD,
     otherwise treat $PWD as root.
     """
     root = find_root()
     if root is None:
         root = Path.cwd()
-    return reuse.Project(root)
+    return Project(root)
 
 
-def compile(args, out=sys.stdout):
+def compile_spdx(args, out=sys.stdout):
     """Print the project's bill of materials."""
-    project = _create_project()
     if args.output:
         out = args.output
         if not out.name.endswith(".spdx"):
             # Translators: %s is a file name.
             _logger.warning(_("%s does not end with .spdx"), out.name)
-    project.bill_of_materials(out, ignore_debian=args.ignore_debian)
 
-    return 0
-
-
-def license(args, out=sys.stdout):
-    """Print the SPDX expressions of each provided file."""
     project = _create_project()
-    first = True
+    report = ProjectReport.generate(project)
 
-    for path in args.paths:
-        try:
-            reuse_info = project.reuse_info_of(
-                path, ignore_debian=args.ignore_debian
-            )
-        except IsADirectoryError:
-            _logger.error(_("%s is a directory"), path)
-            continue
-        except IOError:
-            # Translators: %s is a file.
-            _logger.error(_("could not read %s"), path)
-            continue
-
-        if not first:
-            out.write("\n")
-
-        out.write(quote(str(path)))
-        out.write("\n")
-
-        if any(reuse_info.spdx_expressions):
-            out.write(", ".join(map(quote, reuse_info.spdx_expressions)))
-            out.write("\n")
-        else:
-            out.write(_("none\n"))
-
-        first = False
+    out.write(report.bill_of_materials())
 
     return 0
 
 
-def lint(args, out=sys.stdout):
+def lint_(args, out=sys.stdout):
     """List all non-compliant files."""
-    counter = 0
-    found = set()
-
     project = _create_project()
     paths = args.paths
     if not paths:
         paths = [project.root]
 
-    for path in paths:
-        for file_ in project.lint(
-            path,
-            spdx_mandatory=args.spdx_mandatory,
-            copyright_mandatory=args.copyright_mandatory,
-            ignore_debian=args.ignore_debian,
-            ignore_missing=args.ignore_missing,
-        ):
-            output = quote(str(file_))
-            if output not in found:
-                out.write(output)
-                out.write("\n")
-                found.add(output)
-                counter += 1
+    report = ProjectReport.generate(project, paths)
+    result = lint(report, out=out)
 
-    return counter
+    return 0 if result else 1
 
 
 def parser() -> argparse.ArgumentParser:
@@ -195,11 +113,6 @@ def parser() -> argparse.ArgumentParser:
         "--debug", action="store_true", help=_("enable debug statements")
     )
     parser.add_argument(
-        "--ignore-debian",
-        action="store_true",
-        help=_("do not use debian/copyright to extract reuse information"),
-    )
-    parser.add_argument(
         "--version",
         action="store_true",
         help=_("show program's version number and exit"),
@@ -208,62 +121,22 @@ def parser() -> argparse.ArgumentParser:
 
     subparsers = parser.add_subparsers()
 
-    compile_parser = subparsers.add_parser(
-        "compile", help=_("print the project's bill of materials")
+    spdx_parser = subparsers.add_parser(
+        "spdx", help=_("print the project's bill of materials in SPDX format")
     )
-    compile_parser.add_argument(
+    spdx_parser.add_argument(
         "--output", "-o", action="store", type=argparse.FileType("w")
     )
-    compile_parser.set_defaults(func=compile)
+    spdx_parser.set_defaults(func=compile_spdx)
 
     lint_parser = subparsers.add_parser(
         "lint",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         help=_("list all non-compliant files"),
-        description=fill_all(
-            _(
-                "List all non-compliant files.\n"
-                "\n"
-                "A file is non-compliant when:\n"
-                "\n"
-                "- It has no copyright information.\n"
-                "\n"
-                "- It has no license (declared as SPDX expression).\n"
-                "\n"
-                "- Its license could not be found.\n"
-                "\n"
-                "This prints only the paths of the files that do not comply, each "
-                "file on a separate line.\n"
-                "\n"
-                "Error and warning messages are output to STDERR."
-            )
-        ),
+        description=fill_all(_("TODO: Description for lint.")),
     )
     lint_parser.add_argument("paths", action="store", nargs="*")
-    lint_parser.add_argument(
-        "--spdx-mandatory",
-        action="store_true",
-        default=True,
-        help=_("SPDX expressions are mandatory for compliance"),
-    )
-    lint_parser.add_argument(
-        "--copyright-mandatory",
-        action="store_true",
-        default=True,
-        help=_("copyright notices are mandatory for compliance"),
-    )
-    lint_parser.add_argument(
-        "--ignore-missing",
-        action="store_true",
-        help=_("ignore missing licenses"),
-    )
-    lint_parser.set_defaults(func=lint)
-
-    license_parser = subparsers.add_parser(
-        "license", help=_("print the SPDX expressions of each provided file")
-    )
-    license_parser.add_argument("paths", action="store", nargs="*")
-    license_parser.set_defaults(func=license)
+    lint_parser.set_defaults(func=lint_)
 
     return parser
 
@@ -281,6 +154,6 @@ def main(args: List[str] = None, out=sys.stdout) -> None:
     )
 
     if parsed_args.version:
-        out.write(_("reuse, version {}\n").format(reuse.__version__))
+        out.write(_("reuse, version {}\n").format(__version__))
         return 0
     return parsed_args.func(parsed_args, out)
