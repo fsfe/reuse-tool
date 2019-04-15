@@ -51,7 +51,7 @@ def mo_files():
 if __name__ == "__main__":
     setup(
         name="fsfe-reuse",
-        version="version='0.3.4'",
+        version="0.3.4",
         url="https://gitlab.com/reuse/reuse",
         license="GPL-3.0-or-later",
         author="Carmen Bianca Bakker",
