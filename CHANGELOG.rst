@@ -33,8 +33,11 @@ the following sections:
 
 The versions follow `semantic versioning <https://semver.org>`__.
 
-Unreleased
-----------
+0.3.4 - 2019-04-15
+------------------
+
+This release should be a short-lived one.  A new (slightly
+backwards-incompatible) version is in the works.
 
 Added
 ~~~~~
