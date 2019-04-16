@@ -1,13 +1,5 @@
 ..
-    Copyright (C) 2017-2018  Free Software Foundation Europe e.V.
-    Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
-
-    This file is part of reuse, available from its original location:
-    <https://gitlab.com/reuse/reuse/>.
-
-    This work is licensed under the Creative Commons Attribution-ShareAlike
-    4.0 International License. To view a copy of this license, visit
-    <http://creativecommons.org/licenses/by-sa/4.0/>.
+    SPDX-Copyright: 2017-2018 Free Software Foundation Europe e.V.
 
     SPDX-License-Identifier: CC-BY-SA-4.0
 
@@ -32,6 +24,55 @@ the following sections:
 -  ``Security`` in case of vulnerabilities.
 
 The versions follow `semantic versioning <https://semver.org>`__.
+
+0.4.0a1 - 2019-04-16
+--------------------
+
+This release is a major overhaul and refactoring of the tool. Its primary
+focus is improved usability and speed, as well as adhering to a new version
+of the spec that is currently in the works.
+
+Please note that this release is incomplete, may contain bugs, and its
+documentation is lacking and/or simply wrong. It is provided as an early
+preview.
+
+This release will be yanked upon the release of 0.4.0.
+
+Changed
+~~~~~~~
+
+- ``reuse lint`` now provides a helpful summary instead of merely spitting out
+  non-compliant files.
+
+- ``reuse compile`` is now ``reuse spdx``.
+
+- Can no longer mark copyright lines with ``Copyright`` or ``©``.  This feature
+  is intended to be reimplemented soon.
+
+  - Instead, use the tag ``SPDX-Copyright:``.  This should possibly make it into
+    the release of SPDX 2.2.
+
+- Project no longer depends on pygit2.
+
+- The list of SPDX licenses has been updated.
+
+Removed
+~~~~~~~
+
+- Removed ``--ignore-debian``.
+
+- Removed ``--spdx-mandatory``, ``--copyright-mandatory``,
+  ``--ignore-missing`` arguments from ``reuse lint``.
+
+- GPL-3.0 and GPL-3.0+ (and all other similar GPL licenses) are no longer
+  detected as SPDX identifiers. Use GPL-3.0-only and GPL-3.0-or-later instead.
+
+Fixed
+~~~~~
+
+- Scanning a Git directory is a lot faster now.
+
+- Scanning binary files is a lot faster now.
 
 0.3.4 - 2019-04-15
 ------------------

@@ -1,13 +1,5 @@
 ..
-    Copyright (C) 2017-2018  Free Software Foundation Europe e.V.
-    Copyright (C) 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
-
-    This file is part of reuse, available from its original location:
-    <https://gitlab.com/reuse/reuse/>.
-
-    This work is licensed under the Creative Commons Attribution-ShareAlike
-    4.0 International License. To view a copy of this license, visit
-    <http://creativecommons.org/licenses/by-sa/4.0/>.
+    SPDX-Copyright: 2017-2018  Free Software Foundation Europe e.V.
 
     SPDX-License-Identifier: CC-BY-SA-4.0
 
@@ -24,7 +16,7 @@ reuse
 
 -  Documentation: https://reuse.gitlab.io
 
--  Source code: https://gitlab.com/reuse/reuse
+-  Source code: https://github.com/fsfe/reuse-tool
 
 -  PyPI: https://pypi.python.org/pypi/fsfe-reuse
 
@@ -55,8 +47,7 @@ You are recommended to read the
 details.
 
 This tool exists to facilitate the developer in complying to the above
-recommendations. It will serve as a linter for compliance, and as a
-compiler for generating the bill of materials.
+recommendations.
 
 There are other tools, such as
 `FOSSology <https://www.fossology.org/>`__, that have a lot more
@@ -75,20 +66,6 @@ your computer:
 
 -  Pip
 
--  ``python3-pygit2``
-
-You can install ``python3-pygit2`` via your operating system’s package
-manager. For Debian-like GNU/Linux distributions this would be::
-
-    apt-get install python3-pygit2
-
-Note that simply installing ``pygit2`` via ``pip`` does not work as this
-omits the ``libgit2`` dependency.
-
-You can also use reuse without ``python3-pygit2`` at the cost of
-significantly degraded performance as the amount of files to process
-increases.
-
 To install reuse, you only need to run the following command::
 
     pip3 install --user fsfe-reuse
@@ -103,80 +80,38 @@ recommendations <https://reuse.software/practices/>`__. In a nutshell:
 
 -  Include the texts of all used licenses in your project.
 
-   -  A special note on the GPL: If you use
-      ``Valid-License-Identifier: GPL-3.0`` or name the file
-      ``LICENSES/GPL-3.0.txt``, this will catch all the following
-      licenses: ``GPL-3.0``, ``GPL-3.0+``, ``GPL-3.0-only`` and
-      ``GPL-3.0-or-later``. This applies to the entire GPL family of
-      licenses.
+-  Add a comment header to each file that says ``SPDX-License-Identifier:
+   GPL-3.0-or-later``.
 
--  Add a comment header to each file that says
-   ``SPDX-License-Identifier:
-   GPL-3.0-or-later``. Replace
-   ``GPL-3.0-or-later`` with the license that applies to the file. If
-   you cannot edit the comment header, include a
-   `debian/copyright <https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/>`__
-   file.
-
--  Add a comment header to each file that says ``© YEAR  NAME``. You can
-   be flexible with the format, just make sure that the line starts with
-   the copyright sign: ``©``. You can add multiple lines.
+-  Add a comment header to each file that says ``SPDX-Copyright: YEAR NAME``.
+   You can be flexible with the format, just make sure that the line starts
+   with ``SPDX-Copyright:``.
 
 Once you have taken those steps (again, read the actual recommendations
 for better instructions), you can use this tool to verify whether your
 project is fully compliant with the REUSE recommendations. To check
 against the recommendations, use ``reuse lint``::
 
-    ~/Projects/curl$ reuse lint
-    .gitattributes
-    README
-    docs/libcurl/CMakeLists.txt
-    lib/.gitattributes
+    ~/Projects/reuse-tool $ reuse lint
     [...]
-
-All the listed files have no licence information associated with them.
-
-To generate a bill of materials, use ``reuse compile``::
-
-    ~/Projects/curll$ reuse compile
-    SPDXVersion: SPDX-2.1
-    DataLicense: CC0-1.0
-    SPDXID: SPDXRef-DOCUMENT
-    DocumentName: curl
-    DocumentNamespace: http://spdx.org/spdxdocs/spdx-v2.1-c8c7047c-855c-45a6-bed0-c23900498a79
-    Creator: Person: Anonymous ()
-    Creator: Organization: Anonymous ()
-    Creator: Tool: reuse-0.0.4
-    Created: 2017-11-15T11:42:28Z
-    CreatorComment: <text>This document was created automatically using available reuse information consistent with the REUSE Initiative.</text>
-    [...]
-
-Ideally, you would distribute this bill of materials together with the
-tarfile distribution of your project.
-
-Make sure that, when outputting to a file, this file ends in the
-``.spdx`` extension. If you do not do this, the tool will attempt to
-include the file itself into the bill of materials, which obviously will
-not work.
+    Congratulations! Your project is REUSE compliant :-)
 
 Maintainers
 -----------
 
 -  Carmen Bianca Bakker - carmenbianca@fsfe.org
 
--  Jonas Öberg - jonas@fsfe.org
-
 Contribute
 ----------
 
 Any pull requests or suggestions are welcome at
-https://gitlab.com/reuse/reuse or via e-mail to one of the maintainers.
+https://github.com/fsfe/reuse-tool or via e-mail to one of the maintainers.
 General inquiries can be sent to contact@fsfe.org.
 
 Starting local development is very simple, just execute the following
 commands::
 
-    git clone git@gitlab.com:reuse/reuse.git
+    git clone git@github.com:fsfe/reuse-tool.git
     cd reuse/
     python3 -mvenv venv
     source venv/bin/activate
@@ -189,7 +124,7 @@ Next, run ``make help`` to see the available interactions.
 License
 -------
 
-Copyright (C) 2017 Free Software Foundation Europe e.V.
+Copyright (C) 2017-2019 Free Software Foundation Europe e.V.
 
 Licensed under the GNU General Public License version 3 or later.
 

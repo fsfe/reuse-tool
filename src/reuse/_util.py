@@ -1,21 +1,4 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright (C) 2017  Free Software Foundation Europe e.V.
-#
-# This file is part of reuse, available from its original location:
-# <https://gitlab.com/reuse/reuse/>.
-#
-# reuse is free software: you can redistribute it and/or modify it under the
-# terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
-#
-# reuse is distributed in the hope that it will be useful, but WITHOUT ANY
-# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-# A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along with
-# reuse.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -23,32 +6,42 @@
 
 import logging
 import os
+import re
 import shutil
 import subprocess
+from gettext import gettext as _
+from hashlib import sha1
 from pathlib import Path
-from typing import BinaryIO, List, Optional, Union
+from typing import BinaryIO, List, Optional, Set, Union
 
-import chardet
+from debian.copyright import Copyright
+from license_expression import ExpressionError, Licensing
+from spdx.checksum import Algorithm
 
+from . import SpdxInfo
 
 GIT_EXE = shutil.which("git")
 
-
-try:
-    from pygit2 import discover_repository
-
-    GIT_METHOD = "pygit2"
-except ImportError:  # pragma: no cover
-    if GIT_EXE:
-        GIT_METHOD = "git"
-    else:
-        GIT_METHOD = None
-
-
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
-
+_LICENSING = Licensing()
 
 PathLike = Union[Path, str]  # pylint: disable=invalid-name
+
+_END_PATTERN = r"(?:\*/)*(?:-->)*$"
+_IDENTIFIER_PATTERN = re.compile(
+    r"SPDX" "-License-Identifier: (.*?)" + _END_PATTERN, re.MULTILINE
+)
+_COPYRIGHT_PATTERN = re.compile(
+    r"SPDX" "-Copyright: (.*?)" + _END_PATTERN, re.MULTILINE
+)
+_VALID_LICENSE_PATTERN = re.compile(
+    r"Valid" "-License-Identifier: (.*?)" + _END_PATTERN, re.MULTILINE
+)
+
+# Amount of bytes that we assume will be big enough to contain the entire
+# comment header (including SPDX tags), so that we don't need to read the
+# entire file.
+_HEADER_BYTES = 4096
 
 
 def setup_logging(level: int = logging.WARNING) -> None:
@@ -74,7 +67,7 @@ def execute_command(
     logger.debug("running %s", " ".join(command))
 
     stdout = kwargs.get("stdout", subprocess.PIPE)
-    stderr = kwargs.get("stderr", None)
+    stderr = kwargs.get("stderr", subprocess.PIPE)
 
     return subprocess.run(command, stdout=stdout, stderr=stderr, **kwargs)
 
@@ -85,16 +78,12 @@ def find_root() -> Optional[Path]:
     """
     cwd = Path.cwd()
     if in_git_repo(cwd):
-        if GIT_METHOD == "pygit2":
-            repo = discover_repository(str(cwd))
-            return Path(repo).parent
-        if GIT_METHOD == "git":
-            command = [GIT_EXE, "rev-parse", "--show-toplevel"]
-            result = execute_command(command, _logger, cwd=str(cwd))
+        command = [GIT_EXE, "rev-parse", "--show-toplevel"]
+        result = execute_command(command, _logger, cwd=str(cwd))
 
-            if not result.returncode:
-                path = result.stdout.decode("utf-8")[:-1]
-                return Path(os.path.relpath(path, str(cwd)))
+        if not result.returncode:
+            path = result.stdout.decode("utf-8")[:-1]
+            return Path(os.path.relpath(path, str(cwd)))
     return None
 
 
@@ -106,13 +95,7 @@ def in_git_repo(cwd: PathLike = None) -> bool:
     if cwd is None:
         cwd = Path.cwd()
 
-    if GIT_METHOD == "pygit2":
-        try:
-            discover_repository(str(cwd))
-            return True
-        except KeyError:
-            return False
-    elif GIT_METHOD == "git":
+    if GIT_EXE:
         command = [GIT_EXE, "status"]
         result = execute_command(command, _logger, cwd=str(cwd))
 
@@ -121,16 +104,27 @@ def in_git_repo(cwd: PathLike = None) -> bool:
     return False
 
 
-def _is_binary_string(bytes_string: bytes) -> bool:
-    """Given a bytes object, does it look like a binary string or a text
-    string?
+def _all_files_ignored_by_git(root: PathLike) -> Set[str]:
+    """Return a set of all files ignored by git. If a whole directory is
+    ignored, don't return all files inside of it.
 
-    Behaviour is based on file(1).
+    Return an empty list if git is not installed.
     """
-    textchars = bytearray(
-        {7, 8, 9, 10, 12, 13, 27} | set(range(0x20, 0x100)) - {0x7F}
-    )
-    return bool(bytes_string.translate(None, textchars))
+    root = Path(root)
+
+    if GIT_EXE:
+        command = [
+            GIT_EXE,
+            "ls-files",
+            "--exclude-standard",
+            "--ignored",
+            "--others",
+            "--directory",
+        ]
+        result = execute_command(command, _logger, cwd=str(root))
+        all_files = result.stdout.decode("utf-8").split("\n")
+        return set(all_files)
+    return set()
 
 
 def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
@@ -141,14 +135,59 @@ def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
     If *size* is specified, only read so many bytes.
     """
     rawdata = binary_file.read(size)
-    if _is_binary_string(rawdata):
-        raise UnicodeError("cannot decode binary data")
-    result = chardet.detect(rawdata)
-    encoding = result.get("encoding")
-    if encoding is None:
-        encoding = "utf-8"
-    try:
-        return rawdata.decode(encoding, errors="replace")
-    # Handle unknown encodings.
-    except LookupError as error:
-        raise UnicodeError("could not decode {}".format(encoding)) from error
+    return rawdata.decode("utf-8", errors="replace")
+
+
+def _determine_license_path(path: PathLike) -> Path:
+    """Given a path FILE, return FILE.license if it exists, otherwise return
+    FILE.
+    """
+    path = Path(path)
+    license_path = Path("{}.license".format(path))
+    if not license_path.exists():
+        license_path = path
+    return license_path
+
+
+def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
+    """Find the reuse information of *path* in the dep5 Copyright object."""
+    result = copyright.find_files_paragraph(str(path))
+
+    if result is None:
+        return SpdxInfo(set(), set())
+
+    return SpdxInfo(
+        set(map(_LICENSING.parse, [result.license.synopsis])),
+        set(map(str.strip, result.copyright.splitlines())),
+    )
+
+
+def extract_spdx_info(text: str) -> None:
+    """Extract SPDX information from comments in a string."""
+    expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
+    expressions = set()
+    for expression in expression_matches:
+        try:
+            expressions.add(_LICENSING.parse(expression))
+        except ExpressionError:
+            _logger.error(_("Could not parse '%s'"), expression)
+            raise
+    copyright_matches = set(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
+
+    return SpdxInfo(expressions, copyright_matches)
+
+
+def extract_valid_license(text: str) -> Set[str]:
+    """Extract SPDX identifier from a string."""
+    return set(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
+
+
+def _checksum(path: PathLike) -> Algorithm:
+    path = Path(path)
+
+    file_sha1 = sha1()
+    with path.open("rb") as fp:
+        for chunk in iter(lambda: fp.read(128 * file_sha1.block_size), b""):
+            file_sha1.update(chunk)
+
+    return Algorithm("SHA1", file_sha1.hexdigest())

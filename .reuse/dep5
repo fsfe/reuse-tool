@@ -1,0 +1,16 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: reuse
+Upstream-Contact: Carmen Bianca Bakker <carmenbianca@fsfe.org>
+Source: https://github.com/fsfe/reuse-tool
+
+Files: .bumpversion.cfg
+Copyright: 2017-2019 Free Software Foundation Europe e.v.
+License: GPL-3.0-or-later
+
+Files: docs/*.rst
+Copyright: 2017-2018 Free Software Foundation Europe e.V.
+License: CC-BY-SA-4.0
+
+Files: tests/resources/*
+Copyright: 2017-2019 Free Software Foundation Europe e.V.
+License: GPL-3.0-or-later
