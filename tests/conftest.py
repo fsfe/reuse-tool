@@ -88,7 +88,7 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     if not git_exe:
         pytest.skip("cannot run this test without git")
 
-    subprocess.run([GIT_EXE, "init", str(fake_repository)])
+    os.chdir(str(fake_repository))
 
     gitignore = (
         "# SPDX"
@@ -108,7 +108,10 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     build_dir.mkdir()
     (build_dir / "hello.py").touch()
 
-    os.chdir(str(fake_repository))
+    subprocess.run([GIT_EXE, "init", str(fake_repository)])
+    subprocess.run([GIT_EXE, "add", str(fake_repository)])
+    subprocess.run([GIT_EXE, "commit", "-m", "initial"])
+
     return fake_repository
 
 
