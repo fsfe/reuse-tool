@@ -198,3 +198,4 @@ venv.bak/
 
 po/reuse.pot
 *.mo
+pip-wheel-metadata/
