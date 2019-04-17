@@ -211,7 +211,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
 
     out.write(
         _(
-            "Files with license information: {count} / {total}".format(
+            "Files with valid license information: {count} / {total}".format(
                 count=file_total - len(report.files_without_licenses),
                 total=file_total,
             )
