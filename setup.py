@@ -57,6 +57,8 @@ def mo_files():
 class BuildTrans(cmd.Command):
     """Command for compiling the .mo files."""
 
+    user_options = []
+
     def initialize_options(self):
         self.po_files = None
 
