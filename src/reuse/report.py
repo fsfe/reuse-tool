@@ -34,7 +34,7 @@ FileReportInfo = NamedTuple(
 )
 
 
-class ProjectReport:
+class ProjectReport:  # pylint: disable=too-many-instance-attributes
     """Object that holds linting report about the project."""
 
     def __init__(self):
@@ -44,6 +44,10 @@ class ProjectReport:
         self.bad_licenses = dict()
         self.read_errors = set()
         self.file_reports = set()
+
+        self._unused_licenses = None
+        self._files_without_licenses = None
+        self._files_without_copyright = None
 
     def to_dict(self):
         """Turn the report into a json-like dictionary."""
@@ -186,6 +190,56 @@ class ProjectReport:
                 project_report.bad_licenses.setdefault(name, set()).add(path)
 
         return project_report
+
+    @property
+    def unused_licenses(self) -> Set[str]:
+        """Set of license identifiers that are not found in any file report."""
+        if self._unused_licenses is not None:
+            return self._unused_licenses
+
+        used_licenses = set()
+        unused_licenses = set()
+
+        for file_report in self.file_reports:
+            for lic in file_report.spdxfile.licenses_in_file:
+                used_licenses.add(lic.identifier)
+
+        for lic in self.licenses:
+            if lic not in used_licenses:
+                unused_licenses.add(lic)
+
+        self._unused_licenses = unused_licenses
+        return unused_licenses
+
+    @property
+    def files_without_licenses(self) -> Iterable[PathLike]:
+        """Iterable of paths that have no license information."""
+        if self._files_without_licenses is not None:
+            return self._files_without_licenses
+
+        files_without_licenses = []
+
+        for file_report in self.file_reports:
+            if not file_report.spdxfile.licenses_in_file:
+                files_without_licenses.append(file_report.path)
+
+        self._files_without_licenses = files_without_licenses
+        return files_without_licenses
+
+    @property
+    def files_without_copyright(self) -> Iterable[PathLike]:
+        """Iterable of paths that have no license information."""
+        if self._files_without_copyright is not None:
+            return self._files_without_copyright
+
+        files_without_copyright = []
+
+        for file_report in self.file_reports:
+            if not file_report.spdxfile.copyright:
+                files_without_copyright.append(file_report.path)
+
+        self._files_without_copyright = files_without_copyright
+        return files_without_copyright
 
 
 class FileReport:
