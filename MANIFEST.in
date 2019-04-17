@@ -16,6 +16,7 @@ recursive-include src *
 recursive-include tests *
 recursive-include po *
 exclude po/reuse.pot
+recursive-exclude po *.mo
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
