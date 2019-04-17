@@ -13,9 +13,9 @@ from typing import Iterable
 from .report import ProjectReport
 
 
-def _write_file(file_, out=sys.stdout):
+def _write_element(element, out=sys.stdout):
     out.write("  ")
-    out.write(str(file_))
+    out.write(str(element))
     out.write("\n")
 
 
@@ -27,6 +27,8 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
     read_errors_result = lint_read_errors(report, out)
     files_without_licenses_result = lint_files_without_licenses(report, out)
     files_without_copyright_result = lint_files_without_copyright(report, out)
+
+    lint_summary(report, out=out)
 
     success = not any(
         any(result)
@@ -41,8 +43,9 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
     )
 
     if success:
+        out.write("\n")
         out.write(_("Congratulations! Your project is REUSE compliant :-)"))
-        out.write(_("\n"))
+        out.write("\n")
 
     return success
 
@@ -58,11 +61,11 @@ def lint_bad_licenses(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
         out.write("\n")
         for lic, files in sorted(report.bad_licenses.items()):
             out.write("\n")
-            out.write(_("{} found in:").format(lic))
+            out.write(_("'{}' found in:").format(lic))
             out.write("\n")
             for file_ in sorted(files):
                 bad_files.append(file_)
-                _write_file(file_, out=out)
+                _write_element(file_, out=out)
         out.write("\n")
 
     return bad_files
@@ -82,11 +85,11 @@ def lint_missing_licenses(
 
         for lic, files in sorted(report.missing_licenses.items()):
             out.write("\n")
-            out.write(_("{} found in:").format(lic))
+            out.write(_("'{}' found in:").format(lic))
             out.write("\n")
             for file_ in sorted(files):
                 bad_files.append(file_)
-                _write_file(file_, out=out)
+                _write_element(file_, out=out)
         out.write("\n")
 
     return bad_files
@@ -98,27 +101,16 @@ def lint_unused_licenses(
     """Lint for unused licenses. A license is unused when it is not
     referenced in any files.
     """
-    used_licenses = set()
-    unused_licenses = set()
-
-    for file_report in report.file_reports:
-        for lic in file_report.spdxfile.licenses_in_file:
-            used_licenses.add(lic.identifier)
-
-    for lic in report.licenses:
-        if lic not in used_licenses:
-            unused_licenses.add(lic)
-
-    if unused_licenses:
+    if report.unused_licenses:
         out.write(_("UNUSED LICENSES"))
         out.write("\n\n")
         out.write(_("The following licenses are not used:"))
         out.write("\n")
-        for lic in sorted(unused_licenses):
-            _write_file(lic, out=out)
+        for lic in sorted(report.unused_licenses):
+            _write_element(lic, out=out)
         out.write("\n")
 
-    return unused_licenses
+    return report.unused_licenses
 
 
 def lint_read_errors(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
@@ -132,7 +124,7 @@ def lint_read_errors(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
         out.write("\n")
         for file_ in report.read_errors:
             bad_files.append(file_)
-            _write_file(file_, out=out)
+            _write_element(file_, out=out)
         out.write("\n")
 
     return bad_files
@@ -142,41 +134,87 @@ def lint_files_without_licenses(
     report: ProjectReport, out=sys.stdout
 ) -> Iterable[str]:
     """Lint for files that do not have any license information."""
-    files_without_licenses = []
-
-    for file_report in report.file_reports:
-        if not file_report.spdxfile.licenses_in_file:
-            files_without_licenses.append(file_report.path)
-
-    if files_without_licenses:
+    if report.files_without_licenses:
         out.write(_("NO LICENSE"))
         out.write("\n\n")
         out.write(_("The following files have no license(s):"))
         out.write("\n")
-        for file_ in sorted(files_without_licenses):
-            _write_file(file_, out=out)
+        for file_ in sorted(report.files_without_licenses):
+            _write_element(file_, out=out)
         out.write("\n")
 
-    return files_without_licenses
+    return report.files_without_licenses
 
 
 def lint_files_without_copyright(
     report: ProjectReport, out=sys.stdout
 ) -> Iterable[str]:
     """Lint for files that do not have any copyright information."""
-    files_without_copyright = []
-
-    for file_report in report.file_reports:
-        if not file_report.spdxfile.copyright:
-            files_without_copyright.append(file_report.path)
-
-    if files_without_copyright:
+    if report.files_without_copyright:
         out.write(_("NO COPYRIGHT"))
         out.write("\n\n")
         out.write(_("The following files have no copyright:"))
         out.write("\n")
-        for file_ in sorted(files_without_copyright):
-            _write_file(file_, out=out)
+        for file_ in sorted(report.files_without_copyright):
+            _write_element(file_, out=out)
         out.write("\n")
 
-    return files_without_copyright
+    return report.files_without_copyright
+
+
+def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
+    """Print a summary for linting."""
+    out.write(_("SUMMARY"))
+    out.write("\n\n")
+
+    file_total = len(report.file_reports)
+
+    out.write(
+        _("Bad licenses: {count}".format(count=len(report.bad_licenses)))
+    )
+    out.write("\n")
+
+    out.write(
+        _(
+            "Missing licenses: {count}".format(
+                count=len(report.missing_licenses)
+            )
+        )
+    )
+    out.write("\n")
+
+    out.write(
+        _("Unused licenses: {count}".format(count=len(report.unused_licenses)))
+    )
+    out.write("\n")
+
+    out.write(_("Used licenses:"))
+    for i, lic in enumerate(sorted(report.licenses)):
+        if i:
+            out.write(",")
+        out.write(" ")
+        out.write(lic)
+    out.write("\n")
+
+    out.write(_("Read errors: {count}".format(count=len(report.read_errors))))
+    out.write("\n")
+
+    out.write(
+        _(
+            "Files with copyright information: {count} / {total}".format(
+                count=file_total - len(report.files_without_copyright),
+                total=file_total,
+            )
+        )
+    )
+    out.write("\n")
+
+    out.write(
+        _(
+            "Files with license information: {count} / {total}".format(
+                count=file_total - len(report.files_without_licenses),
+                total=file_total,
+            )
+        )
+    )
+    out.write("\n")
