@@ -10,6 +10,7 @@ import subprocess
 from distutils import cmd
 from distutils.command.build import build
 from pathlib import Path
+from warnings import warn
 
 from setuptools import setup
 
@@ -61,15 +62,20 @@ class BuildTrans(cmd.Command):
 
     def initialize_options(self):
         self.po_files = None
+        self.msgfmt = None
 
     def finalize_options(self):
         self.po_files = glob.glob("po/*.po")
+        self.msgfmt = shutil.which("msgfmt")
 
     def run(self):
-        for po_file in self.po_files:
-            subprocess.run(
-                ["msgfmt", po_file, "-o", po_file.replace(".po", ".mo")]
-            )
+        if self.msgfmt:
+            for po_file in self.po_files:
+                subprocess.run(
+                    [self.msgfmt, po_file, "-o", po_file.replace(".po", ".mo")]
+                )
+        else:
+            warn("msgfmt is not installed. Translations will not be included.")
 
 
 class Build(build):
