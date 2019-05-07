@@ -31,7 +31,7 @@ py37-test:
 
 py38-test:
     <<: *tox_definition
-    image: python:3.8
+    image: python:3.8-rc
     variables:
         TOXENV: py38-test
 
