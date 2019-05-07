@@ -49,16 +49,3 @@ docs:
     artifacts:
         paths:
             - docs/_build/html
-
-pages:
-    stage: deploy
-    image: python:latest
-    only:
-        - /v[0-9]+.*/
-    dependencies:
-        - docs
-    script:
-        - mv docs/_build/html public
-    artifacts:
-        paths:
-            - public
