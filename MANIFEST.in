@@ -1,16 +1,22 @@
-# SPDX-Copyright: 2017-2018 Free Software Foundation Europe e.V.
+# SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+include AUTHORS.rst
 include README.rst
 include CHANGELOG.rst
 include Makefile
+include tox.ini
+include requirements.txt
 
 recursive-include LICENSES *
 recursive-include docs *
 prune docs/_build
+recursive-include src *
 recursive-include tests *
-recursive-include po *.po
+recursive-include po *
+exclude po/reuse.pot
+recursive-exclude po *.mo
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]

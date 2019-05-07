@@ -90,6 +90,22 @@ def test_all_files_git_ignored_different_cwd(git_repository):
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
+@git
+def test_all_files_git_ignored_contains_space(git_repository):
+    """Files that contain spaces are also ignored."""
+    (git_repository / "I contain spaces.pyc").touch()
+    project = Project(git_repository)
+    assert Path("I contain spaces.pyc").absolute() not in project.all_files()
+
+
+@git
+def test_all_files_git_ignored_contains_newline(git_repository):
+    """Files that contain newlines are also ignored."""
+    (git_repository / "hello\nworld.pyc").touch()
+    project = Project(git_repository)
+    assert Path("hello\nworld.pyc").absolute() not in project.all_files()
+
+
 def test_spdx_info_of_file_does_not_exist(fake_repository):
     """Raise FileNotFoundError when asking for the SPDX info of a file that
     does not exist.

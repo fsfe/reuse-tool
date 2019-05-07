@@ -121,9 +121,15 @@ def _all_files_ignored_by_git(root: PathLike) -> Set[str]:
             "--ignored",
             "--others",
             "--directory",
+            # FIXME: This flag is unexpected.  I reported it as a bug in Git.
+            # This flag---counter-intuitively---lists untracked directories
+            # that contain ignored files.
+            "--no-empty-directory",
+            # Separate output with \0 instead of \n.
+            "-z",
         ]
         result = execute_command(command, _logger, cwd=root)
-        all_files = result.stdout.decode("utf-8").split("\n")
+        all_files = result.stdout.decode("utf-8").split("\0")
         return set(all_files)
     return set()
 

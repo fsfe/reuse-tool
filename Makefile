@@ -82,9 +82,9 @@ tox: ## run all tests against multiple versions of Python
 	tox
 
 .PHONY: dist
-dist: clean _pre-docs compile-mo ## builds source and wheel package
-	RST_ERROR=1 python setup.py sdist
-	RST_ERROR=1 python setup.py bdist_wheel
+dist: clean _pre-docs ## builds source and wheel package
+	python setup.py sdist
+	python setup.py bdist_wheel
 	ls -l dist
 
 .PHONY: create-pot
@@ -96,10 +96,6 @@ create-pot:  ## generate .pot file
 .PHONY: update-po-files
 update-po-files: create-pot  ## update .po files
 	find ./po -name "*.po" -exec msgmerge --width=79 --output={} {} po/reuse.pot \;
-
-.PHONY: compile-mo
-compile-mo:  ## compile .mo files
-	find ./po -name "*.po" | while read f; do msgfmt $$f -o $${f%.po}.mo; done
 
 .PHONY: test-release
 test-release: dist  ## package and upload to testpypi
@@ -118,8 +114,8 @@ uninstall:  ## uninstall reuse
 	-pip uninstall -y fsfe-reuse
 
 .PHONY: install
-install: uninstall install-requirements dist  ## install reuse
-	pip install dist/*.whl
+install: uninstall install-requirements ## install reuse
+	python setup.py install
 
 .PHONY: develop
 develop: uninstall install-requirements  ## install source directory
