@@ -37,7 +37,7 @@ def pytest_runtest_setup(item):
     """Called before running a test."""
     # pylint: disable=unused-argument
     # Make sure to restore CWD
-    os.chdir(str(CWD))
+    os.chdir(CWD)
 
 
 @pytest.fixture(params=[True, False])
@@ -78,7 +78,7 @@ def fake_repository(tmpdir_factory) -> Path:
         "-License-Identifier: GPL-3.0-or-later WITH Autoconf-exception-3.0"
     )
 
-    os.chdir(str(directory))
+    os.chdir(directory)
     return directory
 
 
@@ -88,7 +88,7 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     if not git_exe:
         pytest.skip("cannot run this test without git")
 
-    os.chdir(str(fake_repository))
+    os.chdir(fake_repository)
 
     gitignore = (
         "# SPDX"

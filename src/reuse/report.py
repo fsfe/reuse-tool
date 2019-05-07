@@ -9,6 +9,7 @@ import logging
 from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
+from os import PathLike
 from pathlib import Path
 from typing import Iterable, NamedTuple, Set
 from uuid import uuid4
@@ -18,7 +19,7 @@ from spdx.document import License
 from spdx.file import File
 
 from . import __version__
-from ._util import PathLike, _checksum
+from ._util import _checksum
 from .project import Project
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name

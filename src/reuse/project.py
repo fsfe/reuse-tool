@@ -84,7 +84,7 @@ class Project:
             _logger.debug("yielding %s", directory)
             yield directory
 
-        for root, dirs, files in os.walk(str(directory)):
+        for root, dirs, files in os.walk(directory):
             root = Path(root)
             _logger.debug("currently walking in %s", root)
 
@@ -149,7 +149,7 @@ class Project:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
-        return Path(os.path.relpath(str(path), start=str(self.root)))
+        return Path(os.path.relpath(path, start=self.root))
 
     def _ignored_by_vcs(self, path: PathLike) -> bool:
         """Is *path* covered by the ignore mechanism of the VCS (e.g.,
