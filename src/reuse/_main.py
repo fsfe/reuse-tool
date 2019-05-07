@@ -157,3 +157,7 @@ def main(args: List[str] = None, out=sys.stdout) -> None:
         out.write(_("reuse, version {}\n").format(__version__))
         return 0
     return parsed_args.func(parsed_args, out)
+
+
+if __name__ == "__main__":
+    main()
