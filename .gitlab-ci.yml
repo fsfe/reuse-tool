@@ -17,16 +17,6 @@ before_script:
         - tox
     tags:
         - docker
-py35-test:
-    <<: *tox_definition
-    image: python:3.5
-    script:
-        - sed -i '/^black/d' requirements.txt
-        - pip install tox
-        - tox
-    variables:
-        TOXENV: py35-test
-
 py36-test:
     <<: *tox_definition
     image: python:3.6
@@ -38,6 +28,12 @@ py37-test:
     image: python:3.7
     variables:
         TOXENV: py37-test
+
+py38-test:
+    <<: *tox_definition
+    image: python:3.8-rc
+    variables:
+        TOXENV: py38-test
 
 lint:
     <<: *tox_definition
@@ -53,16 +49,3 @@ docs:
     artifacts:
         paths:
             - docs/_build/html
-
-pages:
-    stage: deploy
-    image: python:latest
-    only:
-        - /v[0-9]+.*/
-    dependencies:
-        - docs
-    script:
-        - mv docs/_build/html public
-    artifacts:
-        paths:
-            - public

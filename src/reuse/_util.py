@@ -4,6 +4,8 @@
 
 """Misc. utilities for reuse."""
 
+# pylint: disable=ungrouped-imports
+
 import logging
 import os
 import re
@@ -11,8 +13,9 @@ import shutil
 import subprocess
 from gettext import gettext as _
 from hashlib import sha1
+from os import PathLike
 from pathlib import Path
-from typing import BinaryIO, List, Optional, Set, Union
+from typing import BinaryIO, List, Optional, Set
 
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
@@ -24,8 +27,6 @@ GIT_EXE = shutil.which("git")
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 _LICENSING = Licensing()
-
-PathLike = Union[Path, str]  # pylint: disable=invalid-name
 
 _END_PATTERN = r"(?:\*/)*(?:-->)*$"
 _IDENTIFIER_PATTERN = re.compile(
@@ -79,11 +80,11 @@ def find_root() -> Optional[Path]:
     cwd = Path.cwd()
     if in_git_repo(cwd):
         command = [GIT_EXE, "rev-parse", "--show-toplevel"]
-        result = execute_command(command, _logger, cwd=str(cwd))
+        result = execute_command(command, _logger, cwd=cwd)
 
         if not result.returncode:
             path = result.stdout.decode("utf-8")[:-1]
-            return Path(os.path.relpath(path, str(cwd)))
+            return Path(os.path.relpath(path, cwd))
     return None
 
 
@@ -97,7 +98,7 @@ def in_git_repo(cwd: PathLike = None) -> bool:
 
     if GIT_EXE:
         command = [GIT_EXE, "status"]
-        result = execute_command(command, _logger, cwd=str(cwd))
+        result = execute_command(command, _logger, cwd=cwd)
 
         return not result.returncode
 
@@ -121,7 +122,7 @@ def _all_files_ignored_by_git(root: PathLike) -> Set[str]:
             "--others",
             "--directory",
         ]
-        result = execute_command(command, _logger, cwd=str(root))
+        result = execute_command(command, _logger, cwd=root)
         all_files = result.stdout.decode("utf-8").split("\n")
         return set(all_files)
     return set()
