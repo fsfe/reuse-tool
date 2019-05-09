@@ -59,7 +59,7 @@ def parser() -> argparse.ArgumentParser:
     )
     parser.set_defaults(func=lambda x, y: parser.print_help())
 
-    subparsers = parser.add_subparsers()
+    subparsers = parser.add_subparsers(title=_("subcommands"))
 
     add_command(
         subparsers,
