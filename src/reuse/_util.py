@@ -47,7 +47,7 @@ _HEADER_BYTES = 4096
 
 def setup_logging(level: int = logging.WARNING) -> None:
     """Configure logging for reuse."""
-    # library_logger is the root logger for reuse.  We configure logging solely
+    # library_logger is the root logger for reuse. We configure logging solely
     # for reuse, not for any other libraries.
     library_logger = logging.getLogger("reuse")
     library_logger.setLevel(level)
@@ -62,7 +62,7 @@ def setup_logging(level: int = logging.WARNING) -> None:
 def execute_command(
     command: List[str], logger: logging.Logger, **kwargs
 ) -> subprocess.CompletedProcess:
-    """Run the given command with subprocess.run.  Forward kwargs.  Silence
+    """Run the given command with subprocess.run. Forward kwargs. Silence
     output into a pipe unless kwargs override it.
     """
     logger.debug("running %s", " ".join(command))
@@ -74,7 +74,7 @@ def execute_command(
 
 
 def find_root() -> Optional[Path]:
-    """Try to find the root of the project from $PWD.  If none is found, return
+    """Try to find the root of the project from $PWD. If none is found, return
     None.
     """
     cwd = Path.cwd()
@@ -136,7 +136,7 @@ def _all_files_ignored_by_git(root: PathLike) -> Set[str]:
 
 def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
     """Given a binary file object, detect its encoding and return its contents
-    as a decoded string.  Do not throw any errors if the encoding contains
+    as a decoded string. Do not throw any errors if the encoding contains
     errors:  Just replace the false characters.
 
     If *size* is specified, only read so many bytes.

@@ -33,6 +33,7 @@ from ._util import (
     decoded_text_from_binary,
     extract_spdx_info,
     extract_valid_license,
+    find_root,
     in_git_repo,
 )
 
@@ -288,7 +289,7 @@ class Project:
             pattern = str(self.root.resolve() / pattern)
             for path in glob.iglob(pattern, recursive=True):
                 # For some reason, LICENSES/** is resolved even though it
-                # doesn't exist.  I have no idea why.  Deal with that here.
+                # doesn't exist. I have no idea why. Deal with that here.
                 if not Path(path).exists() or Path(path).is_dir():
                     continue
                 if Path(path).suffix == ".license":
@@ -339,3 +340,13 @@ class Project:
                         self.license_map[identifier] = path
 
         return license_files
+
+
+def create_project() -> Project:
+    """Create a project object. Try to find the project root from CWD,
+    otherwise treat CWD as root.
+    """
+    root = find_root()
+    if root is None:
+        root = Path.cwd()
+    return Project(root)

@@ -134,7 +134,7 @@ def test_spdx_info_of_unlicensed_file(fake_repository):
 
 
 def test_spdx_info_of_only_copyright(fake_repository):
-    """A file contains only a copyright line.  Test whether it correctly picks
+    """A file contains only a copyright line. Test whether it correctly picks
     up on that.
     """
     (fake_repository / "foo.py").write_text("SPDX-Copyright: 2017 Mary Sue")
@@ -147,7 +147,7 @@ def test_spdx_info_of_only_copyright(fake_repository):
 
 def test_spdx_info_of_only_copyright_also_covered_by_debian(fake_repository):
     """A file contains only a copyright line, but debian/copyright also has
-    information on this file.  Use both.
+    information on this file. Use both.
     """
     (fake_repository / "doc/foo.py").write_text("SPDX-Copyright: in file")
     project = Project(fake_repository)
@@ -160,7 +160,7 @@ def test_spdx_info_of_only_copyright_also_covered_by_debian(fake_repository):
 
 def test_spdx_info_of_also_covered_by_dep5(fake_repository):
     """A file contains all SPDX information, but .reuse/dep5 also
-    provides information on this file.  Use both.
+    provides information on this file. Use both.
     """
     (fake_repository / "doc/foo.py").write_text(
         dedent(
@@ -178,7 +178,7 @@ def test_spdx_info_of_also_covered_by_dep5(fake_repository):
 
 
 def test_spdx_info_of_no_duplicates(empty_directory):
-    """A file contains the same lines twice.  The SpdxInfo only contains those
+    """A file contains the same lines twice. The SpdxInfo only contains those
     lines once.
     """
     spdx_line = "SPDX-License-Identifier: GPL-3.0-or-later\n"

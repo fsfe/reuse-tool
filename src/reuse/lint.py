@@ -10,6 +10,7 @@ import sys
 from gettext import gettext as _
 from typing import Iterable
 
+from .project import create_project
 from .report import ProjectReport
 
 
@@ -51,7 +52,7 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
 
 
 def lint_bad_licenses(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
-    """Lint for bad licenses.  Bad licenses are licenses that are not in the
+    """Lint for bad licenses. Bad licenses are licenses that are not in the
     SPDX License List or do not start with LicenseRef-.
     """
     bad_files = []
@@ -218,3 +219,21 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
         )
     )
     out.write("\n")
+
+
+def add_arguments(parser):
+    """Add arguments to parser."""
+    parser.add_argument("paths", action="store", nargs="*")
+
+
+def run(args, out=sys.stdout):
+    """List all non-compliant files."""
+    project = create_project()
+    paths = args.paths
+    if not paths:
+        paths = [project.root]
+
+    report = ProjectReport.generate(project, paths)
+    result = lint(report, out=out)
+
+    return 0 if result else 1
