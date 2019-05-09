@@ -14,7 +14,12 @@ from warnings import warn
 
 from setuptools import setup
 
-requirements = ["python-debian", "spdx-tools", "license-expression"]
+requirements = [
+    "python-debian",
+    "requests",
+    "spdx-tools",
+    "license-expression",
+]
 
 test_requirements = ["pytest"]
 
