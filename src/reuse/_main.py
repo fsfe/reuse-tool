@@ -44,7 +44,6 @@ def parser() -> argparse.ArgumentParser:
     """Create the parser and return it."""
     # pylint: disable=redefined-outer-name
     parser = argparse.ArgumentParser(
-        "reuse",
         formatter_class=argparse.RawTextHelpFormatter,
         description=(_DESCRIPTION_TEXT),
         epilog=_EPILOG_TEXT,
