@@ -52,7 +52,7 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
 
 
 def lint_bad_licenses(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
-    """Lint for bad licenses.  Bad licenses are licenses that are not in the
+    """Lint for bad licenses. Bad licenses are licenses that are not in the
     SPDX License List or do not start with LicenseRef-.
     """
     bad_files = []

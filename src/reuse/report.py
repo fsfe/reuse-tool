@@ -122,7 +122,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                     report.spdxfile.chk_sum.value
                 )
             )
-            # IMPORTANT: Make no assertion about concluded license.  This tool
+            # IMPORTANT: Make no assertion about concluded license. This tool
             # cannot, with full certainty, determine the license of a file.
             out.write("LicenseConcluded: NOASSERTION\n")
 

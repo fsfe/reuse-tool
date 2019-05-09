@@ -26,7 +26,7 @@ def fill_all(text, width=WIDTH, indent_width=0):
 
 
 def split_into_paragraphs(text):
-    """Yield all paragraphs in a text.  A paragraph is a piece of text
+    """Yield all paragraphs in a text. A paragraph is a piece of text
     surrounded by empty lines.
     """
     lines = text.splitlines()

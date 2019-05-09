@@ -19,15 +19,15 @@ _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 _DESCRIPTION_LINES = [
     _(
         "reuse is a tool for compliance with the REUSE Initiative "
-        "recommendations.  See <https://reuse.software/> for more "
+        "recommendations. See <https://reuse.software/> for more "
         "information."
     ),
     _("Support the FSFE's work:"),
 ]
 
 _INDENTED_LINE = _(
-    "Donations are critical to our strength and autonomy.  They enable us to "
-    "continue working for Free Software wherever necessary.  Please consider "
+    "Donations are critical to our strength and autonomy. They enable us to "
+    "continue working for Free Software wherever necessary. Please consider "
     "making a donation at <https://fsfe.org/donate/>."
 )
 
