@@ -45,7 +45,7 @@ def parser() -> argparse.ArgumentParser:
     # pylint: disable=redefined-outer-name
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
-        description=(_DESCRIPTION_TEXT),
+        description=_DESCRIPTION_TEXT,
         epilog=_EPILOG_TEXT,
     )
     parser.add_argument(
