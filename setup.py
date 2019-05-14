@@ -55,7 +55,9 @@ class BuildTrans(cmd.Command):
 
     def finalize_options(self):
         self.po_files = glob.glob("po/*.po")
-        self.msgfmt = shutil.which("msgfmt")
+        for msgfmt in ["msgfmt", "msgfmt.py", "msgfmt3.py"]:
+            self.msgfmt = shutil.which(msgfmt)
+            break
 
     def run(self):
         if self.msgfmt:
