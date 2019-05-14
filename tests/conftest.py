@@ -10,6 +10,7 @@ import logging
 import os
 import shutil
 import subprocess
+import sys
 from io import StringIO
 from pathlib import Path
 from typing import Optional
@@ -17,7 +18,17 @@ from typing import Optional
 import pytest
 from debian.copyright import Copyright
 
-from reuse._util import GIT_EXE, setup_logging
+# A trick that tries to import the installed version of reuse. If that doesn't
+# work, import from the src directory. If that also doesn't work (for some
+# reason), then an ImportError is raised.
+try:
+    import reuse
+except ImportError:
+    sys.path.append(
+        os.path.join(Path(os.path.realpath(__file__)).parent.parent, "src")
+    )
+finally:
+    from reuse._util import GIT_EXE, setup_logging
 
 CWD = Path.cwd()
 
