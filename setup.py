@@ -8,11 +8,11 @@ import glob
 import shutil
 import subprocess
 from distutils import cmd
-from distutils.command.build import build
 from pathlib import Path
 from warnings import warn
 
 from setuptools import setup
+from setuptools.command.build_py import build_py
 
 requirements = ["python-debian", "spdx-tools", "license-expression"]
 
@@ -30,26 +30,15 @@ def changelog_rst():
 
 
 def mo_files():
-    """List all .mo files.
-
-    This is a bit of a hack.  The files need to be renamed to "reuse.mo" for
-    gettext to pick up on them.  So they're all moved into individual
-    directories before being included.
-
-    I really wish there were a better, standardised way to include
-    translations, short of including them as package data.
-    """
-    paths = glob.glob("po/*.mo")
+    """List all .mo files."""
+    paths = glob.glob("build/locale/**/**/*.mo")
     result = []
     for path in paths:
         path = Path(path)
-        lang_dir = Path("po") / path.stem
-        lang_dir.mkdir(exist_ok=True)
-        shutil.copyfile(path, lang_dir / "reuse.mo")
         result.append(
             (
-                "share/locale/{}/LC_MESSAGES/".format(path.stem),
-                [str(lang_dir / "reuse.mo")],
+                "share/locale/{}/LC_MESSAGES/".format(path.parent.parent.name),
+                [str(path)],
             )
         )
     return result
@@ -71,18 +60,25 @@ class BuildTrans(cmd.Command):
     def run(self):
         if self.msgfmt:
             for po_file in self.po_files:
+                self.announce("compiling {}".format(po_file))
+                lang_dir = (
+                    Path("build/locale") / Path(po_file).stem / "LC_MESSAGES"
+                )
+                lang_dir.mkdir(parents=True, exist_ok=True)
                 subprocess.run(
-                    [self.msgfmt, po_file, "-o", po_file.replace(".po", ".mo")]
+                    [self.msgfmt, po_file, "-o", str(lang_dir / "reuse.mo")]
                 )
             self.distribution.data_files = mo_files()
         else:
             warn("msgfmt is not installed. Translations will not be included.")
 
 
-class Build(build):
+class Build(build_py):
     """Redefined build."""
 
-    sub_commands = [("build_trans", None)] + build.sub_commands
+    def run(self):
+        self.run_command("build_trans")
+        super().run()
 
 
 if __name__ == "__main__":
@@ -98,7 +94,7 @@ if __name__ == "__main__":
         long_description=readme_rst() + "\n\n" + changelog_rst(),
         package_dir={"": "src"},
         packages=["reuse"],
-        # data_files = None, # This is set in build_trans!
+        data_files=mo_files(),  # This is potentially re-set in build_trans!
         include_package_data=True,
         entry_points={"console_scripts": ["reuse = reuse._main:main"]},
         install_requires=requirements,
@@ -113,5 +109,5 @@ if __name__ == "__main__":
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
         ],
-        cmdclass={"build": Build, "build_trans": BuildTrans},
+        cmdclass={"build_py": Build, "build_trans": BuildTrans},
     )

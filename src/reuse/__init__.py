@@ -38,15 +38,20 @@ _LOCALE_DIRS = [
     sys.prefix + "/share/locale",
     # Relevant for `pip install --user` installations.
     str(Path.home()) + "/.local/share/locale",
-    # This somehow works for egg installations.
-    pkg_resources.resource_filename(
-        pkg_resources.Requirement.parse("fsfe-reuse"), "share/locale"
-    ),
 ]
 
+try:
+    # This somehow works for egg installations.
+    _LOCALE_DIRS.append(
+        pkg_resources.resource_filename(
+            pkg_resources.Requirement.parse("fsfe-reuse"), "share/locale"
+        )
+    )
+except pkg_resources.DistributionNotFound:
+    pass
+
 for dir in _LOCALE_DIRS:
-    # 'eo' is only used here because I am certain that this translation exists.
-    if (Path(dir) / "eo/LC_MESSAGES/reuse.mo").exists():
+    if gettext.find("reuse", localedir=dir):
         gettext.bindtextdomain("reuse", dir)
         gettext.textdomain("reuse")
         break
