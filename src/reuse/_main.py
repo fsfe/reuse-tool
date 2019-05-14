@@ -10,7 +10,7 @@ import sys
 from gettext import gettext as _
 from typing import List
 
-from . import __version__, lint, spdx, download
+from . import __version__, download, lint, spdx
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import setup_logging
 

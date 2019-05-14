@@ -5,13 +5,13 @@
 """Functions for downloading license files from spdx/license-data-list."""
 
 import argparse
-from itertools import chain
-import sys
 import errno
+import sys
+from gettext import gettext as _
+from itertools import chain
 from os import PathLike
 from pathlib import Path
 from urllib.parse import urljoin
-from gettext import gettext as _
 
 import requests
 
@@ -101,7 +101,12 @@ def run(args, out=sys.stdout) -> int:
         destination.unlink()
 
     try:
-        put_license_in_file(args.license, destination=destination)
+        # IMPORTANT: These redundant lines exist SOLELY to make testing not an
+        # absolute hell.
+        if destination is not None:
+            put_license_in_file(args.license, destination=destination)
+        else:
+            put_license_in_file(args.license)
     except FileExistsError as err:
         out.write(
             _("Error: {} already exists.\n".format(Path(err.filename).name))

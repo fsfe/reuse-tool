@@ -4,21 +4,26 @@
 
 """All tests for reuse._main"""
 
-import os
+# pylint: disable=redefined-outer-name
 
+import errno
+import os
+from pathlib import Path
+from unittest.mock import create_autospec
+
+import pytest
 import requests
 
+from reuse import download
 from reuse._main import main
 
 
-class MockResponse:
-    """Super simple mocked version of Response."""
-
-    # pylint: disable=too-few-public-methods
-
-    def __init__(self, text=None, status_code=None):
-        self.text = text
-        self.status_code = status_code
+@pytest.fixture()
+def mock_put_license_in_file(monkeypatch):
+    """Create a mocked version of put_license_in_file."""
+    result = create_autospec(download.put_license_in_file)
+    monkeypatch.setattr(download, "put_license_in_file", result)
+    return result
 
 
 def test_lint(
@@ -60,22 +65,22 @@ def test_spdx(fake_repository, stringio):
     assert stringio.getvalue()
 
 
-def test_download(fake_repository, stringio, monkeypatch):
+def test_download(fake_repository, stringio, mock_put_license_in_file):
     """Straightforward test."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
+    # pylint: disable=unused-argument
     result = main(["download", "0BSD"], out=stringio)
 
     assert result == 0
-    assert (fake_repository / "LICENSES/0BSD.txt").read_text() == "hello\n"
+    mock_put_license_in_file.assert_called_with("0BSD")
 
 
-def test_download_file_exists(fake_repository, stringio, monkeypatch):
+def test_download_file_exists(
+    fake_repository, stringio, mock_put_license_in_file
+):
     """The to-be-downloaded file already exists."""
     # pylint: disable=unused-argument
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
+    mock_put_license_in_file.side_effect = FileExistsError(
+        errno.EEXIST, "", "GPL-3.0-or-later.txt"
     )
     result = main(["download", "GPL-3.0-or-later"], out=stringio)
 
@@ -83,12 +88,12 @@ def test_download_file_exists(fake_repository, stringio, monkeypatch):
     assert "GPL-3.0-or-later.txt already exists" in stringio.getvalue()
 
 
-def test_download_request_exception(fake_repository, stringio, monkeypatch):
+def test_download_request_exception(
+    fake_repository, stringio, mock_put_license_in_file
+):
     """There was an error while downloading the license file."""
     # pylint: disable=unused-argument
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse(status_code=404)
-    )
+    mock_put_license_in_file.side_effect = requests.RequestException()
     result = main(["download", "0BSD"], out=stringio)
 
     assert result == 1
@@ -96,12 +101,12 @@ def test_download_request_exception(fake_repository, stringio, monkeypatch):
     assert "internet connection" in stringio.getvalue()
 
 
-def test_download_invalid_spdx(fake_repository, stringio, monkeypatch):
+def test_download_invalid_spdx(
+    fake_repository, stringio, mock_put_license_in_file
+):
     """An invalid SPDX identifier was provided."""
     # pylint: disable=unused-argument
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse(status_code=404)
-    )
+    mock_put_license_in_file.side_effect = requests.RequestException()
     result = main(["download", "does-not-exist"], out=stringio)
 
     assert result == 1
@@ -109,75 +114,14 @@ def test_download_invalid_spdx(fake_repository, stringio, monkeypatch):
     assert "does-not-exist is not a valid" in stringio.getvalue()
 
 
-def test_download_in_licenses_dir(fake_repository, stringio, monkeypatch):
-    """Put license file in current directory, if current directory is the
-    LICENSES/ directory.
-    """
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
-    os.chdir("LICENSES")
-    result = main(["download", "0BSD"], out=stringio)
-
-    assert result == 0
-    assert (fake_repository / "LICENSES/0BSD.txt").read_text() == "hello\n"
-
-
-def test_download_empty_dir(empty_directory, stringio, monkeypatch):
-    """Create a LICENSES/ directory if one does not yet exist."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
-    result = main(["download", "0BSD"], out=stringio)
-
-    assert result == 0
-    assert (empty_directory / "LICENSES").exists()
-    assert (empty_directory / "LICENSES/0BSD.txt").read_text() == "hello\n"
-
-
-def test_download_git_repository(git_repository, stringio, monkeypatch):
-    """Find the LICENSES/ directory in a Git repository."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
-    os.chdir("src")
-    result = main(["download", "0BSD"], out=stringio)
-
-    assert result == 0
-    assert (git_repository / "LICENSES/0BSD.txt").read_text() == "hello\n"
-
-
-def test_download_custom_output(empty_directory, stringio, monkeypatch):
+def test_download_custom_output(
+    empty_directory, stringio, mock_put_license_in_file
+):
     """Download the license into a custom file."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
+    # pylint: disable=unused-argument
     result = main(["download", "-o", "foo", "0BSD"], out=stringio)
 
     assert result == 0
-    assert (
-        (empty_directory / "foo").read_text()
-        == "Valid-License-Identifier: 0BSD\n"
-        "License-Text:\n"
-        "\n"
-        "hello\n"
-    )
-
-
-def test_download_custom_exception(empty_directory, stringio, monkeypatch):
-    """Download the exception into a custom file."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
-    result = main(
-        ["download", "-o", "foo", "Autoconf-exception-3.0"], out=stringio
-    )
-
-    assert result == 0
-    assert (
-        (empty_directory / "foo").read_text()
-        == "Valid-Exception-Identifier: Autoconf-exception-3.0\n"
-        "Exception-Text:\n"
-        "\n"
-        "hello\n"
+    mock_put_license_in_file.assert_called_with(
+        "0BSD", destination=Path("foo")
     )
