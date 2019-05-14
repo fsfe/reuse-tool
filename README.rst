@@ -20,7 +20,7 @@ reuse
 
 -  PyPI: https://pypi.python.org/pypi/fsfe-reuse
 
--  Python: 3.5+
+-  Python: 3.6+
 
 Background
 ----------
@@ -62,7 +62,7 @@ Install
 To install reuse, you need to have the following pieces of software on
 your computer:
 
--  Python 3.5+
+-  Python 3.6+
 
 -  Pip
 
