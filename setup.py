@@ -74,6 +74,7 @@ class BuildTrans(cmd.Command):
                 subprocess.run(
                     [self.msgfmt, po_file, "-o", po_file.replace(".po", ".mo")]
                 )
+            self.distribution.data_files = mo_files()
         else:
             warn("msgfmt is not installed. Translations will not be included.")
 
@@ -97,7 +98,7 @@ if __name__ == "__main__":
         long_description=readme_rst() + "\n\n" + changelog_rst(),
         package_dir={"": "src"},
         packages=["reuse"],
-        data_files=mo_files(),
+        # data_files = None, # This is set in build_trans!
         include_package_data=True,
         entry_points={"console_scripts": ["reuse = reuse._main:main"]},
         install_requires=requirements,
