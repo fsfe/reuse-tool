@@ -64,11 +64,11 @@ reuse:  ## check with self
 
 .PHONY: test
 test: ## run tests quickly
-	py.test --doctest-modules
+	py.test
 
 .PHONY: coverage
 coverage: ## check code coverage quickly
-	py.test --doctest-modules --cov-report term-missing --cov=src/reuse
+	py.test --cov-report term-missing --cov=src/reuse
 
 _pre-docs: clean-docs
 	sphinx-apidoc --separate -o docs/ src/reuse
