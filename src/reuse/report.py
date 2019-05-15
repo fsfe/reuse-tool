@@ -22,7 +22,7 @@ from . import __version__
 from ._util import _checksum
 from .project import Project
 
-_logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+_LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
 
 FileReportInfo = NamedTuple(
@@ -168,7 +168,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                     lint_file_info = FileReport.generate(project, file_)
                 except (OSError, UnicodeError):
                     # Translators: %s is a path.
-                    _logger.info(_("Could not read %s"), file_)
+                    _LOGGER.info(_("Could not read %s"), file_)
                     project_report.read_errors.add(file_)
                     continue
 

@@ -37,7 +37,7 @@ from ._util import (
     in_git_repo,
 )
 
-_logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+_LOGGER = logging.getLogger(__name__)
 
 
 class Project:
@@ -55,7 +55,7 @@ class Project:
         if GIT_EXE:
             self._is_git_repo = in_git_repo(self._root)
         else:
-            _logger.warning(_("could not find Git"))
+            _LOGGER.warning(_("could not find Git"))
         if self._is_git_repo:
             self._all_ignored_files = _all_files_ignored_by_git(self._root)
 
@@ -82,26 +82,26 @@ class Project:
         directory = Path(directory)
 
         if directory.is_file() and not self._is_path_ignored(directory):
-            _logger.debug("yielding %s", directory)
+            _LOGGER.debug("yielding %s", directory)
             yield directory
 
         for root, dirs, files in os.walk(directory):
             root = Path(root)
-            _logger.debug("currently walking in %s", root)
+            _LOGGER.debug("currently walking in %s", root)
 
             # Don't walk ignored directories
             for dir_ in list(dirs):
                 if self._is_path_ignored(root / dir_):
-                    _logger.debug("ignoring %s", root / dir_)
+                    _LOGGER.debug("ignoring %s", root / dir_)
                     dirs.remove(dir_)
 
             # Filter files.
             for file_ in files:
                 if self._is_path_ignored(root / file_):
-                    _logger.debug("ignoring %s", root / file_)
+                    _LOGGER.debug("ignoring %s", root / file_)
                     continue
 
-                _logger.debug(_("yielding %s"), file_)
+                _LOGGER.debug(_("yielding %s"), file_)
                 yield root / file_
 
     def spdx_info_of(self, path: PathLike) -> SpdxInfo:
@@ -112,7 +112,7 @@ class Project:
         """
         path = _determine_license_path(path)
         # Translators: %s is a path.
-        _logger.debug("searching %s for SPDX information", path)
+        _LOGGER.debug("searching %s for SPDX information", path)
 
         dep5_result = SpdxInfo(set(), set())
         file_result = SpdxInfo(set(), set())
@@ -124,7 +124,7 @@ class Project:
             )
             if any(dep5_result):
                 # Translators: %s is a path.
-                _logger.info(_("%s covered by .reuse/dep5"), path)
+                _LOGGER.info(_("%s covered by .reuse/dep5"), path)
 
         # Search the file for SPDX information.
         with path.open("rb") as fp:
@@ -133,7 +133,7 @@ class Project:
                     decoded_text_from_binary(fp, size=_HEADER_BYTES)
                 )
             except ExpressionError:
-                _logger.error(
+                _LOGGER.error(
                     _(
                         "%s holds an SPDX expression that cannot be parsed, "
                         "skipping the file"
@@ -256,9 +256,9 @@ class Project:
                 with copyright_path.open() as fp:
                     self._copyright_val = Copyright(fp)
             except (IOError, OSError):
-                _logger.debug("no .reuse/dep5 file, or could not read it")
+                _LOGGER.debug("no .reuse/dep5 file, or could not read it")
             except NotMachineReadableError:
-                _logger.exception(_(".reuse/dep5 has syntax errors"))
+                _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
 
             # This check is a bit redundant, but otherwise I'd have to repeat
             # this line under each exception.
@@ -299,7 +299,7 @@ class Project:
 
                 path = _determine_license_path(path)
                 path = self._relative_from_root(path)
-                _logger.debug("searching %s for license tags", path)
+                _LOGGER.debug("searching %s for license tags", path)
 
                 try:
                     identifiers = self._identifiers_of_license(path)
@@ -307,7 +307,7 @@ class Project:
                     identifier = "LicenseRef-Unknown{}".format(unknown_counter)
                     identifiers = [identifier]
                     unknown_counter += 1
-                    _logger.warning(
+                    _LOGGER.warning(
                         _(
                             "Could not resolve SPDX identifier of {path}, "
                             "resolving to {identifier}"
@@ -316,7 +316,7 @@ class Project:
 
                 for identifier in identifiers:
                     if identifier in license_files:
-                        _logger.critical(
+                        _LOGGER.critical(
                             _(
                                 "{identifier} is the SPDX identifier of both "
                                 "{path} and {other_path}"

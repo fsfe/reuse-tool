@@ -14,7 +14,7 @@ from . import __version__, lint, spdx
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import setup_logging
 
-_logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+_LOGGER = logging.getLogger(__name__)
 
 _DESCRIPTION_LINES = [
     _(
