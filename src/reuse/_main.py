@@ -128,7 +128,7 @@ def add_command(  # pylint: disable=too-many-arguments
     subparser.set_defaults(func=run_func)
 
 
-def main(args: List[str] = None, out=sys.stdout) -> None:
+def main(args: List[str] = None, out=sys.stdout) -> int:
     """Main entry function."""
     if args is None:
         args = sys.argv[1:]
