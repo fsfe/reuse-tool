@@ -20,10 +20,12 @@ class CommentStyle:
     """Base class for comment style."""
 
     SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
     # (start, middle, end)
     # e.g., ("/*", "*", "*/")
     MULTI_LINE = (None, None, None)
     INDENT_BEFORE_MIDDLE = ""
+    INDENT_AFTER_MIDDLE = ""
     INDENT_BEFORE_END = ""
 
     @classmethod
@@ -44,7 +46,7 @@ class CommentStyle:
         for line in text.splitlines():
             line_result = cls.SINGLE_LINE
             if line:
-                line_result += " " + line
+                line_result += cls.INDENT_AFTER_SINGLE + line
             result.append(line_result)
         return "\n".join(result)
 
@@ -59,7 +61,7 @@ class CommentStyle:
             if cls.MULTI_LINE[1]:
                 line_result += cls.INDENT_BEFORE_MIDDLE + cls.MULTI_LINE[1]
             if line:
-                line_result += " " + line
+                line_result += cls.INDENT_AFTER_MIDDLE + line
             result.append(line_result)
         result.append(cls.INDENT_BEFORE_END + cls.MULTI_LINE[2])
         return "\n".join(result)
@@ -128,7 +130,7 @@ class CommentStyle:
                 "'{}' does not start with a comment marker".format(first)
             )
         first = first.lstrip(cls.MULTI_LINE[0])
-        first = dedent(first)
+        first = first.strip()
 
         for line in lines:
             if cls.MULTI_LINE[1]:
@@ -151,8 +153,8 @@ class CommentStyle:
             )
         last = last.rstrip(cls.MULTI_LINE[2])
         last = last.rstrip(cls.INDENT_BEFORE_END)
-        last = last.lstrip()
-        if last.startswith(cls.MULTI_LINE[1]):
+        last = last.strip()
+        if cls.MULTI_LINE[1] and last.startswith(cls.MULTI_LINE[1]):
             last = last.lstrip(cls.MULTI_LINE[1])
             last = last.lstrip()
 
@@ -173,7 +175,16 @@ class CCommentStyle(CommentStyle):
     SINGLE_LINE = "//"
     MULTI_LINE = ("/*", "*", "*/")
     INDENT_BEFORE_MIDDLE = " "
+    INDENT_AFTER_MIDDLE = " "
     INDENT_BEFORE_END = " "
+
+
+class HtmlCommentStyle(CommentStyle):
+    """HTML comment style"""
+
+    SINGLE_LINE = None
+    INDENT_AFTER_SINGLE = ""
+    MULTI_LINE = ("<!--", None, "-->")
 
 
 def create_comment(

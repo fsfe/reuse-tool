@@ -2,12 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""All tests for reuse._comment.
-
-A lot of SPDX tags are explicitly wrong in this module, and replaced with the
-tags REUSE-Copyright and REUSE-License-Identifier. This makes it easier for the
-project itself to remain REUSE compliant.
-"""
+"""All tests for reuse._comment"""
 
 from inspect import cleandoc
 from textwrap import dedent
@@ -18,6 +13,7 @@ from reuse._comment import (
     CCommentStyle,
     CommentParseError,
     CommentStyle,
+    HtmlCommentStyle,
     create_comment,
     parse_comment,
 )
@@ -27,16 +23,16 @@ def test_create_comment_python():
     """Create a simple Python comment."""
     text = cleandoc(
         """
-        REUSE-Copyright: Mary Sue
+        Hello
 
-        REUSE-License-Identifier: GPL-3.0-or-later
+        world
         """
     )
     expected = cleandoc(
         """
-        # REUSE-Copyright: Mary Sue
+        # Hello
         #
-        # REUSE-License-Identifier: GPL-3.0-or-later
+        # world
         """
     )
 
@@ -47,16 +43,16 @@ def test_parse_comment_python():
     """Parse a simple Python comment."""
     text = cleandoc(
         """
-        # REUSE-Copyright: Mary Sue
+        # Hello
         #
-        # REUSE-License-Identifier: GPL-3.0-or-later
+        # world
         """
     )
     expected = cleandoc(
         """
-        REUSE-Copyright: Mary Sue
+        Hello
 
-        REUSE-License-Identifier: GPL-3.0-or-later
+        world
         """
     )
 
@@ -370,3 +366,51 @@ def test_parse_comment_c_multi_no_end():
 
     with pytest.raises(CommentParseError):
         parse_comment(text, style=CCommentStyle)
+
+
+def test_create_comment_html():
+    """Create an HTML comment."""
+    text = cleandoc(
+        """
+        Hello
+        world
+        """
+    )
+    expected = cleandoc(
+        """
+        <!--
+        Hello
+        world
+        -->
+        """
+    )
+
+    assert create_comment(text, style=HtmlCommentStyle) == expected
+
+
+def test_parse_comment_html():
+    """Parse an HTML comment."""
+    text = cleandoc(
+        """
+        <!--
+        Hello
+        world
+        -->
+        """
+    )
+    expected = cleandoc(
+        """
+        Hello
+        world
+        """
+    )
+
+    assert parse_comment(text, style=HtmlCommentStyle) == expected
+
+
+def test_parse_comment_html_single_line():
+    """Parse a single-line HTML comment."""
+    text = "<!-- Hello world -->"
+    expected = "Hello world"
+
+    assert parse_comment(text, style=HtmlCommentStyle) == expected
