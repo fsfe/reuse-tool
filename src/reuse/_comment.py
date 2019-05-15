@@ -6,6 +6,7 @@
 headers, in any case.
 """
 
+from abc import ABC
 from textwrap import dedent
 
 
@@ -13,19 +14,29 @@ class CommentParseError(Exception):
     """An error occurred during the parsing of a comment."""
 
 
-class CommentStyle:
+class CommentStyle(ABC):
     """Base class for comment style."""
 
     SINGLE_LINE = None
     # (start, middle, end)
     # e.g., ("/*", "*", "*/")
     MULTI_LINE = (None, None, None)
+    INDENT_BEFORE_MIDDLE = ""
+    INDENT_BEFORE_END = ""
 
     @classmethod
-    def create_comment(cls, text: str) -> str:
+    def create_comment(cls, text: str, force_multi: bool = False) -> str:
         """Comment all lines in *text*. Single-line comments are preferred over
-        multi-line comments.
+        multi-line comments, unless *force_multi* is provided.
         """
+        text = text.strip()
+        if force_multi or cls.SINGLE_LINE is None:
+            return cls.create_comment_multi(text)
+        return cls.create_comment_single(text)
+
+    @classmethod
+    def create_comment_single(cls, text: str) -> str:
+        """Comment all lines in *text*, using single-line comments."""
         text = text.strip()
         result = []
         for line in text.splitlines():
@@ -33,6 +44,22 @@ class CommentStyle:
             if line:
                 line_result += " " + line
             result.append(line_result)
+        return "\n".join(result)
+
+    @classmethod
+    def create_comment_multi(cls, text: str) -> str:
+        """Comment all lines in *text*, using multi-line comments."""
+        text = text.strip()
+        result = []
+        result.append(cls.MULTI_LINE[0])
+        for line in text.splitlines():
+            line_result = ""
+            if cls.MULTI_LINE[1]:
+                line_result += cls.INDENT_BEFORE_MIDDLE + cls.MULTI_LINE[1]
+            if line:
+                line_result += " " + line
+            result.append(line_result)
+        result.append(cls.INDENT_BEFORE_END + cls.MULTI_LINE[2])
         return "\n".join(result)
 
     @classmethod
@@ -89,10 +116,23 @@ class PythonCommentStyle(CommentStyle):
     SINGLE_LINE = "#"
 
 
-def create_comment(text: str, style: CommentStyle = PythonCommentStyle) -> str:
+class CCommentStyle(CommentStyle):
+    """C comment style"""
+
+    SINGLE_LINE = "//"
+    MULTI_LINE = ("/*", "*", "*/")
+    INDENT_BEFORE_MIDDLE = " "
+    INDENT_BEFORE_END = " "
+
+
+def create_comment(
+    text: str,
+    style: CommentStyle = PythonCommentStyle,
+    force_multi: bool = False,
+) -> str:
     """Convenience function that calls :func:`create_comment` of a given style.
     """
-    return style.create_comment(text)
+    return style.create_comment(text, force_multi=force_multi)
 
 
 def parse_comment(
