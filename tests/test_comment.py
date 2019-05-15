@@ -6,11 +6,11 @@
 
 from inspect import cleandoc
 
-from reuse._comment import create_header
+from reuse._comment import create_comment
 
 
-def test_create_header_python():
-    """Create a simple Python header."""
+def test_create_comment_python():
+    """Create a simple Python comment."""
     text = cleandoc(
         """
         SPDX-Copyright: Mary Sue
@@ -27,4 +27,4 @@ def test_create_header_python():
         """
     )
 
-    assert create_header(text) == expected
+    assert create_comment(text) == expected
