@@ -36,6 +36,8 @@ class CommentStyle:
     def create_comment(cls, text: str, force_multi: bool = False) -> str:
         """Comment all lines in *text*. Single-line comments are preferred over
         multi-line comments, unless *force_multi* is provided.
+
+        :raises CommentCreateError: if *text* could not be commented.
         """
         text = text.strip("\n")
         if force_multi or cls.SINGLE_LINE is None:
@@ -44,7 +46,10 @@ class CommentStyle:
 
     @classmethod
     def _create_comment_single(cls, text: str) -> str:
-        """Comment all lines in *text*, using single-line comments."""
+        """Comment all lines in *text*, using single-line comments.
+
+        :raises CommentCreateError: if *text* could not be commented.
+        """
         if not cls.SINGLE_LINE:
             raise CommentCreateError(
                 "{} cannot create single-line comments".format(cls)
@@ -61,7 +66,10 @@ class CommentStyle:
 
     @classmethod
     def _create_comment_multi(cls, text: str) -> str:
-        """Comment all lines in *text*, using multi-line comments."""
+        """Comment all lines in *text*, using multi-line comments.
+
+        :raises CommentCreateError: if *text* could not be commented.
+        """
         if not all((cls.MULTI_LINE[0], cls.MULTI_LINE[2])):
             raise CommentCreateError(
                 "{} cannot create multi-line comments".format(cls)
@@ -209,11 +217,15 @@ def create_comment(
     text: str, force_multi: bool = False, style: CommentStyle = CommentStyle
 ) -> str:
     """Convenience function that calls :func:`create_comment` of a given style.
+
+    :raises CommentCreateError: if *text* could not be commented.
     """
     return style.create_comment(text, force_multi=force_multi)
 
 
 def parse_comment(text: str, style: CommentParseError = CommentStyle) -> str:
     """Convenience function that calls :func:`parse_comment` of a given style.
+
+    :raises CommentParseError: if *text* could not be parsed.
     """
     return style.parse_comment(text)
