@@ -6,18 +6,20 @@
 headers, in any case.
 """
 
-from abc import ABC
+import logging
 from textwrap import dedent
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class CommentParseError(Exception):
     """An error occurred during the parsing of a comment."""
 
 
-class CommentStyle(ABC):
+class CommentStyle:
     """Base class for comment style."""
 
-    SINGLE_LINE = None
+    SINGLE_LINE = "#"
     # (start, middle, end)
     # e.g., ("/*", "*", "*/")
     MULTI_LINE = (None, None, None)
@@ -29,7 +31,7 @@ class CommentStyle(ABC):
         """Comment all lines in *text*. Single-line comments are preferred over
         multi-line comments, unless *force_multi* is provided.
         """
-        text = text.strip()
+        text = text.strip("\n")
         if force_multi or cls.SINGLE_LINE is None:
             return cls.create_comment_multi(text)
         return cls.create_comment_single(text)
@@ -37,7 +39,7 @@ class CommentStyle(ABC):
     @classmethod
     def create_comment_single(cls, text: str) -> str:
         """Comment all lines in *text*, using single-line comments."""
-        text = text.strip()
+        text = text.strip("\n")
         result = []
         for line in text.splitlines():
             line_result = cls.SINGLE_LINE
@@ -49,7 +51,7 @@ class CommentStyle(ABC):
     @classmethod
     def create_comment_multi(cls, text: str) -> str:
         """Comment all lines in *text*, using multi-line comments."""
-        text = text.strip()
+        text = text.strip("\n")
         result = []
         result.append(cls.MULTI_LINE[0])
         for line in text.splitlines():
@@ -68,7 +70,7 @@ class CommentStyle(ABC):
 
         :raises CommentParseError: if *text* could not be parsed.
         """
-        text = text.strip()
+        text = text.strip("\n")
         if cls.SINGLE_LINE is not None and text.startswith(cls.SINGLE_LINE):
             return cls.parse_comment_single(text)
         if cls.MULTI_LINE[0] is not None and text.startswith(
@@ -86,7 +88,7 @@ class CommentStyle(ABC):
 
         :raises CommentParseError: if *text* could not be parsed.
         """
-        text = text.strip()
+        text = text.strip("\n")
         result = []
         for line in text.splitlines():
             if not line.startswith(cls.SINGLE_LINE):
@@ -105,15 +107,64 @@ class CommentStyle(ABC):
 
         :raises CommentParseError: if *text* could not be parsed.
         """
-        text = text.strip()
-        # TODO
-        raise CommentParseError()
+        text = text.strip("\n")
+        result = []
+        try:
+            first, *lines, last = text.splitlines()
+            last_is_first = False
+        except ValueError:
+            first = text
+            lines = []
+            last = None  # Set this later.
+            last_is_first = True
 
+        if not any((cls.MULTI_LINE[0], cls.MULTI_LINE[2])):
+            raise CommentParseError(
+                "{} cannot parse multi-line comments".format(cls)
+            )
 
-class PythonCommentStyle(CommentStyle):
-    """Python comment style"""
+        if not first.startswith(cls.MULTI_LINE[0]):
+            raise CommentParseError(
+                "'{}' does not start with a comment marker".format(first)
+            )
+        first = first.lstrip(cls.MULTI_LINE[0])
+        first = dedent(first)
 
-    SINGLE_LINE = "#"
+        for line in lines:
+            if cls.MULTI_LINE[1]:
+                possible_line = line.lstrip(cls.INDENT_BEFORE_MIDDLE)
+                prefix = cls.MULTI_LINE[1]
+                if possible_line.startswith(prefix):
+                    line = possible_line.lstrip(prefix)
+                else:
+                    _LOGGER.debug(
+                        "'%s' does not contain a middle comment marker", line
+                    )
+            result.append(line)
+
+        if last_is_first:
+            last = first
+            first = ""
+        if not last.endswith(cls.MULTI_LINE[2]):
+            raise CommentParseError(
+                "'{}' does not end with a comment delimiter".format(last)
+            )
+        last = last.rstrip(cls.MULTI_LINE[2])
+        last = last.rstrip(cls.INDENT_BEFORE_END)
+        last = last.lstrip()
+        if last.startswith(cls.MULTI_LINE[1]):
+            last = last.lstrip(cls.MULTI_LINE[1])
+            last = last.lstrip()
+
+        result = "\n".join(result)
+        result = dedent(result)
+
+        if result:
+            result = "\n".join((first, result, last))
+        else:
+            result = "\n".join((first, last))
+        result = result.strip("\n")
+        return result
 
 
 class CCommentStyle(CommentStyle):
@@ -126,18 +177,14 @@ class CCommentStyle(CommentStyle):
 
 
 def create_comment(
-    text: str,
-    style: CommentStyle = PythonCommentStyle,
-    force_multi: bool = False,
+    text: str, style: CommentStyle = CommentStyle, force_multi: bool = False
 ) -> str:
     """Convenience function that calls :func:`create_comment` of a given style.
     """
     return style.create_comment(text, force_multi=force_multi)
 
 
-def parse_comment(
-    text: str, style: CommentParseError = PythonCommentStyle
-) -> str:
+def parse_comment(text: str, style: CommentParseError = CommentStyle) -> str:
     """Convenience function that calls :func:`parse_comment` of a given style.
     """
     return style.parse_comment(text)
