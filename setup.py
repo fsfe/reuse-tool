@@ -45,7 +45,8 @@ class BuildTrans(cmd.Command):
         self.po_files = glob.glob("po/*.po")
         for msgfmt in ["msgfmt", "msgfmt.py", "msgfmt3.py"]:
             self.msgfmt = shutil.which(msgfmt)
-            break
+            if self.msgfmt:
+                break
 
     def run(self):
         if self.msgfmt:
