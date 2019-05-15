@@ -206,7 +206,7 @@ class HtmlCommentStyle(CommentStyle):
 
 
 def create_comment(
-    text: str, style: CommentStyle = CommentStyle, force_multi: bool = False
+    text: str, force_multi: bool = False, style: CommentStyle = CommentStyle
 ) -> str:
     """Convenience function that calls :func:`create_comment` of a given style.
     """
