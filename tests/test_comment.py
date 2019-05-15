@@ -4,6 +4,8 @@
 
 """All tests for reuse._comment"""
 
+# pylint: disable=protected-access
+
 from inspect import cleandoc
 from textwrap import dedent
 
@@ -135,7 +137,7 @@ def test_parse_comment_python_multi_error():
     comment.
     """
     with pytest.raises(CommentParseError):
-        CommentStyle.parse_comment_multi("Hello world")
+        CommentStyle._parse_comment_multi("Hello world")
 
 
 def test_create_comment_c_single():
@@ -378,7 +380,7 @@ def test_parse_comment_c_multi_no_start():
         parse_comment(text, style=CCommentStyle)
 
     with pytest.raises(CommentParseError):
-        CCommentStyle.parse_comment_multi(text)
+        CCommentStyle._parse_comment_multi(text)
 
 
 def test_parse_comment_c_multi_no_end():
@@ -440,4 +442,4 @@ def test_parse_comment_html_single_line():
 def test_create_comment_html_single():
     """Creating a single-line HTML comment fails."""
     with pytest.raises(CommentCreateError):
-        HtmlCommentStyle.create_comment_single("hello")
+        HtmlCommentStyle._create_comment_single("hello")

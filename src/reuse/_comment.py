@@ -39,11 +39,11 @@ class CommentStyle:
         """
         text = text.strip("\n")
         if force_multi or cls.SINGLE_LINE is None:
-            return cls.create_comment_multi(text)
-        return cls.create_comment_single(text)
+            return cls._create_comment_multi(text)
+        return cls._create_comment_single(text)
 
     @classmethod
-    def create_comment_single(cls, text: str) -> str:
+    def _create_comment_single(cls, text: str) -> str:
         """Comment all lines in *text*, using single-line comments."""
         if not cls.SINGLE_LINE:
             raise CommentCreateError(
@@ -60,7 +60,7 @@ class CommentStyle:
         return "\n".join(result)
 
     @classmethod
-    def create_comment_multi(cls, text: str) -> str:
+    def _create_comment_multi(cls, text: str) -> str:
         """Comment all lines in *text*, using multi-line comments."""
         if not all((cls.MULTI_LINE[0], cls.MULTI_LINE[2])):
             raise CommentCreateError(
@@ -92,17 +92,17 @@ class CommentStyle:
         """
         text = text.strip("\n")
         if cls.SINGLE_LINE is not None and text.startswith(cls.SINGLE_LINE):
-            return cls.parse_comment_single(text)
+            return cls._parse_comment_single(text)
         if cls.MULTI_LINE[0] is not None and text.startswith(
             cls.MULTI_LINE[0]
         ):
-            return cls.parse_comment_multi(text)
+            return cls._parse_comment_multi(text)
         raise CommentParseError(
             "Text starts with neither a single- nor multi-line comment"
         )
 
     @classmethod
-    def parse_comment_single(cls, text: str) -> str:
+    def _parse_comment_single(cls, text: str) -> str:
         """Uncomment all lines in *text*, assuming they are commented by
         single-line comments.
 
@@ -121,7 +121,7 @@ class CommentStyle:
         return dedent(result)
 
     @classmethod
-    def parse_comment_multi(cls, text: str) -> str:
+    def _parse_comment_multi(cls, text: str) -> str:
         """Uncomment all lines in *text*, assuming they are commented by
         multi-line comments.
 
