@@ -29,39 +29,26 @@ from typing import (
 )
 from uuid import uuid4
 
-import pkg_resources
 from boolean.boolean import Expression
 from debian.copyright import Copyright, NotMachineReadableError
 
-_LOCALE_DIRS = [
-    # sys.prefix is usually /usr, but can also be the root of the virtualenv.
-    sys.prefix + "/share/locale",
-    # Relevant for `pip install --user` installations.
-    str(Path.home()) + "/.local/share/locale",
-]
+_LOGGER = logging.getLogger(__name__)
 
-try:
-    # This somehow works for egg installations.
-    _LOCALE_DIRS.append(
-        pkg_resources.resource_filename(
-            pkg_resources.Requirement.parse("fsfe-reuse"), "share/locale"
-        )
-    )
-except pkg_resources.DistributionNotFound:
-    pass
+_PACKAGE_PATH = os.path.dirname(__file__)
+_LOCALE_DIR = os.path.join(_PACKAGE_PATH, "locale")
 
-for dir in _LOCALE_DIRS:
-    if gettext.find("reuse", localedir=dir):
-        gettext.bindtextdomain("reuse", dir)
-        gettext.textdomain("reuse")
-        break
+if gettext.find("reuse", localedir=_LOCALE_DIR):
+    gettext.bindtextdomain("reuse", _LOCALE_DIR)
+    gettext.textdomain("reuse")
+    _LOGGER.debug("translations found at %s", _LOCALE_DIR)
+else:
+    _LOGGER.debug("no translations found at %s", _LOCALE_DIR)
 
 __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
 __license__ = "GPL-3.0-or-later"
 __version__ = "0.4.0a1"
 
-_logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 _IGNORE_DIR_PATTERNS = [
     re.compile(r"^\.git$"),

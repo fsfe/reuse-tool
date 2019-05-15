@@ -22,11 +22,10 @@ from debian.copyright import Copyright
 # work, import from the src directory. If that also doesn't work (for some
 # reason), then an ImportError is raised.
 try:
-    import reuse  # pytest: disable=unused-import
+    # pylint: disable=unused-import
+    import reuse
 except ImportError:
-    sys.path.append(
-        os.path.join(Path(os.path.realpath(__file__)).parent.parent, "src")
-    )
+    sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
     from reuse._util import GIT_EXE, setup_logging
 
