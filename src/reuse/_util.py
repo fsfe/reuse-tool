@@ -74,7 +74,7 @@ def execute_command(
 
 
 def find_root() -> Optional[Path]:
-    """Try to find the root of the project from $PWD. If none is found, return
+    """Try to find the root of the project from CWD. If none is found, return
     None.
     """
     cwd = Path.cwd()
@@ -86,6 +86,31 @@ def find_root() -> Optional[Path]:
             path = result.stdout.decode("utf-8")[:-1]
             return Path(os.path.relpath(path, cwd))
     return None
+
+
+def find_licenses_directory(root: PathLike = None) -> Optional[Path]:
+    """Find the licenses directory from CWD or *root*. In the following order:
+
+    - LICENSES/ in *root*.
+
+    - Current directory if its name is "LICENSES"
+
+    - LICENSES/ in CWD.
+
+    The returned LICENSES/ directory NEED NOT EXIST. It may still need to be
+    created.
+    """
+    if root is None:
+        root = find_root()
+    cwd = Path.cwd()
+    licenses_path = cwd / "LICENSES"
+
+    if root:
+        licenses_path = root / "LICENSES"
+    elif cwd.name == "LICENSES":
+        licenses_path = cwd
+
+    return licenses_path
 
 
 def in_git_repo(cwd: PathLike = None) -> bool:

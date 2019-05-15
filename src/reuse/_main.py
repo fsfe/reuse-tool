@@ -10,7 +10,7 @@ import sys
 from gettext import gettext as _
 from typing import List
 
-from . import __version__, lint, spdx
+from . import __version__, download, lint, spdx
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import setup_logging
 
@@ -77,6 +77,32 @@ def parser() -> argparse.ArgumentParser:
         description=fill_all(_("TODO")),
     )
 
+    add_command(
+        subparsers,
+        "download",
+        download.add_arguments,
+        download.run,
+        help=_("download a license and place it in the LICENSES/ directory"),
+        description=fill_all(
+            _(
+                "Download a license and place it in the LICENSES/ directory.\n"
+                "\n"
+                "The LICENSES/ directory is automatically found in the "
+                "following order:\n"
+                "\n"
+                "- The LICENSES/ directory in the root of the VCS "
+                "repository.\n"
+                "\n"
+                "- The current directory if its name is LICENSES.\n"
+                "\n"
+                "- The LICENSES/ directory in the current directory.\n"
+                "\n"
+                "If the LICENSES/ directory cannot be found, one is simply "
+                "created."
+            )
+        ),
+    )
+
     return parser
 
 
@@ -102,7 +128,7 @@ def add_command(  # pylint: disable=too-many-arguments
     subparser.set_defaults(func=run_func)
 
 
-def main(args: List[str] = None, out=sys.stdout) -> None:
+def main(args: List[str] = None, out=sys.stdout) -> int:
     """Main entry function."""
     if args is None:
         args = sys.argv[1:]
