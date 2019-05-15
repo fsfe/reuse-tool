@@ -16,6 +16,10 @@ class CommentParseError(Exception):
     """An error occurred during the parsing of a comment."""
 
 
+class CommentCreateError(Exception):
+    """An error occurred during the creation of a comment."""
+
+
 class CommentStyle:
     """Base class for comment style."""
 
@@ -41,6 +45,11 @@ class CommentStyle:
     @classmethod
     def create_comment_single(cls, text: str) -> str:
         """Comment all lines in *text*, using single-line comments."""
+        if not cls.SINGLE_LINE:
+            raise CommentCreateError(
+                "{} cannot create single-line comments".format(cls)
+            )
+
         text = text.strip("\n")
         result = []
         for line in text.splitlines():
@@ -53,10 +62,19 @@ class CommentStyle:
     @classmethod
     def create_comment_multi(cls, text: str) -> str:
         """Comment all lines in *text*, using multi-line comments."""
+        if not all((cls.MULTI_LINE[0], cls.MULTI_LINE[2])):
+            raise CommentCreateError(
+                "{} cannot create multi-line comments".format(cls)
+            )
+
         text = text.strip("\n")
         result = []
         result.append(cls.MULTI_LINE[0])
         for line in text.splitlines():
+            if cls.MULTI_LINE[2] in text:
+                raise CommentCreateError(
+                    "'{}' contains a premature comment delimiter".format(line)
+                )
             line_result = ""
             if cls.MULTI_LINE[1]:
                 line_result += cls.INDENT_BEFORE_MIDDLE + cls.MULTI_LINE[1]
@@ -120,7 +138,7 @@ class CommentStyle:
             last = None  # Set this later.
             last_is_first = True
 
-        if not any((cls.MULTI_LINE[0], cls.MULTI_LINE[2])):
+        if not all((cls.MULTI_LINE[0], cls.MULTI_LINE[2])):
             raise CommentParseError(
                 "{} cannot parse multi-line comments".format(cls)
             )

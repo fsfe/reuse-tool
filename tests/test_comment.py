@@ -11,6 +11,7 @@ import pytest
 
 from reuse._comment import (
     CCommentStyle,
+    CommentCreateError,
     CommentParseError,
     CommentStyle,
     HtmlCommentStyle,
@@ -83,6 +84,12 @@ def test_create_comment_python_strip_newlines():
     expected = "# hello"
 
     assert create_comment(text) == expected
+
+
+def test_create_comment_python_force_multi():
+    """Raise CommentCreateError when creating a multi-line Python comment."""
+    with pytest.raises(CommentCreateError):
+        create_comment("hello", force_multi=True)
 
 
 def test_parse_comment_python_strip_newlines():
@@ -187,6 +194,20 @@ def test_create_comment_c_multi():
     assert (
         create_comment(text, style=CCommentStyle, force_multi=True) == expected
     )
+
+
+def test_create_comment_c_multi_contains_ending():
+    """Raise CommentCreateError when the text contains a comment ending."""
+    text = cleandoc(
+        """
+        Hello
+        world
+        */
+        """
+    )
+
+    with pytest.raises(CommentCreateError):
+        create_comment(text, style=CCommentStyle, force_multi=True)
 
 
 def test_parse_comment_c_multi():
@@ -414,3 +435,9 @@ def test_parse_comment_html_single_line():
     expected = "Hello world"
 
     assert parse_comment(text, style=HtmlCommentStyle) == expected
+
+
+def test_create_comment_html_single():
+    """Creating a single-line HTML comment fails."""
+    with pytest.raises(CommentCreateError):
+        HtmlCommentStyle.create_comment_single("hello")
