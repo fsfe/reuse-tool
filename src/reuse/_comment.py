@@ -23,8 +23,8 @@ class CommentCreateError(Exception):
 class CommentStyle:
     """Base class for comment style."""
 
-    SINGLE_LINE = "#"
-    INDENT_AFTER_SINGLE = " "
+    SINGLE_LINE = None
+    INDENT_AFTER_SINGLE = ""
     # (start, middle, end)
     # e.g., ("/*", "*", "*/")
     MULTI_LINE = (None, None, None)
@@ -195,10 +195,18 @@ class CommentStyle:
         return result
 
 
+class PythonCommentStyle(CommentStyle):
+    """Python comment style"""
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+
+
 class CCommentStyle(CommentStyle):
     """C comment style"""
 
     SINGLE_LINE = "//"
+    INDENT_AFTER_SINGLE = " "
     MULTI_LINE = ("/*", "*", "*/")
     INDENT_BEFORE_MIDDLE = " "
     INDENT_AFTER_MIDDLE = " "
@@ -209,12 +217,13 @@ class HtmlCommentStyle(CommentStyle):
     """HTML comment style"""
 
     SINGLE_LINE = None
-    INDENT_AFTER_SINGLE = ""
     MULTI_LINE = ("<!--", None, "-->")
 
 
 def create_comment(
-    text: str, force_multi: bool = False, style: CommentStyle = CommentStyle
+    text: str,
+    force_multi: bool = False,
+    style: CommentStyle = PythonCommentStyle,
 ) -> str:
     """Convenience function that calls :func:`create_comment` of a given style.
 
@@ -223,7 +232,9 @@ def create_comment(
     return style.create_comment(text, force_multi=force_multi)
 
 
-def parse_comment(text: str, style: CommentParseError = CommentStyle) -> str:
+def parse_comment(
+    text: str, style: CommentParseError = PythonCommentStyle
+) -> str:
     """Convenience function that calls :func:`parse_comment` of a given style.
 
     :raises CommentParseError: if *text* could not be parsed.
