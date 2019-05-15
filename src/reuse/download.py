@@ -124,4 +124,9 @@ def run(args, out=sys.stdout) -> int:
             out.write(_("Is your internet connection working?\n"))
         return 1
 
+    out.write(
+        _("Successfully downloaded {spdx_identifier}.").format(
+            spdx_identifier=args.license
+        )
+    )
     return 0
