@@ -5,6 +5,7 @@
 """Functions for downloading license files from spdx/license-data-list."""
 
 import argparse
+import contextlib
 import errno
 import sys
 from gettext import gettext as _
@@ -98,7 +99,8 @@ def run(args, out=sys.stdout) -> int:
         # We won't be using this stream.
         args.output.close()
         # Also sneakily delete the file that this stream created.
-        destination.unlink()
+        with contextlib.suppress(FileNotFoundError):
+            destination.unlink()
 
     try:
         # IMPORTANT: These redundant lines exist SOLELY to make testing not an
