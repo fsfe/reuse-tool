@@ -54,3 +54,22 @@ def test_parse_comment_python():
     )
 
     assert parse_comment(text) == expected
+
+
+def test_parse_comment_python_indented():
+    """Preserve indentations in Python comments."""
+    text = cleandoc(
+        """
+        # def foo():
+        #     print("foo")
+        """
+    )
+
+    expected = cleandoc(
+        """
+        def foo():
+            print("foo")
+        """
+    )
+
+    assert parse_comment(text) == expected
