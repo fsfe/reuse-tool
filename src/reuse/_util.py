@@ -25,7 +25,7 @@ from . import SpdxInfo
 
 GIT_EXE = shutil.which("git")
 
-_logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+_LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
 
 _END_PATTERN = r"(?:\*/)*(?:-->)*$"
@@ -80,7 +80,7 @@ def find_root() -> Optional[Path]:
     cwd = Path.cwd()
     if in_git_repo(cwd):
         command = [GIT_EXE, "rev-parse", "--show-toplevel"]
-        result = execute_command(command, _logger, cwd=cwd)
+        result = execute_command(command, _LOGGER, cwd=cwd)
 
         if not result.returncode:
             path = result.stdout.decode("utf-8")[:-1]
@@ -123,7 +123,7 @@ def in_git_repo(cwd: PathLike = None) -> bool:
 
     if GIT_EXE:
         command = [GIT_EXE, "status"]
-        result = execute_command(command, _logger, cwd=cwd)
+        result = execute_command(command, _LOGGER, cwd=cwd)
 
         return not result.returncode
 
@@ -153,7 +153,7 @@ def _all_files_ignored_by_git(root: PathLike) -> Set[str]:
             # Separate output with \0 instead of \n.
             "-z",
         ]
-        result = execute_command(command, _logger, cwd=root)
+        result = execute_command(command, _LOGGER, cwd=root)
         all_files = result.stdout.decode("utf-8").split("\0")
         return set(all_files)
     return set()
@@ -202,7 +202,7 @@ def extract_spdx_info(text: str) -> None:
         try:
             expressions.add(_LICENSING.parse(expression))
         except ExpressionError:
-            _logger.error(_("Could not parse '%s'"), expression)
+            _LOGGER.error(_("Could not parse '%s'"), expression)
             raise
     copyright_matches = set(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
 

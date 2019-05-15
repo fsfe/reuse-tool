@@ -12,7 +12,7 @@ from gettext import gettext as _
 from .project import create_project
 from .report import ProjectReport
 
-_logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+_LOGGER = logging.getLogger(__name__)
 
 
 def add_arguments(parser) -> None:
@@ -28,7 +28,7 @@ def run(args, out=sys.stdout) -> int:
         out = args.output
         if not out.name.endswith(".spdx"):
             # Translators: %s is a file name.
-            _logger.warning(_("%s does not end with .spdx"), out.name)
+            _LOGGER.warning(_("%s does not end with .spdx"), out.name)
 
     project = create_project()
     report = ProjectReport.generate(project)
