@@ -15,8 +15,8 @@ from reuse._comment import (
     CCommentStyle,
     CommentCreateError,
     CommentParseError,
-    CommentStyle,
     HtmlCommentStyle,
+    PythonCommentStyle,
     create_comment,
     parse_comment,
 )
@@ -137,7 +137,7 @@ def test_parse_comment_python_multi_error():
     comment.
     """
     with pytest.raises(CommentParseError):
-        CommentStyle._parse_comment_multi("Hello world")
+        PythonCommentStyle._parse_comment_multi("Hello world")
 
 
 def test_create_comment_c_single():
