@@ -22,11 +22,14 @@ from reuse._comment import (
 
 
 def test_base_class_throws_errors():
-    """When trying to do much of anything with the base class, expect errors."""
+    """When trying to do much of anything with the base class, expect errors.
+    """
     with pytest.raises(CommentParseError):
         CommentStyle.parse_comment("hello")
     with pytest.raises(CommentCreateError):
         CommentStyle.create_comment("hello")
+    with pytest.raises(CommentParseError):
+        CommentStyle.comment_at_first_character("hello")
 
 
 def test_create_comment_python():
@@ -478,8 +481,8 @@ def test_comment_at_first_character_python():
     )
     expected = cleandoc(
         """
-        Hello
-        world
+        # Hello
+        # world
         """
     )
 
@@ -489,18 +492,18 @@ def test_comment_at_first_character_python():
 def test_comment_at_first_character_python_no_comment():
     """The text does not start with a comment character."""
     with pytest.raises(CommentParseError):
-        PythonCommentStyle.comment_at_first_character("Hello world")
+        PythonCommentStyle.comment_at_first_character(" # Hello world")
 
 
 def test_comment_at_first_character_python_indented_comments():
-    """For now, don't handle indented comments."""
+    """Don't handle indented comments."""
     text = cleandoc(
         """
         # Hello
           # world
         """
     )
-    expected = "Hello"
+    expected = "# Hello"
 
     assert PythonCommentStyle.comment_at_first_character(text) == expected
 
@@ -518,9 +521,26 @@ def test_comment_at_first_character_c_multi():
     )
     expected = cleandoc(
         """
-        Hello
-        world
+        /*
+         * Hello
+         * world
+         */
         """
     )
 
     assert CCommentStyle.comment_at_first_character(text) == expected
+
+
+def test_comment_at_first_character_c_multi_never_ends():
+    """Expect CommentParseError if the comment never ends."""
+    text = cleandoc(
+        """
+        /*
+         * Hello
+         * world
+        /*
+        """
+    )
+
+    with pytest.raises(CommentParseError):
+        CCommentStyle.comment_at_first_character(text)

@@ -109,10 +109,7 @@ class CommentStyle:
         try:
             return cls._parse_comment_single(text)
         except CommentParseError:
-            try:
-                return cls._parse_comment_multi(text)
-            except CommentParseError:
-                raise
+            return cls._parse_comment_multi(text)
 
     @classmethod
     def _parse_comment_single(cls, text: str) -> str:
@@ -211,8 +208,6 @@ class CommentStyle:
         assuming that the header comment starts at the first character in the
         file.
 
-        The comment block is returned uncommented.
-
         :raises CommentParseError: if *text* does not start with a parseable
         comment block.
         """
@@ -227,19 +222,19 @@ class CommentStyle:
                 if not line.startswith(cls.SINGLE_LINE):
                     break
                 end = i
-            new_text = "\n".join(lines[0 : end + 1])
-            return cls._parse_comment_single(new_text)
+            return "\n".join(lines[0 : end + 1])
         if cls._can_handle_multi() and text.startswith(cls.MULTI_LINE[0]):
             end = 0
             for i, line in enumerate(lines):
                 end = i
                 if line.endswith(cls.MULTI_LINE[2]):
                     break
-            new_text = "\n".join(lines[0 : end + 1])
-            return cls._parse_comment_multi(new_text)
+            else:
+                raise CommentParseError("Comment block never delimits")
+            return "\n".join(lines[0 : end + 1])
 
         raise CommentParseError(
-            "'{}' does not start with a comment".format(lines[0])
+            "Could not find a parseable comment block at the first character"
         )
 
 
