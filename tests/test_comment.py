@@ -17,6 +17,7 @@ from reuse._comment import (
     CommentParseError,
     HtmlCommentStyle,
     PythonCommentStyle,
+    comment_at_first_character,
     create_comment,
     parse_comment,
 )
@@ -391,6 +392,23 @@ def test_parse_comment_c_multi_no_end():
         parse_comment(text, style=CCommentStyle)
 
 
+def test_parse_comment_c_multi_text_after_end():
+    """Raise CommentParseError when there is stuff after the comment
+    delimiter.
+    """
+    text = cleandoc(
+        """
+        /*
+         * Hello
+         * world
+         */ Spam
+        """
+    )
+
+    with pytest.raises(CommentParseError):
+        parse_comment(text, style=CCommentStyle)
+
+
 def test_create_comment_html():
     """Create an HTML comment."""
     text = cleandoc(
@@ -443,3 +461,62 @@ def test_create_comment_html_single():
     """Creating a single-line HTML comment fails."""
     with pytest.raises(CommentCreateError):
         HtmlCommentStyle._create_comment_single("hello")
+
+
+def test_comment_at_first_character_python():
+    """Find the comment block at the first character."""
+    text = cleandoc(
+        """
+        # Hello
+        # world
+        Spam
+        """
+    )
+    expected = cleandoc(
+        """
+        Hello
+        world
+        """
+    )
+
+    assert comment_at_first_character(text) == expected
+
+
+def test_comment_at_first_character_python_no_comment():
+    """The text does not start with a comment character."""
+    with pytest.raises(CommentParseError):
+        comment_at_first_character("Hello world")
+
+
+def test_comment_at_first_character_python_indented_comments():
+    """For now, don't handle indented comments."""
+    text = cleandoc(
+        """
+        # Hello
+          # world
+        """
+    )
+    expected = "Hello"
+
+    assert comment_at_first_character(text) == expected
+
+
+def test_comment_at_first_character_c_multi():
+    """Simple test for a multi-line C comment."""
+    text = cleandoc(
+        """
+        /*
+         * Hello
+         * world
+         */
+        Spam
+        """
+    )
+    expected = cleandoc(
+        """
+        Hello
+        world
+        """
+    )
+
+    assert comment_at_first_character(text, style=CCommentStyle) == expected

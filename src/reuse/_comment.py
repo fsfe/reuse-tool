@@ -33,6 +33,14 @@ class CommentStyle:
     INDENT_BEFORE_END = ""
 
     @classmethod
+    def _can_handle_single(cls):
+        return cls.SINGLE_LINE is not None
+
+    @classmethod
+    def _can_handle_multi(cls):
+        return all((cls.MULTI_LINE[0], cls.MULTI_LINE[2]))
+
+    @classmethod
     def create_comment(cls, text: str, force_multi: bool = False) -> str:
         """Comment all lines in *text*. Single-line comments are preferred over
         multi-line comments, unless *force_multi* is provided.
@@ -40,7 +48,7 @@ class CommentStyle:
         :raises CommentCreateError: if *text* could not be commented.
         """
         text = text.strip("\n")
-        if force_multi or cls.SINGLE_LINE is None:
+        if force_multi or not cls._can_handle_single():
             return cls._create_comment_multi(text)
         return cls._create_comment_single(text)
 
@@ -50,11 +58,10 @@ class CommentStyle:
 
         :raises CommentCreateError: if *text* could not be commented.
         """
-        if not cls.SINGLE_LINE:
+        if not cls._can_handle_single():
             raise CommentCreateError(
                 "{} cannot create single-line comments".format(cls)
             )
-
         text = text.strip("\n")
         result = []
         for line in text.splitlines():
@@ -70,11 +77,10 @@ class CommentStyle:
 
         :raises CommentCreateError: if *text* could not be commented.
         """
-        if not all((cls.MULTI_LINE[0], cls.MULTI_LINE[2])):
+        if not cls._can_handle_multi():
             raise CommentCreateError(
                 "{} cannot create multi-line comments".format(cls)
             )
-
         text = text.strip("\n")
         result = []
         result.append(cls.MULTI_LINE[0])
@@ -99,12 +105,14 @@ class CommentStyle:
         :raises CommentParseError: if *text* could not be parsed.
         """
         text = text.strip("\n")
-        if cls.SINGLE_LINE is not None and text.startswith(cls.SINGLE_LINE):
+
+        if not any((cls._can_handle_single(), cls._can_handle_multi())):
+            raise CommentParseError("{} cannot parse comments".format(cls))
+        if cls._can_handle_single() and text.startswith(cls.SINGLE_LINE):
             return cls._parse_comment_single(text)
-        if cls.MULTI_LINE[0] is not None and text.startswith(
-            cls.MULTI_LINE[0]
-        ):
+        if cls._can_handle_multi() and text.startswith(cls.MULTI_LINE[0]):
             return cls._parse_comment_multi(text)
+
         raise CommentParseError(
             "Text starts with neither a single- nor multi-line comment"
         )
@@ -146,7 +154,7 @@ class CommentStyle:
             last = None  # Set this later.
             last_is_first = True
 
-        if not all((cls.MULTI_LINE[0], cls.MULTI_LINE[2])):
+        if not cls._can_handle_multi():
             raise CommentParseError(
                 "{} cannot parse multi-line comments".format(cls)
             )
@@ -194,6 +202,44 @@ class CommentStyle:
         result = result.strip("\n")
         return result
 
+    @classmethod
+    def comment_at_first_character(cls, text: str) -> str:
+        """Return the comment block that starts at the first character of
+        *text*. This is chiefly handy to get the header comment of a file,
+        assuming that the header comment starts at the first character in the
+        file.
+
+        The comment block is returned uncommented.
+
+        :raises CommentParseError: if *text* does not start with a parseable
+        comment block.
+        """
+        lines = text.splitlines()
+
+        if not any((cls._can_handle_single(), cls._can_handle_multi())):
+            raise CommentParseError("{} cannot parse comments".format(cls))
+
+        if cls._can_handle_single() and text.startswith(cls.SINGLE_LINE):
+            end = 0
+            for i, line in enumerate(lines):
+                if not line.startswith(cls.SINGLE_LINE):
+                    break
+                end = i
+            new_text = "\n".join(lines[0 : end + 1])
+            return cls._parse_comment_single(new_text)
+        if cls._can_handle_multi() and text.startswith(cls.MULTI_LINE[0]):
+            end = 0
+            for i, line in enumerate(lines):
+                end = i
+                if line.endswith(cls.MULTI_LINE[2]):
+                    break
+            new_text = "\n".join(lines[0 : end + 1])
+            return cls._parse_comment_multi(new_text)
+
+        raise CommentParseError(
+            "'{}' does not start with a comment".format(lines[0])
+        )
+
 
 class PythonCommentStyle(CommentStyle):
     """Python comment style"""
@@ -240,3 +286,15 @@ def parse_comment(
     :raises CommentParseError: if *text* could not be parsed.
     """
     return style.parse_comment(text)
+
+
+def comment_at_first_character(
+    text: str, style: CommentStyle = PythonCommentStyle
+) -> str:
+    """Convenience function that calls :func:`comment_at_first_character` of a
+    given style.
+
+    :raises CommentParseError: if *text* does not start with a parseable
+    comment block.
+    """
+    return style.comment_at_first_character(text)
