@@ -15,12 +15,18 @@ from reuse._comment import (
     CCommentStyle,
     CommentCreateError,
     CommentParseError,
+    CommentStyle,
     HtmlCommentStyle,
     PythonCommentStyle,
-    comment_at_first_character,
-    create_comment,
-    parse_comment,
 )
+
+
+def test_base_class_throws_errors():
+    """When trying to do much of anything with the base class, expect errors."""
+    with pytest.raises(CommentParseError):
+        CommentStyle.parse_comment("hello")
+    with pytest.raises(CommentCreateError):
+        CommentStyle.create_comment("hello")
 
 
 def test_create_comment_python():
@@ -40,7 +46,7 @@ def test_create_comment_python():
         """
     )
 
-    assert create_comment(text) == expected
+    assert PythonCommentStyle.create_comment(text) == expected
 
 
 def test_parse_comment_python():
@@ -60,7 +66,7 @@ def test_parse_comment_python():
         """
     )
 
-    assert parse_comment(text) == expected
+    assert PythonCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_python_indented():
@@ -78,7 +84,7 @@ def test_parse_comment_python_indented():
         """
     )
 
-    assert parse_comment(text) == expected
+    assert PythonCommentStyle.parse_comment(text) == expected
 
 
 def test_create_comment_python_strip_newlines():
@@ -86,13 +92,13 @@ def test_create_comment_python_strip_newlines():
     text = "\nhello\n"
     expected = "# hello"
 
-    assert create_comment(text) == expected
+    assert PythonCommentStyle.create_comment(text) == expected
 
 
 def test_create_comment_python_force_multi():
     """Raise CommentCreateError when creating a multi-line Python comment."""
     with pytest.raises(CommentCreateError):
-        create_comment("hello", force_multi=True)
+        PythonCommentStyle.create_comment("hello", force_multi=True)
 
 
 def test_parse_comment_python_strip_newlines():
@@ -109,7 +115,7 @@ def test_parse_comment_python_strip_newlines():
     )
     expected = "\nhello\n"
 
-    assert parse_comment(text) == expected
+    assert PythonCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_python_not_a_comment():
@@ -117,7 +123,7 @@ def test_parse_comment_python_not_a_comment():
     text = "Hello world"
 
     with pytest.raises(CommentParseError):
-        parse_comment(text)
+        PythonCommentStyle.parse_comment(text)
 
 
 def test_parse_comment_python_single_line_is_not_comment():
@@ -130,7 +136,7 @@ def test_parse_comment_python_single_line_is_not_comment():
     )
 
     with pytest.raises(CommentParseError):
-        parse_comment(text)
+        PythonCommentStyle.parse_comment(text)
 
 
 def test_parse_comment_python_multi_error():
@@ -156,7 +162,7 @@ def test_create_comment_c_single():
         """
     )
 
-    assert create_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.create_comment(text) == expected
 
 
 def test_parse_comment_c_single():
@@ -174,7 +180,7 @@ def test_parse_comment_c_single():
         """
     )
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_create_comment_c_multi():
@@ -194,9 +200,7 @@ def test_create_comment_c_multi():
         """
     )
 
-    assert (
-        create_comment(text, style=CCommentStyle, force_multi=True) == expected
-    )
+    assert CCommentStyle.create_comment(text, force_multi=True) == expected
 
 
 def test_create_comment_c_multi_contains_ending():
@@ -210,7 +214,7 @@ def test_create_comment_c_multi_contains_ending():
     )
 
     with pytest.raises(CommentCreateError):
-        create_comment(text, style=CCommentStyle, force_multi=True)
+        CCommentStyle.create_comment(text, force_multi=True)
 
 
 def test_parse_comment_c_multi():
@@ -229,7 +233,7 @@ def test_parse_comment_c_multi():
         world
         """
     )
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_c_multi_missing_middle():
@@ -249,7 +253,7 @@ def test_parse_comment_c_multi_missing_middle():
         """
     )
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_c_multi_misaligned_end():
@@ -269,7 +273,7 @@ def test_parse_comment_c_multi_misaligned_end():
         """
     )
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
     text = cleandoc(
         """
@@ -286,7 +290,7 @@ def test_parse_comment_c_multi_misaligned_end():
         """
     )
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_c_multi_no_middle():
@@ -304,7 +308,7 @@ def test_parse_comment_c_multi_no_middle():
         """
     )
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_c_multi_ends_at_last():
@@ -323,7 +327,7 @@ def test_parse_comment_c_multi_ends_at_last():
         """
     )
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_c_multi_starts_at_first():
@@ -342,7 +346,7 @@ def test_parse_comment_c_multi_starts_at_first():
         """
     )
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_c_multi_indented():
@@ -362,7 +366,7 @@ def test_parse_comment_c_multi_indented():
         """
     )
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_c_multi_single_line():
@@ -370,7 +374,7 @@ def test_parse_comment_c_multi_single_line():
     text = "/* Hello world */"
     expected = "Hello world"
 
-    assert parse_comment(text, style=CCommentStyle) == expected
+    assert CCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_c_multi_no_start():
@@ -378,7 +382,7 @@ def test_parse_comment_c_multi_no_start():
     text = "Hello world */"
 
     with pytest.raises(CommentParseError):
-        parse_comment(text, style=CCommentStyle)
+        CCommentStyle.parse_comment(text)
 
     with pytest.raises(CommentParseError):
         CCommentStyle._parse_comment_multi(text)
@@ -389,7 +393,7 @@ def test_parse_comment_c_multi_no_end():
     text = "/* Hello world"
 
     with pytest.raises(CommentParseError):
-        parse_comment(text, style=CCommentStyle)
+        CCommentStyle.parse_comment(text)
 
 
 def test_parse_comment_c_multi_text_after_end():
@@ -406,7 +410,7 @@ def test_parse_comment_c_multi_text_after_end():
     )
 
     with pytest.raises(CommentParseError):
-        parse_comment(text, style=CCommentStyle)
+        CCommentStyle.parse_comment(text)
 
 
 def test_create_comment_html():
@@ -426,7 +430,7 @@ def test_create_comment_html():
         """
     )
 
-    assert create_comment(text, style=HtmlCommentStyle) == expected
+    assert HtmlCommentStyle.create_comment(text) == expected
 
 
 def test_parse_comment_html():
@@ -446,7 +450,7 @@ def test_parse_comment_html():
         """
     )
 
-    assert parse_comment(text, style=HtmlCommentStyle) == expected
+    assert HtmlCommentStyle.parse_comment(text) == expected
 
 
 def test_parse_comment_html_single_line():
@@ -454,7 +458,7 @@ def test_parse_comment_html_single_line():
     text = "<!-- Hello world -->"
     expected = "Hello world"
 
-    assert parse_comment(text, style=HtmlCommentStyle) == expected
+    assert HtmlCommentStyle.parse_comment(text) == expected
 
 
 def test_create_comment_html_single():
@@ -479,13 +483,13 @@ def test_comment_at_first_character_python():
         """
     )
 
-    assert comment_at_first_character(text) == expected
+    assert PythonCommentStyle.comment_at_first_character(text) == expected
 
 
 def test_comment_at_first_character_python_no_comment():
     """The text does not start with a comment character."""
     with pytest.raises(CommentParseError):
-        comment_at_first_character("Hello world")
+        PythonCommentStyle.comment_at_first_character("Hello world")
 
 
 def test_comment_at_first_character_python_indented_comments():
@@ -498,7 +502,7 @@ def test_comment_at_first_character_python_indented_comments():
     )
     expected = "Hello"
 
-    assert comment_at_first_character(text) == expected
+    assert PythonCommentStyle.comment_at_first_character(text) == expected
 
 
 def test_comment_at_first_character_c_multi():
@@ -519,4 +523,4 @@ def test_comment_at_first_character_c_multi():
         """
     )
 
-    assert comment_at_first_character(text, style=CCommentStyle) == expected
+    assert CCommentStyle.comment_at_first_character(text) == expected
