@@ -223,13 +223,13 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
 
 def add_arguments(parser):
     """Add arguments to parser."""
-    parser.add_argument("paths", action="store", nargs="*")
+    parser.add_argument("path", action="store", nargs="*")
 
 
 def run(args, out=sys.stdout):
     """List all non-compliant files."""
     project = create_project()
-    paths = args.paths
+    paths = args.path
     if not paths:
         paths = [project.root]
 

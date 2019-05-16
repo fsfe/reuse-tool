@@ -8,6 +8,7 @@
 
 import errno
 import os
+from inspect import cleandoc
 from pathlib import Path
 from unittest.mock import create_autospec
 
@@ -124,4 +125,36 @@ def test_download_custom_output(
     assert result == 0
     mock_put_license_in_file.assert_called_with(
         "0BSD", destination=Path("foo")
+    )
+
+
+def test_addheader_simple(fake_repository, stringio):
+    """Add a header to a file that does not have one."""
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-Copyright: Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
     )

@@ -10,7 +10,7 @@ import sys
 from gettext import gettext as _
 from typing import List
 
-from . import __version__, download, lint, spdx
+from . import __version__, download, header, lint, spdx
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import setup_logging
 
@@ -101,6 +101,15 @@ def parser() -> argparse.ArgumentParser:
                 "created."
             )
         ),
+    )
+
+    add_command(
+        subparsers,
+        "addheader",
+        header.add_arguments,
+        header.run,
+        help=_("TODO"),
+        description=_("TODO"),
     )
 
     return parser

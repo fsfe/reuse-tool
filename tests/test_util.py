@@ -11,11 +11,10 @@ from pathlib import Path
 
 import pytest
 from boolean.boolean import ParseError
-from license_expression import LicenseSymbol, Licensing
+from license_expression import LicenseSymbol
 
 from reuse import _util
-
-_LICENSING = Licensing()
+from reuse._util import _LICENSING
 
 # pylint: disable=invalid-name
 git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
