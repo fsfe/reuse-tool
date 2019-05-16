@@ -62,19 +62,11 @@ def parser() -> argparse.ArgumentParser:
 
     add_command(
         subparsers,
-        "spdx",
-        spdx.add_arguments,
-        spdx.run,
-        help=_("print the project's bill of materials in SPDX format"),
-    )
-
-    add_command(
-        subparsers,
-        "lint",
-        lint.add_arguments,
-        lint.run,
-        help=_("list all non-compliant files"),
-        description=fill_all(_("TODO")),
+        "addheader",
+        header.add_arguments,
+        header.run,
+        help=_("TODO"),
+        description=_("TODO"),
     )
 
     add_command(
@@ -105,11 +97,19 @@ def parser() -> argparse.ArgumentParser:
 
     add_command(
         subparsers,
-        "addheader",
-        header.add_arguments,
-        header.run,
-        help=_("TODO"),
-        description=_("TODO"),
+        "lint",
+        lint.add_arguments,
+        lint.run,
+        help=_("list all non-compliant files"),
+        description=fill_all(_("TODO")),
+    )
+
+    add_command(
+        subparsers,
+        "spdx",
+        spdx.add_arguments,
+        spdx.run,
+        help=_("print the project's bill of materials in SPDX format"),
     )
 
     return parser
