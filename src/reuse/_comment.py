@@ -239,14 +239,14 @@ class CommentStyle:
 
 
 class PythonCommentStyle(CommentStyle):
-    """Python comment style"""
+    """Python comment style."""
 
     SINGLE_LINE = "#"
     INDENT_AFTER_SINGLE = " "
 
 
 class CCommentStyle(CommentStyle):
-    """C comment style"""
+    """C comment style."""
 
     SINGLE_LINE = "//"
     INDENT_AFTER_SINGLE = " "
@@ -257,7 +257,23 @@ class CCommentStyle(CommentStyle):
 
 
 class HtmlCommentStyle(CommentStyle):
-    """HTML comment style"""
+    """HTML comment style."""
 
     SINGLE_LINE = None
     MULTI_LINE = ("<!--", None, "-->")
+
+
+class EmptyCommentStyle(CommentStyle):
+    """Hacky comment style for files that have no comments."""
+
+    @classmethod
+    def create_comment(cls, text: str, force_multi: bool = False) -> str:
+        return text.strip("\n")
+
+    @classmethod
+    def parse_comment(cls, text: str) -> str:
+        return text.strip("\n")
+
+    @classmethod
+    def comment_at_first_character(cls, text: str) -> str:
+        return text
