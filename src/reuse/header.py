@@ -9,7 +9,7 @@ from ._comment import CommentStyle, PythonCommentStyle
 
 
 # TODO: Add a template here maybe.
-def create_new_header(
+def _create_new_header(
     spdx_info: SpdxInfo, style: CommentStyle = PythonCommentStyle
 ) -> str:
     """Format a new header from scratch.
@@ -33,3 +33,20 @@ def create_new_header(
         )
     )
     return style.create_comment(result)
+
+
+# TODO: Add a template here maybe.
+def create_header(
+    spdx_info: SpdxInfo,
+    header: str = None,
+    style: CommentStyle = PythonCommentStyle,
+) -> str:
+    """Create a header containing *spdx_info*. *header* is an optional argument
+    containing a header which should be modified to include *spdx_info*. If
+    *header* is not given, a brand new header is created.
+
+    :raises CommentCreateError: if a comment could not be created.
+    """
+    if header is None:
+        return _create_new_header(spdx_info, style=style)
+    raise NotImplementedError()

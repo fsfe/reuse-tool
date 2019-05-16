@@ -7,7 +7,7 @@
 from inspect import cleandoc
 
 from reuse import SpdxInfo
-from reuse.header import create_new_header
+from reuse.header import create_header
 
 
 def test_create_header_simple():
@@ -21,4 +21,4 @@ def test_create_header_simple():
         """
     ).replace("spdx", "SPDX")
 
-    assert create_new_header(spdx_info) == expected
+    assert create_header(spdx_info) == expected
