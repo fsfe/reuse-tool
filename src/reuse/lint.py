@@ -9,6 +9,7 @@ the reports and printing some conclusions.
 import sys
 from gettext import gettext as _
 from typing import Iterable
+from ._util import PathType
 
 from .project import create_project
 from .report import ProjectReport
@@ -223,7 +224,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
 
 def add_arguments(parser):
     """Add arguments to parser."""
-    parser.add_argument("paths", action="store", nargs="*")
+    parser.add_argument("paths", action="store", nargs="*", type=PathType("r"))
 
 
 def run(args, out=sys.stdout):
