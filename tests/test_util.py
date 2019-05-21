@@ -7,6 +7,7 @@
 # pylint: disable=protected-access
 
 import os
+from argparse import ArgumentTypeError
 from pathlib import Path
 
 import pytest
@@ -87,3 +88,84 @@ def test_find_root_in_git_repo(git_repository):
     result = _util.find_root()
 
     assert Path(result).absolute().resolve() == git_repository
+
+
+# pylint: disable=unused-argument
+
+
+def test_pathtype_read_simple(fake_repository):
+    """Get a Path to a readable file."""
+    result = _util.PathType("r")("src/source_code.py")
+
+    assert result == Path("src/source_code.py")
+
+
+def test_pathtype_read_directory(fake_repository):
+    """Get a Path to a readable directory."""
+    result = _util.PathType("r")("src")
+
+    assert result == Path("src")
+
+
+def test_pathtype_read_directory_force_file(fake_repository):
+    """Cannot read a directory when a file is forced."""
+    with pytest.raises(ArgumentTypeError):
+        _util.PathType("r", force_file=True)("src")
+
+
+def test_pathtype_read_not_readable(fake_repository):
+    """Cannot read a nonreadable file."""
+    os.chmod("src/source_code.py", 0o000)
+
+    with pytest.raises(ArgumentTypeError):
+        _util.PathType("r")("src/source_code.py")
+
+
+def test_pathtype_read_not_exists(empty_directory):
+    """Cannot read a file that does not exist."""
+    with pytest.raises(ArgumentTypeError):
+        _util.PathType("r")("foo.py")
+
+
+def test_pathtype_write_not_exists(empty_directory):
+    """Get a Path for a file that does not exist."""
+    result = _util.PathType("w")("foo.py")
+
+    assert result == Path("foo.py")
+
+
+def test_pathtype_write_exists(fake_repository):
+    """Get a Path for a file that exists."""
+    result = _util.PathType("w")("src/source_code.py")
+
+    assert result == Path("src/source_code.py")
+
+
+def test_pathtype_write_directory(fake_repository):
+    """Cannot write to directory."""
+    with pytest.raises(ArgumentTypeError):
+        _util.PathType("w")("src")
+
+
+def test_pathtype_write_exists_but_not_writeable(fake_repository):
+    """Cannot get Path of file that exists but isn't writeable."""
+    os.chmod("src/source_code.py", 0o000)
+
+    with pytest.raises(ArgumentTypeError):
+        _util.PathType("w")("src/source_code.py")
+
+
+def test_pathtype_write_not_exist_but_directory_not_writeable(fake_repository):
+    """Cannot get Path of file that does not exist but directory isn't
+    writeable.
+    """
+    os.chmod("src", 0o000)
+
+    with pytest.raises(ArgumentTypeError):
+        _util.PathType("w")("src/foo.py")
+
+
+def test_pathtype_invalid_mode(empty_directory):
+    """Only valid modes are 'r' and 'w'."""
+    with pytest.raises(ValueError):
+        _util.PathType("o")

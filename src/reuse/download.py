@@ -4,8 +4,6 @@
 
 """Functions for downloading license files from spdx/license-data-list."""
 
-import argparse
-import contextlib
 import errno
 import sys
 from gettext import gettext as _

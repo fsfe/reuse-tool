@@ -4,7 +4,6 @@
 
 """Compilation of the SPDX Document."""
 
-import argparse
 import contextlib
 import logging
 import sys
