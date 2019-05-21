@@ -128,6 +128,7 @@ def test_download_custom_output(
     )
 
 
+# FIXME: Replace this test with a monkeypatched test
 def test_addheader_simple(fake_repository, stringio):
     """Add a header to a file that does not have one."""
     simple_file = fake_repository / "foo.py"

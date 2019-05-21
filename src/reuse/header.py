@@ -10,8 +10,8 @@ from gettext import gettext as _
 from pathlib import Path
 
 from . import SpdxInfo
-from ._comment import CommentStyle, PythonCommentStyle
-from ._util import _LICENSING
+from ._comment import CommentParseError, CommentStyle, PythonCommentStyle
+from ._util import _LICENSING, extract_spdx_info
 
 
 # TODO: Add a template here maybe.
@@ -32,8 +32,8 @@ def _create_new_header(
             ),
             "\n".join(
                 (
-                    "SPDX" "-License-Identifier: " + str(expr)
-                    for expr in sorted(spdx_info.spdx_expressions)
+                    "SPDX" "-License-Identifier: " + expr
+                    for expr in sorted(map(str, spdx_info.spdx_expressions))
                 )
             ),
         )
@@ -53,9 +53,49 @@ def create_header(
 
     :raises CommentCreateError: if a comment could not be created.
     """
-    if header is None:
-        return _create_new_header(spdx_info, style=style)
-    raise NotImplementedError()
+    if header:
+        # FIXME: Handle ExpressionError
+        existing_spdx = extract_spdx_info(header)
+
+        # FIXME: This behaviour does not match the docstring.
+        spdx_info = SpdxInfo(
+            spdx_info.spdx_expressions.union(existing_spdx.spdx_expressions),
+            spdx_info.copyright_lines.union(existing_spdx.copyright_lines),
+        )
+
+    return _create_new_header(spdx_info, style=style)
+
+
+def find_and_replace_header(
+    text: str, spdx_info: SpdxInfo, style: CommentStyle = PythonCommentStyle
+) -> str:
+    """Find the comment block starting at the first character in *text*. That
+    comment block is replaced by a new comment block containing *spdx_info*.
+
+    If the comment block already contained some SPDX information, that
+    information is merged into *spdx_info*.
+
+    If no header exists, one is simply created.
+
+    *text* is returned with a new header.
+
+    :raises CommentCreateError: TODO FIXME
+    """
+    try:
+        header = style.comment_at_first_character(text)
+    except CommentParseError:
+        # TODO: Log this
+        header = None
+
+    new_header = create_header(spdx_info, header)
+
+    if header:
+        text = text.replace(header + "\n", "", 1)
+    else:
+        # Some extra spacing for the new header.
+        new_header = new_header + "\n"
+
+    return new_header + "\n" + text
 
 
 def add_arguments(parser) -> None:
@@ -95,12 +135,8 @@ def run(args, out=sys.stdout) -> int:
         with path.open("r") as fp:
             text = fp.read()
 
-        # TODO: Extract to separate function, probably.
-        # TODO: Read the current header.
-        # TODO: Detect file type
-        # Basically, this is utterly broken, but works for the most basic case,
-        # which is great during early testing.
-        output = create_header(spdx_info) + "\n\n" + text
+        output = find_and_replace_header(text, spdx_info)
+
         out.write(_("TODO"))
 
         with path.open("w") as fp:

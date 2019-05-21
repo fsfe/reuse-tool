@@ -195,7 +195,10 @@ def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
 
 
 def extract_spdx_info(text: str) -> None:
-    """Extract SPDX information from comments in a string."""
+    """Extract SPDX information from comments in a string.
+
+    :raises ExpressionError: if an SPDX expression could not be parsed
+    """
     expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
     expressions = set()
     for expression in expression_matches:
