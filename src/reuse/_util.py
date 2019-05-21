@@ -11,6 +11,7 @@ import os
 import re
 import shutil
 import subprocess
+from argparse import ArgumentTypeError
 from gettext import gettext as _
 from hashlib import sha1
 from os import PathLike
@@ -223,3 +224,34 @@ def _checksum(path: PathLike) -> Algorithm:
             file_sha1.update(chunk)
 
     return Algorithm("SHA1", file_sha1.hexdigest())
+
+
+class PathType:
+    """Factory for creating Paths"""
+
+    def __init__(self, mode="r", force_file=False):
+        self._mode = mode
+        self._force_file = force_file
+
+    def __call__(self, string):
+        path = Path(string)
+
+        if self._mode == "r":
+            if path.exists() and os.access(path, os.R_OK):
+                if self._force_file and not path.is_file():
+                    raise ArgumentTypeError(
+                        _("'{}' is not a file").format(path)
+                    )
+                return path
+            raise ArgumentTypeError(_("can't open '{}'").format(path))
+        if self._mode == "w":
+            if path.is_dir():
+                raise ArgumentTypeError(
+                    _("can't write to directory '{}'").format(path)
+                )
+            if path.exists() and os.access(path, os.W_OK):
+                return path
+            if not path.exists() and os.access(path.parent, os.W_OK):
+                return path
+            raise ArgumentTypeError(_("can't write to '{}'").format(path))
+        raise ValueError("mode='{}' is not")

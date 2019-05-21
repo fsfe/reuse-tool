@@ -5,10 +5,12 @@
 """Compilation of the SPDX Document."""
 
 import argparse
+import contextlib
 import logging
 import sys
 from gettext import gettext as _
 
+from ._util import PathType
 from .project import create_project
 from .report import ProjectReport
 
@@ -17,22 +19,25 @@ _LOGGER = logging.getLogger(__name__)
 
 def add_arguments(parser) -> None:
     """Add arguments to the parser."""
-    parser.add_argument(
-        "--output", "-o", action="store", type=argparse.FileType("w")
-    )
+    parser.add_argument("--output", "-o", action="store", type=PathType("w"))
 
 
 def run(args, out=sys.stdout) -> int:
     """Print the project's bill of materials."""
     if args.output:
-        out = args.output
-        if not out.name.endswith(".spdx"):
+        out = args.output.open("w")
+        if args.output.suffix != ".spdx":
             # Translators: %s is a file name.
-            _LOGGER.warning(_("%s does not end with .spdx"), out.name)
+            _LOGGER.warning(_("'%s' does not end with .spdx"), out.name)
 
     project = create_project()
     report = ProjectReport.generate(project)
 
     out.write(report.bill_of_materials())
+
+    # Don't close sys.stdout or StringIO
+    if args.output:
+        with contextlib.suppress(Exception):
+            out.close()
 
     return 0

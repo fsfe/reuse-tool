@@ -17,7 +17,7 @@ from urllib.parse import urljoin
 import requests
 
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
-from ._util import find_licenses_directory
+from ._util import PathType, find_licenses_directory
 
 # All raw text files are available as files underneath this path.
 _SPDX_REPOSITORY_BASE_URL = (
@@ -86,21 +86,14 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "license", action="store", help=_("SPDX Identifier of license")
     )
-    parser.add_argument(
-        "--output", "-o", action="store", type=argparse.FileType("w")
-    )
+    parser.add_argument("--output", "-o", action="store", type=PathType("w"))
 
 
 def run(args, out=sys.stdout) -> int:
     """Download license and place it in the LICENSES/ directory."""
     destination = None
     if args.output:
-        destination = Path(args.output.buffer.name)
-        # We won't be using this stream.
-        args.output.close()
-        # Also sneakily delete the file that this stream created.
-        with contextlib.suppress(FileNotFoundError):
-            destination.unlink()
+        destination = args.output
 
     try:
         # IMPORTANT: These redundant lines exist SOLELY to make testing not an
