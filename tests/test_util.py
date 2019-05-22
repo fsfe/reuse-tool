@@ -21,7 +21,7 @@ _LICENSING = Licensing()
 
 # pylint: disable=invalid-name
 git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
-root = pytest.mark.xfail(
+no_root = pytest.mark.xfail(
     pwd.getpwuid(os.getuid()).pw_name == "root",
     reason="fails when user is root",
 )
