@@ -9,8 +9,8 @@ the reports and printing some conclusions.
 import sys
 from gettext import gettext as _
 from typing import Iterable
-from ._util import PathType
 
+from ._util import PathType
 from .project import create_project
 from .report import ProjectReport
 
