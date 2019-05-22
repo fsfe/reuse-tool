@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+[MASTER]
+
+jobs=0
+
 [MESSAGES CONTROL]
 
 # Disable the message, report, category or checker with the given id(s). You
