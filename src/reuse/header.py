@@ -9,8 +9,16 @@ import sys
 from gettext import gettext as _
 from pathlib import Path
 
+from boolean.boolean import ParseError
+from license_expression import ExpressionError
+
 from . import SpdxInfo
-from ._comment import CommentParseError, CommentStyle, PythonCommentStyle
+from ._comment import (
+    CommentCreateError,
+    CommentParseError,
+    CommentStyle,
+    PythonCommentStyle,
+)
 from ._util import _LICENSING, extract_spdx_info
 
 
@@ -54,8 +62,12 @@ def create_header(
     :raises CommentCreateError: if a comment could not be created.
     """
     if header:
-        # FIXME: Handle ExpressionError
-        existing_spdx = extract_spdx_info(header)
+        try:
+            existing_spdx = extract_spdx_info(header)
+        except (ExpressionError, ParseError) as err:
+            raise CommentCreateError(
+                "existing header contains an erroneous SPDX expression"
+            ) from err
 
         # FIXME: This behaviour does not match the docstring.
         spdx_info = SpdxInfo(

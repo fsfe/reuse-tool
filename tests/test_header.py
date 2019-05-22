@@ -6,7 +6,10 @@
 
 from inspect import cleandoc
 
+import pytest
+
 from reuse import SpdxInfo
+from reuse._comment import CommentCreateError
 from reuse.header import create_header, find_and_replace_header
 
 
@@ -45,6 +48,21 @@ def test_create_header_already_contains_spdx():
     ).replace("spdx", "SPDX")
 
     assert create_header(spdx_info, header=existing) == expected
+
+
+def test_create_header_existing_is_wrong():
+    """If the existing header contains errors, raise a CommentCreateError."""
+    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set(["Mary Sue"]))
+    existing = cleandoc(
+        """
+        # spdx-Copyright: John Doe
+        #
+        # spdx-License-Identifier: MIT AND OR 0BSD
+        """
+    ).replace("spdx", "SPDX")
+
+    with pytest.raises(CommentCreateError):
+        create_header(spdx_info, header=existing)
 
 
 def test_find_and_replace_no_header():

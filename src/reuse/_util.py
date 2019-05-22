@@ -18,6 +18,7 @@ from os import PathLike
 from pathlib import Path
 from typing import BinaryIO, List, Optional, Set
 
+from boolean.boolean import ParseError
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
 from spdx.checksum import Algorithm
@@ -205,7 +206,7 @@ def extract_spdx_info(text: str) -> None:
     for expression in expression_matches:
         try:
             expressions.add(_LICENSING.parse(expression))
-        except ExpressionError:
+        except (ExpressionError, ParseError):
             _LOGGER.error(_("Could not parse '%s'"), expression)
             raise
     copyright_matches = set(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))

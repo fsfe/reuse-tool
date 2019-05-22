@@ -19,6 +19,9 @@ requirements = [
     "requests",
     "spdx-tools",
     "license-expression",
+    # Indirect requirement of license-expression, but we require it because we
+    # import its exceptions.
+    "boolean.py",
 ]
 
 test_requirements = ["pytest"]
