@@ -112,7 +112,7 @@ Starting local development is very simple, just execute the following
 commands::
 
     git clone git@github.com:fsfe/reuse-tool.git
-    cd reuse/
+    cd reuse-tool/
     python3 -mvenv venv
     source venv/bin/activate
     make develop
