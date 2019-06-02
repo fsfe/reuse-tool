@@ -229,7 +229,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     @property
     def files_without_copyright(self) -> Iterable[PathLike]:
-        """Iterable of paths that have no license information."""
+        """Iterable of paths that have no copyright information."""
         if self._files_without_copyright is not None:
             return self._files_without_copyright
 
