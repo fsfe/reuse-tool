@@ -24,7 +24,7 @@ def add_arguments(parser) -> None:
 def run(args, out=sys.stdout) -> int:
     """Print the project's bill of materials."""
     if args.output:
-        out = args.output.open("w")
+        out = args.output.open("w", encoding="UTF-8")
         if args.output.suffix != ".spdx":
             # Translators: %s is a file name.
             _LOGGER.warning(_("'%s' does not end with .spdx"), out.name)
