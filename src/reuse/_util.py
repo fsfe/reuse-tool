@@ -184,7 +184,7 @@ def _determine_license_path(path: PathLike) -> Path:
 
 def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
     """Find the reuse information of *path* in the dep5 Copyright object."""
-    result = copyright.find_files_paragraph(str(path))
+    result = copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
         return SpdxInfo(set(), set())
