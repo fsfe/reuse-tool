@@ -15,9 +15,12 @@ from setuptools import setup
 from setuptools.command.build_py import build_py
 
 requirements = [
+    # For parsing .reuse/dep5.
     "python-debian",
+    # For downloading from spdx/spdx-license-list-data. Could maybe use
+    # standard library instead?
     "requests",
-    "spdx-tools",
+    # For parsing SPDX License Expressions.
     "license-expression",
 ]
 

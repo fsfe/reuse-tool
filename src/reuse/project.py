@@ -20,8 +20,6 @@ from . import (
     IdentifierNotFound,
     SpdxInfo,
 )
-
-# FIXME: Import from spdx instead
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _HEADER_BYTES,

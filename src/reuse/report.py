@@ -11,12 +11,10 @@ from hashlib import md5
 from io import StringIO
 from os import PathLike
 from pathlib import Path
-from typing import Iterable, NamedTuple, Set
+from typing import Iterable, List, NamedTuple, Set
 from uuid import uuid4
 
 from license_expression import Licensing
-from spdx.document import License
-from spdx.file import File
 
 from . import __version__
 from ._util import _checksum
@@ -118,9 +116,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             out.write("FileName: {}\n".format(report.spdxfile.name))
             out.write("SPDXID: {}\n".format(report.spdxfile.spdx_id))
             out.write(
-                "FileChecksum: SHA1: {}\n".format(
-                    report.spdxfile.chk_sum.value
-                )
+                "FileChecksum: SHA1: {}\n".format(report.spdxfile.chk_sum)
             )
             # IMPORTANT: Make no assertion about concluded license. This tool
             # cannot, with full certainty, determine the license of a file.
@@ -203,7 +199,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         for file_report in self.file_reports:
             for lic in file_report.spdxfile.licenses_in_file:
-                used_licenses.add(lic.identifier)
+                used_licenses.add(lic)
 
         for lic in self.licenses:
             if lic not in used_licenses:
@@ -243,13 +239,26 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return files_without_copyright
 
 
+class _File:  # pylint: disable=too-few-public-methods
+    """Represent an SPDX file. Sufficiently enough for our purposes, in any
+    case.
+    """
+
+    def __init__(self, name, spdx_id=None, chk_sum=None):
+        self.name: str = name
+        self.spdx_id: str = spdx_id
+        self.chk_sum: str = chk_sum
+        self.licenses_in_file: List[str] = []
+        self.copyright: str = None
+
+
 class FileReport:
     """Object that holds a linting report about a single file. Importantly,
     it also contains SPDX File information in :attr:`spdxfile`.
     """
 
     def __init__(self, name: PathLike, path: PathLike):
-        self.spdxfile = File(name)
+        self.spdxfile = _File(name)
         self.path = Path(path)
 
     def to_dict(self):
@@ -258,12 +267,11 @@ class FileReport:
             "path": str(Path(self.path).resolve()),
             "name": self.spdxfile.name,
             "spdx_id": self.spdxfile.spdx_id,
-            "chk_sum": self.spdxfile.chk_sum.value,
+            "chk_sum": self.spdxfile.chk_sum,
             "licenses_in_file": [
-                lic.identifier for lic in self.spdxfile.licenses_in_file
+                lic for lic in self.spdxfile.licenses_in_file
             ],
             "copyright": self.spdxfile.copyright,
-            "valid_spdx": not bool(self.spdxfile.validate()),
         }
 
     @classmethod
@@ -284,7 +292,7 @@ class FileReport:
         report.spdxfile.chk_sum = _checksum(path)
         spdx_id = md5()
         spdx_id.update(str(relative).encode("utf-8"))
-        spdx_id.update(report.spdxfile.chk_sum.value.encode("utf-8"))
+        spdx_id.update(report.spdxfile.chk_sum.encode("utf-8"))
         report.spdxfile.spdx_id = "SPDXRef-{}".format(spdx_id.hexdigest())
 
         spdx_info = project.spdx_info_of(path)
@@ -298,7 +306,7 @@ class FileReport:
                     missing_licenses.add(identifier)
 
                 # Add license to report.
-                report.spdxfile.add_lics(License.from_identifier(identifier))
+                report.spdxfile.licenses_in_file.append(identifier)
 
         # Copyright text
         report.spdxfile.copyright = "\n".join(spdx_info.copyright_lines)
@@ -307,5 +315,5 @@ class FileReport:
 
     def __hash__(self):
         if self.spdxfile.chk_sum is not None:
-            return hash(self.spdxfile.name + self.spdxfile.chk_sum.value)
+            return hash(self.spdxfile.name + self.spdxfile.chk_sum)
         return super().__hash__(self)

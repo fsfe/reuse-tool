@@ -20,7 +20,6 @@ from typing import BinaryIO, List, Optional, Set
 
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
-from spdx.checksum import Algorithm
 
 from . import SpdxInfo
 
@@ -215,7 +214,7 @@ def extract_valid_license(text: str) -> Set[str]:
     return set(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
 
 
-def _checksum(path: PathLike) -> Algorithm:
+def _checksum(path: PathLike) -> str:
     path = Path(path)
 
     file_sha1 = sha1()
@@ -223,7 +222,7 @@ def _checksum(path: PathLike) -> Algorithm:
         for chunk in iter(lambda: fp.read(128 * file_sha1.block_size), b""):
             file_sha1.update(chunk)
 
-    return Algorithm("SHA1", file_sha1.hexdigest())
+    return file_sha1.hexdigest()
 
 
 class PathType:  # pylint: disable=too-few-public-methods
