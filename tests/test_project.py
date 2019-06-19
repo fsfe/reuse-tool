@@ -142,7 +142,7 @@ def test_spdx_info_of_only_copyright(fake_repository):
     spdx_info = project.spdx_info_of("foo.py")
     assert not any(spdx_info.spdx_expressions)
     assert len(spdx_info.copyright_lines) == 1
-    assert spdx_info.copyright_lines.pop() == "2017 Mary Sue"
+    assert spdx_info.copyright_lines.pop() == "SPDX-Copyright: 2017 Mary Sue"
 
 
 def test_spdx_info_of_only_copyright_also_covered_by_debian(fake_repository):
@@ -154,7 +154,7 @@ def test_spdx_info_of_only_copyright_also_covered_by_debian(fake_repository):
     spdx_info = project.spdx_info_of("doc/foo.py")
     assert any(spdx_info.spdx_expressions)
     assert len(spdx_info.copyright_lines) == 2
-    assert "in file" in spdx_info.copyright_lines
+    assert "SPDX-Copyright: in file" in spdx_info.copyright_lines
     assert "2017 Mary Sue" in spdx_info.copyright_lines
 
 
@@ -173,7 +173,7 @@ def test_spdx_info_of_also_covered_by_dep5(fake_repository):
     spdx_info = project.spdx_info_of("doc/foo.py")
     assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
     assert LicenseSymbol("CC0-1.0") in spdx_info.spdx_expressions
-    assert "in file" in spdx_info.copyright_lines
+    assert "SPDX-Copyright: in file" in spdx_info.copyright_lines
     assert "2017 Mary Sue" in spdx_info.copyright_lines
 
 
@@ -191,7 +191,10 @@ def test_spdx_info_of_no_duplicates(empty_directory):
     assert len(spdx_info.spdx_expressions) == 1
     assert LicenseSymbol("GPL-3.0-or-later") in spdx_info.spdx_expressions
     assert len(spdx_info.copyright_lines) == 1
-    assert "2017 Free Software Foundation Europe" in spdx_info.copyright_lines
+    assert (
+        "SPDX-Copyright: 2017 Free Software Foundation Europe"
+        in spdx_info.copyright_lines
+    )
 
 
 def test_spdx_info_of_binary_succeeds(fake_repository):
@@ -217,7 +220,7 @@ def test_license_file_detected(empty_directory):
     project = Project(empty_directory)
     spdx_info = project.spdx_info_of("foo.py")
 
-    assert "2017 Mary Sue" in spdx_info.copyright_lines
+    assert "SPDX-Copyright: 2017 Mary Sue" in spdx_info.copyright_lines
     assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
 
 

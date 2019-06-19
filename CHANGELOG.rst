@@ -46,11 +46,8 @@ Changed
 
 - ``reuse compile`` is now ``reuse spdx``.
 
-- Can no longer mark copyright lines with ``Copyright`` or ``©``.  This feature
-  is intended to be reimplemented soon.
-
-  - Instead, use the tag ``SPDX-Copyright:``.  This should possibly make it into
-    the release of SPDX 2.2.
+- In addition to ``Copyright`` and ``©``, copyright lines can be marked with the
+  tag ``SPDX-Copyright:``. This is the new recommended default.
 
 - Project no longer depends on pygit2.
 
