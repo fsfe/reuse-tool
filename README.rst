@@ -3,7 +3,6 @@
 
     SPDX-License-Identifier: CC-BY-SA-4.0
 
-
 !!!**IMPORTANT**!!!: This branch is not yet released on PyPI. Please check
 CHANGELOG.rst if the issue you are facing is due to being on an older version.
 
@@ -28,22 +27,22 @@ reuse
 Background
 ----------
 
-Copyright and licensing is difficult, especially when reusing software
-from different projects that are released under various different
-licenses. The `REUSE Initiative <https://reuse.software/>`__ was started
-by the `FSFE <https://fsfe.org>`__ to provide a set of recommendations
-to make licensing your free software projects easier. Not only do these
-recommendations make it easier for you to declare the licenses under
-which your works are released, but they also make it easier for a
-computer to understand how your project is licensed.
+Copyright and licensing is difficult, especially when reusing software from
+different projects that are released under various different licenses. The
+`REUSE Initiative <https://reuse.software/>`__ was started by the `Free Software
+Foundation Europe<https://fsfe.org>`__ (FSFE) to provide a set of
+recommendations to make licensing your free software projects easier. Not only
+do these recommendations make it easier for you to declare the licenses under
+which your works are released, but they also make it easier for a computer to
+understand how your project is licensed.
 
 As a short summary, the recommendations are threefold:
 
-1. Provide the exact text of each license used, verbatim.
+1. Choose and provide licenses
 
-2. Include a copyright notice and license in (or about) each file.
+2. Add copyright and license information to each file
 
-3. Provide an inventory for included software.
+3. Confirm REUSE compliance
 
 You are recommended to read the
 `recommendations <https://reuse.software/practices/>`__ in full for more
@@ -86,7 +85,7 @@ recommendations <https://reuse.software/practices/>`__. In a nutshell:
 -  Add a comment header to each file that says ``SPDX-License-Identifier:
    GPL-3.0-or-later``.
 
--  Add a comment header to each file that says ``SPDX-Copyright: YEAR NAME``.
+-  Add a comment header to each file that says ``SPDX-Copyright: $YEAR $NAME``.
    You can be flexible with the format, just make sure that the line starts
    with ``SPDX-Copyright:``.
 
@@ -108,7 +107,7 @@ Contribute
 ----------
 
 Any pull requests or suggestions are welcome at
-https://github.com/fsfe/reuse-tool or via e-mail to one of the maintainers.
+<https://github.com/fsfe/reuse-tool> or via e-mail to one of the maintainers.
 General inquiries can be sent to contact@fsfe.org.
 
 Starting local development is very simple, just execute the following
