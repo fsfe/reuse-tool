@@ -32,9 +32,11 @@ _END_PATTERN = r"(?:\*/)*(?:-->)*$"
 _IDENTIFIER_PATTERN = re.compile(
     r"SPDX" "-License-Identifier: (.*?)" + _END_PATTERN, re.MULTILINE
 )
-_COPYRIGHT_PATTERN = re.compile(
-    r"SPDX" "-Copyright: (.*?)" + _END_PATTERN, re.MULTILINE
-)
+_COPYRIGHT_PATTERNS = [
+    re.compile(r"(SPDX" "-Copyright: .*?)" + _END_PATTERN),
+    re.compile(r"(Copyright .*?)" + _END_PATTERN),
+    re.compile(r"(© .*?)" + _END_PATTERN),
+]
 _VALID_LICENSE_PATTERN = re.compile(
     r"Valid" "-License-Identifier: (.*?)" + _END_PATTERN, re.MULTILINE
 )
@@ -198,13 +200,19 @@ def extract_spdx_info(text: str) -> None:
     """Extract SPDX information from comments in a string."""
     expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
     expressions = set()
+    copyright_matches = set()
     for expression in expression_matches:
         try:
             expressions.add(_LICENSING.parse(expression))
         except ExpressionError:
             _LOGGER.error(_("Could not parse '%s'"), expression)
             raise
-    copyright_matches = set(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
+    for line in text.splitlines():
+        for pattern in _COPYRIGHT_PATTERNS:
+            match = pattern.search(line)
+            if match is not None:
+                copyright_matches.add(match.groups()[0])
+                break
 
     return SpdxInfo(expressions, copyright_matches)
 

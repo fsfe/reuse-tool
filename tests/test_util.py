@@ -9,6 +9,7 @@
 import os
 import pwd
 from argparse import ArgumentTypeError
+from inspect import cleandoc
 from pathlib import Path
 
 import pytest
@@ -56,18 +57,36 @@ def test_extract_copyright():
     """Given a file with copyright information, have it return that copyright
     information.
     """
-    copyright = "2019 Jane Doe"
-    result = _util.extract_spdx_info("SPDX-Copyright: {}".format(copyright))
+    copyright = "SPDX-Copyright: 2019 Jane Doe"
+    result = _util.extract_spdx_info(copyright)
     assert result.copyright_lines == {copyright}
 
 
 def test_extract_copyright_duplicate():
     """When a copyright line is duplicated, only yield one."""
-    copyright = "2019 Jane Doe"
-    result = _util.extract_spdx_info(
-        "SPDX-Copyright: {}\n".format(copyright) * 2
-    )
+    copyright = "SPDX-Copyright: 2019 Jane Doe"
+    result = _util.extract_spdx_info("\n".join((copyright, copyright)))
     assert result.copyright_lines == {copyright}
+
+
+def test_extract_copyright_variations():
+    """There are multiple ways to declare copyright. All should be detected."""
+    text = cleandoc(
+        """
+        SPDX-Copyright: 2019 Jane Doe
+        SPDX-Copyright: © 2019 Jane Doe
+        © 2019 Jane Doe
+        Copyright © 2019 Jane Doe
+        Copyright 2019 Jane Doe
+        Copyright (C) 2019 Jane Doe
+        """
+    )
+
+    result = _util.extract_spdx_info(text)
+    lines = text.splitlines()
+    for line in lines:
+        assert line in result.copyright_lines
+    assert len(lines) == len(result.copyright_lines)
 
 
 def test_extract_valid_license():
