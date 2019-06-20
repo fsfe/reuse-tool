@@ -4,6 +4,9 @@
     SPDX-License-Identifier: CC-BY-SA-4.0
 
 
+!!!**IMPORTANT**!!!: This branch is not yet released on PyPI. Please check
+CHANGELOG.rst if the issue you are facing is due to being on an older version.
+
 reuse
 =====
 

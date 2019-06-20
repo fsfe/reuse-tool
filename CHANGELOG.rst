@@ -25,8 +25,8 @@ the following sections:
 
 The versions follow `semantic versioning <https://semver.org>`__.
 
-0.4.0a1 - 2019-04-16
---------------------
+Unreleased
+----------
 
 This release is a major overhaul and refactoring of the tool. Its primary
 focus is improved usability and speed, as well as adhering to a new version
@@ -35,8 +35,6 @@ of the spec that is currently in the works.
 Please note that this release is incomplete, may contain bugs, and its
 documentation is lacking and/or simply wrong. It is provided as an early
 preview.
-
-This release will be yanked upon the release of 0.4.0.
 
 Changed
 ~~~~~~~
