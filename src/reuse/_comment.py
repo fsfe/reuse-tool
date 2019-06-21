@@ -238,27 +238,6 @@ class CommentStyle:
         )
 
 
-class PythonCommentStyle(CommentStyle):
-    """Python comment style."""
-
-    SINGLE_LINE = "#"
-    INDENT_AFTER_SINGLE = " "
-
-
-class LispCommentStyle(CommentStyle):
-    """Lisp comment style."""
-
-    SINGLE_LINE = ";;"
-    INDENT_AFTER_SINGLE = " "
-
-
-class HaskellCommentStyle(CommentStyle):
-    """Haskell comment style."""
-
-    SINGLE_LINE = "--"
-    INDENT_AFTER_SINGLE = " "
-
-
 class CCommentStyle(CommentStyle):
     """C comment style."""
 
@@ -279,13 +258,6 @@ class CssCommentStyle(CommentStyle):
     INDENT_BEFORE_END = " "
 
 
-class HtmlCommentStyle(CommentStyle):
-    """HTML comment style."""
-
-    SINGLE_LINE = None
-    MULTI_LINE = ("<!--", None, "-->")
-
-
 class EmptyCommentStyle(CommentStyle):
     """Hacky comment style for files that have no comments."""
 
@@ -300,6 +272,33 @@ class EmptyCommentStyle(CommentStyle):
     @classmethod
     def comment_at_first_character(cls, text: str) -> str:
         return text
+
+
+class HaskellCommentStyle(CommentStyle):
+    """Haskell comment style."""
+
+    SINGLE_LINE = "--"
+    INDENT_AFTER_SINGLE = " "
+
+
+class HtmlCommentStyle(CommentStyle):
+    """HTML comment style."""
+
+    MULTI_LINE = ("<!--", None, "-->")
+
+
+class LispCommentStyle(CommentStyle):
+    """Lisp comment style."""
+
+    SINGLE_LINE = ";;"
+    INDENT_AFTER_SINGLE = " "
+
+
+class PythonCommentStyle(CommentStyle):
+    """Python comment style."""
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
 
 
 #: A map of (common) file extensions against comment types.
