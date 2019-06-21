@@ -19,7 +19,7 @@ from ._comment import (
     CommentStyle,
     PythonCommentStyle,
 )
-from ._util import _LICENSING, extract_spdx_info
+from ._util import _LICENSING, PathType, extract_spdx_info, make_copyright_line
 
 
 # TODO: Add a template here maybe.
@@ -117,28 +117,24 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--license", "-l", action="append", type=str, help=_("SPDX Identifier")
     )
-    parser.add_argument(
-        "path", action="store", nargs="+", type=argparse.FileType("r")
-    )
+    parser.add_argument("path", action="store", nargs="+", type=PathType("w"))
 
 
 def run(args, out=sys.stdout) -> int:
     """Add headers to files."""
+    # TODO
     if not args.copyright:
         raise NotImplementedError()
+    # TODO
     if not args.license:
         raise NotImplementedError()
 
     spdx_info = SpdxInfo(
         set(_LICENSING.parse(expr) for expr in args.license),
-        set(args.copyright),
+        set(make_copyright_line(x) for x in args.copyright),
     )
 
     for path in args.path:
-        # We won't be using this stream.
-        path.close()
-        path = Path(path.buffer.name)
-
         with path.open("r") as fp:
             text = fp.read()
 

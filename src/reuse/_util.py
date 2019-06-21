@@ -218,6 +218,19 @@ def extract_spdx_info(text: str) -> None:
     return SpdxInfo(expressions, copyright_matches)
 
 
+def make_copyright_line(statement: str) -> str:
+    """Given a statement, prefix it with ``SPDX-Copyright:`` if it is not
+    already prefixed with some manner of copyright tag.
+    """
+    if "\n" in statement:
+        raise RuntimeError(f"Unexpected newline in '{statement}'")
+    for pattern in _COPYRIGHT_PATTERNS:
+        match = pattern.search(statement)
+        if match is not None:
+            return statement
+    return f"SPDX-Copyright: {statement}"
+
+
 def _checksum(path: PathLike) -> str:
     path = Path(path)
 

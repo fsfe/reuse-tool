@@ -106,6 +106,29 @@ def test_find_root_in_git_repo(git_repository):
     assert Path(result).absolute().resolve() == git_repository
 
 
+def test_make_copyright_line_simple():
+    """Given a simple statement, make it a copyright line."""
+    assert _util.make_copyright_line("hello") == "SPDX" "-Copyright: hello"
+
+
+def test_make_copyright_line_existing_spdx_copyright():
+    """Given a copyright line, do nothing."""
+    value = "SPDX" "-Copyright: hello"
+    assert _util.make_copyright_line(value) == value
+
+
+def test_make_copyright_line_existing_other_copyright():
+    """Given a non-SPDX copyright line, do nothing."""
+    value = "© hello"
+    assert _util.make_copyright_line(value) == value
+
+
+def test_make_copyright_line_multine_error():
+    """Given a multiline arguement, expect an error."""
+    with pytest.raises(RuntimeError):
+        _util.make_copyright_line("hello\nworld")
+
+
 # pylint: disable=unused-argument
 
 
