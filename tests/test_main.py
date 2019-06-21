@@ -159,3 +159,69 @@ def test_addheader_simple(fake_repository, stringio):
             """
         ).replace("spdx", "SPDX")
     )
+
+
+def test_addheader_specify_style(fake_repository, stringio):
+    """Add a header to a file that does not have one, using a custom style."""
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--style",
+            "c",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            // spdx-Copyright: Mary Sue
+            //
+            // spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_implicit_style(fake_repository, stringio):
+    """Add a header to a file that has a recognised extension."""
+    simple_file = fake_repository / "foo.js"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.js",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            // spdx-Copyright: Mary Sue
+            //
+            // spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )

@@ -245,11 +245,34 @@ class PythonCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class LispCommentStyle(CommentStyle):
+    """Lisp comment style."""
+
+    SINGLE_LINE = ";;"
+    INDENT_AFTER_SINGLE = " "
+
+
+class HaskellCommentStyle(CommentStyle):
+    """Haskell comment style."""
+
+    SINGLE_LINE = "--"
+    INDENT_AFTER_SINGLE = " "
+
+
 class CCommentStyle(CommentStyle):
     """C comment style."""
 
     SINGLE_LINE = "//"
     INDENT_AFTER_SINGLE = " "
+    MULTI_LINE = ("/*", "*", "*/")
+    INDENT_BEFORE_MIDDLE = " "
+    INDENT_AFTER_MIDDLE = " "
+    INDENT_BEFORE_END = " "
+
+
+class CssCommentStyle(CommentStyle):
+    """CSS comment style."""
+
     MULTI_LINE = ("/*", "*", "*/")
     INDENT_BEFORE_MIDDLE = " "
     INDENT_AFTER_MIDDLE = " "
@@ -277,3 +300,42 @@ class EmptyCommentStyle(CommentStyle):
     @classmethod
     def comment_at_first_character(cls, text: str) -> str:
         return text
+
+
+#: A map of (common) file extensions against comment types.
+COMMENT_STYLE_MAP = {
+    ".c": CCommentStyle,
+    ".cl": LispCommentStyle,
+    ".clj": LispCommentStyle,
+    ".coffee": PythonCommentStyle,
+    ".cpp": CCommentStyle,
+    ".cs": CCommentStyle,
+    ".css": CssCommentStyle,
+    ".d": CCommentStyle,
+    ".fs": CCommentStyle,
+    ".h": CCommentStyle,
+    ".hs": HaskellCommentStyle,
+    ".html": HtmlCommentStyle,
+    ".java": CCommentStyle,
+    ".js": CCommentStyle,
+    ".l": LispCommentStyle,
+    ".lisp": LispCommentStyle,
+    ".lsp": LispCommentStyle,
+    ".lua": HaskellCommentStyle,
+    ".nim": PythonCommentStyle,
+    ".php": CCommentStyle,
+    ".pl": PythonCommentStyle,
+    ".py": PythonCommentStyle,
+    ".rb": PythonCommentStyle,
+    ".rs": CCommentStyle,
+    ".vala": CCommentStyle,
+}
+
+#: A map of human-friendly names against style classes.
+NAME_STYLE_MAP = {
+    "c": CCommentStyle,
+    "css": CssCommentStyle,
+    "haskell": HaskellCommentStyle,
+    "html": HtmlCommentStyle,
+    "python": PythonCommentStyle,
+}

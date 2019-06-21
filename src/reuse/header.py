@@ -14,6 +14,8 @@ from license_expression import ExpressionError
 
 from . import SpdxInfo
 from ._comment import (
+    COMMENT_STYLE_MAP,
+    NAME_STYLE_MAP,
     CommentCreateError,
     CommentParseError,
     CommentStyle,
@@ -94,7 +96,7 @@ def find_and_replace_header(
         # TODO: Log this
         header = None
 
-    new_header = create_header(spdx_info, header)
+    new_header = create_header(spdx_info, header, style=style)
 
     if header:
         text = text.replace(header + "\n", "", 1)
@@ -117,6 +119,13 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--license", "-l", action="append", type=str, help=_("SPDX Identifier")
     )
+    parser.add_argument(
+        "--style",
+        action="store",
+        type=str,
+        choices=list(NAME_STYLE_MAP),
+        help=_("comment style to use"),
+    )
     parser.add_argument("path", action="store", nargs="+", type=PathType("w"))
 
 
@@ -135,10 +144,19 @@ def run(args, out=sys.stdout) -> int:
     )
 
     for path in args.path:
+        if args.style is not None:
+            style = NAME_STYLE_MAP[args.style]
+        else:
+            try:
+                style = COMMENT_STYLE_MAP[path.suffix]
+            except KeyError:
+                # FIXME: Throw an error instead!
+                style = PythonCommentStyle
+
         with path.open("r") as fp:
             text = fp.read()
 
-        output = find_and_replace_header(text, spdx_info)
+        output = find_and_replace_header(text, spdx_info, style=style)
 
         out.write(_("TODO"))
 
