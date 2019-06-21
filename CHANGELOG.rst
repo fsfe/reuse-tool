@@ -51,6 +51,9 @@ Changed
 
 - The list of SPDX licenses has been updated.
 
+- ``Valid-License-Identifier`` is no longer used, and licenses and exceptions
+  can now only live inside of the LICENSES/ directory.
+
 Removed
 ~~~~~~~
 
