@@ -89,13 +89,6 @@ def test_extract_copyright_variations():
     assert len(lines) == len(result.copyright_lines)
 
 
-def test_extract_valid_license():
-    """Correctly extract valid license identifier tag from file."""
-    text = "Valid-License-Identifier: MIT"
-    result = _util.extract_valid_license(text)
-    assert result == {"MIT"}
-
-
 def test_copyright_from_dep5(copyright):
     """Verify that the glob in the dep5 file is matched."""
     result = _util._copyright_from_dep5("doc/foo.rst", copyright)

@@ -9,7 +9,7 @@ import logging
 import os
 from gettext import gettext as _
 from pathlib import Path
-from typing import Dict, Iterator, List, Optional
+from typing import Dict, Iterator, Optional
 
 from debian.copyright import Copyright, NotMachineReadableError
 from license_expression import ExpressionError
@@ -30,7 +30,6 @@ from ._util import (
     _determine_license_path,
     decoded_text_from_binary,
     extract_spdx_info,
-    extract_valid_license,
     find_root,
     in_git_repo,
 )
@@ -191,51 +190,14 @@ class Project:
 
         return False
 
-    def _identifiers_of_license(self, path: PathLike) -> List[str]:
-        """Figure out the SPDX identifier(s) of a license given its path.
-
-        The order of precedence is:
-
-        - A .license file containing the `Valid-License-Identifier` tag.
-
-        - A `Valid-License-Identifier` tag within the license file itself.
-
-        - The name of the file (minus extension) if:
-
-          - The name is an SPDX license.
-
-          - The name starts with 'LicenseRef-'.
+    def _identifier_of_license(self, path: PathLike) -> str:
+        """Figure out the SPDX identifier of a license given its path. The name
+        of the path (minus its extension) should be a valid SPDX identifier.
         """
-        path = _determine_license_path(path)
-        file_name_identifier = None
-
-        # Identifier inside of file name?
         if path.stem in self.license_map:
-            file_name_identifier = path.stem
-        elif path.name in self.license_map:
-            file_name_identifier = path.name
-        elif path.stem.startswith("LicenseRef-"):
-            file_name_identifier = path.stem
-
-        with (self.root / path).open("rb") as fp:
-            result = extract_valid_license(
-                decoded_text_from_binary(fp, size=_HEADER_BYTES)
-            )
-            for identifier in result:
-                # Mismatch with file_name_identifier
-                if (
-                    file_name_identifier is not None
-                    and identifier != file_name_identifier
-                ):
-                    raise RuntimeError(
-                        "{path}: Valid-License-Identifier {valid} conflicts "
-                        "with path name".format(path=path, valid=identifier)
-                    )
-            if result:
-                return result
-
-        if file_name_identifier:
-            return [file_name_identifier]
+            return path.stem
+        if path.stem.startswith("LicenseRef-"):
+            return path.stem
 
         raise IdentifierNotFound(
             "Could not find SPDX identifier for {}".format(path)
@@ -275,67 +237,53 @@ class Project:
         unknown_counter = 0
         license_files = dict()
 
-        patterns = [
-            "LICENSE*",
-            "LICENCE*",
-            "COPYING*",
-            "COPYRIGHT*",
-            "LICENCES/**",
-            "LICENSES/**",
-        ]
-        for pattern in patterns:
-            pattern = str(self.root.resolve() / pattern)
-            for path in glob.iglob(pattern, recursive=True):
-                # For some reason, LICENSES/** is resolved even though it
-                # doesn't exist. I have no idea why. Deal with that here.
-                if not Path(path).exists() or Path(path).is_dir():
-                    continue
-                if Path(path).suffix == ".license":
-                    continue
-                if Path(path).suffix == ".spdx":
-                    continue
+        directory = str(self.root.resolve() / "LICENSES/**")
+        for path in glob.iglob(directory, recursive=True):
+            # For some reason, LICENSES/** is resolved even though it
+            # doesn't exist. I have no idea why. Deal with that here.
+            if not Path(path).exists() or Path(path).is_dir():
+                continue
+            if Path(path).suffix == ".license":
+                continue
+            if Path(path).suffix == ".spdx":
+                continue
 
-                path = _determine_license_path(path)
-                path = self._relative_from_root(path)
-                _LOGGER.debug("searching %s for license tags", path)
+            path = self._relative_from_root(path)
+            _LOGGER.debug("searching %s for license tags", path)
 
-                try:
-                    identifiers = self._identifiers_of_license(path)
-                except IdentifierNotFound:
-                    identifier = "LicenseRef-Unknown{}".format(unknown_counter)
-                    identifiers = [identifier]
-                    unknown_counter += 1
-                    _LOGGER.warning(
-                        _(
-                            "Could not resolve SPDX identifier of {path}, "
-                            "resolving to {identifier}"
-                        ).format(path=path, identifier=identifier)
+            try:
+                identifier = self._identifier_of_license(path)
+            except IdentifierNotFound:
+                identifier = "LicenseRef-Unknown{}".format(unknown_counter)
+                unknown_counter += 1
+                _LOGGER.warning(
+                    _(
+                        "Could not resolve SPDX identifier of {path}, "
+                        "resolving to {identifier}"
+                    ).format(path=path, identifier=identifier)
+                )
+
+            if identifier in license_files:
+                _LOGGER.critical(
+                    _(
+                        "{identifier} is the SPDX identifier of both "
+                        "{path} and {other_path}"
+                    ).format(
+                        identifier=identifier,
+                        path=path,
+                        other_path=license_files[identifier],
                     )
-
-                for identifier in identifiers:
-                    if identifier in license_files:
-                        _LOGGER.critical(
-                            _(
-                                "{identifier} is the SPDX identifier of both "
-                                "{path} and {other_path}"
-                            ).format(
-                                identifier=identifier,
-                                path=path,
-                                other_path=license_files[identifier],
-                            )
-                        )
-                        raise RuntimeError(
-                            "Multiple licenses resolve to {}".format(
-                                identifier
-                            )
-                        )
-                    # Add the identifiers
-                    license_files[identifier] = path
-                    if (
-                        identifier.startswith("LicenseRef-")
-                        and "Unknown" not in identifier
-                    ):
-                        self.license_map[identifier] = path
+                )
+                raise RuntimeError(
+                    "Multiple licenses resolve to {}".format(identifier)
+                )
+            # Add the identifiers
+            license_files[identifier] = path
+            if (
+                identifier.startswith("LicenseRef-")
+                and "Unknown" not in identifier
+            ):
+                self.license_map[identifier] = path
 
         return license_files
 

@@ -224,67 +224,13 @@ def test_license_file_detected(empty_directory):
     assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
 
 
-def test_detect_all_licenses(empty_directory):
-    """In a directory where licenses are marked through various means, detect
-    all of them.
-    """
-    license_files = ["COPYING", "LICENSE", "COPYRIGHT", "LICENSES/foo"]
-    (empty_directory / "LICENSES").mkdir()
-
-    counter = 1
-    for lic in license_files:
-        (empty_directory / lic).write_text(
-            "Valid-License-Identifier: LicenseRef-{}".format(counter)
-        )
-        counter += 1
-
-    (empty_directory / "LICENSES/MIT.txt").write_text("nothing")
-    (
-        empty_directory / "LICENSES/LicenseRef-{}.txt".format(counter)
-    ).write_text("nothing")
-
-    project = Project(empty_directory)
-
-    assert len(project.licenses) == 6
-    assert all(
-        [Path(lic) in project.licenses.values() for lic in license_files]
-    )
-    assert Path("LICENSES/MIT.txt") in project.licenses.values()
-    assert (
-        Path("LICENSES/LicenseRef-{}.txt".format(counter))
-        in project.licenses.values()
-    )
-
-
-@pytest.mark.parametrize("license_file", ["LICENSE", "LICENSES/foo.txt"])
-def test_licenses_empty(empty_directory, license_file):
+def test_licenses_empty(empty_directory):
     """If the identifier of a license could not be identified, silently carry
     on."""
     (empty_directory / "LICENSES").mkdir()
-    (empty_directory / license_file).touch()
+    (empty_directory / "LICENSES/foo.txt").touch()
     project = Project(empty_directory)
     assert "LicenseRef-Unknown0" in project.licenses
-
-
-def test_licenses_mismatch_license(empty_directory):
-    """Raise a RuntimeError if there is a mismatch between the filename and
-    Valid-License-Identifier tag.
-    """
-    (empty_directory / "LICENSES").mkdir()
-    (empty_directory / "LICENSES/MIT.txt").write_text(
-        "Valid-License-Identifier: GPL-3.0-or-later"
-    )
-    with pytest.raises(RuntimeError):
-        Project(empty_directory)
-
-
-def test_licenses_duplicate(empty_directory):
-    """Raise a RuntimeError if multiple files resolve to the same license."""
-    text = "Valid-License-Identifier: MIT"
-    (empty_directory / "COPYING").write_text(text)
-    (empty_directory / "LICENSE").write_text(text)
-    with pytest.raises(RuntimeError):
-        Project(empty_directory)
 
 
 def test_licenses_subdirectory(empty_directory):
@@ -293,11 +239,3 @@ def test_licenses_subdirectory(empty_directory):
     (empty_directory / "LICENSES/sub/MIT.txt").touch()
     project = Project(empty_directory)
     assert "MIT" in project.licenses
-
-
-def test_licenses_no_file_extension(empty_directory):
-    """Also find a license that has no extension."""
-    (empty_directory / "LICENSES").mkdir()
-    (empty_directory / "LICENSES/GPL-3.0-or-later").touch()
-    project = Project(empty_directory)
-    assert "GPL-3.0-or-later" in project.licenses

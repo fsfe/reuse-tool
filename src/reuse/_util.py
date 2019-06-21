@@ -37,9 +37,6 @@ _COPYRIGHT_PATTERNS = [
     re.compile(r"(Copyright .*?)" + _END_PATTERN),
     re.compile(r"(© .*?)" + _END_PATTERN),
 ]
-_VALID_LICENSE_PATTERN = re.compile(
-    r"Valid" "-License-Identifier: (.*?)" + _END_PATTERN, re.MULTILINE
-)
 
 # Amount of bytes that we assume will be big enough to contain the entire
 # comment header (including SPDX tags), so that we don't need to read the
@@ -215,11 +212,6 @@ def extract_spdx_info(text: str) -> None:
                 break
 
     return SpdxInfo(expressions, copyright_matches)
-
-
-def extract_valid_license(text: str) -> Set[str]:
-    """Extract SPDX identifier from a string."""
-    return set(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
 
 
 def _checksum(path: PathLike) -> str:

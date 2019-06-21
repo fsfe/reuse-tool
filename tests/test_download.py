@@ -126,26 +126,4 @@ def test_put_custom_output(empty_directory, monkeypatch):
     )
     put_license_in_file("0BSD", destination="foo")
 
-    assert (
-        (empty_directory / "foo").read_text()
-        == "Valid-License-Identifier: 0BSD\n"
-        "License-Text:\n"
-        "\n"
-        "hello\n"
-    )
-
-
-def test_put_custom_exception(empty_directory, monkeypatch):
-    """Download the exception into a custom file."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
-    put_license_in_file("Autoconf-exception-3.0", destination="foo")
-
-    assert (
-        (empty_directory / "foo").read_text()
-        == "Valid-Exception-Identifier: Autoconf-exception-3.0\n"
-        "Exception-Text:\n"
-        "\n"
-        "hello\n"
-    )
+    assert (empty_directory / "foo").read_text() == "hello\n"
