@@ -19,7 +19,12 @@ from ._comment import (
     CommentStyle,
     PythonCommentStyle,
 )
-from ._util import _LICENSING, PathType, extract_spdx_info, make_copyright_line
+from ._util import (
+    PathType,
+    extract_spdx_info,
+    make_copyright_line,
+    spdx_identifier,
+)
 
 
 # TODO: Add a template here maybe.
@@ -112,10 +117,14 @@ def add_arguments(parser) -> None:
         "-c",
         action="append",
         type=str,
-        help=_("copyright statement"),
+        help=_("copyright statement, repeatable"),
     )
     parser.add_argument(
-        "--license", "-l", action="append", type=str, help=_("SPDX Identifier")
+        "--license",
+        "-l",
+        action="append",
+        type=spdx_identifier,
+        help=_("SPDX Identifier, repeatable"),
     )
     parser.add_argument(
         "--style",
@@ -129,27 +138,36 @@ def add_arguments(parser) -> None:
 
 def run(args, out=sys.stdout) -> int:
     """Add headers to files."""
-    # TODO
-    if not args.copyright:
-        raise NotImplementedError()
-    # TODO
-    if not args.license:
-        raise NotImplementedError()
+    if not any((args.copyright, args.license)):
+        args.parser.error(_("option --copyright or --license is required"))
 
-    spdx_info = SpdxInfo(
-        set(_LICENSING.parse(expr) for expr in args.license),
-        set(make_copyright_line(x) for x in args.copyright),
+    expressions = args.license if args.license is not None else set()
+    copyright_lines = (
+        set(make_copyright_line(x) for x in args.copyright)
+        if args.copyright is not None
+        else set()
     )
+
+    spdx_info = SpdxInfo(expressions, copyright_lines)
+
+    # First loop to verify before proceeding
+    if args.style is None:
+        for path in args.path:
+            try:
+                style = COMMENT_STYLE_MAP[path.suffix]
+            except KeyError:
+                args.parser.error(
+                    _(
+                        "'{}' does not have a recognised file extension, "
+                        "please use --style".format(path)
+                    )
+                )
 
     for path in args.path:
         if args.style is not None:
             style = NAME_STYLE_MAP[args.style]
         else:
-            try:
-                style = COMMENT_STYLE_MAP[path.suffix]
-            except KeyError:
-                # FIXME: Throw an error instead!
-                style = PythonCommentStyle
+            style = COMMENT_STYLE_MAP[path.suffix]
 
         with path.open("r") as fp:
             text = fp.read()

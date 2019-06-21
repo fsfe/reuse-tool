@@ -18,7 +18,7 @@ from os import PathLike
 from pathlib import Path
 from typing import BinaryIO, List, Optional, Set
 
-from boolean.boolean import ParseError
+from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
 
@@ -277,3 +277,13 @@ class PathType:  # pylint: disable=too-few-public-methods
                 raise ArgumentTypeError(_("can't write to '{}'").format(path))
         except OSError:
             raise ArgumentTypeError(_("can't read or write '{}'").format(path))
+
+
+def spdx_identifier(text: str) -> Expression:
+    """argparse factory for creating SPDX expressions."""
+    try:
+        return _LICENSING.parse(text)
+    except (ExpressionError, ParseError):
+        raise ArgumentTypeError(
+            _("'{}' is not a valid SPDX expression, aborting").format(text)
+        )

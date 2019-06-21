@@ -65,8 +65,21 @@ def parser() -> argparse.ArgumentParser:
         "addheader",
         header.add_arguments,
         header.run,
-        help=_("TODO"),
-        description=_("TODO"),
+        help=_("add copyright and licensing into the header of files"),
+        description=fill_all(
+            _(
+                "Add copyright and licensing into the header of one or more "
+                "files.\n"
+                "\n"
+                "By using --copyright and --license, you can specify which "
+                "copyright holders and licenses to add to the headers of the "
+                "given files.\n"
+                "\n"
+                "The comment style should be auto-detected for your files. If "
+                "a comment style could not be detected, the process aborts. "
+                "Use --style to specify or override the comment style to use."
+            )
+        ),
     )
 
     add_command(
@@ -135,6 +148,7 @@ def add_command(  # pylint: disable=too-many-arguments
     )
     add_arguments_func(subparser)
     subparser.set_defaults(func=run_func)
+    subparser.set_defaults(parser=subparser)
 
 
 def main(args: List[str] = None, out=sys.stdout) -> int:

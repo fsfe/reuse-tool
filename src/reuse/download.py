@@ -92,19 +92,18 @@ def run(args, out=sys.stdout) -> int:
         else:
             put_license_in_file(args.license)
     except FileExistsError as err:
-        out.write(
-            _("Error: {} already exists.\n".format(Path(err.filename).name))
+        args.parser.error(
+            "'{}' already exists".format(Path(err.filename).name)
         )
-        return 1
     except requests.RequestException:
-        out.write(_("Error: Failed to download license.\n"))
+        message = "failed to download license, "
         if args.license not in chain(LICENSE_MAP, EXCEPTION_MAP):
-            out.write(
-                _("{} is not a valid SPDX identifier.\n").format(args.license)
+            message += _("'{}' is not a valid SPDX identifier").format(
+                args.license
             )
         else:
-            out.write(_("Is your internet connection working?\n"))
-        return 1
+            message += _("is your internet connection working?")
+        args.parser.error(message)
 
     out.write(
         _("Successfully downloaded {spdx_identifier}.").format(
