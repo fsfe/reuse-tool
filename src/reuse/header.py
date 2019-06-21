@@ -4,10 +4,8 @@
 
 """Functions for manipulating the comment headers of files."""
 
-import argparse
 import sys
 from gettext import gettext as _
-from pathlib import Path
 
 from boolean.boolean import ParseError
 from license_expression import ExpressionError
