@@ -21,7 +21,6 @@ from typing import BinaryIO, List, Optional, Set
 from boolean.boolean import ParseError
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
-from spdx.checksum import Algorithm
 
 from . import SpdxInfo
 
@@ -34,12 +33,11 @@ _END_PATTERN = r"(?:\*/)*(?:-->)*$"
 _IDENTIFIER_PATTERN = re.compile(
     r"SPDX" "-License-Identifier: (.*?)" + _END_PATTERN, re.MULTILINE
 )
-_COPYRIGHT_PATTERN = re.compile(
-    r"SPDX" "-Copyright: (.*?)" + _END_PATTERN, re.MULTILINE
-)
-_VALID_LICENSE_PATTERN = re.compile(
-    r"Valid" "-License-Identifier: (.*?)" + _END_PATTERN, re.MULTILINE
-)
+_COPYRIGHT_PATTERNS = [
+    re.compile(r"(SPDX" "-Copyright: .*?)" + _END_PATTERN),
+    re.compile(r"(Copyright .*?)" + _END_PATTERN),
+    re.compile(r"(© .*?)" + _END_PATTERN),
+]
 
 # Amount of bytes that we assume will be big enough to contain the entire
 # comment header (including SPDX tags), so that we don't need to read the
@@ -185,7 +183,7 @@ def _determine_license_path(path: PathLike) -> Path:
 
 def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
     """Find the reuse information of *path* in the dep5 Copyright object."""
-    result = copyright.find_files_paragraph(str(path))
+    result = copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
         return SpdxInfo(set(), set())
@@ -203,23 +201,24 @@ def extract_spdx_info(text: str) -> None:
     """
     expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
     expressions = set()
+    copyright_matches = set()
     for expression in expression_matches:
         try:
             expressions.add(_LICENSING.parse(expression))
         except (ExpressionError, ParseError):
             _LOGGER.error(_("Could not parse '%s'"), expression)
             raise
-    copyright_matches = set(map(str.strip, _COPYRIGHT_PATTERN.findall(text)))
+    for line in text.splitlines():
+        for pattern in _COPYRIGHT_PATTERNS:
+            match = pattern.search(line)
+            if match is not None:
+                copyright_matches.add(match.groups()[0])
+                break
 
     return SpdxInfo(expressions, copyright_matches)
 
 
-def extract_valid_license(text: str) -> Set[str]:
-    """Extract SPDX identifier from a string."""
-    return set(map(str.strip, _VALID_LICENSE_PATTERN.findall(text)))
-
-
-def _checksum(path: PathLike) -> Algorithm:
+def _checksum(path: PathLike) -> str:
     path = Path(path)
 
     file_sha1 = sha1()
@@ -227,7 +226,7 @@ def _checksum(path: PathLike) -> Algorithm:
         for chunk in iter(lambda: fp.read(128 * file_sha1.block_size), b""):
             file_sha1.update(chunk)
 
-    return Algorithm("SHA1", file_sha1.hexdigest())
+    return file_sha1.hexdigest()
 
 
 class PathType:  # pylint: disable=too-few-public-methods

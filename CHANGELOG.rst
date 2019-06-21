@@ -25,8 +25,8 @@ the following sections:
 
 The versions follow `semantic versioning <https://semver.org>`__.
 
-0.4.0a1 - 2019-04-16
---------------------
+Unreleased
+----------
 
 This release is a major overhaul and refactoring of the tool. Its primary
 focus is improved usability and speed, as well as adhering to a new version
@@ -36,8 +36,6 @@ Please note that this release is incomplete, may contain bugs, and its
 documentation is lacking and/or simply wrong. It is provided as an early
 preview.
 
-This release will be yanked upon the release of 0.4.0.
-
 Changed
 ~~~~~~~
 
@@ -46,15 +44,15 @@ Changed
 
 - ``reuse compile`` is now ``reuse spdx``.
 
-- Can no longer mark copyright lines with ``Copyright`` or ``©``.  This feature
-  is intended to be reimplemented soon.
-
-  - Instead, use the tag ``SPDX-Copyright:``.  This should possibly make it into
-    the release of SPDX 2.2.
+- In addition to ``Copyright`` and ``©``, copyright lines can be marked with the
+  tag ``SPDX-Copyright:``. This is the new recommended default.
 
 - Project no longer depends on pygit2.
 
 - The list of SPDX licenses has been updated.
+
+- ``Valid-License-Identifier`` is no longer used, and licenses and exceptions
+  can now only live inside of the LICENSES/ directory.
 
 Removed
 ~~~~~~~

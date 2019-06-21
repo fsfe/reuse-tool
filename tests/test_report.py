@@ -6,8 +6,6 @@
 
 import os
 
-from spdx.document import License
-
 from reuse.project import Project
 from reuse.report import FileReport, ProjectReport
 
@@ -18,10 +16,11 @@ def test_generate_file_report_file_simple(fake_repository):
     """
     project = Project(fake_repository)
     result = FileReport.generate(project, "src/source_code.py")
-    assert result.file_report.spdxfile.licenses_in_file == [
-        License.from_identifier("GPL-3.0-or-later")
-    ]
-    assert result.file_report.spdxfile.copyright == "2017 Mary Sue"
+    assert result.file_report.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
+    assert (
+        result.file_report.spdxfile.copyright
+        == "SPDX-Copyright: 2017 Mary Sue"
+    )
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -33,10 +32,11 @@ def test_generate_file_report_file_from_different_cwd(fake_repository):
     result = FileReport.generate(
         project, fake_repository / "src/source_code.py"
     )
-    assert result.file_report.spdxfile.licenses_in_file == [
-        License.from_identifier("GPL-3.0-or-later")
-    ]
-    assert result.file_report.spdxfile.copyright == "2017 Mary Sue"
+    assert result.file_report.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
+    assert (
+        result.file_report.spdxfile.copyright
+        == "SPDX-Copyright: 2017 Mary Sue"
+    )
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -72,10 +72,13 @@ def test_generate_file_report_exception(fake_repository):
     project = Project(fake_repository)
     result = FileReport.generate(project, "src/exception.py")
     assert set(result.file_report.spdxfile.licenses_in_file) == {
-        License.from_identifier("GPL-3.0-or-later"),
-        License.from_identifier("Autoconf-exception-3.0"),
+        "GPL-3.0-or-later",
+        "Autoconf-exception-3.0",
     }
-    assert result.file_report.spdxfile.copyright == "2017 Mary Sue"
+    assert (
+        result.file_report.spdxfile.copyright
+        == "SPDX-Copyright: 2017 Mary Sue"
+    )
     assert not result.bad_licenses
     assert not result.missing_licenses
 

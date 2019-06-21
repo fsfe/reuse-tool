@@ -32,12 +32,7 @@ def _create_new_header(
     """
     result = "\n\n".join(
         (
-            "\n".join(
-                (
-                    "SPDX" "-Copyright: " + line
-                    for line in sorted(spdx_info.copyright_lines)
-                )
-            ),
+            "\n".join(sorted(spdx_info.copyright_lines)),
             "\n".join(
                 (
                     "SPDX" "-License-Identifier: " + expr

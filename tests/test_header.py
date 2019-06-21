@@ -12,10 +12,14 @@ from reuse import SpdxInfo
 from reuse._comment import CommentCreateError
 from reuse.header import create_header, find_and_replace_header
 
+# pylint: disable=implicit-str-concat-in-sequence
+
 
 def test_create_header_simple():
     """Create a super simple header."""
-    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set(["Mary Sue"]))
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+    )
     expected = cleandoc(
         """
         # spdx-Copyright: Mary Sue
@@ -29,7 +33,9 @@ def test_create_header_simple():
 
 def test_create_header_already_contains_spdx():
     """Create a new header from a header that already contains SPDX info."""
-    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set(["Mary Sue"]))
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+    )
     existing = cleandoc(
         """
         # spdx-Copyright: John Doe
@@ -52,7 +58,9 @@ def test_create_header_already_contains_spdx():
 
 def test_create_header_existing_is_wrong():
     """If the existing header contains errors, raise a CommentCreateError."""
-    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set(["Mary Sue"]))
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+    )
     existing = cleandoc(
         """
         # spdx-Copyright: John Doe
@@ -67,7 +75,9 @@ def test_create_header_existing_is_wrong():
 
 def test_find_and_replace_no_header():
     """Given text without header, add a header."""
-    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set(["Mary Sue"]))
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+    )
     text = "pass"
     expected = cleandoc(
         """

@@ -59,15 +59,6 @@ def put_license_in_file(
         licenses_path = find_licenses_directory(root=root)
         licenses_path.mkdir(exist_ok=True)
         destination = licenses_path / "".join((spdx_identifier, ".txt"))
-    else:
-        is_exception = spdx_identifier in EXCEPTION_MAP
-        header = (
-            "Valid-{licexc}-Identifier: {identifier}\n"
-            "{licexc}-Text:\n\n".format(
-                identifier=spdx_identifier,
-                licexc="Exception" if is_exception else "License",
-            )
-        )
 
     destination = Path(destination)
     if destination.exists():
