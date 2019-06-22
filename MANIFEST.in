@@ -8,6 +8,7 @@ include CHANGELOG.rst
 include Makefile
 include tox.ini
 include requirements.txt
+include .reuse/dep5
 
 recursive-include LICENSES *
 recursive-include docs *

@@ -42,8 +42,6 @@ clean-docs: ## remove docs build artifacts
 	-$(MAKE) -C docs clean
 	rm -f docs/reuse*.rst
 	rm -f docs/modules.rst
-	rm -f docs/history.md
-	rm -f docs/readme.md
 
 .PHONY: lint
 lint: ## check with pylint
@@ -59,8 +57,12 @@ black: ## format with black
 	black .
 
 .PHONY: reuse
-reuse:  ## check with self
+reuse: dist ## check with self
 	reuse lint
+	tar -xf dist/fsfe-reuse*.tar.gz -C dist/
+	# This prevents the linter from using the project root as root.
+	git init dist/fsfe-reuse*/
+	cd dist/fsfe-reuse*/; reuse lint
 
 .PHONY: test
 test: ## run tests quickly
@@ -82,7 +84,7 @@ tox: ## run all tests against multiple versions of Python
 	tox
 
 .PHONY: dist
-dist: clean _pre-docs ## builds source and wheel package
+dist: clean-build clean-pyc clean-docs _pre-docs ## builds source and wheel package
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
