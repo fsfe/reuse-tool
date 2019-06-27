@@ -107,7 +107,7 @@ def run(args, out=sys.stdout) -> int:
         return 1
 
     out.write(
-        _("Successfully downloaded {spdx_identifier}.").format(
+        _("Successfully downloaded {spdx_identifier}.txt\n").format(
             spdx_identifier=args.license
         )
     )
