@@ -98,7 +98,7 @@ class Project:
                     _LOGGER.debug("ignoring %s", root / file_)
                     continue
 
-                _LOGGER.debug(_("yielding %s"), file_)
+                _LOGGER.debug(_("yielding %s"), root / file_)
                 yield root / file_
 
     def spdx_info_of(self, path: PathLike) -> SpdxInfo:
@@ -249,7 +249,7 @@ class Project:
                 continue
 
             path = self._relative_from_root(path)
-            _LOGGER.debug("searching %s for license tags", path)
+            _LOGGER.debug(_("determining identifier of %s"), path)
 
             try:
                 identifier = self._identifier_of_license(path)
