@@ -104,7 +104,7 @@ if __name__ == "__main__":
         name="fsfe-reuse",
         version="0.4.0a1",
         url="https://github.com/fsfe/reuse-tool",
-        license="GPL-3.0-or-later",
+        license="GPL-3.0-or-later AND Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0",
         author="Carmen Bianca Bakker",
         author_email="carmenbianca@fsfe.org",
         description="reuse is a tool for compliance with the REUSE Initiative "
@@ -121,6 +121,8 @@ if __name__ == "__main__":
             "Intended Audience :: Developers",
             "License :: OSI Approved :: "
             "GNU General Public License v3 or later (GPLv3+)",
+            "License :: OSI Approved :: Apache Software License",
+            "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
