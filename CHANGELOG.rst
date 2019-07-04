@@ -25,8 +25,8 @@ the following sections:
 
 The versions follow `semantic versioning <https://semver.org>`__.
 
-Unreleased
-----------
+0.4.0a1 - 2019-06-04
+--------------------
 
 This release is a major overhaul and refactoring of the tool. Its primary
 focus is improved usability and speed, as well as adhering to a new version
@@ -61,6 +61,8 @@ Removed
 
 - Removed ``--spdx-mandatory``, ``--copyright-mandatory``,
   ``--ignore-missing`` arguments from ``reuse lint``.
+
+- Remove ``reuse license``.
 
 - GPL-3.0 and GPL-3.0+ (and all other similar GPL licenses) are no longer
   detected as SPDX identifiers. Use GPL-3.0-only and GPL-3.0-or-later instead.
