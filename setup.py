@@ -103,7 +103,11 @@ if __name__ == "__main__":
     setup(
         name="fsfe-reuse",
         version="0.4.0a1",
-        url="https://github.com/fsfe/reuse-tool",
+        url="https://reuse.software/",
+        project_urls={
+            "Documentation": "https://reuse.readthedocs.io/",
+            "Source": "https://github.com/fsfe/reuse-tool",
+        },
         license="GPL-3.0-or-later AND Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0",
         author="Carmen Bianca Bakker",
         author_email="carmenbianca@fsfe.org",
