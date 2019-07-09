@@ -99,8 +99,8 @@ the REUSE tool in Drone, Travis, or GitLab CI.
 
 Within the `fsfe/reuse` Docker image (available on [Docker
 Hub](https://hub.docker.com/r/fsfe/reuse)), you can run the helper tool
-simply by executing `reuse`. To use the tool on your computer, you can
-mount your project directory and run `reuse <path/to/directory>`.
+simply by executing `reuse lint`. To use the tool on your computer, you can
+mount your project directory and run `reuse lint <path/to/directory>`.
 
 ## Maintainers
 
