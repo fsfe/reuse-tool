@@ -152,3 +152,4 @@ po/reuse.pot
 docs/reuse*.rst
 docs/modules.rst
 docs/history.md
+docs/readme.md

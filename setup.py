@@ -27,14 +27,14 @@ requirements = [
 test_requirements = ["pytest"]
 
 
-def readme_rst():
-    """Return contents of README.rst"""
-    return open("README.rst").read()
+def readme_md():
+    """Return contents of README.md"""
+    return open("README.md").read()
 
 
-def changelog_rst():
-    """Return contents of CHANGELOG.rst"""
-    return open("CHANGELOG.rst").read()
+def changelog_md():
+    """Return contents of CHANGELOG.md"""
+    return open("CHANGELOG.md").read()
 
 
 class BuildTrans(cmd.Command):
@@ -113,7 +113,8 @@ if __name__ == "__main__":
         author_email="carmenbianca@fsfe.org",
         description="reuse is a tool for compliance with the REUSE Initiative "
         "recommendations.",
-        long_description=readme_rst() + "\n\n" + changelog_rst(),
+        long_description=readme_md() + "\n\n" + changelog_md(),
+        long_description_content_type="text/markdown",
         package_dir={"": "src"},
         packages=["reuse"],
         include_package_data=True,
