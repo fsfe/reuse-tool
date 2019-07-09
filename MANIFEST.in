@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 include AUTHORS.rst
-include README.rst
-include CHANGELOG.rst
+include README.md
+include CHANGELOG.md
 include Makefile
 include tox.ini
 include requirements.txt
