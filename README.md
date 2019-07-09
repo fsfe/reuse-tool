@@ -17,9 +17,9 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 > Initiative](https://reuse.software/) recommendations.
 
 -   Free Software: GPL-3.0-or-later
--   Documentation: https://reuse.gitlab.io
--   Source code: https://github.com/fsfe/reuse-tool
--   PyPI: https://pypi.python.org/pypi/fsfe-reuse
+-   Documentation: [reuse.gitlab.io](https://reuse.gitlab.io)
+-   Source code: [github.com/fsfe/reuse-tool](https://github.com/fsfe/reuse-tool)
+-   PyPI: [pypi.python.org/pypi/fsfe-reuse](https://pypi.python.org/pypi/fsfe-reuse)
 -   Python: 3.6+
 
 ## Background
@@ -43,7 +43,7 @@ As a short summary, the recommendations are threefold:
 You are recommended to read the
 [recommendations](https://reuse.software/practices/) in full for more
 details. (IMPORTANT FIXME: These recommendations are currently out-of-date!
-See https://github.com/fsfe/reuse-docs.)
+See [github.com/fsfe/reuse-docs](https://github.com/fsfe/reuse-docs).)
 
 This tool exists to facilitate the developer in complying to the above
 recommendations.
@@ -68,6 +68,18 @@ To install reuse, you only need to run the following command:
 
 After this, make sure that `~/.local/bin` is in your `$PATH`.
 
+## Run in Docker
+
+REUSE is simple to include in CI/CD processes. This way, you can check
+for REUSE compliance for each build. In our [resources for
+developers](https://reuse.software/dev/) you can learn how to integrate
+the REUSE tool in Drone, Travis, or GitLab CI.
+
+Within the `fsfe/reuse` Docker image (available on [Docker
+Hub](https://hub.docker.com/r/fsfe/reuse)), you can run the helper tool
+simply by executing `reuse`. To use the tool on your computer, you can
+mount your project directory and run `reuse <path/to/directory>`.
+
 ## Usage
 
 First, read the [REUSE
@@ -90,21 +102,9 @@ against the recommendations, use `reuse lint`:
     [...]
     Congratulations! Your project is REUSE compliant :-)
 
-### Run in Docker
-
-REUSE is simple to include in CI/CD processes. This way, you can check
-for REUSE compliance for each build. In our [resources for
-developers](https://reuse.software/dev/) you can learn how to integrate
-the REUSE tool in Drone, Travis, or GitLab CI.
-
-Within the `fsfe/reuse` Docker image (available on [Docker
-Hub](https://hub.docker.com/r/fsfe/reuse)), you can run the helper tool
-simply by executing `reuse lint`. To use the tool on your computer, you can
-mount your project directory and run `reuse lint <path/to/directory>`.
-
 ## Maintainers
 
--   Carmen Bianca Bakker - carmenbianca@fsfe.org
+-   Carmen Bianca Bakker - [carmenbianca@fsfe.org](mailto:carmenbianca@fsfe.org)
 
 ## Contribute
 
