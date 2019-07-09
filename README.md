@@ -90,6 +90,18 @@ against the recommendations, use `reuse lint`:
     [...]
     Congratulations! Your project is REUSE compliant :-)
 
+### Run in Docker
+
+REUSE is simple to include in CI/CD processes. This way, you can check
+for REUSE compliance for each build. In our [resources for
+developers](https://reuse.software/dev/) you can learn how to integrate
+the REUSE tool in Drone, Travis, or GitLab CI.
+
+Within the `fsfe/reuse` Docker image available on [Docker
+Hub](https://hub.docker.com/r/fsfe/reuse), you can run the helper tool
+simply by executing `reuse lint`. To use the tool on your computer, you can
+mount your project directory and run `reuse lint <path/to/directory>`.
+
 ## Maintainers
 
 -   Carmen Bianca Bakker - <carmenbianca@fsfe.org>
