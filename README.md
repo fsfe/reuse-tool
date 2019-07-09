@@ -17,9 +17,9 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 > Initiative](https://reuse.software/) recommendations.
 
 -   Free Software: GPL-3.0-or-later
--   Documentation: [reuse.gitlab.io](https://reuse.gitlab.io)
--   Source code: [github.com/fsfe/reuse-tool](https://github.com/fsfe/reuse-tool)
--   PyPI: [pypi.python.org/pypi/fsfe-reuse](https://pypi.python.org/pypi/fsfe-reuse)
+-   Documentation: https://reuse.gitlab.io
+-   Source code: https://github.com/fsfe/reuse-tool
+-   PyPI: https://pypi.python.org/pypi/fsfe-reuse
 -   Python: 3.6+
 
 ## Background
@@ -43,7 +43,7 @@ As a short summary, the recommendations are threefold:
 You are recommended to read the
 [recommendations](https://reuse.software/practices/) in full for more
 details. (IMPORTANT FIXME: These recommendations are currently out-of-date!
-See [github.com/fsfe/reuse-docs](https://github.com/fsfe/reuse-docs).)
+See https://github.com/fsfe/reuse-docs.)
 
 This tool exists to facilitate the developer in complying to the above
 recommendations.
@@ -104,7 +104,7 @@ against the recommendations, use `reuse lint`:
 
 ## Maintainers
 
--   Carmen Bianca Bakker - [carmenbianca@fsfe.org](mailto:carmenbianca@fsfe.org)
+-   Carmen Bianca Bakker - carmenbianca@fsfe.org
 
 ## Contribute
 
