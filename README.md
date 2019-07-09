@@ -17,9 +17,9 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 > Initiative](https://reuse.software/) recommendations.
 
 -   Free Software: GPL-3.0-or-later
--   Documentation: <https://reuse.gitlab.io>
--   Source code: <https://github.com/fsfe/reuse-tool>
--   PyPI: <https://pypi.python.org/pypi/fsfe-reuse>
+-   Documentation: [reuse.gitlab.io](https://reuse.gitlab.io)
+-   Source code: [github.com/fsfe/reuse-tool](https://github.com/fsfe/reuse-tool)
+-   PyPI: [pypi.python.org/pypi/fsfe-reuse](https://pypi.python.org/pypi/fsfe-reuse)
 -   Python: 3.6+
 
 ## Background
@@ -43,7 +43,7 @@ As a short summary, the recommendations are threefold:
 You are recommended to read the
 [recommendations](https://reuse.software/practices/) in full for more
 details. (IMPORTANT FIXME: These recommendations are currently out-of-date!
-See <https://github.com/fsfe/reuse-docs>.)
+See [github.com/fsfe/reuse-docs](https://github.com/fsfe/reuse-docs).)
 
 This tool exists to facilitate the developer in complying to the above
 recommendations.
@@ -92,13 +92,14 @@ against the recommendations, use `reuse lint`:
 
 ## Maintainers
 
--   Carmen Bianca Bakker - <carmenbianca@fsfe.org>
+-   Carmen Bianca Bakker - [carmenbianca@fsfe.org](mailto:carmenbianca@fsfe.org)
 
 ## Contribute
 
-Any pull requests or suggestions are welcome at
-<https://github.com/fsfe/reuse-tool> or via e-mail to one of the maintainers.
-General inquiries can be sent to <contact@fsfe.org>.
+Any pull requests or suggestions are welcome at [the reuse-tool
+repo](https://github.com/fsfe/reuse-tool) or via e-mail to one of the
+maintainers. General inquiries can be sent to [the
+FSFE](https://fsfe.org/contact).
 
 Starting local development is very simple, just execute the following
 commands:
