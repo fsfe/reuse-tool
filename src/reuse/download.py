@@ -41,26 +41,25 @@ def download_license(spdx_identifier: str) -> str:
     raise requests.RequestException("Status code was not 200")
 
 
-def put_license_in_file(
-    spdx_identifier: str, root: PathLike = None, destination: PathLike = None
-) -> None:
-    """Download a license and put it in the correct file.
+def _path_to_license_file(spdx_identifier: str, root: PathLike = None) -> Path:
+    licenses_path = find_licenses_directory(root=root)
+    return licenses_path / "".join((spdx_identifier, ".txt"))
+
+
+def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
+    """Download a license and put it in the destination file.
 
     This function exists solely for convenience.
 
     :param spdx_identifier: SPDX identifier of the license.
-    :param root: The root of the project.
-    :param destination: An override path for the destination of the license.
+    :param destination: Where to put the license.
     :raises requests.RequestException: if the license could not be downloaded.
     :raises FileExistsError: if the license file already exists.
     """
     header = ""
-    if destination is None:
-        licenses_path = find_licenses_directory(root=root)
-        licenses_path.mkdir(exist_ok=True)
-        destination = licenses_path / "".join((spdx_identifier, ".txt"))
-
     destination = Path(destination)
+    destination.parent.mkdir(exist_ok=True)
+
     if destination.exists():
         raise FileExistsError(errno.EEXIST, "File exists", str(destination))
 
@@ -83,17 +82,18 @@ def run(args, out=sys.stdout) -> int:
     destination = None
     if args.output:
         destination = args.output
+    else:
+        destination = _path_to_license_file(args.license)
 
     try:
-        # IMPORTANT: These redundant lines exist SOLELY to make testing not an
-        # absolute hell.
-        if destination is not None:
-            put_license_in_file(args.license, destination=destination)
-        else:
-            put_license_in_file(args.license)
+        put_license_in_file(args.license, destination=destination)
     except FileExistsError as err:
         out.write(
-            _("Error: {} already exists.\n".format(Path(err.filename).name))
+            _(
+                "Error: {spdx_identifier} already exists.\n".format(
+                    spdx_identifier=err.filename, filename=""
+                )
+            )
         )
         return 1
     except requests.RequestException:
@@ -107,8 +107,8 @@ def run(args, out=sys.stdout) -> int:
         return 1
 
     out.write(
-        _("Successfully downloaded {spdx_identifier}.txt\n").format(
-            spdx_identifier=args.license
-        )
+        _(
+            "Successfully downloaded {spdx_identifier}.txt to {destination}/.\n"
+        ).format(spdx_identifier=args.license, destination=destination.parent)
     )
     return 0

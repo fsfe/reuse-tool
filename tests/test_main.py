@@ -71,7 +71,9 @@ def test_download(fake_repository, stringio, mock_put_license_in_file):
     result = main(["download", "0BSD"], out=stringio)
 
     assert result == 0
-    mock_put_license_in_file.assert_called_with("0BSD")
+    mock_put_license_in_file.assert_called_with(
+        "0BSD", Path("LICENSES/0BSD.txt").resolve()
+    )
 
 
 def test_download_file_exists(
