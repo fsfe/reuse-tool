@@ -25,7 +25,7 @@ the following sections:
 
 The versions follow `semantic versioning <https://semver.org>`__.
 
-0.4.0a1 - 2019-06-04
+0.4.0a1 - 2019-07-04
 --------------------
 
 This release is a major overhaul and refactoring of the tool. Its primary
