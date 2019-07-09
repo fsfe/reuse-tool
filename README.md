@@ -1,3 +1,9 @@
+<!--
+SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 # reuse
 
 [![](https://img.shields.io/pypi/l/fsfe-reuse.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
@@ -69,7 +75,8 @@ recommendations](https://reuse.software/practices/). In a nutshell:
 
 -   Include the texts of all used licenses in your project.
 -   Add a comment header to each file that says
-    `SPDX-License-Identifier: GPL-3.0-or-later`.
+    `SPDX-License-Identifier:
+     GPL-3.0-or-later`.
 -   Add a comment header to each file that says
     `SPDX-Copyright: $YEAR $NAME`. You can be flexible with the format,
     just make sure that the line starts with `SPDX-Copyright:`.
