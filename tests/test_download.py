@@ -4,7 +4,6 @@
 
 """All tests for reuse.download"""
 
-import os
 from pathlib import Path
 
 import pytest
@@ -56,7 +55,7 @@ def test_put_simple(fake_repository, monkeypatch):
     monkeypatch.setattr(
         requests, "get", lambda _: MockResponse("hello\n", 200)
     )
-    put_license_in_file("0BSD")
+    put_license_in_file("0BSD", "LICENSES/0BSD.txt")
 
     assert (fake_repository / "LICENSES/0BSD.txt").read_text() == "hello\n"
 
@@ -69,7 +68,9 @@ def test_put_file_exists(fake_repository, monkeypatch):
     )
 
     with pytest.raises(FileExistsError) as exc_info:
-        put_license_in_file("GPL-3.0-or-later")
+        put_license_in_file(
+            "GPL-3.0-or-later", "LICENSES/GPL-3.0-or-later.txt"
+        )
     assert Path(exc_info.value.filename).name == "GPL-3.0-or-later.txt"
 
 
@@ -81,20 +82,7 @@ def test_put_request_exception(fake_repository, monkeypatch):
     )
 
     with pytest.raises(requests.RequestException):
-        put_license_in_file("0BSD")
-
-
-def test_put_in_licenses_dir(fake_repository, monkeypatch):
-    """Put license file in current directory, if current directory is the
-    LICENSES/ directory.
-    """
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
-    os.chdir("LICENSES")
-    put_license_in_file("0BSD")
-
-    assert (fake_repository / "LICENSES/0BSD.txt").read_text() == "hello\n"
+        put_license_in_file("0BSD", "LICENSES/0BSD.txt")
 
 
 def test_put_empty_dir(empty_directory, monkeypatch):
@@ -102,28 +90,7 @@ def test_put_empty_dir(empty_directory, monkeypatch):
     monkeypatch.setattr(
         requests, "get", lambda _: MockResponse("hello\n", 200)
     )
-    put_license_in_file("0BSD")
+    put_license_in_file("0BSD", "LICENSES/0BSD.txt")
 
     assert (empty_directory / "LICENSES").exists()
     assert (empty_directory / "LICENSES/0BSD.txt").read_text() == "hello\n"
-
-
-def test_put_git_repository(git_repository, monkeypatch):
-    """Find the LICENSES/ directory in a Git repository."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
-    os.chdir("src")
-    put_license_in_file("0BSD")
-
-    assert (git_repository / "LICENSES/0BSD.txt").read_text() == "hello\n"
-
-
-def test_put_custom_output(empty_directory, monkeypatch):
-    """Download the license into a custom file."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
-    put_license_in_file("0BSD", destination="foo")
-
-    assert (empty_directory / "foo").read_text() == "hello\n"
