@@ -129,4 +129,14 @@ Next, run `make help` to see the available interactions.
 
 Copyright (C) 2017-2019 Free Software Foundation Europe e.V.
 
-Licensed under the GNU General Public License version 3 or later.
+This work is licensed under multiple licences. Because keeping this section
+up-to-date is challenging, here is a brief summary as of July 2019:
+
+- All original source code is licensed under GPL-3.0-or-later.
+- All documentation is licensed under CC-BY-SA-4.0.
+- Some configuration and data files are licensed under CC0-1.0.
+- Some code borrowed from
+  [spdx/tool-python](https://github.com/spdx/tools-python) is licensed under
+  Apache-2.0.
+
+For more accurate information, check the individual files.
