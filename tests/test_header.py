@@ -73,6 +73,27 @@ def test_create_header_existing_is_wrong():
         create_header(spdx_info, header=existing)
 
 
+def test_create_header_old_syntax():
+    """Old copyright syntax is preserved when creating a new header."""
+    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set())
+    existing = cleandoc(
+        """
+        # Copyright John Doe
+
+        pass
+        """
+    )
+    expected = cleandoc(
+        """
+        # Copyright John Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
+
+    assert create_header(spdx_info, header=existing) == expected
+
+
 def test_find_and_replace_no_header():
     """Given text without header, add a header."""
     spdx_info = SpdxInfo(
@@ -130,6 +151,64 @@ def test_find_and_replace_newline_before_header():
         # spdx-License-Identifier: GPL-3.0-or-later
 
         # spdx-Copyright: Jane Doe
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected
+
+
+def test_find_and_replace_keep_shebang():
+    """When encountering a shebang, keep it and put the REUSE header beneath
+    it.
+    """
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+    )
+    text = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+    expected = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        # spdx-Copyright: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected
+
+
+def test_find_and_replace_keep_old_comment():
+    """When encountering a comment that does not contain copyright and
+    licensing information, preserve it below the REUSE header.
+    """
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+    )
+    text = cleandoc(
+        """
+        # Hello, world!
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+    expected = cleandoc(
+        """
+        # spdx-Copyright: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        # Hello, world!
 
         pass
         """
