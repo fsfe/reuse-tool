@@ -87,8 +87,10 @@ def test_download_file_exists(
         errno.EEXIST, "", "GPL-3.0-or-later.txt"
     )
 
-    with pytest.raises(SystemExit):
-        main(["download", "GPL-3.0-or-later"], out=stringio)
+    result = main(["download", "GPL-3.0-or-later"], out=stringio)
+
+    assert result == 1
+    assert "GPL-3.0-or-later.txt already exists" in stringio.getvalue()
 
 
 def test_download_request_exception(
@@ -98,8 +100,10 @@ def test_download_request_exception(
     # pylint: disable=unused-argument
     mock_put_license_in_file.side_effect = requests.RequestException()
 
-    with pytest.raises(SystemExit):
-        main(["download", "0BSD"], out=stringio)
+    result = main(["download", "0BSD"], out=stringio)
+
+    assert result == 1
+    assert "internet" in stringio.getvalue()
 
 
 def test_download_invalid_spdx(
@@ -109,8 +113,10 @@ def test_download_invalid_spdx(
     # pylint: disable=unused-argument
     mock_put_license_in_file.side_effect = requests.RequestException()
 
-    with pytest.raises(SystemExit):
-        main(["download", "does-not-exist"], out=stringio)
+    result = main(["download", "does-not-exist"], out=stringio)
+
+    assert result == 1
+    assert "not a valid SPDX Identifier" in stringio.getvalue()
 
 
 def test_download_custom_output(
@@ -124,6 +130,19 @@ def test_download_custom_output(
     mock_put_license_in_file.assert_called_with(
         "0BSD", destination=Path("foo")
     )
+
+
+def test_download_custom_output_too_many(
+    empty_directory, stringio, mock_put_license_in_file
+):
+    """Providing more than one license with a custom output results in an
+    error.
+    """
+    # pylint: disable=unused-argument
+    with pytest.raises(SystemExit):
+        main(
+            ["download", "-o", "foo", "0BSD", "GPL-3.0-or-later"], out=stringio
+        )
 
 
 # FIXME: Replace this test with a monkeypatched test
