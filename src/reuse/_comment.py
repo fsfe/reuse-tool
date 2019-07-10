@@ -321,6 +321,8 @@ COMMENT_STYLE_MAP = {
     ".lisp": LispCommentStyle,
     ".lsp": LispCommentStyle,
     ".lua": HaskellCommentStyle,
+    ".markdown": HtmlCommentStyle,
+    ".md": HtmlCommentStyle,
     ".nim": PythonCommentStyle,
     ".php": CCommentStyle,
     ".pl": PythonCommentStyle,
