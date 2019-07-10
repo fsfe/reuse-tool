@@ -143,7 +143,7 @@ def run(args, out=sys.stdout) -> int:
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
-    expressions = args.license if args.license is not None else set()
+    expressions = set(args.license) if args.license is not None else set()
     copyright_lines = (
         set(make_copyright_line(x) for x in args.copyright)
         if args.copyright is not None
