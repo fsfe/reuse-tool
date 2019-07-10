@@ -40,7 +40,13 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
+    "sphinxcontrib.apidoc",
 ]
+
+apidoc_module_dir = "../src/reuse"
+# apidoc_output_dir = "api"
+# apidoc_excluded_paths = []
+apidoc_separate_modules = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

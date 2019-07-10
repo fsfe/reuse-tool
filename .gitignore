@@ -149,7 +149,6 @@ dmypy.json
 
 po/reuse.pot
 *.mo
-docs/reuse*.rst
-docs/modules.rst
+docs/api/
 docs/history.md
 docs/readme.md

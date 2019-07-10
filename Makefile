@@ -40,8 +40,7 @@ clean-test: ## remove test and coverage artifacts
 .PHONY: clean-docs
 clean-docs: ## remove docs build artifacts
 	-$(MAKE) -C docs clean
-	rm -f docs/reuse*.rst
-	rm -f docs/modules.rst
+	rm -fr docs/api/
 	rm -f docs/*.md
 
 .PHONY: lint
@@ -73,11 +72,8 @@ test: ## run tests quickly
 coverage: ## check code coverage quickly
 	py.test --cov-report term-missing --cov=src/reuse
 
-_pre-docs: clean-docs
-	sphinx-apidoc --separate -o docs/ src/reuse
-
 .PHONY: docs
-docs: _pre-docs ## generate Sphinx HTML documentation, including API docs
+docs: ## generate Sphinx HTML documentation, including API docs
 	cp CHANGELOG.md docs/history.md
 	cp README.md docs/readme.md
 	$(MAKE) -C docs html
