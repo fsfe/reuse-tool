@@ -45,15 +45,22 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
         )
     )
 
+    out.write("\n")
     if success:
-        out.write("\n")
         out.write(
             _(
                 "Congratulations! Your project is compliant with version "
                 "{} of the REUSE Specification :-)"
             ).format(__REUSE_version__)
         )
-        out.write("\n")
+    else:
+        out.write(
+            _(
+                "Unfortunately, your project is not compliant with version "
+                "{} of the REUSE Specification :-("
+            ).format(__REUSE_version__)
+        )
+    out.write("\n")
 
     return success
 

@@ -53,6 +53,7 @@ def test_lint_fail(fake_repository, stringio):
 
     assert result > 0
     assert "foo.py" in stringio.getvalue()
+    assert ":-(" in stringio.getvalue()
 
 
 def test_spdx(fake_repository, stringio):
