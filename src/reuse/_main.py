@@ -10,7 +10,7 @@ import sys
 from gettext import gettext as _
 from typing import List
 
-from . import __version__, download, lint, spdx
+from . import __REUSE_version__, __version__, download, lint, spdx
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import setup_logging
 
@@ -22,6 +22,10 @@ _DESCRIPTION_LINES = [
         "recommendations. See <https://reuse.software/> for more "
         "information."
     ),
+    _(
+        "This version of reuse is compatible with version {} of the REUSE "
+        "Specification."
+    ).format(__REUSE_version__),
     _("Support the FSFE's work:"),
 ]
 
