@@ -3,14 +3,22 @@ Upstream-Name: reuse
 Upstream-Contact: Carmen Bianca Bakker <carmenbianca@fsfe.org>
 Source: https://github.com/fsfe/reuse-tool
 
-Files: .bumpversion.cfg
+Files: .bumpversion.cfg setup.cfg
 Copyright: 2017-2019 Free Software Foundation Europe e.v.
 License: GPL-3.0-or-later
 
-Files: docs/*.rst
-Copyright: 2017-2018 Free Software Foundation Europe e.V.
+Files: docs/reuse*.rst
+Copyright: 2017-2019 Free Software Foundation Europe e.V.
+License: CC-BY-SA-4.0
+
+Files: docs/modules.rst
+Copyright: 2017-2019 Free Software Foundation Europe e.V.
 License: CC-BY-SA-4.0
 
 Files: tests/resources/*
+Copyright: 2017-2019 Free Software Foundation Europe e.V.
+License: GPL-3.0-or-later
+
+Files: src/fsfe_reuse.egg-info/*
 Copyright: 2017-2019 Free Software Foundation Europe e.V.
 License: GPL-3.0-or-later

@@ -30,14 +30,14 @@ requirements = [
 test_requirements = ["pytest"]
 
 
-def readme_rst():
-    """Return contents of README.rst"""
-    return open("README.rst").read()
+def readme_md():
+    """Return contents of README.md"""
+    return open("README.md").read()
 
 
-def changelog_rst():
-    """Return contents of CHANGELOG.rst"""
-    return open("CHANGELOG.rst").read()
+def changelog_md():
+    """Return contents of CHANGELOG.md"""
+    return open("CHANGELOG.md").read()
 
 
 class BuildTrans(cmd.Command):
@@ -106,13 +106,18 @@ if __name__ == "__main__":
     setup(
         name="fsfe-reuse",
         version="0.4.0a1",
-        url="https://github.com/fsfe/reuse-tool",
-        license="GPL-3.0-or-later",
+        url="https://reuse.software/",
+        project_urls={
+            "Documentation": "https://reuse.readthedocs.io/",
+            "Source": "https://github.com/fsfe/reuse-tool",
+        },
+        license="GPL-3.0-or-later AND Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0",
         author="Carmen Bianca Bakker",
         author_email="carmenbianca@fsfe.org",
         description="reuse is a tool for compliance with the REUSE Initiative "
         "recommendations.",
-        long_description=readme_rst() + "\n\n" + changelog_rst(),
+        long_description=readme_md() + "\n\n" + changelog_md(),
+        long_description_content_type="text/markdown",
         package_dir={"": "src"},
         packages=["reuse"],
         include_package_data=True,
@@ -124,6 +129,8 @@ if __name__ == "__main__":
             "Intended Audience :: Developers",
             "License :: OSI Approved :: "
             "GNU General Public License v3 or later (GPLv3+)",
+            "License :: OSI Approved :: Apache Software License",
+            "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
