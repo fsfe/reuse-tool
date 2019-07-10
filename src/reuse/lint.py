@@ -10,6 +10,7 @@ import sys
 from gettext import gettext as _
 from typing import Iterable
 
+from . import __REUSE_version__
 from ._util import PathType
 from .project import create_project
 from .report import ProjectReport
@@ -44,10 +45,22 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
         )
     )
 
+    out.write("\n")
     if success:
-        out.write("\n")
-        out.write(_("Congratulations! Your project is REUSE compliant :-)"))
-        out.write("\n")
+        out.write(
+            _(
+                "Congratulations! Your project is compliant with version "
+                "{} of the REUSE Specification :-)"
+            ).format(__REUSE_version__)
+        )
+    else:
+        out.write(
+            _(
+                "Unfortunately, your project is not compliant with version "
+                "{} of the REUSE Specification :-("
+            ).format(__REUSE_version__)
+        )
+    out.write("\n")
 
     return success
 

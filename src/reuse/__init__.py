@@ -48,6 +48,7 @@ __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
 __license__ = "GPL-3.0-or-later"
 __version__ = "0.4.0a1"
+__REUSE_version__ = "3.0"
 
 
 _IGNORE_DIR_PATTERNS = [

@@ -17,9 +17,10 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 > Initiative](https://reuse.software/) recommendations.
 
 -   Free Software: GPL-3.0-or-later
--   Documentation: <https://reuse.gitlab.io>
+-   Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
 -   Source code: <https://github.com/fsfe/reuse-tool>
 -   PyPI: <https://pypi.python.org/pypi/fsfe-reuse>
+-   REUSE: 3.0
 -   Python: 3.6+
 
 ## Background
