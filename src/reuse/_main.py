@@ -77,7 +77,11 @@ def parser() -> argparse.ArgumentParser:
                 "\n"
                 "The comment style should be auto-detected for your files. If "
                 "a comment style could not be detected, the process aborts. "
-                "Use --style to specify or override the comment style to use."
+                "Use --style to specify or override the comment style to "
+                "use.\n"
+                # TODO: Remove this
+                "\n"
+                "IMPORTANT: This is currently EXPERIMENTAL!"
             )
         ),
     )

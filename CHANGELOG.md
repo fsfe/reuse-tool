@@ -19,6 +19,14 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased
+
+### Added
+
+- `reuse addheader` has been added as a way to automatically add copyright
+  statements and license identifiers to the headers of files. It is currently
+  not complete.
+
 ## 0.4.0a1 - 2019-07-04
 
 This release is a major overhaul and refactoring of the tool. Its
