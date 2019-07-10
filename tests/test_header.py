@@ -106,3 +106,33 @@ def test_find_and_replace_verbatim():
     ).replace("spdx", "SPDX")
 
     assert find_and_replace_header(text, spdx_info) == text
+
+
+def test_find_and_replace_newline_before_header():
+    """In a scenario where the header is not the first character in the file,
+    create a new header. It would be nice if this were handled more elegantly.
+    """
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+    )
+    text = cleandoc(
+        """
+        # spdx-Copyright: Jane Doe
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+    text = "\n" + text
+    expected = cleandoc(
+        """
+        # spdx-Copyright: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        # spdx-Copyright: Jane Doe
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected

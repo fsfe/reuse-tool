@@ -102,12 +102,14 @@ def find_and_replace_header(
     new_header = create_header(spdx_info, header, style=style)
 
     if header:
-        text = text.replace(header + "\n", "", 1)
+        text = text.replace(header, "", 1)
     else:
         # Some extra spacing for the new header.
         new_header = new_header + "\n"
+        if not text.startswith("\n"):
+            new_header = new_header + "\n"
 
-    return new_header + "\n" + text
+    return new_header + text
 
 
 def add_arguments(parser) -> None:
