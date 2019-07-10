@@ -4,7 +4,6 @@
 
 """All tests for reuse.download"""
 
-import os
 from pathlib import Path
 
 import pytest

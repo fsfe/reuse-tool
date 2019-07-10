@@ -91,7 +91,7 @@ def run(args, out=sys.stdout) -> int:
         out.write(
             _(
                 "Error: {spdx_identifier} already exists.\n".format(
-                    spdx_identifier=err.filename, filename=""
+                    spdx_identifier=err.filename
                 )
             )
         )
@@ -108,7 +108,8 @@ def run(args, out=sys.stdout) -> int:
 
     out.write(
         _(
-            "Successfully downloaded {spdx_identifier}.txt to {destination}/.\n"
+            "Successfully downloaded {spdx_identifier}.txt to "
+            "{destination}/.\n"
         ).format(spdx_identifier=args.license, destination=destination.parent)
     )
     return 0
