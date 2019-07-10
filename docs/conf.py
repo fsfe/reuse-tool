@@ -20,6 +20,7 @@
 #
 import os
 import sys
+from shutil import copyfile
 
 sys.path.insert(0, os.path.abspath("../src/"))
 
@@ -188,3 +189,15 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {"https://docs.python.org/3/": None}
+
+
+def copy_markdown(_):
+    """Copy the markdown files from the root of the project into the docs/
+    directory.
+    """
+    copyfile("../README.md", "readme.md")
+    copyfile("../CHANGELOG.md", "history.md")
+
+
+def setup(app):
+    app.connect("builder-inited", copy_markdown)

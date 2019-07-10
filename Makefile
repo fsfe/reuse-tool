@@ -74,8 +74,6 @@ coverage: ## check code coverage quickly
 
 .PHONY: docs
 docs: ## generate Sphinx HTML documentation, including API docs
-	cp CHANGELOG.md docs/history.md
-	cp README.md docs/readme.md
 	$(MAKE) -C docs html
 
 .PHONY: tox
