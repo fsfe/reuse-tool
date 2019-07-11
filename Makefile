@@ -81,7 +81,7 @@ tox: ## run all tests against multiple versions of Python
 	tox
 
 .PHONY: dist
-dist: clean-build clean-pyc clean-docs _pre-docs ## builds source and wheel package
+dist: clean-build clean-pyc clean-docs ## builds source and wheel package
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
