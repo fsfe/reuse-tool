@@ -19,6 +19,16 @@ jobs=0
 # --disable=W"
 disable=fixme,redefined-builtin,C0330
 
+[REPORTS]
+
+# Set the output format. Available formats are text, parseable, colorized, json
+# and msvs (visual studio).You can also give a reporter class, eg
+# mypackage.mymodule.MyReporterClass.
+output-format=text
+
+# Tells whether to display a full report or only the messages
+reports=yes
+
 [FORMAT]
 
 # Expected format of line ending, e.g. empty (any line ending), LF or CRLF.
@@ -34,7 +44,6 @@ max-line-length=79
 # Allow the body of an if to be on the same line as the test if there is no
 # else.
 single-line-if-stmt=no
-
 
 [BASIC]
 
