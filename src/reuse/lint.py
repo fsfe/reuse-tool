@@ -158,7 +158,7 @@ def lint_files_without_copyright_and_licensing(
                 _write_element(file_, out=out)
             out.write("\n")
         if only_copyright:
-            out.write(_("The following files have no copyright:"))
+            out.write(_("The following files have no copyright information:"))
             out.write("\n")
             for file_ in sorted(only_copyright):
                 _write_element(file_, out=out)
