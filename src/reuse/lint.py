@@ -83,7 +83,7 @@ def lint_bad_licenses(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
             for file_ in sorted(files):
                 bad_files.append(file_)
                 _write_element(file_, out=out)
-        out.write("\n")
+        out.write("\n\n")
 
     return bad_files
 
@@ -108,7 +108,7 @@ def lint_missing_licenses(
             for file_ in sorted(files):
                 bad_files.append(file_)
                 _write_element(file_, out=out)
-        out.write("\n")
+        out.write("\n\n")
 
     return bad_files
 
@@ -126,7 +126,7 @@ def lint_read_errors(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
         for file_ in report.read_errors:
             bad_files.append(file_)
             _write_element(file_, out=out)
-        out.write("\n")
+        out.write("\n\n")
 
     return bad_files
 
@@ -169,6 +169,7 @@ def lint_files_without_copyright_and_licensing(
             for file_ in sorted(only_licensing):
                 _write_element(file_, out=out)
             out.write("\n")
+        out.write("\n")
 
     return both | only_copyright | only_licensing
 
