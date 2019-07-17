@@ -17,7 +17,7 @@ from .report import ProjectReport
 
 
 def _write_element(element, out=sys.stdout):
-    out.write("  ")
+    out.write("* ")
     out.write(str(element))
     out.write("\n")
 
@@ -73,6 +73,7 @@ def lint_bad_licenses(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
     bad_files = []
 
     if report.bad_licenses:
+        out.write("# ")
         out.write(_("BAD LICENSES"))
         out.write("\n")
         for lic, files in sorted(report.bad_licenses.items()):
@@ -96,6 +97,7 @@ def lint_missing_licenses(
     bad_files = []
 
     if report.missing_licenses:
+        out.write("# ")
         out.write(_("MISSING LICENSES"))
         out.write("\n")
 
@@ -116,6 +118,7 @@ def lint_read_errors(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
     bad_files = []
 
     if report.read_errors:
+        out.write("# ")
         out.write(_("READ ERRORS"))
         out.write("\n\n")
         out.write(_("Could not read:"))
@@ -140,6 +143,7 @@ def lint_files_without_copyright_and_licensing(
     only_licensing = set(report.files_without_licenses) - both
 
     if any((both, only_copyright, only_licensing)):
+        out.write("# ")
         out.write(_("MISSING COPYRIGHT OR LICENSING"))
         out.write("\n\n")
         if both:
@@ -169,11 +173,13 @@ def lint_files_without_copyright_and_licensing(
 
 def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     """Print a summary for linting."""
+    out.write("# ")
     out.write(_("SUMMARY"))
     out.write("\n\n")
 
     file_total = len(report.file_reports)
 
+    out.write("* ")
     out.write(_("Bad licenses:"))
     for i, lic in enumerate(sorted(report.bad_licenses)):
         if i:
@@ -182,6 +188,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
         out.write(lic)
     out.write("\n")
 
+    out.write("* ")
     out.write(_("Missing licenses:"))
     for i, lic in enumerate(sorted(report.missing_licenses)):
         if i:
@@ -190,6 +197,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
         out.write(lic)
     out.write("\n")
 
+    out.write("* ")
     out.write(_("Unused licenses:"))
     for i, lic in enumerate(sorted(report.unused_licenses)):
         if i:
@@ -198,6 +206,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
         out.write(lic)
     out.write("\n")
 
+    out.write("* ")
     out.write(_("Used licenses:"))
     for i, lic in enumerate(sorted(report.used_licenses)):
         if i:
@@ -206,9 +215,11 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
         out.write(lic)
     out.write("\n")
 
+    out.write("* ")
     out.write(_("Read errors: {count}".format(count=len(report.read_errors))))
     out.write("\n")
 
+    out.write("* ")
     out.write(
         _(
             "Files with copyright information: {count} / {total}".format(
@@ -219,6 +230,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     )
     out.write("\n")
 
+    out.write("* ")
     out.write(
         _(
             "Files with license information: {count} / {total}".format(
