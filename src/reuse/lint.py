@@ -144,7 +144,7 @@ def lint_files_without_copyright_and_licensing(
 
     if any((both, only_copyright, only_licensing)):
         out.write("# ")
-        out.write(_("MISSING COPYRIGHT OR LICENSING"))
+        out.write(_("MISSING COPYRIGHT AND LICENSING INFORMATION"))
         out.write("\n\n")
         if both:
             out.write(
