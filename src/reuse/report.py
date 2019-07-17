@@ -189,6 +189,11 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return project_report
 
     @property
+    def used_licenses(self) -> Set[str]:
+        """Set of license identifiers that are found in file reports."""
+        return set(self.licenses) - self.unused_licenses
+
+    @property
     def unused_licenses(self) -> Set[str]:
         """Set of license identifiers that are not found in any file report."""
         if self._unused_licenses is not None:

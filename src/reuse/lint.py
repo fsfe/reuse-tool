@@ -194,7 +194,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("\n")
 
     out.write(_("Used licenses:"))
-    for i, lic in enumerate(sorted(report.licenses)):
+    for i, lic in enumerate(sorted(report.used_licenses)):
         if i:
             out.write(",")
         out.write(" ")
