@@ -20,6 +20,7 @@
 #
 import os
 import sys
+from shutil import copyfile
 
 sys.path.insert(0, os.path.abspath("../src/"))
 
@@ -40,7 +41,13 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
+    "sphinxcontrib.apidoc",
 ]
+
+apidoc_module_dir = "../src/reuse"
+# apidoc_output_dir = "api"
+# apidoc_excluded_paths = []
+apidoc_separate_modules = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -182,3 +189,15 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {"https://docs.python.org/3/": None}
+
+
+def copy_markdown(_):
+    """Copy the markdown files from the root of the project into the docs/
+    directory.
+    """
+    copyfile("../README.md", "readme.md")
+    copyfile("../CHANGELOG.md", "history.md")
+
+
+def setup(app):
+    app.connect("builder-inited", copy_markdown)

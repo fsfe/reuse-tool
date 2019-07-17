@@ -40,8 +40,7 @@ clean-test: ## remove test and coverage artifacts
 .PHONY: clean-docs
 clean-docs: ## remove docs build artifacts
 	-$(MAKE) -C docs clean
-	rm -f docs/reuse*.rst
-	rm -f docs/modules.rst
+	rm -fr docs/api/
 	rm -f docs/*.md
 
 .PHONY: lint
@@ -73,13 +72,8 @@ test: ## run tests quickly
 coverage: ## check code coverage quickly
 	py.test --cov-report term-missing --cov=src/reuse
 
-_pre-docs: clean-docs
-	sphinx-apidoc --separate -o docs/ src/reuse
-
 .PHONY: docs
-docs: _pre-docs ## generate Sphinx HTML documentation, including API docs
-	cp CHANGELOG.md docs/history.md
-	cp README.md docs/readme.md
+docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs html
 
 .PHONY: tox
@@ -87,7 +81,7 @@ tox: ## run all tests against multiple versions of Python
 	tox
 
 .PHONY: dist
-dist: clean-build clean-pyc clean-docs _pre-docs ## builds source and wheel package
+dist: clean-build clean-pyc clean-docs ## builds source and wheel package
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
