@@ -137,6 +137,8 @@ def run(args, out=sys.stdout):
         Upstream-Contact: {contact_name} <{contact_address}>
         Source: {project_url}
 
+        # Sample paragraph, commented out:
+        #
         # Files: src/*
         # Copyright: $YEAR $NAME <$CONTACT>
         # License: ...
