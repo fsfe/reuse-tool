@@ -1,4 +1,4 @@
-# SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -33,7 +33,7 @@ _IDENTIFIER_PATTERN = re.compile(
     r"SPDX" "-License-Identifier: (.*?)" + _END_PATTERN, re.MULTILINE
 )
 _COPYRIGHT_PATTERNS = [
-    re.compile(r"(SPDX" "-Copyright: .*?)" + _END_PATTERN),
+    re.compile(r"(SPDX" "-FileCopyrightText: .*?)" + _END_PATTERN),
     re.compile(r"(Copyright .*?)" + _END_PATTERN),
     re.compile(r"(© .*?)" + _END_PATTERN),
 ]

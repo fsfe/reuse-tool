@@ -1,4 +1,4 @@
-# SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,7 +19,7 @@ def test_generate_file_report_file_simple(fake_repository):
     assert result.file_report.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
     assert (
         result.file_report.spdxfile.copyright
-        == "SPDX-Copyright: 2017 Mary Sue"
+        == "SPDX-FileCopyrightText: 2017 Mary Sue"
     )
     assert not result.bad_licenses
     assert not result.missing_licenses
@@ -35,7 +35,7 @@ def test_generate_file_report_file_from_different_cwd(fake_repository):
     assert result.file_report.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
     assert (
         result.file_report.spdxfile.copyright
-        == "SPDX-Copyright: 2017 Mary Sue"
+        == "SPDX-FileCopyrightText: 2017 Mary Sue"
     )
     assert not result.bad_licenses
     assert not result.missing_licenses
@@ -77,7 +77,7 @@ def test_generate_file_report_exception(fake_repository):
     }
     assert (
         result.file_report.spdxfile.copyright
-        == "SPDX-Copyright: 2017 Mary Sue"
+        == "SPDX-FileCopyrightText: 2017 Mary Sue"
     )
     assert not result.bad_licenses
     assert not result.missing_licenses

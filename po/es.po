@@ -1,5 +1,5 @@
-# SPDX-Copyright: 2018 pd <euklade@gmail.com>
-# SPDX-Copyright: 2018 flow <adolflow@sindominio.net>
+# SPDX-FileCopyrightText: 2018 pd <euklade@gmail.com>
+# SPDX-FileCopyrightText: 2018 flow <adolflow@sindominio.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 msgid ""

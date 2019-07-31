@@ -1,4 +1,4 @@
-# SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -83,7 +83,7 @@ def fake_repository(tmpdir_factory) -> Path:
 
     # Adding this here to avoid conflict in main project.
     (directory / "src/exception.py").write_text(
-        "SPDX-Copyright: 2017 Mary Sue\n"
+        "SPDX-FileCopyrightText: 2017 Mary Sue\n"
         "SPDX"
         "-License-Identifier: GPL-3.0-or-later WITH Autoconf-exception-3.0"
     )
@@ -104,7 +104,7 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
         "# SPDX"
         "-License-Identifier: CC0-1.0\n"
         "# SPDX"
-        "-Copyright: 2017 Mary Sue\n"
+        "-FileCopyrightText: 2017 Mary Sue\n"
         "*.pyc\nbuild"
     )
     (fake_repository / ".gitignore").write_text(gitignore)

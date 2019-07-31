@@ -1,4 +1,4 @@
-# SPDX-Copyright: 2018 Carmen Bianca Bakker
+# SPDX-FileCopyrightText: 2018 Carmen Bianca Bakker
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 

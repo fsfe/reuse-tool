@@ -1,4 +1,4 @@
-# SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -57,14 +57,14 @@ def test_extract_copyright():
     """Given a file with copyright information, have it return that copyright
     information.
     """
-    copyright = "SPDX-Copyright: 2019 Jane Doe"
+    copyright = "SPDX-FileCopyrightText: 2019 Jane Doe"
     result = _util.extract_spdx_info(copyright)
     assert result.copyright_lines == {copyright}
 
 
 def test_extract_copyright_duplicate():
     """When a copyright line is duplicated, only yield one."""
-    copyright = "SPDX-Copyright: 2019 Jane Doe"
+    copyright = "SPDX-FileCopyrightText: 2019 Jane Doe"
     result = _util.extract_spdx_info("\n".join((copyright, copyright)))
     assert result.copyright_lines == {copyright}
 
@@ -73,8 +73,8 @@ def test_extract_copyright_variations():
     """There are multiple ways to declare copyright. All should be detected."""
     text = cleandoc(
         """
-        SPDX-Copyright: 2019 Jane Doe
-        SPDX-Copyright: © 2019 Jane Doe
+        SPDX-FileCopyrightText: 2019 Jane Doe
+        SPDX-FileCopyrightText: © 2019 Jane Doe
         © 2019 Jane Doe
         Copyright © 2019 Jane Doe
         Copyright 2019 Jane Doe

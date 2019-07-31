@@ -1,4 +1,4 @@
-# SPDX-Copyright: 2017-2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -137,24 +137,31 @@ def test_spdx_info_of_only_copyright(fake_repository):
     """A file contains only a copyright line. Test whether it correctly picks
     up on that.
     """
-    (fake_repository / "foo.py").write_text("SPDX-Copyright: 2017 Mary Sue")
+    (fake_repository / "foo.py").write_text(
+        "SPDX-FileCopyrightText: 2017 Mary Sue"
+    )
     project = Project(fake_repository)
     spdx_info = project.spdx_info_of("foo.py")
     assert not any(spdx_info.spdx_expressions)
     assert len(spdx_info.copyright_lines) == 1
-    assert spdx_info.copyright_lines.pop() == "SPDX-Copyright: 2017 Mary Sue"
+    assert (
+        spdx_info.copyright_lines.pop()
+        == "SPDX-FileCopyrightText: 2017 Mary Sue"
+    )
 
 
 def test_spdx_info_of_only_copyright_also_covered_by_debian(fake_repository):
     """A file contains only a copyright line, but debian/copyright also has
     information on this file. Use both.
     """
-    (fake_repository / "doc/foo.py").write_text("SPDX-Copyright: in file")
+    (fake_repository / "doc/foo.py").write_text(
+        "SPDX-FileCopyrightText: in file"
+    )
     project = Project(fake_repository)
     spdx_info = project.spdx_info_of("doc/foo.py")
     assert any(spdx_info.spdx_expressions)
     assert len(spdx_info.copyright_lines) == 2
-    assert "SPDX-Copyright: in file" in spdx_info.copyright_lines
+    assert "SPDX-FileCopyrightText: in file" in spdx_info.copyright_lines
     assert "2017 Mary Sue" in spdx_info.copyright_lines
 
 
@@ -166,14 +173,14 @@ def test_spdx_info_of_also_covered_by_dep5(fake_repository):
         dedent(
             """
             SPDX-License-Identifier: MIT
-            SPDX-Copyright: in file"""
+            SPDX-FileCopyrightText: in file"""
         )
     )
     project = Project(fake_repository)
     spdx_info = project.spdx_info_of("doc/foo.py")
     assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
     assert LicenseSymbol("CC0-1.0") in spdx_info.spdx_expressions
-    assert "SPDX-Copyright: in file" in spdx_info.copyright_lines
+    assert "SPDX-FileCopyrightText: in file" in spdx_info.copyright_lines
     assert "2017 Mary Sue" in spdx_info.copyright_lines
 
 
@@ -182,7 +189,9 @@ def test_spdx_info_of_no_duplicates(empty_directory):
     lines once.
     """
     spdx_line = "SPDX-License-Identifier: GPL-3.0-or-later\n"
-    copyright_line = "SPDX-Copyright: 2017 Free Software Foundation Europe\n"
+    copyright_line = (
+        "SPDX-FileCopyrightText: 2017 Free Software Foundation Europe\n"
+    )
     text = spdx_line + copyright_line
 
     (empty_directory / "foo.py").write_text(text * 2)
@@ -192,7 +201,7 @@ def test_spdx_info_of_no_duplicates(empty_directory):
     assert LicenseSymbol("GPL-3.0-or-later") in spdx_info.spdx_expressions
     assert len(spdx_info.copyright_lines) == 1
     assert (
-        "SPDX-Copyright: 2017 Free Software Foundation Europe"
+        "SPDX-FileCopyrightText: 2017 Free Software Foundation Europe"
         in spdx_info.copyright_lines
     )
 
@@ -214,13 +223,13 @@ def test_license_file_detected(empty_directory):
     """
     (empty_directory / "foo.py").touch()
     (empty_directory / "foo.py.license").write_text(
-        "SPDX-Copyright: 2017 Mary Sue\nSPDX-License-Identifier: MIT\n"
+        "SPDX-FileCopyrightText: 2017 Mary Sue\nSPDX-License-Identifier: MIT\n"
     )
 
     project = Project(empty_directory)
     spdx_info = project.spdx_info_of("foo.py")
 
-    assert "SPDX-Copyright: 2017 Mary Sue" in spdx_info.copyright_lines
+    assert "SPDX-FileCopyrightText: 2017 Mary Sue" in spdx_info.copyright_lines
     assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
 
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# SPDX-Copyright: 2017-2018 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2017-2018 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
