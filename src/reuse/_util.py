@@ -219,8 +219,8 @@ def extract_spdx_info(text: str) -> None:
 
 
 def make_copyright_line(statement: str) -> str:
-    """Given a statement, prefix it with ``SPDX-FileCopyrightText:`` if it is not
-    already prefixed with some manner of copyright tag.
+    """Given a statement, prefix it with ``SPDX-FileCopyrightText:`` if it is
+    not already prefixed with some manner of copyright tag.
     """
     if "\n" in statement:
         raise RuntimeError(f"Unexpected newline in '{statement}'")
