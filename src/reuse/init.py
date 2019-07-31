@@ -104,17 +104,29 @@ def run(args, out=sys.stdout):
 
     out.write("\n")
 
+    out.write(_("All done! Initializing now."))
+    out.write("\n\n")
+
     # Creating files past this point!
 
     for lic in licenses:
         destination = _path_to_license_file(lic, root=root)
         try:
+            out.write(_("Downloading {}").format(lic))
+            out.write("\n")
             put_license_in_file(lic, destination=destination)
         # TODO: exceptions
         except FileExistsError:
-            pass
+            out.write(_("{} already exists").format(destination))
+            out.write("\n")
         except requests.RequestException:
-            pass
+            out.write(_("Could not download {}").format(lic))
+            out.write("\n")
+
+    out.write("\n")
+
+    out.write(_("Creating .reuse/dep5"))
+    out.write("\n\n")
 
     # pylint: disable=line-too-long
     dep5_text = cleandoc(
@@ -132,5 +144,8 @@ def run(args, out=sys.stdout):
 
     (root / ".reuse").mkdir()
     (root / ".reuse/dep5").write_text(dep5_text)
+
+    out.write(_("Initialization complete."))
+    out.write("\n")
 
     return 0
