@@ -108,12 +108,15 @@ def test_find_root_in_git_repo(git_repository):
 
 def test_make_copyright_line_simple():
     """Given a simple statement, make it a copyright line."""
-    assert _util.make_copyright_line("hello") == "SPDX" "-Copyright: hello"
+    assert (
+        _util.make_copyright_line("hello") == "SPDX"
+        "-FileCopyrightText: hello"
+    )
 
 
 def test_make_copyright_line_existing_spdx_copyright():
     """Given a copyright line, do nothing."""
-    value = "SPDX" "-Copyright: hello"
+    value = "SPDX" "-FileCopyrightText: hello"
     assert _util.make_copyright_line(value) == value
 
 

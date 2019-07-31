@@ -1,4 +1,4 @@
-# SPDX-Copyright: 2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -18,11 +18,11 @@ from reuse.header import create_header, find_and_replace_header
 def test_create_header_simple():
     """Create a super simple header."""
     spdx_info = SpdxInfo(
-        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
     expected = cleandoc(
         """
-        # spdx-Copyright: Mary Sue
+        # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
         """
@@ -34,19 +34,19 @@ def test_create_header_simple():
 def test_create_header_already_contains_spdx():
     """Create a new header from a header that already contains SPDX info."""
     spdx_info = SpdxInfo(
-        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
     existing = cleandoc(
         """
-        # spdx-Copyright: John Doe
+        # spdx-FileCopyrightText: John Doe
         #
         # spdx-License-Identifier: MIT
         """
     ).replace("spdx", "SPDX")
     expected = cleandoc(
         """
-        # spdx-Copyright: John Doe
-        # spdx-Copyright: Mary Sue
+        # spdx-FileCopyrightText: John Doe
+        # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
         # spdx-License-Identifier: MIT
@@ -59,11 +59,11 @@ def test_create_header_already_contains_spdx():
 def test_create_header_existing_is_wrong():
     """If the existing header contains errors, raise a CommentCreateError."""
     spdx_info = SpdxInfo(
-        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
     existing = cleandoc(
         """
-        # spdx-Copyright: John Doe
+        # spdx-FileCopyrightText: John Doe
         #
         # spdx-License-Identifier: MIT AND OR 0BSD
         """
@@ -97,12 +97,12 @@ def test_create_header_old_syntax():
 def test_find_and_replace_no_header():
     """Given text without header, add a header."""
     spdx_info = SpdxInfo(
-        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
     text = "pass"
     expected = cleandoc(
         """
-        # spdx-Copyright: Mary Sue
+        # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -118,7 +118,7 @@ def test_find_and_replace_verbatim():
     spdx_info = SpdxInfo(set(), set())
     text = cleandoc(
         """
-        # spdx-Copyright: Mary Sue
+        # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -134,11 +134,11 @@ def test_find_and_replace_newline_before_header():
     create a new header. It would be nice if this were handled more elegantly.
     """
     spdx_info = SpdxInfo(
-        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
     text = cleandoc(
         """
-        # spdx-Copyright: Jane Doe
+        # spdx-FileCopyrightText: Jane Doe
 
         pass
         """
@@ -146,11 +146,11 @@ def test_find_and_replace_newline_before_header():
     text = "\n" + text
     expected = cleandoc(
         """
-        # spdx-Copyright: Mary Sue
+        # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
 
-        # spdx-Copyright: Jane Doe
+        # spdx-FileCopyrightText: Jane Doe
 
         pass
         """
@@ -165,7 +165,7 @@ def test_find_and_replace_keep_shebang():
     it.
     """
     spdx_info = SpdxInfo(
-        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
     text = cleandoc(
         """
@@ -178,7 +178,7 @@ def test_find_and_replace_keep_shebang():
         """
         #!/usr/bin/env python3
 
-        # spdx-Copyright: Mary Sue
+        # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -195,7 +195,7 @@ def test_find_and_replace_keep_old_comment():
     licensing information, preserve it below the REUSE header.
     """
     spdx_info = SpdxInfo(
-        set(["GPL-3.0-or-later"]), set(["SPDX" "-Copyright: Mary Sue"])
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
     text = cleandoc(
         """
@@ -206,7 +206,7 @@ def test_find_and_replace_keep_old_comment():
     ).replace("spdx", "SPDX")
     expected = cleandoc(
         """
-        # spdx-Copyright: Mary Sue
+        # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
 

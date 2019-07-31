@@ -219,7 +219,7 @@ def extract_spdx_info(text: str) -> None:
 
 
 def make_copyright_line(statement: str) -> str:
-    """Given a statement, prefix it with ``SPDX-Copyright:`` if it is not
+    """Given a statement, prefix it with ``SPDX-FileCopyrightText:`` if it is not
     already prefixed with some manner of copyright tag.
     """
     if "\n" in statement:
@@ -228,7 +228,7 @@ def make_copyright_line(statement: str) -> str:
         match = pattern.search(statement)
         if match is not None:
             return statement
-    return f"SPDX-Copyright: {statement}"
+    return f"SPDX-FileCopyrightText: {statement}"
 
 
 def _checksum(path: PathLike) -> str:

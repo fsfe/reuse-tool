@@ -149,7 +149,7 @@ def test_addheader_simple(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            # spdx-Copyright: Mary Sue
+            # spdx-FileCopyrightText: Mary Sue
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -183,7 +183,7 @@ def test_addheader_specify_style(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            // spdx-Copyright: Mary Sue
+            // spdx-FileCopyrightText: Mary Sue
             //
             // spdx-License-Identifier: GPL-3.0-or-later
 
@@ -215,7 +215,7 @@ def test_addheader_implicit_style(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            // spdx-Copyright: Mary Sue
+            // spdx-FileCopyrightText: Mary Sue
             //
             // spdx-License-Identifier: GPL-3.0-or-later
 
