@@ -238,13 +238,6 @@ class CommentStyle:
         )
 
 
-class PythonCommentStyle(CommentStyle):
-    """Python comment style."""
-
-    SINGLE_LINE = "#"
-    INDENT_AFTER_SINGLE = " "
-
-
 class CCommentStyle(CommentStyle):
     """C comment style."""
 
@@ -256,11 +249,13 @@ class CCommentStyle(CommentStyle):
     INDENT_BEFORE_END = " "
 
 
-class HtmlCommentStyle(CommentStyle):
-    """HTML comment style."""
+class CssCommentStyle(CommentStyle):
+    """CSS comment style."""
 
-    SINGLE_LINE = None
-    MULTI_LINE = ("<!--", None, "-->")
+    MULTI_LINE = ("/*", "*", "*/")
+    INDENT_BEFORE_MIDDLE = " "
+    INDENT_AFTER_MIDDLE = " "
+    INDENT_BEFORE_END = " "
 
 
 class EmptyCommentStyle(CommentStyle):
@@ -277,3 +272,71 @@ class EmptyCommentStyle(CommentStyle):
     @classmethod
     def comment_at_first_character(cls, text: str) -> str:
         return text
+
+
+class HaskellCommentStyle(CommentStyle):
+    """Haskell comment style."""
+
+    SINGLE_LINE = "--"
+    INDENT_AFTER_SINGLE = " "
+
+
+class HtmlCommentStyle(CommentStyle):
+    """HTML comment style."""
+
+    MULTI_LINE = ("<!--", None, "-->")
+
+
+class LispCommentStyle(CommentStyle):
+    """Lisp comment style."""
+
+    SINGLE_LINE = ";;"
+    INDENT_AFTER_SINGLE = " "
+
+
+class PythonCommentStyle(CommentStyle):
+    """Python comment style."""
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+
+
+#: A map of (common) file extensions against comment types.
+COMMENT_STYLE_MAP = {
+    ".c": CCommentStyle,
+    ".cl": LispCommentStyle,
+    ".clj": LispCommentStyle,
+    ".coffee": PythonCommentStyle,
+    ".cpp": CCommentStyle,
+    ".cs": CCommentStyle,
+    ".css": CssCommentStyle,
+    ".d": CCommentStyle,
+    ".fs": CCommentStyle,
+    ".h": CCommentStyle,
+    ".hs": HaskellCommentStyle,
+    ".html": HtmlCommentStyle,
+    ".java": CCommentStyle,
+    ".js": CCommentStyle,
+    ".l": LispCommentStyle,
+    ".lisp": LispCommentStyle,
+    ".lsp": LispCommentStyle,
+    ".lua": HaskellCommentStyle,
+    ".markdown": HtmlCommentStyle,
+    ".md": HtmlCommentStyle,
+    ".nim": PythonCommentStyle,
+    ".php": CCommentStyle,
+    ".pl": PythonCommentStyle,
+    ".py": PythonCommentStyle,
+    ".rb": PythonCommentStyle,
+    ".rs": CCommentStyle,
+    ".vala": CCommentStyle,
+}
+
+#: A map of human-friendly names against style classes.
+NAME_STYLE_MAP = {
+    "c": CCommentStyle,
+    "css": CssCommentStyle,
+    "haskell": HaskellCommentStyle,
+    "html": HtmlCommentStyle,
+    "python": PythonCommentStyle,
+}

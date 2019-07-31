@@ -11,6 +11,7 @@ from gettext import gettext as _
 from pathlib import Path
 from typing import Dict, Iterator, Optional
 
+from boolean.boolean import ParseError
 from debian.copyright import Copyright, NotMachineReadableError
 from license_expression import ExpressionError
 
@@ -129,7 +130,7 @@ class Project:
                 file_result = extract_spdx_info(
                     decoded_text_from_binary(fp, size=_HEADER_BYTES)
                 )
-            except ExpressionError:
+            except (ExpressionError, ParseError):
                 _LOGGER.error(
                     _(
                         "%s holds an SPDX expression that cannot be parsed, "

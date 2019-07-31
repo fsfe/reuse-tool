@@ -22,6 +22,9 @@ requirements = [
     "requests",
     # For parsing SPDX License Expressions.
     "license-expression",
+    # Indirect requirement of license-expression, but we require it because we
+    # import its exceptions.
+    "boolean.py",
 ]
 
 test_requirements = ["pytest"]

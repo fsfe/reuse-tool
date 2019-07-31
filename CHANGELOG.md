@@ -21,6 +21,12 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased - YYYY-MM-DD
 
+### Added
+
+- `reuse addheader` has been added as a way to automatically add copyright
+  statements and license identifiers to the headers of files. It is currently
+  not complete.
+
 ### Changed
 
 - The tag `SPDX-Copyright:` has been changed to `SPDX-FileCopyrightText:`.
