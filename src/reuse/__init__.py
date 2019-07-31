@@ -65,6 +65,8 @@ _IGNORE_FILE_PATTERNS = [
 ]
 
 #: Simple structure for holding SPDX information.
+#:
+#: The two iterables MUST be sets.
 SpdxInfo = NamedTuple(
     "SpdxInfo",
     [("spdx_expressions", Set[Expression]), ("copyright_lines", Set[str])],

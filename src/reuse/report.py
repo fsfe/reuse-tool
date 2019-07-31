@@ -14,14 +14,11 @@ from pathlib import Path
 from typing import Iterable, List, NamedTuple, Set
 from uuid import uuid4
 
-from license_expression import Licensing
-
 from . import __version__
-from ._util import _checksum
+from ._util import _LICENSING, _checksum
 from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
-_LICENSING = Licensing()
 
 FileReportInfo = NamedTuple(
     "FileReportInfo",

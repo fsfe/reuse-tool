@@ -10,7 +10,7 @@ import sys
 from gettext import gettext as _
 from typing import List
 
-from . import __REUSE_version__, __version__, download, lint, spdx
+from . import __REUSE_version__, __version__, download, header, lint, spdx
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import setup_logging
 
@@ -66,19 +66,28 @@ def parser() -> argparse.ArgumentParser:
 
     add_command(
         subparsers,
-        "spdx",
-        spdx.add_arguments,
-        spdx.run,
-        help=_("print the project's bill of materials in SPDX format"),
-    )
-
-    add_command(
-        subparsers,
-        "lint",
-        lint.add_arguments,
-        lint.run,
-        help=_("list all non-compliant files"),
-        description=fill_all(_("TODO")),
+        "addheader",
+        header.add_arguments,
+        header.run,
+        help=_("add copyright and licensing into the header of files"),
+        description=fill_all(
+            _(
+                "Add copyright and licensing into the header of one or more "
+                "files.\n"
+                "\n"
+                "By using --copyright and --license, you can specify which "
+                "copyright holders and licenses to add to the headers of the "
+                "given files.\n"
+                "\n"
+                "The comment style should be auto-detected for your files. If "
+                "a comment style could not be detected, the process aborts. "
+                "Use --style to specify or override the comment style to "
+                "use.\n"
+                # TODO: Remove this
+                "\n"
+                "IMPORTANT: This is currently EXPERIMENTAL!"
+            )
+        ),
     )
 
     add_command(
@@ -107,6 +116,23 @@ def parser() -> argparse.ArgumentParser:
         ),
     )
 
+    add_command(
+        subparsers,
+        "lint",
+        lint.add_arguments,
+        lint.run,
+        help=_("list all non-compliant files"),
+        description=fill_all(_("TODO")),
+    )
+
+    add_command(
+        subparsers,
+        "spdx",
+        spdx.add_arguments,
+        spdx.run,
+        help=_("print the project's bill of materials in SPDX format"),
+    )
+
     return parser
 
 
@@ -130,6 +156,7 @@ def add_command(  # pylint: disable=too-many-arguments
     )
     add_arguments_func(subparser)
     subparser.set_defaults(func=run_func)
+    subparser.set_defaults(parser=subparser)
 
 
 def main(args: List[str] = None, out=sys.stdout) -> int:

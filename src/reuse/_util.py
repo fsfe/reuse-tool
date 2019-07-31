@@ -18,6 +18,7 @@ from os import PathLike
 from pathlib import Path
 from typing import BinaryIO, List, Optional, Set
 
+from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
 
@@ -194,14 +195,17 @@ def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
 
 
 def extract_spdx_info(text: str) -> None:
-    """Extract SPDX information from comments in a string."""
+    """Extract SPDX information from comments in a string.
+
+    :raises ExpressionError: if an SPDX expression could not be parsed
+    """
     expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
     expressions = set()
     copyright_matches = set()
     for expression in expression_matches:
         try:
             expressions.add(_LICENSING.parse(expression))
-        except ExpressionError:
+        except (ExpressionError, ParseError):
             _LOGGER.error(_("Could not parse '%s'"), expression)
             raise
     for line in text.splitlines():
@@ -212,6 +216,19 @@ def extract_spdx_info(text: str) -> None:
                 break
 
     return SpdxInfo(expressions, copyright_matches)
+
+
+def make_copyright_line(statement: str) -> str:
+    """Given a statement, prefix it with ``SPDX-Copyright:`` if it is not
+    already prefixed with some manner of copyright tag.
+    """
+    if "\n" in statement:
+        raise RuntimeError(f"Unexpected newline in '{statement}'")
+    for pattern in _COPYRIGHT_PATTERNS:
+        match = pattern.search(statement)
+        if match is not None:
+            return statement
+    return f"SPDX-Copyright: {statement}"
 
 
 def _checksum(path: PathLike) -> str:
@@ -260,3 +277,13 @@ class PathType:  # pylint: disable=too-few-public-methods
                 raise ArgumentTypeError(_("can't write to '{}'").format(path))
         except OSError:
             raise ArgumentTypeError(_("can't read or write '{}'").format(path))
+
+
+def spdx_identifier(text: str) -> Expression:
+    """argparse factory for creating SPDX expressions."""
+    try:
+        return _LICENSING.parse(text)
+    except (ExpressionError, ParseError):
+        raise ArgumentTypeError(
+            _("'{}' is not a valid SPDX expression, aborting").format(text)
+        )
