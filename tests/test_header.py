@@ -159,6 +159,7 @@ def test_find_and_replace_newline_before_header():
     assert find_and_replace_header(text, spdx_info) == expected
 
 
+@pytest.mark.xfail
 def test_find_and_replace_keep_shebang():
     """When encountering a shebang, keep it and put the REUSE header beneath
     it.
@@ -188,6 +189,7 @@ def test_find_and_replace_keep_shebang():
     assert find_and_replace_header(text, spdx_info) == expected
 
 
+@pytest.mark.xfail
 def test_find_and_replace_keep_old_comment():
     """When encountering a comment that does not contain copyright and
     licensing information, preserve it below the REUSE header.
