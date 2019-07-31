@@ -7,11 +7,10 @@
 from reuse.lint import (
     lint,
     lint_bad_licenses,
-    lint_files_without_copyright,
-    lint_files_without_licenses,
+    lint_files_without_copyright_and_licensing,
     lint_missing_licenses,
     lint_read_errors,
-    lint_unused_licenses,
+    lint_summary,
 )
 from reuse.project import Project
 from reuse.report import ProjectReport
@@ -72,9 +71,8 @@ def test_lint_unused_licenses(fake_repository, stringio):
     (fake_repository / "LICENSES/MIT.txt").touch()
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = lint_unused_licenses(report, out=stringio)
+    lint_summary(report, out=stringio)
 
-    assert "MIT" in result
     assert "MIT" in stringio.getvalue()
 
 
@@ -89,23 +87,12 @@ def test_lint_read_errors(fake_repository, stringio):
     assert "foo.py" in stringio.getvalue()
 
 
-def test_lint_files_without_licenses(fake_repository, stringio):
-    """A file without license is detected."""
+def test_lint_files_without_copyright_and_licensing(fake_repository, stringio):
+    """A file without copyright and licensing is detected."""
     (fake_repository / "foo.py").touch()
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = lint_files_without_licenses(report, out=stringio)
-
-    assert "foo.py" in str(list(result)[0])
-    assert "foo.py" in stringio.getvalue()
-
-
-def test_lint_files_without_copyright(fake_repository, stringio):
-    """A file without copyright is detected."""
-    (fake_repository / "foo.py").touch()
-    project = Project(fake_repository)
-    report = ProjectReport.generate(project)
-    result = lint_files_without_copyright(report, out=stringio)
+    result = lint_files_without_copyright_and_licensing(report, out=stringio)
 
     assert "foo.py" in str(list(result)[0])
     assert "foo.py" in stringio.getvalue()
