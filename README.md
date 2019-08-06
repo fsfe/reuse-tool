@@ -45,7 +45,7 @@ You are recommended to read the
 details. (IMPORTANT FIXME: These recommendations are currently out-of-date!
 See <https://github.com/fsfe/reuse-docs>.)
 
-This tool exists to facilitate the developer in complying to the above
+This tool exists to facilitate the developer in complying with the above
 recommendations.
 
 There are other tools, such as [FOSSology](https://www.fossology.org/),
