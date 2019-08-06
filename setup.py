@@ -114,7 +114,7 @@ if __name__ == "__main__":
         license="GPL-3.0-or-later AND Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0",
         author="Carmen Bianca Bakker",
         author_email="carmenbianca@fsfe.org",
-        description="reuse is a tool for compliance with the REUSE Initiative "
+        description="reuse is a tool for compliance with the REUSE "
         "recommendations.",
         long_description=readme_md() + "\n\n" + changelog_md(),
         long_description_content_type="text/markdown",

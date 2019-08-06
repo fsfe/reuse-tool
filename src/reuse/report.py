@@ -95,8 +95,8 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         out.write("Created: {}Z\n".format(now.isoformat()))
         out.write(
             "CreatorComment: <text>This document was created automatically "
-            "using available reuse information consistent with the "
-            "REUSE Initiative.</text>\n"
+            "using available reuse information consistent with "
+            "REUSE.</text>\n"
         )
 
         reports = sorted(self.file_reports, key=lambda x: x.spdxfile.name)

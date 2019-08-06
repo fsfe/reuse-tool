@@ -176,7 +176,7 @@ backwards-incompatible) version is in the works.
 
 ### Changed
 
--   Updated to version 2.0 of the REUSE Initiative recommendations. The
+-   Updated to version 2.0 of the REUSE recommendations. The
     most important change is that `License-Filename` is no longer used.
     Instead, the filename is deducted from `SPDX-License-Identifier`.
     This change is **NOT** backwards compatible.

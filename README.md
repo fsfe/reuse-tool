@@ -13,8 +13,8 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 [![](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 [![](https://img.shields.io/pypi/status/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
 
-> reuse is a tool for compliance with the [REUSE
-> Initiative](https://reuse.software/) recommendations.
+> reuse is a tool for compliance with the [REUSE](https://reuse.software/)
+> recommendations.
 
 -   Free Software: GPL-3.0-or-later
 -   Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
@@ -25,15 +25,14 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 ## Background
 
-Copyright and licensing is difficult, especially when reusing software
-from different projects that are released under various different
-licenses. The [REUSE Initiative](https://reuse.software/) was started by
-the [Free Software Foundation Europe](https://fsfe.org) (FSFE) to
-provide a set of recommendations to make licensing your free software
-projects easier. Not only do these recommendations make it easier for
-you to declare the licenses under which your works are released, but
-they also make it easier for a computer to understand how your project
-is licensed.
+Copyright and licensing is difficult, especially when reusing software from
+different projects that are released under various different licenses.
+[REUSE](https://reuse.software/) was started by the [Free Software Foundation
+Europe](https://fsfe.org) (FSFE) to provide a set of recommendations to make
+licensing your free software projects easier. Not only do these recommendations
+make it easier for you to declare the licenses under which your works are
+released, but they also make it easier for a computer to understand how your
+project is licensed.
 
 As a short summary, the recommendations are threefold:
 
@@ -53,7 +52,7 @@ There are other tools, such as [FOSSology](https://www.fossology.org/),
 that have a lot more features and functionality surrounding the analysis
 and inspection of copyright and licenses in software projects. reuse, on
 the other hand, is solely designed to be a simple tool to assist in
-compliance with the REUSE Initiative recommendations.
+compliance with the REUSE recommendations.
 
 ## Install
 

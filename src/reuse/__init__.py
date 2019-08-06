@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""reuse is a tool for compliance with the REUSE Initiative recommendations."""
+"""reuse is a tool for compliance with the REUSE recommendations."""
 
 # pylint: disable=ungrouped-imports,too-many-arguments
 

@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 _DESCRIPTION_LINES = [
     _(
-        "reuse is a tool for compliance with the REUSE Initiative "
+        "reuse is a tool for compliance with the REUSE "
         "recommendations. See <https://reuse.software/> for more "
         "information."
     ),
