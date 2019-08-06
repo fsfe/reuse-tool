@@ -19,7 +19,11 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
-## Unreleased - YYYY-MM-DD
+## 0.4.0 - 2019-08-06
+
+This release is a major overhaul and refactoring of the tool. Its
+primary focus is improved usability and speed, as well as adhering to version
+3.0 of the REUSE Specification.
 
 ### Added
 
@@ -27,46 +31,42 @@ The versions follow [semantic versioning](https://semver.org).
   statements and license identifiers to the headers of files. It is currently
   not complete.
 
-### Changed
-
-- The tag `SPDX-Copyright:` has been changed to `SPDX-FileCopyrightText:`.
-
-## 0.4.0a1 - 2019-07-04
-
-This release is a major overhaul and refactoring of the tool. Its
-primary focus is improved usability and speed, as well as adhering to a
-new version of the spec that is currently in the works.
-
-Please note that this release is incomplete, may contain bugs, and its
-documentation is lacking and/or simply wrong. It is provided as an early
-preview.
+- `reuse init` has been added as a way to initialise a REUSE project. Its
+  functionality is currently scarce, but should improve in the future.
 
 ### Changed
 
--   `reuse lint` now provides a helpful summary instead of merely
-    spitting out non-compliant files.
--   `reuse compile` is now `reuse spdx`.
--   In addition to `Copyright` and `©`, copyright lines can be marked
-    with the tag `SPDX-Copyright:`. This is the new recommended default.
--   Project no longer depends on pygit2.
--   The list of SPDX licenses has been updated.
--   `Valid-License-Identifier` is no longer used, and licenses and
-    exceptions can now only live inside of the LICENSES/ directory.
+- `reuse lint` now provides a helpful summary instead of merely spitting out
+  non-compliant files.
+
+- `reuse compile` is now `reuse spdx`.
+
+- In addition to `Copyright` and `©`, copyright lines can be marked with the tag
+  `SPDX-FileCopyrightText:`. This is the new recommended default.
+
+- Project no longer depends on pygit2.
+
+- The list of SPDX licenses has been updated.
+
+- `Valid-License-Identifier` is no longer used, and licenses and exceptions can
+  now only live inside of the LICENSES/ directory.
 
 ### Removed
 
--   Removed `--ignore-debian`.
--   Removed `--spdx-mandatory`, `--copyright-mandatory`,
-    `--ignore-missing` arguments from `reuse lint`.
--   Remove `reuse license`.
--   GPL-3.0 and GPL-3.0+ (and all other similar GPL licenses) are no
-    longer detected as SPDX identifiers. Use GPL-3.0-only and
-    GPL-3.0-or-later instead.
+- Removed `--ignore-debian`.
+
+- Removed `--spdx-mandatory`, `--copyright-mandatory`, `--ignore-missing`
+  arguments from `reuse lint`.
+
+- Remove `reuse license`.
+
+- GPL-3.0 and GPL-3.0+ (and all other similar GPL licenses) are no longer
+  detected as SPDX identifiers. Use GPL-3.0-only and GPL-3.0-or-later instead.
 
 ### Fixed
 
--   Scanning a Git directory is a lot faster now.
--   Scanning binary files is a lot faster now.
+- Scanning a Git directory is a lot faster now.
+- Scanning binary files is a lot faster now.
 
 ## 0.3.4 - 2019-04-15
 
