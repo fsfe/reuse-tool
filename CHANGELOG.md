@@ -31,6 +31,8 @@ The versions follow [semantic versioning](https://semver.org).
 - When using `reuse addheader` on a file that contains a shebang, the shebang is
   preserved.
 
+- Some publicly visible TODOs were patched away.
+
 ## 0.4.0 - 2019-08-06
 
 This release is a major overhaul and refactoring of the tool. Its

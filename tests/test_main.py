@@ -62,7 +62,7 @@ def test_spdx(fake_repository, stringio):
     os.chdir(str(fake_repository))
     result = main(["spdx"], out=stringio)
 
-    # FIXME: This test is rubbish.
+    # TODO: This test is rubbish.
     assert result == 0
     assert stringio.getvalue()
 
@@ -145,7 +145,7 @@ def test_download_custom_output_too_many(
         )
 
 
-# FIXME: Replace this test with a monkeypatched test
+# TODO: Replace this test with a monkeypatched test
 def test_addheader_simple(fake_repository, stringio):
     """Add a header to a file that does not have one."""
     simple_file = fake_repository / "foo.py"
