@@ -16,7 +16,6 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 > reuse is a tool for compliance with the [REUSE](https://reuse.software/)
 > recommendations.
 
--   Free Software: GPL-3.0-or-later
 -   Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
 -   Source code: <https://github.com/fsfe/reuse-tool>
 -   PyPI: <https://pypi.python.org/pypi/fsfe-reuse>
