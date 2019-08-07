@@ -141,12 +141,13 @@ def test_generate_project_report_to_dict(fake_repository):
     """Extremely simple test for ProjectReport.to_dict."""
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    # FIXME: Actually do something
+    # TODO: Actually do something
     report.to_dict()
 
 
 def test_bill_of_materials(fake_repository):
-    """FIXME: This test currently does nothing."""
+    """Generate a bill of materials."""
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
+    # TODO: Actually do something
     report.bill_of_materials()

@@ -62,7 +62,7 @@ def test_spdx(fake_repository, stringio):
     os.chdir(str(fake_repository))
     result = main(["spdx"], out=stringio)
 
-    # FIXME: This test is rubbish.
+    # TODO: This test is rubbish.
     assert result == 0
     assert stringio.getvalue()
 
