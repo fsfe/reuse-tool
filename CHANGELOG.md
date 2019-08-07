@@ -26,6 +26,11 @@ The versions follow [semantic versioning](https://semver.org).
 - `--all` argument help to `reuse download`, which downloads all detected
   missing licenses.
 
+### Fixed
+
+- When using `reuse addheader` on a file that contains a shebang, the shebang is
+  preserved.
+
 ## 0.4.0 - 2019-08-06
 
 This release is a major overhaul and refactoring of the tool. Its
