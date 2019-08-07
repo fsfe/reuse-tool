@@ -88,7 +88,8 @@ against the recommendations, use `reuse lint`:
 
     ~/Projects/reuse-tool $ reuse lint
     [...]
-    Congratulations! Your project is REUSE compliant :-)
+
+    Congratulations! Your project is compliant with version 3.0 of the REUSE Specification :-)
 
 ### Run in Docker
 
