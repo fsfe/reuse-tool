@@ -66,6 +66,7 @@ primary focus is improved usability and speed, as well as adhering to version
 ### Fixed
 
 - Scanning a Git directory is a lot faster now.
+
 - Scanning binary files is a lot faster now.
 
 ## 0.3.4 - 2019-04-15
