@@ -40,7 +40,7 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
             bad_licenses_result,
             missing_licenses_result,
             read_errors_result,
-            # FIXME: Should this be a separate entry if it's already in the
+            # TODO: Should this be a separate entry if it's already in the
             # summary?
             report.unused_licenses,
         )
@@ -135,7 +135,7 @@ def lint_files_without_copyright_and_licensing(
     report: ProjectReport, out=sys.stdout
 ) -> Iterable[str]:
     """Lint for files that do not have copyright or licensing information."""
-    # FIXME: The below three operations can probably be optimised.
+    # TODO: The below three operations can probably be optimised.
     both = set(report.files_without_copyright) & set(
         report.files_without_licenses
     )

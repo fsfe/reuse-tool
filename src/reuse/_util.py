@@ -146,7 +146,7 @@ def _all_files_ignored_by_git(root: PathLike) -> Set[str]:
             "--ignored",
             "--others",
             "--directory",
-            # FIXME: This flag is unexpected.  I reported it as a bug in Git.
+            # TODO: This flag is unexpected.  I reported it as a bug in Git.
             # This flag---counter-intuitively---lists untracked directories
             # that contain ignored files.
             "--no-empty-directory",

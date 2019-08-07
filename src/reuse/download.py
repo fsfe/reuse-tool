@@ -123,7 +123,7 @@ def run(args, out=sys.stdout) -> int:
 
     if args.all:
         project = create_project()
-        # FIXME: This is fairly inefficient, but gets the job done.
+        # TODO: This is fairly inefficient, but gets the job done.
         report = ProjectReport.generate(project)
         licenses = report.missing_licenses
     elif not args.license:

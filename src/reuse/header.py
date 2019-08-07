@@ -70,7 +70,7 @@ def create_header(
                 "existing header contains an erroneous SPDX expression"
             ) from err
 
-        # FIXME: This behaviour does not match the docstring.
+        # TODO: This behaviour does not match the docstring.
         spdx_info = SpdxInfo(
             spdx_info.spdx_expressions.union(existing_spdx.spdx_expressions),
             spdx_info.copyright_lines.union(existing_spdx.copyright_lines),

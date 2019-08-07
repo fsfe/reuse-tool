@@ -58,7 +58,7 @@ class Project:
             self._all_ignored_files = _all_files_ignored_by_git(self._root)
 
         self.license_map = LICENSE_MAP.copy()
-        # FIXME: Is this correct?
+        # TODO: Is this correct?
         self.license_map.update(EXCEPTION_MAP)
         self.licenses = self._licenses()
         # Use '0' as None, because None is a valid value...
