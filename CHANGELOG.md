@@ -19,7 +19,7 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
-## Unreleased - YYYY-MM-DD
+## 0.4.1 - 2019-08-06
 
 ### Added
 
@@ -30,6 +30,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - When using `reuse addheader` on a file that contains a shebang, the shebang is
   preserved.
+
+- Copyright lines in `reuse spdx` are now sorted.
 
 - Some publicly visible TODOs were patched away.
 
