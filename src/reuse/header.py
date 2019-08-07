@@ -96,7 +96,7 @@ def find_and_replace_header(
 
     *text* is returned with a new header.
 
-    :raises CommentCreateError: TODO FIXME
+    :raises CommentCreateError: if a comment could not be created
     """
     try:
         header = style.comment_at_first_character(text)
@@ -179,9 +179,20 @@ def run(args, out=sys.stdout) -> int:
         with path.open("r") as fp:
             text = fp.read()
 
-        output = find_and_replace_header(text, spdx_info, style=style)
-
-        out.write(_("FIXME"))
+        try:
+            output = find_and_replace_header(text, spdx_info, style=style)
+        except CommentCreateError:
+            out.write(
+                _("Error: Could not create comment for {path}").format(
+                    path=path
+                )
+            )
+            out.write("\n")
+        else:
+            # TODO: This may need to be rephrased more elegantly.
+            out.write(
+                _("Successfully changed header of {path}").format(path=path)
+            )
 
         with path.open("w") as fp:
             fp.write(output)
