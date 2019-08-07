@@ -245,12 +245,17 @@ def _checksum(path: PathLike) -> str:
 class PathType:  # pylint: disable=too-few-public-methods
     """Factory for creating Paths"""
 
-    def __init__(self, mode="r", force_file=False):
+    def __init__(self, mode="r", force_file=False, force_directory=False):
         if mode in ("r", "w"):
             self._mode = mode
         else:
             raise ValueError("mode='{}' is not valid".format(mode))
         self._force_file = force_file
+        self._force_directory = force_directory
+        if self._force_file and self._force_directory:
+            raise ValueError(
+                "'force_file' and 'force_directory' cannot both be True"
+            )
 
     def __call__(self, string):
         path = Path(string)
@@ -262,6 +267,10 @@ class PathType:  # pylint: disable=too-few-public-methods
                     if self._force_file and not path.is_file():
                         raise ArgumentTypeError(
                             _("'{}' is not a file").format(path)
+                        )
+                    if self._force_directory and not path.is_dir():
+                        raise ArgumentTypeError(
+                            _("'{}' is not a directory").format(path)
                         )
                     return path
                 raise ArgumentTypeError(_("can't open '{}'").format(path))

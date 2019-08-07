@@ -10,7 +10,15 @@ import sys
 from gettext import gettext as _
 from typing import List
 
-from . import __REUSE_version__, __version__, download, header, lint, spdx
+from . import (
+    __REUSE_version__,
+    __version__,
+    download,
+    header,
+    init,
+    lint,
+    spdx,
+)
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import setup_logging
 
@@ -114,6 +122,14 @@ def parser() -> argparse.ArgumentParser:
                 "created."
             )
         ),
+    )
+
+    add_command(
+        subparsers,
+        "init",
+        init.add_arguments,
+        init.run,
+        help=_("initialize REUSE project"),
     )
 
     add_command(
