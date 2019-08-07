@@ -138,7 +138,28 @@ def parser() -> argparse.ArgumentParser:
         lint.add_arguments,
         lint.run,
         help=_("list all non-compliant files"),
-        description=fill_all(_("FIXME")),
+        description=fill_all(
+            _(
+                "Lint the directory or project directory for compliance with "
+                "version {reuse_version} of the REUSE Specification. You can "
+                "find the latest version of the specification at "
+                "<https://reuse.software/spec/>.\n"
+                "\n"
+                "Specifically, the following criteria are checked:\n"
+                "\n"
+                "- Are there any bad (unrecognised, not compliant with SPDX) "
+                "licenses in the project?\n"
+                "\n"
+                "- Are any licenses referred to inside of the project, but "
+                "not included in the LICENSES/ directory?\n"
+                "\n"
+                "- Are any licenses included in the LICENSES/ directory that "
+                "are not used inside of the project?\n"
+                "\n"
+                "- Do all files have valid copyright and licensing "
+                "information?\n"
+            )
+        ),
     )
 
     add_command(
