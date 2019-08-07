@@ -159,7 +159,6 @@ def test_find_and_replace_newline_before_header():
     assert find_and_replace_header(text, spdx_info) == expected
 
 
-@pytest.mark.xfail
 def test_find_and_replace_keep_shebang():
     """When encountering a shebang, keep it and put the REUSE header beneath
     it.
@@ -170,6 +169,7 @@ def test_find_and_replace_keep_shebang():
     text = cleandoc(
         """
         #!/usr/bin/env python3
+        # spdx-FileCopyrightText: Jane Doe
 
         pass
         """
@@ -177,7 +177,7 @@ def test_find_and_replace_keep_shebang():
     expected = cleandoc(
         """
         #!/usr/bin/env python3
-
+        # spdx-FileCopyrightText: Jane Doe
         # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
