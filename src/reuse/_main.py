@@ -138,7 +138,7 @@ def parser() -> argparse.ArgumentParser:
         lint.add_arguments,
         lint.run,
         help=_("list all non-compliant files"),
-        description=fill_all(_("TODO")),
+        description=fill_all(_("FIXME")),
     )
 
     add_command(
