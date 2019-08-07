@@ -19,7 +19,7 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
-## 0.4.1 - 2019-08-06
+## 0.4.1 - 2019-08-07
 
 ### Added
 
@@ -35,7 +35,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Some publicly visible TODOs were patched away.
 
-## 0.4.0 - 2019-08-06
+## 0.4.0 - 2019-08-07
 
 This release is a major overhaul and refactoring of the tool. Its
 primary focus is improved usability and speed, as well as adhering to version
