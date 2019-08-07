@@ -181,7 +181,7 @@ def run(args, out=sys.stdout) -> int:
 
         output = find_and_replace_header(text, spdx_info, style=style)
 
-        out.write(_("TODO"))
+        out.write(_("FIXME"))
 
         with path.open("w") as fp:
             fp.write(output)
