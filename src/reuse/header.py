@@ -96,7 +96,7 @@ def find_and_replace_header(
 
     *text* is returned with a new header.
 
-    :raises CommentCreateError: if a comment could not be created
+    :raises CommentCreateError: if a comment could not be created.
     """
     try:
         header = style.comment_at_first_character(text)
