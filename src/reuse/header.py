@@ -61,6 +61,7 @@ def create_header(
 
     :raises CommentCreateError: if a comment could not be created.
     """
+    new_header = ""
     if header:
         try:
             existing_spdx = extract_spdx_info(header)
@@ -75,7 +76,11 @@ def create_header(
             spdx_info.copyright_lines.union(existing_spdx.copyright_lines),
         )
 
-    return _create_new_header(spdx_info, style=style)
+        if header.startswith("#!"):
+            new_header = header.split("\n")[0] + "\n"
+
+    new_header += _create_new_header(spdx_info, style=style)
+    return new_header
 
 
 def find_and_replace_header(
