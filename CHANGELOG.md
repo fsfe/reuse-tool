@@ -19,6 +19,13 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- `--all` argument help to `reuse download`, which downloads all detected
+  missing licenses.
+
 ## 0.4.0 - 2019-08-06
 
 This release is a major overhaul and refactoring of the tool. Its

@@ -16,6 +16,8 @@ import requests
 
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import PathType, find_licenses_directory
+from .project import create_project
+from .report import ProjectReport
 
 # All raw text files are available as files underneath this path.
 _SPDX_REPOSITORY_BASE_URL = (
@@ -72,43 +74,79 @@ def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
-        "license", action="store", help=_("SPDX Identifier of license")
+        "license",
+        action="store",
+        nargs="*",
+        help=_("SPDX Identifier of license"),
+    )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help=_("download all missing licenses detected in the project"),
     )
     parser.add_argument("--output", "-o", action="store", type=PathType("w"))
 
 
 def run(args, out=sys.stdout) -> int:
     """Download license and place it in the LICENSES/ directory."""
-    destination = None
-    if args.output:
-        destination = args.output
-    else:
-        destination = _path_to_license_file(args.license)
 
-    try:
-        put_license_in_file(args.license, destination=destination)
-    except FileExistsError as err:
-        args.parser.error(
+    def _already_exists(path: PathLike):
+        out.write(
             _(
-                "Error: {spdx_identifier} already exists.\n".format(
-                    spdx_identifier=err.filename
+                "Error: {spdx_identifier} already exists.".format(
+                    spdx_identifier=path
                 )
             )
         )
-    except requests.RequestException:
-        message = "failed to download license, "
-        if args.license not in chain(LICENSE_MAP, EXCEPTION_MAP):
-            message += _("'{}' is not a valid SPDX identifier").format(
-                args.license
+        out.write("\n")
+
+    def _could_not_download(identifier: str):
+        out.write(_("Error: Failed to download license."))
+        out.write(" ")
+        if identifier not in chain(LICENSE_MAP, EXCEPTION_MAP):
+            out.write(
+                _("{} is not a valid SPDX Identifier.").format(identifier)
             )
         else:
-            message += _("is your internet connection working?")
-        args.parser.error(message)
+            out.write(_("Is your internet connection working?"))
+        out.write("\n")
 
-    out.write(
-        _(
-            "Successfully downloaded {spdx_identifier}.txt to "
-            "{destination}/.\n"
-        ).format(spdx_identifier=args.license, destination=destination.parent)
-    )
-    return 0
+    def _successfully_downloaded(destination: PathLike):
+        out.write(
+            _(
+                "Successfully downloaded {spdx_identifier}.".format(
+                    spdx_identifier=destination
+                )
+            )
+        )
+        out.write("\n")
+
+    if args.all:
+        project = create_project()
+        # FIXME: This is fairly inefficient, but gets the job done.
+        report = ProjectReport.generate(project)
+        licenses = report.missing_licenses
+    elif not args.license:
+        args.parser.error(_("the following arguments are required: license"))
+    elif len(args.license) > 1 and args.output:
+        args.parser.error(_("cannot use --output with more than one license"))
+    else:
+        licenses = args.license
+
+    return_code = 0
+    for lic in licenses:
+        if args.output:
+            destination = args.output
+        else:
+            destination = _path_to_license_file(lic)
+        try:
+            put_license_in_file(lic, destination=destination)
+        except requests.RequestException:
+            _could_not_download(lic)
+            return_code = 1
+        except FileExistsError as err:
+            _already_exists(err.filename)
+            return_code = 1
+        else:
+            _successfully_downloaded(destination)
+    return return_code
