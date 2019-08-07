@@ -6,12 +6,10 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 # reuse
 
-[![](https://img.shields.io/pypi/l/fsfe-reuse.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![](https://img.shields.io/pypi/v/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
 [![](https://img.shields.io/pypi/pyversions/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
 [![](https://reuse.software/badge/reuse-compliant.svg)](https://reuse.software/)
 [![](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
-[![](https://img.shields.io/pypi/status/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
 
 > reuse is a tool for compliance with the [REUSE](https://reuse.software/)
 > recommendations.
