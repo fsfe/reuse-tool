@@ -42,8 +42,7 @@ As a short summary, the recommendations are threefold:
 
 You are recommended to read the
 [recommendations](https://reuse.software/practices/) in full for more
-details. (IMPORTANT FIXME: These recommendations are currently out-of-date!
-See <https://github.com/fsfe/reuse-docs>.)
+details.
 
 This tool exists to facilitate the developer in complying with the above
 recommendations.
