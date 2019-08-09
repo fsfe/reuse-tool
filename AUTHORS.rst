@@ -18,6 +18,8 @@ Contributors
 
 - Sebastian Schuberth <schuberth@fsfe.org>
 
+- Kirill Elagin
+
 Translators
 -----------
 
