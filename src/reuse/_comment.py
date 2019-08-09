@@ -294,10 +294,26 @@ class LispCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class MlCommentStyle(CommentStyle):
+    """ML comment style."""
+
+    MULTI_LINE = ("(*", "*", "*)")
+    INDENT_BEFORE_MIDDLE = " "
+    INDENT_AFTER_MIDDLE = " "
+    INDENT_BEFORE_END = " "
+
+
 class PythonCommentStyle(CommentStyle):
     """Python comment style."""
 
     SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+
+
+class TexCommentStyle(CommentStyle):
+    """TeX comment style."""
+
+    SINGLE_LINE = "%"
     INDENT_AFTER_SINGLE = " "
 
 
@@ -311,24 +327,31 @@ COMMENT_STYLE_MAP = {
     ".cs": CCommentStyle,
     ".css": CssCommentStyle,
     ".d": CCommentStyle,
+    ".erl": TexCommentStyle,
     ".fs": CCommentStyle,
     ".h": CCommentStyle,
+    ".hrl": TexCommentStyle,
     ".hs": HaskellCommentStyle,
     ".html": HtmlCommentStyle,
     ".java": CCommentStyle,
     ".js": CCommentStyle,
     ".l": LispCommentStyle,
+    ".latex": TexCommentStyle,
     ".lisp": LispCommentStyle,
     ".lsp": LispCommentStyle,
     ".lua": HaskellCommentStyle,
     ".markdown": HtmlCommentStyle,
     ".md": HtmlCommentStyle,
+    ".ml": MlCommentStyle,
+    ".mli": MlCommentStyle,
     ".nim": PythonCommentStyle,
     ".php": CCommentStyle,
     ".pl": PythonCommentStyle,
     ".py": PythonCommentStyle,
     ".rb": PythonCommentStyle,
     ".rs": CCommentStyle,
+    ".sml": MlCommentStyle,
+    ".tex": TexCommentStyle,
     ".vala": CCommentStyle,
 }
 
@@ -338,5 +361,7 @@ NAME_STYLE_MAP = {
     "css": CssCommentStyle,
     "haskell": HaskellCommentStyle,
     "html": HtmlCommentStyle,
+    "ml": MlCommentStyle,
     "python": PythonCommentStyle,
+    "tex": TexCommentStyle,
 }
