@@ -335,6 +335,8 @@ COMMENT_STYLE_MAP = {
     ".css": CssCommentStyle,
     ".d": CCommentStyle,
     ".erl": TexCommentStyle,
+    ".ex": PythonCommentStyle,
+    ".exs": PythonCommentStyle,
     ".fs": CCommentStyle,
     ".h": CCommentStyle,
     ".hrl": TexCommentStyle,
@@ -352,14 +354,17 @@ COMMENT_STYLE_MAP = {
     ".ml": MlCommentStyle,
     ".mli": MlCommentStyle,
     ".nim": PythonCommentStyle,
+    ".nix": PythonCommentStyle,
     ".php": CCommentStyle,
     ".pl": PythonCommentStyle,
     ".py": PythonCommentStyle,
     ".rb": PythonCommentStyle,
     ".rs": CCommentStyle,
+    ".sh": PythonCommentStyle,
     ".sml": MlCommentStyle,
     ".tex": TexCommentStyle,
     ".vala": CCommentStyle,
+    ".zsh": PythonCommentStyle,
 }
 
 #: A map of human-friendly names against style classes.
