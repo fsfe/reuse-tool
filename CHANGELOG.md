@@ -19,6 +19,12 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- TeX and ML comment styles added.
+
 ## 0.4.1 - 2019-08-07
 
 ### Added
