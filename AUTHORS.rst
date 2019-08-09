@@ -20,6 +20,16 @@ Contributors
 
 - Kirill Elagin
 
+- Max Mehl <max.mehl@fsfe.org>
+
+- Matija Šuklje <hook@fsfe.org>
+
+- Greg Kroah-Hartman
+
+- Basil Peace
+
+- Keith Maxwell
+
 Translators
 -----------
 
