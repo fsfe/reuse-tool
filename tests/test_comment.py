@@ -4,7 +4,7 @@
 
 """All tests for reuse._comment"""
 
-# pylint: disable=protected-access
+# pylint: disable=protected-access,invalid-name,redefined-outer-name
 
 from inspect import cleandoc
 from textwrap import dedent
@@ -18,7 +18,68 @@ from reuse._comment import (
     CommentStyle,
     HtmlCommentStyle,
     PythonCommentStyle,
+    _all_style_classes,
 )
+
+
+@pytest.fixture(params=_all_style_classes())
+def Style(request):
+    """Yield the available Style classes."""
+    yield request.param
+
+
+def test_create_comment_generic_single(Style):
+    """Create a comment for all classes that support single-line comments."""
+    if not Style.can_handle_single():
+        pytest.skip("does not support single-line comments")
+    text = "Hello"
+    expected = f"{Style.SINGLE_LINE}{Style.INDENT_AFTER_SINGLE}Hello"
+
+    assert Style.create_comment(text) == expected
+
+
+def test_create_comment_generic_multi(Style):
+    """Create a comment for all classes that support multi-line comments."""
+    # pylint: disable=line-too-long
+    if not Style.can_handle_multi():
+        pytest.skip("does not support multi-line comments")
+    text = "Hello"
+    expected = cleandoc(
+        f"""
+        {Style.MULTI_LINE[0]}
+        {Style.INDENT_BEFORE_MIDDLE}{Style.MULTI_LINE[1]}{Style.INDENT_AFTER_MIDDLE}Hello
+        {Style.INDENT_BEFORE_END}{Style.MULTI_LINE[2]}
+        """
+    )
+
+    assert Style.create_comment(text, force_multi=True) == expected
+
+
+def test_parse_comment_generic_single(Style):
+    """Parse a comment for all classes that support single-line comments."""
+    if not Style.can_handle_single():
+        pytest.skip("does not support single-line comments")
+    text = f"{Style.SINGLE_LINE}{Style.INDENT_AFTER_SINGLE}Hello"
+    expected = "Hello"
+
+    assert Style.parse_comment(text) == expected
+
+
+def test_parse_comment_generic_multi(Style):
+    """Parse a comment for all classes that support multi-line comments."""
+    # pylint: disable=line-too-long
+    if not Style.can_handle_multi():
+        pytest.skip("does not support multi-line comments")
+    text = cleandoc(
+        f"""
+        {Style.MULTI_LINE[0]}
+        {Style.INDENT_BEFORE_MIDDLE}{Style.MULTI_LINE[1]}{Style.INDENT_AFTER_MIDDLE}Hello
+        {Style.INDENT_BEFORE_END}{Style.MULTI_LINE[2]}
+        """
+    )
+    expected = "Hello"
+
+    assert Style.parse_comment(text) == expected
 
 
 def test_base_class_throws_errors():

@@ -7,7 +7,9 @@ headers, in any case.
 """
 
 import logging
+import operator
 from textwrap import dedent
+from typing import List
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,21 +25,25 @@ class CommentCreateError(Exception):
 class CommentStyle:
     """Base class for comment style."""
 
-    SINGLE_LINE = None
+    SINGLE_LINE = ""
     INDENT_AFTER_SINGLE = ""
     # (start, middle, end)
     # e.g., ("/*", "*", "*/")
-    MULTI_LINE = (None, None, None)
+    MULTI_LINE = ("", "", "")
     INDENT_BEFORE_MIDDLE = ""
     INDENT_AFTER_MIDDLE = ""
     INDENT_BEFORE_END = ""
 
     @classmethod
-    def _can_handle_single(cls):
-        return cls.SINGLE_LINE is not None
+    def can_handle_single(cls) -> bool:
+        """Whether the :class:`CommentStyle` can handle single-line comments.
+        """
+        return bool(cls.SINGLE_LINE)
 
     @classmethod
-    def _can_handle_multi(cls):
+    def can_handle_multi(cls) -> bool:
+        """Whether the :class:`CommentStyle` can handle multi-line comments.
+        """
         return all((cls.MULTI_LINE[0], cls.MULTI_LINE[2]))
 
     @classmethod
@@ -48,7 +54,7 @@ class CommentStyle:
         :raises CommentCreateError: if *text* could not be commented.
         """
         text = text.strip("\n")
-        if force_multi or not cls._can_handle_single():
+        if force_multi or not cls.can_handle_single():
             return cls._create_comment_multi(text)
         return cls._create_comment_single(text)
 
@@ -58,7 +64,7 @@ class CommentStyle:
 
         :raises CommentCreateError: if *text* could not be commented.
         """
-        if not cls._can_handle_single():
+        if not cls.can_handle_single():
             raise CommentCreateError(
                 "{} cannot create single-line comments".format(cls)
             )
@@ -77,7 +83,7 @@ class CommentStyle:
 
         :raises CommentCreateError: if *text* could not be commented.
         """
-        if not cls._can_handle_multi():
+        if not cls.can_handle_multi():
             raise CommentCreateError(
                 "{} cannot create multi-line comments".format(cls)
             )
@@ -118,7 +124,7 @@ class CommentStyle:
 
         :raises CommentParseError: if *text* could not be parsed.
         """
-        if not cls._can_handle_single():
+        if not cls.can_handle_single():
             raise CommentParseError(
                 "{} cannot parse single-line comments".format(cls)
             )
@@ -142,7 +148,7 @@ class CommentStyle:
 
         :raises CommentParseError: if *text* could not be parsed.
         """
-        if not cls._can_handle_multi():
+        if not cls.can_handle_multi():
             raise CommentParseError(
                 "{} cannot parse multi-line comments".format(cls)
             )
@@ -211,19 +217,19 @@ class CommentStyle:
         :raises CommentParseError: if *text* does not start with a parseable
         comment block.
         """
-        if not any((cls._can_handle_single(), cls._can_handle_multi())):
+        if not any((cls.can_handle_single(), cls.can_handle_multi())):
             raise CommentParseError("{} cannot parse comments".format(cls))
 
         lines = text.splitlines()
 
-        if cls._can_handle_single() and text.startswith(cls.SINGLE_LINE):
+        if cls.can_handle_single() and text.startswith(cls.SINGLE_LINE):
             end = 0
             for i, line in enumerate(lines):
                 if not line.startswith(cls.SINGLE_LINE):
                     break
                 end = i
             return "\n".join(lines[0 : end + 1])
-        if cls._can_handle_multi() and text.startswith(cls.MULTI_LINE[0]):
+        if cls.can_handle_multi() and text.startswith(cls.MULTI_LINE[0]):
             end = 0
             for i, line in enumerate(lines):
                 end = i
@@ -284,7 +290,7 @@ class HaskellCommentStyle(CommentStyle):
 class HtmlCommentStyle(CommentStyle):
     """HTML comment style."""
 
-    MULTI_LINE = ("<!--", None, "-->")
+    MULTI_LINE = ("<!--", "", "-->")
 
 
 class LispCommentStyle(CommentStyle):
@@ -365,3 +371,12 @@ NAME_STYLE_MAP = {
     "python": PythonCommentStyle,
     "tex": TexCommentStyle,
 }
+
+
+def _all_style_classes() -> List[CommentStyle]:
+    """Return a list of all defined style classes, excluding the base class."""
+    result = []
+    for key, value in globals().items():
+        if key.endswith("CommentStyle") and key != "CommentStyle":
+            result.append(value)
+    return sorted(result, key=operator.attrgetter("__name__"))
