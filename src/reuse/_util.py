@@ -218,7 +218,7 @@ def extract_spdx_info(text: str) -> None:
     return SpdxInfo(expressions, copyright_matches)
 
 
-def make_copyright_line(statement: str) -> str:
+def make_copyright_line(statement: str, year: str = None) -> str:
     """Given a statement, prefix it with ``SPDX-FileCopyrightText:`` if it is
     not already prefixed with some manner of copyright tag.
     """
@@ -228,6 +228,8 @@ def make_copyright_line(statement: str) -> str:
         match = pattern.search(statement)
         if match is not None:
             return statement
+    if year is not None:
+        return f"SPDX-FileCopyrightText: {year} {statement}"
     return f"SPDX-FileCopyrightText: {statement}"
 
 
