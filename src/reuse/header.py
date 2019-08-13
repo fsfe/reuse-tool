@@ -4,6 +4,7 @@
 
 """Functions for manipulating the comment headers of files."""
 
+import datetime
 import sys
 from gettext import gettext as _
 
@@ -117,6 +118,19 @@ def find_and_replace_header(
     return new_header + text
 
 
+def _verify_paths_supported(paths, parser):
+    for path in paths:
+        try:
+            COMMENT_STYLE_MAP[path.suffix]
+        except KeyError:
+            parser.error(
+                _(
+                    "'{}' does not have a recognised file extension, "
+                    "please use --style".format(path)
+                )
+            )
+
+
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -134,11 +148,24 @@ def add_arguments(parser) -> None:
         help=_("SPDX Identifier, repeatable"),
     )
     parser.add_argument(
+        "--year",
+        "-y",
+        action="store",
+        type=str,
+        help=_("year of copyright statement, optional"),
+    )
+    parser.add_argument(
         "--style",
+        "-s",
         action="store",
         type=str,
         choices=list(NAME_STYLE_MAP),
         help=_("comment style to use"),
+    )
+    parser.add_argument(
+        "--exclude-year",
+        action="store_true",
+        help=_("do not include current or specified year in statement"),
     )
     parser.add_argument("path", action="store", nargs="+", type=PathType("w"))
 
@@ -148,27 +175,30 @@ def run(args, out=sys.stdout) -> int:
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
+    if args.exclude_year and args.year:
+        args.parser.error(
+            _("option --exclude-year and --year are mutually exclusive")
+        )
+
+    # First loop to verify before proceeding
+    if args.style is None:
+        _verify_paths_supported(args.path, args.parser)
+
+    year = None
+    if not args.exclude_year:
+        if args.year:
+            year = args.year
+        else:
+            year = datetime.date.today().year
+
     expressions = set(args.license) if args.license is not None else set()
     copyright_lines = (
-        set(make_copyright_line(x) for x in args.copyright)
+        set(make_copyright_line(x, year=year) for x in args.copyright)
         if args.copyright is not None
         else set()
     )
 
     spdx_info = SpdxInfo(expressions, copyright_lines)
-
-    # First loop to verify before proceeding
-    if args.style is None:
-        for path in args.path:
-            try:
-                style = COMMENT_STYLE_MAP[path.suffix]
-            except KeyError:
-                args.parser.error(
-                    _(
-                        "'{}' does not have a recognised file extension, "
-                        "please use --style".format(path)
-                    )
-                )
 
     for path in args.path:
         if args.style is not None:

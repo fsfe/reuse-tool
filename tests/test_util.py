@@ -114,6 +114,14 @@ def test_make_copyright_line_simple():
     )
 
 
+def test_make_copyright_line_year():
+    """Given a simple statement and a year, make it a copyright line."""
+    assert (
+        _util.make_copyright_line("hello", year="2019") == "SPDX"
+        "-FileCopyrightText: 2019 hello"
+    )
+
+
 def test_make_copyright_line_existing_spdx_copyright():
     """Given a copyright line, do nothing."""
     value = "SPDX" "-FileCopyrightText: hello"
