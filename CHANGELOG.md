@@ -32,6 +32,9 @@ The versions follow [semantic versioning](https://semver.org).
 - `reuse addheader` now automatically adds the current year to the copyright
   notice.
 
+- `reuse addheader` preserves the original header below the new header if it did
+  not contain any SPDX information.
+
 ## 0.4.1 - 2019-08-07
 
 ### Added
