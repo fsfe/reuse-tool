@@ -6,6 +6,7 @@
 
 # pylint: disable=redefined-outer-name
 
+import datetime
 import errno
 import os
 from inspect import cleandoc
@@ -25,6 +26,14 @@ def mock_put_license_in_file(monkeypatch):
     result = create_autospec(download.put_license_in_file)
     monkeypatch.setattr(download, "put_license_in_file", result)
     return result
+
+
+@pytest.fixture()
+def mock_date_today(monkeypatch):
+    """Mock away datetime.date.today to always return 2018."""
+    date = create_autospec(datetime.date)
+    date.today.return_value = datetime.date(2018, 1, 1)
+    monkeypatch.setattr(datetime, "date", date)
 
 
 def test_lint(
@@ -146,14 +155,84 @@ def test_download_custom_output_too_many(
 
 
 # TODO: Replace this test with a monkeypatched test
-def test_addheader_simple(fake_repository, stringio):
+def test_addheader_simple(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one."""
+    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
     result = main(
         [
             "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_year(fake_repository, stringio):
+    """Add a header to a file with a custom year."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--year",
+            "2016",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2016 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_year(fake_repository, stringio):
+    """Add a header to a file without a year."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--exclude-year",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -178,8 +257,9 @@ def test_addheader_simple(fake_repository, stringio):
     )
 
 
-def test_addheader_specify_style(fake_repository, stringio):
+def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one, using a custom style."""
+    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
@@ -202,7 +282,7 @@ def test_addheader_specify_style(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            // spdx-FileCopyrightText: Mary Sue
+            // spdx-FileCopyrightText: 2018 Mary Sue
             //
             // spdx-License-Identifier: GPL-3.0-or-later
 
@@ -212,8 +292,9 @@ def test_addheader_specify_style(fake_repository, stringio):
     )
 
 
-def test_addheader_implicit_style(fake_repository, stringio):
+def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that has a recognised extension."""
+    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.js"
     simple_file.write_text("pass")
 
@@ -234,7 +315,7 @@ def test_addheader_implicit_style(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            // spdx-FileCopyrightText: Mary Sue
+            // spdx-FileCopyrightText: 2018 Mary Sue
             //
             // spdx-License-Identifier: GPL-3.0-or-later
 

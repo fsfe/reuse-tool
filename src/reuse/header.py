@@ -4,6 +4,7 @@
 
 """Functions for manipulating the comment headers of files."""
 
+import datetime
 import sys
 from gettext import gettext as _
 
@@ -134,11 +135,24 @@ def add_arguments(parser) -> None:
         help=_("SPDX Identifier, repeatable"),
     )
     parser.add_argument(
+        "--year",
+        "-y",
+        action="store",
+        type=str,
+        help=_("year of copyright statement, optional"),
+    )
+    parser.add_argument(
         "--style",
+        "-s",
         action="store",
         type=str,
         choices=list(NAME_STYLE_MAP),
         help=_("comment style to use"),
+    )
+    parser.add_argument(
+        "--exclude-year",
+        action="store_true",
+        help=_("do not include current or specified year in statement"),
     )
     parser.add_argument("path", action="store", nargs="+", type=PathType("w"))
 
@@ -148,9 +162,21 @@ def run(args, out=sys.stdout) -> int:
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
+    if args.exclude_year and args.year:
+        args.parser.error(
+            _("option --exclude-year and --year are mutually exclusive")
+        )
+
+    year = None
+    if not args.exclude_year:
+        if args.year:
+            year = args.year
+        else:
+            year = datetime.date.today().year
+
     expressions = set(args.license) if args.license is not None else set()
     copyright_lines = (
-        set(make_copyright_line(x) for x in args.copyright)
+        set(make_copyright_line(x, year=year) for x in args.copyright)
         if args.copyright is not None
         else set()
     )
