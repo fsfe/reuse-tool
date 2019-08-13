@@ -17,7 +17,7 @@ jobs=0
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=redefined-builtin,C0330
+disable=redefined-builtin,C0330,duplicate-code
 
 [REPORTS]
 
