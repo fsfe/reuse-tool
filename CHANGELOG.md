@@ -25,6 +25,13 @@ The versions follow [semantic versioning](https://semver.org).
 
 - TeX and ML comment styles added.
 
+- Added `--year` and `--exclude-year` to `reuse addheader`.
+
+### Changed
+
+- `reuse addheader` now automatically adds the current year to the copyright
+  notice.
+
 ## 0.4.1 - 2019-08-07
 
 ### Added
