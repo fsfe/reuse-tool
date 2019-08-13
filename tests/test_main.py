@@ -125,7 +125,7 @@ def test_download_invalid_spdx(
     result = main(["download", "does-not-exist"], out=stringio)
 
     assert result == 1
-    assert "not a valid SPDX Identifier" in stringio.getvalue()
+    assert "not a valid SPDX License Identifier" in stringio.getvalue()
 
 
 def test_download_custom_output(

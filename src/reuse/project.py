@@ -192,8 +192,9 @@ class Project:
         return False
 
     def _identifier_of_license(self, path: PathLike) -> str:
-        """Figure out the SPDX identifier of a license given its path. The name
-        of the path (minus its extension) should be a valid SPDX identifier.
+        """Figure out the SPDX License identifier of a license given its path.
+        The name of the path (minus its extension) should be a valid SPDX
+        License Identifier.
         """
         if path.stem in self.license_map:
             return path.stem
@@ -201,7 +202,7 @@ class Project:
             return path.stem
 
         raise IdentifierNotFound(
-            "Could not find SPDX identifier for {}".format(path)
+            "Could not find SPDX License Identifier for {}".format(path)
         )
 
     @property
@@ -259,7 +260,7 @@ class Project:
                 unknown_counter += 1
                 _LOGGER.warning(
                     _(
-                        "Could not resolve SPDX identifier of {path}, "
+                        "Could not resolve SPDX License Identifier of {path}, "
                         "resolving to {identifier}. Make sure the license is "
                         "in the license list found at "
                         "<https://spdx.org/licenses/> or that it starts with "
@@ -270,7 +271,7 @@ class Project:
             if identifier in license_files:
                 _LOGGER.critical(
                     _(
-                        "{identifier} is the SPDX identifier of both "
+                        "{identifier} is the SPDX License Identifier of both "
                         "{path} and {other_path}"
                     ).format(
                         identifier=identifier,
