@@ -105,7 +105,14 @@ def run(args, out=sys.stdout) -> int:
         out.write(" ")
         if identifier not in chain(LICENSE_MAP, EXCEPTION_MAP):
             out.write(
-                _("{} is not a valid SPDX Identifier.").format(identifier)
+                _("'{}' is not a valid SPDX Identifier.").format(identifier)
+            )
+            out.write("\n")
+            out.write(
+                _(
+                    "See <https://spdx.org/licenses/> for a list of valid "
+                    "SPDX License Identifiers."
+                )
             )
         else:
             out.write(_("Is your internet connection working?"))

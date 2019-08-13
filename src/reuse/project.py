@@ -260,7 +260,10 @@ class Project:
                 _LOGGER.warning(
                     _(
                         "Could not resolve SPDX identifier of {path}, "
-                        "resolving to {identifier}"
+                        "resolving to {identifier}. Make sure the license is "
+                        "in the license list found at "
+                        "<https://spdx.org/licenses/> or that it starts with "
+                        "'LicenseRef-', and that it has a file extension."
                     ).format(path=path, identifier=identifier)
                 )
 
