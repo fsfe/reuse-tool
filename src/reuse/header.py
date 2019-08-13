@@ -103,11 +103,18 @@ def find_and_replace_header(
         header = style.comment_at_first_character(text)
     except CommentParseError:
         # TODO: Log this
-        header = None
+        header = ""
+
+    # TODO: This is a duplicated check that also happens inside of
+    # create_header.
+    try:
+        existing_spdx = extract_spdx_info(header)
+    except (ExpressionError, ParseError):
+        existing_spdx = SpdxInfo(set(), set())
 
     new_header = create_header(spdx_info, header, style=style)
 
-    if header:
+    if header and any(existing_spdx):
         text = text.replace(header, "", 1)
     else:
         # Some extra spacing for the new header.

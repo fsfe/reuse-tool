@@ -189,7 +189,6 @@ def test_find_and_replace_keep_shebang():
     assert find_and_replace_header(text, spdx_info) == expected
 
 
-@pytest.mark.xfail
 def test_find_and_replace_keep_old_comment():
     """When encountering a comment that does not contain copyright and
     licensing information, preserve it below the REUSE header.
