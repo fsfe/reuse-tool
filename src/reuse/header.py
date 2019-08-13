@@ -105,6 +105,8 @@ def find_and_replace_header(
         # TODO: Log this
         header = ""
 
+    # TODO: This is a duplicated check that also happens inside of
+    # create_header.
     try:
         existing_spdx = extract_spdx_info(header)
     except (ExpressionError, ParseError):
