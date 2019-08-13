@@ -9,6 +9,7 @@ import sys
 from gettext import gettext as _
 
 from boolean.boolean import ParseError
+from jinja2 import Environment, PackageLoader, Template
 from license_expression import ExpressionError
 
 from . import SpdxInfo
@@ -27,34 +28,38 @@ from ._util import (
     spdx_identifier,
 )
 
+_ENV = Environment(
+    loader=PackageLoader("reuse", "templates"), trim_blocks=True
+)
+DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
+
 
 # TODO: Add a template here maybe.
 def _create_new_header(
-    spdx_info: SpdxInfo, style: CommentStyle = PythonCommentStyle
+    spdx_info: SpdxInfo, template: Template = None, style: CommentStyle = None
 ) -> str:
     """Format a new header from scratch.
 
     :raises CommentCreateError: if a comment could not be created.
     """
-    result = "\n\n".join(
-        (
-            "\n".join(sorted(spdx_info.copyright_lines)),
-            "\n".join(
-                (
-                    "SPDX" "-License-Identifier: " + expr
-                    for expr in sorted(map(str, spdx_info.spdx_expressions))
-                )
-            ),
-        )
+    if template is None:
+        template = DEFAULT_TEMPLATE
+    if style is None:
+        style = PythonCommentStyle
+
+    result = template.render(
+        copyright_lines=sorted(spdx_info.copyright_lines),
+        spdx_expressions=sorted(map(str, spdx_info.spdx_expressions)),
     )
+
     return style.create_comment(result)
 
 
-# TODO: Add a template here maybe.
 def create_header(
     spdx_info: SpdxInfo,
     header: str = None,
-    style: CommentStyle = PythonCommentStyle,
+    template: Template = None,
+    style: CommentStyle = None,
 ) -> str:
     """Create a header containing *spdx_info*. *header* is an optional argument
     containing a header which should be modified to include *spdx_info*. If
@@ -62,6 +67,11 @@ def create_header(
 
     :raises CommentCreateError: if a comment could not be created.
     """
+    if template is None:
+        template = DEFAULT_TEMPLATE
+    if style is None:
+        style = PythonCommentStyle
+
     new_header = ""
     if header:
         try:
@@ -80,15 +90,19 @@ def create_header(
         if header.startswith("#!"):
             new_header = header.split("\n")[0] + "\n"
 
-    new_header += _create_new_header(spdx_info, style=style)
+    new_header += _create_new_header(spdx_info, template=template, style=style)
     return new_header
 
 
 def find_and_replace_header(
-    text: str, spdx_info: SpdxInfo, style: CommentStyle = PythonCommentStyle
+    text: str,
+    spdx_info: SpdxInfo,
+    template: Template = None,
+    style: CommentStyle = None,
 ) -> str:
     """Find the comment block starting at the first character in *text*. That
-    comment block is replaced by a new comment block containing *spdx_info*.
+    comment block is replaced by a new comment block containing *spdx_info*. It
+    is formatted as according to *template*.
 
     If the comment block already contained some SPDX information, that
     information is merged into *spdx_info*.
@@ -99,6 +113,11 @@ def find_and_replace_header(
 
     :raises CommentCreateError: if a comment could not be created.
     """
+    if template is None:
+        template = DEFAULT_TEMPLATE
+    if style is None:
+        style = PythonCommentStyle
+
     try:
         header = style.comment_at_first_character(text)
     except CommentParseError:
@@ -112,7 +131,9 @@ def find_and_replace_header(
     except (ExpressionError, ParseError):
         existing_spdx = SpdxInfo(set(), set())
 
-    new_header = create_header(spdx_info, header, style=style)
+    new_header = create_header(
+        spdx_info, header, template=template, style=style
+    )
 
     if header and any(existing_spdx):
         text = text.replace(header, "", 1)
@@ -170,6 +191,13 @@ def add_arguments(parser) -> None:
         help=_("comment style to use"),
     )
     parser.add_argument(
+        "--template",
+        "-t",
+        action="store",
+        type=str,
+        help=_("name of template to use"),
+    )
+    parser.add_argument(
         "--exclude-year",
         action="store_true",
         help=_("do not include current or specified year in statement"),
@@ -190,6 +218,9 @@ def run(args, out=sys.stdout) -> int:
     # First loop to verify before proceeding
     if args.style is None:
         _verify_paths_supported(args.path, args.parser)
+
+    # TODO: Take template from --template
+    template = None
 
     year = None
     if not args.exclude_year:
@@ -217,7 +248,9 @@ def run(args, out=sys.stdout) -> int:
             text = fp.read()
 
         try:
-            output = find_and_replace_header(text, spdx_info, style=style)
+            output = find_and_replace_header(
+                text, spdx_info, template=template, style=style
+            )
         except CommentCreateError:
             out.write(
                 _("Error: Could not create comment for {path}").format(
