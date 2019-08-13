@@ -118,6 +118,19 @@ def find_and_replace_header(
     return new_header + text
 
 
+def _verify_paths_supported(paths, parser):
+    for path in paths:
+        try:
+            COMMENT_STYLE_MAP[path.suffix]
+        except KeyError:
+            parser.error(
+                _(
+                    "'{}' does not have a recognised file extension, "
+                    "please use --style".format(path)
+                )
+            )
+
+
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -167,6 +180,10 @@ def run(args, out=sys.stdout) -> int:
             _("option --exclude-year and --year are mutually exclusive")
         )
 
+    # First loop to verify before proceeding
+    if args.style is None:
+        _verify_paths_supported(args.path, args.parser)
+
     year = None
     if not args.exclude_year:
         if args.year:
@@ -182,19 +199,6 @@ def run(args, out=sys.stdout) -> int:
     )
 
     spdx_info = SpdxInfo(expressions, copyright_lines)
-
-    # First loop to verify before proceeding
-    if args.style is None:
-        for path in args.path:
-            try:
-                style = COMMENT_STYLE_MAP[path.suffix]
-            except KeyError:
-                args.parser.error(
-                    _(
-                        "'{}' does not have a recognised file extension, "
-                        "please use --style".format(path)
-                    )
-                )
 
     for path in args.path:
         if args.style is not None:

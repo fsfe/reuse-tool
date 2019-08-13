@@ -223,7 +223,7 @@ def test_addheader_year(fake_repository, stringio):
     )
 
 
-def test_addheader_year(fake_repository, stringio):
+def test_addheader_no_year(fake_repository, stringio):
     """Add a header to a file without a year."""
     # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
