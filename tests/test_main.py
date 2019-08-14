@@ -350,3 +350,70 @@ def test_addheader_no_copyright_or_license(fake_repository):
 
     with pytest.raises(SystemExit):
         main(["addheader", "foo.py"])
+
+
+def test_addheader_template_simple(
+    fake_repository, stringio, mock_date_today, template_simple_source
+):
+    """Add a header with a custom template."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_simple_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate.jinja2",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # Hello, world!
+            #
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+@pytest.mark.xfail
+def test_addheader_template_no_spdx(fake_repository, template_no_spdx_source):
+    """Add a header with a template that lacks SPDX info."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_no_spdx_source)
+
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--template",
+                "mytemplate.jinja2",
+                "foo.py",
+            ]
+        )

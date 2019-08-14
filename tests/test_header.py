@@ -2,7 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# pylint: disable=redefined-outer-name
+
 """All tests for reuse.header"""
+
+# pylint: disable=implicit-str-concat-in-sequence
 
 from inspect import cleandoc
 
@@ -11,8 +15,6 @@ import pytest
 from reuse import SpdxInfo
 from reuse._comment import CommentCreateError
 from reuse.header import create_header, find_and_replace_header
-
-# pylint: disable=implicit-str-concat-in-sequence
 
 
 def test_create_header_simple():
@@ -29,6 +31,24 @@ def test_create_header_simple():
     ).replace("spdx", "SPDX")
 
     assert create_header(spdx_info) == expected
+
+
+def test_create_header_custom_template(template_simple):
+    """Create a super simple header."""
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+    expected = cleandoc(
+        """
+        # Hello, world!
+        #
+        # spdx-FileCopyrightText: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
+
+    assert create_header(spdx_info, template=template_simple) == expected
 
 
 def test_create_header_already_contains_spdx():

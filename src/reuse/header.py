@@ -9,7 +9,7 @@ import sys
 from gettext import gettext as _
 
 from boolean.boolean import ParseError
-from jinja2 import Environment, PackageLoader, Template
+from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
 from license_expression import ExpressionError
 
 from . import SpdxInfo
@@ -27,6 +27,7 @@ from ._util import (
     make_copyright_line,
     spdx_identifier,
 )
+from .project import create_project
 
 _ENV = Environment(
     loader=PackageLoader("reuse", "templates"), trim_blocks=True
@@ -221,6 +222,13 @@ def run(args, out=sys.stdout) -> int:
 
     # TODO: Take template from --template
     template = None
+    if args.template:
+        project = create_project()
+        env = Environment(
+            loader=FileSystemLoader(str(project.root / ".reuse/templates")),
+            trim_blocks=True,
+        )
+        template = env.get_template(args.template)
 
     year = None
     if not args.exclude_year:
