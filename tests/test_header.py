@@ -14,7 +14,11 @@ import pytest
 
 from reuse import SpdxInfo
 from reuse._comment import CommentCreateError
-from reuse.header import create_header, find_and_replace_header
+from reuse.header import (
+    MissingSpdxInfo,
+    create_header,
+    find_and_replace_header,
+)
 
 
 def test_create_header_simple():
@@ -33,8 +37,8 @@ def test_create_header_simple():
     assert create_header(spdx_info) == expected
 
 
-def test_create_header_custom_template(template_simple):
-    """Create a super simple header."""
+def test_create_header_teplate_simple(template_simple):
+    """Create a header with a simple template."""
     spdx_info = SpdxInfo(
         set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
@@ -49,6 +53,16 @@ def test_create_header_custom_template(template_simple):
     ).replace("spdx", "SPDX")
 
     assert create_header(spdx_info, template=template_simple) == expected
+
+
+def test_create_header_template_no_spdx(template_no_spdx):
+    """Create a header with a template that does not have all SPDX info."""
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+
+    with pytest.raises(MissingSpdxInfo):
+        create_header(spdx_info, template=template_no_spdx)
 
 
 def test_create_header_already_contains_spdx():
