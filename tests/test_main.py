@@ -420,3 +420,24 @@ def test_addheader_template_no_spdx(
     )
 
     assert result == 1
+
+
+def test_addheader_template_nonexistant(fake_repository):
+    """Raise an error when using a header that does not exist."""
+
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--template",
+                "mytemplate.jinja2",
+                "foo.py",
+            ]
+        )

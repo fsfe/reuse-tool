@@ -11,6 +11,7 @@ from gettext import gettext as _
 
 from boolean.boolean import ParseError
 from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
+from jinja2.exceptions import TemplateNotFound
 from license_expression import ExpressionError
 
 from . import SpdxInfo
@@ -258,8 +259,14 @@ def run(args, out=sys.stdout) -> int:
             loader=FileSystemLoader(str(project.root / ".reuse/templates")),
             trim_blocks=True,
         )
-        # FIXME: Verify this
-        template = env.get_template(args.template)
+        try:
+            template = env.get_template(args.template)
+        except TemplateNotFound:
+            args.parser.error(
+                _("template {template} could not be found").format(
+                    template=args.template
+                )
+            )
 
     year = None
     if not args.exclude_year:
