@@ -8,7 +8,9 @@ import datetime
 import logging
 import sys
 from gettext import gettext as _
+from os import PathLike
 from pathlib import Path
+from typing import Optional
 
 from boolean.boolean import ParseError
 from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
@@ -30,7 +32,7 @@ from ._util import (
     make_copyright_line,
     spdx_identifier,
 )
-from .project import create_project, Project
+from .project import Project, create_project
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -242,6 +244,58 @@ def _find_template(project: Project, name: str) -> Template:
     raise TemplateNotFound(name)
 
 
+def _add_header_to_file(
+    path: PathLike,
+    spdx_info: SpdxInfo,
+    template: Template,
+    template_is_commented: bool,
+    style: Optional[str],
+    out=sys.stdout,
+) -> int:
+    """Helper function."""
+    # pylint: disable=too-many-arguments
+    result = 0
+    if style is not None:
+        style = NAME_STYLE_MAP[style]
+    else:
+        style = COMMENT_STYLE_MAP[path.suffix]
+
+    with path.open("r") as fp:
+        text = fp.read()
+
+    try:
+        output = find_and_replace_header(
+            text,
+            spdx_info,
+            template=template,
+            template_is_commented=template_is_commented,
+            style=style,
+        )
+    except CommentCreateError:
+        out.write(
+            _("Error: Could not create comment for '{path}'").format(path=path)
+        )
+        out.write("\n")
+        result = 1
+    except MissingSpdxInfo:
+        out.write(
+            _(
+                "Error: Generated comment header for '{path}' is missing "
+                "copyright lines or license expressions. The template is "
+                "probably incorrect. Did not write new header."
+            ).format(path=path)
+        )
+        out.write("\n")
+        result = 1
+    else:
+        with path.open("w") as fp:
+            fp.write(output)
+        # TODO: This may need to be rephrased more elegantly.
+        out.write(_("Successfully changed header of {path}").format(path=path))
+
+    return result
+
+
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -336,46 +390,8 @@ def run(args, out=sys.stdout) -> int:
 
     result = 0
     for path in args.path:
-        if args.style is not None:
-            style = NAME_STYLE_MAP[args.style]
-        else:
-            style = COMMENT_STYLE_MAP[path.suffix]
+        result += _add_header_to_file(
+            path, spdx_info, template, commented, args.style, out
+        )
 
-        with path.open("r") as fp:
-            text = fp.read()
-
-        try:
-            output = find_and_replace_header(
-                text,
-                spdx_info,
-                template=template,
-                template_is_commented=commented,
-                style=style,
-            )
-        except CommentCreateError:
-            out.write(
-                _("Error: Could not create comment for '{path}'").format(
-                    path=path
-                )
-            )
-            out.write("\n")
-            result = 1
-        except MissingSpdxInfo:
-            out.write(
-                _(
-                    "Error: Generated comment header for '{path}' is missing "
-                    "copyright lines or license expressions. The template is "
-                    "probably incorrect. Did not write new header."
-                ).format(path=path)
-            )
-            out.write("\n")
-            result = 1
-        else:
-            with path.open("w") as fp:
-                fp.write(output)
-            # TODO: This may need to be rephrased more elegantly.
-            out.write(
-                _("Successfully changed header of {path}").format(path=path)
-            )
-
-    return result
+    return min(result, 1)
