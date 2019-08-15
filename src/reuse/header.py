@@ -192,6 +192,31 @@ def _verify_paths_supported(paths, parser):
             )
 
 
+def _find_template(name: str) -> Template:
+    """Find a template given a name.
+
+    :raises TemplateNotFound: if template could not be found.
+    """
+    project = create_project()
+    template_dir = project.root / ".reuse/templates"
+    env = Environment(
+        loader=FileSystemLoader(str(template_dir)), trim_blocks=True
+    )
+
+    names = [name]
+    if not name.endswith(".jinja2"):
+        names.append(f"{name}.jinja2")
+    if not name.endswith(".commented.jinja2"):
+        names.append(f"{name}.commented.jinja2")
+
+    for item in names:
+        try:
+            return env.get_template(item)
+        except TemplateNotFound:
+            pass
+    raise TemplateNotFound(name)
+
+
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -254,13 +279,8 @@ def run(args, out=sys.stdout) -> int:
 
     template = None
     if args.template:
-        project = create_project()
-        env = Environment(
-            loader=FileSystemLoader(str(project.root / ".reuse/templates")),
-            trim_blocks=True,
-        )
         try:
-            template = env.get_template(args.template)
+            template = _find_template(args.template)
         except TemplateNotFound:
             args.parser.error(
                 _("template {template} could not be found").format(

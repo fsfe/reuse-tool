@@ -441,3 +441,46 @@ def test_addheader_template_nonexistant(fake_repository):
                 "foo.py",
             ]
         )
+
+
+def test_addheader_template_without_extension(
+    fake_repository, stringio, mock_date_today, template_simple_source
+):
+
+    """Find the correct header even when not using an extension."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_simple_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # Hello, world!
+            #
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
