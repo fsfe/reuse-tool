@@ -13,7 +13,7 @@ from inspect import cleandoc
 import pytest
 
 from reuse import SpdxInfo
-from reuse._comment import CommentCreateError
+from reuse._comment import CommentCreateError, CCommentStyle
 from reuse.header import (
     MissingSpdxInfo,
     create_header,
@@ -82,7 +82,10 @@ def test_create_header_template_commented(template_commented):
 
     assert (
         create_header(
-            spdx_info, template=template_commented, template_is_commented=True
+            spdx_info,
+            template=template_commented,
+            template_is_commented=True,
+            style=CCommentStyle,
         )
         == expected
     )
