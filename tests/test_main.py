@@ -422,6 +422,50 @@ def test_addheader_template_no_spdx(
     assert result == 1
 
 
+def test_addheader_template_commented(
+    fake_repository, stringio, mock_date_today, template_commented_source
+):
+    """Add a header with a custom template that is already commented."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.c"
+    simple_file.write_text("pass")
+    template_file = (
+        fake_repository / ".reuse/templates/mytemplate.commented.jinja2"
+    )
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_commented_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate.commented.jinja2",
+            "foo.c",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # Hello, world!
+            #
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
 def test_addheader_template_nonexistant(fake_repository):
     """Raise an error when using a header that does not exist."""
 

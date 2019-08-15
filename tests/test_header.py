@@ -37,7 +37,7 @@ def test_create_header_simple():
     assert create_header(spdx_info) == expected
 
 
-def test_create_header_teplate_simple(template_simple):
+def test_create_header_template_simple(template_simple):
     """Create a header with a simple template."""
     spdx_info = SpdxInfo(
         set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
@@ -63,6 +63,29 @@ def test_create_header_template_no_spdx(template_no_spdx):
 
     with pytest.raises(MissingSpdxInfo):
         create_header(spdx_info, template=template_no_spdx)
+
+
+def test_create_header_template_commented(template_commented):
+    """Create a header with an already-commented template."""
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+    expected = cleandoc(
+        """
+        # Hello, world!
+        #
+        # spdx-FileCopyrightText: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
+
+    assert (
+        create_header(
+            spdx_info, template=template_commented, template_is_commented=True
+        )
+        == expected
+    )
 
 
 def test_create_header_already_contains_spdx():

@@ -8,6 +8,7 @@ import datetime
 import logging
 import sys
 from gettext import gettext as _
+from pathlib import Path
 
 from boolean.boolean import ParseError
 from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
@@ -45,7 +46,10 @@ class MissingSpdxInfo(Exception):
 
 # TODO: Add a template here maybe.
 def _create_new_header(
-    spdx_info: SpdxInfo, template: Template = None, style: CommentStyle = None
+    spdx_info: SpdxInfo,
+    template: Template = None,
+    template_is_commented: bool = False,
+    style: CommentStyle = None,
 ) -> str:
     """Format a new header from scratch.
 
@@ -63,7 +67,10 @@ def _create_new_header(
         spdx_expressions=sorted(map(str, spdx_info.spdx_expressions)),
     )
 
-    result = style.create_comment(rendered)
+    if template_is_commented:
+        result = rendered.strip("\n")
+    else:
+        result = style.create_comment(rendered).strip("\n")
 
     # Verify that the result contains all SpdxInfo.
     new_spdx_info = extract_spdx_info(result)
@@ -86,11 +93,15 @@ def create_header(
     spdx_info: SpdxInfo,
     header: str = None,
     template: Template = None,
+    template_is_commented: bool = False,
     style: CommentStyle = None,
 ) -> str:
     """Create a header containing *spdx_info*. *header* is an optional argument
     containing a header which should be modified to include *spdx_info*. If
     *header* is not given, a brand new header is created.
+
+    *template*, *template_is_commented*, and *style* determine what the header
+    will look like, and whether it will be commented or not.
 
     :raises CommentCreateError: if a comment could not be created.
     :raises MissingSpdxInfo: if the generated comment is missing SPDX
@@ -119,7 +130,12 @@ def create_header(
         if header.startswith("#!"):
             new_header = header.split("\n")[0] + "\n"
 
-    new_header += _create_new_header(spdx_info, template=template, style=style)
+    new_header += _create_new_header(
+        spdx_info,
+        template=template,
+        template_is_commented=template_is_commented,
+        style=style,
+    )
     return new_header
 
 
@@ -127,11 +143,17 @@ def find_and_replace_header(
     text: str,
     spdx_info: SpdxInfo,
     template: Template = None,
+    template_is_commented: bool = False,
     style: CommentStyle = None,
 ) -> str:
     """Find the comment block starting at the first character in *text*. That
     comment block is replaced by a new comment block containing *spdx_info*. It
-    is formatted as according to *template*.
+    is formatted as according to *template*. The template is normally
+    uncommented, but if it is already commented, *template_is_commented* should
+    be :const:`True`.
+
+    If both *style* and *template_is_commented* are provided, *style* is only
+    used to find the header comment.
 
     If the comment block already contained some SPDX information, that
     information is merged into *spdx_info*.
@@ -165,7 +187,11 @@ def find_and_replace_header(
         existing_spdx = None
 
     new_header = create_header(
-        spdx_info, header, template=template, style=style
+        spdx_info,
+        header,
+        template=template,
+        template_is_commented=template_is_commented,
+        style=style,
     )
 
     if header and any(existing_spdx):
@@ -278,6 +304,7 @@ def run(args, out=sys.stdout) -> int:
         _verify_paths_supported(args.path, args.parser)
 
     template = None
+    commented = False
     if args.template:
         try:
             template = _find_template(args.template)
@@ -287,6 +314,9 @@ def run(args, out=sys.stdout) -> int:
                     template=args.template
                 )
             )
+
+        if ".commented" in Path(template.name).suffixes:
+            commented = True
 
     year = None
     if not args.exclude_year:
@@ -316,7 +346,11 @@ def run(args, out=sys.stdout) -> int:
 
         try:
             output = find_and_replace_header(
-                text, spdx_info, template=template, style=style
+                text,
+                spdx_info,
+                template=template,
+                template_is_commented=commented,
+                style=style,
             )
         except CommentCreateError:
             out.write(
@@ -331,7 +365,7 @@ def run(args, out=sys.stdout) -> int:
                 _(
                     "Error: Generated comment header for '{path}' is missing "
                     "copyright lines or license expressions. The template is "
-                    "probably incorrect."
+                    "probably incorrect. Did not write new header."
                 ).format(path=path)
             )
             out.write("\n")

@@ -178,3 +178,30 @@ def template_no_spdx(template_no_spdx_source):
     """Provide a Jinja2 template without SPDX lines."""
     env = Environment(trim_blocks=True)
     return env.from_string(template_no_spdx_source)
+
+
+@pytest.fixture()
+def template_commented_source():
+    """Source code of a simple Jinja2 template that is already commented."""
+    return cleandoc(
+        """
+        # Hello, world!
+        #
+        {% for copyright_line in copyright_lines %}
+        # {{ copyright_line }}
+        {% endfor %}
+        #
+        {% for expression in spdx_expressions %}
+        # spdx-License-Identifier: {{ expression }}
+        {% endfor %}
+        """.replace(
+            "spdx-Lic", "SPDX-Lic"
+        )
+    )
+
+
+@pytest.fixture()
+def template_commented(template_commented_source):
+    """Provide a Jinja2 template that is already commented."""
+    env = Environment(trim_blocks=True)
+    return env.from_string(template_commented_source)
