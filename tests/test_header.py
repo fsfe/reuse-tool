@@ -13,7 +13,7 @@ from inspect import cleandoc
 import pytest
 
 from reuse import SpdxInfo
-from reuse._comment import CommentCreateError, CCommentStyle
+from reuse._comment import CCommentStyle, CommentCreateError
 from reuse.header import (
     MissingSpdxInfo,
     create_header,

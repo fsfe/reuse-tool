@@ -394,6 +394,50 @@ def test_addheader_template_simple(
     )
 
 
+def test_addheader_template_simple_multiple(
+    fake_repository, stringio, mock_date_today, template_simple_source
+):
+    """Add a header with a custom template to multiple files."""
+    # pylint: disable=unused-argument
+    simple_files = [fake_repository / f"foo{i}.py" for i in range(10)]
+    for simple_file in simple_files:
+        simple_file.write_text("pass")
+    template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_simple_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate.jinja2",
+        ]
+        + list(map(str, simple_files)),
+        out=stringio,
+    )
+
+    assert result == 0
+    for simple_file in simple_files:
+        assert (
+            simple_file.read_text()
+            == cleandoc(
+                """
+                # Hello, world!
+                #
+                # spdx-FileCopyrightText: 2018 Mary Sue
+                #
+                # spdx-License-Identifier: GPL-3.0-or-later
+
+                pass
+                """
+            ).replace("spdx", "SPDX")
+        )
+
+
 def test_addheader_template_no_spdx(
     fake_repository, stringio, template_no_spdx_source
 ):
