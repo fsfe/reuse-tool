@@ -30,7 +30,7 @@ from ._util import (
     make_copyright_line,
     spdx_identifier,
 )
-from .project import create_project
+from .project import create_project, Project
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -218,12 +218,11 @@ def _verify_paths_supported(paths, parser):
             )
 
 
-def _find_template(name: str) -> Template:
+def _find_template(project: Project, name: str) -> Template:
     """Find a template given a name.
 
     :raises TemplateNotFound: if template could not be found.
     """
-    project = create_project()
     template_dir = project.root / ".reuse/templates"
     env = Environment(
         loader=FileSystemLoader(str(template_dir)), trim_blocks=True
@@ -303,11 +302,12 @@ def run(args, out=sys.stdout) -> int:
     if args.style is None:
         _verify_paths_supported(args.path, args.parser)
 
+    project = create_project()
     template = None
     commented = False
     if args.template:
         try:
-            template = _find_template(args.template)
+            template = _find_template(project, args.template)
         except TemplateNotFound:
             args.parser.error(
                 _("template {template} could not be found").format(
