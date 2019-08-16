@@ -66,26 +66,36 @@ After this, make sure that `~/.local/bin` is in your `$PATH`.
 
 ## Usage
 
-First, read the [REUSE
-recommendations](https://reuse.software/practices/). In a nutshell:
+First, read the [REUSE tutorial](https://reuse.software/tutorial/). In a
+nutshell:
 
--   Include the texts of all used licenses in your project.
--   Add a comment header to each file that says
-    `SPDX-License-Identifier:
-     GPL-3.0-or-later`.
--   Add a comment header to each file that says
-    `SPDX-FileCopyrightText: $YEAR $NAME`. You can be flexible with the format,
-    just make sure that the line starts with `SPDX-FileCopyrightText:`.
+1. Put your licenses in the `LICENSES/` directory.
+2. Add a comment header to each file that says `SPDX-License-Identifier:
+   GPL-3.0-or-later`, and `SPDX-FileCopyrightText: $YEAR $NAME`. You can be
+   flexible with the format, just make sure that the line starts with
+   `SPDX-FileCopyrightText:`.
+3. Verify your work using this tool.
 
-Once you have taken those steps (again, read the actual recommendations
-for better instructions), you can use this tool to verify whether your
-project is fully compliant with the REUSE recommendations. To check
-against the recommendations, use `reuse lint`:
+To check against the recommendations, use `reuse lint`:
 
     ~/Projects/reuse-tool $ reuse lint
     [...]
 
     Congratulations! Your project is compliant with version 3.0 of the REUSE Specification :-)
+
+This tool can do various more things, detailed in the documentation. Here a
+short summary:
+
+- `addheader` --- Add copyright and/or licensing information to the header of a
+  file.
+
+- `download` --- Download the specified license into the `LICENSES/` directory.
+
+- `init` --- Set up the project for REUSE compliance.
+
+- `lint` --- Verify the project for REUSE compliance.
+
+- `spdx` --- Generate an SPDX Document of all files in the project.
 
 ### Run in Docker
 

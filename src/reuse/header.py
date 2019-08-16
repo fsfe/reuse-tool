@@ -325,14 +325,14 @@ def add_arguments(parser) -> None:
         action="store",
         type=str,
         choices=list(NAME_STYLE_MAP),
-        help=_("comment style to use"),
+        help=_("comment style to use, optional"),
     )
     parser.add_argument(
         "--template",
         "-t",
         action="store",
         type=str,
-        help=_("name of template to use"),
+        help=_("name of template to use, optional"),
     )
     parser.add_argument(
         "--exclude-year",
