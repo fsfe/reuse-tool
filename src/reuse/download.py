@@ -84,7 +84,9 @@ def add_arguments(parser) -> None:
         action="store_true",
         help=_("download all missing licenses detected in the project"),
     )
-    parser.add_argument("--output", "-o", action="store", type=PathType("w"))
+    parser.add_argument(
+        "--output", "-o", dest="file", action="store", type=PathType("w")
+    )
 
 
 def run(args, out=sys.stdout) -> int:
@@ -128,15 +130,15 @@ def run(args, out=sys.stdout) -> int:
         licenses = report.missing_licenses
     elif not args.license:
         args.parser.error(_("the following arguments are required: license"))
-    elif len(args.license) > 1 and args.output:
+    elif len(args.license) > 1 and args.file:
         args.parser.error(_("cannot use --output with more than one license"))
     else:
         licenses = args.license
 
     return_code = 0
     for lic in licenses:
-        if args.output:
-            destination = args.output
+        if args.file:
+            destination = args.file
         else:
             destination = _path_to_license_file(lic)
         try:
