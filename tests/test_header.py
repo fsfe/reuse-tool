@@ -2,17 +2,23 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# pylint: disable=redefined-outer-name
+
 """All tests for reuse.header"""
+
+# pylint: disable=implicit-str-concat-in-sequence
 
 from inspect import cleandoc
 
 import pytest
 
 from reuse import SpdxInfo
-from reuse._comment import CommentCreateError
-from reuse.header import create_header, find_and_replace_header
-
-# pylint: disable=implicit-str-concat-in-sequence
+from reuse._comment import CCommentStyle, CommentCreateError
+from reuse.header import (
+    MissingSpdxInfo,
+    create_header,
+    find_and_replace_header,
+)
 
 
 def test_create_header_simple():
@@ -29,6 +35,60 @@ def test_create_header_simple():
     ).replace("spdx", "SPDX")
 
     assert create_header(spdx_info) == expected
+
+
+def test_create_header_template_simple(template_simple):
+    """Create a header with a simple template."""
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+    expected = cleandoc(
+        """
+        # Hello, world!
+        #
+        # spdx-FileCopyrightText: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
+
+    assert create_header(spdx_info, template=template_simple) == expected
+
+
+def test_create_header_template_no_spdx(template_no_spdx):
+    """Create a header with a template that does not have all SPDX info."""
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+
+    with pytest.raises(MissingSpdxInfo):
+        create_header(spdx_info, template=template_no_spdx)
+
+
+def test_create_header_template_commented(template_commented):
+    """Create a header with an already-commented template."""
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+    expected = cleandoc(
+        """
+        # Hello, world!
+        #
+        # spdx-FileCopyrightText: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
+
+    assert (
+        create_header(
+            spdx_info,
+            template=template_commented,
+            template_is_commented=True,
+            style=CCommentStyle,
+        )
+        == expected
+    )
 
 
 def test_create_header_already_contains_spdx():

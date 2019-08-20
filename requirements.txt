@@ -5,6 +5,7 @@
 python-debian==0.1.34
 requests==2.21.0
 license-expression==0.99
+Jinja2==2.10.1
 
 sphinx==1.7.6
 sphinx_rtd_theme==0.4.1

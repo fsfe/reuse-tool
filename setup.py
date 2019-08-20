@@ -25,6 +25,8 @@ requirements = [
     # Indirect requirement of license-expression, but we require it because we
     # import its exceptions.
     "boolean.py",
+    # For templates of headers.
+    "Jinja2",
 ]
 
 test_requirements = ["pytest"]

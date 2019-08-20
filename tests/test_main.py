@@ -350,3 +350,225 @@ def test_addheader_no_copyright_or_license(fake_repository):
 
     with pytest.raises(SystemExit):
         main(["addheader", "foo.py"])
+
+
+def test_addheader_template_simple(
+    fake_repository, stringio, mock_date_today, template_simple_source
+):
+    """Add a header with a custom template."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_simple_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate.jinja2",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # Hello, world!
+            #
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_template_simple_multiple(
+    fake_repository, stringio, mock_date_today, template_simple_source
+):
+    """Add a header with a custom template to multiple files."""
+    # pylint: disable=unused-argument
+    simple_files = [fake_repository / f"foo{i}.py" for i in range(10)]
+    for simple_file in simple_files:
+        simple_file.write_text("pass")
+    template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_simple_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate.jinja2",
+        ]
+        + list(map(str, simple_files)),
+        out=stringio,
+    )
+
+    assert result == 0
+    for simple_file in simple_files:
+        assert (
+            simple_file.read_text()
+            == cleandoc(
+                """
+                # Hello, world!
+                #
+                # spdx-FileCopyrightText: 2018 Mary Sue
+                #
+                # spdx-License-Identifier: GPL-3.0-or-later
+
+                pass
+                """
+            ).replace("spdx", "SPDX")
+        )
+
+
+def test_addheader_template_no_spdx(
+    fake_repository, stringio, template_no_spdx_source
+):
+    """Add a header with a template that lacks SPDX info."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_no_spdx_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate.jinja2",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 1
+
+
+def test_addheader_template_commented(
+    fake_repository, stringio, mock_date_today, template_commented_source
+):
+    """Add a header with a custom template that is already commented."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.c"
+    simple_file.write_text("pass")
+    template_file = (
+        fake_repository / ".reuse/templates/mytemplate.commented.jinja2"
+    )
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_commented_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate.commented.jinja2",
+            "foo.c",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # Hello, world!
+            #
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_template_nonexistant(fake_repository):
+    """Raise an error when using a header that does not exist."""
+
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--template",
+                "mytemplate.jinja2",
+                "foo.py",
+            ]
+        )
+
+
+def test_addheader_template_without_extension(
+    fake_repository, stringio, mock_date_today, template_simple_source
+):
+
+    """Find the correct header even when not using an extension."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
+    template_file.parent.mkdir(parents=True, exist_ok=True)
+    template_file.write_text(template_simple_source)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--template",
+            "mytemplate",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # Hello, world!
+            #
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )

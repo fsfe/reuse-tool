@@ -28,7 +28,8 @@ _DESCRIPTION_LINES = [
     _(
         "reuse is a tool for compliance with the REUSE "
         "recommendations. See <https://reuse.software/> for more "
-        "information."
+        "information, and <https://reuse.readthedocs.io/> for the online "
+        "documentation."
     ),
     _(
         "This version of reuse is compatible with version {} of the REUSE "
@@ -91,6 +92,13 @@ def parser() -> argparse.ArgumentParser:
                 "a comment style could not be detected, the process aborts. "
                 "Use --style to specify or override the comment style to "
                 "use.\n"
+                "\n"
+                "You can change the template of the header comment by using "
+                "--template. Place a Jinja2 template in "
+                ".reuse/templates/mytemplate.jinja2. You can use the template "
+                "by specifying "
+                "'--template mytemplate'. Read the online documentation on "
+                "how to use this feature.\n"
                 # TODO: Remove this
                 "\n"
                 "IMPORTANT: This is currently EXPERIMENTAL!"

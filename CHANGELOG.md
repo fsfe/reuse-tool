@@ -27,6 +27,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Added `--year` and `--exclude-year` to `reuse addheader`.
 
+- Added `--template` to `reuse addheader`.
+
 ### Changed
 
 - `reuse addheader` now automatically adds the current year to the copyright

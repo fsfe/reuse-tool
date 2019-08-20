@@ -11,12 +11,14 @@ import os
 import shutil
 import subprocess
 import sys
+from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
 from typing import Optional
 
 import pytest
 from debian.copyright import Copyright
+from jinja2 import Environment
 
 # A trick that tries to import the installed version of reuse. If that doesn't
 # work, import from the src directory. If that also doesn't work (for some
@@ -136,3 +138,70 @@ def copyright():
 def stringio():
     """Create a StringIO object."""
     return StringIO()
+
+
+@pytest.fixture()
+def template_simple_source():
+    """Source code of simple Jinja2 template."""
+    return cleandoc(
+        """
+        Hello, world!
+
+        {% for copyright_line in copyright_lines %}
+        {{ copyright_line }}
+        {% endfor %}
+
+        {% for expression in spdx_expressions %}
+        spdx-License-Identifier: {{ expression }}
+        {% endfor %}
+        """.replace(
+            "spdx-Lic", "SPDX-Lic"
+        )
+    )
+
+
+@pytest.fixture()
+def template_simple(template_simple_source):
+    """Provide a simple Jinja2 template."""
+    env = Environment(trim_blocks=True)
+    return env.from_string(template_simple_source)
+
+
+@pytest.fixture()
+def template_no_spdx_source():
+    """Source code of Jinja2 template without SPDX lines."""
+    return "Hello, world"
+
+
+@pytest.fixture()
+def template_no_spdx(template_no_spdx_source):
+    """Provide a Jinja2 template without SPDX lines."""
+    env = Environment(trim_blocks=True)
+    return env.from_string(template_no_spdx_source)
+
+
+@pytest.fixture()
+def template_commented_source():
+    """Source code of a simple Jinja2 template that is already commented."""
+    return cleandoc(
+        """
+        # Hello, world!
+        #
+        {% for copyright_line in copyright_lines %}
+        # {{ copyright_line }}
+        {% endfor %}
+        #
+        {% for expression in spdx_expressions %}
+        # spdx-License-Identifier: {{ expression }}
+        {% endfor %}
+        """.replace(
+            "spdx-Lic", "SPDX-Lic"
+        )
+    )
+
+
+@pytest.fixture()
+def template_commented(template_commented_source):
+    """Provide a Jinja2 template that is already commented."""
+    env = Environment(trim_blocks=True)
+    return env.from_string(template_commented_source)
