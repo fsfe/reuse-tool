@@ -27,6 +27,8 @@ requirements = [
     "boolean.py",
     # For templates of headers.
     "Jinja2",
+    # Exactly what it says.
+    "binaryornot",
 ]
 
 test_requirements = ["pytest"]

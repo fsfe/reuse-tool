@@ -346,6 +346,7 @@ COMMENT_STYLE_MAP = {
     ".js": CCommentStyle,
     ".l": LispCommentStyle,
     ".latex": TexCommentStyle,
+    ".license": EmptyCommentStyle,
     ".lisp": LispCommentStyle,
     ".lsp": LispCommentStyle,
     ".lua": HaskellCommentStyle,
