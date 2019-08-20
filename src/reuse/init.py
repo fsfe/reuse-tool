@@ -44,7 +44,16 @@ def prompt_licenses(out=sys.stdout) -> List[str]:
             return licenses
         if result not in chain(LICENSE_MAP, EXCEPTION_MAP):
             out.write(
-                _("'{}' is not a valid SPDX License Identifier").format(result)
+                _("'{}' is not a valid SPDX License Identifier.").format(
+                    result
+                )
+            )
+            out.write("\n")
+            out.write(
+                _(
+                    "See <https://spdx.org/licenses/> for a list of valid "
+                    "SPDX License Identifiers."
+                )
             )
             out.write("\n\n")
         else:

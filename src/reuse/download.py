@@ -53,7 +53,7 @@ def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
 
     This function exists solely for convenience.
 
-    :param spdx_identifier: SPDX identifier of the license.
+    :param spdx_identifier: SPDX License Identifier of the license.
     :param destination: Where to put the license.
     :raises requests.RequestException: if the license could not be downloaded.
     :raises FileExistsError: if the license file already exists.
@@ -77,7 +77,7 @@ def add_arguments(parser) -> None:
         "license",
         action="store",
         nargs="*",
-        help=_("SPDX Identifier of license"),
+        help=_("SPDX License Identifier of license"),
     )
     parser.add_argument(
         "--all",
@@ -107,7 +107,16 @@ def run(args, out=sys.stdout) -> int:
         out.write(" ")
         if identifier not in chain(LICENSE_MAP, EXCEPTION_MAP):
             out.write(
-                _("{} is not a valid SPDX Identifier.").format(identifier)
+                _("'{}' is not a valid SPDX License Identifier.").format(
+                    identifier
+                )
+            )
+            out.write("\n")
+            out.write(
+                _(
+                    "See <https://spdx.org/licenses/> for a list of valid "
+                    "SPDX License Identifiers."
+                )
             )
         else:
             out.write(_("Is your internet connection working?"))
