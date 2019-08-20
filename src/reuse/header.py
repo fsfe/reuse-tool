@@ -12,6 +12,7 @@ from os import PathLike
 from pathlib import Path
 from typing import Optional
 
+from binaryornot.check import is_binary
 from boolean.boolean import ParseError
 from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
 from jinja2.exceptions import TemplateNotFound
@@ -28,6 +29,7 @@ from ._comment import (
 )
 from ._util import (
     PathType,
+    _determine_license_path,
     extract_spdx_info,
     make_copyright_line,
     spdx_identifier,
@@ -212,12 +214,14 @@ def _verify_paths_supported(paths, parser):
         try:
             COMMENT_STYLE_MAP[path.suffix]
         except KeyError:
-            parser.error(
-                _(
-                    "'{}' does not have a recognised file extension, "
-                    "please use --style".format(path)
+            # TODO: This check is duplicated.
+            if not is_binary(str(path)):
+                parser.error(
+                    _(
+                        "'{}' does not have a recognised file extension, "
+                        "please use --style".format(path)
+                    )
                 )
-            )
 
 
 def _find_template(project: Project, name: str) -> Template:
@@ -352,9 +356,11 @@ def run(args, out=sys.stdout) -> int:
             _("option --exclude-year and --year are mutually exclusive")
         )
 
+    paths = [_determine_license_path(path) for path in args.path]
+
     # First loop to verify before proceeding
     if args.style is None:
-        _verify_paths_supported(args.path, args.parser)
+        _verify_paths_supported(paths, args.parser)
 
     project = create_project()
     template = None
@@ -389,7 +395,17 @@ def run(args, out=sys.stdout) -> int:
     spdx_info = SpdxInfo(expressions, copyright_lines)
 
     result = 0
-    for path in args.path:
+    for path in paths:
+        if is_binary(str(path)):
+            new_path = f"{path}.license"
+            _LOGGER.info(
+                _(
+                    "'{path}' is a binary, therefore using '{new_path}' for "
+                    "the header"
+                ).format(path=path, new_path=new_path)
+            )
+            path = Path(new_path)
+            path.touch()
         result += _add_header_to_file(
             path, spdx_info, template, commented, args.style, out
         )

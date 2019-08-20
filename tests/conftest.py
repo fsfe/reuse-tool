@@ -141,6 +141,12 @@ def stringio():
 
 
 @pytest.fixture()
+def binary_string():
+    """Create a binary string."""
+    return bytes(range(256))
+
+
+@pytest.fixture()
 def template_simple_source():
     """Source code of simple Jinja2 template."""
     return cleandoc(
