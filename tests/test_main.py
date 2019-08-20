@@ -572,3 +572,81 @@ def test_addheader_template_without_extension(
             """
         ).replace("spdx", "SPDX")
     )
+
+
+def test_addheader_binary(
+    fake_repository, stringio, mock_date_today, binary_string
+):
+    """Add a header to a .license file if the file is a binary."""
+    # pylint: disable=unused-argument
+    binary_file = fake_repository / "foo.png"
+    binary_file.write_bytes(binary_string)
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.png",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        binary_file.with_name(f"{binary_file.name}.license")
+        .read_text()
+        .strip()
+        == cleandoc(
+            """
+            spdx-FileCopyrightText: 2018 Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_license_file(fake_repository, stringio, mock_date_today):
+    """Add a header to a .license file if it exists."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.touch()
+    license_file = fake_repository / "foo.py.license"
+    license_file.write_text(
+        cleandoc(
+            """
+            spdx-FileCopyrightText: 2016 Jane Doe
+
+            Hello
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        license_file.read_text()
+        == cleandoc(
+            """
+            spdx-FileCopyrightText: 2016 Jane Doe
+            spdx-FileCopyrightText: 2018 Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+    assert not simple_file.read_text()
