@@ -296,6 +296,7 @@ def _add_header_to_file(
             fp.write(output)
         # TODO: This may need to be rephrased more elegantly.
         out.write(_("Successfully changed header of {path}").format(path=path))
+        out.write("\n")
 
     return result
 
