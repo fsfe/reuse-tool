@@ -32,6 +32,24 @@ def test_lint_git(git_repository):
     assert result
 
 
+def test_lint_submodule(submodule_repository):
+    """Extremely simple test for lint with an ignored submodule."""
+    project = Project(submodule_repository)
+    (submodule_repository / "submodule/foo.c").touch()
+    report = ProjectReport.generate(project)
+    result = lint(report)
+    assert result
+
+
+def test_lint_submodule_included(submodule_repository):
+    """Extremely simple test for lint with an included submodule."""
+    project = Project(submodule_repository, include_submodules=True)
+    (submodule_repository / "submodule/foo.c").touch()
+    report = ProjectReport.generate(project)
+    result = lint(report)
+    assert not result
+
+
 def test_lint_empty_directory(empty_directory):
     """An empty directory is compliant."""
     project = Project(empty_directory)

@@ -247,12 +247,18 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
 
 def add_arguments(parser):
     """Add arguments to parser."""
+    parser.add_argument(
+        "--include-submodules",
+        action="store_true",
+        help=_("do not include current or specified year in statement"),
+    )
     parser.add_argument("path", action="store", nargs="*", type=PathType("r"))
 
 
 def run(args, out=sys.stdout):
     """List all non-compliant files."""
     project = create_project()
+    project.include_submodules = args.include_submodules
     paths = args.path
     if not paths:
         paths = [project.root]
