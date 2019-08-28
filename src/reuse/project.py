@@ -231,9 +231,6 @@ class Project:
     def _licenses(self) -> Dict[str, Path]:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
-
-        If no name could be found for a license file, name it
-        "LicenseRef-Unknown0" and count upwards for every other unknown file.
         """
 
         unknown_counter = 0
@@ -256,8 +253,7 @@ class Project:
             try:
                 identifier = self._identifier_of_license(path)
             except IdentifierNotFound:
-                identifier = "LicenseRef-Unknown{}".format(unknown_counter)
-                unknown_counter += 1
+                identifier = path.stem
                 _LOGGER.warning(
                     _(
                         "Could not resolve SPDX License Identifier of {path}, "

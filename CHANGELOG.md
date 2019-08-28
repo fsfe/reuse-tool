@@ -43,6 +43,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `reuse addheader` now correctly handles `.license` files.
 
+- Bad licenses are no longer resolved to LicenseRef-Unknown<n>. They are instead
+  resolved to the stem of the path. This reduces the magic in the code base.
+
 ## 0.4.1 - 2019-08-07
 
 ### Added
