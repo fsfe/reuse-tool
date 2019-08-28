@@ -29,6 +29,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Added `--template` to `reuse addheader`.
 
+- Added `--explicit-license` to `reuse addheader`.
+
 - `binaryornot` added as new dependency.
 
 ### Changed

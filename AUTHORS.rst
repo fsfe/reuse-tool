@@ -30,6 +30,8 @@ Contributors
 
 - Keith Maxwell
 
+- Stefan Bakker <s.bakker777@gmail.com>
+
 Translators
 -----------
 
