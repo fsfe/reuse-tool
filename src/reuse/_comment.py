@@ -368,6 +368,7 @@ COMMENT_STYLE_MAP = {
     ".zsh": PythonCommentStyle,
 }
 
+# IMPORTANT: !!! When adding a new style, also edit usage.rst !!!
 #: A map of human-friendly names against style classes.
 NAME_STYLE_MAP = {
     "c": CCommentStyle,
