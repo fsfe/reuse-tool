@@ -62,6 +62,7 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r"^COPYING"),
     # ".git" as file happens in submodules
     re.compile(r"^\.git$"),
+    re.compile(r"^\.gitkeep$"),
     re.compile(r".*\.license$"),
     re.compile(r".*\.spdx$"),
 ]

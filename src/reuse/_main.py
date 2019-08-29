@@ -99,6 +99,9 @@ def parser() -> argparse.ArgumentParser:
                 "by specifying "
                 "'--template mytemplate'. Read the online documentation on "
                 "how to use this feature.\n"
+                "\n"
+                "If a binary file is detected, or if --explicit-license is "
+                "specified, the header is placed in a .license file."
                 # TODO: Remove this
                 "\n"
                 "IMPORTANT: This is currently EXPERIMENTAL!"
@@ -166,7 +169,7 @@ def parser() -> argparse.ArgumentParser:
                 "\n"
                 "- Do all files have valid copyright and licensing "
                 "information?\n"
-            )
+            ).format(reuse_version=__REUSE_version__)
         ),
     )
 

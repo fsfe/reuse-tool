@@ -33,6 +33,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `binaryornot` added as new dependency.
 
+- Greatly improved the usage documentation.
+
 ### Changed
 
 - `reuse addheader` now automatically adds the current year to the copyright
@@ -42,6 +44,11 @@ The versions follow [semantic versioning](https://semver.org).
   not contain any SPDX information.
 
 - `reuse addheader` now correctly handles `.license` files.
+
+- Bad licenses are no longer resolved to LicenseRef-Unknown<n>. They are instead
+  resolved to the stem of the path. This reduces the magic in the code base.
+
+- `.gitkeep` files are now ignored by the tool.
 
 ## 0.4.1 - 2019-08-07
 
