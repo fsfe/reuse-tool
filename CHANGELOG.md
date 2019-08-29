@@ -50,6 +50,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `.gitkeep` files are now ignored by the tool.
 
+- Changed Lisp's comment character from ';;' to ';'.
+
 ## 0.4.1 - 2019-08-07
 
 ### Added

@@ -297,7 +297,7 @@ class HtmlCommentStyle(CommentStyle):
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
 
-    SINGLE_LINE = ";;"
+    SINGLE_LINE = ";"
     INDENT_AFTER_SINGLE = " "
 
 
