@@ -232,8 +232,6 @@ class Project:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
         """
-
-        unknown_counter = 0
         license_files = dict()
 
         directory = str(self.root.resolve() / "LICENSES/**")
