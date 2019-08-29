@@ -63,7 +63,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "reuse"
-copyright = "2017, Free Software Foundation Europe. CC BY-SA 4.0"
+copyright = "2017-2019, Free Software Foundation Europe. CC-BY-SA-4.0"
 author = "Free Software Foundation Europe"
 
 # The version info for the project you're documenting, acts as replacement for
