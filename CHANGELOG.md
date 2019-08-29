@@ -48,6 +48,8 @@ The versions follow [semantic versioning](https://semver.org).
 - Bad licenses are no longer resolved to LicenseRef-Unknown<n>. They are instead
   resolved to the stem of the path. This reduces the magic in the code base.
 
+- `.gitkeep` files are now ignored by the tool.
+
 ## 0.4.1 - 2019-08-07
 
 ### Added
