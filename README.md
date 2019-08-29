@@ -117,7 +117,7 @@ mount your project directory and run `reuse lint <path/to/directory>`.
 
 Any pull requests or suggestions are welcome at
 <https://github.com/fsfe/reuse-tool> or via e-mail to one of the maintainers.
-General inquiries can be sent to <contact@fsfe.org>.
+General inquiries can be sent to <reuse@lists.fsfe.org>.
 
 Starting local development is very simple, just execute the following
 commands:
