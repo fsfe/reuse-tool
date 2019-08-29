@@ -239,7 +239,7 @@ def test_licenses_empty(empty_directory):
     (empty_directory / "LICENSES").mkdir()
     (empty_directory / "LICENSES/foo.txt").touch()
     project = Project(empty_directory)
-    assert "LicenseRef-Unknown0" in project.licenses
+    assert "foo" in project.licenses
 
 
 def test_licenses_subdirectory(empty_directory):
