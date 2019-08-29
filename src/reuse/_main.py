@@ -169,7 +169,7 @@ def parser() -> argparse.ArgumentParser:
                 "\n"
                 "- Do all files have valid copyright and licensing "
                 "information?\n"
-            )
+            ).format(reuse_version=__REUSE_version__)
         ),
     )
 
