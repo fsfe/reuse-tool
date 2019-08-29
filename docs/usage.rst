@@ -25,7 +25,9 @@ without having to manually edit the header of each file.
 
 The basic usage is ``reuse addheader --copyright="Jane Doe" --license=MIT
 my_file.py``. This will add the following header to the file (assuming that the
-current year is 2019)::
+current year is 2019):
+
+.. code-block:: python
 
   # SPDX-FileCopyrightText: 2019 Jane Doe
   #
@@ -67,7 +69,9 @@ License Expressions alphabetically. That is all that the header contains. It is
 possible to change this behaviour, and use a custom type of header that contains
 extra text. This is done through Jinja2 templates.
 
-The default template is::
+The default template is:
+
+.. code-block:: jinja
 
   {% for copyright_line in copyright_lines %}
   {{ copyright_line }}
@@ -96,7 +100,9 @@ In some cases, you might want to do custom comment formatting. In those cases,
 you can pre-format your header as a comment. When doing so, suffix your template
 with ``.commented.jinja2``.
 
-An example of a custom template with manual commenting is::
+An example of a custom template with manual commenting is:
+
+.. code-block:: jinja
 
   /*
   {% for copyright_line in copyright_lines %}
@@ -123,3 +129,114 @@ An example of a custom template with manual commenting is::
    * this program. If not, see <https://www.gnu.org/licenses/>.
   {% endif %}
    */
+
+lint
+====
+
+``lint`` is the main component of the tool. Summarily, it verifies whether the
+project is compliant with `the REUSE Specification
+<https://reuse.software/spec/>`_. Its main goal is to find all files that do not
+have copyright and licensing information in their headers, but it also checks a
+few other things.
+
+This is some example output of ``reuse lint``:
+
+.. code-block:: text
+
+  # MISSING COPYRIGHT AND LICENSING INFORMATION
+
+  The following files have no copyright and licensing information:
+  * no-information.txt
+
+
+  # BAD LICENSES
+
+  'bad-license' found in:
+  * LICENSES/bad-license.txt
+
+
+  # MISSING LICENSES
+
+  'MIT' found in:
+  * src/reuse/header.py
+
+
+  # SUMMARY
+
+  * Bad licenses: bad-license
+  * Missing licenses: MIT
+  * Unused licenses: bad-license
+  * Used licenses: Apache-2.0, CC-BY-SA-4.0, CC0-1.0, GPL-3.0-or-later
+  * Read errors: 0
+  * Files with copyright information: 56 / 57
+  * Files with license information: 56 / 57
+
+  Unfortunately, your project is not compliant with version 3.0 of the REUSE Specification :-(
+
+Implementation details
+----------------------
+
+The following implementation details might be relevant for your use of the tool.
+
+The linter does not strictly limit itself to the header comment as prescribed by
+the specification. It searches the first 4 kibibytes of the file for copyright
+and licensing information. This makes sure that the linter can parse any type of
+plain-text file, even if the comment style is not recognised.
+
+If a file is found to have an unparseable tag, that file is not parsed at all.
+This is `a bug <https://github.com/fsfe/reuse-tool/issues/4>`_.
+
+The tool does not verify the correctness of copyright notices. It finds any line
+beginning with '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
+everything following it is considered a valid copyright notice, even if the
+copyright notice is not compliant with the specification.
+
+When running ``reuse lint``, the root of the project is automatically found if
+the working directory is inside a git repository. Otherwise, it treats the
+working directory or the specified directory as the root of the project.
+
+The STDOUT output of ``reuse lint`` is valid Markdown. Occasionally some logging
+will be printed to STDERR, which is not valid Markdown.
+
+Criteria
+--------
+
+These are the criteria that the linter checks against:
+
+Bad licenses
+++++++++++++
+
+Licenses that are found in ``LICENSES/`` that are not found in the SPDX License
+List or do not start with ``LicenseRef-`` are bad licenses.
+
+Missing licenses
+++++++++++++++++
+
+If a license is referred to in a comment header, but the license is not found in
+the ``LICENSES/`` directory, then that license is missing.
+
+Unused licenses
++++++++++++++++
+
+Conversely, if a license is found in the ``LICENSES/`` directory but is not
+referred to in any comment header, then that license is unused.
+
+Read errors
++++++++++++
+
+Not technically a criterion, but files that cannot be read by the operating
+system are read errors, and need to be fixed.
+
+Files with copyright and license information
+++++++++++++++++++++++++++++++++++++++++++++
+
+Every file needs to have copyright and licensing information associated with it.
+The REUSE Specification details several ways of doing it. By and large, these
+are the methods:
+
+- Placing tags in the header of the file.
+- Placing tags in a ``.license`` file adjacent to the file.
+- Putting the information in the DEP5 file.
+
+If a file is found that does not have copyright and/or license information
+associated with it, then the project is not compliant.
