@@ -33,6 +33,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `binaryornot` added as new dependency.
 
+- Greatly improved the usage documentation.
+
 ### Changed
 
 - `reuse addheader` now automatically adds the current year to the copyright
