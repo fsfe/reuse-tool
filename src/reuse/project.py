@@ -196,6 +196,11 @@ class Project:
         The name of the path (minus its extension) should be a valid SPDX
         License Identifier.
         """
+        if path.name in self.license_map:
+            _LOGGER.warning(
+                _("{path} does not have a file extension").format(path=path)
+            )
+            return path.name
         if path.stem in self.license_map:
             return path.stem
         if path.stem.startswith("LicenseRef-"):
