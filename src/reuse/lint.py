@@ -43,8 +43,19 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
             # TODO: Should this be a separate entry if it's already in the
             # summary?
             report.unused_licenses,
+            report.licenses_without_extension,
         )
     )
+
+    if report.licenses_without_extension:
+        out.write("\n")
+        out.write(
+            _(
+                "One or more licenses in the project do not have a file "
+                "extension."
+            )
+        )
+        out.write("\n")
 
     out.write("\n")
     if success:

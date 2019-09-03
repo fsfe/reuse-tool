@@ -67,6 +67,21 @@ def test_lint_fail(fake_repository, stringio):
     assert ":-(" in stringio.getvalue()
 
 
+def test_lint_no_file_extension(fake_repository, stringio):
+    """If a license has no file extension, the lint fails."""
+    (fake_repository / "LICENSES/CC0-1.0.txt").rename(
+        fake_repository / "LICENSES/CC0-1.0"
+    )
+    result = main(["lint", str(fake_repository)], out=stringio)
+
+    assert result > 0
+    assert (
+        "One or more licenses in the project do not have a file extension."
+        in stringio.getvalue()
+    )
+    assert ":-(" in stringio.getvalue()
+
+
 def test_spdx(fake_repository, stringio):
     """Compile to an SPDX document."""
     os.chdir(str(fake_repository))

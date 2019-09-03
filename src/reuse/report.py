@@ -40,6 +40,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self.bad_licenses = dict()
         self.read_errors = set()
         self.file_reports = set()
+        self.licenses_without_extension = set()
 
         self._unused_licenses = None
         self._files_without_licenses = None
@@ -53,6 +54,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 identifier: str(path)
                 for identifier, path in self.licenses.items()
             },
+            "licenses_without_extension": sorted(
+                self.licenses_without_extension
+            ),
             "missing_licenses": {
                 lic: [str(file_) for file_ in files]
                 for lic, files in self.missing_licenses.items()
@@ -155,6 +159,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         project_report = cls()
         project_report.path = project.root
         project_report.licenses = project.licenses
+        project_report.licenses_without_extension = (
+            project.licenses_without_extension
+        )
         for path in paths:
             for file_ in project.all_files(path):
                 try:
