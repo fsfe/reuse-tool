@@ -242,8 +242,6 @@ class Project:
                 continue
             if Path(path).suffix == ".license":
                 continue
-            if Path(path).suffix == ".spdx":
-                continue
 
             path = self._relative_from_root(path)
             _LOGGER.debug(_("determining identifier of %s"), path)
