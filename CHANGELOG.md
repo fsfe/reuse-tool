@@ -19,6 +19,14 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased - YYYY-MM-DD
+
+### Fixed
+
+- A license that does not have a file extension, but whose full name is a valid
+  SPDX License Identifier is now correctly identified as such. The linter will
+  complain about them, however.
+
 ## 0.5.0 - 2019-08-29
 
 ### Added
