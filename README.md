@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# reuse
+# REUSE helper tool
 
 [![](https://img.shields.io/pypi/v/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
 [![](https://img.shields.io/pypi/pyversions/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
@@ -24,9 +24,9 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 Copyright and licensing is difficult, especially when reusing software from
 different projects that are released under various different licenses.
-[REUSE](https://reuse.software/) was started by the [Free Software Foundation
+[REUSE](https://reuse.software) was started by the [Free Software Foundation
 Europe](https://fsfe.org) (FSFE) to provide a set of recommendations to make
-licensing your free software projects easier. Not only do these recommendations
+licensing your Free Software projects easier. Not only do these recommendations
 make it easier for you to declare the licenses under which your works are
 released, but they also make it easier for a computer to understand how your
 project is licensed.
@@ -38,17 +38,17 @@ As a short summary, the recommendations are threefold:
 3.  Confirm REUSE compliance
 
 You are recommended to read the
-[recommendations](https://reuse.software/practices/) in full for more
+[our tutorial](https://reuse.software/tutorial) in full for more
 details.
 
 This tool exists to facilitate the developer in complying with the above
 recommendations.
 
-There are other tools, such as [FOSSology](https://www.fossology.org/),
-that have a lot more features and functionality surrounding the analysis
-and inspection of copyright and licenses in software projects. reuse, on
-the other hand, is solely designed to be a simple tool to assist in
-compliance with the REUSE recommendations.
+There are [other tools](https://reuse.software/comparison) that have a
+lot more features and functionality surrounding the analysis and
+inspection of copyright and licenses in software projects. The REUSE
+helper tool, on the other hand, is solely designed to be a simple tool
+to assist in compliance with the REUSE recommendations.
 
 ## Install
 
