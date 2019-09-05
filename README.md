@@ -55,15 +55,15 @@ to assist in compliance with the REUSE recommendations.
 
 ## Install
 
-### Installation via PIP
+### Installation via pip
 
 To install reuse, you need to have the following pieces of software on
 your computer:
 
 -   Python 3.6+
--   Pip
+-   pip
 
-To install reuse, you only need to run the following command:
+You then only need to run the following command:
 
     pip3 install --user fsfe-reuse
 
@@ -71,9 +71,8 @@ After this, make sure that `~/.local/bin` is in your `$PATH`.
 
 ### Installation via package managers
 
-There are packages available for easy install on some operating
-systems. You are welcome to help us package this tool for more
-distributions!
+There are packages available for easy install on some operating systems. You are
+welcome to help us package this tool for more distributions!
 
 * Arch Linux (AUR): [reuse](https://aur.archlinux.org/packages/reuse/)
 * Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
@@ -81,10 +80,9 @@ distributions!
 
 ### Installation from source
 
-You can also install this tool from the source code, but we recommend
-the methods above for easier and more stable updates. Please make sure
-the requirements for the installation via PIP are present on your
-machine.
+You can also install this tool from the source code, but we recommend the
+methods above for easier and more stable updates. Please make sure the
+requirements for the installation via pip are present on your machine.
 
     python3 setup.py install
 
