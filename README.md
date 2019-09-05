@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# REUSE helper tool
+# reuse
 
 [![](https://img.shields.io/pypi/v/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
 [![](https://img.shields.io/pypi/pyversions/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
