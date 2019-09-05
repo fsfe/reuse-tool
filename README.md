@@ -37,9 +37,12 @@ As a short summary, the recommendations are threefold:
 2.  Add copyright and licensing information to each file
 3.  Confirm REUSE compliance
 
-You are recommended to read the
-[our tutorial](https://reuse.software/tutorial) in full for more
-details.
+You are recommended to read [our
+tutorial](https://reuse.software/tutorial) for a step-by-step guide
+through these three steps. The [FAQ](https://reuse.software/faq) covers
+basic questions about licensing, copyright, and more complex use cases.
+Advanced users and integrators will find the [full
+specification](https://reuse.software/spec) helpful.
 
 This tool exists to facilitate the developer in complying with the above
 recommendations.
