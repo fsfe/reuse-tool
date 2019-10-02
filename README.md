@@ -77,6 +77,7 @@ welcome to help us package this tool for more distributions!
 * Arch Linux (AUR): [reuse](https://aur.archlinux.org/packages/reuse/)
 * Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
 * openSUSE: [reuse](https://software.opensuse.org/package/reuse)
+* GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.5.0/)
 
 ### Installation from source
 
