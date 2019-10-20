@@ -144,6 +144,37 @@ def create_header(
     return new_header
 
 
+def comment_has_spdx(comment: str) -> bool:
+    """Check whether comment already contains SPDX info."""
+    try:
+        existing_spdx = extract_spdx_info(comment)
+    except (ExpressionError, ParseError):
+        existing_spdx = (None, None)
+    return existing_spdx[0] or existing_spdx[1]
+
+
+def find_initial_spdx(text: str, style: CommentStyle) -> (bool, str, str):
+    """Strip the first comment block of text and see if it has SPDX info."""
+    try:
+        has_spdx = False
+        initial_comment = style.comment_at_first_character(text)
+        if initial_comment:
+            text = text[len(initial_comment) + 1 :]  # also remove newline
+            _LOGGER.debug("Text starts with a comment block")
+            has_spdx = comment_has_spdx(initial_comment)
+            if has_spdx:
+                _LOGGER.debug("Initial comment block contains spdx")
+                initial_has_spdx = True
+            else:
+                _LOGGER.debug("No spdx in initial comment block")
+            return (has_spdx, initial_comment + "\n", text)
+        else:
+            _LOGGER.debug("No initial comment block")
+    except CommentParseError:
+        _LOGGER.debug("Cannot parse initial comment block")
+    return (False, "", text)
+
+
 def find_new_header_place(text: str, style: CommentStyle) -> (str, str, str):
     """Try to find the best place to put new SPDX info."""
 
@@ -156,24 +187,31 @@ def find_new_header_place(text: str, style: CommentStyle) -> (str, str, str):
         _LOGGER.debug("Found a shebang, removing it temporarily")
         shebang += "\n"
 
-    try:
-        _LOGGER.debug("style = {}".format(style))
-        initial_comment = style.comment_at_first_character(text)
-        if initial_comment:
-            initial_comment += "\n"
-            text = text[len(initial_comment) :]
-            _LOGGER.debug("File starts with a comment block")
-            try:
-                existing_spdx = extract_spdx_info(initial_comment)
-            except (ExpressionError, ParseError):
-                existing_spdx = (None, None)
-            if existing_spdx[0] or existing_spdx[1]:
-                _LOGGER.debug("Initial comment block contains spdx")
-                initial_has_spdx = True
-            else:
-                _LOGGER.debug("No spdx in initial comment block")
-    except CommentParseError:
-        _LOGGER.debug("No initial comment block")
+    _LOGGER.debug("style = {}".format(style))
+
+    (initial_has_spdx, initial_comment, text) = find_initial_spdx(text, style)
+
+    if not initial_has_spdx and shebang:
+        _LOGGER.debug(
+            "Initial block was adjacent to shebang. Trying next one."
+        )
+        shebang += initial_comment
+        initial_comment = ""
+        if text.startswith("\n"):
+            shebang += "\n"
+            text = text[1:]
+            # Just assume the whole thing was one large multiline shebang
+            _LOGGER.debug("shebang = {}".format(repr(shebang)))
+            _LOGGER.debug("text = {}".format(repr(text)))
+            (initial_has_spdx, initial_comment, text) = find_initial_spdx(
+                text, style
+            )
+            if not initial_has_spdx:
+                # Undo the split
+                text = initial_comment + text
+                initial_comment = ""
+        else:
+            _LOGGER.debug("Oi, no next block.")
 
     if initial_has_spdx:
         _LOGGER.debug("Will merge with spdx in the initial comment block")
@@ -181,14 +219,8 @@ def find_new_header_place(text: str, style: CommentStyle) -> (str, str, str):
     else:
         if shebang:
             _LOGGER.debug("Not splitting shebang and adjacent comment block")
-            return (shebang + (initial_comment or "") + "\n", "", text)
+            return (shebang + (initial_comment or ""), "", text)
         else:
-            if initial_comment is None:
-                if not text.startswith("\n"):
-                    text = "\n" + text
-            else:
-                if not initial_comment.startswith("\n"):
-                    initial_comment = "\n" + initial_comment
             return ("", "", (initial_comment or "") + text)
 
 
@@ -228,17 +260,27 @@ def find_and_replace_header(
     _LOGGER.debug("before = {}".format(repr(before)))
     _LOGGER.debug("header = {}".format(repr(header)))
     _LOGGER.debug("after = {}".format(repr(after)))
+    assert before + header + after == text
 
-    new_header = create_header(
-        spdx_info,
-        header,
-        template=template,
-        template_is_commented=template_is_commented,
-        style=style,
+    new_header = (
+        create_header(
+            spdx_info,
+            header,
+            template=template,
+            template_is_commented=template_is_commented,
+            style=style,
+        )
+        + "\n"
     )
 
+    if not header:
+        if before and not before.endswith("\n\n"):
+            new_header = "\n" + new_header
+        if after and not after.startswith("\n"):
+            new_header = new_header + "\n"
+
     _LOGGER.debug("new header = {}".format(repr(new_header)))
-    return before + new_header + "\n" + after
+    return before + new_header + after
 
 
 def _verify_paths_supported(paths, parser):
