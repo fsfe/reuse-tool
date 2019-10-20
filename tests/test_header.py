@@ -224,6 +224,39 @@ def test_find_and_replace_keep_shebang():
     it.
     """
     spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Jane Doe"])
+    )
+    text = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        # This is a test file. Hello.
+
+        pass
+        """
+    )
+    expected = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        # spdx-FileCopyrightText: Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        # This is a test file. Hello.
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected
+
+
+def test_find_and_replace_keep_shebang_no_space_spdx():
+    """When encountering a shebang and a comment with SPDX info,
+    keep the shebang and merge the info.
+    """
+    spdx_info = SpdxInfo(
         set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
     text = cleandoc(
