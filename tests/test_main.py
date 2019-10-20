@@ -684,6 +684,8 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
             spdx-FileCopyrightText: 2018 Mary Sue
 
             spdx-License-Identifier: GPL-3.0-or-later
+
+            Hello
             """
         ).replace("spdx", "SPDX")
     )

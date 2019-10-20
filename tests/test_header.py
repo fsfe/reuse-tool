@@ -139,8 +139,6 @@ def test_create_header_old_syntax():
     existing = cleandoc(
         """
         # Copyright John Doe
-
-        pass
         """
     )
     expected = cleandoc(

@@ -278,7 +278,12 @@ class EmptyCommentStyle(CommentStyle):
 
     @classmethod
     def comment_at_first_character(cls, text: str) -> str:
-        return text
+        """Return first block of text separated by an empty line."""
+        index = text.find("\n\n")
+        if index > -1:
+            return text[:index]
+        else:
+            return text
 
 
 class HaskellCommentStyle(CommentStyle):
