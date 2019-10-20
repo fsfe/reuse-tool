@@ -252,6 +252,38 @@ def test_find_and_replace_keep_shebang():
     assert find_and_replace_header(text, spdx_info) == expected
 
 
+def test_find_and_replace_keep_shebang_spdx():
+    """When encountering a shebang, keep it and put the REUSE header beneath
+    it.
+    """
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+    text = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        # spdx-FileCopyrightText: Jane Doe
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+    expected = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        # spdx-FileCopyrightText: Jane Doe
+        # spdx-FileCopyrightText: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected
+
+
 def test_find_and_replace_keep_shebang_no_space():
     """When encountering a shebang, keep it and put the REUSE header beneath
     it.
