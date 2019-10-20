@@ -196,14 +196,16 @@ def test_find_and_replace_newline_before_header():
     spdx_info = SpdxInfo(
         set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
     )
-    text = cleandoc(
-        """
+    text = (
+        "\n"
+        + cleandoc(
+            """
         # spdx-FileCopyrightText: Jane Doe
 
         pass
         """
-    ).replace("spdx", "SPDX")
-    text = "\n" + text
+        ).replace("spdx", "SPDX")
+    )
     expected = cleandoc(
         """
         # spdx-FileCopyrightText: Mary Sue
@@ -246,6 +248,37 @@ def test_find_and_replace_keep_shebang():
         # This is a test file. Hello.
 
         pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected
+
+
+def test_find_and_replace_keep_shebang_no_space():
+    """When encountering a shebang, keep it and put the REUSE header beneath
+    it.
+    """
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+    text = cleandoc(
+        """
+        #!/usr/bin/env nix-shell
+        #!nix-shell -p python3
+
+        python3 -c 'print("Hello")'
+        """
+    ).replace("spdx", "SPDX")
+    expected = cleandoc(
+        """
+        #!/usr/bin/env nix-shell
+        #!nix-shell -p python3
+
+        # spdx-FileCopyrightText: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        python3 -c 'print("Hello")'
         """
     ).replace("spdx", "SPDX")
 

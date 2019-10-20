@@ -144,6 +144,54 @@ def create_header(
     return new_header
 
 
+def find_new_header_place(text: str, style: CommentStyle) -> (str, str, str):
+    """Try to find the best place to put new SPDX info."""
+
+    shebang = None
+    initial_comment = None
+    initial_has_spdx = False
+
+    if text.startswith("#!"):
+        (shebang, text) = text.split("\n", 1)
+        _LOGGER.debug("Found a shebang, removing it temporarily")
+        shebang += "\n"
+
+    try:
+        _LOGGER.debug("style = {}".format(style))
+        initial_comment = style.comment_at_first_character(text)
+        if initial_comment:
+            initial_comment += "\n"
+            text = text[len(initial_comment) :]
+            _LOGGER.debug("File starts with a comment block")
+            try:
+                existing_spdx = extract_spdx_info(initial_comment)
+            except (ExpressionError, ParseError):
+                existing_spdx = (None, None)
+            if existing_spdx[0] or existing_spdx[1]:
+                _LOGGER.debug("Initial comment block contains spdx")
+                initial_has_spdx = True
+            else:
+                _LOGGER.debug("No spdx in initial comment block")
+    except CommentParseError:
+        _LOGGER.debug("No initial comment block")
+
+    if initial_has_spdx:
+        _LOGGER.debug("Will merge with spdx in the initial comment block")
+        return (shebang or "", initial_comment, text)
+    else:
+        if shebang:
+            _LOGGER.debug("Not splitting shebang and adjacent comment block")
+            return (shebang + (initial_comment or "") + "\n", "", text)
+        else:
+            if initial_comment is None:
+                if not text.startswith("\n"):
+                    text = "\n" + text
+            else:
+                if not initial_comment.startswith("\n"):
+                    initial_comment = "\n" + initial_comment
+            return ("", "", (initial_comment or "") + text)
+
+
 def find_and_replace_header(
     text: str,
     spdx_info: SpdxInfo,
@@ -176,20 +224,10 @@ def find_and_replace_header(
     if style is None:
         style = PythonCommentStyle
 
-    try:
-        header = style.comment_at_first_character(text)
-    except CommentParseError:
-        # TODO: Log this
-        header = ""
-
-    # TODO: This is a duplicated check that also happens inside of
-    # create_header.
-    try:
-        existing_spdx = extract_spdx_info(header)
-    except (ExpressionError, ParseError):
-        # This error is handled in create_header. Just set the value to None
-        # here to satisfy the linter.
-        existing_spdx = None
+    (before, header, after) = find_new_header_place(text, style)
+    _LOGGER.debug("before = {}".format(repr(before)))
+    _LOGGER.debug("header = {}".format(repr(header)))
+    _LOGGER.debug("after = {}".format(repr(after)))
 
     new_header = create_header(
         spdx_info,
@@ -199,15 +237,8 @@ def find_and_replace_header(
         style=style,
     )
 
-    if header and any(existing_spdx):
-        text = text.replace(header, "", 1)
-    else:
-        # Some extra spacing for the new header.
-        new_header = new_header + "\n"
-        if not text.startswith("\n"):
-            new_header = new_header + "\n"
-
-    return new_header + text
+    _LOGGER.debug("new header = {}".format(repr(new_header)))
+    return before + new_header + "\n" + after
 
 
 def _verify_paths_supported(paths, parser):
