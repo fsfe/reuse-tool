@@ -78,6 +78,7 @@ welcome to help us package this tool for more distributions!
 * Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
 * openSUSE: [reuse](https://software.opensuse.org/package/reuse)
 * GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.5.0/)
+* NixOS: [reuse](https://nixos.org/nixos/packages.html?attr=reuse)
 
 ### Installation from source
 
