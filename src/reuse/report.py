@@ -13,6 +13,7 @@ from os import PathLike
 from pathlib import Path
 from typing import Iterable, List, NamedTuple, Set
 from uuid import uuid4
+import random
 
 from . import __version__
 from ._util import _LICENSING, _checksum
@@ -33,13 +34,15 @@ FileReportInfo = NamedTuple(
 class ProjectReport:  # pylint: disable=too-many-instance-attributes
     """Object that holds linting report about the project."""
 
-    def __init__(self):
+    def __init__(self, do_checksum: bool = True):
         self.path = None
         self.licenses = dict()
         self.missing_licenses = dict()
         self.bad_licenses = dict()
         self.read_errors = set()
         self.file_reports = set()
+
+        self.do_checksum = do_checksum
 
         self._unused_licenses = None
         self._files_without_licenses = None
@@ -146,19 +149,24 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     @classmethod
     def generate(
-        cls, project: Project, paths: Iterable[PathLike] = None
+        cls,
+        project: Project,
+        paths: Iterable[PathLike] = None,
+        do_checksum: bool = True,
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
         if paths is None:
             paths = [project.root]
 
-        project_report = cls()
+        project_report = cls(do_checksum=do_checksum)
         project_report.path = project.root
         project_report.licenses = project.licenses
         for path in paths:
             for file_ in project.all_files(path):
                 try:
-                    lint_file_info = FileReport.generate(project, file_)
+                    lint_file_info = FileReport.generate(
+                        project, file_, do_checksum=project_report.do_checksum
+                    )
                 except (OSError, UnicodeError):
                     # Translators: %s is a path.
                     _LOGGER.info(_("Could not read %s"), file_)
@@ -259,9 +267,12 @@ class FileReport:
     it also contains SPDX File information in :attr:`spdxfile`.
     """
 
-    def __init__(self, name: PathLike, path: PathLike):
+    def __init__(
+        self, name: PathLike, path: PathLike, do_checksum: bool = True
+    ):
         self.spdxfile = _File(name)
         self.path = Path(path)
+        self.do_checksum = do_checksum
 
     def to_dict(self):
         """Turn the report into a json-like dictionary."""
@@ -277,7 +288,9 @@ class FileReport:
         }
 
     @classmethod
-    def generate(cls, project: Project, path: PathLike) -> FileReportInfo:
+    def generate(
+        cls, project: Project, path: PathLike, do_checksum: bool = True
+    ) -> FileReportInfo:
         """Generate a FileReport from a path in a Project."""
         path = Path(path)
         if not path.is_file():
@@ -285,13 +298,19 @@ class FileReport:
 
         # pylint: disable=protected-access
         relative = project._relative_from_root(path)
-        report = cls("./" + str(relative), path)
+        report = cls("./" + str(relative), path, do_checksum=do_checksum)
 
         bad_licenses = set()
         missing_licenses = set()
 
         # Checksum and ID
-        report.spdxfile.chk_sum = _checksum(path)
+        if report.do_checksum:
+            report.spdxfile.chk_sum = _checksum(path)
+        else:
+            # This path avoids a lot of heavy computation, which is handy for
+            # scenarios where you only need a unique hash, not a consistent
+            # hash.
+            report.spdxfile.chk_sum = "%040x" % random.getrandbits(40)
         spdx_id = md5()
         spdx_id.update(str(relative).encode("utf-8"))
         spdx_id.update(report.spdxfile.chk_sum.encode("utf-8"))
