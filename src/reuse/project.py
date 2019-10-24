@@ -12,7 +12,11 @@ from pathlib import Path
 from typing import Dict, Iterator, Optional
 
 from boolean.boolean import ParseError
-from debian.copyright import Copyright, NotMachineReadableError
+from debian.copyright import (
+    Copyright,
+    MachineReadableFormatError,
+    NotMachineReadableError,
+)
 from license_expression import ExpressionError
 
 from . import (
@@ -219,7 +223,7 @@ class Project:
                     self._copyright_val = Copyright(fp)
             except (IOError, OSError):
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
-            except NotMachineReadableError:
+            except (NotMachineReadableError, MachineReadableFormatError):
                 _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
 
             # This check is a bit redundant, but otherwise I'd have to repeat

@@ -34,6 +34,8 @@ The versions follow [semantic versioning](https://semver.org).
 - Performance of `reuse lint` improved by at least a factor of 2. It no longer
   does any checksums on files behind the scenes.
 
+- Also handle `MachineReadableFormatError` when parsing DEP5 files.
+
 ## 0.5.0 - 2019-08-29
 
 ### Added
