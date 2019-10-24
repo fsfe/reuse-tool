@@ -11,7 +11,7 @@ from gettext import gettext as _
 from typing import Iterable
 
 from . import __REUSE_version__
-from ._util import PathType
+from ._util import PathType, find_root
 from .project import create_project
 from .report import ProjectReport
 
@@ -252,7 +252,12 @@ def add_arguments(parser):
 
 def run(args, out=sys.stdout):
     """List all non-compliant files."""
-    project = create_project()
+    if len(args.path) == 1 and not find_root():
+        root = args.path[0]
+    else:
+        root = None
+    project = create_project(root)
+
     paths = args.path
     if not paths:
         paths = [project.root]

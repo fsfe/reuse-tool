@@ -287,11 +287,12 @@ class Project:
         return license_files
 
 
-def create_project() -> Project:
+def create_project(root: Optional[PathLike] = None) -> Project:
     """Create a project object. Try to find the project root from CWD,
     otherwise treat CWD as root.
     """
-    root = find_root()
     if root is None:
-        root = Path.cwd()
+        root = find_root()
+        if root is None:
+            root = Path.cwd()
     return Project(root)
