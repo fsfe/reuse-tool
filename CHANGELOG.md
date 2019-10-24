@@ -19,6 +19,12 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## Unreleased
+
+### Added
+
+- `python3 -m reuse` now works.
+
 ## 0.5.0 - 2019-08-29
 
 ### Added
