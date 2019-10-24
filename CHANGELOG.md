@@ -29,6 +29,11 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Updated license list to 3.6-2-g2a14810.
 
+### Fixed
+
+- Performance of `reuse lint` improved by at least a factor of 2. It no longer
+  does any checksums on files behind the scenes.
+
 ## 0.5.0 - 2019-08-29
 
 ### Added
