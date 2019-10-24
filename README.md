@@ -24,9 +24,9 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 Copyright and licensing is difficult, especially when reusing software from
 different projects that are released under various different licenses.
-[REUSE](https://reuse.software/) was started by the [Free Software Foundation
+[REUSE](https://reuse.software) was started by the [Free Software Foundation
 Europe](https://fsfe.org) (FSFE) to provide a set of recommendations to make
-licensing your free software projects easier. Not only do these recommendations
+licensing your Free Software projects easier. Not only do these recommendations
 make it easier for you to declare the licenses under which your works are
 released, but they also make it easier for a computer to understand how your
 project is licensed.
@@ -37,32 +37,56 @@ As a short summary, the recommendations are threefold:
 2.  Add copyright and licensing information to each file
 3.  Confirm REUSE compliance
 
-You are recommended to read the
-[recommendations](https://reuse.software/practices/) in full for more
-details.
+You are recommended to read [our
+tutorial](https://reuse.software/tutorial) for a step-by-step guide
+through these three steps. The [FAQ](https://reuse.software/faq) covers
+basic questions about licensing, copyright, and more complex use cases.
+Advanced users and integrators will find the [full
+specification](https://reuse.software/spec) helpful.
 
 This tool exists to facilitate the developer in complying with the above
 recommendations.
 
-There are other tools, such as [FOSSology](https://www.fossology.org/),
-that have a lot more features and functionality surrounding the analysis
-and inspection of copyright and licenses in software projects. reuse, on
-the other hand, is solely designed to be a simple tool to assist in
-compliance with the REUSE recommendations.
+There are [other tools](https://reuse.software/comparison) that have a
+lot more features and functionality surrounding the analysis and
+inspection of copyright and licenses in software projects. The REUSE
+helper tool, on the other hand, is solely designed to be a simple tool
+to assist in compliance with the REUSE recommendations.
 
 ## Install
+
+### Installation via pip
 
 To install reuse, you need to have the following pieces of software on
 your computer:
 
 -   Python 3.6+
--   Pip
+-   pip
 
-To install reuse, you only need to run the following command:
+You then only need to run the following command:
 
     pip3 install --user fsfe-reuse
 
 After this, make sure that `~/.local/bin` is in your `$PATH`.
+
+### Installation via package managers
+
+There are packages available for easy install on some operating systems. You are
+welcome to help us package this tool for more distributions!
+
+* Arch Linux (AUR): [reuse](https://aur.archlinux.org/packages/reuse/)
+* Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
+* openSUSE: [reuse](https://software.opensuse.org/package/reuse)
+* GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.5.0/)
+* NixOS: [reuse](https://nixos.org/nixos/packages.html?attr=reuse)
+
+### Installation from source
+
+You can also install this tool from the source code, but we recommend the
+methods above for easier and more stable updates. Please make sure the
+requirements for the installation via pip are present on your machine.
+
+    python3 setup.py install
 
 ## Usage
 

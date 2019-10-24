@@ -21,6 +21,10 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased - YYYY-MM-DD
 
+### Added
+
+- `python3 -m reuse` now works.
+
 ### Changed
 
 - Updated license list to 3.6-2-g2a14810.
