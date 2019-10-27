@@ -36,6 +36,7 @@ from ._util import (
 )
 
 try:
+    # pylint: disable=ungrouped-imports
     from debian.copyright import MachineReadableFormatError
 except ImportError:
 
