@@ -12,7 +12,8 @@ from pathlib import Path
 from typing import Dict, Iterator, Optional
 
 from boolean.boolean import ParseError
-from debian.copyright import Copyright, NotMachineReadableError
+from debian.copyright import Copyright
+from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
 from . import (
@@ -34,18 +35,6 @@ from ._util import (
     find_root,
     in_git_repo,
 )
-
-try:
-    # pylint: disable=ungrouped-imports
-    from debian.copyright import MachineReadableFormatError
-except ImportError:
-
-    class MachineReadableFormatError(ValueError):
-        """Temporary workaround.
-
-        https://github.com/fsfe/reuse-tool/issues/103
-        """
-
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -231,7 +220,7 @@ class Project:
                     self._copyright_val = Copyright(fp)
             except (IOError, OSError):
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
-            except (NotMachineReadableError, MachineReadableFormatError):
+            except DebianError:
                 _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
 
             # This check is a bit redundant, but otherwise I'd have to repeat
