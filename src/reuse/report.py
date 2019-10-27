@@ -6,6 +6,7 @@
 
 import datetime
 import logging
+import random
 from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
@@ -13,7 +14,6 @@ from os import PathLike
 from pathlib import Path
 from typing import Iterable, List, NamedTuple, Set
 from uuid import uuid4
-import random
 
 from . import __version__
 from ._util import _LICENSING, _checksum

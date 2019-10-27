@@ -12,11 +12,7 @@ from pathlib import Path
 from typing import Dict, Iterator, Optional
 
 from boolean.boolean import ParseError
-from debian.copyright import (
-    Copyright,
-    MachineReadableFormatError,
-    NotMachineReadableError,
-)
+from debian.copyright import Copyright, NotMachineReadableError
 from license_expression import ExpressionError
 
 from . import (
@@ -38,6 +34,17 @@ from ._util import (
     find_root,
     in_git_repo,
 )
+
+try:
+    from debian.copyright import MachineReadableFormatError
+except ImportError:
+
+    class MachineReadableFormatError(ValueError):
+        """Temporary workaround.
+
+        https://github.com/fsfe/reuse-tool/issues/103
+        """
+
 
 _LOGGER = logging.getLogger(__name__)
 
