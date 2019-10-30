@@ -36,10 +36,11 @@ current year is 2019):
 You can use as many ``--copyright`` and ``--copyright`` arguments, so long as
 there is at least one such argument.
 
-The REUSE header always starts at the first character in a file. If a different
-REUSE header already existed, its tags are copied, and the header is replaced.
-If the pre-existing comment header did not contain any copyright and licensing
-information, it is moved downwards in the file. A shebang is always preserved.
+The REUSE header is placed at the very top of the file. If a different REUSE
+header already existed---at the top or elsewhere---its tags are copied, and the
+header is replaced in-place.
+
+Shebangs are always preserved at the top of the file.
 
 Comment styles
 --------------

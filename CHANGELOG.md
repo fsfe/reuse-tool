@@ -26,6 +26,11 @@ The versions follow [semantic versioning](https://semver.org).
 - Made the workaround for `MachineReadableFormatError` introduced in 0.5.2 more
   generic.
 
+- Improved shebang detection in `addheader`.
+
+- For `addheader`, the SPDX comment block now need not be the first thing in the
+  file. It will find the SPDX comment block and deal with it in-place.
+
 ## 0.5.2 - 2019-10-27
 
 ### Added
