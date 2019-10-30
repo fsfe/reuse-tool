@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
+# SPDX-FileCopyrightText: 2019 Kirill Elagin <kirelagin@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
