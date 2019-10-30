@@ -37,7 +37,7 @@ TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
 
-def pytest_configure(config):
+def pytest_configure():
     """Called after command line options have been parsed and all plugins and
     initial conftest files been loaded.
     """

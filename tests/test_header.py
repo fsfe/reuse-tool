@@ -34,7 +34,7 @@ def test_create_header_simple():
         """
     ).replace("spdx", "SPDX")
 
-    assert create_header(spdx_info) == expected
+    assert create_header(spdx_info).strip() == expected
 
 
 def test_create_header_template_simple(template_simple):
@@ -52,7 +52,9 @@ def test_create_header_template_simple(template_simple):
         """
     ).replace("spdx", "SPDX")
 
-    assert create_header(spdx_info, template=template_simple) == expected
+    assert (
+        create_header(spdx_info, template=template_simple).strip() == expected
+    )
 
 
 def test_create_header_template_no_spdx(template_no_spdx):
@@ -86,7 +88,7 @@ def test_create_header_template_commented(template_commented):
             template=template_commented,
             template_is_commented=True,
             style=CCommentStyle,
-        )
+        ).strip()
         == expected
     )
 
@@ -113,7 +115,7 @@ def test_create_header_already_contains_spdx():
         """
     ).replace("spdx", "SPDX")
 
-    assert create_header(spdx_info, header=existing) == expected
+    assert create_header(spdx_info, header=existing).strip() == expected
 
 
 def test_create_header_existing_is_wrong():
@@ -139,8 +141,6 @@ def test_create_header_old_syntax():
     existing = cleandoc(
         """
         # Copyright John Doe
-
-        pass
         """
     )
     expected = cleandoc(
@@ -151,7 +151,30 @@ def test_create_header_old_syntax():
         """
     ).replace("spdx", "SPDX")
 
-    assert create_header(spdx_info, header=existing) == expected
+    assert create_header(spdx_info, header=existing).strip() == expected
+
+
+def test_create_header_remove_fluff():
+    """Any stuff that isn't SPDX info is removed when using create_header."""
+    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set())
+    existing = cleandoc(
+        """
+        # spdx-FileCopyrightText: John Doe
+        #
+        # Hello, world!
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: John Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
+
+    assert create_header(spdx_info, header=existing).strip() == expected
 
 
 def test_find_and_replace_no_header():
@@ -190,8 +213,8 @@ def test_find_and_replace_verbatim():
 
 
 def test_find_and_replace_newline_before_header():
-    """In a scenario where the header is not the first character in the file,
-    create a new header. It would be nice if this were handled more elegantly.
+    """In a scenario where the header is preceded by whitespace, remove the
+    preceding whitespace.
     """
     spdx_info = SpdxInfo(
         set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
@@ -206,11 +229,10 @@ def test_find_and_replace_newline_before_header():
     text = "\n" + text
     expected = cleandoc(
         """
+        # spdx-FileCopyrightText: Jane Doe
         # spdx-FileCopyrightText: Mary Sue
         #
         # spdx-License-Identifier: GPL-3.0-or-later
-
-        # spdx-FileCopyrightText: Jane Doe
 
         pass
         """
@@ -229,6 +251,7 @@ def test_find_and_replace_keep_shebang():
     text = cleandoc(
         """
         #!/usr/bin/env python3
+
         # spdx-FileCopyrightText: Jane Doe
 
         pass
@@ -237,6 +260,7 @@ def test_find_and_replace_keep_shebang():
     expected = cleandoc(
         """
         #!/usr/bin/env python3
+
         # spdx-FileCopyrightText: Jane Doe
         # spdx-FileCopyrightText: Mary Sue
         #
