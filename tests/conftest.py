@@ -41,8 +41,7 @@ def pytest_configure(config):
     """Called after command line options have been parsed and all plugins and
     initial conftest files been loaded.
     """
-    if config.getoption("--capture") == "no":
-        setup_logging(level=logging.DEBUG)
+    setup_logging(level=logging.DEBUG)
 
 
 def pytest_runtest_setup(item):
