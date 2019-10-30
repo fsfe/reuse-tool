@@ -241,6 +241,42 @@ def test_find_and_replace_newline_before_header():
     assert find_and_replace_header(text, spdx_info) == expected
 
 
+def test_find_and_replace_preserve_preceding():
+    """When the SPDX header is in the middle of the file, keep it there."""
+    spdx_info = SpdxInfo(
+        set(["GPL-3.0-or-later"]), set(["SPDX" "-FileCopyrightText: Mary Sue"])
+    )
+    text = cleandoc(
+        """
+        # Hello, world!
+
+        def foo(bar):
+            return bar
+
+        # spdx-FileCopyrightText: Jane Doe
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+    expected = cleandoc(
+        """
+        # Hello, world!
+
+        def foo(bar):
+            return bar
+
+        # spdx-FileCopyrightText: Jane Doe
+        # spdx-FileCopyrightText: Mary Sue
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected
+
+
 def test_find_and_replace_keep_shebang():
     """When encountering a shebang, keep it and put the REUSE header beneath
     it.
