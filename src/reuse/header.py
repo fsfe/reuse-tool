@@ -124,8 +124,6 @@ def create_header(
     :raises MissingSpdxInfo: if the generated comment is missing SPDX
         information.
     """
-    if template is None:
-        template = DEFAULT_TEMPLATE
     if style is None:
         style = PythonCommentStyle
 
