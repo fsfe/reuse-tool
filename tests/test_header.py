@@ -273,6 +273,36 @@ def test_find_and_replace_keep_shebang():
     assert find_and_replace_header(text, spdx_info) == expected
 
 
+def test_find_and_replace_separate_shebang():
+    """When the shebang is part of the same comment as the SPDX comment,
+    separate the two.
+    """
+    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set())
+    text = cleandoc(
+        """
+        #!/usr/bin/env python3
+        #!nix-shell -p python3
+        # spdx-FileCopyrightText: Jane Doe
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+    expected = cleandoc(
+        """
+        #!/usr/bin/env python3
+        #!nix-shell -p python3
+
+        # spdx-FileCopyrightText: Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected
+
+
 def test_find_and_replace_keep_old_comment():
     """When encountering a comment that does not contain copyright and
     licensing information, preserve it below the REUSE header.

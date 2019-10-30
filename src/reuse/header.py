@@ -144,9 +144,6 @@ def create_header(
             spdx_info.copyright_lines.union(existing_spdx.copyright_lines),
         )
 
-        if header.startswith("#!"):
-            new_header = header.split("\n")[0] + "\n"
-
     new_header += _create_new_header(
         spdx_info,
         template=template,
@@ -237,6 +234,17 @@ def find_and_replace_header(
     _LOGGER.debug("before = {}".format(repr(before)))
     _LOGGER.debug("header = {}".format(repr(header)))
     _LOGGER.debug("after = {}".format(repr(after)))
+
+    # Extract shebang from header and put it in before. It's a bit messy, but
+    # it ends up working.
+    if header.startswith("#!") and not before.strip():
+        before = ""
+        for line in header.splitlines():
+            if line.startswith("#!"):
+                before = before + "\n" + line
+                header.replace(line, "", 1)
+            else:
+                break
 
     header = create_header(
         spdx_info,
