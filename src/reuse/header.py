@@ -124,6 +124,8 @@ def create_header(
     :raises MissingSpdxInfo: if the generated comment is missing SPDX
         information.
     """
+    if template is None:
+        template = DEFAULT_TEMPLATE
     if style is None:
         style = PythonCommentStyle
 
@@ -218,8 +220,6 @@ def find_and_replace_header(
     :raises MissingSpdxInfo: if the generated comment is missing SPDX
         information.
     """
-    if template is None:
-        template = DEFAULT_TEMPLATE
     if style is None:
         style = PythonCommentStyle
 
@@ -240,7 +240,14 @@ def find_and_replace_header(
         for line in header.splitlines():
             if line.startswith("#!"):
                 before = before + "\n" + line
-                header.replace(line, "", 1)
+                header = header.replace(line, "", 1)
+            else:
+                break
+    elif after.startswith("#!") and not any((before, header)):
+        for line in after.splitlines():
+            if line.startswith("#!"):
+                before = before + "\n" + line
+                after = after.replace(line, "", 1)
             else:
                 break
 

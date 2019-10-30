@@ -303,6 +303,34 @@ def test_find_and_replace_separate_shebang():
     assert find_and_replace_header(text, spdx_info) == expected
 
 
+def test_find_and_replace_only_shebang():
+    """When the file only contains a shebang, keep it at the top of the file.
+    """
+    spdx_info = SpdxInfo(set(["GPL-3.0-or-later"]), set())
+    text = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        # Hello, world!
+
+        pass
+        """
+    )
+    expected = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        # Hello, world!
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    assert find_and_replace_header(text, spdx_info) == expected
+
+
 def test_find_and_replace_keep_old_comment():
     """When encountering a comment that does not contain copyright and
     licensing information, preserve it below the REUSE header.
