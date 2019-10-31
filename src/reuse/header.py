@@ -50,7 +50,7 @@ DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
 _NEWLINE_PATTERN = re.compile(r"\n", re.MULTILINE)
 
 
-class TextSections(NamedTuple):
+class _TextSections(NamedTuple):
     """Used to split up text in three parts."""
 
     before: str
@@ -169,9 +169,9 @@ def _indices_of_newlines(text: str) -> Sequence[int]:
     return indices
 
 
-def find_first_spdx_comment(
+def _find_first_spdx_comment(
     text: str, style: CommentStyle = None
-) -> TextSections:
+) -> _TextSections:
     """Find the first SPDX comment in the file. Return a tuple with everything
     preceding the comment, the comment itself, and everything following it.
 
@@ -188,7 +188,7 @@ def find_first_spdx_comment(
         except CommentParseError:
             continue
         if contains_spdx_info(comment):
-            return TextSections(
+            return _TextSections(
                 text[:index], comment + "\n", text[index + len(comment) + 1 :]
             )
 
@@ -225,7 +225,7 @@ def find_and_replace_header(
         style = PythonCommentStyle
 
     try:
-        before, header, after = find_first_spdx_comment(text, style=style)
+        before, header, after = _find_first_spdx_comment(text, style=style)
     except MissingSpdxInfo:
         before, header, after = "", "", text
 
