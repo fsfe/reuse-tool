@@ -97,6 +97,9 @@ class Project:
                 if (
                     root / dir_ / ".git"
                 ).is_file() and not self.include_submodules:
+                    _LOGGER.info(
+                        "ignoring %s because it is a submodule", root / dir_
+                    )
                     dirs.remove(dir_)
 
             # Filter files.
