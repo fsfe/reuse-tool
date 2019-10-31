@@ -297,7 +297,7 @@ class HtmlCommentStyle(CommentStyle):
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
 
-    SINGLE_LINE = ";;"
+    SINGLE_LINE = ";"
     INDENT_AFTER_SINGLE = " "
 
 
@@ -368,6 +368,7 @@ COMMENT_STYLE_MAP = {
     ".zsh": PythonCommentStyle,
 }
 
+# IMPORTANT: !!! When adding a new style, also edit usage.rst !!!
 #: A map of human-friendly names against style classes.
 NAME_STYLE_MAP = {
     "c": CCommentStyle,

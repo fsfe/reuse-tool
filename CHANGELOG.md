@@ -21,6 +21,36 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased - YYYY-MM-DD
 
+### Changed
+
+- Made the workaround for `MachineReadableFormatError` introduced in 0.5.2 more
+  generic.
+
+## 0.5.2 - 2019-10-27
+
+### Added
+
+- `python3 -m reuse` now works.
+
+### Changed
+
+- Updated license list to 3.6-2-g2a14810.
+
+### Fixed
+
+- Performance of `reuse lint` improved by at least a factor of 2. It no longer
+  does any checksums on files behind the scenes.
+
+- Also handle `MachineReadableFormatError` when parsing DEP5 files. Tries to
+  import that error. If the import is unsuccessful, it is handled.
+
+## 0.5.1 - 2019-10-24 [YANKED]
+
+This release was replaced by 0.5.2 due to importing
+`MachineReadableFormatError`, which is not a backwards-compatible change.
+
+## 0.5.0 - 2019-08-29
+
 ### Added
 
 - TeX and ML comment styles added.
@@ -29,7 +59,11 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Added `--template` to `reuse addheader`.
 
+- Added `--explicit-license` to `reuse addheader`.
+
 - `binaryornot` added as new dependency.
+
+- Greatly improved the usage documentation.
 
 ### Changed
 
@@ -40,6 +74,13 @@ The versions follow [semantic versioning](https://semver.org).
   not contain any SPDX information.
 
 - `reuse addheader` now correctly handles `.license` files.
+
+- Bad licenses are no longer resolved to LicenseRef-Unknown<n>. They are instead
+  resolved to the stem of the path. This reduces the magic in the code base.
+
+- `.gitkeep` files are now ignored by the tool.
+
+- Changed Lisp's comment character from ';;' to ';'.
 
 ## 0.4.1 - 2019-08-07
 

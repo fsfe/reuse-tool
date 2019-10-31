@@ -12,7 +12,8 @@ from pathlib import Path
 from typing import Dict, Iterator, Optional
 
 from boolean.boolean import ParseError
-from debian.copyright import Copyright, NotMachineReadableError
+from debian.copyright import Copyright
+from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
 from . import (
@@ -224,7 +225,7 @@ class Project:
                     self._copyright_val = Copyright(fp)
             except (IOError, OSError):
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
-            except NotMachineReadableError:
+            except DebianError:
                 _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
 
             # This check is a bit redundant, but otherwise I'd have to repeat
@@ -236,12 +237,7 @@ class Project:
     def _licenses(self) -> Dict[str, Path]:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
-
-        If no name could be found for a license file, name it
-        "LicenseRef-Unknown0" and count upwards for every other unknown file.
         """
-
-        unknown_counter = 0
         license_files = dict()
 
         directory = str(self.root.resolve() / "LICENSES/**")
@@ -261,8 +257,7 @@ class Project:
             try:
                 identifier = self._identifier_of_license(path)
             except IdentifierNotFound:
-                identifier = "LicenseRef-Unknown{}".format(unknown_counter)
-                unknown_counter += 1
+                identifier = path.stem
                 _LOGGER.warning(
                     _(
                         "Could not resolve SPDX License Identifier of {path}, "

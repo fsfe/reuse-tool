@@ -46,13 +46,16 @@ _HEADER_BYTES = 4096
 
 
 def setup_logging(level: int = logging.WARNING) -> None:
-    """Configure logging for reuse."""
+    """Configure logging for reuse.
+
+    You can only call this function once.
+    """
     # library_logger is the root logger for reuse. We configure logging solely
     # for reuse, not for any other libraries.
     library_logger = logging.getLogger("reuse")
-    library_logger.setLevel(level)
 
     if not library_logger.hasHandlers():
+        library_logger.setLevel(level)
         handler = logging.StreamHandler()
         formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
         handler.setFormatter(formatter)

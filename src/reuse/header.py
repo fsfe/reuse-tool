@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -296,6 +297,7 @@ def _add_header_to_file(
             fp.write(output)
         # TODO: This may need to be rephrased more elegantly.
         out.write(_("Successfully changed header of {path}").format(path=path))
+        out.write("\n")
 
     return result
 
@@ -342,6 +344,11 @@ def add_arguments(parser) -> None:
         "--exclude-year",
         action="store_true",
         help=_("do not include current or specified year in statement"),
+    )
+    parser.add_argument(
+        "--explicit-license",
+        action="store_true",
+        help=_("place header in path.license instead of path"),
     )
     parser.add_argument("path", action="store", nargs="+", type=PathType("w"))
 
@@ -396,14 +403,16 @@ def run(args, out=sys.stdout) -> int:
 
     result = 0
     for path in paths:
-        if is_binary(str(path)):
+        binary = is_binary(str(path))
+        if binary or args.explicit_license:
             new_path = f"{path}.license"
-            _LOGGER.info(
-                _(
-                    "'{path}' is a binary, therefore using '{new_path}' for "
-                    "the header"
-                ).format(path=path, new_path=new_path)
-            )
+            if binary:
+                _LOGGER.info(
+                    _(
+                        "'{path}' is a binary, therefore using '{new_path}' "
+                        "for the header"
+                    ).format(path=path, new_path=new_path)
+                )
             path = Path(new_path)
             path.touch()
         result += _add_header_to_file(

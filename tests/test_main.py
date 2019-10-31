@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -639,6 +640,43 @@ def test_addheader_binary(
             """
         ).replace("spdx", "SPDX")
     )
+
+
+def test_addheader_explicit_license(
+    fake_repository, stringio, mock_date_today
+):
+    """Add a header to a .license file if --explicit-license is given."""
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--explicit-license",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.with_name(f"{simple_file.name}.license")
+        .read_text()
+        .strip()
+        == cleandoc(
+            """
+            spdx-FileCopyrightText: 2018 Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+    assert simple_file.read_text() == "pass"
 
 
 def test_addheader_license_file(fake_repository, stringio, mock_date_today):

@@ -15,6 +15,7 @@ Welcome to reuse's documentation!
    :maxdepth: 2
 
    readme
+   usage
    authors
    history
    API<api/modules>

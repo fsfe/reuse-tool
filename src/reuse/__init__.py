@@ -47,7 +47,7 @@ else:
 __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
 __license__ = "GPL-3.0-or-later"
-__version__ = "0.4.1"
+__version__ = "0.5.2"
 __REUSE_version__ = "3.0"
 
 
@@ -62,6 +62,7 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r"^COPYING"),
     # ".git" as file happens in submodules
     re.compile(r"^\.git$"),
+    re.compile(r"^\.gitkeep$"),
     re.compile(r".*\.license$"),
     re.compile(r".*\.spdx$"),
 ]
