@@ -32,6 +32,7 @@ def run(args, out=sys.stdout) -> int:
             _LOGGER.warning(_("'%s' does not end with .spdx"), out.name)
 
     project = create_project()
+    project.include_submodules = args.include_submodules
     report = ProjectReport.generate(project)
 
     out.write(report.bill_of_materials())
