@@ -69,7 +69,7 @@ def test_lint_submodule(submodule_repository, stringio):
 def test_lint_submodule_included(submodule_repository, stringio):
     """Run a successful lint."""
     result = main(
-        ["lint", "--include-submodules", str(submodule_repository)],
+        ["--include-submodules", "lint", str(submodule_repository)],
         out=stringio,
     )
 
@@ -81,7 +81,7 @@ def test_lint_submodule_included_fail(submodule_repository, stringio):
     """Run a failed lint."""
     (submodule_repository / "submodule/foo.c").touch()
     result = main(
-        ["lint", "--include-submodules", str(submodule_repository)],
+        ["--include-submodules", "lint", str(submodule_repository)],
         out=stringio,
     )
 

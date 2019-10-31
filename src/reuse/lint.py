@@ -247,11 +247,6 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
 
 def add_arguments(parser):
     """Add arguments to parser."""
-    parser.add_argument(
-        "--include-submodules",
-        action="store_true",
-        help=_("do not include current or specified year in statement"),
-    )
     parser.add_argument("path", action="store", nargs="*", type=PathType("r"))
 
 
