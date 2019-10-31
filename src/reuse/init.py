@@ -153,6 +153,7 @@ def run(args, out=sys.stdout):
         # License: ...
         """
     )
+    dep5_text += "\n"
 
     (root / ".reuse").mkdir()
     (root / ".reuse/dep5").write_text(dep5_text)
