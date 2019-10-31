@@ -21,10 +21,17 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased - YYYY-MM-DD
 
+### Added
+
+- `--include-submodules` is added to also include submodules when linting et
+  cetera.
+
 ### Changed
 
 - Made the workaround for `MachineReadableFormatError` introduced in 0.5.2 more
   generic.
+
+- Git submodules are now ignored by default.
 
 ## 0.5.2 - 2019-10-27
 
