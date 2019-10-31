@@ -119,11 +119,43 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     build_dir.mkdir()
     (build_dir / "hello.py").touch()
 
-    subprocess.run([GIT_EXE, "init", str(fake_repository)])
-    subprocess.run([GIT_EXE, "add", str(fake_repository)])
-    subprocess.run([GIT_EXE, "commit", "-m", "initial"])
+    subprocess.run([git_exe, "init", str(fake_repository)])
+    subprocess.run([git_exe, "add", str(fake_repository)])
+    subprocess.run([git_exe, "commit", "-m", "initial"])
 
     return fake_repository
+
+
+@pytest.fixture()
+def submodule_repository(
+    git_repository: Path, git_exe: Optional[str], tmpdir_factory
+) -> Path:
+    """Create a git repository that contains a submodule."""
+    header = cleandoc(
+        """
+            spdx-FileCopyrightText: 2019 Jane Doe
+
+            spdx-License-Identifier: CC0-1.0
+            """
+    ).replace("spdx", "SPDX")
+
+    submodule = Path(str(tmpdir_factory.mktemp("submodule")))
+    (submodule / "foo.py").write_text(header)
+
+    os.chdir(submodule)
+    subprocess.run([git_exe, "init", str(submodule)])
+    subprocess.run([git_exe, "add", str(submodule)])
+    subprocess.run([git_exe, "commit", "-m", "initial"])
+
+    os.chdir(git_repository)
+    subprocess.run(
+        [git_exe, "submodule", "add", submodule.resolve(), "submodule"]
+    )
+    subprocess.run([git_exe, "commit", "-m", "add submodule"])
+
+    (git_repository / ".gitmodules.license").write_text(header)
+
+    return git_repository
 
 
 @pytest.fixture(scope="session")

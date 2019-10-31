@@ -187,14 +187,17 @@ plain-text file, even if the comment style is not recognised.
 If a file is found to have an unparseable tag, that file is not parsed at all.
 This is `a bug <https://github.com/fsfe/reuse-tool/issues/4>`_.
 
-The tool does not verify the correctness of copyright notices. It finds any line
-beginning with '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
+The tool does not verify the correctness of copyright notices. If it finds any
+line containing '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
 everything following it is considered a valid copyright notice, even if the
 copyright notice is not compliant with the specification.
 
 When running ``reuse lint``, the root of the project is automatically found if
 the working directory is inside a git repository. Otherwise, it treats the
 working directory or the specified directory as the root of the project.
+
+Git submodules are automatically ignored unless ``--include-submodules`` is
+passed as optional argument.
 
 The STDOUT output of ``reuse lint`` is valid Markdown. Occasionally some logging
 will be printed to STDERR, which is not valid Markdown.

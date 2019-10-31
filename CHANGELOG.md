@@ -21,6 +21,11 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased - YYYY-MM-DD
 
+### Added
+
+- `--include-submodules` is added to also include submodules when linting et
+  cetera.
+
 ### Changed
 
 - Made the workaround for `MachineReadableFormatError` introduced in 0.5.2 more
@@ -30,6 +35,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - For `addheader`, the SPDX comment block now need not be the first thing in the
   file. It will find the SPDX comment block and deal with it in-place.
+
+
+- Git submodules are now ignored by default.
 
 ## 0.5.2 - 2019-10-27
 

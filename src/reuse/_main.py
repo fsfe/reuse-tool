@@ -65,6 +65,11 @@ def parser() -> argparse.ArgumentParser:
         "--debug", action="store_true", help=_("enable debug statements")
     )
     parser.add_argument(
+        "--include-submodules",
+        action="store_true",
+        help=_("do not skip over Git submodules"),
+    )
+    parser.add_argument(
         "--version",
         action="store_true",
         help=_("show program's version number and exit"),

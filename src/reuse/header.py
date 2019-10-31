@@ -428,6 +428,7 @@ def run(args, out=sys.stdout) -> int:
         _verify_paths_supported(paths, args.parser)
 
     project = create_project()
+    project.include_submodules = args.include_submodules
     template = None
     commented = False
     if args.template:
