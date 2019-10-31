@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
+# SPDX-FileCopyrightText: 2019 Kirill Elagin <kirelagin@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,11 +8,12 @@
 
 import datetime
 import logging
+import re
 import sys
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
-from typing import Optional
+from typing import NamedTuple, Optional, Sequence
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
@@ -31,6 +33,7 @@ from ._comment import (
 from ._util import (
     PathType,
     _determine_license_path,
+    contains_spdx_info,
     extract_spdx_info,
     make_copyright_line,
     spdx_identifier,
@@ -43,6 +46,16 @@ _ENV = Environment(
     loader=PackageLoader("reuse", "templates"), trim_blocks=True
 )
 DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
+
+_NEWLINE_PATTERN = re.compile(r"\n", re.MULTILINE)
+
+
+class _TextSections(NamedTuple):
+    """Used to split up text in three parts."""
+
+    before: str
+    middle: str
+    after: str
 
 
 class MissingSpdxInfo(Exception):
@@ -132,16 +145,54 @@ def create_header(
             spdx_info.copyright_lines.union(existing_spdx.copyright_lines),
         )
 
-        if header.startswith("#!"):
-            new_header = header.split("\n")[0] + "\n"
-
     new_header += _create_new_header(
         spdx_info,
         template=template,
         template_is_commented=template_is_commented,
         style=style,
     )
-    return new_header
+    return new_header + "\n"
+
+
+def _indices_of_newlines(text: str) -> Sequence[int]:
+    indices = [0]
+    start = 0
+
+    while True:
+        match = _NEWLINE_PATTERN.search(text, start)
+        if match:
+            start = match.span()[1]
+            indices.append(start)
+        else:
+            break
+
+    return indices
+
+
+def _find_first_spdx_comment(
+    text: str, style: CommentStyle = None
+) -> _TextSections:
+    """Find the first SPDX comment in the file. Return a tuple with everything
+    preceding the comment, the comment itself, and everything following it.
+
+    :raises MissingSpdxInfo: if no SPDX info can be found in any comment
+    """
+    if style is None:
+        style = PythonCommentStyle
+
+    indices = _indices_of_newlines(text)
+
+    for index in indices:
+        try:
+            comment = style.comment_at_first_character(text[index:])
+        except CommentParseError:
+            continue
+        if contains_spdx_info(comment):
+            return _TextSections(
+                text[:index], comment + "\n", text[index + len(comment) + 1 :]
+            )
+
+    raise MissingSpdxInfo()
 
 
 def find_and_replace_header(
@@ -151,11 +202,10 @@ def find_and_replace_header(
     template_is_commented: bool = False,
     style: CommentStyle = None,
 ) -> str:
-    """Find the comment block starting at the first character in *text*. That
-    comment block is replaced by a new comment block containing *spdx_info*. It
-    is formatted as according to *template*. The template is normally
-    uncommented, but if it is already commented, *template_is_commented* should
-    be :const:`True`.
+    """Find the first SPDX comment block in *text*. That comment block is
+    replaced by a new comment block containing *spdx_info*. It is formatted as
+    according to *template*. The template is normally uncommented, but if it is
+    already commented, *template_is_commented* should be :const:`True`.
 
     If both *style* and *template_is_commented* are provided, *style* is only
     used to find the header comment.
@@ -171,27 +221,38 @@ def find_and_replace_header(
     :raises MissingSpdxInfo: if the generated comment is missing SPDX
         information.
     """
-    if template is None:
-        template = DEFAULT_TEMPLATE
     if style is None:
         style = PythonCommentStyle
 
     try:
-        header = style.comment_at_first_character(text)
-    except CommentParseError:
-        # TODO: Log this
-        header = ""
+        before, header, after = _find_first_spdx_comment(text, style=style)
+    except MissingSpdxInfo:
+        before, header, after = "", "", text
 
-    # TODO: This is a duplicated check that also happens inside of
-    # create_header.
-    try:
-        existing_spdx = extract_spdx_info(header)
-    except (ExpressionError, ParseError):
-        # This error is handled in create_header. Just set the value to None
-        # here to satisfy the linter.
-        existing_spdx = None
+    # pylint: disable=logging-format-interpolation
+    _LOGGER.debug("before = {}".format(repr(before)))
+    _LOGGER.debug("header = {}".format(repr(header)))
+    _LOGGER.debug("after = {}".format(repr(after)))
 
-    new_header = create_header(
+    # Extract shebang from header and put it in before. It's a bit messy, but
+    # it ends up working.
+    if header.startswith("#!") and not before.strip():
+        before = ""
+        for line in header.splitlines():
+            if line.startswith("#!"):
+                before = before + "\n" + line
+                header = header.replace(line, "", 1)
+            else:
+                break
+    elif after.startswith("#!") and not any((before, header)):
+        for line in after.splitlines():
+            if line.startswith("#!"):
+                before = before + "\n" + line
+                after = after.replace(line, "", 1)
+            else:
+                break
+
+    header = create_header(
         spdx_info,
         header,
         template=template,
@@ -199,15 +260,12 @@ def find_and_replace_header(
         style=style,
     )
 
-    if header and any(existing_spdx):
-        text = text.replace(header, "", 1)
-    else:
-        # Some extra spacing for the new header.
-        new_header = new_header + "\n"
-        if not text.startswith("\n"):
-            new_header = new_header + "\n"
-
-    return new_header + text
+    new_text = header.strip("\n")
+    if before.strip():
+        new_text = before.strip("\n") + "\n\n" + new_text
+    if after.strip():
+        new_text = new_text + "\n\n" + after.strip("\n")
+    return new_text
 
 
 def _verify_paths_supported(paths, parser):

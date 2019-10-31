@@ -201,6 +201,7 @@ def extract_spdx_info(text: str) -> None:
     """Extract SPDX information from comments in a string.
 
     :raises ExpressionError: if an SPDX expression could not be parsed
+    :raises ParseError: if an SPDX expression could not be parsed
     """
     expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
     expressions = set()
@@ -219,6 +220,14 @@ def extract_spdx_info(text: str) -> None:
                 break
 
     return SpdxInfo(expressions, copyright_matches)
+
+
+def contains_spdx_info(text: str) -> bool:
+    """The text contains SPDX info."""
+    try:
+        return any(extract_spdx_info(text))
+    except (ExpressionError, ParseError):
+        return False
 
 
 def make_copyright_line(statement: str, year: str = None) -> str:

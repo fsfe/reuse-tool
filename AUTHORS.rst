@@ -32,6 +32,8 @@ Contributors
 
 - Stefan Bakker <s.bakker777@gmail.com>
 
+- Kirill Elagin <kirelagin@gmail.com>
+
 Translators
 -----------
 
