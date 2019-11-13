@@ -424,7 +424,7 @@ def run(args, out=sys.stdout) -> int:
     paths = [_determine_license_path(path) for path in args.path]
 
     # First loop to verify before proceeding
-    if args.style is None:
+    if args.style is None and not args.explicit_license:
         _verify_paths_supported(paths, args.parser)
 
     project = create_project()
