@@ -26,6 +26,11 @@ The versions follow [semantic versioning](https://semver.org).
 - `--include-submodules` is added to also include submodules when linting et
   cetera.
 
+- `addheader` now also recognises the following extensions:
+
+  + .kt
+  + .xml
+
 ### Changed
 
 - Made the workaround for `MachineReadableFormatError` introduced in 0.5.2 more
