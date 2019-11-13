@@ -679,6 +679,45 @@ def test_addheader_explicit_license(
     assert simple_file.read_text() == "pass"
 
 
+def test_addheader_explicit_license_unsupported_filetype(
+    fake_repository, stringio, mock_date_today
+):
+    """Add a header to a .license file if --explicit-license is given, with the
+    base file being an otherwise unsupported filetype.
+    """
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.txt"
+    simple_file.write_text("Preserve this")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--explicit-license",
+            "foo.txt",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.with_name(f"{simple_file.name}.license")
+        .read_text()
+        .strip()
+        == cleandoc(
+            """
+            spdx-FileCopyrightText: 2018 Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+    assert simple_file.read_text() == "Preserve this"
+
+
 def test_addheader_license_file(fake_repository, stringio, mock_date_today):
     """Add a header to a .license file if it exists."""
     # pylint: disable=unused-argument

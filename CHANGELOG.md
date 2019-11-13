@@ -43,6 +43,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Git submodules are now ignored by default.
 
+- `addheader --explicit-license` now no longer breaks on unsupported filetypes.
+
 ## 0.5.2 - 2019-10-27
 
 ### Added
