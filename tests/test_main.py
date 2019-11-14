@@ -151,7 +151,6 @@ def test_lint_custom_root_not_exists(fake_repository, stringio):
         )
 
 
-@pytest.mark.xfail(reason="not implemented")
 def test_lint_outside_of_root(fake_repository, stringio):
     """Lint fails when the provided directories are outside of the root
     directory.

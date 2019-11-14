@@ -6,8 +6,10 @@
 the reports and printing some conclusions.
 """
 
+import os
 import sys
 from gettext import gettext as _
+from itertools import chain
 from typing import Iterable
 
 from . import __REUSE_version__
@@ -255,6 +257,15 @@ def run(args, project: Project, out=sys.stdout):
     paths = args.path
     if not paths:
         paths = [project.root]
+
+    if os.path.commonprefix(
+        [path.resolve() for path in chain([project.root], paths)]
+    ) != str(project.root.resolve()):
+        args.parser.error(
+            _(
+                "the provided path(s) are not subdirectories of the root: {}"
+            ).format(project.root)
+        )
 
     report = ProjectReport.generate(project, paths, do_checksum=False)
     result = lint(report, out=out)

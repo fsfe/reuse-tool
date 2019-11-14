@@ -240,8 +240,6 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
     else:
         project = create_project()
     project.include_submodules = parsed_args.include_submodules
-    # FIXME: Do a test here to see whether all provided paths are children of
-    # root.
 
     return parsed_args.func(parsed_args, project, out)
 
