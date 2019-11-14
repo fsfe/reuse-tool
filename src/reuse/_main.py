@@ -73,6 +73,7 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--root",
         action="store",
+        metavar="PATH",
         type=PathType("r", force_directory=True),
         help=_("define root of project"),
     )
@@ -81,7 +82,7 @@ def parser() -> argparse.ArgumentParser:
         action="store_true",
         help=_("show program's version number and exit"),
     )
-    parser.set_defaults(func=lambda x, y: parser.print_help())
+    parser.set_defaults(func=lambda *args: parser.print_help())
 
     subparsers = parser.add_subparsers(title=_("subcommands"))
 
