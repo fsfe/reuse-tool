@@ -367,6 +367,8 @@ COMMENT_STYLE_MAP = {
     ".tex": TexCommentStyle,
     ".vala": CCommentStyle,
     ".xml": HtmlCommentStyle,
+    ".yaml": PythonCommentStyle,
+    ".yml": PythonCommentStyle,
     ".zsh": PythonCommentStyle,
 }
 
