@@ -192,9 +192,10 @@ line containing '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag an
 everything following it is considered a valid copyright notice, even if the
 copyright notice is not compliant with the specification.
 
-When running ``reuse lint``, the root of the project is automatically found if
-the working directory is inside a git repository. Otherwise, it treats the
-working directory or the specified directory as the root of the project.
+When running ``reuse``, the root of the project is automatically found if the
+working directory is inside a git repository. Otherwise, it treats the working
+directory or the specified directory as the root of the project. You can
+override the root of the project with the ``--root`` optional argument.
 
 Git submodules are automatically ignored unless ``--include-submodules`` is
 passed as optional argument.
