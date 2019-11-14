@@ -376,6 +376,40 @@ def test_addheader_unrecognised_style(fake_repository):
         )
 
 
+def test_addheader_uncommentable(fake_repository, stringio, mock_date_today):
+    """Add a header to a .license file if the file does not support a comment
+    syntax.
+    """
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.txt"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.txt",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.with_suffix(".txt.license").read_text()
+        == cleandoc(
+            """
+            spdx-FileCopyrightText: 2018 Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+    assert simple_file.read_text() == "pass"
+
+
 def test_addheader_no_copyright_or_license(fake_repository):
     """Add a header, but supply no copyright or license."""
     simple_file = fake_repository / "foo.py"

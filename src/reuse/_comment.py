@@ -382,6 +382,8 @@ NAME_STYLE_MAP = {
     "tex": TexCommentStyle,
 }
 
+UNCOMMENTABLE_EXTENSIONS = {".json", ".txt"}
+
 
 def _all_style_classes() -> List[CommentStyle]:
     """Return a list of all defined style classes, excluding the base class."""

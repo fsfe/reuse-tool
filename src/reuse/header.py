@@ -25,6 +25,7 @@ from . import SpdxInfo
 from ._comment import (
     COMMENT_STYLE_MAP,
     NAME_STYLE_MAP,
+    UNCOMMENTABLE_EXTENSIONS,
     CommentCreateError,
     CommentParseError,
     CommentStyle,
@@ -274,7 +275,9 @@ def _verify_paths_supported(paths, parser):
             COMMENT_STYLE_MAP[path.suffix]
         except KeyError:
             # TODO: This check is duplicated.
-            if not is_binary(str(path)):
+            if path.suffix not in UNCOMMENTABLE_EXTENSIONS and not is_binary(
+                str(path)
+            ):
                 parser.error(
                     _(
                         "'{}' does not have a recognised file extension, "
@@ -463,13 +466,21 @@ def run(args, out=sys.stdout) -> int:
     result = 0
     for path in paths:
         binary = is_binary(str(path))
-        if binary or args.explicit_license:
+        uncommentable = path.suffix in UNCOMMENTABLE_EXTENSIONS
+        if binary or uncommentable or args.explicit_license:
             new_path = f"{path}.license"
             if binary:
                 _LOGGER.info(
                     _(
                         "'{path}' is a binary, therefore using '{new_path}' "
                         "for the header"
+                    ).format(path=path, new_path=new_path)
+                )
+            elif uncommentable:
+                _LOGGER.info(
+                    _(
+                        "'{path}' does not support a comment syntax, "
+                        "therefore using '{new_path}' for the header"
                     ).format(path=path, new_path=new_path)
                 )
             path = Path(new_path)
