@@ -21,6 +21,7 @@ from . import (
 )
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import setup_logging
+from .project import create_project
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -227,7 +228,11 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
     if parsed_args.version:
         out.write("reuse {}\n".format(__version__))
         return 0
-    return parsed_args.func(parsed_args, out)
+
+    project = create_project()
+    project.include_submodules = parsed_args.include_submodules
+
+    return parsed_args.func(parsed_args, project, out)
 
 
 if __name__ == "__main__":
