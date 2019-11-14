@@ -30,6 +30,8 @@ The versions follow [semantic versioning](https://semver.org).
 
   + .kt
   + .xml
+  + .yaml
+  + .yml
 
 ### Changed
 
