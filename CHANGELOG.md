@@ -31,6 +31,9 @@ The versions follow [semantic versioning](https://semver.org).
   + .kt
   + .xml
 
+- Implemented `--root` argument to specify the root of the project without
+  heuristics.
+
 ### Changed
 
 - Made the workaround for `MachineReadableFormatError` introduced in 0.5.2 more
@@ -44,6 +47,10 @@ The versions follow [semantic versioning](https://semver.org).
 - Git submodules are now ignored by default.
 
 - `addheader --explicit-license` now no longer breaks on unsupported filetypes.
+
+- `lint` will now raise an error when it is provided paths that are not inside
+  of the project root. e.g., `lint ../` fails, assuming that the current working
+  directory is the project root.
 
 ## 0.5.2 - 2019-10-27
 
