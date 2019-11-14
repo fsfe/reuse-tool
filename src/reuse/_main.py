@@ -20,8 +20,8 @@ from . import (
     spdx,
 )
 from ._format import INDENT, fill_all, fill_paragraph
-from ._util import setup_logging
-from .project import create_project
+from ._util import PathType, setup_logging
+from .project import Project, create_project
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -69,6 +69,12 @@ def parser() -> argparse.ArgumentParser:
         "--include-submodules",
         action="store_true",
         help=_("do not skip over Git submodules"),
+    )
+    parser.add_argument(
+        "--root",
+        action="store",
+        type=PathType("r", force_directory=True),
+        help=_("define root of project"),
     )
     parser.add_argument(
         "--version",
@@ -229,8 +235,13 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
         out.write("reuse {}\n".format(__version__))
         return 0
 
-    project = create_project()
+    if parsed_args.root:
+        project = Project(parsed_args.root)
+    else:
+        project = create_project()
     project.include_submodules = parsed_args.include_submodules
+    # FIXME: Do a test here to see whether all provided paths are children of
+    # root.
 
     return parsed_args.func(parsed_args, project, out)
 

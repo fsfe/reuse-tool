@@ -99,6 +99,67 @@ def test_lint_fail(fake_repository, stringio):
     assert ":-(" in stringio.getvalue()
 
 
+def test_lint_custom_root(fake_repository, stringio):
+    """Use a custom root location."""
+    result = main(
+        ["--root", "doc", "lint", str(fake_repository / "doc")], out=stringio
+    )
+
+    assert result > 0
+    assert "index.rst" in stringio.getvalue()
+    assert ":-(" in stringio.getvalue()
+
+
+def test_lint_custom_root_git(git_repository, stringio):
+    """Use a custom root location in a git repo."""
+    result = main(
+        ["--root", "doc", "lint", str(git_repository / "doc")], out=stringio
+    )
+
+    assert result > 0
+    assert "index.rst" in stringio.getvalue()
+    assert ":-(" in stringio.getvalue()
+
+
+def test_lint_custom_root_different_cwd(fake_repository, stringio):
+    """Use a custom root while CWD is different."""
+    os.chdir("/")
+    result = main(
+        ["--root", str(fake_repository), "lint", str(fake_repository)],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
+def test_lint_custom_root_is_file(fake_repository, stringio):
+    """Custom root cannot be a file."""
+    with pytest.raises(SystemExit):
+        main(
+            ["--root", ".reuse/dep5", "lint", str(fake_repository)],
+            out=stringio,
+        )
+
+
+def test_lint_custom_root_not_exists(fake_repository, stringio):
+    """Custom root must exist."""
+    with pytest.raises(SystemExit):
+        main(
+            ["--root", "does-not-exist", "lint", str(fake_repository)],
+            out=stringio,
+        )
+
+
+@pytest.mark.xfail(reason="not implemented")
+def test_lint_outside_of_root(fake_repository, stringio):
+    """Lint fails when the provided directories are outside of the root
+    directory.
+    """
+    with pytest.raises(SystemExit):
+        main(["--root", "doc", "lint", str(fake_repository)], out=stringio)
+
+
 def test_spdx(fake_repository, stringio):
     """Compile to an SPDX document."""
     os.chdir(str(fake_repository))
