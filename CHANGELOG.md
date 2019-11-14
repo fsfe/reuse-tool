@@ -308,8 +308,7 @@ backwards-incompatible) version is in the works.
 -   Removed dependency on `os.PathLike` so that Python 3.5 is actually
     supported
 
-0.0.3 - 2017-11-06
-------------------
+## 0.0.3 - 2017-11-06
 
 ### Fixed
 
