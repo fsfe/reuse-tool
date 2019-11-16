@@ -47,16 +47,6 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
         )
     )
 
-    if report.licenses_without_extension:
-        out.write("\n")
-        out.write(
-            _(
-                "One or more licenses in the project do not have a file "
-                "extension."
-            )
-        )
-        out.write("\n")
-
     out.write("\n")
     if success:
         out.write(
@@ -228,6 +218,16 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
         out.write(" ")
         out.write(lic)
     out.write("\n")
+
+    if report.licenses_without_extension:
+        out.write("* ")
+        out.write(_("Licenses without file extension:"))
+        for i, lic in enumerate(sorted(report.licenses_without_extension)):
+            if i:
+                out.write(",")
+            out.write(" ")
+            out.write(lic)
+        out.write("\n")
 
     out.write("* ")
     out.write(_("Read errors: {count}".format(count=len(report.read_errors))))
