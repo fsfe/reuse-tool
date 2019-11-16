@@ -26,6 +26,9 @@ The versions follow [semantic versioning](https://semver.org).
 - `--include-submodules` is added to also include submodules when linting et
   cetera.
 
+- Deprecated licenses are now recognised. `lint` will complain about deprecated
+  licenses.
+
 - `addheader` now also recognises the following extensions:
 
   + .kt
