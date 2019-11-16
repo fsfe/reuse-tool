@@ -43,6 +43,7 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
             # TODO: Should this be a separate entry if it's already in the
             # summary?
             report.unused_licenses,
+            report.deprecated_licenses,
         )
     )
 
@@ -185,6 +186,15 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("* ")
     out.write(_("Bad licenses:"))
     for i, lic in enumerate(sorted(report.bad_licenses)):
+        if i:
+            out.write(",")
+        out.write(" ")
+        out.write(lic)
+    out.write("\n")
+
+    out.write("* ")
+    out.write(_("Deprecated licenses:"))
+    for i, lic in enumerate(sorted(report.deprecated_licenses)):
         if i:
             out.write(",")
         out.write(" ")

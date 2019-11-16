@@ -39,6 +39,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self.licenses = dict()
         self.missing_licenses = dict()
         self.bad_licenses = dict()
+        self.deprecated_licenses = set()
         self.read_errors = set()
         self.file_reports = set()
 
@@ -64,6 +65,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 lic: [str(file_) for file_ in files]
                 for lic, files in self.bad_licenses.items()
             },
+            "deprecated_licenses": sorted(self.deprecated_licenses),
             "read_errors": list(map(str, self.read_errors)),
             "file_reports": [report.to_dict() for report in self.file_reports],
         }
@@ -186,10 +188,12 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                         lint_file_info.file_report.path
                     )
 
-        # More bad licenses
+        # More bad licenses, and also deprecated licenses
         for name, path in project.licenses.items():
             if name not in project.license_map:
                 project_report.bad_licenses.setdefault(name, set()).add(path)
+            elif project.license_map[name]["isDeprecatedLicenseId"]:
+                project_report.deprecated_licenses.add(name)
 
         return project_report
 

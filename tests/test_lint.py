@@ -4,6 +4,8 @@
 
 """All tests for reuse.lint"""
 
+import shutil
+
 from reuse.lint import (
     lint,
     lint_bad_licenses,
@@ -56,6 +58,27 @@ def test_lint_empty_directory(empty_directory):
     report = ProjectReport.generate(project)
     result = lint(report)
     assert result
+
+
+def test_lint_deprecated(fake_repository, stringio):
+    """If a repo has a deprecated license, detect it."""
+    shutil.copy(
+        fake_repository / "LICENSES/GPL-3.0-or-later.txt",
+        fake_repository / "LICENSES/GPL-3.0.txt",
+    )
+    (fake_repository / "foo.py").write_text(
+        "SPDX"
+        "-License-Identifier: GPL-3.0\n"
+        "SPDX"
+        "-FileCopyrightText: Jane Doe"
+    )
+
+    project = Project(fake_repository)
+    report = ProjectReport.generate(project)
+    result = lint(report, out=stringio)
+
+    assert not result
+    assert "GPL-3.0" in stringio.getvalue()
 
 
 def test_lint_bad_license(fake_repository, stringio):

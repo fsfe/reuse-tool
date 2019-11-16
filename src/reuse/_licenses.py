@@ -31,11 +31,8 @@ def _load_license_list(file_name):
         licenses = json.load(lics)
         version = licenses["licenseListVersion"].split(".")
         for lic in licenses["licenses"]:
-            if lic.get("isDeprecatedLicenseId"):
-                continue
-            name = lic["name"]
             identifier = lic["licenseId"]
-            licenses_map[identifier] = name
+            licenses_map[identifier] = lic
     return version, licenses_map
 
 
@@ -49,11 +46,8 @@ def _load_exception_list(file_name):
         exceptions = json.load(excs)
         version = exceptions["licenseListVersion"].split(".")
         for exc in exceptions["exceptions"]:
-            if exc.get("isDeprecatedLicenseId"):
-                continue
-            name = exc["name"]
             identifier = exc["licenseExceptionId"]
-            exceptions_map[identifier] = name
+            exceptions_map[identifier] = exc
     return version, exceptions_map
 
 
