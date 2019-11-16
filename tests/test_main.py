@@ -107,10 +107,7 @@ def test_lint_no_file_extension(fake_repository, stringio):
     result = main(["lint", str(fake_repository)], out=stringio)
 
     assert result > 0
-    assert (
-        "One or more licenses in the project do not have a file extension."
-        in stringio.getvalue()
-    )
+    assert "Licenses without file extension: CC0-1.0" in stringio.getvalue()
     assert ":-(" in stringio.getvalue()
 
 

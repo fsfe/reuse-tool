@@ -44,6 +44,8 @@ class Project:
     interactions.
     """
 
+    # pylint: disable=too-many-instance-attributes
+
     def __init__(self, root: PathLike, include_submodules: bool = False):
         self._root = Path(root)
         if not self._root.is_dir():
