@@ -344,6 +344,7 @@ COMMENT_STYLE_MAP = {
     ".html": HtmlCommentStyle,
     ".java": CCommentStyle,
     ".js": CCommentStyle,
+    ".kt": CCommentStyle,
     ".l": LispCommentStyle,
     ".latex": TexCommentStyle,
     ".license": EmptyCommentStyle,
@@ -365,6 +366,9 @@ COMMENT_STYLE_MAP = {
     ".sml": MlCommentStyle,
     ".tex": TexCommentStyle,
     ".vala": CCommentStyle,
+    ".xml": HtmlCommentStyle,
+    ".yaml": PythonCommentStyle,
+    ".yml": PythonCommentStyle,
     ".zsh": PythonCommentStyle,
 }
 

@@ -57,6 +57,38 @@ def test_lint_git(git_repository, stringio):
     assert ":-)" in stringio.getvalue()
 
 
+def test_lint_submodule(submodule_repository, stringio):
+    """Run a successful lint."""
+    (submodule_repository / "submodule/foo.c").touch()
+    result = main(["lint", str(submodule_repository)], out=stringio)
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
+def test_lint_submodule_included(submodule_repository, stringio):
+    """Run a successful lint."""
+    result = main(
+        ["--include-submodules", "lint", str(submodule_repository)],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
+def test_lint_submodule_included_fail(submodule_repository, stringio):
+    """Run a failed lint."""
+    (submodule_repository / "submodule/foo.c").touch()
+    result = main(
+        ["--include-submodules", "lint", str(submodule_repository)],
+        out=stringio,
+    )
+
+    assert result == 1
+    assert ":-(" in stringio.getvalue()
+
+
 def test_lint_fail(fake_repository, stringio):
     """Run a failed lint."""
     (fake_repository / "foo.py").touch()
@@ -660,6 +692,45 @@ def test_addheader_explicit_license(
         ).replace("spdx", "SPDX")
     )
     assert simple_file.read_text() == "pass"
+
+
+def test_addheader_explicit_license_unsupported_filetype(
+    fake_repository, stringio, mock_date_today
+):
+    """Add a header to a .license file if --explicit-license is given, with the
+    base file being an otherwise unsupported filetype.
+    """
+    # pylint: disable=unused-argument
+    simple_file = fake_repository / "foo.txt"
+    simple_file.write_text("Preserve this")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--explicit-license",
+            "foo.txt",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.with_name(f"{simple_file.name}.license")
+        .read_text()
+        .strip()
+        == cleandoc(
+            """
+            spdx-FileCopyrightText: 2018 Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+    assert simple_file.read_text() == "Preserve this"
 
 
 def test_addheader_license_file(fake_repository, stringio, mock_date_today):

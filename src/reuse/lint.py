@@ -264,11 +264,12 @@ def add_arguments(parser):
 def run(args, out=sys.stdout):
     """List all non-compliant files."""
     project = create_project()
+    project.include_submodules = args.include_submodules
     paths = args.path
     if not paths:
         paths = [project.root]
 
-    report = ProjectReport.generate(project, paths)
+    report = ProjectReport.generate(project, paths, do_checksum=False)
     result = lint(report, out=out)
 
     return 0 if result else 1

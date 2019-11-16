@@ -36,10 +36,11 @@ current year is 2019):
 You can use as many ``--copyright`` and ``--copyright`` arguments, so long as
 there is at least one such argument.
 
-The REUSE header always starts at the first character in a file. If a different
-REUSE header already existed, its tags are copied, and the header is replaced.
-If the pre-existing comment header did not contain any copyright and licensing
-information, it is moved downwards in the file. A shebang is always preserved.
+The REUSE header is placed at the very top of the file. If a different REUSE
+header already existed---at the top or elsewhere---its tags are copied, and the
+header is replaced in-place.
+
+Shebangs are always preserved at the top of the file.
 
 Comment styles
 --------------
@@ -186,14 +187,17 @@ plain-text file, even if the comment style is not recognised.
 If a file is found to have an unparseable tag, that file is not parsed at all.
 This is `a bug <https://github.com/fsfe/reuse-tool/issues/4>`_.
 
-The tool does not verify the correctness of copyright notices. It finds any line
-beginning with '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
+The tool does not verify the correctness of copyright notices. If it finds any
+line containing '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
 everything following it is considered a valid copyright notice, even if the
 copyright notice is not compliant with the specification.
 
 When running ``reuse lint``, the root of the project is automatically found if
 the working directory is inside a git repository. Otherwise, it treats the
 working directory or the specified directory as the root of the project.
+
+Git submodules are automatically ignored unless ``--include-submodules`` is
+passed as optional argument.
 
 The STDOUT output of ``reuse lint`` is valid Markdown. Occasionally some logging
 will be printed to STDERR, which is not valid Markdown.

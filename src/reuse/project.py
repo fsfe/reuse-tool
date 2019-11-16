@@ -12,7 +12,8 @@ from pathlib import Path
 from typing import Dict, Iterator, Optional
 
 from boolean.boolean import ParseError
-from debian.copyright import Copyright, NotMachineReadableError
+from debian.copyright import Copyright
+from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
 from . import (
@@ -43,7 +44,7 @@ class Project:
     interactions.
     """
 
-    def __init__(self, root: PathLike):
+    def __init__(self, root: PathLike, include_submodules: bool = False):
         self._root = Path(root)
         if not self._root.is_dir():
             raise NotADirectoryError("{} is no valid path".format(self._root))
@@ -65,6 +66,7 @@ class Project:
         self.licenses = self._licenses()
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
+        self.include_submodules = include_submodules
 
     def all_files(self, directory: PathLike = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
@@ -93,6 +95,13 @@ class Project:
             for dir_ in list(dirs):
                 if self._is_path_ignored(root / dir_):
                     _LOGGER.debug("ignoring %s", root / dir_)
+                    dirs.remove(dir_)
+                if (
+                    root / dir_ / ".git"
+                ).is_file() and not self.include_submodules:
+                    _LOGGER.info(
+                        "ignoring %s because it is a submodule", root / dir_
+                    )
                     dirs.remove(dir_)
 
             # Filter files.
@@ -221,7 +230,7 @@ class Project:
                     self._copyright_val = Copyright(fp)
             except (IOError, OSError):
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
-            except NotMachineReadableError:
+            except DebianError:
                 _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
 
             # This check is a bit redundant, but otherwise I'd have to repeat

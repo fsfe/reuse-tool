@@ -109,7 +109,7 @@ class Build(build_py):
 if __name__ == "__main__":
     setup(
         name="fsfe-reuse",
-        version="0.5.0",
+        version="0.5.2",
         url="https://reuse.software/",
         project_urls={
             "Documentation": "https://reuse.readthedocs.io/",

@@ -46,13 +46,16 @@ _HEADER_BYTES = 4096
 
 
 def setup_logging(level: int = logging.WARNING) -> None:
-    """Configure logging for reuse."""
+    """Configure logging for reuse.
+
+    You can only call this function once.
+    """
     # library_logger is the root logger for reuse. We configure logging solely
     # for reuse, not for any other libraries.
     library_logger = logging.getLogger("reuse")
-    library_logger.setLevel(level)
 
     if not library_logger.hasHandlers():
+        library_logger.setLevel(level)
         handler = logging.StreamHandler()
         formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
         handler.setFormatter(formatter)
@@ -198,6 +201,7 @@ def extract_spdx_info(text: str) -> None:
     """Extract SPDX information from comments in a string.
 
     :raises ExpressionError: if an SPDX expression could not be parsed
+    :raises ParseError: if an SPDX expression could not be parsed
     """
     expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
     expressions = set()
@@ -216,6 +220,14 @@ def extract_spdx_info(text: str) -> None:
                 break
 
     return SpdxInfo(expressions, copyright_matches)
+
+
+def contains_spdx_info(text: str) -> bool:
+    """The text contains SPDX info."""
+    try:
+        return any(extract_spdx_info(text))
+    except (ExpressionError, ParseError):
+        return False
 
 
 def make_copyright_line(statement: str, year: str = None) -> str:

@@ -21,11 +21,58 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased - YYYY-MM-DD
 
+### Added
+
+- `--include-submodules` is added to also include submodules when linting et
+  cetera.
+
+- `addheader` now also recognises the following extensions:
+
+  + .kt
+  + .xml
+  + .yaml
+  + .yml
+
+### Changed
+
+- Made the workaround for `MachineReadableFormatError` introduced in 0.5.2 more
+  generic.
+
+- Improved shebang detection in `addheader`.
+
+- For `addheader`, the SPDX comment block now need not be the first thing in the
+  file. It will find the SPDX comment block and deal with it in-place.
+
+- Git submodules are now ignored by default.
+
+- `addheader --explicit-license` now no longer breaks on unsupported filetypes.
+
+## 0.5.2 - 2019-10-27
+
+### Added
+
+- `python3 -m reuse` now works.
+
+### Changed
+
+- Updated license list to 3.6-2-g2a14810.
+
 ### Fixed
+
+- Performance of `reuse lint` improved by at least a factor of 2. It no longer
+  does any checksums on files behind the scenes.
+
+- Also handle `MachineReadableFormatError` when parsing DEP5 files. Tries to
+  import that error. If the import is unsuccessful, it is handled.
 
 - A license that does not have a file extension, but whose full name is a valid
   SPDX License Identifier is now correctly identified as such. The linter will
   complain about them, however.
+
+## 0.5.1 - 2019-10-24 [YANKED]
+
+This release was replaced by 0.5.2 due to importing
+`MachineReadableFormatError`, which is not a backwards-compatible change.
 
 ## 0.5.0 - 2019-08-29
 
@@ -267,8 +314,7 @@ backwards-incompatible) version is in the works.
 -   Removed dependency on `os.PathLike` so that Python 3.5 is actually
     supported
 
-0.0.3 - 2017-11-06
-------------------
+## 0.0.3 - 2017-11-06
 
 ### Fixed
 
