@@ -261,7 +261,7 @@ class Project:
                 identifier = self._identifier_of_license(path)
             except IdentifierNotFound:
                 if path.name in self.license_map:
-                    _LOGGER.warning(
+                    _LOGGER.info(
                         _("{path} does not have a file extension").format(
                             path=path
                         )
