@@ -42,6 +42,13 @@ The versions follow [semantic versioning](https://semver.org).
 - Implemented `--root` argument to specify the root of the project without
   heuristics.
 
+- The linter will complain about licenses without file extensions.
+
+### Changed
+
+- The linter output has been very slightly re-ordered to be more internally
+  consistent.
+
 ### Removed
 
 - `lint` no longer accepts path arguments. Where previously one could do `reuse
