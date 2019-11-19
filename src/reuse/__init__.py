@@ -47,7 +47,7 @@ else:
 __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
 __license__ = "GPL-3.0-or-later"
-__version__ = "0.5.2"
+__version__ = "0.6.0"
 __REUSE_version__ = "3.0"
 
 

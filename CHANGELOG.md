@@ -19,7 +19,7 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
-## Unreleased - YYYY-MM-DD
+## 0.6.0 - 2019-11-19
 
 ### Added
 
@@ -30,6 +30,8 @@ The versions follow [semantic versioning](https://semver.org).
 
   + .kt
   + .xml
+  + .yaml
+  + .yml
 
 - Implemented `--root` argument to specify the root of the project without
   heuristics.
