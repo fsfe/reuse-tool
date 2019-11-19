@@ -4,7 +4,7 @@
 
 """Global fixtures and configuration."""
 
-# pylint: disable=redefined-outer-name
+# pylint: disable=redefined-outer-name,subprocess-run-check
 
 import logging
 import os

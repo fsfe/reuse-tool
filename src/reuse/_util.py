@@ -73,7 +73,9 @@ def execute_command(
     stdout = kwargs.get("stdout", subprocess.PIPE)
     stderr = kwargs.get("stderr", subprocess.PIPE)
 
-    return subprocess.run(command, stdout=stdout, stderr=stderr, **kwargs)
+    return subprocess.run(
+        command, stdout=stdout, stderr=stderr, check=False, **kwargs
+    )
 
 
 def find_root() -> Optional[Path]:

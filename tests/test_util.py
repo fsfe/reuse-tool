@@ -171,6 +171,8 @@ def test_pathtype_read_not_readable(fake_repository):
     with pytest.raises(ArgumentTypeError):
         _util.PathType("r")("src/source_code.py")
 
+    os.chmod("src/source_code.py", 0o777)
+
 
 def test_pathtype_read_not_exists(empty_directory):
     """Cannot read a file that does not exist."""
@@ -206,6 +208,8 @@ def test_pathtype_write_exists_but_not_writeable(fake_repository):
     with pytest.raises(ArgumentTypeError):
         _util.PathType("w")("src/source_code.py")
 
+    os.chmod("src/source_code.py", 0o777)
+
 
 @no_root
 def test_pathtype_write_not_exist_but_directory_not_writeable(fake_repository):
@@ -216,6 +220,8 @@ def test_pathtype_write_not_exist_but_directory_not_writeable(fake_repository):
 
     with pytest.raises(ArgumentTypeError):
         _util.PathType("w")("src/foo.py")
+
+    os.chmod("src", 0o777)
 
 
 def test_pathtype_invalid_mode(empty_directory):

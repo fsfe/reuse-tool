@@ -286,9 +286,7 @@ class FileReport:
             "name": self.spdxfile.name,
             "spdx_id": self.spdxfile.spdx_id,
             "chk_sum": self.spdxfile.chk_sum,
-            "licenses_in_file": [
-                lic for lic in self.spdxfile.licenses_in_file
-            ],
+            "licenses_in_file": sorted(self.spdxfile.licenses_in_file),
             "copyright": self.spdxfile.copyright,
         }
 
