@@ -5,7 +5,7 @@
 
 """All tests for reuse._main"""
 
-# pylint: disable=redefined-outer-name
+# pylint: disable=redefined-outer-name,unused-argument
 
 import datetime
 import errno
@@ -37,9 +37,7 @@ def mock_date_today(monkeypatch):
     monkeypatch.setattr(datetime, "date", date)
 
 
-def test_lint(
-    fake_repository, stringio, git_exe
-):  # pylint: disable=unused-argument
+def test_lint(fake_repository, stringio, git_exe):
     """Run a successful lint. git_exe is there to make sure that the test
     also works if git is not installed.
     """
@@ -144,7 +142,6 @@ def test_spdx(fake_repository, stringio):
 
 def test_download(fake_repository, stringio, mock_put_license_in_file):
     """Straightforward test."""
-    # pylint: disable=unused-argument
     result = main(["download", "0BSD"], out=stringio)
 
     assert result == 0
@@ -157,7 +154,6 @@ def test_download_file_exists(
     fake_repository, stringio, mock_put_license_in_file
 ):
     """The to-be-downloaded file already exists."""
-    # pylint: disable=unused-argument
     mock_put_license_in_file.side_effect = FileExistsError(
         errno.EEXIST, "", "GPL-3.0-or-later.txt"
     )
@@ -172,7 +168,6 @@ def test_download_request_exception(
     fake_repository, stringio, mock_put_license_in_file
 ):
     """There was an error while downloading the license file."""
-    # pylint: disable=unused-argument
     mock_put_license_in_file.side_effect = requests.RequestException()
 
     result = main(["download", "0BSD"], out=stringio)
@@ -185,7 +180,6 @@ def test_download_invalid_spdx(
     fake_repository, stringio, mock_put_license_in_file
 ):
     """An invalid SPDX identifier was provided."""
-    # pylint: disable=unused-argument
     mock_put_license_in_file.side_effect = requests.RequestException()
 
     result = main(["download", "does-not-exist"], out=stringio)
@@ -198,7 +192,6 @@ def test_download_custom_output(
     empty_directory, stringio, mock_put_license_in_file
 ):
     """Download the license into a custom file."""
-    # pylint: disable=unused-argument
     result = main(["download", "-o", "foo", "0BSD"], out=stringio)
 
     assert result == 0
@@ -213,7 +206,6 @@ def test_download_custom_output_too_many(
     """Providing more than one license with a custom output results in an
     error.
     """
-    # pylint: disable=unused-argument
     with pytest.raises(SystemExit):
         main(
             ["download", "-o", "foo", "0BSD", "GPL-3.0-or-later"], out=stringio
@@ -223,7 +215,6 @@ def test_download_custom_output_too_many(
 # TODO: Replace this test with a monkeypatched test
 def test_addheader_simple(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
@@ -256,7 +247,6 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
 
 def test_addheader_year(fake_repository, stringio):
     """Add a header to a file with a custom year."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
@@ -291,7 +281,6 @@ def test_addheader_year(fake_repository, stringio):
 
 def test_addheader_no_year(fake_repository, stringio):
     """Add a header to a file without a year."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
@@ -325,7 +314,6 @@ def test_addheader_no_year(fake_repository, stringio):
 
 def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one, using a custom style."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
@@ -360,7 +348,6 @@ def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
 
 def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that has a recognised extension."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.js"
     simple_file.write_text("pass")
 
@@ -422,7 +409,6 @@ def test_addheader_template_simple(
     fake_repository, stringio, mock_date_today, template_simple_source
 ):
     """Add a header with a custom template."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
     template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
@@ -464,7 +450,6 @@ def test_addheader_template_simple_multiple(
     fake_repository, stringio, mock_date_today, template_simple_source
 ):
     """Add a header with a custom template to multiple files."""
-    # pylint: disable=unused-argument
     simple_files = [fake_repository / f"foo{i}.py" for i in range(10)]
     for simple_file in simple_files:
         simple_file.write_text("pass")
@@ -508,7 +493,6 @@ def test_addheader_template_no_spdx(
     fake_repository, stringio, template_no_spdx_source
 ):
     """Add a header with a template that lacks SPDX info."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
     template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
@@ -536,7 +520,6 @@ def test_addheader_template_commented(
     fake_repository, stringio, mock_date_today, template_commented_source
 ):
     """Add a header with a custom template that is already commented."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.c"
     simple_file.write_text("pass")
     template_file = (
@@ -602,7 +585,6 @@ def test_addheader_template_without_extension(
 ):
 
     """Find the correct header even when not using an extension."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
     template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
@@ -644,7 +626,6 @@ def test_addheader_binary(
     fake_repository, stringio, mock_date_today, binary_string
 ):
     """Add a header to a .license file if the file is a binary."""
-    # pylint: disable=unused-argument
     binary_file = fake_repository / "foo.png"
     binary_file.write_bytes(binary_string)
 
@@ -679,7 +660,6 @@ def test_addheader_explicit_license(
     fake_repository, stringio, mock_date_today
 ):
     """Add a header to a .license file if --explicit-license is given."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
@@ -718,7 +698,6 @@ def test_addheader_explicit_license_unsupported_filetype(
     """Add a header to a .license file if --explicit-license is given, with the
     base file being an otherwise unsupported filetype.
     """
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.txt"
     simple_file.write_text("Preserve this")
 
@@ -753,7 +732,6 @@ def test_addheader_explicit_license_unsupported_filetype(
 
 def test_addheader_license_file(fake_repository, stringio, mock_date_today):
     """Add a header to a .license file if it exists."""
-    # pylint: disable=unused-argument
     simple_file = fake_repository / "foo.py"
     simple_file.touch()
     license_file = fake_repository / "foo.py.license"

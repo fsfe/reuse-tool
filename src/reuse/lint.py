@@ -6,14 +6,11 @@
 the reports and printing some conclusions.
 """
 
-import os
 import sys
 from gettext import gettext as _
-from itertools import chain
 from typing import Iterable
 
 from . import __REUSE_version__
-from ._util import PathType
 from .project import Project
 from .report import ProjectReport
 
@@ -247,12 +244,13 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("\n")
 
 
-def add_arguments(parser):
+def add_arguments(parser):  # pylint: disable=unused-argument
     """Add arguments to parser."""
 
 
 def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
+    # pylint: disable=unused-argument
     report = ProjectReport.generate(project, do_checksum=False)
     result = lint(report, out=out)
 
