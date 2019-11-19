@@ -278,8 +278,8 @@ def _verify_paths_supported(paths, parser):
                 parser.error(
                     _(
                         "'{}' does not have a recognised file extension, "
-                        "please use --style".format(path)
-                    )
+                        "please use --style or --explicit-license"
+                    ).format(path)
                 )
 
 
