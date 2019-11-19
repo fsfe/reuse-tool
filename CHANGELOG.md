@@ -26,7 +26,7 @@ The versions follow [semantic versioning](https://semver.org).
 - Implemented `--root` argument to specify the root of the project without
   heuristics.
 
-### Changed
+### Removed
 
 - `lint` no longer accepts path arguments. Where previously one could do `reuse
   lint SUBDIRECTORY`, this is no longer possible. When linting, you must always
