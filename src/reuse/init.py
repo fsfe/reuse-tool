@@ -16,6 +16,7 @@ import requests
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import PathType, find_root
 from .download import _path_to_license_file, put_license_in_file
+from .project import Project
 
 
 def prompt_licenses(out=sys.stdout) -> List[str]:
@@ -70,9 +71,9 @@ def add_arguments(parser):
     )
 
 
-def run(args, out=sys.stdout):
+def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
-    # pylint: disable=too-many-statements
+    # pylint: disable=too-many-statements,unused-argument
     if args.path:
         root = args.path
     else:

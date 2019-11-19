@@ -9,6 +9,33 @@ obvious when using the tool. This chapter does not cover *everything*, assuming
 that the user is helped enough by ``reuse --help`` and ``reuse <subcommand>
 --help``.
 
+Implementation details
+======================
+
+This section covers implementation details that are true for the entire tool.
+
+When searching for copyright and licensing tags inside of files, the tool does
+not strictly limit itself to the header comment as prescribed by the
+specification. It searches the first 4 kibibytes of the file. This makes sure
+that the tool can parse any type of plain-text file, even if the comment style
+is not recognised.
+
+If a file is found to have an unparseable tag, that file is not parsed at all.
+This is `a bug <https://github.com/fsfe/reuse-tool/issues/4>`_.
+
+The tool does not verify the correctness of copyright notices. If it finds any
+line containing '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
+everything following it is considered a valid copyright notice, even if the
+copyright notice is not compliant with the specification.
+
+When running the tool, the root of the project is automatically found if the
+working directory is inside a git repository. Otherwise, it treats the working
+directory as the root of the project. You can override the root of the project
+with the ``--root`` optional argument.
+
+Git submodules are automatically ignored unless ``--include-submodules`` is
+passed as optional argument.
+
 addheader
 =========
 
@@ -144,63 +171,45 @@ This is some example output of ``reuse lint``:
 
 .. code-block:: text
 
-  # MISSING COPYRIGHT AND LICENSING INFORMATION
-
-  The following files have no copyright and licensing information:
-  * no-information.txt
-
-
   # BAD LICENSES
 
   'bad-license' found in:
   * LICENSES/bad-license.txt
 
 
-  # MISSING LICENSES
+  # UNUSED LICENSES
 
-  'MIT' found in:
-  * src/reuse/header.py
+  The following licenses are not used:
+  * bad-license
+
+
+  # MISSING COPYRIGHT AND LICENSING INFORMATION
+
+  The following files have no copyright and licensing information:
+  * no-information.txt
 
 
   # SUMMARY
 
   * Bad licenses: bad-license
-  * Missing licenses: MIT
+  * Licenses without file extension:
+  * Missing licenses:
   * Unused licenses: bad-license
   * Used licenses: Apache-2.0, CC-BY-SA-4.0, CC0-1.0, GPL-3.0-or-later
   * Read errors: 0
-  * Files with copyright information: 56 / 57
-  * Files with license information: 56 / 57
+  * Files with copyright information: 57 / 58
+  * Files with license information: 57 / 58
 
   Unfortunately, your project is not compliant with version 3.0 of the REUSE Specification :-(
 
-Implementation details
-----------------------
+..
+  Implementation details
+  ----------------------
 
-The following implementation details might be relevant for your use of the tool.
+  The following implementation details might be relevant for your use of the linter.
 
-The linter does not strictly limit itself to the header comment as prescribed by
-the specification. It searches the first 4 kibibytes of the file for copyright
-and licensing information. This makes sure that the linter can parse any type of
-plain-text file, even if the comment style is not recognised.
-
-If a file is found to have an unparseable tag, that file is not parsed at all.
-This is `a bug <https://github.com/fsfe/reuse-tool/issues/4>`_.
-
-The tool does not verify the correctness of copyright notices. If it finds any
-line containing '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
-everything following it is considered a valid copyright notice, even if the
-copyright notice is not compliant with the specification.
-
-When running ``reuse lint``, the root of the project is automatically found if
-the working directory is inside a git repository. Otherwise, it treats the
-working directory or the specified directory as the root of the project.
-
-Git submodules are automatically ignored unless ``--include-submodules`` is
-passed as optional argument.
-
-The STDOUT output of ``reuse lint`` is valid Markdown. Occasionally some logging
-will be printed to STDERR, which is not valid Markdown.
+  The STDOUT output of ``reuse lint`` is valid Markdown. Occasionally some logging
+  will be printed to STDERR, which is not valid Markdown.
 
 Criteria
 --------
@@ -212,6 +221,18 @@ Bad licenses
 
 Licenses that are found in ``LICENSES/`` that are not found in the SPDX License
 List or do not start with ``LicenseRef-`` are bad licenses.
+
+Deprecated licenses
++++++++++++++++++++
+
+If a license has an SPDX License Identifier that has been deprecated by SPDX,
+the license will show up here.
+
+Licenses without file extension
++++++++++++++++++++++++++++++++
+
+These are licenses whose file names are a valid SPDX License Identifier, but
+which do not have a file extension.
 
 Missing licenses
 ++++++++++++++++

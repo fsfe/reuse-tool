@@ -11,8 +11,7 @@ from gettext import gettext as _
 from typing import Iterable
 
 from . import __REUSE_version__
-from ._util import PathType
-from .project import create_project
+from .project import Project
 from .report import ProjectReport
 
 
@@ -24,26 +23,28 @@ def _write_element(element, out=sys.stdout):
 
 def lint(report: ProjectReport, out=sys.stdout) -> bool:
     """Lint the entire project."""
+    bad_licenses_result = lint_bad_licenses(report, out)
+    deprecated_result = lint_deprecated_licenses(report, out)
+    extensionless = lint_licenses_without_extension(report, out)
+    missing_licenses_result = lint_missing_licenses(report, out)
+    unused_licenses_result = lint_unused_licenses(report, out)
+    read_errors_result = lint_read_errors(report, out)
     files_without_cali = lint_files_without_copyright_and_licensing(
         report, out
     )
-    bad_licenses_result = lint_bad_licenses(report, out)
-    missing_licenses_result = lint_missing_licenses(report, out)
-    read_errors_result = lint_read_errors(report, out)
 
     lint_summary(report, out=out)
 
     success = not any(
         any(result)
         for result in (
-            files_without_cali,
             bad_licenses_result,
+            deprecated_result,
+            extensionless,
             missing_licenses_result,
+            unused_licenses_result,
             read_errors_result,
-            # TODO: Should this be a separate entry if it's already in the
-            # summary?
-            report.unused_licenses,
-            report.deprecated_licenses,
+            files_without_cali,
         )
     )
 
@@ -89,6 +90,46 @@ def lint_bad_licenses(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
     return bad_files
 
 
+def lint_deprecated_licenses(
+    report: ProjectReport, out=sys.stdout
+) -> Iterable[str]:
+    """Lint for deprecated licenses."""
+    deprecated = []
+
+    if report.deprecated_licenses:
+        out.write("# ")
+        out.write(_("DEPRECATED LICENSES"))
+        out.write("\n\n")
+        out.write(_("The following licenses are deprecated by SPDX:"))
+        out.write("\n")
+        for lic in sorted(report.deprecated_licenses):
+            deprecated.append(lic)
+            _write_element(lic, out=out)
+        out.write("\n\n")
+
+    return deprecated
+
+
+def lint_licenses_without_extension(
+    report: ProjectReport, out=sys.stdout
+) -> Iterable[str]:
+    """Lint for licenses without extensions."""
+    extensionless = []
+
+    if report.licenses_without_extension:
+        out.write("# ")
+        out.write(_("LICENSES WITHOUT FILE EXTENSION"))
+        out.write("\n\n")
+        out.write(_("The following licenses have no file extension:"))
+        out.write("\n")
+        for __, path in sorted(report.licenses_without_extension.items()):
+            extensionless.append(path)
+            _write_element(path, out=out)
+        out.write("\n\n")
+
+    return extensionless
+
+
 def lint_missing_licenses(
     report: ProjectReport, out=sys.stdout
 ) -> Iterable[str]:
@@ -112,6 +153,26 @@ def lint_missing_licenses(
         out.write("\n\n")
 
     return bad_files
+
+
+def lint_unused_licenses(
+    report: ProjectReport, out=sys.stdout
+) -> Iterable[str]:
+    """Lint for unused licenses."""
+    unused_licenses = []
+
+    if report.unused_licenses:
+        out.write("# ")
+        out.write(_("UNUSED LICENSES"))
+        out.write("\n\n")
+        out.write(_("The following licenses are not used:"))
+        out.write("\n")
+        for lic in sorted(report.unused_licenses):
+            unused_licenses.append(lic)
+            _write_element(lic, out=out)
+        out.write("\n\n")
+
+    return unused_licenses
 
 
 def lint_read_errors(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
@@ -177,6 +238,7 @@ def lint_files_without_copyright_and_licensing(
 
 def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     """Print a summary for linting."""
+    # pylint: disable=too-many-statements
     out.write("# ")
     out.write(_("SUMMARY"))
     out.write("\n\n")
@@ -195,6 +257,15 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("* ")
     out.write(_("Deprecated licenses:"))
     for i, lic in enumerate(sorted(report.deprecated_licenses)):
+        if i:
+            out.write(",")
+        out.write(" ")
+        out.write(lic)
+    out.write("\n")
+
+    out.write("* ")
+    out.write(_("Licenses without file extension:"))
+    for i, lic in enumerate(sorted(report.licenses_without_extension)):
         if i:
             out.write(",")
         out.write(" ")
@@ -255,20 +326,14 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("\n")
 
 
-def add_arguments(parser):
+def add_arguments(parser):  # pylint: disable=unused-argument
     """Add arguments to parser."""
-    parser.add_argument("path", action="store", nargs="*", type=PathType("r"))
 
 
-def run(args, out=sys.stdout):
+def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
-    project = create_project()
-    project.include_submodules = args.include_submodules
-    paths = args.path
-    if not paths:
-        paths = [project.root]
-
-    report = ProjectReport.generate(project, paths, do_checksum=False)
+    # pylint: disable=unused-argument
+    report = ProjectReport.generate(project, do_checksum=False)
     result = lint(report, out=out)
 
     return 0 if result else 1

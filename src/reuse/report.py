@@ -42,6 +42,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self.deprecated_licenses = set()
         self.read_errors = set()
         self.file_reports = set()
+        self.licenses_without_extension = dict()
 
         self.do_checksum = do_checksum
 
@@ -57,15 +58,19 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 identifier: str(path)
                 for identifier, path in self.licenses.items()
             },
-            "missing_licenses": {
-                lic: [str(file_) for file_ in files]
-                for lic, files in self.missing_licenses.items()
-            },
             "bad_licenses": {
                 lic: [str(file_) for file_ in files]
                 for lic, files in self.bad_licenses.items()
             },
             "deprecated_licenses": sorted(self.deprecated_licenses),
+            "licenses_without_extension": {
+                identifier: str(path)
+                for identifier, path in self.licenses_without_extension.items()
+            },
+            "missing_licenses": {
+                lic: [str(file_) for file_ in files]
+                for lic, files in self.missing_licenses.items()
+            },
             "read_errors": list(map(str, self.read_errors)),
             "file_reports": [report.to_dict() for report in self.file_reports],
         }
@@ -151,42 +156,38 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     @classmethod
     def generate(
-        cls,
-        project: Project,
-        paths: Iterable[PathLike] = None,
-        do_checksum: bool = True,
+        cls, project: Project, do_checksum: bool = True
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
-        if paths is None:
-            paths = [project.root]
-
         project_report = cls(do_checksum=do_checksum)
         project_report.path = project.root
         project_report.licenses = project.licenses
-        for path in paths:
-            for file_ in project.all_files(path):
-                try:
-                    lint_file_info = FileReport.generate(
-                        project, file_, do_checksum=project_report.do_checksum
-                    )
-                except (OSError, UnicodeError):
-                    # Translators: %s is a path.
-                    _LOGGER.info(_("Could not read %s"), file_)
-                    project_report.read_errors.add(file_)
-                    continue
+        project_report.licenses_without_extension = (
+            project.licenses_without_extension
+        )
+        for file_ in project.all_files():
+            try:
+                lint_file_info = FileReport.generate(
+                    project, file_, do_checksum=project_report.do_checksum
+                )
+            except (OSError, UnicodeError):
+                # Translators: %s is a path.
+                _LOGGER.info(_("Could not read %s"), file_)
+                project_report.read_errors.add(file_)
+                continue
 
-                # File report.
-                project_report.file_reports.add(lint_file_info.file_report)
+            # File report.
+            project_report.file_reports.add(lint_file_info.file_report)
 
-                # Bad and missing licenses.
-                for license in lint_file_info.missing_licenses:
-                    project_report.missing_licenses.setdefault(
-                        license, set()
-                    ).add(lint_file_info.file_report.path)
-                for license in lint_file_info.bad_licenses:
-                    project_report.bad_licenses.setdefault(license, set()).add(
-                        lint_file_info.file_report.path
-                    )
+            # Bad and missing licenses.
+            for license in lint_file_info.missing_licenses:
+                project_report.missing_licenses.setdefault(license, set()).add(
+                    lint_file_info.file_report.path
+                )
+            for license in lint_file_info.bad_licenses:
+                project_report.bad_licenses.setdefault(license, set()).add(
+                    lint_file_info.file_report.path
+                )
 
         # More bad licenses, and also deprecated licenses
         for name, path in project.licenses.items():

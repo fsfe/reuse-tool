@@ -10,7 +10,7 @@ import sys
 from gettext import gettext as _
 
 from ._util import PathType
-from .project import create_project
+from .project import Project
 from .report import ProjectReport
 
 _LOGGER = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ def add_arguments(parser) -> None:
     )
 
 
-def run(args, out=sys.stdout) -> int:
+def run(args, project: Project, out=sys.stdout) -> int:
     """Print the project's bill of materials."""
     if args.file:
         out = args.file.open("w", encoding="UTF-8")
@@ -31,8 +31,6 @@ def run(args, out=sys.stdout) -> int:
             # Translators: %s is a file name.
             _LOGGER.warning(_("'%s' does not end with .spdx"), out.name)
 
-    project = create_project()
-    project.include_submodules = args.include_submodules
     report = ProjectReport.generate(project)
 
     out.write(report.bill_of_materials())
