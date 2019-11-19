@@ -91,6 +91,18 @@ def test_lint_fail(fake_repository, stringio):
     assert ":-(" in stringio.getvalue()
 
 
+def test_lint_no_file_extension(fake_repository, stringio):
+    """If a license has no file extension, the lint fails."""
+    (fake_repository / "LICENSES/CC0-1.0.txt").rename(
+        fake_repository / "LICENSES/CC0-1.0"
+    )
+    result = main(["lint"], out=stringio)
+
+    assert result > 0
+    assert "Licenses without file extension: CC0-1.0" in stringio.getvalue()
+    assert ":-(" in stringio.getvalue()
+
+
 def test_lint_custom_root(fake_repository, stringio):
     """Use a custom root location."""
     result = main(["--root", "doc", "lint"], out=stringio)

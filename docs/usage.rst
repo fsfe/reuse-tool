@@ -171,33 +171,34 @@ This is some example output of ``reuse lint``:
 
 .. code-block:: text
 
-  # MISSING COPYRIGHT AND LICENSING INFORMATION
-
-  The following files have no copyright and licensing information:
-  * no-information.txt
-
-
   # BAD LICENSES
 
   'bad-license' found in:
   * LICENSES/bad-license.txt
 
 
-  # MISSING LICENSES
+  # UNUSED LICENSES
 
-  'MIT' found in:
-  * src/reuse/header.py
+  The following licenses are not used:
+  * bad-license
+
+
+  # MISSING COPYRIGHT AND LICENSING INFORMATION
+
+  The following files have no copyright and licensing information:
+  * no-information.txt
 
 
   # SUMMARY
 
   * Bad licenses: bad-license
-  * Missing licenses: MIT
+  * Licenses without file extension:
+  * Missing licenses:
   * Unused licenses: bad-license
   * Used licenses: Apache-2.0, CC-BY-SA-4.0, CC0-1.0, GPL-3.0-or-later
   * Read errors: 0
-  * Files with copyright information: 56 / 57
-  * Files with license information: 56 / 57
+  * Files with copyright information: 57 / 58
+  * Files with license information: 57 / 58
 
   Unfortunately, your project is not compliant with version 3.0 of the REUSE Specification :-(
 
@@ -220,6 +221,12 @@ Bad licenses
 
 Licenses that are found in ``LICENSES/`` that are not found in the SPDX License
 List or do not start with ``LicenseRef-`` are bad licenses.
+
+Licenses without file extension
++++++++++++++++++++++++++++++++
+
+These are licenses whose file names are a valid SPDX License Identifier, but
+which do not have a file extension.
 
 Missing licenses
 ++++++++++++++++

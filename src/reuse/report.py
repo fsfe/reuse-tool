@@ -41,6 +41,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self.bad_licenses = dict()
         self.read_errors = set()
         self.file_reports = set()
+        self.licenses_without_extension = dict()
 
         self.do_checksum = do_checksum
 
@@ -52,17 +53,21 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         """Turn the report into a json-like dictionary."""
         return {
             "path": str(Path(self.path).resolve()),
+            "bad_licenses": {
+                lic: [str(file_) for file_ in files]
+                for lic, files in self.bad_licenses.items()
+            },
             "licenses": {
                 identifier: str(path)
                 for identifier, path in self.licenses.items()
             },
+            "licenses_without_extension": {
+                identifier: str(path)
+                for identifier, path in self.licenses_without_extension.items()
+            },
             "missing_licenses": {
                 lic: [str(file_) for file_ in files]
                 for lic, files in self.missing_licenses.items()
-            },
-            "bad_licenses": {
-                lic: [str(file_) for file_ in files]
-                for lic, files in self.bad_licenses.items()
             },
             "read_errors": list(map(str, self.read_errors)),
             "file_reports": [report.to_dict() for report in self.file_reports],
@@ -155,6 +160,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         project_report = cls(do_checksum=do_checksum)
         project_report.path = project.root
         project_report.licenses = project.licenses
+        project_report.licenses_without_extension = (
+            project.licenses_without_extension
+        )
         for file_ in project.all_files():
             try:
                 lint_file_info = FileReport.generate(

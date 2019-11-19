@@ -44,6 +44,8 @@ class Project:
     interactions.
     """
 
+    # pylint: disable=too-many-instance-attributes
+
     def __init__(self, root: PathLike, include_submodules: bool = False):
         self._root = Path(root)
         if not self._root.is_dir():
@@ -57,6 +59,8 @@ class Project:
             _LOGGER.warning(_("could not find Git"))
         if self._is_git_repo:
             self._all_ignored_files = _all_files_ignored_by_git(self._root)
+
+        self.licenses_without_extension = dict()
 
         self.license_map = LICENSE_MAP.copy()
         # TODO: Is this correct?
@@ -205,6 +209,8 @@ class Project:
         The name of the path (minus its extension) should be a valid SPDX
         License Identifier.
         """
+        if not path.suffix:
+            raise IdentifierNotFound("{} has no file extension".format(path))
         if path.stem in self.license_map:
             return path.stem
         if path.stem.startswith("LicenseRef-"):
@@ -251,8 +257,6 @@ class Project:
                 continue
             if Path(path).suffix == ".license":
                 continue
-            if Path(path).suffix == ".spdx":
-                continue
 
             path = self._relative_from_root(path)
             _LOGGER.debug(_("determining identifier of %s"), path)
@@ -260,16 +264,26 @@ class Project:
             try:
                 identifier = self._identifier_of_license(path)
             except IdentifierNotFound:
-                identifier = path.stem
-                _LOGGER.warning(
-                    _(
-                        "Could not resolve SPDX License Identifier of {path}, "
-                        "resolving to {identifier}. Make sure the license is "
-                        "in the license list found at "
-                        "<https://spdx.org/licenses/> or that it starts with "
-                        "'LicenseRef-', and that it has a file extension."
-                    ).format(path=path, identifier=identifier)
-                )
+                if path.name in self.license_map:
+                    _LOGGER.info(
+                        _("{path} does not have a file extension").format(
+                            path=path
+                        )
+                    )
+                    identifier = path.name
+                    self.licenses_without_extension[identifier] = path
+                else:
+                    identifier = path.stem
+                    _LOGGER.warning(
+                        _(
+                            "Could not resolve SPDX License Identifier of "
+                            "{path}, resolving to {identifier}. Make sure the "
+                            "license is in the license list found at "
+                            "<https://spdx.org/licenses/> or that it starts "
+                            "with 'LicenseRef-', and that it has a file "
+                            "extension."
+                        ).format(path=path, identifier=identifier)
+                    )
 
             if identifier in license_files:
                 _LOGGER.critical(
