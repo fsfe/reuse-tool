@@ -19,7 +19,7 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
-## Unreleased - YYYY-MM-DD
+## 0.6.0 - 2019-11-19
 
 ### Added
 
