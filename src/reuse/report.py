@@ -149,42 +149,35 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     @classmethod
     def generate(
-        cls,
-        project: Project,
-        paths: Iterable[PathLike] = None,
-        do_checksum: bool = True,
+        cls, project: Project, do_checksum: bool = True
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
-        if paths is None:
-            paths = [project.root]
-
         project_report = cls(do_checksum=do_checksum)
         project_report.path = project.root
         project_report.licenses = project.licenses
-        for path in paths:
-            for file_ in project.all_files(path):
-                try:
-                    lint_file_info = FileReport.generate(
-                        project, file_, do_checksum=project_report.do_checksum
-                    )
-                except (OSError, UnicodeError):
-                    # Translators: %s is a path.
-                    _LOGGER.info(_("Could not read %s"), file_)
-                    project_report.read_errors.add(file_)
-                    continue
+        for file_ in project.all_files():
+            try:
+                lint_file_info = FileReport.generate(
+                    project, file_, do_checksum=project_report.do_checksum
+                )
+            except (OSError, UnicodeError):
+                # Translators: %s is a path.
+                _LOGGER.info(_("Could not read %s"), file_)
+                project_report.read_errors.add(file_)
+                continue
 
-                # File report.
-                project_report.file_reports.add(lint_file_info.file_report)
+            # File report.
+            project_report.file_reports.add(lint_file_info.file_report)
 
-                # Bad and missing licenses.
-                for license in lint_file_info.missing_licenses:
-                    project_report.missing_licenses.setdefault(
-                        license, set()
-                    ).add(lint_file_info.file_report.path)
-                for license in lint_file_info.bad_licenses:
-                    project_report.bad_licenses.setdefault(license, set()).add(
-                        lint_file_info.file_report.path
-                    )
+            # Bad and missing licenses.
+            for license in lint_file_info.missing_licenses:
+                project_report.missing_licenses.setdefault(license, set()).add(
+                    lint_file_info.file_report.path
+                )
+            for license in lint_file_info.bad_licenses:
+                project_report.bad_licenses.setdefault(license, set()).add(
+                    lint_file_info.file_report.path
+                )
 
         # More bad licenses
         for name, path in project.licenses.items():

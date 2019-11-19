@@ -253,7 +253,7 @@ def add_arguments(parser):
 
 def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
-    report = ProjectReport.generate(project, [project.root], do_checksum=False)
+    report = ProjectReport.generate(project, do_checksum=False)
     result = lint(report, out=out)
 
     return 0 if result else 1
