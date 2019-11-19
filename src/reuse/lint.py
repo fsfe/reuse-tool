@@ -11,8 +11,7 @@ from gettext import gettext as _
 from typing import Iterable
 
 from . import __REUSE_version__
-from ._util import PathType
-from .project import create_project
+from .project import Project
 from .report import ProjectReport
 
 
@@ -245,20 +244,14 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("\n")
 
 
-def add_arguments(parser):
+def add_arguments(parser):  # pylint: disable=unused-argument
     """Add arguments to parser."""
-    parser.add_argument("path", action="store", nargs="*", type=PathType("r"))
 
 
-def run(args, out=sys.stdout):
+def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
-    project = create_project()
-    project.include_submodules = args.include_submodules
-    paths = args.path
-    if not paths:
-        paths = [project.root]
-
-    report = ProjectReport.generate(project, paths, do_checksum=False)
+    # pylint: disable=unused-argument
+    report = ProjectReport.generate(project, do_checksum=False)
     result = lint(report, out=out)
 
     return 0 if result else 1

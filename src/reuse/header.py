@@ -38,7 +38,7 @@ from ._util import (
     make_copyright_line,
     spdx_identifier,
 )
-from .project import Project, create_project
+from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -411,7 +411,7 @@ def add_arguments(parser) -> None:
     parser.add_argument("path", action="store", nargs="+", type=PathType("w"))
 
 
-def run(args, out=sys.stdout) -> int:
+def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
@@ -427,8 +427,6 @@ def run(args, out=sys.stdout) -> int:
     if args.style is None and not args.explicit_license:
         _verify_paths_supported(paths, args.parser)
 
-    project = create_project()
-    project.include_submodules = args.include_submodules
     template = None
     commented = False
     if args.template:

@@ -30,7 +30,8 @@ copyright notice is not compliant with the specification.
 
 When running the tool, the root of the project is automatically found if the
 working directory is inside a git repository. Otherwise, it treats the working
-directory as the root of the project.
+directory as the root of the project. You can override the root of the project
+with the ``--root`` optional argument.
 
 Git submodules are automatically ignored unless ``--include-submodules`` is
 passed as optional argument.

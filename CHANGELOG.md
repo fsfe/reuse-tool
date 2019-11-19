@@ -35,6 +35,19 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- Implemented `--root` argument to specify the root of the project without
+  heuristics.
+
+### Removed
+
+- `lint` no longer accepts path arguments. Where previously one could do `reuse
+  lint SUBDIRECTORY`, this is no longer possible. When linting, you must always
+  lint the entire project. To change the project's root, use `--root`.
+
 ## 0.6.0 - 2019-11-19
 
 ### Added

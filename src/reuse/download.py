@@ -16,7 +16,7 @@ import requests
 
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import PathType, find_licenses_directory
-from .project import create_project
+from .project import Project
 from .report import ProjectReport
 
 # All raw text files are available as files underneath this path.
@@ -89,7 +89,7 @@ def add_arguments(parser) -> None:
     )
 
 
-def run(args, out=sys.stdout) -> int:
+def run(args, project: Project, out=sys.stdout) -> int:
     """Download license and place it in the LICENSES/ directory."""
 
     def _already_exists(path: PathLike):
@@ -133,7 +133,6 @@ def run(args, out=sys.stdout) -> int:
         out.write("\n")
 
     if args.all:
-        project = create_project()
         # TODO: This is fairly inefficient, but gets the job done.
         report = ProjectReport.generate(project)
         licenses = report.missing_licenses
