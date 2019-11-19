@@ -44,6 +44,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - The linter will complain about licenses without file extensions.
 
+- Deprecated licenses are now recognised. `lint` will complain about deprecated
+  licenses.
+
 ### Changed
 
 - The linter output has been very slightly re-ordered to be more internally

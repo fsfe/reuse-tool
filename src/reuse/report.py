@@ -39,6 +39,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self.licenses = dict()
         self.missing_licenses = dict()
         self.bad_licenses = dict()
+        self.deprecated_licenses = set()
         self.read_errors = set()
         self.file_reports = set()
         self.licenses_without_extension = dict()
@@ -53,14 +54,15 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         """Turn the report into a json-like dictionary."""
         return {
             "path": str(Path(self.path).resolve()),
-            "bad_licenses": {
-                lic: [str(file_) for file_ in files]
-                for lic, files in self.bad_licenses.items()
-            },
             "licenses": {
                 identifier: str(path)
                 for identifier, path in self.licenses.items()
             },
+            "bad_licenses": {
+                lic: [str(file_) for file_ in files]
+                for lic, files in self.bad_licenses.items()
+            },
+            "deprecated_licenses": sorted(self.deprecated_licenses),
             "licenses_without_extension": {
                 identifier: str(path)
                 for identifier, path in self.licenses_without_extension.items()
@@ -187,10 +189,12 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                     lint_file_info.file_report.path
                 )
 
-        # More bad licenses
+        # More bad licenses, and also deprecated licenses
         for name, path in project.licenses.items():
             if name not in project.license_map:
                 project_report.bad_licenses.setdefault(name, set()).add(path)
+            elif project.license_map[name]["isDeprecatedLicenseId"]:
+                project_report.deprecated_licenses.add(name)
 
         return project_report
 

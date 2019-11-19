@@ -141,6 +141,18 @@ def test_generate_project_report_bad_license_in_file(fake_repository):
     assert "bad" in result.bad_licenses
 
 
+def test_generate_project_report_deprecated_license(fake_repository):
+    """Deprecated licenses are detected."""
+    (fake_repository / "LICENSES/GPL-3.0-or-later.txt").rename(
+        fake_repository / "LICENSES/GPL-3.0.txt"
+    )
+
+    project = Project(fake_repository)
+    result = ProjectReport.generate(project)
+
+    assert "GPL-3.0" in result.deprecated_licenses
+
+
 def test_generate_project_report_read_error(fake_repository):
     """Files that cannot be read are added to the read error list."""
     (fake_repository / "bad").symlink_to("does_not_exist")

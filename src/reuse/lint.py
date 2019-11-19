@@ -24,6 +24,7 @@ def _write_element(element, out=sys.stdout):
 def lint(report: ProjectReport, out=sys.stdout) -> bool:
     """Lint the entire project."""
     bad_licenses_result = lint_bad_licenses(report, out)
+    deprecated_result = lint_deprecated_licenses(report, out)
     extensionless = lint_licenses_without_extension(report, out)
     missing_licenses_result = lint_missing_licenses(report, out)
     unused_licenses_result = lint_unused_licenses(report, out)
@@ -38,6 +39,7 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
         any(result)
         for result in (
             bad_licenses_result,
+            deprecated_result,
             extensionless,
             missing_licenses_result,
             unused_licenses_result,
@@ -86,6 +88,26 @@ def lint_bad_licenses(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
         out.write("\n\n")
 
     return bad_files
+
+
+def lint_deprecated_licenses(
+    report: ProjectReport, out=sys.stdout
+) -> Iterable[str]:
+    """Lint for deprecated licenses."""
+    deprecated = []
+
+    if report.deprecated_licenses:
+        out.write("# ")
+        out.write(_("DEPRECATED LICENSES"))
+        out.write("\n\n")
+        out.write(_("The following licenses are deprecated by SPDX:"))
+        out.write("\n")
+        for lic in sorted(report.deprecated_licenses):
+            deprecated.append(lic)
+            _write_element(lic, out=out)
+        out.write("\n\n")
+
+    return deprecated
 
 
 def lint_licenses_without_extension(
@@ -216,6 +238,7 @@ def lint_files_without_copyright_and_licensing(
 
 def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     """Print a summary for linting."""
+    # pylint: disable=too-many-statements
     out.write("# ")
     out.write(_("SUMMARY"))
     out.write("\n\n")
@@ -225,6 +248,15 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("* ")
     out.write(_("Bad licenses:"))
     for i, lic in enumerate(sorted(report.bad_licenses)):
+        if i:
+            out.write(",")
+        out.write(" ")
+        out.write(lic)
+    out.write("\n")
+
+    out.write("* ")
+    out.write(_("Deprecated licenses:"))
+    for i, lic in enumerate(sorted(report.deprecated_licenses)):
         if i:
             out.write(",")
         out.write(" ")

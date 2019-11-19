@@ -192,6 +192,7 @@ This is some example output of ``reuse lint``:
   # SUMMARY
 
   * Bad licenses: bad-license
+  * Deprecated licenses:
   * Licenses without file extension:
   * Missing licenses:
   * Unused licenses: bad-license
@@ -221,6 +222,12 @@ Bad licenses
 
 Licenses that are found in ``LICENSES/`` that are not found in the SPDX License
 List or do not start with ``LicenseRef-`` are bad licenses.
+
+Deprecated licenses
++++++++++++++++++++
+
+If a license has an SPDX License Identifier that has been deprecated by SPDX,
+the license will show up here.
 
 Licenses without file extension
 +++++++++++++++++++++++++++++++
