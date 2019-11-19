@@ -19,7 +19,52 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+<!--
 ## Unreleased - YYYY-MM-DD
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+-->
+
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- Implemented `--root` argument to specify the root of the project without
+  heuristics.
+
+- The linter will complain about licenses without file extensions.
+
+- Deprecated licenses are now recognised. `lint` will complain about deprecated
+  licenses.
+
+### Changed
+
+- The linter output has been very slightly re-ordered to be more internally
+  consistent.
+
+### Removed
+
+- `lint` no longer accepts path arguments. Where previously one could do `reuse
+  lint SUBDIRECTORY`, this is no longer possible. When linting, you must always
+  lint the entire project. To change the project's root, use `--root`.
+
+### Fixed
+
+- A license that does not have a file extension, but whose full name is a valid
+  SPDX License Identifier is now correctly identified as such. The linter will
+  complain about them, however.
+
+## 0.6.0 - 2019-11-19
 
 ### Added
 
@@ -30,6 +75,8 @@ The versions follow [semantic versioning](https://semver.org).
 
   + .kt
   + .xml
+  + .yaml
+  + .yml
 
 ### Changed
 

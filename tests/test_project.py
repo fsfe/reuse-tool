@@ -233,13 +233,24 @@ def test_license_file_detected(empty_directory):
     assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
 
 
-def test_licenses_empty(empty_directory):
-    """If the identifier of a license could not be identified, silently carry
-    on."""
+def test_licenses_filename(empty_directory):
+    """Detect the license identifier of a license from its stem."""
     (empty_directory / "LICENSES").mkdir()
     (empty_directory / "LICENSES/foo.txt").touch()
     project = Project(empty_directory)
     assert "foo" in project.licenses
+
+
+def test_licenses_no_extension(empty_directory):
+    """Detect the license identifier of a license from its full name if it is
+    in the license list.
+    """
+    (empty_directory / "LICENSES").mkdir()
+    (empty_directory / "LICENSES/GPL-3.0-or-later").touch()
+    (empty_directory / "LICENSES/MIT-3.0-or-later").touch()
+    project = Project(empty_directory)
+    assert "GPL-3.0-or-later" in project.licenses
+    assert "MIT-3" in project.licenses
 
 
 def test_licenses_subdirectory(empty_directory):

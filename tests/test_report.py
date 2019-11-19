@@ -88,10 +88,25 @@ def test_generate_project_report_simple(fake_repository):
     project = Project(fake_repository)
     result = ProjectReport.generate(project)
 
-    assert not result.missing_licenses
     assert not result.bad_licenses
+    assert not result.licenses_without_extension
+    assert not result.missing_licenses
+    assert not result.unused_licenses
+    assert result.used_licenses
     assert not result.read_errors
     assert result.file_reports
+
+
+def test_generate_project_report_licenses_without_extension(fake_repository):
+    """Licenses without extension are detected."""
+    (fake_repository / "LICENSES/CC0-1.0.txt").rename(
+        fake_repository / "LICENSES/CC0-1.0"
+    )
+
+    project = Project(fake_repository)
+    result = ProjectReport.generate(project)
+
+    assert "CC0-1.0" in result.licenses_without_extension
 
 
 def test_generate_project_report_missing_license(fake_repository):
@@ -124,6 +139,18 @@ def test_generate_project_report_bad_license_in_file(fake_repository):
     result = ProjectReport.generate(project)
 
     assert "bad" in result.bad_licenses
+
+
+def test_generate_project_report_deprecated_license(fake_repository):
+    """Deprecated licenses are detected."""
+    (fake_repository / "LICENSES/GPL-3.0-or-later.txt").rename(
+        fake_repository / "LICENSES/GPL-3.0.txt"
+    )
+
+    project = Project(fake_repository)
+    result = ProjectReport.generate(project)
+
+    assert "GPL-3.0" in result.deprecated_licenses
 
 
 def test_generate_project_report_read_error(fake_repository):
