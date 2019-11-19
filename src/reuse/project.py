@@ -60,7 +60,7 @@ class Project:
         if self._is_git_repo:
             self._all_ignored_files = _all_files_ignored_by_git(self._root)
 
-        self.licenses_without_extension = set()
+        self.licenses_without_extension = dict()
 
         self.license_map = LICENSE_MAP.copy()
         # TODO: Is this correct?
@@ -209,6 +209,8 @@ class Project:
         The name of the path (minus its extension) should be a valid SPDX
         License Identifier.
         """
+        if not path.suffix:
+            raise IdentifierNotFound("{} has no file extension".format(path))
         if path.stem in self.license_map:
             return path.stem
         if path.stem.startswith("LicenseRef-"):
@@ -269,7 +271,7 @@ class Project:
                         )
                     )
                     identifier = path.name
-                    self.licenses_without_extension.add(identifier)
+                    self.licenses_without_extension[identifier] = path
                 else:
                     identifier = path.stem
                     _LOGGER.warning(
