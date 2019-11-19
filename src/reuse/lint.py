@@ -249,25 +249,11 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
 
 def add_arguments(parser):
     """Add arguments to parser."""
-    parser.add_argument("path", action="store", nargs="*", type=PathType("r"))
 
 
 def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
-    paths = args.path
-    if not paths:
-        paths = [project.root]
-
-    if os.path.commonprefix(
-        [path.resolve() for path in chain([project.root], paths)]
-    ) != str(project.root.resolve()):
-        args.parser.error(
-            _(
-                "the provided path(s) are not subdirectories of the root: {}"
-            ).format(project.root)
-        )
-
-    report = ProjectReport.generate(project, paths, do_checksum=False)
+    report = ProjectReport.generate(project, [project.root], do_checksum=False)
     result = lint(report, out=out)
 
     return 0 if result else 1

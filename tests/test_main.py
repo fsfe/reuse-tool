@@ -43,7 +43,7 @@ def test_lint(
     """Run a successful lint. git_exe is there to make sure that the test
     also works if git is not installed.
     """
-    result = main(["lint", str(fake_repository)], out=stringio)
+    result = main(["lint"], out=stringio)
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
@@ -51,7 +51,7 @@ def test_lint(
 
 def test_lint_git(git_repository, stringio):
     """Run a successful lint."""
-    result = main(["lint", str(git_repository)], out=stringio)
+    result = main(["lint"], out=stringio)
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
@@ -60,7 +60,7 @@ def test_lint_git(git_repository, stringio):
 def test_lint_submodule(submodule_repository, stringio):
     """Run a successful lint."""
     (submodule_repository / "submodule/foo.c").touch()
-    result = main(["lint", str(submodule_repository)], out=stringio)
+    result = main(["lint"], out=stringio)
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
@@ -68,10 +68,7 @@ def test_lint_submodule(submodule_repository, stringio):
 
 def test_lint_submodule_included(submodule_repository, stringio):
     """Run a successful lint."""
-    result = main(
-        ["--include-submodules", "lint", str(submodule_repository)],
-        out=stringio,
-    )
+    result = main(["--include-submodules", "lint"], out=stringio)
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
@@ -80,10 +77,7 @@ def test_lint_submodule_included(submodule_repository, stringio):
 def test_lint_submodule_included_fail(submodule_repository, stringio):
     """Run a failed lint."""
     (submodule_repository / "submodule/foo.c").touch()
-    result = main(
-        ["--include-submodules", "lint", str(submodule_repository)],
-        out=stringio,
-    )
+    result = main(["--include-submodules", "lint"], out=stringio)
 
     assert result == 1
     assert ":-(" in stringio.getvalue()
@@ -92,7 +86,7 @@ def test_lint_submodule_included_fail(submodule_repository, stringio):
 def test_lint_fail(fake_repository, stringio):
     """Run a failed lint."""
     (fake_repository / "foo.py").touch()
-    result = main(["lint", str(fake_repository)], out=stringio)
+    result = main(["lint"], out=stringio)
 
     assert result > 0
     assert "foo.py" in stringio.getvalue()
@@ -101,9 +95,7 @@ def test_lint_fail(fake_repository, stringio):
 
 def test_lint_custom_root(fake_repository, stringio):
     """Use a custom root location."""
-    result = main(
-        ["--root", "doc", "lint", str(fake_repository / "doc")], out=stringio
-    )
+    result = main(["--root", "doc", "lint"], out=stringio)
 
     assert result > 0
     assert "index.rst" in stringio.getvalue()
@@ -112,9 +104,7 @@ def test_lint_custom_root(fake_repository, stringio):
 
 def test_lint_custom_root_git(git_repository, stringio):
     """Use a custom root location in a git repo."""
-    result = main(
-        ["--root", "doc", "lint", str(git_repository / "doc")], out=stringio
-    )
+    result = main(["--root", "doc", "lint"], out=stringio)
 
     assert result > 0
     assert "index.rst" in stringio.getvalue()
@@ -124,10 +114,7 @@ def test_lint_custom_root_git(git_repository, stringio):
 def test_lint_custom_root_different_cwd(fake_repository, stringio):
     """Use a custom root while CWD is different."""
     os.chdir("/")
-    result = main(
-        ["--root", str(fake_repository), "lint", str(fake_repository)],
-        out=stringio,
-    )
+    result = main(["--root", str(fake_repository), "lint"], out=stringio)
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
@@ -136,27 +123,13 @@ def test_lint_custom_root_different_cwd(fake_repository, stringio):
 def test_lint_custom_root_is_file(fake_repository, stringio):
     """Custom root cannot be a file."""
     with pytest.raises(SystemExit):
-        main(
-            ["--root", ".reuse/dep5", "lint", str(fake_repository)],
-            out=stringio,
-        )
+        main(["--root", ".reuse/dep5", "lint"], out=stringio)
 
 
 def test_lint_custom_root_not_exists(fake_repository, stringio):
     """Custom root must exist."""
     with pytest.raises(SystemExit):
-        main(
-            ["--root", "does-not-exist", "lint", str(fake_repository)],
-            out=stringio,
-        )
-
-
-def test_lint_outside_of_root(fake_repository, stringio):
-    """Lint fails when the provided directories are outside of the root
-    directory.
-    """
-    with pytest.raises(SystemExit):
-        main(["--root", "doc", "lint", str(fake_repository)], out=stringio)
+        main(["--root", "does-not-exist", "lint"], out=stringio)
 
 
 def test_spdx(fake_repository, stringio):
