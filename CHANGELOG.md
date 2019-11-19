@@ -19,7 +19,42 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+<!--
 ## Unreleased - YYYY-MM-DD
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+-->
+
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- Implemented `--root` argument to specify the root of the project without
+  heuristics.
+
+### Removed
+
+- `lint` no longer accepts path arguments. Where previously one could do `reuse
+  lint SUBDIRECTORY`, this is no longer possible. When linting, you must always
+  lint the entire project. To change the project's root, use `--root`.
+
+### Fixed
+
+- A license that does not have a file extension, but whose full name is a valid
+  SPDX License Identifier is now correctly identified as such. The linter will
+  complain about them, however.
+
+## 0.6.0 - 2019-11-19
 
 ### Added
 
@@ -64,10 +99,6 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Also handle `MachineReadableFormatError` when parsing DEP5 files. Tries to
   import that error. If the import is unsuccessful, it is handled.
-
-- A license that does not have a file extension, but whose full name is a valid
-  SPDX License Identifier is now correctly identified as such. The linter will
-  complain about them, however.
 
 ## 0.5.1 - 2019-10-24 [YANKED]
 
