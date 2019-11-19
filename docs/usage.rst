@@ -192,6 +192,7 @@ This is some example output of ``reuse lint``:
   # SUMMARY
 
   * Bad licenses: bad-license
+  * Deprecated licenses:
   * Licenses without file extension:
   * Missing licenses:
   * Unused licenses: bad-license
