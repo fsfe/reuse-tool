@@ -12,7 +12,7 @@ from hashlib import md5
 from io import StringIO
 from os import PathLike
 from pathlib import Path
-from typing import Iterable, List, NamedTuple, Set
+from typing import Iterable, List, Set
 from uuid import uuid4
 
 from . import __version__
@@ -20,15 +20,6 @@ from ._util import _LICENSING, _checksum
 from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
-
-FileReportInfo = NamedTuple(
-    "FileReportInfo",
-    [
-        ("file_report", "FileReport"),
-        ("bad_licenses", Set[str]),
-        ("missing_licenses", Set[str]),
-    ],
-)
 
 
 class ProjectReport:  # pylint: disable=too-many-instance-attributes
@@ -167,7 +158,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         )
         for file_ in project.all_files():
             try:
-                lint_file_info = FileReport.generate(
+                file_report = FileReport.generate(
                     project, file_, do_checksum=project_report.do_checksum
                 )
             except (OSError, UnicodeError):
@@ -177,16 +168,16 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 continue
 
             # File report.
-            project_report.file_reports.add(lint_file_info.file_report)
+            project_report.file_reports.add(file_report)
 
             # Bad and missing licenses.
-            for license in lint_file_info.missing_licenses:
+            for license in file_report.missing_licenses:
                 project_report.missing_licenses.setdefault(license, set()).add(
-                    lint_file_info.file_report.path
+                    file_report.path
                 )
-            for license in lint_file_info.bad_licenses:
+            for license in file_report.bad_licenses:
                 project_report.bad_licenses.setdefault(license, set()).add(
-                    lint_file_info.file_report.path
+                    file_report.path
                 )
 
         # More bad licenses, and also deprecated licenses
@@ -279,6 +270,9 @@ class FileReport:
         self.path = Path(path)
         self.do_checksum = do_checksum
 
+        self.bad_licenses = set()
+        self.missing_licenses = set()
+
     def to_dict(self):
         """Turn the report into a json-like dictionary."""
         return {
@@ -293,7 +287,7 @@ class FileReport:
     @classmethod
     def generate(
         cls, project: Project, path: PathLike, do_checksum: bool = True
-    ) -> FileReportInfo:
+    ) -> "FileReport":
         """Generate a FileReport from a path in a Project."""
         path = Path(path)
         if not path.is_file():
@@ -302,9 +296,6 @@ class FileReport:
         # pylint: disable=protected-access
         relative = project._relative_from_root(path)
         report = cls("./" + str(relative), path, do_checksum=do_checksum)
-
-        bad_licenses = set()
-        missing_licenses = set()
 
         # Checksum and ID
         if report.do_checksum:
@@ -324,10 +315,10 @@ class FileReport:
             for identifier in _LICENSING.license_keys(expression):
                 # Bad license
                 if identifier not in project.license_map:
-                    bad_licenses.add(identifier)
+                    report.bad_licenses.add(identifier)
                 # Missing license
                 if identifier not in project.licenses:
-                    missing_licenses.add(identifier)
+                    report.missing_licenses.add(identifier)
 
                 # Add license to report.
                 report.spdxfile.licenses_in_file.append(identifier)
@@ -337,7 +328,7 @@ class FileReport:
             sorted(spdx_info.copyright_lines)
         )
 
-        return FileReportInfo(report, bad_licenses, missing_licenses)
+        return report
 
     def __hash__(self):
         if self.spdxfile.chk_sum is not None:

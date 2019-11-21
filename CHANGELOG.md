@@ -58,6 +58,8 @@ The versions follow [semantic versioning](https://semver.org).
   lint SUBDIRECTORY`, this is no longer possible. When linting, you must always
   lint the entire project. To change the project's root, use `--root`.
 
+- `FileReportInfo` has been removed. `FileReport` is used instead.
+
 ### Fixed
 
 - A license that does not have a file extension, but whose full name is a valid
