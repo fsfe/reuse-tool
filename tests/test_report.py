@@ -16,11 +16,8 @@ def test_generate_file_report_file_simple(fake_repository):
     """
     project = Project(fake_repository)
     result = FileReport.generate(project, "src/source_code.py")
-    assert result.file_report.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
-    assert (
-        result.file_report.spdxfile.copyright
-        == "SPDX-FileCopyrightText: 2017 Mary Sue"
-    )
+    assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
+    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Mary Sue"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -32,11 +29,8 @@ def test_generate_file_report_file_from_different_cwd(fake_repository):
     result = FileReport.generate(
         project, fake_repository / "src/source_code.py"
     )
-    assert result.file_report.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
-    assert (
-        result.file_report.spdxfile.copyright
-        == "SPDX-FileCopyrightText: 2017 Mary Sue"
-    )
+    assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
+    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Mary Sue"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -49,7 +43,7 @@ def test_generate_file_report_file_missing_license(fake_repository):
     project = Project(fake_repository)
     result = FileReport.generate(project, "foo.py")
 
-    assert result.file_report.spdxfile.copyright == ""
+    assert result.spdxfile.copyright == ""
     assert result.missing_licenses == {"BSD-3-Clause"}
     assert not result.bad_licenses
 
@@ -62,7 +56,7 @@ def test_generate_file_report_file_bad_license(fake_repository):
     project = Project(fake_repository)
     result = FileReport.generate(project, "foo.py")
 
-    assert result.file_report.spdxfile.copyright == ""
+    assert result.spdxfile.copyright == ""
     assert result.bad_licenses == {"fakelicense"}
     assert result.missing_licenses == {"fakelicense"}
 
@@ -71,14 +65,11 @@ def test_generate_file_report_exception(fake_repository):
     """Simple generate test to test if the exception is detected."""
     project = Project(fake_repository)
     result = FileReport.generate(project, "src/exception.py")
-    assert set(result.file_report.spdxfile.licenses_in_file) == {
+    assert set(result.spdxfile.licenses_in_file) == {
         "GPL-3.0-or-later",
         "Autoconf-exception-3.0",
     }
-    assert (
-        result.file_report.spdxfile.copyright
-        == "SPDX-FileCopyrightText: 2017 Mary Sue"
-    )
+    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Mary Sue"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
