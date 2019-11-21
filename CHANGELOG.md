@@ -64,6 +64,9 @@ The versions follow [semantic versioning](https://semver.org).
   SPDX License Identifier is now correctly identified as such. The linter will
   complain about them, however.
 
+- If the linter detects a a license as being a bad license, that license can now
+  also be detected as being missing.
+
 ## 0.6.0 - 2019-11-19
 
 ### Added

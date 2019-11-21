@@ -64,7 +64,7 @@ def test_generate_file_report_file_bad_license(fake_repository):
 
     assert result.file_report.spdxfile.copyright == ""
     assert result.bad_licenses == {"fakelicense"}
-    assert not result.missing_licenses
+    assert result.missing_licenses == {"fakelicense"}
 
 
 def test_generate_file_report_exception(fake_repository):
@@ -139,6 +139,19 @@ def test_generate_project_report_bad_license_in_file(fake_repository):
     result = ProjectReport.generate(project)
 
     assert "bad" in result.bad_licenses
+
+
+def test_generate_project_report_bad_license_can_also_be_missing(
+    fake_repository,
+):
+    """Bad licenses can also be missing licenses."""
+    (fake_repository / "foo.py").write_text("SPDX" "-License-Identifier: bad")
+
+    project = Project(fake_repository)
+    result = ProjectReport.generate(project)
+
+    assert "bad" in result.bad_licenses
+    assert "bad" in result.missing_licenses
 
 
 def test_generate_project_report_deprecated_license(fake_repository):
