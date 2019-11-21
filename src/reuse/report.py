@@ -326,7 +326,7 @@ class FileReport:
                 if identifier not in project.license_map:
                     bad_licenses.add(identifier)
                 # Missing license
-                elif identifier not in project.licenses:
+                if identifier not in project.licenses:
                     missing_licenses.add(identifier)
 
                 # Add license to report.
