@@ -112,7 +112,7 @@ class Project:
                     _LOGGER.debug("ignoring %s", root / file_)
                     continue
 
-                _LOGGER.debug(_("yielding %s"), root / file_)
+                _LOGGER.debug("yielding %s", root / file_)
                 yield root / file_
 
     def spdx_info_of(self, path: PathLike) -> SpdxInfo:
