@@ -69,6 +69,8 @@ The versions follow [semantic versioning](https://semver.org).
 - If the linter detects a a license as being a bad license, that license can now
   also be detected as being missing.
 
+- Performance of `project.all_files()` has been improved by quite a lot.
+
 ## 0.6.0 - 2019-11-19
 
 ### Added
