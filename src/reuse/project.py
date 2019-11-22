@@ -78,42 +78,38 @@ class Project:
         - Files ignored by VCS (e.g., see .gitignore)
 
         - Files/directories matching IGNORE_*_PATTERNS.
-
-        If *directory* is a file, yield it if it is not ignored.
         """
         if directory is None:
             directory = self.root
         directory = Path(directory)
 
-        if directory.is_file() and not self._is_path_ignored(directory):
-            _LOGGER.debug("yielding %s", directory)
-            yield directory
-
         for root, dirs, files in os.walk(directory):
             root = Path(root)
-            _LOGGER.debug("currently walking in %s", root)
+            _LOGGER.debug("currently walking in '%s'", root)
 
             # Don't walk ignored directories
             for dir_ in list(dirs):
-                if self._is_path_ignored(root / dir_):
-                    _LOGGER.debug("ignoring %s", root / dir_)
+                the_dir = root / dir_
+                if self._is_path_ignored(the_dir):
+                    _LOGGER.debug("ignoring '%s'", the_dir)
                     dirs.remove(dir_)
                 if (
-                    root / dir_ / ".git"
+                    the_dir / ".git"
                 ).is_file() and not self.include_submodules:
                     _LOGGER.info(
-                        "ignoring %s because it is a submodule", root / dir_
+                        "ignoring '%s' because it is a submodule", the_dir
                     )
                     dirs.remove(dir_)
 
             # Filter files.
             for file_ in files:
-                if self._is_path_ignored(root / file_):
-                    _LOGGER.debug("ignoring %s", root / file_)
+                the_file = root / file_
+                if self._is_path_ignored(the_file):
+                    _LOGGER.debug("ignoring '%s'", the_file)
                     continue
 
-                _LOGGER.debug("yielding %s", root / file_)
-                yield root / file_
+                _LOGGER.debug("yielding '%s'", the_file)
+                yield the_file
 
     def spdx_info_of(self, path: PathLike) -> SpdxInfo:
         """Return SPDX info of *path*.
@@ -176,20 +172,14 @@ class Project:
 
         Always return False if git is not installed.
         """
-        is_dir = path.is_dir()
-        path = self._relative_from_root(path)
-        if is_dir:
-            path = "{}/".format(path)
-
         if self._is_git_repo:
-            return str(path) in self._all_ignored_files
+            path = self._relative_from_root(path)
+            return path in self._all_ignored_files
 
         return False
 
-    def _is_path_ignored(self, path: PathLike) -> bool:
+    def _is_path_ignored(self, path: Path) -> bool:
         """Is *path* ignored by some mechanism?"""
-        path = Path(path)
-
         if path.is_file():
             for pattern in _IGNORE_FILE_PATTERNS:
                 if pattern.match(path.name):
@@ -204,7 +194,7 @@ class Project:
 
         return False
 
-    def _identifier_of_license(self, path: PathLike) -> str:
+    def _identifier_of_license(self, path: Path) -> str:
         """Figure out the SPDX License identifier of a license given its path.
         The name of the path (minus its extension) should be a valid SPDX
         License Identifier.
@@ -228,7 +218,7 @@ class Project:
     @property
     def _copyright(self) -> Optional[Copyright]:
         if self._copyright_val == 0:
-            copyright_path = self.root / ".reuse" / "dep5"
+            copyright_path = self.root / ".reuse/dep5"
             try:
                 with copyright_path.open() as fp:
                     self._copyright_val = Copyright(fp)

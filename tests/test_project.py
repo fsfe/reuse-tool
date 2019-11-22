@@ -38,19 +38,6 @@ def test_all_files(empty_directory):
     assert {file_.name for file_ in project.all_files()} == {"foo", "bar"}
 
 
-def test_all_files_on_single_file(empty_directory):
-    """When a file is given as parameter instead of a directory, just yield the
-    file.
-    """
-    (empty_directory / "foo").touch()
-
-    project = Project(empty_directory)
-    result = list(project.all_files(empty_directory / "foo"))
-
-    assert len(result) == 1
-    assert result[0].name == "foo"
-
-
 def test_all_files_ignore_dot_license(empty_directory):
     """When file and file.license are present, only yield file."""
     (empty_directory / "foo").touch()

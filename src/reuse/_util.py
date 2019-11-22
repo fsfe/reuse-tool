@@ -135,7 +135,7 @@ def in_git_repo(cwd: PathLike = None) -> bool:
     return False
 
 
-def _all_files_ignored_by_git(root: PathLike) -> Set[str]:
+def _all_files_ignored_by_git(root: PathLike) -> Set[Path]:
     """Return a set of all files ignored by git. If a whole directory is
     ignored, don't return all files inside of it.
 
@@ -160,7 +160,7 @@ def _all_files_ignored_by_git(root: PathLike) -> Set[str]:
         ]
         result = execute_command(command, _LOGGER, cwd=root)
         all_files = result.stdout.decode("utf-8").split("\0")
-        return set(all_files)
+        return set(Path(file_) for file_ in all_files)
     return set()
 
 
@@ -179,10 +179,9 @@ def _determine_license_path(path: PathLike) -> Path:
     """Given a path FILE, return FILE.license if it exists, otherwise return
     FILE.
     """
-    path = Path(path)
     license_path = Path("{}.license".format(path))
     if not license_path.exists():
-        license_path = path
+        license_path = Path(path)
     return license_path
 
 
