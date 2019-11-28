@@ -6,8 +6,8 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 # reuse
 
-[![](https://img.shields.io/pypi/v/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
-[![](https://img.shields.io/pypi/pyversions/fsfe-reuse.svg)](https://pypi.python.org/pypi/fsfe-reuse)
+[![](https://img.shields.io/pypi/v/reuse.svg)](https://pypi.python.org/pypi/reuse)
+[![](https://img.shields.io/pypi/pyversions/reuse.svg)](https://pypi.python.org/pypi/reuse)
 [![REUSE status](https://api.reuse.software/badge/github.com/fsfe/reuse-tool)](https://api.reuse.software/info/github.com/fsfe/reuse-tool)
 [![](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 
@@ -16,7 +16,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 -   Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
 -   Source code: <https://github.com/fsfe/reuse-tool>
--   PyPI: <https://pypi.python.org/pypi/fsfe-reuse>
+-   PyPI: <https://pypi.python.org/pypi/reuse>
 -   REUSE: 3.0
 -   Python: 3.6+
 
@@ -65,7 +65,7 @@ your computer:
 
 You then only need to run the following command:
 
-    pip3 install --user fsfe-reuse
+    pip3 install --user reuse
 
 After this, make sure that `~/.local/bin` is in your `$PATH`.
 

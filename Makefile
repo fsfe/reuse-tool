@@ -59,10 +59,10 @@ black: ## format with black
 .PHONY: reuse
 reuse: dist ## check with self
 	reuse lint
-	tar -xf dist/fsfe-reuse*.tar.gz -C dist/
+	tar -xf dist/reuse*.tar.gz -C dist/
 	# This prevents the linter from using the project root as root.
-	git init dist/fsfe-reuse*/
-	cd dist/fsfe-reuse*/; reuse lint
+	git init dist/reuse*/
+	cd dist/reuse*/; reuse lint
 
 .PHONY: test
 test: ## run tests quickly
@@ -110,7 +110,7 @@ install-requirements:  ## install requirements
 
 .PHONY: uninstall
 uninstall:  ## uninstall reuse
-	-pip uninstall -y fsfe-reuse
+	-pip uninstall -y reuse
 
 .PHONY: install
 install: uninstall install-requirements ## install reuse
