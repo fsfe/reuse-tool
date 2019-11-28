@@ -19,6 +19,6 @@ Files: tests/resources/*
 Copyright: 2017-2019 Free Software Foundation Europe e.V.
 License: GPL-3.0-or-later
 
-Files: src/fsfe_reuse.egg-info/*
+Files: src/reuse.egg-info/*
 Copyright: 2017-2019 Free Software Foundation Europe e.V.
 License: GPL-3.0-or-later
