@@ -19,6 +19,30 @@ following sections:
 
 The versions follow [semantic versioning](https://semver.org).
 
+## 0.7.0 - 2019-11-28
+
+### Changed
+
+- The program's package name on PyPI has been changed from `fsfe-reuse` to
+  `reuse`. `fsfe-reuse==1.0.0` has been created as an alias that depends on
+  `reuse`. `fsfe-reuse` will not receive any more updates, but will still host
+  the old versions.
+
+- For users of `fsfe-reuse`, this means:
+
+  + If you depend on `fsfe-reuse` or `fsfe-reuse>=0.X.Y` in your
+    requirements.txt, you will get the latest version of `reuse` when you
+    install `fsfe-reuse`. You may like to change the name to `reuse` explicitly,
+    but this is not strictly necessary.
+
+  + If you depend on `fsfe-reuse==0.X.Y`, then you will keep getting that
+    version. When you bump the version you depend on, you will need to change
+    the name to `reuse`.
+
+  + If you depend on `fsfe-reuse>=0.X.Y<1.0.0`, then 0.6.0 will be the latest
+    version you receive. In order to get a later version, you will need to
+    change the name to `reuse`.
+
 ## 0.6.0 - 2019-11-19
 
 ### Added
