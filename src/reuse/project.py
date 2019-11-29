@@ -295,7 +295,16 @@ class Project:
                 identifier.startswith("LicenseRef-")
                 and "Unknown" not in identifier
             ):
-                self.license_map[identifier] = path
+                self.license_map[identifier] = {
+                    "reference": str(path),
+                    "isDeprecatedLicenseId": False,
+                    "detailsUrl": None,
+                    "referenceNumber": None,
+                    "name": identifier,
+                    "licenseId": identifier,
+                    "seeAlso": [],
+                    "isOsiApproved": None,
+                }
 
         return license_files
 
