@@ -1,5 +1,1 @@
-# SPDX-FileCopyrightText: 2017 Mary Sue
-#
-# SPDX-License-Identifier: LicenseRef-custom
-
-pass
+# This file is overriden by the fake_repository fixture.

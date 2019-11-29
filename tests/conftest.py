@@ -88,6 +88,11 @@ def fake_repository(tmpdir_factory) -> Path:
         "SPDX"
         "-License-Identifier: GPL-3.0-or-later WITH Autoconf-exception-3.0"
     )
+    (directory / "src/custom.py").write_text(
+        "SPDX-FileCopyrightText: 2017 Mary Sue\n"
+        "SPDX"
+        "-License-Identifier: LicenseRef-custom"
+    )
 
     os.chdir(directory)
     return directory
