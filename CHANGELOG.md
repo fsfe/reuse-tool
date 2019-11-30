@@ -71,6 +71,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Performance of `project.all_files()` has been improved by quite a lot.
 
+- Files with CRLF line endings are now better supported.
+
 ## 0.7.0 - 2019-11-28
 
 ### Changed
