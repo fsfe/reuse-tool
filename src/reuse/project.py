@@ -180,13 +180,14 @@ class Project:
 
     def _is_path_ignored(self, path: Path) -> bool:
         """Is *path* ignored by some mechanism?"""
+        name = path.name
         if path.is_file():
             for pattern in _IGNORE_FILE_PATTERNS:
-                if pattern.match(path.name):
+                if pattern.match(name):
                     return True
         elif path.is_dir():
             for pattern in _IGNORE_DIR_PATTERNS:
-                if pattern.match(path.name):
+                if pattern.match(name):
                     return True
 
         if self._ignored_by_vcs(path):
