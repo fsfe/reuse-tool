@@ -71,6 +71,11 @@ def parser() -> argparse.ArgumentParser:
         help=_("do not skip over Git submodules"),
     )
     parser.add_argument(
+        "--no-multiprocessing",
+        action="store_true",
+        help=_("do not use multiprocessing"),
+    )
+    parser.add_argument(
         "--root",
         action="store",
         metavar="PATH",

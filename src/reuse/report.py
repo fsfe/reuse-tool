@@ -6,11 +6,11 @@
 
 import datetime
 import logging
+import multiprocessing as mp
 import random
 from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
-from multiprocessing import Pool
 from os import PathLike
 from pathlib import Path
 from typing import Iterable, List, NamedTuple, Optional, Set
@@ -177,7 +177,10 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     @classmethod
     def generate(
-        cls, project: Project, do_checksum: bool = True
+        cls,
+        project: Project,
+        do_checksum: bool = True,
+        multiprocessing: bool = True,
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
         project_report = cls(do_checksum=do_checksum)
@@ -187,14 +190,17 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             project.licenses_without_extension
         )
 
-        pool = Pool()
-
         container = _MultiprocessingContainer(project, do_checksum)
 
-        results = pool.map(container, project.all_files())
+        if multiprocessing:
+            pool = mp.Pool()
 
-        pool.close()
-        pool.join()
+            results = pool.map(container, project.all_files())
+
+            pool.close()
+            pool.join()
+        else:
+            results = map(container, project.all_files())
 
         for result in results:
             if result.error:

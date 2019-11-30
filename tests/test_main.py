@@ -142,10 +142,28 @@ def test_lint_custom_root_not_exists(fake_repository, stringio):
         main(["--root", "does-not-exist", "lint"], out=stringio)
 
 
+def test_lint_no_multiprocessing(fake_repository, stringio, multiprocessing):
+    """--no-multiprocessing works."""
+    result = main(["--no-multiprocessing", "lint"], out=stringio)
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
 def test_spdx(fake_repository, stringio):
     """Compile to an SPDX document."""
     os.chdir(str(fake_repository))
     result = main(["spdx"], out=stringio)
+
+    # TODO: This test is rubbish.
+    assert result == 0
+    assert stringio.getvalue()
+
+
+def test_spdx_no_multiprocessing(fake_repository, stringio, multiprocessing):
+    """--no-multiprocessing works."""
+    os.chdir(str(fake_repository))
+    result = main(["--no-multiprocessing", "spdx"], out=stringio)
 
     # TODO: This test is rubbish.
     assert result == 0

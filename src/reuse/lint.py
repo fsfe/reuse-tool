@@ -333,7 +333,9 @@ def add_arguments(parser):  # pylint: disable=unused-argument
 def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
     # pylint: disable=unused-argument
-    report = ProjectReport.generate(project, do_checksum=False)
+    report = ProjectReport.generate(
+        project, do_checksum=False, multiprocessing=not args.no_multiprocessing
+    )
     result = lint(report, out=out)
 
     return 0 if result else 1

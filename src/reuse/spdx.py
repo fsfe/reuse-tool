@@ -31,7 +31,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
             # Translators: %s is a file name.
             _LOGGER.warning(_("'%s' does not end with .spdx"), out.name)
 
-    report = ProjectReport.generate(project)
+    report = ProjectReport.generate(
+        project, multiprocessing=not args.no_multiprocessing
+    )
 
     out.write(report.bill_of_materials())
 
