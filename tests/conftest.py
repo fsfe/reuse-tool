@@ -126,7 +126,20 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
 
     subprocess.run([git_exe, "init", str(fake_repository)])
     subprocess.run([git_exe, "add", str(fake_repository)])
-    subprocess.run([git_exe, "commit", "-m", "initial"])
+    subprocess.run(
+        [
+            git_exe,
+            "-c",
+            "user.name",
+            "Example",
+            "-c",
+            "user.email",
+            "example@example.com",
+            "commit",
+            "-m",
+            "initial",
+        ]
+    )
 
     return fake_repository
 
@@ -150,13 +163,39 @@ def submodule_repository(
     os.chdir(submodule)
     subprocess.run([git_exe, "init", str(submodule)])
     subprocess.run([git_exe, "add", str(submodule)])
-    subprocess.run([git_exe, "commit", "-m", "initial"])
+    subprocess.run(
+        [
+            git_exe,
+            "-c",
+            "user.name",
+            "Example",
+            "-c",
+            "user.email",
+            "example@example.com",
+            "commit",
+            "-m",
+            "initial",
+        ]
+    )
 
     os.chdir(git_repository)
     subprocess.run(
         [git_exe, "submodule", "add", str(submodule.resolve()), "submodule"]
     )
-    subprocess.run([git_exe, "commit", "-m", "add submodule"])
+    subprocess.run(
+        [
+            git_exe,
+            "-c",
+            "user.name",
+            "Example",
+            "-c",
+            "user.email",
+            "example@example.com",
+            "commit",
+            "-m",
+            "add submodule",
+        ]
+    )
 
     (git_repository / ".gitmodules.license").write_text(header)
 

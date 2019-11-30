@@ -4,12 +4,12 @@
 
 """Tests for reuse._util"""
 
-# pylint: disable=protected-access
+# pylint: disable=protected-access,invalid-name
 
 import os
-import pwd
 from argparse import ArgumentTypeError
 from inspect import cleandoc
+from io import BytesIO
 from pathlib import Path
 
 import pytest
@@ -19,12 +19,19 @@ from license_expression import LicenseSymbol
 from reuse import _util
 from reuse._util import _LICENSING
 
-# pylint: disable=invalid-name
+try:
+    import pwd
+
+    is_root = pwd.getpwuid(os.getuid()).pw_name == "root"
+    is_posix = True
+except ImportError:
+    is_root = False
+    is_posix = False
+
+
 git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
-no_root = pytest.mark.xfail(
-    pwd.getpwuid(os.getuid()).pw_name == "root",
-    reason="fails when user is root",
-)
+no_root = pytest.mark.xfail(is_root, reason="fails when user is root")
+posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
 def test_extract_expression():
@@ -164,6 +171,7 @@ def test_pathtype_read_directory_force_file(fake_repository):
 
 
 @no_root
+@posix
 def test_pathtype_read_not_readable(fake_repository):
     """Cannot read a nonreadable file."""
     os.chmod("src/source_code.py", 0o000)
@@ -201,6 +209,7 @@ def test_pathtype_write_directory(fake_repository):
 
 
 @no_root
+@posix
 def test_pathtype_write_exists_but_not_writeable(fake_repository):
     """Cannot get Path of file that exists but isn't writeable."""
     os.chmod("src/source_code.py", 0o000)
@@ -212,6 +221,7 @@ def test_pathtype_write_exists_but_not_writeable(fake_repository):
 
 
 @no_root
+@posix
 def test_pathtype_write_not_exist_but_directory_not_writeable(fake_repository):
     """Cannot get Path of file that does not exist but directory isn't
     writeable.
@@ -228,3 +238,24 @@ def test_pathtype_invalid_mode(empty_directory):
     """Only valid modes are 'r' and 'w'."""
     with pytest.raises(ValueError):
         _util.PathType("o")
+
+
+def test_decoded_text_from_binary_simple():
+    """A unicode string encoded as bytes object decodes back correctly."""
+    text = "Hello, world ☺"
+    encoded = text.encode("utf-8")
+    assert _util.decoded_text_from_binary(BytesIO(encoded)) == text
+
+
+def test_decoded_text_from_binary_size():
+    """Only a given amount of bytes is decoded."""
+    text = "Hello, world ☺"
+    encoded = text.encode("utf-8")
+    assert _util.decoded_text_from_binary(BytesIO(encoded), size=5) == "Hello"
+
+
+def test_decoded_text_from_binary_crlf():
+    """Given CRLF line endings, convert to LF."""
+    text = "Hello\r\nworld"
+    encoded = text.encode("utf-8")
+    assert _util.decoded_text_from_binary(BytesIO(encoded)) == "Hello\nworld"

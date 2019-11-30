@@ -8,6 +8,7 @@
 
 import os
 import shutil
+import sys
 from pathlib import Path
 from textwrap import dedent
 
@@ -18,6 +19,9 @@ from reuse import _util
 from reuse.project import Project
 
 git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
+posix = pytest.mark.skipif(
+    sys.platform == "win32", reason="Windows not supported"
+)
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
@@ -87,6 +91,7 @@ def test_all_files_git_ignored_contains_space(git_repository):
 
 
 @git
+@posix
 def test_all_files_git_ignored_contains_newline(git_repository):
     """Files that contain newlines are also ignored."""
     (git_repository / "hello\nworld.pyc").touch()
@@ -108,7 +113,7 @@ def test_spdx_info_of_directory(empty_directory):
     (empty_directory / "src").mkdir()
 
     project = Project(empty_directory)
-    with pytest.raises(IsADirectoryError):
+    with pytest.raises((IsADirectoryError, PermissionError)):
         project.spdx_info_of(empty_directory / "src")
 
 

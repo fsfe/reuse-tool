@@ -172,7 +172,8 @@ def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
     If *size* is specified, only read so many bytes.
     """
     rawdata = binary_file.read(size)
-    return rawdata.decode("utf-8", errors="replace")
+    result = rawdata.decode("utf-8", errors="replace")
+    return result.replace("\r\n", "\n")
 
 
 def _determine_license_path(path: PathLike) -> Path:
