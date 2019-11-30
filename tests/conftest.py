@@ -154,7 +154,7 @@ def submodule_repository(
 
     os.chdir(git_repository)
     subprocess.run(
-        [git_exe, "submodule", "add", submodule.resolve(), "submodule"]
+        [git_exe, "submodule", "add", str(submodule.resolve()), "submodule"]
     )
     subprocess.run([git_exe, "commit", "-m", "add submodule"])
 
