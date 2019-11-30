@@ -274,5 +274,5 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     parent = empty_directory.parent
     os.chdir(parent)
     assert project._relative_from_root(
-        Path("{}/src/hello.py".format(project.root.name))
+        Path(f"{project.root.name}/src/hello.py")
     ) == Path("src/hello.py")

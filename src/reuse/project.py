@@ -49,7 +49,7 @@ class Project:
     def __init__(self, root: PathLike, include_submodules: bool = False):
         self._root = Path(root)
         if not self._root.is_dir():
-            raise NotADirectoryError("{} is no valid path".format(self._root))
+            raise NotADirectoryError(f"{self._root} is no valid path")
 
         self._is_git_repo = False
         self._all_ignored_files = set()
@@ -204,14 +204,14 @@ class Project:
         License Identifier.
         """
         if not path.suffix:
-            raise IdentifierNotFound("{} has no file extension".format(path))
+            raise IdentifierNotFound(f"{path} has no file extension")
         if path.stem in self.license_map:
             return path.stem
         if path.stem.startswith("LicenseRef-"):
             return path.stem
 
         raise IdentifierNotFound(
-            "Could not find SPDX License Identifier for {}".format(path)
+            f"Could not find SPDX License Identifier for {path}"
         )
 
     @property
@@ -226,7 +226,7 @@ class Project:
             try:
                 with copyright_path.open() as fp:
                     self._copyright_val = Copyright(fp)
-            except (IOError, OSError):
+            except OSError:
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
             except DebianError:
                 _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
@@ -292,7 +292,7 @@ class Project:
                     )
                 )
                 raise RuntimeError(
-                    "Multiple licenses resolve to {}".format(identifier)
+                    f"Multiple licenses resolve to {identifier}"
                 )
             # Add the identifiers
             license_files[identifier] = path

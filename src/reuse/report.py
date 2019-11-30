@@ -89,7 +89,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         # TODO: Fix Person and Organization
         out.write("Creator: Person: Anonymous ()\n")
         out.write("Creator: Organization: Anonymous ()\n")
-        out.write("Creator: Tool: reuse-{}\n".format(__version__))
+        out.write(f"Creator: Tool: reuse-{__version__}\n")
 
         now = datetime.datetime.utcnow()
         now = now.replace(microsecond=0)
@@ -111,17 +111,15 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         for report in reports:
             out.write("\n")
-            out.write("FileName: {}\n".format(report.spdxfile.name))
-            out.write("SPDXID: {}\n".format(report.spdxfile.spdx_id))
-            out.write(
-                "FileChecksum: SHA1: {}\n".format(report.spdxfile.chk_sum)
-            )
+            out.write(f"FileName: {report.spdxfile.name}\n")
+            out.write(f"SPDXID: {report.spdxfile.spdx_id}\n")
+            out.write(f"FileChecksum: SHA1: {report.spdxfile.chk_sum}\n")
             # IMPORTANT: Make no assertion about concluded license. This tool
             # cannot, with full certainty, determine the license of a file.
             out.write("LicenseConcluded: NOASSERTION\n")
 
             for lic in sorted(report.spdxfile.licenses_in_file):
-                out.write("LicenseInfoInFile: {}\n".format(lic))
+                out.write(f"LicenseInfoInFile: {lic}\n")
             if report.spdxfile.copyright:
                 out.write(
                     "FileCopyrightText: <text>{}</text>\n".format(
@@ -135,7 +133,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         for lic, path in sorted(self.licenses.items()):
             if lic.startswith("LicenseRef-"):
                 out.write("\n")
-                out.write("LicenseID: {}\n".format(lic))
+                out.write(f"LicenseID: {lic}\n")
                 out.write("LicenseName: NOASSERTION\n")
 
                 with (Path(self.path) / path).open() as fp:
@@ -291,7 +289,7 @@ class FileReport:
         """Generate a FileReport from a path in a Project."""
         path = Path(path)
         if not path.is_file():
-            raise OSError("{} is not a file".format(path))
+            raise OSError(f"{path} is not a file")
 
         # pylint: disable=protected-access
         relative = project._relative_from_root(path)

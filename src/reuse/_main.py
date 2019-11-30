@@ -233,7 +233,7 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
     )
 
     if parsed_args.version:
-        out.write("reuse {}\n".format(__version__))
+        out.write(f"reuse {__version__}\n")
         return 0
 
     if parsed_args.root:

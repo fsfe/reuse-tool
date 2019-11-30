@@ -44,6 +44,6 @@ def split_into_paragraphs(text):
                 padding = " "
             else:
                 padding = ""
-            paragraph = "{}{}{}".format(paragraph, padding, line)
+            paragraph = f"{paragraph}{padding}{line}"
     if paragraph:
         yield paragraph

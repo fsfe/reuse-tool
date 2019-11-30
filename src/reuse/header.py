@@ -451,7 +451,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     expressions = set(args.license) if args.license is not None else set()
     copyright_lines = (
-        set(make_copyright_line(x, year=year) for x in args.copyright)
+        {make_copyright_line(x, year=year) for x in args.copyright}
         if args.copyright is not None
         else set()
     )

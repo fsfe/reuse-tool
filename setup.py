@@ -66,7 +66,7 @@ class BuildTrans(cmd.Command):
     def run(self):
         if self.msgfmt:
             for po_file in self.po_files:
-                self.announce("compiling {}".format(po_file))
+                self.announce(f"compiling {po_file}")
                 lang_dir = str(
                     Path(self.build_lib)
                     / "reuse/locale"

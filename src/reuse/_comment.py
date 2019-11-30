@@ -67,7 +67,7 @@ class CommentStyle:
         """
         if not cls.can_handle_single():
             raise CommentCreateError(
-                "{} cannot create single-line comments".format(cls)
+                f"{cls} cannot create single-line comments"
             )
         text = text.strip("\n")
         result = []
@@ -86,7 +86,7 @@ class CommentStyle:
         """
         if not cls.can_handle_multi():
             raise CommentCreateError(
-                "{} cannot create multi-line comments".format(cls)
+                f"{cls} cannot create multi-line comments"
             )
         text = text.strip("\n")
         result = []
@@ -94,7 +94,7 @@ class CommentStyle:
         for line in text.splitlines():
             if cls.MULTI_LINE[2] in text:
                 raise CommentCreateError(
-                    "'{}' contains a premature comment delimiter".format(line)
+                    f"'{line}' contains a premature comment delimiter"
                 )
             line_result = ""
             if cls.MULTI_LINE[1]:
@@ -126,16 +126,14 @@ class CommentStyle:
         :raises CommentParseError: if *text* could not be parsed.
         """
         if not cls.can_handle_single():
-            raise CommentParseError(
-                "{} cannot parse single-line comments".format(cls)
-            )
+            raise CommentParseError(f"{cls} cannot parse single-line comments")
         text = text.strip("\n")
         result = []
 
         for line in text.splitlines():
             if not line.startswith(cls.SINGLE_LINE):
                 raise CommentParseError(
-                    "'{}' does not start with a comment marker".format(line)
+                    f"'{line}' does not start with a comment marker"
                 )
             line = line.lstrip(cls.SINGLE_LINE)
             result.append(line)
@@ -150,9 +148,7 @@ class CommentStyle:
         :raises CommentParseError: if *text* could not be parsed.
         """
         if not cls.can_handle_multi():
-            raise CommentParseError(
-                "{} cannot parse multi-line comments".format(cls)
-            )
+            raise CommentParseError(f"{cls} cannot parse multi-line comments")
 
         text = text.strip("\n")
         result = []
@@ -167,7 +163,7 @@ class CommentStyle:
 
         if not first.startswith(cls.MULTI_LINE[0]):
             raise CommentParseError(
-                "'{}' does not start with a comment marker".format(first)
+                f"'{first}' does not start with a comment marker"
             )
         first = first.lstrip(cls.MULTI_LINE[0])
         first = first.strip()
@@ -189,7 +185,7 @@ class CommentStyle:
             first = ""
         if not last.endswith(cls.MULTI_LINE[2]):
             raise CommentParseError(
-                "'{}' does not end with a comment delimiter".format(last)
+                f"'{last}' does not end with a comment delimiter"
             )
         last = last.rstrip(cls.MULTI_LINE[2])
         last = last.rstrip(cls.INDENT_BEFORE_END)
@@ -219,7 +215,7 @@ class CommentStyle:
         comment block.
         """
         if not any((cls.can_handle_single(), cls.can_handle_multi())):
-            raise CommentParseError("{} cannot parse comments".format(cls))
+            raise CommentParseError(f"{cls} cannot parse comments")
 
         lines = text.splitlines()
 

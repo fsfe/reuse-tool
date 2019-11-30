@@ -160,7 +160,7 @@ def _all_files_ignored_by_git(root: PathLike) -> Set[Path]:
         ]
         result = execute_command(command, _LOGGER, cwd=root)
         all_files = result.stdout.decode("utf-8").split("\0")
-        return set(Path(file_) for file_ in all_files)
+        return {Path(file_) for file_ in all_files}
     return set()
 
 
@@ -180,7 +180,7 @@ def _determine_license_path(path: PathLike) -> Path:
     """Given a path FILE, return FILE.license if it exists, otherwise return
     FILE.
     """
-    license_path = Path("{}.license".format(path))
+    license_path = Path(f"{path}.license")
     if not license_path.exists():
         license_path = Path(path)
     return license_path
@@ -265,7 +265,7 @@ class PathType:  # pylint: disable=too-few-public-methods
         if mode in ("r", "w"):
             self._mode = mode
         else:
-            raise ValueError("mode='{}' is not valid".format(mode))
+            raise ValueError(f"mode='{mode}' is not valid")
         self._force_file = force_file
         self._force_directory = force_directory
         if self._force_file and self._force_directory:
