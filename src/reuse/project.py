@@ -153,13 +153,16 @@ class Project:
             dep5_result.copyright_lines.union(file_result.copyright_lines),
         )
 
-    def _relative_from_root(self, path: PathLike) -> Path:
+    def _relative_from_root(self, path: Path) -> Path:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
-        return Path(os.path.relpath(path, start=self.root))
+        try:
+            return path.relative_to(self.root)
+        except ValueError:
+            return Path(os.path.relpath(path, start=self.root))
 
-    def _ignored_by_vcs(self, path: PathLike) -> bool:
+    def _ignored_by_vcs(self, path: Path) -> bool:
         """Is *path* covered by the ignore mechanism of the VCS (e.g.,
         .gitignore)?
         """
@@ -167,7 +170,7 @@ class Project:
             return self._ignored_by_git(path)
         return False
 
-    def _ignored_by_git(self, path: PathLike) -> bool:
+    def _ignored_by_git(self, path: Path) -> bool:
         """Is *path* covered by the ignore mechanism of git?
 
         Always return False if git is not installed.
@@ -240,8 +243,9 @@ class Project:
         """
         license_files = dict()
 
-        directory = str(self.root.resolve() / "LICENSES/**")
+        directory = str(self.root / "LICENSES/**")
         for path in glob.iglob(directory, recursive=True):
+            path = Path(path)
             # For some reason, LICENSES/** is resolved even though it
             # doesn't exist. I have no idea why. Deal with that here.
             if not Path(path).exists() or Path(path).is_dir():

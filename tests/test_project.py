@@ -4,6 +4,8 @@
 
 """Tests for reuse.project."""
 
+# pylint: disable=invalid-name,protected-access
+
 import os
 import shutil
 from pathlib import Path
@@ -15,7 +17,6 @@ from license_expression import LicenseSymbol
 from reuse import _util
 from reuse.project import Project
 
-# pylint: disable=invalid-name
 git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
@@ -246,3 +247,27 @@ def test_licenses_subdirectory(empty_directory):
     (empty_directory / "LICENSES/sub/MIT.txt").touch()
     project = Project(empty_directory)
     assert "MIT" in project.licenses
+
+
+def test_relative_from_root(empty_directory):
+    """A simple test. Given /path/to/root/src/hello.py, return src/hello.py."""
+    project = Project(empty_directory)
+    assert project._relative_from_root(project.root / "src/hello.py") == Path(
+        "src/hello.py"
+    )
+
+
+def test_relative_from_root_no_shared_base_path(empty_directory):
+    """A path can still be relative from root if the paths do not have a common
+    prefix.
+
+    For instance, if root is /path/to/root and given root/src/hello.py from the
+    directory /path/to, return src/hello.py. This is a bit involved, but works
+    out.
+    """
+    project = Project(empty_directory)
+    parent = empty_directory.parent
+    os.chdir(parent)
+    assert project._relative_from_root(
+        Path("{}/src/hello.py".format(project.root.name))
+    ) == Path("src/hello.py")
