@@ -11,7 +11,7 @@ import random
 from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
-from os import PathLike
+from os import PathLike, cpu_count
 from pathlib import Path
 from typing import Iterable, List, NamedTuple, Optional, Set
 from uuid import uuid4
@@ -180,7 +180,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         cls,
         project: Project,
         do_checksum: bool = True,
-        multiprocessing: bool = True,
+        multiprocessing: bool = cpu_count() > 1,
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
         project_report = cls(do_checksum=do_checksum)
