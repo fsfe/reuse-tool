@@ -69,6 +69,10 @@ You then only need to run the following command:
 
 After this, make sure that `~/.local/bin` is in your `$PATH`.
 
+To update reuse, run this command:
+
+    pip3 install --user --upgrade reuse
+
 ### Installation via package managers
 
 There are packages available for easy install on some operating systems. You are
