@@ -52,8 +52,8 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
     if success:
         out.write(
             _(
-                "Congratulations! Your project is compliant with version "
-                "{} of the REUSE Specification :-)"
+                "Congratulations! Your project is compliant with version"
+                " {} of the REUSE Specification :-)"
             ).format(__REUSE_version__)
         )
     else:
@@ -300,27 +300,23 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("\n")
 
     out.write("* ")
-    out.write(_("Read errors: {count}".format(count=len(report.read_errors))))
+    out.write(_("Read errors: {count}").format(count=len(report.read_errors)))
     out.write("\n")
 
     out.write("* ")
     out.write(
-        _(
-            "Files with copyright information: {count} / {total}".format(
-                count=file_total - len(report.files_without_copyright),
-                total=file_total,
-            )
+        _("Files with copyright information: {count} / {total}").format(
+            count=file_total - len(report.files_without_copyright),
+            total=file_total,
         )
     )
     out.write("\n")
 
     out.write("* ")
     out.write(
-        _(
-            "Files with license information: {count} / {total}".format(
-                count=file_total - len(report.files_without_licenses),
-                total=file_total,
-            )
+        _("Files with license information: {count} / {total}").format(
+            count=file_total - len(report.files_without_licenses),
+            total=file_total,
         )
     )
     out.write("\n")

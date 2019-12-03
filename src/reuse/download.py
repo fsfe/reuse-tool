@@ -94,10 +94,8 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     def _already_exists(path: PathLike):
         out.write(
-            _(
-                "Error: {spdx_identifier} already exists.".format(
-                    spdx_identifier=path
-                )
+            _("Error: {spdx_identifier} already exists.").format(
+                spdx_identifier=path
             )
         )
         out.write("\n")
@@ -124,10 +122,8 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     def _successfully_downloaded(destination: PathLike):
         out.write(
-            _(
-                "Successfully downloaded {spdx_identifier}.".format(
-                    spdx_identifier=destination
-                )
+            _("Successfully downloaded {spdx_identifier}.").format(
+                spdx_identifier=destination
             )
         )
         out.write("\n")

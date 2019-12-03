@@ -27,22 +27,22 @@ _LOGGER = logging.getLogger(__name__)
 
 _DESCRIPTION_LINES = [
     _(
-        "reuse is a tool for compliance with the REUSE "
-        "recommendations. See <https://reuse.software/> for more "
-        "information, and <https://reuse.readthedocs.io/> for the online "
-        "documentation."
+        "reuse is a tool for compliance with the REUSE"
+        " recommendations. See <https://reuse.software/> for more"
+        " information, and <https://reuse.readthedocs.io/> for the online"
+        " documentation."
     ),
     _(
-        "This version of reuse is compatible with version {} of the REUSE "
-        "Specification."
+        "This version of reuse is compatible with version {} of the REUSE"
+        " Specification."
     ).format(__REUSE_version__),
     _("Support the FSFE's work:"),
 ]
 
 _INDENTED_LINE = _(
-    "Donations are critical to our strength and autonomy. They enable us to "
-    "continue working for Free Software wherever necessary. Please consider "
-    "making a donation at <https://fsfe.org/donate/>."
+    "Donations are critical to our strength and autonomy. They enable us to"
+    " continue working for Free Software wherever necessary. Please consider"
+    " making a donation at <https://fsfe.org/donate/>."
 )
 
 _DESCRIPTION_TEXT = (
@@ -99,27 +99,27 @@ def parser() -> argparse.ArgumentParser:
         help=_("add copyright and licensing into the header of files"),
         description=fill_all(
             _(
-                "Add copyright and licensing into the header of one or more "
-                "files.\n"
+                "Add copyright and licensing into the header of one or more"
+                " files.\n"
                 "\n"
-                "By using --copyright and --license, you can specify which "
-                "copyright holders and licenses to add to the headers of the "
-                "given files.\n"
+                "By using --copyright and --license, you can specify which"
+                " copyright holders and licenses to add to the headers of the"
+                " given files.\n"
                 "\n"
-                "The comment style should be auto-detected for your files. If "
-                "a comment style could not be detected, the process aborts. "
-                "Use --style to specify or override the comment style to "
-                "use.\n"
+                "The comment style should be auto-detected for your files. If"
+                " a comment style could not be detected, the process aborts."
+                " Use --style to specify or override the comment style to"
+                " use.\n"
                 "\n"
-                "You can change the template of the header comment by using "
-                "--template. Place a Jinja2 template in "
-                ".reuse/templates/mytemplate.jinja2. You can use the template "
-                "by specifying "
-                "'--template mytemplate'. Read the online documentation on "
-                "how to use this feature.\n"
+                "You can change the template of the header comment by using"
+                " --template. Place a Jinja2 template in"
+                " .reuse/templates/mytemplate.jinja2. You can use the template"
+                " by specifying"
+                " '--template mytemplate'. Read the online documentation on"
+                " how to use this feature.\n"
                 "\n"
-                "If a binary file is detected, or if --explicit-license is "
-                "specified, the header is placed in a .license file."
+                "If a binary file is detected, or if --explicit-license is"
+                " specified, the header is placed in a .license file."
                 # TODO: Remove this
                 "\n"
                 "IMPORTANT: This is currently EXPERIMENTAL!"
@@ -137,18 +137,18 @@ def parser() -> argparse.ArgumentParser:
             _(
                 "Download a license and place it in the LICENSES/ directory.\n"
                 "\n"
-                "The LICENSES/ directory is automatically found in the "
-                "following order:\n"
+                "The LICENSES/ directory is automatically found in the"
+                " following order:\n"
                 "\n"
-                "- The LICENSES/ directory in the root of the VCS "
-                "repository.\n"
+                "- The LICENSES/ directory in the root of the VCS"
+                " repository.\n"
                 "\n"
                 "- The current directory if its name is LICENSES.\n"
                 "\n"
                 "- The LICENSES/ directory in the current directory.\n"
                 "\n"
-                "If the LICENSES/ directory cannot be found, one is simply "
-                "created."
+                "If the LICENSES/ directory cannot be found, one is simply"
+                " created."
             )
         ),
     )
@@ -169,24 +169,24 @@ def parser() -> argparse.ArgumentParser:
         help=_("list all non-compliant files"),
         description=fill_all(
             _(
-                "Lint the directory or project directory for compliance with "
-                "version {reuse_version} of the REUSE Specification. You can "
-                "find the latest version of the specification at "
-                "<https://reuse.software/spec/>.\n"
+                "Lint the directory or project directory for compliance with"
+                " version {reuse_version} of the REUSE Specification. You can"
+                " find the latest version of the specification at"
+                " <https://reuse.software/spec/>.\n"
                 "\n"
                 "Specifically, the following criteria are checked:\n"
                 "\n"
-                "- Are there any bad (unrecognised, not compliant with SPDX) "
-                "licenses in the project?\n"
+                "- Are there any bad (unrecognised, not compliant with SPDX)"
+                " licenses in the project?\n"
                 "\n"
-                "- Are any licenses referred to inside of the project, but "
-                "not included in the LICENSES/ directory?\n"
+                "- Are any licenses referred to inside of the project, but"
+                " not included in the LICENSES/ directory?\n"
                 "\n"
-                "- Are any licenses included in the LICENSES/ directory that "
-                "are not used inside of the project?\n"
+                "- Are any licenses included in the LICENSES/ directory that"
+                " are not used inside of the project?\n"
                 "\n"
-                "- Do all files have valid copyright and licensing "
-                "information?\n"
+                "- Do all files have valid copyright and licensing"
+                " information?\n"
             ).format(reuse_version=__REUSE_version__)
         ),
     )
