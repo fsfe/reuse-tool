@@ -6,13 +6,14 @@
 
 import datetime
 import logging
+import multiprocessing as mp
 import random
 from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
-from os import PathLike
+from os import PathLike, cpu_count
 from pathlib import Path
-from typing import Iterable, List, Set
+from typing import Iterable, List, NamedTuple, Optional, Set
 from uuid import uuid4
 
 from . import __version__
@@ -20,6 +21,37 @@ from ._util import _LICENSING, _checksum
 from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
+
+
+class _MultiprocessingContainer:
+    """Container that remembers some data in order to generate a FileReport."""
+
+    # pylint: disable=too-few-public-methods
+
+    def __init__(self, project, do_checksum):
+        self.project = project
+        self.do_checksum = do_checksum
+
+    def __call__(self, file_):
+        # pylint: disable=broad-except
+        try:
+            return _MultiprocessingResult(
+                file_,
+                FileReport.generate(
+                    self.project, file_, do_checksum=self.do_checksum
+                ),
+                None,
+            )
+        except Exception as exc:
+            return _MultiprocessingResult(file_, None, exc)
+
+
+class _MultiprocessingResult(NamedTuple):
+    """Result of :class:`MultiprocessingContainer`."""
+
+    path: PathLike
+    report: Optional["FileReport"]
+    error: Optional[Exception]
 
 
 class ProjectReport:  # pylint: disable=too-many-instance-attributes
@@ -145,7 +177,10 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     @classmethod
     def generate(
-        cls, project: Project, do_checksum: bool = True
+        cls,
+        project: Project,
+        do_checksum: bool = True,
+        multiprocessing: bool = cpu_count() > 1,
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
         project_report = cls(do_checksum=do_checksum)
@@ -154,16 +189,39 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         project_report.licenses_without_extension = (
             project.licenses_without_extension
         )
-        for file_ in project.all_files():
-            try:
-                file_report = FileReport.generate(
-                    project, file_, do_checksum=project_report.do_checksum
-                )
-            except (OSError, UnicodeError):
+
+        container = _MultiprocessingContainer(project, do_checksum)
+
+        if multiprocessing:
+            pool = mp.Pool()
+
+            results = pool.map(container, project.all_files())
+
+            pool.close()
+            pool.join()
+        else:
+            results = map(container, project.all_files())
+
+        for result in results:
+            if result.error:
+                if isinstance(result.error, (OSError, UnicodeError)):
+                    # Translators: %s is a path.
+                    _LOGGER.error(
+                        _("Could not read '%s'"),
+                        result.path,
+                        exc_info=result.error,
+                    )
+                    project_report.read_errors.add(result.path)
+                    continue
                 # Translators: %s is a path.
-                _LOGGER.info(_("Could not read %s"), file_)
-                project_report.read_errors.add(file_)
+                _LOGGER.error(
+                    _("Unexpected error occurred while parsing '%s'"),
+                    result.path,
+                    exc_info=result.error,
+                )
+                project_report.read_errors.add(result.path)
                 continue
+            file_report = result.report
 
             # File report.
             project_report.file_reports.add(file_report)

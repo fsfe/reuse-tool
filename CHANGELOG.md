@@ -47,6 +47,14 @@ The versions follow [semantic versioning](https://semver.org).
 - Deprecated licenses are now recognised. `lint` will complain about deprecated
   licenses.
 
+- ProjectReport generation (`lint`, `spdx`) now uses Python multiprocessing,
+  more commonly called multi-threading outside of Python. This has a significant
+  speedup of approximately 300% in testing. Because of overhead, performance
+  increase is not exactly linear.
+
+- For setups where multiprocessing is unsupported or unwanted,
+  `--no-multiprocessing` is added as flag.
+
 ### Changed
 
 - The linter output has been very slightly re-ordered to be more internally

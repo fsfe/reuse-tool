@@ -7,6 +7,7 @@
 # pylint: disable=redefined-outer-name,subprocess-run-check
 
 import logging
+import multiprocessing as mp
 import os
 import shutil
 import subprocess
@@ -58,6 +59,14 @@ def git_exe(request, monkeypatch) -> Optional[str]:
     monkeypatch.setattr("reuse.project.GIT_EXE", exe)
     monkeypatch.setattr("reuse._util.GIT_EXE", exe)
     yield exe
+
+
+@pytest.fixture(params=[True, False])
+def multiprocessing(request, monkeypatch) -> bool:
+    """Run the test with or without multiprocessing."""
+    if not request.param:
+        monkeypatch.delattr(mp, "Pool")
+    yield request.param
 
 
 @pytest.fixture()
