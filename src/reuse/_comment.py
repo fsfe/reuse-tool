@@ -241,6 +241,20 @@ class CommentStyle:
         )
 
 
+class AppleScriptCommentStyle(CommentStyle):
+    """AppleScript comment style."""
+
+    SINGLE_LINE = "--"
+    INDENT_AFTER_SINGLE = " "
+    MULTI_LINE = ("(*", "", "*)")
+
+
+class AspxCommentStyle(CommentStyle):
+    """ASPX comment style."""
+
+    MULTI_LINE = ("<%--", "", "--%>")
+
+
 class CCommentStyle(CommentStyle):
     """C comment style."""
 
@@ -322,24 +336,53 @@ class TexCommentStyle(CommentStyle):
 
 #: A map of (common) file extensions against comment types.
 COMMENT_STYLE_MAP = {
+    ".adb": HaskellCommentStyle,
+    ".ads": HaskellCommentStyle,
+    ".ahk": LispCommentStyle,
+    ".ahkl": LispCommentStyle,
+    ".asax": AspxCommentStyle,
+    ".ashx": AspxCommentStyle,
+    ".asmx": AspxCommentStyle,
+    ".aspx": AspxCommentStyle,
+    ".aux": TexCommentStyle,
+    ".awk": PythonCommentStyle,
+    ".axd": AspxCommentStyle,
+    ".applescript": AppleScriptCommentStyle,
+    ".bash": PythonCommentStyle,
     ".c": CCommentStyle,
     ".cl": LispCommentStyle,
     ".clj": LispCommentStyle,
+    ".cmake": PythonCommentStyle,  # TODO: Bracket comments not supported.
     ".coffee": PythonCommentStyle,
     ".cpp": CCommentStyle,
     ".cs": CCommentStyle,
     ".css": CssCommentStyle,
     ".d": CCommentStyle,
+    ".dart": CCommentStyle,
+    ".di": CCommentStyle,
+    ".el": LispCommentStyle,
     ".erl": TexCommentStyle,
     ".ex": PythonCommentStyle,
     ".exs": PythonCommentStyle,
+    ".fish": PythonCommentStyle,
     ".fs": CCommentStyle,
+    ".gemspec": PythonCommentStyle,
+    ".go": CCommentStyle,
+    ".gradle": CCommentStyle,
+    ".groovy": CCommentStyle,
     ".h": CCommentStyle,
+    ".hpp": CCommentStyle,
     ".hrl": TexCommentStyle,
     ".hs": HaskellCommentStyle,
     ".html": HtmlCommentStyle,
+    ".hx": CCommentStyle,
+    ".hxsl": CCommentStyle,
+    ".ini": LispCommentStyle,
+    ".ino": CCommentStyle,
     ".java": CCommentStyle,
     ".js": CCommentStyle,
+    ".jy": PythonCommentStyle,
+    ".ksh": PythonCommentStyle,
     ".kt": CCommentStyle,
     ".l": LispCommentStyle,
     ".latex": TexCommentStyle,
@@ -352,17 +395,41 @@ COMMENT_STYLE_MAP = {
     ".ml": MlCommentStyle,
     ".mli": MlCommentStyle,
     ".nim": PythonCommentStyle,
+    ".nimrod": PythonCommentStyle,
     ".nix": PythonCommentStyle,
     ".php": CCommentStyle,
+    ".php3": CCommentStyle,
+    ".php4": CCommentStyle,
+    ".php5": CCommentStyle,
     ".pl": PythonCommentStyle,
+    ".po": PythonCommentStyle,
+    ".pot": PythonCommentStyle,
+    ".ps1": PythonCommentStyle,  # TODO: Multiline comments
+    ".psm1": PythonCommentStyle,  # TODO: Multiline comments
     ".py": PythonCommentStyle,
+    ".pyi": PythonCommentStyle,
+    ".pyw": PythonCommentStyle,
+    ".qbs": CCommentStyle,
+    ".qml": CCommentStyle,
+    ".rake": PythonCommentStyle,
     ".rb": PythonCommentStyle,
+    ".rbw": PythonCommentStyle,
+    ".rbx": PythonCommentStyle,
     ".rs": CCommentStyle,
+    ".rss": HtmlCommentStyle,
+    ".scala": PythonCommentStyle,
+    ".scpt": AppleScriptCommentStyle,
+    ".scptd": AppleScriptCommentStyle,
     ".sh": PythonCommentStyle,
     ".sml": MlCommentStyle,
+    ".sql": HaskellCommentStyle,
+    ".swift": CCommentStyle,
     ".tex": TexCommentStyle,
+    ".toc": TexCommentStyle,
+    ".toml": PythonCommentStyle,
     ".vala": CCommentStyle,
     ".xml": HtmlCommentStyle,
+    ".xsh": PythonCommentStyle,
     ".yaml": PythonCommentStyle,
     ".yml": PythonCommentStyle,
     ".zsh": PythonCommentStyle,
