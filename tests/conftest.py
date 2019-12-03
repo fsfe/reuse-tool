@@ -21,6 +21,8 @@ import pytest
 from debian.copyright import Copyright
 from jinja2 import Environment
 
+os.environ["LC_ALL"] = "C"
+
 # A trick that tries to import the installed version of reuse. If that doesn't
 # work, import from the src directory. If that also doesn't work (for some
 # reason), then an ImportError is raised.

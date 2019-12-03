@@ -118,8 +118,7 @@ class Project:
         from within the file and from the .reuse/dep5 file.
         """
         path = _determine_license_path(path)
-        # Translators: %s is a path.
-        _LOGGER.debug("searching %s for SPDX information", path)
+        _LOGGER.debug(f"searching '{path}' for SPDX information")
 
         dep5_result = SpdxInfo(set(), set())
         file_result = SpdxInfo(set(), set())
@@ -130,8 +129,9 @@ class Project:
                 self._relative_from_root(path), self._copyright
             )
             if any(dep5_result):
-                # Translators: %s is a path.
-                _LOGGER.info(_("%s covered by .reuse/dep5"), path)
+                _LOGGER.info(
+                    _("'{path}' covered by .reuse/dep5").format(path=path)
+                )
 
         # Search the file for SPDX information.
         with path.open("rb") as fp:
@@ -142,10 +142,9 @@ class Project:
             except (ExpressionError, ParseError):
                 _LOGGER.error(
                     _(
-                        "%s holds an SPDX expression that cannot be parsed,"
-                        " skipping the file"
-                    ),
-                    path,
+                        "'{path}' holds an SPDX expression that cannot be"
+                        " parsed, skipping the file"
+                    ).format(path)
                 )
 
         return SpdxInfo(
@@ -254,7 +253,9 @@ class Project:
                 continue
 
             path = self._relative_from_root(path)
-            _LOGGER.debug(_("determining identifier of %s"), path)
+            _LOGGER.debug(
+                _("determining identifier of '{path}'").format(path=path)
+            )
 
             try:
                 identifier = self._identifier_of_license(path)

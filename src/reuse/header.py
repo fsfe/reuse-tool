@@ -401,7 +401,7 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--exclude-year",
         action="store_true",
-        help=_("do not include current or specified year in statement"),
+        help=_("do not include year in statement"),
     )
     parser.add_argument(
         "--explicit-license",
