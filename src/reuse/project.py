@@ -142,8 +142,8 @@ class Project:
             except (ExpressionError, ParseError):
                 _LOGGER.error(
                     _(
-                        "%s holds an SPDX expression that cannot be parsed, "
-                        "skipping the file"
+                        "%s holds an SPDX expression that cannot be parsed,"
+                        " skipping the file"
                     ),
                     path,
                 )
@@ -271,20 +271,20 @@ class Project:
                     identifier = path.stem
                     _LOGGER.warning(
                         _(
-                            "Could not resolve SPDX License Identifier of "
-                            "{path}, resolving to {identifier}. Make sure the "
-                            "license is in the license list found at "
-                            "<https://spdx.org/licenses/> or that it starts "
-                            "with 'LicenseRef-', and that it has a file "
-                            "extension."
+                            "Could not resolve SPDX License Identifier of"
+                            " {path}, resolving to {identifier}. Make sure the"
+                            " license is in the license list found at"
+                            " <https://spdx.org/licenses/> or that it starts"
+                            " with 'LicenseRef-', and that it has a file"
+                            " extension."
                         ).format(path=path, identifier=identifier)
                     )
 
             if identifier in license_files:
                 _LOGGER.critical(
                     _(
-                        "{identifier} is the SPDX License Identifier of both "
-                        "{path} and {other_path}"
+                        "{identifier} is the SPDX License Identifier of both"
+                        " {path} and {other_path}"
                     ).format(
                         identifier=identifier,
                         path=path,

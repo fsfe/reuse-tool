@@ -98,8 +98,8 @@ def _create_new_header(
     ):
         _LOGGER.debug(
             _(
-                "generated comment is missing copyright lines or license "
-                "expressions"
+                "generated comment is missing copyright lines or license"
+                " expressions"
             )
         )
         raise MissingSpdxInfo()
@@ -230,9 +230,9 @@ def find_and_replace_header(
         before, header, after = "", "", text
 
     # pylint: disable=logging-format-interpolation
-    _LOGGER.debug("before = {}".format(repr(before)))
-    _LOGGER.debug("header = {}".format(repr(header)))
-    _LOGGER.debug("after = {}".format(repr(after)))
+    _LOGGER.debug(f"before = {repr(before)}")
+    _LOGGER.debug(f"header = {repr(header)}")
+    _LOGGER.debug(f"after = {repr(after)}")
 
     # Extract shebang from header and put it in before. It's a bit messy, but
     # it ends up working.
@@ -277,9 +277,9 @@ def _verify_paths_supported(paths, parser):
             if not is_binary(str(path)):
                 parser.error(
                     _(
-                        "'{}' does not have a recognised file extension, "
-                        "please use --style or --explicit-license"
-                    ).format(path)
+                        "'{path}' does not have a recognised file extension,"
+                        " please use --style or --explicit-license"
+                    ).format(path=path)
                 )
 
 
@@ -343,9 +343,9 @@ def _add_header_to_file(
     except MissingSpdxInfo:
         out.write(
             _(
-                "Error: Generated comment header for '{path}' is missing "
-                "copyright lines or license expressions. The template is "
-                "probably incorrect. Did not write new header."
+                "Error: Generated comment header for '{path}' is missing"
+                " copyright lines or license expressions. The template is"
+                " probably incorrect. Did not write new header."
             ).format(path=path)
         )
         out.write("\n")
@@ -466,8 +466,8 @@ def run(args, project: Project, out=sys.stdout) -> int:
             if binary:
                 _LOGGER.info(
                     _(
-                        "'{path}' is a binary, therefore using '{new_path}' "
-                        "for the header"
+                        "'{path}' is a binary, therefore using '{new_path}'"
+                        " for the header"
                     ).format(path=path, new_path=new_path)
                 )
             path = Path(new_path)

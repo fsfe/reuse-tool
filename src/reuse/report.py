@@ -38,6 +38,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self.do_checksum = do_checksum
 
         self._unused_licenses = None
+        self._used_licenses = None
         self._files_without_licenses = None
         self._files_without_copyright = None
 
@@ -77,12 +78,12 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         out.write("DataLicense: CC0-1.0\n")
         out.write("SPDXID: SPDXRef-DOCUMENT\n")
 
-        out.write("DocumentName: {}\n".format(Path(self.path).resolve().name))
+        out.write(f"DocumentName: {Path(self.path).resolve().name}\n")
         # TODO: Generate UUID from git revision maybe
         # TODO: Fix the URL
         out.write(
-            "DocumentNamespace: "
-            "http://spdx.org/spdxdocs/spdx-v2.1-{}\n".format(uuid4())
+            f"DocumentNamespace:"
+            f" http://spdx.org/spdxdocs/spdx-v2.1-{uuid4()}\n"
         )
 
         # Author
@@ -93,20 +94,19 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         now = datetime.datetime.utcnow()
         now = now.replace(microsecond=0)
-        out.write("Created: {}Z\n".format(now.isoformat()))
+        out.write(f"Created: {now.isoformat()}Z\n")
         out.write(
-            "CreatorComment: <text>This document was created automatically "
-            "using available reuse information consistent with "
-            "REUSE.</text>\n"
+            "CreatorComment: <text>This document was created automatically"
+            " using available reuse information consistent with"
+            " REUSE.</text>\n"
         )
 
         reports = sorted(self.file_reports, key=lambda x: x.spdxfile.name)
 
         for report in reports:
             out.write(
-                "Relationship: SPDXRef-DOCUMENT describes {}\n".format(
-                    report.spdxfile.spdx_id
-                )
+                f"Relationship: SPDXRef-DOCUMENT describes"
+                f" {report.spdxfile.spdx_id}\n"
             )
 
         for report in reports:
@@ -122,9 +122,8 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 out.write(f"LicenseInfoInFile: {lic}\n")
             if report.spdxfile.copyright:
                 out.write(
-                    "FileCopyrightText: <text>{}</text>\n".format(
-                        report.spdxfile.copyright
-                    )
+                    f"FileCopyrightText:"
+                    f" <text>{report.spdxfile.copyright}</text>\n"
                 )
             else:
                 out.write("FileCopyrightText: NONE\n")
@@ -137,9 +136,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 out.write("LicenseName: NOASSERTION\n")
 
                 with (Path(self.path) / path).open() as fp:
-                    out.write(
-                        "ExtractedText: <text>{}</text>\n".format(fp.read())
-                    )
+                    out.write(f"ExtractedText: <text>{fp.read()}</text>\n")
 
         return out.getvalue()
 
@@ -190,7 +187,11 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
     @property
     def used_licenses(self) -> Set[str]:
         """Set of license identifiers that are found in file reports."""
-        return set(self.licenses) - self.unused_licenses
+        if self._used_licenses is not None:
+            return self._used_licenses
+
+        self._used_licenses = set(self.licenses) - self.unused_licenses
+        return self._used_licenses
 
     @property
     def unused_licenses(self) -> Set[str]:
@@ -198,19 +199,19 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._unused_licenses is not None:
             return self._unused_licenses
 
-        used_licenses = set()
-        unused_licenses = set()
+        all_used_licenses = {
+            lic
+            for file_report in self.file_reports
+            for lic in file_report.spdxfile.licenses_in_file
+        }
+        self._unused_licenses = {
+            lic
+            for file_report in self.file_reports
+            for lic in file_report.spdxfile.licenses_in_file
+            if lic not in all_used_licenses
+        }
 
-        for file_report in self.file_reports:
-            for lic in file_report.spdxfile.licenses_in_file:
-                used_licenses.add(lic)
-
-        for lic in self.licenses:
-            if lic not in used_licenses:
-                unused_licenses.add(lic)
-
-        self._unused_licenses = unused_licenses
-        return unused_licenses
+        return self._unused_licenses
 
     @property
     def files_without_licenses(self) -> Iterable[PathLike]:
@@ -218,14 +219,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._files_without_licenses is not None:
             return self._files_without_licenses
 
-        files_without_licenses = []
+        self._files_without_licenses = {
+            file_report.path
+            for file_report in self.file_reports
+            if not file_report.spdxfile.licenses_in_file
+        }
 
-        for file_report in self.file_reports:
-            if not file_report.spdxfile.licenses_in_file:
-                files_without_licenses.append(file_report.path)
-
-        self._files_without_licenses = files_without_licenses
-        return files_without_licenses
+        return self._files_without_licenses
 
     @property
     def files_without_copyright(self) -> Iterable[PathLike]:
@@ -233,14 +233,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._files_without_copyright is not None:
             return self._files_without_copyright
 
-        files_without_copyright = []
+        self._files_without_copyright = {
+            file_report.path
+            for file_report in self.file_reports
+            if not file_report.spdxfile.copyright
+        }
 
-        for file_report in self.file_reports:
-            if not file_report.spdxfile.copyright:
-                files_without_copyright.append(file_report.path)
-
-        self._files_without_copyright = files_without_copyright
-        return files_without_copyright
+        return self._files_without_copyright
 
 
 class _File:  # pylint: disable=too-few-public-methods
@@ -306,7 +305,7 @@ class FileReport:
         spdx_id = md5()
         spdx_id.update(str(relative).encode("utf-8"))
         spdx_id.update(report.spdxfile.chk_sum.encode("utf-8"))
-        report.spdxfile.spdx_id = "SPDXRef-{}".format(spdx_id.hexdigest())
+        report.spdxfile.spdx_id = f"SPDXRef-{spdx_id.hexdigest()}"
 
         spdx_info = project.spdx_info_of(path)
         for expression in spdx_info.spdx_expressions:
