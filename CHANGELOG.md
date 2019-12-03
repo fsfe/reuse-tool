@@ -55,6 +55,8 @@ The versions follow [semantic versioning](https://semver.org).
 - For setups where multiprocessing is unsupported or unwanted,
   `--no-multiprocessing` is added as flag.
 
+- `addheader` now recognises many more extensions. Too many to list here.
+
 ### Changed
 
 - The linter output has been very slightly re-ordered to be more internally
