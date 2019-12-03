@@ -147,6 +147,9 @@ Any pull requests or suggestions are welcome at
 <https://github.com/fsfe/reuse-tool> or via e-mail to one of the maintainers.
 General inquiries can be sent to <reuse@lists.fsfe.org>.
 
+Interaction within this project is covered by the [FSFE's Code of
+Conduct](https://fsfe.org/about/codeofconduct).
+
 Starting local development is very simple, just execute the following
 commands:
 
