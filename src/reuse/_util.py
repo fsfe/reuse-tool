@@ -199,7 +199,7 @@ def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
     )
 
 
-def extract_spdx_info(text: str) -> None:
+def extract_spdx_info(text: str) -> SpdxInfo:
     """Extract SPDX information from comments in a string.
 
     :raises ExpressionError: if an SPDX expression could not be parsed
