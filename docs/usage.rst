@@ -77,6 +77,8 @@ extension of a file, and use that comment style. If the tool is unable to detect
 the comment style, or if it detects the wrong style, you can override the style
 using ``--style``. The supported styles are:
 
+- AppleScript
+- ASPX
 - C
 - CSS
 - Haskell

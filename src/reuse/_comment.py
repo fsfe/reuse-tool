@@ -438,6 +438,8 @@ COMMENT_STYLE_MAP = {
 # IMPORTANT: !!! When adding a new style, also edit usage.rst !!!
 #: A map of human-friendly names against style classes.
 NAME_STYLE_MAP = {
+    "applescript": AppleScriptCommentStyle,
+    "aspx": AspxCommentStyle,
     "c": CCommentStyle,
     "css": CssCommentStyle,
     "haskell": HaskellCommentStyle,
