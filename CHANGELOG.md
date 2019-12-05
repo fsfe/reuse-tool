@@ -62,6 +62,10 @@ The versions follow [semantic versioning](https://semver.org).
 - The linter output has been very slightly re-ordered to be more internally
   consistent.
 
+- `reuse --version` now prints a version with a Git hash on development
+  versions. Towards that end, the tool now depends on `setuptools-scm` during
+  setup. It is not a runtime dependency.
+
 ### Removed
 
 - `lint` no longer accepts path arguments. Where previously one could do `reuse

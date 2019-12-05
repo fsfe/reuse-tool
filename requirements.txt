@@ -28,3 +28,4 @@ twine==3.0.0
 bump2version==0.5.11
 pre-commit==1.20.0
 setuptools==41.6.0
+setuptools-scm==3.3.3
