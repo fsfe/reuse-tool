@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Verify latest tag
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  create:
+    types: []
+
+jobs:
+  latest-tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        ref: latest
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Install reuse
+      run: |
+        python setup.py install
+    - name: Create verification file
+      run: |
+        cat > verify_latest.py <<EOL
+        import json
+        import subprocess
+        from distutils.version import LooseVersion
+        from urllib.request import urlopen
+
+        from packaging.version import parse
+        from reuse import __version__ as current
+
+        data = json.loads(
+            urlopen("https://pypi.python.org/pypi/reuse/json").read().decode("utf-8")
+        )
+        latest = max(
+            LooseVersion(release)
+            for release in data["releases"]
+            if not parse(release).is_prerelease
+        )
+
+        print(f"Latest stable version on PyPI is '{latest}'")
+        print(f"Version in this revision is '{current}'")
+
+        assert str(latest) == current
+        EOL
+    - name: Verify latest tag
+      run: |
+        python verify_latest.py
