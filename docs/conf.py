@@ -22,7 +22,7 @@ import os
 import sys
 from shutil import copyfile
 
-from pkg_resources import get_distribution
+from pkg_resources import get_distribution, DistributionNotFound
 
 sys.path.insert(0, os.path.abspath("../src/"))
 
@@ -71,9 +71,12 @@ author = "Free Software Foundation Europe"
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-#
-# The full version, including alpha/beta/rc tags.
-release = get_distribution("reuse").version
+
+try:
+    # The full version, including alpha/beta/rc tags.
+    release = get_distribution("reuse").version
+except DistributionNotFound:
+    release = "0.7.0"
 # The short X.Y.Z version.
 version = ".".join(release.split(".")[:3])
 
