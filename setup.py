@@ -33,6 +33,10 @@ requirements = [
 
 test_requirements = ["pytest"]
 
+setup_requirements = ["setuptools_scm"]
+
+fallback_version = "0.7.0"
+
 
 def readme_md():
     """Return contents of README.md"""
@@ -109,7 +113,8 @@ class Build(build_py):
 if __name__ == "__main__":
     setup(
         name="reuse",
-        version="0.7.0",
+        use_scm_version={"fallback_version": fallback_version},
+        version=fallback_version,
         url="https://reuse.software/",
         project_urls={
             "Documentation": "https://reuse.readthedocs.io/",
@@ -128,6 +133,7 @@ if __name__ == "__main__":
         entry_points={"console_scripts": ["reuse = reuse._main:main"]},
         install_requires=requirements,
         tests_require=test_requirements,
+        setup_requires=setup_requirements,
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",

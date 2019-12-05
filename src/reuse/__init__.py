@@ -31,6 +31,18 @@ from uuid import uuid4
 
 from boolean.boolean import Expression
 from debian.copyright import Copyright, NotMachineReadableError
+from pkg_resources import DistributionNotFound, get_distribution
+
+try:
+    __version__ = get_distribution(__name__).version
+except DistributionNotFound:
+    # package is not installed
+    __version__ = "0.7.0"
+
+__author__ = "Carmen Bianca Bakker"
+__email__ = "carmenbianca@fsfe.org"
+__license__ = "GPL-3.0-or-later"
+__REUSE_version__ = "3.0"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -43,12 +55,6 @@ if gettext.find("reuse", localedir=_LOCALE_DIR):
     _LOGGER.debug("translations found at %s", _LOCALE_DIR)
 else:
     _LOGGER.debug("no translations found at %s", _LOCALE_DIR)
-
-__author__ = "Carmen Bianca Bakker"
-__email__ = "carmenbianca@fsfe.org"
-__license__ = "GPL-3.0-or-later"
-__version__ = "0.7.0"
-__REUSE_version__ = "3.0"
 
 
 _IGNORE_DIR_PATTERNS = [
