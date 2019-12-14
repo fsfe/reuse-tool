@@ -77,7 +77,7 @@ def test_all_files_git_ignored_different_cwd(git_repository):
 
     Be in a different CWD during the above.
     """
-    os.chdir(str(git_repository / "LICENSES"))
+    os.chdir(git_repository / "LICENSES")
     project = Project(git_repository)
     assert Path("build/hello.py").absolute() not in project.all_files()
 
@@ -272,7 +272,7 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     """
     project = Project(empty_directory)
     parent = empty_directory.parent
-    os.chdir(str(parent))
+    os.chdir(parent)
     assert project._relative_from_root(
         Path(f"{project.root.name}/src/hello.py")
     ) == Path("src/hello.py")

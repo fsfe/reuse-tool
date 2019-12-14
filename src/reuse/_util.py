@@ -279,7 +279,7 @@ class PathType:  # pylint: disable=too-few-public-methods
         try:
             # pylint: disable=no-else-raise
             if self._mode == "r":
-                if path.exists() and os.access(str(path), os.R_OK):
+                if path.exists() and os.access(path, os.R_OK):
                     if self._force_file and not path.is_file():
                         raise ArgumentTypeError(
                             _("'{}' is not a file").format(path)
@@ -295,9 +295,9 @@ class PathType:  # pylint: disable=too-few-public-methods
                     raise ArgumentTypeError(
                         _("can't write to directory '{}'").format(path)
                     )
-                if path.exists() and os.access(str(path), os.W_OK):
+                if path.exists() and os.access(path, os.W_OK):
                     return path
-                if not path.exists() and os.access(str(path.parent), os.W_OK):
+                if not path.exists() and os.access(path.parent, os.W_OK):
                     return path
                 raise ArgumentTypeError(_("can't write to '{}'").format(path))
         except OSError:

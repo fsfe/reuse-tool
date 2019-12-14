@@ -48,7 +48,7 @@ def pytest_runtest_setup(item):
     """Called before running a test."""
     # pylint: disable=unused-argument
     # Make sure to restore CWD
-    os.chdir(str(CWD))
+    os.chdir(CWD)
 
 
 @pytest.fixture(params=[True, False])
@@ -75,12 +75,12 @@ def fake_repository(tmpdir_factory) -> Path:
     directory = Path(str(tmpdir_factory.mktemp("fake_repository")))
     for file_ in (RESOURCES_DIRECTORY / "fake_repository").iterdir():
         if file_.is_file():
-            shutil.copy(str(file_), str(directory / file_.name))
+            shutil.copy(file_, directory / file_.name)
         elif file_.is_dir():
-            shutil.copytree(str(file_), str(directory / file_.name))
+            shutil.copytree(file_, directory / file_.name)
 
     # Get rid of those pesky pyc files.
-    shutil.rmtree(str(directory / "src/__pycache__"), ignore_errors=True)
+    shutil.rmtree(directory / "src/__pycache__", ignore_errors=True)
 
     # Adding this here to avoid conflict in main project.
     (directory / "src/exception.py").write_text(
@@ -94,7 +94,7 @@ def fake_repository(tmpdir_factory) -> Path:
         "-License-Identifier: LicenseRef-custom"
     )
 
-    os.chdir(str(directory))
+    os.chdir(directory)
     return directory
 
 
@@ -104,7 +104,7 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     if not git_exe:
         pytest.skip("cannot run this test without git")
 
-    os.chdir(str(fake_repository))
+    os.chdir(fake_repository)
 
     gitignore = (
         "# SPDX"
@@ -160,7 +160,7 @@ def submodule_repository(
     submodule = Path(str(tmpdir_factory.mktemp("submodule")))
     (submodule / "foo.py").write_text(header)
 
-    os.chdir(str(submodule))
+    os.chdir(submodule)
     subprocess.run([git_exe, "init", str(submodule)])
     subprocess.run([git_exe, "add", str(submodule)])
     subprocess.run(
@@ -178,7 +178,7 @@ def submodule_repository(
         ]
     )
 
-    os.chdir(str(git_repository))
+    os.chdir(git_repository)
     subprocess.run(
         [git_exe, "submodule", "add", str(submodule.resolve()), "submodule"]
     )
