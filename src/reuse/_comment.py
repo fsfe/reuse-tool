@@ -1,5 +1,6 @@
-# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2019-2020 Free Software Foundation Europe e.V.
 # SPDX-FileCopyrightText: 2019 Kirill Elagin
+# SPDX-FileCopyrightText: 2020 Dmitry Bogatov
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -341,7 +342,7 @@ class TexCommentStyle(CommentStyle):
 
 
 #: A map of (common) file extensions against comment types.
-COMMENT_STYLE_MAP = {
+EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
     ".ads": HaskellCommentStyle,
     ".ahk": LispCommentStyle,
@@ -440,6 +441,20 @@ COMMENT_STYLE_MAP = {
     ".yaml": PythonCommentStyle,
     ".yml": PythonCommentStyle,
     ".zsh": PythonCommentStyle,
+}
+
+FILENAME_COMMENT_STYLE_MAP = {
+    ".gitattributes": PythonCommentStyle,
+    ".gitignore": PythonCommentStyle,
+    ".gitmodules": PythonCommentStyle,
+    ".editorconfig": PythonCommentStyle,
+    ".pylintrc": PythonCommentStyle,
+    "Dockerfile": PythonCommentStyle,
+    "Makefile": PythonCommentStyle,
+    "Manifest.in": PythonCommentStyle,
+    "manifest": PythonCommentStyle,  # used by cdist
+    "requirements.txt": PythonCommentStyle,
+    "setup.cfg": PythonCommentStyle,
 }
 
 # IMPORTANT: !!! When adding a new style, also edit usage.rst !!!
