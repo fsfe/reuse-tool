@@ -255,6 +255,12 @@ class AspxCommentStyle(CommentStyle):
     MULTI_LINE = ("<%--", "", "--%>")
 
 
+class BibTexCommentStyle(CommentStyle):
+    """BibTex comment style."""
+
+    MULTI_LINE = ("@Comment{", "", "}")
+
+
 class CCommentStyle(CommentStyle):
     """C comment style."""
 
@@ -349,6 +355,7 @@ COMMENT_STYLE_MAP = {
     ".axd": AspxCommentStyle,
     ".applescript": AppleScriptCommentStyle,
     ".bash": PythonCommentStyle,
+    ".bib": BibTexCommentStyle,
     ".c": CCommentStyle,
     ".cl": LispCommentStyle,
     ".clj": LispCommentStyle,
@@ -440,6 +447,7 @@ COMMENT_STYLE_MAP = {
 NAME_STYLE_MAP = {
     "applescript": AppleScriptCommentStyle,
     "aspx": AspxCommentStyle,
+    "bibtex": BibTexCommentStyle,
     "c": CCommentStyle,
     "css": CssCommentStyle,
     "haskell": HaskellCommentStyle,
