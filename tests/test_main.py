@@ -408,6 +408,40 @@ def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
     )
 
 
+def test_addheader_implicit_style_filename(
+    fake_repository, stringio, mock_date_today
+):
+    """Add a header to a filename that is recognised."""
+    simple_file = fake_repository / "Makefile"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "Makefile",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
 def test_addheader_unrecognised_style(fake_repository):
     """Add a header to a file that has an unrecognised extension."""
     simple_file = fake_repository / "foo.foo"

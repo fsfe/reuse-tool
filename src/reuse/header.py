@@ -1,6 +1,7 @@
-# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2019-2020 Free Software Foundation Europe e.V.
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin <kirelagin@gmail.com>
+# SPDX-FileCopyrightText: 2020 Dmitry Bogatov
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -23,7 +24,8 @@ from license_expression import ExpressionError
 
 from . import SpdxInfo
 from ._comment import (
-    COMMENT_STYLE_MAP,
+    EXTENSION_COMMENT_STYLE_MAP,
+    FILENAME_COMMENT_STYLE_MAP,
     NAME_STYLE_MAP,
     CommentCreateError,
     CommentParseError,
@@ -268,10 +270,21 @@ def find_and_replace_header(
     return new_text
 
 
+def _get_comment_style(path: Path) -> CommentStyle:
+    """Return value of CommentStyle detected for *path*.
+
+    :raises KeyError: if no comment style is detected.
+    """
+    style = FILENAME_COMMENT_STYLE_MAP.get(path.name)
+    if style is None:
+        style = EXTENSION_COMMENT_STYLE_MAP[path.suffix]
+    return style
+
+
 def _verify_paths_supported(paths, parser):
     for path in paths:
         try:
-            COMMENT_STYLE_MAP[path.suffix]
+            _get_comment_style(path)
         except KeyError:
             # TODO: This check is duplicated.
             if not is_binary(str(path)):
@@ -321,7 +334,7 @@ def _add_header_to_file(
     if style is not None:
         style = NAME_STYLE_MAP[style]
     else:
-        style = COMMENT_STYLE_MAP[path.suffix]
+        style = _get_comment_style(path)
 
     with path.open("r") as fp:
         text = fp.read()
