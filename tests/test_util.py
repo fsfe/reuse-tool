@@ -59,6 +59,13 @@ def test_extract_no_info():
     assert result == _util.SpdxInfo(set(), set())
 
 
+def test_extract_bibtex_comment():
+    """A special case for BibTex comments."""
+    expression = "@Comment{SPDX" "-License-Identifier: GPL-3.0-or-later}"
+    result = _util.extract_spdx_info(expression)
+    assert str(list(result.spdx_expressions)[0]) == "GPL-3.0-or-later"
+
+
 def test_extract_copyright():
     """Given a file with copyright information, have it return that copyright
     information.

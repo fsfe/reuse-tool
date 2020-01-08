@@ -79,6 +79,7 @@ using ``--style``. The supported styles are:
 
 - AppleScript
 - ASPX
+- BibTex
 - C
 - CSS
 - Haskell
