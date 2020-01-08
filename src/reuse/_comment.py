@@ -245,6 +245,8 @@ class CommentStyle:
 class AppleScriptCommentStyle(CommentStyle):
     """AppleScript comment style."""
 
+    _shorthand = "applescript"
+
     SINGLE_LINE = "--"
     INDENT_AFTER_SINGLE = " "
     MULTI_LINE = ("(*", "", "*)")
@@ -253,17 +255,23 @@ class AppleScriptCommentStyle(CommentStyle):
 class AspxCommentStyle(CommentStyle):
     """ASPX comment style."""
 
+    _shorthand = "aspx"
+
     MULTI_LINE = ("<%--", "", "--%>")
 
 
 class BibTexCommentStyle(CommentStyle):
     """BibTex comment style."""
 
+    _shorthand = "bibtex"
+
     MULTI_LINE = ("@Comment{", "", "}")
 
 
 class CCommentStyle(CommentStyle):
     """C comment style."""
+
+    _shorthand = "c"
 
     SINGLE_LINE = "//"
     INDENT_AFTER_SINGLE = " "
@@ -275,6 +283,8 @@ class CCommentStyle(CommentStyle):
 
 class CssCommentStyle(CommentStyle):
     """CSS comment style."""
+
+    _shorthand = "css"
 
     MULTI_LINE = ("/*", "*", "*/")
     INDENT_BEFORE_MIDDLE = " "
@@ -301,6 +311,8 @@ class EmptyCommentStyle(CommentStyle):
 class HaskellCommentStyle(CommentStyle):
     """Haskell comment style."""
 
+    _shorthand = "haskell"
+
     SINGLE_LINE = "--"
     INDENT_AFTER_SINGLE = " "
 
@@ -308,11 +320,15 @@ class HaskellCommentStyle(CommentStyle):
 class HtmlCommentStyle(CommentStyle):
     """HTML comment style."""
 
+    _shorthand = "html"
+
     MULTI_LINE = ("<!--", "", "-->")
 
 
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
+
+    _shorthand = "lisp"
 
     SINGLE_LINE = ";"
     INDENT_AFTER_SINGLE = " "
@@ -320,6 +336,8 @@ class LispCommentStyle(CommentStyle):
 
 class MlCommentStyle(CommentStyle):
     """ML comment style."""
+
+    _shorthand = "ml"
 
     MULTI_LINE = ("(*", "*", "*)")
     INDENT_BEFORE_MIDDLE = " "
@@ -330,12 +348,16 @@ class MlCommentStyle(CommentStyle):
 class PythonCommentStyle(CommentStyle):
     """Python comment style."""
 
+    _shorthand = "python"
+
     SINGLE_LINE = "#"
     INDENT_AFTER_SINGLE = " "
 
 
 class TexCommentStyle(CommentStyle):
     """TeX comment style."""
+
+    _shorthand = "tex"
 
     SINGLE_LINE = "%"
     INDENT_AFTER_SINGLE = " "
@@ -457,21 +479,6 @@ FILENAME_COMMENT_STYLE_MAP = {
     "setup.cfg": PythonCommentStyle,
 }
 
-# IMPORTANT: !!! When adding a new style, also edit usage.rst !!!
-#: A map of human-friendly names against style classes.
-NAME_STYLE_MAP = {
-    "applescript": AppleScriptCommentStyle,
-    "aspx": AspxCommentStyle,
-    "bibtex": BibTexCommentStyle,
-    "c": CCommentStyle,
-    "css": CssCommentStyle,
-    "haskell": HaskellCommentStyle,
-    "html": HtmlCommentStyle,
-    "ml": MlCommentStyle,
-    "python": PythonCommentStyle,
-    "tex": TexCommentStyle,
-}
-
 
 def _all_style_classes() -> List[CommentStyle]:
     """Return a list of all defined style classes, excluding the base class."""
@@ -480,3 +487,12 @@ def _all_style_classes() -> List[CommentStyle]:
         if key.endswith("CommentStyle") and key != "CommentStyle":
             result.append(value)
     return sorted(result, key=operator.attrgetter("__name__"))
+
+
+# pylint: disable=invalid-name,protected-access
+
+_result = _all_style_classes()
+_result.remove(EmptyCommentStyle)
+
+#: A map of human-friendly names against style classes.
+NAME_STYLE_MAP = {style._shorthand: style for style in _result}
