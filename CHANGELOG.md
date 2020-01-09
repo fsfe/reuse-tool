@@ -57,6 +57,11 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `addheader` now recognises many more extensions. Too many to list here.
 
+- `addheader` now also recognises full filenames such as `Makefile` and
+  `.gitignore`.
+
+- Added BibTex comment style.
+
 ### Changed
 
 - The linter output has been very slightly re-ordered to be more internally
