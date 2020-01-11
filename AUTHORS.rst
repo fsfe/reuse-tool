@@ -54,3 +54,7 @@ Translators
   + flow <adolflow@sindominio.net>
 
   + pd <euklade@gmail.com>
+
+- Turkish:
+
+  + T. E. Kalayci <tekrei@member.fsf.org>
