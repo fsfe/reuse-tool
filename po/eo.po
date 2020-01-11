@@ -1,9 +1,7 @@
-# SPDX-FileCopyrightText: 2018  Carmen Bianca Bakker <carmenbianca@fsfe.org>
-# SPDX-FileCopyrightText: 2018  Tirifto <tirifto@posteo.cz>
+# SPDX-FileCopyrightText: 2018, 2020 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2018 Tirifto <tirifto@posteo.cz>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Carmen Bianca BAKKER <carmen@carmenbianca.eu>, 2019.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
