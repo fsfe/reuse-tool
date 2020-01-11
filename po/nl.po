@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2018 Carmen Bianca Bakker
-# SPDX-FileCopyrightText: 2017 André Ockers
+# SPDX-FileCopyrightText: 2018, 2020 Carmen Bianca Bakker
+# SPDX-FileCopyrightText: 2017, 2020 André Ockers
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 msgid ""
@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-20 12:18+0100\n"
-"PO-Revision-Date: 2020-01-11 16:53+0100\n"
+"PO-Revision-Date: 2020-01-11 20:35+0100\n"
 "Last-Translator: Carmen Bianca BAKKER <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.2.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/reuse/_main.py:30
@@ -120,7 +120,7 @@ msgstr ""
 
 #: src/reuse/_main.py:135
 msgid "download a license and place it in the LICENSES/ directory"
-msgstr "download een licentie en plaats het in de LICENSES/-map."
+msgstr "download een licentie en plaats het in de LICENSES/-map"
 
 #: src/reuse/_main.py:138
 msgid ""
@@ -138,7 +138,15 @@ msgid ""
 msgstr ""
 "Download een licentie en plaats het in de LICENSES/-map.\n"
 "\n"
-"De LICENSES/"
+"De LICENSES/-map is automatisch gevonden in de volgende volgorde:\n"
+"\n"
+"- De LICENSES/-map in de root van de VCS-map.\n"
+"\n"
+"- De huidige map als de naam van de huidige map LICENSES/ is.\n"
+"\n"
+"- De LICENSES/-map in de huidige map.\n"
+"\n"
+"Als de LICENSES/-map niet gevonden kan worden, dan wordt er een gemaakt."
 
 #: src/reuse/_main.py:161
 msgid "initialize REUSE project"
@@ -220,7 +228,7 @@ msgstr "kan '{}' niet lezen of schrijven"
 
 #: src/reuse/_util.py:317
 msgid "'{}' is not a valid SPDX expression, aborting"
-msgstr "'{}' is geen geldige SPDX-uitdrukking, breekt af"
+msgstr "'{}' is geen geldige SPDX-uitdrukking, aan het afbreken"
 
 #: src/reuse/download.py:80
 msgid "SPDX License Identifier of license"
@@ -349,7 +357,8 @@ msgstr "sjabloon {template} kon niet worden gevonden"
 #: src/reuse/header.py:469
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
-msgstr "'{path}' is een binary; gebruik daarom '{new_path}' voor de header"
+msgstr ""
+"'{path}' is een binary; daarom wordt '{new_path}' gebruikt voor de header"
 
 #: src/reuse/init.py:25
 msgid ""
@@ -368,7 +377,7 @@ msgstr ""
 
 #: src/reuse/init.py:40
 msgid "To stop adding licenses, hit RETURN."
-msgstr "Typ RETURN voor het stoppen met het toevoegen van licenties."
+msgstr "Typ RETURN om te stoppen met het toevoegen van licenties."
 
 #: src/reuse/init.py:85
 msgid "Project already initialized"
@@ -396,11 +405,11 @@ msgstr "Wat is het emailadres van de beheerder?"
 
 #: src/reuse/init.py:118
 msgid "All done! Initializing now."
-msgstr "Klaar! Initialiseert nu."
+msgstr "Klaar! Nu aan het initialiseren."
 
 #: src/reuse/init.py:126
 msgid "Downloading {}"
-msgstr "Download {}"
+msgstr "{} aan het downloaden"
 
 #: src/reuse/init.py:131
 msgid "{} already exists"
@@ -412,7 +421,7 @@ msgstr "Kon {} niet downloaden"
 
 #: src/reuse/init.py:139
 msgid "Creating .reuse/dep5"
-msgstr "Creëert .reuse/dep5"
+msgstr ".reuse/dep5 aan het creëren"
 
 #: src/reuse/init.py:162
 msgid "Initialization complete."
@@ -442,11 +451,11 @@ msgstr "'{}' gevonden in:"
 
 #: src/reuse/lint.py:101
 msgid "DEPRECATED LICENSES"
-msgstr "AFGEKEURDE LICENTIES"
+msgstr "VEROUDERDE LICENTIES"
 
 #: src/reuse/lint.py:103
 msgid "The following licenses are deprecated by SPDX:"
-msgstr "De volgende licenties zijn afgekeurd door SPDX:"
+msgstr "De volgende licenties zijn verouderd door SPDX:"
 
 #: src/reuse/lint.py:121
 msgid "LICENSES WITHOUT FILE EXTENSION"
@@ -503,7 +512,7 @@ msgstr "Slechte licenties:"
 
 #: src/reuse/lint.py:258
 msgid "Deprecated licenses:"
-msgstr "Afgekeurde licenties:"
+msgstr "Verouderde licenties:"
 
 #: src/reuse/lint.py:267
 msgid "Licenses without file extension:"
