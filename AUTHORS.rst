@@ -58,3 +58,9 @@ Translators
 - Turkish:
 
   + T. E. Kalayci <tekrei@member.fsf.org>
+
+- French:
+
+  + OliBug <act-zebug@riseup.net>
+
+  + Vincent Lequertier <vincent@fsfe.org>
