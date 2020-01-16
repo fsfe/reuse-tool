@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-15 20:23+0100\n"
-"PO-Revision-Date: 2020-01-16 13:36+0100\n"
+"PO-Revision-Date: 2020-01-16 13:37+0100\n"
 "Last-Translator: Carmen Bianca BAKKER <carmen@carmenbianca.eu>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -148,7 +148,7 @@ msgstr ""
 "\n"
 "- Le répertoire LICENSES/ dans le répertoire courant.\n"
 "\n"
-"Si le répertoire LICENSES/ n'est pas trouvé, il sera simplement cr.\n"
+"Si le répertoire LICENSES/ n'est pas trouvé, il sera simplement cr."
 
 #: src/reuse/_main.py:161
 msgid "initialize REUSE project"
@@ -191,7 +191,7 @@ msgstr ""
 "le projet?\n"
 "\n"
 "- Tous les fichiers disposent-ils d'informations de droits d'auteur et de "
-"licence valides?\n"
+"licence valides?"
 
 #: src/reuse/_main.py:199
 msgid "print the project's bill of materials in SPDX format"
@@ -216,11 +216,11 @@ msgstr "'{}' ne peut être ouvert"
 
 #: src/reuse/_util.py:300
 msgid "can't write to directory '{}'"
-msgstr "Écriture impossible dans le répertoire '{}'"
+msgstr "écriture impossible dans le répertoire '{}'"
 
 #: src/reuse/_util.py:306
 msgid "can't write to '{}'"
-msgstr "Écriture impossible dans '{}'"
+msgstr "écriture impossible dans '{}'"
 
 #: src/reuse/_util.py:308
 msgid "can't read or write '{}'"
@@ -506,7 +506,7 @@ msgstr "Les fichiers suivants ne contiennent pas d'information de licence :"
 
 #: src/reuse/lint.py:243
 msgid "SUMMARY"
-msgstr "RÉSUMÉ "
+msgstr "RÉSUMÉ"
 
 #: src/reuse/lint.py:249
 msgid "Bad licenses:"
@@ -650,7 +650,7 @@ msgid ""
 "invalid option string %(option)r: must start with a character %(prefix_chars)r"
 msgstr ""
 "option de chaîne %(option)r invalide : doit débuter par un caractère "
-"%(prefix_char)r"
+"%(prefix_chars)r"
 
 #: /usr/lib64/python3.7/argparse.py:1494
 #, python-format
