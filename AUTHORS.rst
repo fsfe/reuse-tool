@@ -43,6 +43,16 @@ Translators
 
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
+- French:
+
+  + OliBug <act-zebug@riseup.net>
+
+  + Vincent Lequertier <vincent@fsfe.org>
+
+- German:
+
+  + Max Mehl <max.mehl@fsfe.org>
+
 - Esperanto:
 
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
@@ -59,8 +69,3 @@ Translators
 
   + T. E. Kalayci <tekrei@member.fsf.org>
 
-- French:
-
-  + OliBug <act-zebug@riseup.net>
-
-  + Vincent Lequertier <vincent@fsfe.org>
