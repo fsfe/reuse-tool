@@ -49,6 +49,10 @@ Translators
 
   + Vincent Lequertier <vincent@fsfe.org>
 
+- Galician:
+
+  + Pep <socialkuma@hotmail.com>
+
 - German:
 
   + Max Mehl <max.mehl@fsfe.org>
