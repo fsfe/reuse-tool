@@ -35,7 +35,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 0.8.0 - 2020-01-20
 
 ### Added
 
