@@ -68,7 +68,7 @@ def execute_command(
     """Run the given command with subprocess.run. Forward kwargs. Silence
     output into a pipe unless kwargs override it.
     """
-    logger.debug("running %s", " ".join(command))
+    logger.debug("running '%s'", " ".join(command))
 
     stdout = kwargs.get("stdout", subprocess.PIPE)
     stderr = kwargs.get("stderr", subprocess.PIPE)
@@ -212,7 +212,11 @@ def extract_spdx_info(text: str) -> SpdxInfo:
         try:
             expressions.add(_LICENSING.parse(expression))
         except (ExpressionError, ParseError):
-            _LOGGER.error(_("Could not parse '%s'"), expression)
+            _LOGGER.error(
+                _("Could not parse '{expression}'").format(
+                    expression=expression
+                )
+            )
             raise
     for line in text.splitlines():
         for pattern in _COPYRIGHT_PATTERNS:

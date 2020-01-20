@@ -119,7 +119,7 @@ def parser() -> argparse.ArgumentParser:
                 " how to use this feature.\n"
                 "\n"
                 "If a binary file is detected, or if --explicit-license is"
-                " specified, the header is placed in a .license file."
+                " specified, the header is placed in a .license file.\n"
                 # TODO: Remove this
                 "\n"
                 "IMPORTANT: This is currently EXPERIMENTAL!"
@@ -169,7 +169,7 @@ def parser() -> argparse.ArgumentParser:
         help=_("list all non-compliant files"),
         description=fill_all(
             _(
-                "Lint the directory or project directory for compliance with"
+                "Lint the project directory for compliance with"
                 " version {reuse_version} of the REUSE Specification. You can"
                 " find the latest version of the specification at"
                 " <https://reuse.software/spec/>.\n"
@@ -186,7 +186,7 @@ def parser() -> argparse.ArgumentParser:
                 " are not used inside of the project?\n"
                 "\n"
                 "- Do all files have valid copyright and licensing"
-                " information?\n"
+                " information?"
             ).format(reuse_version=__REUSE_version__)
         ),
     )

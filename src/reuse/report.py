@@ -202,18 +202,16 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         for result in results:
             if result.error:
                 if isinstance(result.error, (OSError, UnicodeError)):
-                    # Translators: %s is a path.
                     _LOGGER.error(
-                        _("Could not read '%s'"),
-                        result.path,
+                        _("Could not read '{path}'").format(path=result.path),
                         exc_info=result.error,
                     )
                     project_report.read_errors.add(result.path)
                     continue
-                # Translators: %s is a path.
                 _LOGGER.error(
-                    _("Unexpected error occurred while parsing '%s'"),
-                    result.path,
+                    _(
+                        "Unexpected error occurred while parsing '{path}'"
+                    ).format(path=result.path),
                     exc_info=result.error,
                 )
                 project_report.read_errors.add(result.path)

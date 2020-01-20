@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
+SPDX-FileCopyrightText: 2017-2020 Free Software Foundation Europe e.V.
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
@@ -61,6 +61,17 @@ The versions follow [semantic versioning](https://semver.org).
   `.gitignore`.
 
 - Added BibTex comment style.
+
+- Updated translations:
+
+  + Dutch (André Ockers, Carmen Bianca Bakker)
+  + French (OliBug, Vincent Lequertier)
+  + Galician (pd)
+  + German (Max Mehl)
+  + Esperanto (Carmen Bianca Bakker)
+  + Portuguese (José Vieira)
+  + Spanish (Roberto Bauglir)
+  + Turkish (T. E. Kalayci)
 
 ### Changed
 

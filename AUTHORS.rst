@@ -43,14 +43,39 @@ Translators
 
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
+- French:
+
+  + OliBug <act-zebug@riseup.net>
+
+  + Vincent Lequertier <vincent@fsfe.org>
+
+- Galician:
+
+  + pd <euklade@gmail.com>
+
+- German:
+
+  + Max Mehl <max.mehl@fsfe.org>
+
 - Esperanto:
 
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
   + Tirifto <tirifto@posteo.cz>
 
+- Portuguese:
+
+  + José Vieira <jvieira33@sapo.pt>
+
 - Spanish:
 
   + flow <adolflow@sindominio.net>
 
   + pd <euklade@gmail.com>
+
+  + Roberto Bauglir <bauglir@fsfe.org>
+
+- Turkish:
+
+  + T. E. Kalayci <tekrei@member.fsf.org>
+

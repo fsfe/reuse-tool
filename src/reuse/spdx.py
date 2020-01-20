@@ -28,8 +28,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
     if args.file:
         out = args.file.open("w", encoding="UTF-8")
         if args.file.suffix != ".spdx":
-            # Translators: %s is a file name.
-            _LOGGER.warning(_("'%s' does not end with .spdx"), out.name)
+            _LOGGER.warning(
+                _("'{path}' does not end with .spdx").format(path=out.name)
+            )
 
     report = ProjectReport.generate(
         project, multiprocessing=not args.no_multiprocessing
