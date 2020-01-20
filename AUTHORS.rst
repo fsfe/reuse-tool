@@ -51,7 +51,7 @@ Translators
 
 - Galician:
 
-  + Pep <socialkuma@hotmail.com>
+  + pd <euklade@gmail.com>
 
 - German:
 

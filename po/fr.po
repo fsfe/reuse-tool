@@ -1,8 +1,7 @@
-# SPDX-FileCopyrightText: 2020 act-zebug <act-zebug@riseup.net>
+# SPDX-FileCopyrightText: 2020 OliBug <act-zebug@riseup.net>
 # SPDX-FileCopyrightText: 2020 Vincent Lequertier <vincent@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Carmen Bianca BAKKER <carmen@carmenbianca.eu>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"

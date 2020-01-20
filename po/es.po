@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2018 pd <euklade@gmail.com>
 # SPDX-FileCopyrightText: 2018 flow <adolflow@sindominio.net>
+# SPDX-FileCopyrightText: 2020 Roberto Bauglir <bauglir@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 msgid ""
@@ -952,4 +953,4 @@ msgstr "no se puede abrir '%(filename)s': %(error)s"
 
 #~ msgid "reuse, version {}\n"
 #~ msgstr "reuse, versión {}\n"
-
+
