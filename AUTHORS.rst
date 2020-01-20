@@ -73,6 +73,8 @@ Translators
 
   + pd <euklade@gmail.com>
 
+  + Roberto Bauglir <bauglir@fsfe.org>
+
 - Turkish:
 
   + T. E. Kalayci <tekrei@member.fsf.org>
