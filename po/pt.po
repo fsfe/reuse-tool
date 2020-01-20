@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-09 13:51+0100\n"
-"PO-Revision-Date: 2020-01-20 14:54+0100\n"
+"PO-Revision-Date: 2020-01-20 14:55+0100\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -378,7 +378,7 @@ msgstr ""
 
 #: src/reuse/init.py:40
 msgid "To stop adding licenses, hit RETURN."
-msgstr "Para parar a agregação de licenças, premir INTRODUZIR/ENTER"
+msgstr "Para parar a agregação de licenças, premir INTRODUZIR/ENTER."
 
 #: src/reuse/init.py:85
 msgid "Project already initialized"
