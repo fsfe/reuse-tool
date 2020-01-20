@@ -37,7 +37,7 @@ msgstr ""
 
 #: src/reuse/_main.py:39
 msgid "Support the FSFE's work:"
-msgstr "Soutenez le travail de la FSFE :"
+msgstr "Soutenir le travail de la FSFE :"
 
 #: src/reuse/_main.py:43
 msgid ""
@@ -46,7 +46,7 @@ msgid ""
 "at <https://fsfe.org/donate/>."
 msgstr ""
 "Les dons sont cruciaux pour notre force et notre autonomie. Ils nous permettent "
-"de continuer travailler pour le Logiciel Libre partout o c'est nécessaire. "
+"de continuer à travailler pour le Logiciel Libre partout où c'est nécessaire. "
 "Merci d'envisager de faire un don <https://fsfe.org/donate/>."
 
 #: src/reuse/_main.py:66
@@ -104,13 +104,13 @@ msgstr ""
 "ou plusieurs fichiers.\n"
 "\n"
 "En sélectionnant --copyright et --license, vous pouvez spécifier quels "
-"titulaires de droits et licences sont ajouter aux en-têtes des fichiers "
-"listsé.\n"
+"titulaires de droits et licences sont ajoutés aux en-têtes des fichiers "
+"listés.\n"
 "\n"
 "Les styles de commentaire doivent être détectés automatiquement pour vos "
 "fichiers. Si un style de commentaire ne peut pas être détecté, le processus est "
-"interrompu. Utilisez --style pour spcifier ou passer outre le style de "
-"commentaire utiliser.\n"
+"interrompu. Utilisez --style pour spécifier ou passer outre le style de "
+"commentaire utilisé.\n"
 "\n"
 "Vous pouvez modifier le modèle des commentaires d'en-tête en utilisant l'option "
 "--template. Placez un modèle Jinja2 dans le répertoire .reuse/templates/"
@@ -138,17 +138,17 @@ msgid ""
 "\n"
 "If the LICENSES/ directory cannot be found, one is simply created."
 msgstr ""
-"Téléchargez une licence et placez-l dans le répertoire LICENSES/.\n"
+"Téléchargez une licence et placez-la dans le répertoire LICENSES/.\n"
 "\n"
 "Les répertoires LICENSES/ se trouvent automatiquement dans l'ordre suivant :\n"
 "\n"
-"- Le répertoire LICENSES/ la racine du répertoire VCS.\n"
+"- Le répertoire LICENSES/ à la racine du répertoire VCS.\n"
 "\n"
 "- Le répertoire actuel, si son nom est LICENSES.\n"
 "\n"
 "- Le répertoire LICENSES/ dans le répertoire courant.\n"
 "\n"
-"Si le répertoire LICENSES/ n'est pas trouvé, il sera simplement cr."
+"Si le répertoire LICENSES/ n'est pas trouvé, il sera simplement créé."
 
 #: src/reuse/_main.py:161
 msgid "initialize REUSE project"
@@ -180,18 +180,18 @@ msgid ""
 msgstr ""
 "Vérifiez le répertoire projet pour assurer la conformité à la version "
 "{reuse_version} de la spécification REUSE. Vous pouvez trouver la dernière "
-"version de la spécification <https://reuse.software/spec/>.\n"
+"version de la spécification à l'adresse <https://reuse.software/spec/>.\n"
 "\n"
 "En particulier, les critères suivants sont vérifiés :\n"
 "\n"
-"- Une mauvaise licence (non reconnue, non-conforme SPDX) se trouve-t-elle dans "
+"- Une mauvaise licence (non reconnue, non-conforme à SPDX) se trouve-t-elle dans "
 "le projet?\n"
 "\n"
 "- Y a-t-il des licences dans le répertoire LICENSES/ qui sont inutilisées dans "
 "le projet?\n"
 "\n"
 "- Tous les fichiers disposent-ils d'informations de droits d'auteur et de "
-"licence valides?"
+"licence valides ?"
 
 #: src/reuse/_main.py:199
 msgid "print the project's bill of materials in SPDX format"
@@ -236,12 +236,12 @@ msgstr "Identification de la licence SPDX"
 
 #: src/reuse/download.py:85
 msgid "download all missing licenses detected in the project"
-msgstr "téléchargement de toutes les licences manquantes détectées dans le projet"
+msgstr "télécharger toutes les licences manquantes détectées dans le projet"
 
 #: src/reuse/download.py:97
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
-msgstr "Erreur : {spdx_identifier} existe dj."
+msgstr "Erreur : {spdx_identifier} existe déjà."
 
 #: src/reuse/download.py:104
 msgid "Error: Failed to download license."
@@ -269,7 +269,7 @@ msgstr "Téléchargement de {spdx_identifier} terminé."
 
 #: src/reuse/download.py:136
 msgid "the following arguments are required: license"
-msgstr "les arguments suivants sont nécessaires: license"
+msgstr "les arguments suivants sont nécessaires : license"
 
 #: src/reuse/download.py:138
 msgid "cannot use --output with more than one license"
@@ -326,11 +326,11 @@ msgstr "année de déclaration de droits d'auteur, optionnel"
 
 #: src/reuse/header.py:405
 msgid "comment style to use, optional"
-msgstr "style de commentaire utiliser, optionnel"
+msgstr "style de commentaire à utiliser, optionnel"
 
 #: src/reuse/header.py:412
 msgid "name of template to use, optional"
-msgstr "nom de modèle utiliser, optionnel"
+msgstr "nom de modèle à utiliser, optionnel"
 
 #: src/reuse/header.py:417
 msgid "do not include year in statement"
@@ -338,7 +338,7 @@ msgstr "ne pas inclure d'année dans la déclaration"
 
 #: src/reuse/header.py:422
 msgid "place header in path.license instead of path"
-msgstr "placez l'en-tête dans path.license au lier de path"
+msgstr "placez l'en-tête dans path.license au lieu de path"
 
 #: src/reuse/header.py:430
 msgid "option --copyright or --license is required"
@@ -363,19 +363,19 @@ msgstr ""
 #: src/reuse/init.py:25
 msgid "What license is your project under? Provide the SPDX License Identifier."
 msgstr ""
-"Sous quelle licence est enregistr votre projet? Merci de fournir un identifiant "
+"Sous quelle licence est enregistrè votre projet ? Merci de fournir un identifiant "
 "de licence SPDX."
 
 #: src/reuse/init.py:29
 msgid ""
 "What other license is your project under? Provide the SPDX License Identifier."
 msgstr ""
-"Sous quelle autre licence est enregistré votre projet? Merci de fournir un "
+"Sous quelle autre licence est enregistré votre projet ? Merci de fournir un "
 "identifiant de licence SPDX."
 
 #: src/reuse/init.py:40
 msgid "To stop adding licenses, hit RETURN."
-msgstr "Pour finir l'ajout de licences, presser ENTRÉ."
+msgstr "Pour finir l'ajout de licences, presser ENTRÉE."
 
 #: src/reuse/init.py:85
 msgid "Project already initialized"
@@ -395,11 +395,11 @@ msgstr "Quelle est l'adresse internet du projet ?"
 
 #: src/reuse/init.py:106
 msgid "What is the name of the maintainer?"
-msgstr "Quel est le nom de la personne charge de la maintenance ?"
+msgstr "Quel est le nom de la personne chargée de la maintenance ?"
 
 #: src/reuse/init.py:112
 msgid "What is the e-mail address of the maintainer?"
-msgstr "Quelle est l'adresse mail de la personne charge de la maintenance ?"
+msgstr "Quelle est l'adresse mail de la personne chargée de la maintenance ?"
 
 #: src/reuse/init.py:118
 msgid "All done! Initializing now."
@@ -411,7 +411,7 @@ msgstr "Télécharge {}"
 
 #: src/reuse/init.py:131
 msgid "{} already exists"
-msgstr "{} existe dj"
+msgstr "{} existe déjà"
 
 #: src/reuse/init.py:134
 msgid "Could not download {}"
@@ -423,14 +423,14 @@ msgstr "Création de .reuse/dep5"
 
 #: src/reuse/init.py:162
 msgid "Initialization complete."
-msgstr "Initialisation termine."
+msgstr "Initialisation terminée."
 
 #: src/reuse/lint.py:55
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr ""
-"Félicitations ! Votre projet est conforme la version {} de la spécification "
+"Félicitations ! Votre projet est conforme à la version {} de la spécification "
 "REUSE :-)"
 
 #: src/reuse/lint.py:62
@@ -438,7 +438,7 @@ msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr ""
-"Malheureusement, votre projet n'est pas conforme la version {} de la "
+"Malheureusement, votre projet n'est pas conforme à la version {} de la "
 "spécification REUSE :-("
 
 #: src/reuse/lint.py:79
@@ -475,7 +475,7 @@ msgstr "LICENCES INUTILISÉES"
 
 #: src/reuse/lint.py:168
 msgid "The following licenses are not used:"
-msgstr "Les licences suivantes ne sont pas utilises :"
+msgstr "Les licences suivantes ne sont pas utilisées :"
 
 #: src/reuse/lint.py:184
 msgid "READ ERRORS"
@@ -530,7 +530,7 @@ msgstr "Licences inutilisées :"
 
 #: src/reuse/lint.py:294
 msgid "Used licenses:"
-msgstr "Licences utilises :"
+msgstr "Licences utilisées :"
 
 #: src/reuse/lint.py:303
 #, python-brace-format
@@ -550,7 +550,7 @@ msgstr "Fichiers contenant des informations de licence : {count} / {total}"
 
 #: src/reuse/project.py:59
 msgid "could not find Git"
-msgstr "Git ne peut être trouvé"
+msgstr "Git ne peut pas être trouvé"
 
 #: src/reuse/project.py:133
 #, python-brace-format
@@ -561,7 +561,7 @@ msgstr "'{path}' est couvert par .reuse/dep5"
 #, python-brace-format
 msgid "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
-"'{path}' contient une expression SPDX qui ne peut pas être analyse, le fichier "
+"'{path}' contient une expression SPDX qui ne peut pas être analysée, le fichier "
 "est ignoré"
 
 #: src/reuse/project.py:231
@@ -587,7 +587,7 @@ msgid ""
 "extension."
 msgstr ""
 "Impossible de résoudre l'identifiant de licence SPDX de {path}, utilisation de "
-"{identifier}. Merci de vérifier que la licence est dans la liste trouvable "
+"{identifier}. Merci de vérifier que la licence est dans la liste trouvable à"
 "<https://spdx.org/licenses/> ou qu'elle débute par 'LicenseRef-', et qu'elle "
 "contient une extension de fichier."
 
@@ -671,7 +671,7 @@ msgstr[1] "chaînes d'options contradictoires : %s"
 
 #: /usr/lib64/python3.7/argparse.py:1595
 msgid "mutually exclusive arguments must be optional"
-msgstr "les arguments mutuellement exclusifs doivent tre optionnels"
+msgstr "les arguments mutuellement exclusifs doivent être optionnels"
 
 #: /usr/lib64/python3.7/argparse.py:1658
 msgid "positional arguments"
@@ -687,7 +687,7 @@ msgstr "afficher ce message d'aide et quitter"
 
 #: /usr/lib64/python3.7/argparse.py:1705
 msgid "cannot have multiple subparser arguments"
-msgstr "impossible de considérer des arguments de sous analyse multiples"
+msgstr "impossible de considérer des arguments de sous-analyse multiples"
 
 #: /usr/lib64/python3.7/argparse.py:1757 /usr/lib64/python3.7/argparse.py:2263
 #, python-format
@@ -702,7 +702,7 @@ msgstr "non autorisé avec l'argument %s"
 #: /usr/lib64/python3.7/argparse.py:1900 /usr/lib64/python3.7/argparse.py:1914
 #, python-format
 msgid "ignored explicit argument %r"
-msgstr "l'argument explicite %r est ignor"
+msgstr "l'argument explicite %r est ignoré"
 
 #: /usr/lib64/python3.7/argparse.py:2021
 #, python-format
@@ -736,7 +736,7 @@ msgstr[1] "les arguments %s sont attendus"
 #: /usr/lib64/python3.7/argparse.py:2143
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
-msgstr "option ambigüe : %(option)s ne correspond pas %(matches)s"
+msgstr "option ambigüe : %(option)s ne correspond pas à %(matches)s"
 
 #: /usr/lib64/python3.7/argparse.py:2206
 #, python-format
@@ -746,7 +746,7 @@ msgstr "option inattendue : %s"
 #: /usr/lib64/python3.7/argparse.py:2403
 #, python-format
 msgid "%r is not callable"
-msgstr "%r ne peut être appel"
+msgstr "%r ne peut être appelé"
 
 #: /usr/lib64/python3.7/argparse.py:2420
 #, python-format
@@ -765,4 +765,5 @@ msgstr "%(prog)s : erreur : %(message)s\n"
 
 #, python-format
 #~ msgid "can't open '%(filename)s': %(error)s"
-#~ msgstr "'%(filename)s' ne peut tre ouvert : %(error)s"
+#~ msgstr "'%(filename)s' ne peut pas être ouvert : %(error)s"
+
