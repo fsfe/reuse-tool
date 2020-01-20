@@ -63,6 +63,10 @@ Translators
 
   + Tirifto <tirifto@posteo.cz>
 
+- Portuguese:
+
+  + José Vieira <jvieira33@sapo.pt>
+
 - Spanish:
 
   + flow <adolflow@sindominio.net>
