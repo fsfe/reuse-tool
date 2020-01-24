@@ -7,15 +7,13 @@
 import errno
 import sys
 from gettext import gettext as _
-from itertools import chain
 from os import PathLike
 from pathlib import Path
 from urllib.parse import urljoin
 
 import requests
 
-from ._licenses import EXCEPTION_MAP, LICENSE_MAP
-from ._util import PathType, find_licenses_directory
+from ._util import PathType, find_licenses_directory, validate_spdx_identifier
 from .project import Project
 from .report import ProjectReport
 
@@ -103,19 +101,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
     def _could_not_download(identifier: str):
         out.write(_("Error: Failed to download license."))
         out.write(" ")
-        if identifier not in chain(LICENSE_MAP, EXCEPTION_MAP):
-            out.write(
-                _("'{}' is not a valid SPDX License Identifier.").format(
-                    identifier
-                )
-            )
-            out.write("\n")
-            out.write(
-                _(
-                    "See <https://spdx.org/licenses/> for a list of valid "
-                    "SPDX License Identifiers."
-                )
-            )
+        error = validate_spdx_identifier(identifier)
+        if error:
+            out.write(error)
         else:
             out.write(_("Is your internet connection working?"))
         out.write("\n")

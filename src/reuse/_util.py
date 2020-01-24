@@ -15,16 +15,19 @@ import subprocess
 from argparse import ArgumentTypeError
 from gettext import gettext as _
 from hashlib import sha1
+from itertools import chain
 from os import PathLike
 from pathlib import Path
 from typing import BinaryIO, List, Optional
 
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
+from jaro import jaro_winkler_metric
 from license_expression import ExpressionError, Licensing
 
 from . import SpdxInfo
 from ._comment import _all_style_classes
+from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
@@ -277,3 +280,35 @@ def spdx_identifier(text: str) -> Expression:
         raise ArgumentTypeError(
             _("'{}' is not a valid SPDX expression, aborting").format(text)
         )
+
+
+def validate_spdx_identifier(identifier: str) -> Optional[str]:
+    """Given a SPDX identifier, return an error message if it's invalid,
+    otherwise return None."""
+    valid_identifiers = list(chain(LICENSE_MAP, EXCEPTION_MAP))
+    if identifier in valid_identifiers:
+        return None
+    error = _("'{}' is not a valid SPDX License Identifier.").format(
+        identifier
+    )
+    error += "\n"
+    suggestions = []
+    for valid_identifier in valid_identifiers:
+        distance = jaro_winkler_metric(
+            identifier.lower(), valid_identifier.lower()
+        )
+        if distance > 0.75:
+            suggestions.append((distance, valid_identifier))
+    suggestions = sorted(suggestions, reverse=True)
+    if suggestions:
+        error += "\n"
+        error += _("Did you mean:")
+        error += "\n"
+        for distance, suggestion in suggestions:
+            error += "* {}\n".format(suggestion)
+        error += "\n"
+    error += _(
+        "See <https://spdx.org/licenses/> for a list of valid "
+        "SPDX License Identifiers."
+    )
+    return error
