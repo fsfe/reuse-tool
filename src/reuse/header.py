@@ -366,6 +366,7 @@ def _add_header_to_file(
     else:
         with path.open("w") as fp:
             fp.write(output)
+            fp.write("\n")
         # TODO: This may need to be rephrased more elegantly.
         out.write(_("Successfully changed header of {path}").format(path=path))
         out.write("\n")
