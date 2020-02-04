@@ -59,6 +59,20 @@ def test_extract_no_info():
     assert result == _util.SpdxInfo(set(), set())
 
 
+def test_extract_tab():
+    """A tag followed by a tab is also valid."""
+    result = _util.extract_spdx_info("SPDX" "-License-Identifier:\tMIT")
+    assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+
+
+def test_extract_many_whitespace():
+    """When a tag is followed by a lot of whitespace, the whitespace should be
+    filtered out.
+    """
+    result = _util.extract_spdx_info("SPDX" "-License-Identifier:    MIT")
+    assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+
+
 def test_extract_bibtex_comment():
     """A special case for BibTex comments."""
     expression = "@Comment{SPDX" "-License-Identifier: GPL-3.0-or-later}"
