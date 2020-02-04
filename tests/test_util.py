@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2020 Liferay, Inc. All rights reserved.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -59,6 +60,20 @@ def test_extract_no_info():
     assert result == _util.SpdxInfo(set(), set())
 
 
+def test_extract_tab():
+    """A tag followed by a tab is also valid."""
+    result = _util.extract_spdx_info("SPDX" "-License-Identifier:\tMIT")
+    assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+
+
+def test_extract_many_whitespace():
+    """When a tag is followed by a lot of whitespace, the whitespace should be
+    filtered out.
+    """
+    result = _util.extract_spdx_info("SPDX" "-License-Identifier:    MIT")
+    assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+
+
 def test_extract_bibtex_comment():
     """A special case for BibTex comments."""
     expression = "@Comment{SPDX" "-License-Identifier: GPL-3.0-or-later}"
@@ -70,15 +85,31 @@ def test_extract_copyright():
     """Given a file with copyright information, have it return that copyright
     information.
     """
-    copyright = "SPDX-FileCopyrightText: 2019 Jane Doe"
+    copyright = "SPDX" "-FileCopyrightText: 2019 Jane Doe"
     result = _util.extract_spdx_info(copyright)
     assert result.copyright_lines == {copyright}
 
 
 def test_extract_copyright_duplicate():
     """When a copyright line is duplicated, only yield one."""
-    copyright = "SPDX-FileCopyrightText: 2019 Jane Doe"
+    copyright = "SPDX" "-FileCopyrightText: 2019 Jane Doe"
     result = _util.extract_spdx_info("\n".join((copyright, copyright)))
+    assert result.copyright_lines == {copyright}
+
+
+def test_extract_copyright_tab():
+    """A tag followed by a tab is also valid."""
+    copyright = "SPDX" "-FileCopyrightText:\t2019 Jane Doe"
+    result = _util.extract_spdx_info(copyright)
+    assert result.copyright_lines == {copyright}
+
+
+def test_extract_many_whitespace():
+    """When a tag is followed by a lot of whitespace, that is also valid. The
+    whitespace is not filtered out.
+    """
+    copyright = "SPDX" "-FileCopyrightText:    2019 Jane Doe"
+    result = _util.extract_spdx_info(copyright)
     assert result.copyright_lines == {copyright}
 
 
