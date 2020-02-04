@@ -49,6 +49,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - No longer remove newlines at the end of files when using `addheader`.
 
+- There can now be a tab as whitespace after `SPDX-License-Identifier` and
+  `SPDX-FileCopyrightText`.
+
 ## 0.8.0 - 2020-01-20
 
 ### Added
