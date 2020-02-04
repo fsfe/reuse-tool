@@ -31,7 +31,7 @@ _LICENSING = Licensing()
 
 _END_PATTERN = r"(?:\*/)*(?:-->)*(?:\})*$"
 _IDENTIFIER_PATTERN = re.compile(
-    r"SPDX" "-License-Identifier:[ \t](.*?)" + _END_PATTERN, re.MULTILINE
+    r"SPDX" "-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
 _COPYRIGHT_PATTERNS = [
     re.compile(r"(SPDX" "-FileCopyrightText: .*?)" + _END_PATTERN),
