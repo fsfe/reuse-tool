@@ -84,15 +84,31 @@ def test_extract_copyright():
     """Given a file with copyright information, have it return that copyright
     information.
     """
-    copyright = "SPDX-FileCopyrightText: 2019 Jane Doe"
+    copyright = "SPDX" "-FileCopyrightText: 2019 Jane Doe"
     result = _util.extract_spdx_info(copyright)
     assert result.copyright_lines == {copyright}
 
 
 def test_extract_copyright_duplicate():
     """When a copyright line is duplicated, only yield one."""
-    copyright = "SPDX-FileCopyrightText: 2019 Jane Doe"
+    copyright = "SPDX" "-FileCopyrightText: 2019 Jane Doe"
     result = _util.extract_spdx_info("\n".join((copyright, copyright)))
+    assert result.copyright_lines == {copyright}
+
+
+def test_extract_copyright_tab():
+    """A tag followed by a tab is also valid."""
+    copyright = "SPDX" "-FileCopyrightText:\t2019 Jane Doe"
+    result = _util.extract_spdx_info(copyright)
+    assert result.copyright_lines == {copyright}
+
+
+def test_extract_many_whitespace():
+    """When a tag is followed by a lot of whitespace, that is also valid. The
+    whitespace is not filtered out.
+    """
+    copyright = "SPDX" "-FileCopyrightText:    2019 Jane Doe"
+    result = _util.extract_spdx_info(copyright)
     assert result.copyright_lines == {copyright}
 
 

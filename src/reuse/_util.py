@@ -34,7 +34,7 @@ _IDENTIFIER_PATTERN = re.compile(
     r"SPDX" "-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
 _COPYRIGHT_PATTERNS = [
-    re.compile(r"(SPDX" "-FileCopyrightText: .*?)" + _END_PATTERN),
+    re.compile(r"(SPDX" "-FileCopyrightText:[ \t]+.*?)" + _END_PATTERN),
     re.compile(r"(Copyright .*?)" + _END_PATTERN),
     re.compile(r"(© .*?)" + _END_PATTERN),
 ]
