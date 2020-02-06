@@ -42,6 +42,9 @@ The versions follow [semantic versioning](https://semver.org).
 - There can now be a tab as whitespace after `SPDX-License-Identifier` and
   `SPDX-FileCopyrightText`.
 
+- Deal with `#}` comment endings when parsing, used in templating engines such
+  as Jinja2 and Twig.
+
 ### Changed
 
 ### Deprecated

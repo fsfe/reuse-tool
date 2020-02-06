@@ -29,7 +29,7 @@ GIT_EXE = shutil.which("git")
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
 
-_END_PATTERN = r"(?:\*/)*(?:-->)*(?:\})*$"
+_END_PATTERN = r"(?:\*/)*(?:-->)*(?:\})*(?:\#\})*$"
 _IDENTIFIER_PATTERN = re.compile(
     r"SPDX" "-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
