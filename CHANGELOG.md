@@ -39,7 +39,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
-- Added Italian translation by Luca Bonissi.
+- Support Jinja (Jinja2) comment style.
+
+- Support all multi-line comment endings when parsing for SPDX information.
 
 ### Fixed
 

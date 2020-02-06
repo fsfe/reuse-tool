@@ -325,6 +325,14 @@ class HtmlCommentStyle(CommentStyle):
     MULTI_LINE = ("<!--", "", "-->")
 
 
+class JinjaCommentStyle(CommentStyle):
+    """Jinja2 comment style."""
+
+    _shorthand = "jinja"
+
+    MULTI_LINE = ("{#", "", "#}")
+
+
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
 
@@ -410,6 +418,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ini": LispCommentStyle,
     ".ino": CCommentStyle,
     ".java": CCommentStyle,
+    ".jinja": JinjaCommentStyle,
+    ".jinja2": JinjaCommentStyle,
     ".js": CCommentStyle,
     ".jy": PythonCommentStyle,
     ".ksh": PythonCommentStyle,
