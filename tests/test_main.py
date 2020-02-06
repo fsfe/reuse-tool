@@ -273,6 +273,7 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
@@ -307,6 +308,7 @@ def test_addheader_year(fake_repository, stringio):
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
@@ -340,6 +342,7 @@ def test_addheader_no_year(fake_repository, stringio):
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
@@ -374,6 +377,7 @@ def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
@@ -406,6 +410,7 @@ def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
@@ -440,6 +445,7 @@ def test_addheader_implicit_style_filename(
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
@@ -508,6 +514,7 @@ def test_addheader_template_simple(
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
@@ -551,6 +558,7 @@ def test_addheader_template_simple_multiple(
                 pass
                 """
             ).replace("spdx", "SPDX")
+            + "\n"
         )
 
 
@@ -621,6 +629,7 @@ def test_addheader_template_commented(
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
@@ -684,6 +693,7 @@ def test_addheader_template_without_extension(
             pass
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
 
 
