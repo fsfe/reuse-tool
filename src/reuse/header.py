@@ -35,6 +35,7 @@ from ._comment import (
 from ._util import (
     PathType,
     _determine_license_path,
+    _determine_license_suffix_path,
     contains_spdx_info,
     extract_spdx_info,
     make_copyright_line,
@@ -475,7 +476,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
     for path in paths:
         binary = is_binary(str(path))
         if binary or args.explicit_license:
-            new_path = f"{path}.license"
+            new_path = _determine_license_suffix_path(path)
             if binary:
                 _LOGGER.info(
                     _(

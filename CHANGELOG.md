@@ -50,6 +50,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- Fixed a bug with `addheader --explicit-license` that would result in
+  `file.license.license` if `file.license` already existed.
+
 ### Security
 
 ## 0.8.0 - 2020-01-20

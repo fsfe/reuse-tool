@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
+# SPDX-FileCopyrightText: 2020 Liferay, Inc. All rights reserved.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -754,6 +755,44 @@ def test_addheader_explicit_license(
         ).replace("spdx", "SPDX")
     )
     assert simple_file.read_text() == "pass"
+
+
+def test_addheader_explicit_license_double(
+    fake_repository, stringio, mock_date_today
+):
+    """When path.license already exists, don't create path.license.license."""
+    simple_file = fake_repository / "foo.txt"
+    simple_file_license = fake_repository / "foo.txt.license"
+    simple_file_license_license = fake_repository / "foo.txt.license.license"
+
+    simple_file.touch()
+    simple_file_license.touch()
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--explicit-license",
+            "foo.txt",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert not simple_file_license_license.exists()
+    assert (
+        simple_file_license.read_text().strip()
+        == cleandoc(
+            """
+            spdx-FileCopyrightText: 2018 Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
 
 
 def test_addheader_explicit_license_unsupported_filetype(
