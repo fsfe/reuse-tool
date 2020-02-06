@@ -57,8 +57,6 @@ The versions follow [semantic versioning](https://semver.org).
 - Fixed a bug with `addheader --explicit-license` that would result in
   `file.license.license` if `file.license` already existed.
 
-- No longer remove newlines at the end of files when using `addheader`.
-
 ### Security
 
 ## 0.8.0 - 2020-01-20
