@@ -183,15 +183,18 @@ def test_find_and_replace_no_header():
         {"GPL-3.0-or-later"}, {"SPDX" "-FileCopyrightText: Mary Sue"}
     )
     text = "pass"
-    expected = cleandoc(
-        """
-        # spdx-FileCopyrightText: Mary Sue
-        #
-        # spdx-License-Identifier: GPL-3.0-or-later
+    expected = (
+        cleandoc(
+            """
+            # spdx-FileCopyrightText: Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
 
-        pass
-        """
-    ).replace("spdx", "SPDX")
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
 
     assert find_and_replace_header(text, spdx_info) == expected
 
@@ -199,15 +202,18 @@ def test_find_and_replace_no_header():
 def test_find_and_replace_verbatim():
     """Replace a header with itself."""
     spdx_info = SpdxInfo(set(), set())
-    text = cleandoc(
-        """
-        # spdx-FileCopyrightText: Mary Sue
-        #
-        # spdx-License-Identifier: GPL-3.0-or-later
+    text = (
+        cleandoc(
+            """
+            # spdx-FileCopyrightText: Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
 
-        pass
-        """
-    ).replace("spdx", "SPDX")
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
 
     assert find_and_replace_header(text, spdx_info) == text
 
@@ -226,17 +232,21 @@ def test_find_and_replace_newline_before_header():
         pass
         """
     ).replace("spdx", "SPDX")
-    text = "\n" + text
-    expected = cleandoc(
-        """
-        # spdx-FileCopyrightText: Jane Doe
-        # spdx-FileCopyrightText: Mary Sue
-        #
-        # spdx-License-Identifier: GPL-3.0-or-later
 
-        pass
-        """
-    ).replace("spdx", "SPDX")
+    text = "\n" + text
+    expected = (
+        cleandoc(
+            """
+            # spdx-FileCopyrightText: Jane Doe
+            # spdx-FileCopyrightText: Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
 
     assert find_and_replace_header(text, spdx_info) == expected
 
@@ -258,21 +268,24 @@ def test_find_and_replace_preserve_preceding():
         pass
         """
     ).replace("spdx", "SPDX")
-    expected = cleandoc(
-        """
-        # Hello, world!
+    expected = (
+        cleandoc(
+            """
+            # Hello, world!
 
-        def foo(bar):
-            return bar
+            def foo(bar):
+                return bar
 
-        # spdx-FileCopyrightText: Jane Doe
-        # spdx-FileCopyrightText: Mary Sue
-        #
-        # spdx-License-Identifier: GPL-3.0-or-later
+            # spdx-FileCopyrightText: Jane Doe
+            # spdx-FileCopyrightText: Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
 
-        pass
-        """
-    ).replace("spdx", "SPDX")
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
 
     assert find_and_replace_header(text, spdx_info) == expected
 
@@ -293,18 +306,21 @@ def test_find_and_replace_keep_shebang():
         pass
         """
     ).replace("spdx", "SPDX")
-    expected = cleandoc(
-        """
-        #!/usr/bin/env python3
+    expected = (
+        cleandoc(
+            """
+            #!/usr/bin/env python3
 
-        # spdx-FileCopyrightText: Jane Doe
-        # spdx-FileCopyrightText: Mary Sue
-        #
-        # spdx-License-Identifier: GPL-3.0-or-later
+            # spdx-FileCopyrightText: Jane Doe
+            # spdx-FileCopyrightText: Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
 
-        pass
-        """
-    ).replace("spdx", "SPDX")
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
 
     assert find_and_replace_header(text, spdx_info) == expected
 
@@ -323,18 +339,21 @@ def test_find_and_replace_separate_shebang():
         pass
         """
     ).replace("spdx", "SPDX")
-    expected = cleandoc(
-        """
-        #!/usr/bin/env python3
-        #!nix-shell -p python3
+    expected = (
+        cleandoc(
+            """
+            #!/usr/bin/env python3
+            #!nix-shell -p python3
 
-        # spdx-FileCopyrightText: Jane Doe
-        #
-        # spdx-License-Identifier: GPL-3.0-or-later
+            # spdx-FileCopyrightText: Jane Doe
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
 
-        pass
-        """
-    ).replace("spdx", "SPDX")
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
 
     assert find_and_replace_header(text, spdx_info) == expected
 
@@ -352,17 +371,20 @@ def test_find_and_replace_only_shebang():
         pass
         """
     )
-    expected = cleandoc(
-        """
-        #!/usr/bin/env python3
+    expected = (
+        cleandoc(
+            """
+            #!/usr/bin/env python3
 
-        # spdx-License-Identifier: GPL-3.0-or-later
+            # spdx-License-Identifier: GPL-3.0-or-later
 
-        # Hello, world!
+            # Hello, world!
 
-        pass
-        """
-    ).replace("spdx", "SPDX")
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
 
     assert find_and_replace_header(text, spdx_info) == expected
 
@@ -381,16 +403,19 @@ def test_find_and_replace_keep_old_comment():
         pass
         """
     ).replace("spdx", "SPDX")
-    expected = cleandoc(
-        """
-        # spdx-FileCopyrightText: Mary Sue
-        #
-        # spdx-License-Identifier: GPL-3.0-or-later
+    expected = (
+        cleandoc(
+            """
+            # spdx-FileCopyrightText: Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
 
-        # Hello, world!
+            # Hello, world!
 
-        pass
-        """
-    ).replace("spdx", "SPDX")
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
 
     assert find_and_replace_header(text, spdx_info) == expected
