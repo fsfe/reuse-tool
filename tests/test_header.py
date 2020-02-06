@@ -394,3 +394,23 @@ def test_find_and_replace_keep_old_comment():
     ).replace("spdx", "SPDX")
 
     assert find_and_replace_header(text, spdx_info) == expected
+
+
+def test_find_and_replace_preserve_newline():
+    """If the file content ends with a newline, don't remove it."""
+
+    spdx_info = SpdxInfo(set(), set())
+    text = (
+        cleandoc(
+            """
+            # spdx-FileCopyrightText: Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
+
+    assert find_and_replace_header(text, spdx_info) == text
