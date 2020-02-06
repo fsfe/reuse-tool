@@ -35,6 +35,23 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- There can now be a tab as whitespace after `SPDX-License-Identifier` and
+  `SPDX-FileCopyrightText`.
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 0.8.0 - 2020-01-20
 
 ### Added

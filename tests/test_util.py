@@ -104,7 +104,7 @@ def test_extract_copyright_tab():
     assert result.copyright_lines == {copyright}
 
 
-def test_extract_many_whitespace():
+def test_extract_copyright_many_whitespace():
     """When a tag is followed by a lot of whitespace, that is also valid. The
     whitespace is not filtered out.
     """
