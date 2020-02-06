@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2020 Liferay, Inc. All rights reserved.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -23,13 +24,22 @@ from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
 
 from . import SpdxInfo
+from ._comment import _all_style_classes
 
 GIT_EXE = shutil.which("git")
 
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
 
-_END_PATTERN = r"(?:\*/)*(?:-->)*(?:\})*(?:\#\})*$"
+_END_PATTERN = "{}$".format(
+    "".join(
+        {
+            "(?:{})*".format(re.escape(style.MULTI_LINE[2]))
+            for style in _all_style_classes()
+            if style.MULTI_LINE[2]
+        }
+    )
+)
 _IDENTIFIER_PATTERN = re.compile(
     r"SPDX" "-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )

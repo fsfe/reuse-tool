@@ -44,6 +44,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Support Jinja (Jinja2) comment style.
 
+- Support all multi-line comment endings when parsing for SPDX information.
+
 ### Changed
 
 ### Deprecated
