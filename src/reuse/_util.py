@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2020 Liferay, Inc. All rights reserved.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -184,6 +185,14 @@ def _determine_license_path(path: PathLike) -> Path:
     if not license_path.exists():
         license_path = Path(path)
     return license_path
+
+
+def _determine_license_suffix_path(path: PathLike) -> Path:
+    """Given a path FILE or FILE.license, return FILE.license."""
+    path = Path(path)
+    if path.suffix == ".license":
+        return path
+    return Path(f"{path}.license")
 
 
 def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
