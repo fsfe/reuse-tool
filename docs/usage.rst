@@ -84,6 +84,7 @@ using ``--style``. The supported styles are:
 - CSS
 - Haskell
 - HTML
+- Jinja
 - ML
 - Python
 - TeX

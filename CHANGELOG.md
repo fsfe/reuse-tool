@@ -42,6 +42,10 @@ The versions follow [semantic versioning](https://semver.org).
 - There can now be a tab as whitespace after `SPDX-License-Identifier` and
   `SPDX-FileCopyrightText`.
 
+- Support Jinja (Jinja2) comment style.
+
+- Support all multi-line comment endings when parsing for SPDX information.
+
 ### Changed
 
 ### Deprecated
