@@ -267,7 +267,7 @@ def find_and_replace_header(
     if before.strip():
         new_text = before.strip("\n") + "\n\n" + new_text
     if after.strip():
-        new_text = new_text + "\n\n" + after.strip("\n") + "\n"
+        new_text = new_text + "\n\n" + after.lstrip("\n")
     return new_text
 
 
