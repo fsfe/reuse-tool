@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
-# SPDX-FileCopyrightText: 2020 Liferay, Inc. All rights reserved.
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
