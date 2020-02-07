@@ -8,7 +8,6 @@ license-expression==1.2
 boolean.py==3.7
 Jinja2==2.10.3
 binaryornot==0.4.4
-jaro-winkler==2.0.0
 
 setuptools==41.6.0
 setuptools-scm==3.3.3

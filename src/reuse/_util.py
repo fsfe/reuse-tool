@@ -13,6 +13,7 @@ import re
 import shutil
 import subprocess
 from argparse import ArgumentTypeError
+from difflib import SequenceMatcher
 from gettext import gettext as _
 from hashlib import sha1
 from itertools import chain
@@ -22,7 +23,6 @@ from typing import BinaryIO, List, Optional
 
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
-from jaro import jaro_winkler_metric
 from license_expression import ExpressionError, Licensing
 
 from . import SpdxInfo
@@ -294,9 +294,9 @@ def validate_spdx_identifier(identifier: str) -> Optional[str]:
     error += "\n"
     suggestions = []
     for valid_identifier in valid_identifiers:
-        distance = jaro_winkler_metric(
-            identifier.lower(), valid_identifier.lower()
-        )
+        distance = SequenceMatcher(
+            a=identifier.lower(), b=valid_identifier.lower()
+        ).ratio()
         if distance > 0.75:
             suggestions.append((distance, valid_identifier))
     suggestions = sorted(suggestions, reverse=True)
