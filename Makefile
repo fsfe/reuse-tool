@@ -108,15 +108,19 @@ release: dist  ## package and upload a release
 install-requirements:  ## install requirements
 	pip install -r requirements.txt
 
+.PHONY: install-dev-requirements
+install-dev-requirements: install-requirements  ## install dev requirements
+	pip install -r requirements-dev.txt
+
 .PHONY: uninstall
 uninstall:  ## uninstall reuse
 	-pip uninstall -y reuse
 
 .PHONY: install
-install: uninstall install-requirements ## install reuse
+install: uninstall install-requirements  ## install reuse
 	python setup.py install
 
 .PHONY: develop
-develop: uninstall install-requirements  ## install source directory
+develop: uninstall install-dev-requirements  ## install source directory
 	pre-commit install
 	python setup.py develop

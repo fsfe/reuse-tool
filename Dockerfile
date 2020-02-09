@@ -2,18 +2,35 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM alpine:latest
+# Create a base image that has git installed.
+FROM python:3.8-slim AS base
 
-RUN apk --no-cache add python3 git
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends git
 
-COPY . /reuse-tool/
+
+# Build reuse into a virtualenv
+FROM base AS build
 
 WORKDIR /reuse-tool
 
-RUN python3 setup.py install
+ENV VIRTUAL_ENV=/opt/venv
+RUN python -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN rm -fr /reuse-tool
+COPY . /reuse-tool/
+
+RUN pip install -r requirements.txt
+RUN pip install .
+
+
+# Copy over the virtualenv and use it
+FROM base
+COPY --from=build /opt/venv /opt/venv
+
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR /data
 
-CMD ["/usr/bin/reuse", "lint"]
+CMD "$VIRTUAL_ENV/bin/reuse" lint
