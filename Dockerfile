@@ -3,11 +3,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Create a base image that has git installed.
-FROM python:3.8-slim AS base
+FROM python:3.8-alpine AS base
 
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends git
-
+RUN apk --no-cache add git
 
 # Build reuse into a virtualenv
 FROM base AS build
