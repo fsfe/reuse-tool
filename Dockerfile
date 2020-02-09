@@ -4,12 +4,16 @@
 
 FROM alpine:latest
 
-# Dependencies for reuse-tool
 RUN apk --no-cache add python3 git
 
 COPY . /reuse-tool/
 
-# Install reuse-tool
-RUN cd /reuse-tool \
-    && python3 setup.py install \
-    && rm -rf /reuse-tool
+WORKDIR /reuse-tool
+
+RUN python3 setup.py install
+
+RUN rm -fr /reuse-tool
+
+WORKDIR /data
+
+CMD ["/usr/bin/reuse", "lint"]
