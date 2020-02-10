@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-09 13:51+0100\n"
-"PO-Revision-Date: 2020-01-16 13:20+0100\n"
+"PO-Revision-Date: 2020-02-10 16:07+0100\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,8 +23,8 @@ msgid ""
 "for the online documentation."
 msgstr ""
 "reuse ist ein Werkzeug, um die Empfehlungen von REUSE umzusetzen und zu "
-"überprüfen. Mehr Informationen finden Sie auf <https://reuse.software/>, die "
-"Online-Dokumentation auf <https://reuse.readthedocs.io/>."
+"überprüfen. Mehr Informationen finden Sie auf <https://reuse.software/> oder "
+"in der Online-Dokumentation auf <https://reuse.readthedocs.io/>."
 
 #: src/reuse/_main.py:36
 msgid ""
@@ -58,11 +58,11 @@ msgstr "Git-Submodule nicht überspringen"
 
 #: src/reuse/_main.py:76
 msgid "do not use multiprocessing"
-msgstr "kein Multiprocessing benutzen"
+msgstr "kein Multiprocessing verwenden"
 
 #: src/reuse/_main.py:83
 msgid "define root of project"
-msgstr "Wurzelverzeichnis des Projekts bestimmen"
+msgstr "Stammverzeichnis des Projekts bestimmen"
 
 #: src/reuse/_main.py:88
 msgid "show program's version number and exit"
@@ -308,7 +308,7 @@ msgid ""
 msgstr ""
 "Fehler: Die generierten Kommentar-Kopfzeilen für '{path}' enthalten fehlende "
 "Urheberrechtszeilen oder Lizenzausdrücke. Die Vorlage ist wahrscheinlich "
-"falsch. Hat keinen neuen Kopfzeile geschrieben."
+"falsch. Keine neuen Kopfzeile geschrieben."
 
 #. TODO: This may need to be rephrased more elegantly.
 #: src/reuse/header.py:370
@@ -476,7 +476,7 @@ msgstr "FEHLENDE LIZENZEN"
 
 #: src/reuse/lint.py:166
 msgid "UNUSED LICENSES"
-msgstr "UNBENUTZTE LIZENZEN"
+msgstr "NICHT VERWENDETE LIZENZEN"
 
 #: src/reuse/lint.py:168
 msgid "The following licenses are not used:"
@@ -609,7 +609,7 @@ msgstr "Konnte '{path}' nicht lesen"
 #: src/reuse/report.py:213
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
-msgstr "Unerwarteter Fehler beim Parsen von '{path}'"
+msgstr "Unerwarteter Fehler beim Parsen von '{path}' aufgetreten"
 
 #: src/reuse/spdx.py:32
 #, python-brace-format
@@ -729,7 +729,7 @@ msgstr "nicht erlaubt mit Argument %s"
 #: /usr/lib64/python3.8/argparse.py:1913 /usr/lib64/python3.8/argparse.py:1927
 #, python-format
 msgid "ignored explicit argument %r"
-msgstr "ignoriere explizites Argument %r"
+msgstr "explizites Argument %r ignoriert"
 
 #: /usr/lib64/python3.5/argparse.py:1992 /usr/lib64/python3.6/argparse.py:2000
 #: /usr/lib64/python3.7/argparse.py:2021 /usr/lib64/python3.8/argparse.py:2034
@@ -776,7 +776,7 @@ msgstr "mehrdeutige Option: %(option)s könnte %(matches)s bedeuten"
 #: /usr/lib64/python3.7/argparse.py:2206 /usr/lib64/python3.8/argparse.py:2220
 #, python-format
 msgid "unexpected option string: %s"
-msgstr "unerwartete Option: %s"
+msgstr "unerwarteter Options-String: %s"
 
 #: /usr/lib64/python3.5/argparse.py:2281 /usr/lib64/python3.6/argparse.py:2289
 #: /usr/lib64/python3.7/argparse.py:2403 /usr/lib64/python3.8/argparse.py:2417
