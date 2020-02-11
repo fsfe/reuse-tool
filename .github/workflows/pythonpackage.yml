@@ -121,3 +121,15 @@ jobs:
     - name: Create docs with Sphinx
       run: |
         make docs
+
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Dockerfile
+      run: |
+        docker build -t reuse .
+    - name: Run Docker image
+      run: |
+        docker run -v "$(pwd):/data" reuse
