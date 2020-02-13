@@ -85,6 +85,7 @@ using ``--style``. The supported styles are:
 - Haskell
 - HTML
 - Jinja
+- JSX
 - ML
 - Python
 - TeX
