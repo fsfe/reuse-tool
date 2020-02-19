@@ -57,6 +57,8 @@ Translators
 
   + Max Mehl <max.mehl@fsfe.org>
 
+  + Thomas Doczkal <doczkal@fsfe.org>
+
 - Esperanto:
 
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
