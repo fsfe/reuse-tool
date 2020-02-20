@@ -35,6 +35,16 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## 0.8.1 - 2020-01-20
+
+### Added
+
+- Added Italian translation by Luca Bonissi.
+
+### Fixed
+
+- Improvements to German translation by Thomas Doczkal.
+
 ## 0.8.0 - 2020-01-20
 
 ### Added
