@@ -65,6 +65,10 @@ Translators
 
   + Tirifto <tirifto@posteo.cz>
 
+- Italian:
+
+ + Luca Bonissi <lucabon@fsfe.org>
+
 - Portuguese:
 
   + José Vieira <jvieira33@sapo.pt>
