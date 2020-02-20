@@ -45,6 +45,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Improvements to German translation by Thomas Doczkal.
 
+- No longer remove newlines at the end of files when using `addheader`.
+
 ## 0.8.0 - 2020-01-20
 
 ### Added
