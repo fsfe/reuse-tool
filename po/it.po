@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Luca Bonissi <lucabon@fsfe.org>
+# SPDX-FileCopyrightText: Luca Bonissi <lucabon@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 msgid ""
