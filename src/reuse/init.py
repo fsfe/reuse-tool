@@ -7,6 +7,7 @@
 import sys
 from gettext import gettext as _
 from inspect import cleandoc
+from itertools import chain
 from pathlib import Path
 from typing import List
 
@@ -47,7 +48,6 @@ def prompt_licenses(out=sys.stdout) -> List[str]:
         out.write("\n")
         if not result:
             return licenses
-        error = validate_spdx_identifier(result)
         if result not in chain(LICENSE_MAP, EXCEPTION_MAP):
             print_incorrect_spdx_identifier(result, out=out)
         else:

@@ -303,6 +303,9 @@ def similar_spdx_identifiers(identifier: str) -> List[str]:
 
 
 def print_incorrect_spdx_identifier(identifier: str, out=sys.stdout) -> None:
+    """Print out that *identifier* is not valid, and follow up with some
+    suggestions.
+    """
     out.write(
         _("'{}' is not a valid SPDX License Identifier.").format(identifier)
     )
