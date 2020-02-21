@@ -12,6 +12,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 from argparse import ArgumentTypeError
 from difflib import SequenceMatcher
 from gettext import gettext as _
@@ -282,33 +283,41 @@ def spdx_identifier(text: str) -> Expression:
         )
 
 
-def validate_spdx_identifier(identifier: str) -> Optional[str]:
-    """Given a SPDX identifier, return an error message if it's invalid,
-    otherwise return None."""
+def similar_spdx_identifiers(identifier: str) -> List[str]:
+    """Given an incorrect SPDX identifier, return a list of similar ones."""
     valid_identifiers = list(chain(LICENSE_MAP, EXCEPTION_MAP))
-    if identifier in valid_identifiers:
-        return None
-    error = _("'{}' is not a valid SPDX License Identifier.").format(
-        identifier
-    )
-    error += "\n"
     suggestions = []
+    if identifier in valid_identifiers:
+        return suggestions
+
     for valid_identifier in valid_identifiers:
         distance = SequenceMatcher(
             a=identifier.lower(), b=valid_identifier.lower()
         ).ratio()
         if distance > 0.75:
-            suggestions.append((distance, valid_identifier))
-    suggestions = sorted(suggestions, reverse=True)
-    if suggestions:
-        error += "\n"
-        error += _("Did you mean:")
-        error += "\n"
-        for distance, suggestion in suggestions:
-            error += "* {}\n".format(suggestion)
-        error += "\n"
-    error += _(
-        "See <https://spdx.org/licenses/> for a list of valid "
-        "SPDX License Identifiers."
+            suggestions.append(valid_identifier)
+    suggestions = sorted(suggestions)
+
+    return suggestions
+
+
+def print_incorrect_spdx_identifier(identifier: str, out=sys.stdout) -> None:
+    out.write(
+        _("'{}' is not a valid SPDX License Identifier.").format(identifier)
     )
-    return error
+    out.write("\n")
+
+    suggestions = similar_spdx_identifiers(identifier)
+    if suggestions:
+        out.write("\n")
+        out.write(_("Did you mean:"))
+        out.write("\n")
+        for suggestion in suggestions:
+            out.write("* {}\n".format(suggestion))
+        out.write("\n")
+    out.write(
+        _(
+            "See <https://spdx.org/licenses/> for a list of valid "
+            "SPDX License Identifiers."
+        )
+    )

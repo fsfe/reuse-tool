@@ -13,7 +13,11 @@ from typing import List
 import requests
 
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
-from ._util import PathType, validate_spdx_identifier
+from ._util import (
+    PathType,
+    print_incorrect_spdx_identifier,
+    validate_spdx_identifier,
+)
 from .download import _path_to_license_file, put_license_in_file
 from .project import Project
 from .vcs import find_root
@@ -44,9 +48,8 @@ def prompt_licenses(out=sys.stdout) -> List[str]:
         if not result:
             return licenses
         error = validate_spdx_identifier(result)
-        if error:
-            out.write(error)
-            out.write("\n\n")
+        if result not in chain(LICENSE_MAP, EXCEPTION_MAP):
+            print_incorrect_spdx_identifier(result, out=out)
         else:
             licenses.append(result)
 
