@@ -18,8 +18,6 @@ Contributors
 
 - Sebastian Schuberth <schuberth@fsfe.org>
 
-- Kirill Elagin
-
 - Max Mehl <max.mehl@fsfe.org>
 
 - Matija Šuklje <hook@fsfe.org>
@@ -35,6 +33,9 @@ Contributors
 - Kirill Elagin <kirelagin@gmail.com>
 
 - John Mulligan <jmulligan@redhat.com>
+
+- Tuomas Siipola <tuomas@zpl.fi>
+
 
 Translators
 -----------
