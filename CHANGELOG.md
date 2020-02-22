@@ -39,13 +39,6 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
-- There can now be a tab as whitespace after `SPDX-License-Identifier` and
-  `SPDX-FileCopyrightText`.
-
-- Support Jinja (Jinja2) comment style.
-
-- Support all multi-line comment endings when parsing for SPDX information.
-
 ### Changed
 
 ### Deprecated
@@ -57,9 +50,24 @@ The versions follow [semantic versioning](https://semver.org).
 - Fixed a bug with `addheader --explicit-license` that would result in
   `file.license.license` if `file.license` already existed.
 
+### Security
+
+## 0.8.1 - 2020-02-22
+
+### Added
+
+- Support Jinja (Jinja2) comment style.
+
+- Support all multi-line comment endings when parsing for SPDX information.
+
+### Fixed
+
+- Improvements to German translation by Thomas Doczkal.
+
 - No longer remove newlines at the end of files when using `addheader`.
 
-### Security
+- There can now be a tab as whitespace after `SPDX-License-Identifier` and
+  `SPDX-FileCopyrightText`.
 
 ## 0.8.0 - 2020-01-20
 

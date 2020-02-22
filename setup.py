@@ -35,7 +35,7 @@ test_requirements = ["pytest"]
 
 setup_requirements = ["setuptools_scm"]
 
-fallback_version = "0.8.0"
+fallback_version = "0.8.1"
 
 
 def readme_md():
