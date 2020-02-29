@@ -442,6 +442,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".markdown": HtmlCommentStyle,
     ".md": HtmlCommentStyle,
     ".ml": MlCommentStyle,
+    ".ML": MlCommentStyle,
     ".mli": MlCommentStyle,
     ".nim": PythonCommentStyle,
     ".nimrod": PythonCommentStyle,
@@ -474,6 +475,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".sql": HaskellCommentStyle,
     ".swift": CCommentStyle,
     ".tex": TexCommentStyle,
+    ".thy": MlCommentStyle,
     ".toc": TexCommentStyle,
     ".toml": PythonCommentStyle,
     ".vala": CCommentStyle,
@@ -495,6 +497,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Manifest.in": PythonCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "requirements.txt": PythonCommentStyle,
+    "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
 }
 
