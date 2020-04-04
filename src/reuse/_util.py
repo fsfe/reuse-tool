@@ -150,7 +150,7 @@ def in_git_repo(cwd: PathLike = None) -> bool:
     return False
 
 
-def _all_files_ignored_by_git(root: PathLike) -> Set[Path]:
+def all_files_ignored_by_git(root: PathLike) -> Set[Path]:
     """Return a set of all files ignored by git. If a whole directory is
     ignored, don't return all files inside of it.
 

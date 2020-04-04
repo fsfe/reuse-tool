@@ -27,7 +27,7 @@ from ._util import (
     _HEADER_BYTES,
     GIT_EXE,
     PathLike,
-    _all_files_ignored_by_git,
+    all_files_ignored_by_git,
     _copyright_from_dep5,
     _determine_license_path,
     decoded_text_from_binary,
@@ -58,7 +58,7 @@ class Project:
         else:
             _LOGGER.warning(_("could not find Git"))
         if self._is_git_repo:
-            self._all_ignored_files = _all_files_ignored_by_git(self._root)
+            self._all_ignored_files = all_files_ignored_by_git(self._root)
 
         self.licenses_without_extension = dict()
 
