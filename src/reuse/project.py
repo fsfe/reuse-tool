@@ -26,14 +26,17 @@ from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _HEADER_BYTES,
     GIT_EXE,
+    HG_EXE,
     PathLike,
     all_files_ignored_by_git,
+    all_files_ignored_by_hg,
     _copyright_from_dep5,
     _determine_license_path,
     decoded_text_from_binary,
     extract_spdx_info,
     find_root,
     in_git_repo,
+    in_hg_repo,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,14 +54,18 @@ class Project:
         if not self._root.is_dir():
             raise NotADirectoryError(f"{self._root} is no valid path")
 
-        self._is_git_repo = False
+        self._is_git_repo = self._is_hg_repo = False
         self._all_ignored_files = set()
-        if GIT_EXE:
-            self._is_git_repo = in_git_repo(self._root)
+        if GIT_EXE and in_git_repo(self._root):
+            self._is_git_repo = True
+        if HG_EXE and in_hg_repo(self._root):
+            self._is_hg_repo = True
         else:
-            _LOGGER.warning(_("could not find Git"))
+            _LOGGER.warning(_("could not find supported VCS"))
         if self._is_git_repo:
             self._all_ignored_files = all_files_ignored_by_git(self._root)
+        elif self._is_hg_repo:
+            self._all_ignored_files = all_files_ignored_by_hg(self._root)
 
         self.licenses_without_extension = dict()
 
@@ -165,19 +172,9 @@ class Project:
         """Is *path* covered by the ignore mechanism of the VCS (e.g.,
         .gitignore)?
         """
-        if self._is_git_repo:
-            return self._ignored_by_git(path)
-        return False
-
-    def _ignored_by_git(self, path: Path) -> bool:
-        """Is *path* covered by the ignore mechanism of git?
-
-        Always return False if git is not installed.
-        """
-        if self._is_git_repo:
+        if self._is_git_repo or self._is_hg_repo:
             path = self._relative_from_root(path)
             return path in self._all_ignored_files
-
         return False
 
     def _is_path_ignored(self, path: Path) -> bool:
