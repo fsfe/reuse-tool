@@ -27,6 +27,7 @@ from . import SpdxInfo
 from ._comment import _all_style_classes
 
 GIT_EXE = shutil.which("git")
+HG_EXE = shutil.which("hg")
 
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
@@ -105,6 +106,14 @@ def find_root() -> Optional[Path]:
         if not result.returncode:
             path = result.stdout.decode("utf-8")[:-1]
             return Path(os.path.relpath(path, cwd))
+    if in_hg_repo(cwd):
+        command = [HG_EXE, "root"]
+        result = execute_command(command, _LOGGER, cwd=cwd)
+
+        if not result.returncode:
+            path = result.stdout.decode("utf-8")[:-1]
+            return Path(os.path.relpath(path, cwd))
+
     return None
 
 
@@ -150,6 +159,23 @@ def in_git_repo(cwd: PathLike = None) -> bool:
     return False
 
 
+def in_hg_repo(cwd: PathLike = None) -> bool:
+    """Is *cwd* inside of a mercurial repository?
+
+    Always return False if mercurial (hg) is not installed.
+    """
+    if cwd is None:
+        cwd = Path.cwd()
+
+    if GIT_EXE:
+        command = [HG_EXE, "root"]
+        result = execute_command(command, _LOGGER, cwd=cwd)
+
+        return not result.returncode
+
+    return False
+
+
 def all_files_ignored_by_git(root: PathLike) -> Set[Path]:
     """Return a set of all files ignored by git. If a whole directory is
     ignored, don't return all files inside of it.
@@ -172,6 +198,32 @@ def all_files_ignored_by_git(root: PathLike) -> Set[Path]:
             "--no-empty-directory",
             # Separate output with \0 instead of \n.
             "-z",
+        ]
+        result = execute_command(command, _LOGGER, cwd=root)
+        all_files = result.stdout.decode("utf-8").split("\0")
+        return {Path(file_) for file_ in all_files}
+    return set()
+
+
+def all_files_ignored_by_hg(root: PathLike) -> Set[Path]:
+    """Return a set of all files ignored by mercurial. If a whole directory is
+    ignored, don't return all files inside of it.
+
+    Return an empty list if mercurial is not installed.
+    """
+    root = Path(root)
+
+    if HG_EXE:
+        command = [
+            HG_EXE,
+            "status",
+            "--ignored",
+            # terse is marked 'experimental' in the hg help but is documented
+            # in the man page. It collapses the output of a dir containing
+            # only ignored files to the ignored name like the git command does.
+            "--terse=i",
+            "--no-status",
+            "--print0",
         ]
         result = execute_command(command, _LOGGER, cwd=root)
         all_files = result.stdout.decode("utf-8").split("\0")
