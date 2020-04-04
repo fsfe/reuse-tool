@@ -61,6 +61,15 @@ def test_all_files_ignore_git(empty_directory):
     assert not list(project.all_files())
 
 
+def test_all_files_ignore_hg(empty_directory):
+    """When the hg directory is present, ignore it."""
+    (empty_directory / ".hg").mkdir()
+    (empty_directory / ".hg/config").touch()
+
+    project = Project(empty_directory)
+    assert not list(project.all_files())
+
+
 @git
 def test_all_files_git_ignored(git_repository):
     """Given a Git repository where some files are ignored, do not yield those
