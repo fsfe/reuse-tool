@@ -19,6 +19,7 @@ from reuse import _util
 from reuse.project import Project
 
 git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
+hg = pytest.mark.skipif(not _util.HG_EXE, reason="requires hg")
 posix = pytest.mark.skipif(
     sys.platform == "win32", reason="Windows not supported"
 )
@@ -118,6 +119,44 @@ def test_all_files_submodule_is_ignored(submodule_repository):
     gitignore.write_text(contents)
     project = Project(submodule_repository)
     assert Path("submodule/foo.py").absolute() not in project.all_files()
+
+
+@hg
+def test_all_files_hg_ignored(hg_repository):
+    """Given a mercurial repository where some files are ignored, do not yield
+    those files.
+    """
+    project = Project(hg_repository)
+    assert Path("build/hello.py").absolute() not in project.all_files()
+
+
+@hg
+def test_all_files_hg_ignored_different_cwd(hg_repository):
+    """Given a mercurial repository where some files are ignored, do not yield
+    those files.
+
+    Be in a different CWD during the above.
+    """
+    os.chdir(hg_repository / "LICENSES")
+    project = Project(hg_repository)
+    assert Path("build/hello.py").absolute() not in project.all_files()
+
+
+@hg
+def test_all_files_hg_ignored_contains_space(hg_repository):
+    """File names that contain spaces are also ignored."""
+    (hg_repository / "I contain spaces.pyc").touch()
+    project = Project(hg_repository)
+    assert Path("I contain spaces.pyc").absolute() not in project.all_files()
+
+
+@hg
+@posix
+def test_all_files_hg_ignored_contains_newline(hg_repository):
+    """File names that contain newlines are also ignored."""
+    (hg_repository / "hello\nworld.pyc").touch()
+    project = Project(hg_repository)
+    assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 
 def test_spdx_info_of_file_does_not_exist(fake_repository):
