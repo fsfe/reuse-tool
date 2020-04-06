@@ -152,7 +152,8 @@ class VCSStrategyHg(VCSStrategy):
             # terse is marked 'experimental' in the hg help but is documented
             # in the man page. It collapses the output of a dir containing only
             # ignored files to the ignored name like the git command does.
-            "--terse=i",
+            # TODO: Re-enable this flag in the future.
+            # "--terse=i",
             "--no-status",
             "--print0",
         ]
