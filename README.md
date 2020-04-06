@@ -73,6 +73,11 @@ To update reuse, run this command:
 
     pip3 install --user --upgrade reuse
 
+For full functionality, the following pieces of software are recommended:
+
+- Git
+- Mercurial 4.3+
+
 ### Installation via package managers
 
 There are packages available for easy install on some operating systems. You are
