@@ -317,7 +317,7 @@ def test_licenses_subdirectory(empty_directory):
 def test_relative_from_root(empty_directory):
     """A simple test. Given /path/to/root/src/hello.py, return src/hello.py."""
     project = Project(empty_directory)
-    assert project._relative_from_root(project.root / "src/hello.py") == Path(
+    assert project.relative_from_root(project.root / "src/hello.py") == Path(
         "src/hello.py"
     )
 
@@ -333,6 +333,6 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     project = Project(empty_directory)
     parent = empty_directory.parent
     os.chdir(parent)
-    assert project._relative_from_root(
+    assert project.relative_from_root(
         Path(f"{project.root.name}/src/hello.py")
     ) == Path("src/hello.py")
