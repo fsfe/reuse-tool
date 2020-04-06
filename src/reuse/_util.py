@@ -73,7 +73,7 @@ def setup_logging(level: int = logging.WARNING) -> None:
 
 
 def execute_command(
-    command: List[str], logger: logging.Logger, **kwargs
+    command: List[str], logger: logging.Logger, cwd: PathLike = None, **kwargs
 ) -> subprocess.CompletedProcess:
     """Run the given command with subprocess.run. Forward kwargs. Silence
     output into a pipe unless kwargs override it.
@@ -84,7 +84,12 @@ def execute_command(
     stderr = kwargs.get("stderr", subprocess.PIPE)
 
     return subprocess.run(
-        command, stdout=stdout, stderr=stderr, check=False, **kwargs
+        map(str, command),
+        stdout=stdout,
+        stderr=stderr,
+        check=False,
+        cwd=str(cwd),
+        **kwargs,
     )
 
 

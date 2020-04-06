@@ -50,6 +50,8 @@ The versions follow [semantic versioning](https://semver.org).
 - Fixed a bug with `addheader --explicit-license` that would result in
   `file.license.license` if `file.license` already existed.
 
+- Fixed a Windows-only bug to do with calling subprocesses.
+
 ### Security
 
 ## 0.8.1 - 2020-02-22
