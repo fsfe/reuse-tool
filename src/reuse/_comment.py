@@ -493,6 +493,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".editorconfig": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
+    "CMakeLists.txt": PythonCommentStyle,
     "Makefile": PythonCommentStyle,
     "Manifest.in": PythonCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
