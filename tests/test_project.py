@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -9,6 +10,7 @@
 import os
 import shutil
 import sys
+from inspect import cleandoc
 from pathlib import Path
 from textwrap import dedent
 
@@ -69,6 +71,23 @@ def test_all_files_ignore_hg(empty_directory):
 
     project = Project(empty_directory)
     assert not list(project.all_files())
+
+
+def test_all_files_symlinks(empty_directory):
+    """All symlinks must be ignored."""
+    (empty_directory / "blob").touch()
+    (empty_directory / "blob.license").write_text(
+        cleandoc(
+            """
+            spdx-FileCopyrightText: Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+    (empty_directory / "symlink").symlink_to("blob")
+    project = Project(empty_directory)
+    assert Path("symlink").absolute() not in project.all_files()
 
 
 @git

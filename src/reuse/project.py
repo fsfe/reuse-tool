@@ -91,6 +91,9 @@ class Project:
                 if self._is_path_ignored(the_dir):
                     _LOGGER.debug("ignoring '%s'", the_dir)
                     dirs.remove(dir_)
+                elif the_dir.is_symlink():
+                    _LOGGER.debug("skipping symlink '%s'", the_dir)
+                    dirs.remove(dir_)
                 elif (
                     the_dir / ".git"
                 ).is_file() and not self.include_submodules:
@@ -104,6 +107,9 @@ class Project:
                 the_file = root / file_
                 if self._is_path_ignored(the_file):
                     _LOGGER.debug("ignoring '%s'", the_file)
+                    continue
+                if the_file.is_symlink():
+                    _LOGGER.debug("skipping symlink '%s'", the_file)
                     continue
 
                 _LOGGER.debug("yielding '%s'", the_file)
