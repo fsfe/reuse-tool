@@ -93,7 +93,7 @@ class Project:
                 if self._is_path_ignored(the_dir):
                     _LOGGER.debug("ignoring '%s'", the_dir)
                     dirs.remove(dir_)
-                if (
+                elif (
                     the_dir / ".git"
                 ).is_file() and not self.include_submodules:
                     _LOGGER.info(
