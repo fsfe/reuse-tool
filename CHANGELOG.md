@@ -52,6 +52,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Fixed a Windows-only bug to do with calling subprocesses.
 
+- Fixed a rare bug that would trigger when a directory is both ignored and
+  contains a `.git` file.
+
 ### Security
 
 ## 0.8.1 - 2020-02-22

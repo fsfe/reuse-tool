@@ -99,6 +99,18 @@ def test_all_files_git_ignored_contains_newline(git_repository):
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 
+@git
+def test_all_files_submodule_is_ignored(submodule_repository):
+    """If a submodule is ignored, all_files should not raise an Exception."""
+    (submodule_repository / "submodule/foo.py").touch()
+    gitignore = submodule_repository / ".gitignore"
+    contents = gitignore.read_text()
+    contents += "\nsubmodule/\n"
+    gitignore.write_text(contents)
+    project = Project(submodule_repository)
+    assert Path("submodule/foo.py").absolute() not in project.all_files()
+
+
 def test_spdx_info_of_file_does_not_exist(fake_repository):
     """Raise FileNotFoundError when asking for the SPDX info of a file that
     does not exist.
