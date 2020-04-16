@@ -20,6 +20,11 @@ from license_expression import LicenseSymbol
 from reuse import _util
 from reuse.project import Project
 
+try:
+    import posix as is_posix
+except ImportError:
+    is_posix = False
+
 git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
 hg = pytest.mark.skipif(not _util.HG_EXE, reason="requires hg")
 posix = pytest.mark.skipif(
@@ -73,6 +78,7 @@ def test_all_files_ignore_hg(empty_directory):
     assert not list(project.all_files())
 
 
+@posix
 def test_all_files_symlinks(empty_directory):
     """All symlinks must be ignored."""
     (empty_directory / "blob").touch()

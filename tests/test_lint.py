@@ -4,7 +4,11 @@
 
 """All tests for reuse.lint"""
 
+# pylint: disable=invalid-name
+
 import shutil
+
+import pytest
 
 from reuse.lint import (
     lint,
@@ -16,6 +20,13 @@ from reuse.lint import (
 )
 from reuse.project import Project
 from reuse.report import ProjectReport
+
+try:
+    import posix as is_posix
+except ImportError:
+    is_posix = False
+
+posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
 def test_lint_simple(fake_repository):
@@ -117,9 +128,11 @@ def test_lint_unused_licenses(fake_repository, stringio):
     assert "MIT" in stringio.getvalue()
 
 
+@posix
 def test_lint_read_errors(fake_repository, stringio):
     """A read error is detected."""
-    (fake_repository / "foo.py").symlink_to("does_not_exist")
+    (fake_repository / "foo.py").touch()
+    (fake_repository / "foo.py").chmod(0o000)
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
     result = lint_read_errors(report, out=stringio)

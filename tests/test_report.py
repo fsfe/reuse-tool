@@ -4,10 +4,21 @@
 
 """Tests for reuse.report"""
 
+# pylint: disable=invalid-name
+
 import os
+
+import pytest
 
 from reuse.project import Project
 from reuse.report import FileReport, ProjectReport
+
+try:
+    import posix as is_posix
+except ImportError:
+    is_posix = False
+
+posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
 def test_generate_file_report_file_simple(fake_repository):
@@ -165,9 +176,11 @@ def test_generate_project_report_deprecated_license(
     assert "GPL-3.0" in result.deprecated_licenses
 
 
+@posix
 def test_generate_project_report_read_error(fake_repository, multiprocessing):
     """Files that cannot be read are added to the read error list."""
-    (fake_repository / "bad").symlink_to("does_not_exist")
+    (fake_repository / "bad").touch()
+    (fake_repository / "bad").chmod(0o000)
 
     project = Project(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
