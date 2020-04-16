@@ -7,6 +7,7 @@
 # pylint: disable=invalid-name
 
 import shutil
+import sys
 
 import pytest
 
@@ -26,6 +27,9 @@ try:
 except ImportError:
     is_posix = False
 
+cpython = pytest.mark.skipif(
+    sys.implementation.name != "cpython", reason="only CPython supported"
+)
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
@@ -128,6 +132,7 @@ def test_lint_unused_licenses(fake_repository, stringio):
     assert "MIT" in stringio.getvalue()
 
 
+@cpython
 @posix
 def test_lint_read_errors(fake_repository, stringio):
     """A read error is detected."""

@@ -7,6 +7,7 @@
 # pylint: disable=invalid-name
 
 import os
+import sys
 
 import pytest
 
@@ -18,6 +19,9 @@ try:
 except ImportError:
     is_posix = False
 
+cpython = pytest.mark.skipif(
+    sys.implementation.name != "cpython", reason="only CPython supported"
+)
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
@@ -176,6 +180,7 @@ def test_generate_project_report_deprecated_license(
     assert "GPL-3.0" in result.deprecated_licenses
 
 
+@cpython
 @posix
 def test_generate_project_report_read_error(fake_repository, multiprocessing):
     """Files that cannot be read are added to the read error list."""
