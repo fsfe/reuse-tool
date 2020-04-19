@@ -487,18 +487,19 @@ EXTENSION_COMMENT_STYLE_MAP = {
 }
 
 FILENAME_COMMENT_STYLE_MAP = {
+    ".editorconfig": PythonCommentStyle,
     ".gitattributes": PythonCommentStyle,
     ".gitignore": PythonCommentStyle,
     ".gitmodules": PythonCommentStyle,
-    ".editorconfig": PythonCommentStyle,
+    ".mailmap": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
-    "Dockerfile": PythonCommentStyle,
     "CMakeLists.txt": PythonCommentStyle,
+    "Dockerfile": PythonCommentStyle,
     "Makefile": PythonCommentStyle,
     "Manifest.in": PythonCommentStyle,
+    "ROOT": MlCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "requirements.txt": PythonCommentStyle,
-    "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
 }
 
