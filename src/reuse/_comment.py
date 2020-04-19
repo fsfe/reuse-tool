@@ -491,6 +491,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".vala": CCommentStyle,
     ".xml": HtmlCommentStyle,
     ".xsh": PythonCommentStyle,
+    ".xsl": PythonCommentStyle,
     ".yaml": PythonCommentStyle,
     ".yml": PythonCommentStyle,
     ".zsh": PythonCommentStyle,
