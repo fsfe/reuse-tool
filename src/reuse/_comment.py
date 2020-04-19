@@ -469,6 +469,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".py": PythonCommentStyle,
     ".pyi": PythonCommentStyle,
     ".pyw": PythonCommentStyle,
+    ".pyx": PythonCommentStyle,
+    ".pxd": PythonCommentStyle,
     ".qbs": CCommentStyle,
     ".qml": CCommentStyle,
     ".rake": PythonCommentStyle,
