@@ -350,6 +350,15 @@ class LispCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class M4CommentStyle(CommentStyle):
+    """M4 (autoconf) comment style."""
+
+    _shorthand = "m4"
+
+    SINGLE_LINE = "dnl"
+    INDENT_AFTER_SINGLE = " "
+
+
 class MlCommentStyle(CommentStyle):
     """ML comment style."""
 
@@ -439,6 +448,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".lisp": LispCommentStyle,
     ".lsp": LispCommentStyle,
     ".lua": HaskellCommentStyle,
+    ".m4": M4CommentStyle,
     ".markdown": HtmlCommentStyle,
     ".md": HtmlCommentStyle,
     ".ml": MlCommentStyle,
@@ -496,8 +506,10 @@ FILENAME_COMMENT_STYLE_MAP = {
     "CMakeLists.txt": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
     "Makefile": PythonCommentStyle,
+    "Makefile.am": PythonCommentStyle,
     "Manifest.in": PythonCommentStyle,
     "ROOT": MlCommentStyle,
+    "configure.ac": M4CommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "requirements.txt": PythonCommentStyle,
     "setup.cfg": PythonCommentStyle,
