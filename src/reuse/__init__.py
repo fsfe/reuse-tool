@@ -8,7 +8,6 @@ import gettext
 import logging
 import os
 import re
-from gettext import gettext as _
 from typing import NamedTuple, Set
 
 from boolean.boolean import Expression
