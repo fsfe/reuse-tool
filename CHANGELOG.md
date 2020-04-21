@@ -35,7 +35,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 0.9.0 --- 2020-04-21
 
 ### Added
 
@@ -50,6 +50,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Under the hood, a lot of code that has to do with Git and Mercurial was moved
   into its own module.
+
+- The Docker image has been changed such that it now automagically runs `reuse
+  lint` on the `/data` directory unless something else is specified by the user.
 
 ### Deprecated
 
