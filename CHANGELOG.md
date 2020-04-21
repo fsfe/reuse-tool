@@ -54,10 +54,6 @@ The versions follow [semantic versioning](https://semver.org).
 - The Docker image has been changed such that it now automagically runs `reuse
   lint` on the `/data` directory unless something else is specified by the user.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Fixed a bug with `addheader --explicit-license` that would result in
@@ -67,8 +63,6 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Fixed a rare bug that would trigger when a directory is both ignored and
   contains a `.git` file.
-
-### Security
 
 ## 0.8.1 - 2020-02-22
 
