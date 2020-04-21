@@ -2,10 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Create a base image that has git installed.
+# Create a base image that has dependencies installed.
 FROM alpine:3.11 AS base
 
-RUN apk --no-cache add git python3
+RUN apk --no-cache add git mercurial python3
 
 # Build reuse into a virtualenv
 FROM base AS build
