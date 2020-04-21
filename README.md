@@ -14,11 +14,11 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 > reuse is a tool for compliance with the [REUSE](https://reuse.software/)
 > recommendations.
 
--   Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
--   Source code: <https://github.com/fsfe/reuse-tool>
--   PyPI: <https://pypi.python.org/pypi/reuse>
--   REUSE: 3.0
--   Python: 3.6+
+- Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
+- Source code: <https://github.com/fsfe/reuse-tool>
+- PyPI: <https://pypi.python.org/pypi/reuse>
+- REUSE: 3.0
+- Python: 3.6+
 
 ## Background
 
@@ -33,9 +33,9 @@ project is licensed.
 
 As a short summary, the recommendations are threefold:
 
-1.  Choose and provide licenses
-2.  Add copyright and licensing information to each file
-3.  Confirm REUSE compliance
+1. Choose and provide licenses
+2. Add copyright and licensing information to each file
+3. Confirm REUSE compliance
 
 You are recommended to read [our
 tutorial](https://reuse.software/tutorial) for a step-by-step guide
@@ -60,18 +60,22 @@ to assist in compliance with the REUSE recommendations.
 To install reuse, you need to have the following pieces of software on
 your computer:
 
--   Python 3.6+
--   pip
+- Python 3.6+
+- pip
 
 You then only need to run the following command:
 
-    pip3 install --user reuse
+```bash
+pip3 install --user reuse
+```
 
 After this, make sure that `~/.local/bin` is in your `$PATH`.
 
 To update reuse, run this command:
 
-    pip3 install --user --upgrade reuse
+```bash
+pip3 install --user --upgrade reuse
+```
 
 For full functionality, the following pieces of software are recommended:
 
@@ -95,7 +99,9 @@ You can also install this tool from the source code, but we recommend the
 methods above for easier and more stable updates. Please make sure the
 requirements for the installation via pip are present on your machine.
 
-    python3 setup.py install
+```bash
+python3 setup.py install
+```
 
 ## Usage
 
@@ -111,10 +117,12 @@ nutshell:
 
 To check against the recommendations, use `reuse lint`:
 
-    ~/Projects/reuse-tool $ reuse lint
-    [...]
+```
+~/Projects/reuse-tool $ reuse lint
+[...]
 
-    Congratulations! Your project is compliant with version 3.0 of the REUSE Specification :-)
+Congratulations! Your project is compliant with version 3.0 of the REUSE Specification :-)
+```
 
 This tool can do various more things, detailed in the documentation. Here a
 short summary:
@@ -177,11 +185,13 @@ Conduct](https://fsfe.org/about/codeofconduct).
 Starting local development is very simple, just execute the following
 commands:
 
-    git clone git@github.com:fsfe/reuse-tool.git
-    cd reuse-tool/
-    python3 -mvenv venv
-    source venv/bin/activate
-    make develop
+```bash
+git clone git@github.com:fsfe/reuse-tool.git
+cd reuse-tool/
+python3 -mvenv venv
+source venv/bin/activate
+make develop
+```
 
 You need to run `make develop` at least once to set up the virtualenv.
 
