@@ -43,6 +43,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - A pre-commit hook has been added.
 
+- When an incorrect SPDX identifier is forwarded to `download` or `init`, the
+  tool now suggests what you might have meant.
+
 ### Changed
 
 - Under the hood, a lot of code that has to do with Git and Mercurial was moved
