@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+- id: reuse
+  name: reuse
+  entry: reuse lint
+  language: python
+  pass_filenames: false
+  description: "Lint the project directory for compliance with the REUSE Specification"
+  language_version: python3
