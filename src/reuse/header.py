@@ -2,10 +2,13 @@
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin <kirelagin@gmail.com>
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Functions for manipulating the comment headers of files."""
+
+# pylint: disable=too-many-arguments
 
 import datetime
 import logging
@@ -71,6 +74,7 @@ def _create_new_header(
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
+    force_multi: bool = False,
 ) -> str:
     """Format a new header from scratch.
 
@@ -91,7 +95,9 @@ def _create_new_header(
     if template_is_commented:
         result = rendered.strip("\n")
     else:
-        result = style.create_comment(rendered).strip("\n")
+        result = style.create_comment(rendered, force_multi=force_multi).strip(
+            "\n"
+        )
 
     # Verify that the result contains all SpdxInfo.
     new_spdx_info = extract_spdx_info(result)
@@ -116,6 +122,7 @@ def create_header(
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
+    force_multi: bool = False,
 ) -> str:
     """Create a header containing *spdx_info*. *header* is an optional argument
     containing a header which should be modified to include *spdx_info*. If
@@ -153,6 +160,7 @@ def create_header(
         template=template,
         template_is_commented=template_is_commented,
         style=style,
+        force_multi=force_multi,
     )
     return new_header + "\n"
 
@@ -204,6 +212,7 @@ def find_and_replace_header(
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
+    force_multi: bool = False,
 ) -> str:
     """Find the first SPDX comment block in *text*. That comment block is
     replaced by a new comment block containing *spdx_info*. It is formatted as
@@ -261,6 +270,7 @@ def find_and_replace_header(
         template=template,
         template_is_commented=template_is_commented,
         style=style,
+        force_multi=force_multi,
     )
 
     new_text = header.strip("\n")
@@ -282,10 +292,12 @@ def _get_comment_style(path: Path) -> CommentStyle:
     return style
 
 
-def _verify_paths_supported(paths, parser):
+def _verify_paths_supported(
+    paths, parser, force_single=False, force_multi=False
+):
     for path in paths:
         try:
-            _get_comment_style(path)
+            style = _get_comment_style(path)
         except KeyError:
             # TODO: This check is duplicated.
             if not is_binary(str(path)):
@@ -295,6 +307,20 @@ def _verify_paths_supported(paths, parser):
                         " please use --style or --explicit-license"
                     ).format(path=path)
                 )
+        if force_single and not style.can_handle_single():
+            parser.error(
+                _(
+                    "'{path}' does not support single-line comments, please"
+                    " do not use --single-line"
+                ).format(path=path)
+            )
+        if force_multi and not style.can_handle_multi():
+            parser.error(
+                _(
+                    "'{path}' does not support multi-line comments, please"
+                    " do not use --multi-line"
+                ).format(path=path)
+            )
 
 
 def _find_template(project: Project, name: str) -> Template:
@@ -327,6 +353,7 @@ def _add_header_to_file(
     template: Template,
     template_is_commented: bool,
     style: Optional[str],
+    force_multi: bool = False,
     out=sys.stdout,
 ) -> int:
     """Helper function."""
@@ -347,6 +374,7 @@ def _add_header_to_file(
             template=template,
             template_is_commented=template_is_commented,
             style=style,
+            force_multi=force_multi,
         )
     except CommentCreateError:
         out.write(
@@ -418,6 +446,16 @@ def add_arguments(parser) -> None:
         help=_("do not include year in statement"),
     )
     parser.add_argument(
+        "--single-line",
+        action="store_true",
+        help=_("force single-line comment style, optional"),
+    )
+    parser.add_argument(
+        "--multi-line",
+        action="store_true",
+        help=_("force multi-line comment style, optional"),
+    )
+    parser.add_argument(
         "--explicit-license",
         action="store_true",
         help=_("place header in path.license instead of path"),
@@ -427,6 +465,7 @@ def add_arguments(parser) -> None:
 
 def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
+    # pylint: disable=too-many-branches
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
@@ -435,11 +474,21 @@ def run(args, project: Project, out=sys.stdout) -> int:
             _("option --exclude-year and --year are mutually exclusive")
         )
 
+    if args.single_line and args.multi_line:
+        args.parser.error(
+            _("option --single-line and --multi-line are mutually exclusive")
+        )
+
     paths = [_determine_license_path(path) for path in args.path]
 
     # First loop to verify before proceeding
     if args.style is None and not args.explicit_license:
-        _verify_paths_supported(paths, args.parser)
+        _verify_paths_supported(
+            paths,
+            args.parser,
+            force_single=args.single_line,
+            force_multi=args.multi_line,
+        )
 
     template = None
     commented = False
@@ -487,7 +536,13 @@ def run(args, project: Project, out=sys.stdout) -> int:
             path = Path(new_path)
             path.touch()
         result += _add_header_to_file(
-            path, spdx_info, template, commented, args.style, out
+            path,
+            spdx_info,
+            template,
+            commented,
+            args.style,
+            args.multi_line,
+            out,
         )
 
     return min(result, 1)

@@ -873,3 +873,107 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
         ).replace("spdx", "SPDX")
     )
     assert not simple_file.read_text()
+
+
+def test_addheader_year_mutually_exclusive(fake_repository, stringio):
+    """--exclude-year and --year are mutually exclusive."""
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--exclude-year",
+                "--year",
+                "2020",
+                "src/source_code.py",
+            ]
+        )
+
+
+def test_addheader_single_multi_line_mutually_exclusive(
+    fake_repository, stringio
+):
+    """--single-line and --multi-line are mutually exclusive."""
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--single-line",
+                "--multi-line",
+                "src/source_code.c",
+            ]
+        )
+
+
+def test_addheader_multi_line_not_supported(fake_repository, stringio):
+    """Expect a fail if --multi-line is not supported for a file type."""
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--multi-line",
+                "src/source_code.py",
+            ]
+        )
+
+
+def test_addheader_single_line_not_supported(fake_repository, stringio):
+    """Expect a fail if --single-line is not supported for a file type."""
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--single-line",
+                "src/source_code.html",
+            ]
+        )
+
+
+def test_addheader_force_multi_line_for_c(
+    fake_repository, stringio, mock_date_today
+):
+    """--multi-line forces a multi-line comment for C."""
+    simple_file = fake_repository / "foo.c"
+    simple_file.touch()
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--multi-line",
+            "foo.c",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            /*
+             * spdx-FileCopyrightText: 2018 Mary Sue
+             *
+             * spdx-License-Identifier: GPL-3.0-or-later
+             */
+            """
+        ).replace("spdx", "SPDX")
+    )
