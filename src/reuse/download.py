@@ -7,14 +7,13 @@
 import errno
 import sys
 from gettext import gettext as _
-from itertools import chain
 from os import PathLike
 from pathlib import Path
 from urllib.parse import urljoin
 
 import requests
 
-from ._licenses import EXCEPTION_MAP, LICENSE_MAP
+from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import (
     PathType,
     find_licenses_directory,
@@ -107,7 +106,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
     def _could_not_download(identifier: str):
         out.write(_("Error: Failed to download license."))
         out.write(" ")
-        if identifier not in chain(LICENSE_MAP, EXCEPTION_MAP):
+        if identifier not in ALL_NON_DEPRECATED_MAP:
             print_incorrect_spdx_identifier(identifier, out=out)
         else:
             out.write(_("Is your internet connection working?"))

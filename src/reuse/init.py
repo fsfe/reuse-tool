@@ -7,13 +7,12 @@
 import sys
 from gettext import gettext as _
 from inspect import cleandoc
-from itertools import chain
 from pathlib import Path
 from typing import List
 
 import requests
 
-from ._licenses import EXCEPTION_MAP, LICENSE_MAP
+from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import PathType, print_incorrect_spdx_identifier
 from .download import _path_to_license_file, put_license_in_file
 from .project import Project
@@ -44,7 +43,7 @@ def prompt_licenses(out=sys.stdout) -> List[str]:
         out.write("\n")
         if not result:
             return licenses
-        if result not in chain(LICENSE_MAP, EXCEPTION_MAP):
+        if result not in ALL_NON_DEPRECATED_MAP:
             print_incorrect_spdx_identifier(result, out=out)
             out.write("\n\n")
         else:

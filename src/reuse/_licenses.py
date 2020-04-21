@@ -53,3 +53,9 @@ def _load_exception_list(file_name):
 
 _, LICENSE_MAP = _load_license_list(_LICENSES)
 _, EXCEPTION_MAP = _load_exception_list(_EXCEPTIONS)
+ALL_MAP = {**LICENSE_MAP, **EXCEPTION_MAP}
+ALL_NON_DEPRECATED_MAP = {
+    identifier: contents.copy()
+    for identifier, contents in ALL_MAP.items()
+    if not contents["isDeprecatedLicenseId"]
+}

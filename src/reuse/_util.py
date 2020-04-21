@@ -18,7 +18,6 @@ from argparse import ArgumentTypeError
 from difflib import SequenceMatcher
 from gettext import gettext as _
 from hashlib import sha1
-from itertools import chain
 from os import PathLike
 from pathlib import Path
 from typing import BinaryIO, List, Optional
@@ -29,7 +28,7 @@ from license_expression import ExpressionError, Licensing
 
 from . import SpdxInfo
 from ._comment import _all_style_classes
-from ._licenses import EXCEPTION_MAP, LICENSE_MAP
+from ._licenses import ALL_NON_DEPRECATED_MAP
 
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
@@ -286,12 +285,11 @@ def spdx_identifier(text: str) -> Expression:
 
 def similar_spdx_identifiers(identifier: str) -> List[str]:
     """Given an incorrect SPDX identifier, return a list of similar ones."""
-    valid_identifiers = list(chain(LICENSE_MAP, EXCEPTION_MAP))
     suggestions = []
-    if identifier in valid_identifiers:
+    if identifier in ALL_NON_DEPRECATED_MAP:
         return suggestions
 
-    for valid_identifier in valid_identifiers:
+    for valid_identifier in ALL_NON_DEPRECATED_MAP:
         distance = SequenceMatcher(
             a=identifier.lower(), b=valid_identifier.lower()
         ).ratio()
