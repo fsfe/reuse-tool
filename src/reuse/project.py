@@ -26,15 +26,14 @@ from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _HEADER_BYTES,
     GIT_EXE,
+    HG_EXE,
     PathLike,
-    _all_files_ignored_by_git,
     _copyright_from_dep5,
     _determine_license_path,
     decoded_text_from_binary,
     extract_spdx_info,
-    find_root,
-    in_git_repo,
 )
+from .vcs import VCSStrategyGit, VCSStrategyHg, VCSStrategyNone, find_root
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -51,14 +50,13 @@ class Project:
         if not self._root.is_dir():
             raise NotADirectoryError(f"{self._root} is no valid path")
 
-        self._is_git_repo = False
-        self._all_ignored_files = set()
-        if GIT_EXE:
-            self._is_git_repo = in_git_repo(self._root)
+        if GIT_EXE and VCSStrategyGit.in_repo(self._root):
+            self.vcs_strategy = VCSStrategyGit(self)
+        elif HG_EXE and VCSStrategyHg.in_repo(self._root):
+            self.vcs_strategy = VCSStrategyHg(self)
         else:
-            _LOGGER.warning(_("could not find Git"))
-        if self._is_git_repo:
-            self._all_ignored_files = _all_files_ignored_by_git(self._root)
+            _LOGGER.warning(_("could not find supported VCS"))
+            self.vcs_strategy = VCSStrategyNone(self)
 
         self.licenses_without_extension = dict()
 
@@ -126,7 +124,7 @@ class Project:
         # Search the .reuse/dep5 file for SPDX information.
         if self._copyright:
             dep5_result = _copyright_from_dep5(
-                self._relative_from_root(path), self._copyright
+                self.relative_from_root(path), self._copyright
             )
             if any(dep5_result):
                 _LOGGER.info(
@@ -152,7 +150,7 @@ class Project:
             dep5_result.copyright_lines.union(file_result.copyright_lines),
         )
 
-    def _relative_from_root(self, path: Path) -> Path:
+    def relative_from_root(self, path: Path) -> Path:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
@@ -160,25 +158,6 @@ class Project:
             return path.relative_to(self.root)
         except ValueError:
             return Path(os.path.relpath(path, start=self.root))
-
-    def _ignored_by_vcs(self, path: Path) -> bool:
-        """Is *path* covered by the ignore mechanism of the VCS (e.g.,
-        .gitignore)?
-        """
-        if self._is_git_repo:
-            return self._ignored_by_git(path)
-        return False
-
-    def _ignored_by_git(self, path: Path) -> bool:
-        """Is *path* covered by the ignore mechanism of git?
-
-        Always return False if git is not installed.
-        """
-        if self._is_git_repo:
-            path = self._relative_from_root(path)
-            return path in self._all_ignored_files
-
-        return False
 
     def _is_path_ignored(self, path: Path) -> bool:
         """Is *path* ignored by some mechanism?"""
@@ -192,7 +171,7 @@ class Project:
                 if pattern.match(name):
                     return True
 
-        if self._ignored_by_vcs(path):
+        if self.vcs_strategy.is_ignored(path):
             return True
 
         return False
@@ -252,7 +231,7 @@ class Project:
             if Path(path).suffix == ".license":
                 continue
 
-            path = self._relative_from_root(path)
+            path = self.relative_from_root(path)
             _LOGGER.debug(
                 _("determining identifier of '{path}'").format(path=path)
             )

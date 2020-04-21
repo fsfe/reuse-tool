@@ -39,9 +39,14 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
-### Changed
+- Added support for Mercurial 4.3+.
 
 - A pre-commit hook has been added.
+
+### Changed
+
+- Under the hood, a lot of code that has to do with Git and Mercurial was moved
+  into its own module.
 
 ### Deprecated
 

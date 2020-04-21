@@ -59,6 +59,7 @@ else:
 
 _IGNORE_DIR_PATTERNS = [
     re.compile(r"^\.git$"),
+    re.compile(r"^\.hg$"),
     re.compile(r"^LICENSES$"),
     re.compile(r"^\.reuse$"),
 ]

@@ -32,7 +32,7 @@ try:
 except ImportError:
     sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
-    from reuse._util import GIT_EXE, setup_logging
+    from reuse._util import GIT_EXE, HG_EXE, setup_logging
 
 CWD = Path.cwd()
 
@@ -60,6 +60,15 @@ def git_exe(request, monkeypatch) -> Optional[str]:
     exe = GIT_EXE if request.param else ""
     monkeypatch.setattr("reuse.project.GIT_EXE", exe)
     monkeypatch.setattr("reuse._util.GIT_EXE", exe)
+    yield exe
+
+
+@pytest.fixture(params=[True, False])
+def hg_exe(request, monkeypatch) -> Optional[str]:
+    """Run the test with or without mercurial (hg)."""
+    exe = HG_EXE if request.param else ""
+    monkeypatch.setattr("reuse.project.HG_EXE", exe)
+    monkeypatch.setattr("reuse._util.HG_EXE", exe)
     yield exe
 
 
@@ -109,22 +118,24 @@ def fake_repository(tmpdir_factory) -> Path:
     return directory
 
 
-@pytest.fixture()
-def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
-    """Create a git repository with ignored files."""
-    if not git_exe:
-        pytest.skip("cannot run this test without git")
+def _repo_contents(
+    fake_repository, ignore_filename=".gitignore", ignore_prefix=""
+):
+    """Generate contents for a vcs repository.
 
-    os.chdir(fake_repository)
-
-    gitignore = (
+    Currently defaults to git-like behavior for ignoring files with
+    the expectation that other tools can be configured to ignore files
+    by just chanigng the ignore-file-name and enabling git-like behavior
+    with a prefix line in the ignore file.
+    """
+    gitignore = ignore_prefix + (
         "# SPDX"
         "-License-Identifier: CC0-1.0\n"
         "# SPDX"
         "-FileCopyrightText: 2017 Mary Sue\n"
         "*.pyc\nbuild"
     )
-    (fake_repository / ".gitignore").write_text(gitignore)
+    (fake_repository / ignore_filename).write_text(gitignore)
     (fake_repository / "LICENSES/CC0-1.0.txt").write_text("License text")
 
     for file_ in (fake_repository / "src").iterdir():
@@ -134,6 +145,16 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     build_dir = fake_repository / "build"
     build_dir.mkdir()
     (build_dir / "hello.py").touch()
+
+
+@pytest.fixture()
+def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
+    """Create a git repository with ignored files."""
+    if not git_exe:
+        pytest.skip("cannot run this test without git")
+
+    os.chdir(fake_repository)
+    _repo_contents(fake_repository)
 
     subprocess.run([git_exe, "init", str(fake_repository)])
     subprocess.run([git_exe, "add", str(fake_repository)])
@@ -147,6 +168,35 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
             "user.email",
             "example@example.com",
             "commit",
+            "-m",
+            "initial",
+        ]
+    )
+
+    return fake_repository
+
+
+@pytest.fixture()
+def hg_repository(fake_repository: Path, hg_exe: Optional[str]) -> Path:
+    """Create a mercurial repository with ignored files."""
+    if not hg_exe:
+        pytest.skip("cannot run this test without mercurial")
+
+    os.chdir(fake_repository)
+    _repo_contents(
+        fake_repository,
+        ignore_filename=".hgignore",
+        ignore_prefix="syntax:glob",
+    )
+
+    subprocess.run([hg_exe, "init", "."])
+    subprocess.run([hg_exe, "addremove"])
+    subprocess.run(
+        [
+            hg_exe,
+            "commit",
+            "--user",
+            "Example <example@example.com>",
             "-m",
             "initial",
         ]

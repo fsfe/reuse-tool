@@ -140,17 +140,6 @@ def test_copyright_from_dep5(copyright):
     assert "2017 Mary Sue" in result.copyright_lines
 
 
-@git
-def test_find_root_in_git_repo(git_repository):
-    """When using reuse from a child directory in a Git repo, always find the
-    root directory.
-    """
-    os.chdir("src")
-    result = _util.find_root()
-
-    assert Path(result).absolute().resolve() == git_repository
-
-
 def test_make_copyright_line_simple():
     """Given a simple statement, make it a copyright line."""
     assert (

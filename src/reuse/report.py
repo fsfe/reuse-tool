@@ -347,7 +347,7 @@ class FileReport:
             raise OSError(f"{path} is not a file")
 
         # pylint: disable=protected-access
-        relative = project._relative_from_root(path)
+        relative = project.relative_from_root(path)
         report = cls("./" + str(relative), path, do_checksum=do_checksum)
 
         # Checksum and ID

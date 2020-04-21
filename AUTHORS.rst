@@ -34,6 +34,8 @@ Contributors
 
 - Kirill Elagin <kirelagin@gmail.com>
 
+- John Mulligan <jmulligan@redhat.com>
+
 Translators
 -----------
 
