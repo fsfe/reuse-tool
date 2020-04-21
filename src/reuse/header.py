@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2019-2020 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin <kirelagin@gmail.com>
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
