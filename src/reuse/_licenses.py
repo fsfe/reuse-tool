@@ -9,7 +9,7 @@
 
 """A list with all SPDX licenses.
 
-Last updated 2019-12-02.
+Last updated 2020-04-09.
 """
 
 import json
