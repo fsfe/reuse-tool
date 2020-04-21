@@ -189,8 +189,6 @@ Next, run `make help` to see the available interactions.
 
 ## License
 
-Copyright (C) 2017-2019 Free Software Foundation Europe e.V.
-
 This work is licensed under multiple licences. Because keeping this section
 up-to-date is challenging, here is a brief summary as of July 2019:
 
