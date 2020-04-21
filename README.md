@@ -137,6 +137,25 @@ Hub](https://hub.docker.com/r/fsfe/reuse), you can run the helper tool
 simply by executing `reuse lint`. To use the tool on your computer, you can
 mount your project directory and run `reuse lint <path/to/directory>`.
 
+### Run as pre-commit hook
+
+You can automatically run `reuse lint` on every commit as a pre-commit hook for
+Git. This uses [pre-commit](https://pre-commit.com/). Once you [have it
+installed](https://pre-commit.com/#install), add this to the
+`.pre-commit-config.yaml` in your repository:
+
+```yaml
+repos:
+-   repo: https://github.com/fsfe/reuse-tool
+    rev: latest
+    hooks:
+    - id: reuse
+```
+
+Then run `pre-commit install`. Now, every time you commit, `reuse lint` is run
+in the background, and will prevent your commit from going through if there was
+an error.
+
 ## Maintainers
 
 -   Carmen Bianca Bakker - <carmenbianca@fsfe.org>
