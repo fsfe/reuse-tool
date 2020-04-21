@@ -286,3 +286,12 @@ def test_decoded_text_from_binary_crlf():
     text = "Hello\r\nworld"
     encoded = text.encode("utf-8")
     assert _util.decoded_text_from_binary(BytesIO(encoded)) == "Hello\nworld"
+
+
+def test_similar_spdx_identifiers():
+    """Given a misspelt SPDX License Identifier, suggest a better one."""
+    result = _util.similar_spdx_identifiers("GPL-3.0-or-lter")
+
+    assert "GPL-3.0-or-later" in result
+    assert "AGPL-3.0-or-later" in result
+    assert "LGPL-3.0-or-later" in result
