@@ -4,33 +4,14 @@
 
 """reuse is a tool for compliance with the REUSE recommendations."""
 
-# pylint: disable=ungrouped-imports,too-many-arguments
-
-import contextlib
-import datetime
 import gettext
-import glob
-import hashlib
 import logging
 import os
 import re
-import sys
 from gettext import gettext as _
-from pathlib import Path
-from typing import (
-    BinaryIO,
-    Dict,
-    Iterator,
-    List,
-    NamedTuple,
-    Optional,
-    Set,
-    Union,
-)
-from uuid import uuid4
+from typing import NamedTuple, Set
 
 from boolean.boolean import Expression
-from debian.copyright import Copyright, NotMachineReadableError
 from pkg_resources import DistributionNotFound, get_distribution
 
 try:
