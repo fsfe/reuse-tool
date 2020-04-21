@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -110,6 +111,11 @@ def parser() -> argparse.ArgumentParser:
                 " a comment style could not be detected, the process aborts."
                 " Use --style to specify or override the comment style to"
                 " use.\n"
+                "\n"
+                "A single-line comment style is used when it is available. If"
+                " no single-line comment style is available, a multi-line"
+                " comment style is used. You can force a certain comment style"
+                " using --single-line or --multi-line.\n"
                 "\n"
                 "You can change the template of the header comment by using"
                 " --template. Place a Jinja2 template in"
