@@ -41,6 +41,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Changed
 
+- A pre-commit hook has been added.
+
 ### Deprecated
 
 ### Removed
