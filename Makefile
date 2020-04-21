@@ -45,7 +45,7 @@ clean-docs: ## remove docs build artifacts
 
 .PHONY: lint
 lint: ## check with pylint
-	pylint src/reuse tests
+	pylint src/reuse tests/*.py
 
 .PHONY: blackcheck
 blackcheck: ## check with black
