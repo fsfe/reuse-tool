@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2014 Ahmed H. Ismail
-# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 #
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: GPL-3.0-or-later

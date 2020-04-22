@@ -1,5 +1,5 @@
 ..
-  SPDX-FileCopyrightText: 2017-2018 Free Software Foundation Europe e.V.
+  SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
   SPDX-FileCopyrightText: 2017 Sebastian Schuberth <schuberth@fsfe.org>
 
   SPDX-License-Identifier: CC-BY-SA-4.0

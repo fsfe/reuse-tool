@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2017-2019 Free Software Foundation Europe e.V.
+SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
@@ -199,10 +199,8 @@ Next, run `make help` to see the available interactions.
 
 ## License
 
-Copyright (C) 2017-2019 Free Software Foundation Europe e.V.
-
 This work is licensed under multiple licences. Because keeping this section
-up-to-date is challenging, here is a brief summary as of July 2019:
+up-to-date is challenging, here is a brief summary as of April 2020:
 
 - All original source code is licensed under GPL-3.0-or-later.
 - All documentation is licensed under CC-BY-SA-4.0.
