@@ -36,6 +36,8 @@ Contributors
 
 - Tuomas Siipola <tuomas@zpl.fi>
 
+- Diego Elio Pettenò <flameeyes@flameeyes.com>
+
 
 Translators
 -----------

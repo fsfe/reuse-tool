@@ -35,6 +35,29 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- Add support for autoconf comment style (listed as m4).
+
+- More file types are recognised:
+
+  + Cython (`.pyx`, `.pxd`)
+  + Sass and SCSS (`.sass`, `.scss`)
+  + XSL (`.xsl`)
+  + Mailmap (`.mailmap`)
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 0.9.0 --- 2020-04-21
 
 ### Added
