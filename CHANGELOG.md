@@ -50,6 +50,14 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Changed
 
+- The Docker image has an entrypoint now. In effect, this means running:
+
+ `docker run -v $(pwd):/data fsfe/reuse lint`
+
+ instead of
+
+ `docker run -v $(pwd):/data fsfe/reuse reuse lint`.
+
 ### Deprecated
 
 ### Removed
