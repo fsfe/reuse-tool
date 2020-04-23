@@ -31,4 +31,5 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR /data
 
-CMD "$VIRTUAL_ENV/bin/reuse" lint
+ENTRYPOINT ["reuse"]
+CMD ["lint"]
