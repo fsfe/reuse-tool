@@ -66,7 +66,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Security
 
-## 0.9.0 --- 2020-04-21
+## 0.9.0 - 2020-04-21
 
 ### Added
 
