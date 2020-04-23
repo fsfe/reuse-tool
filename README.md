@@ -144,7 +144,7 @@ The `fsfe/reuse` Docker image is available on [Docker
 Hub](https://hub.docker.com/r/fsfe/reuse). With it, you can easily include REUSE
 in CI/CD processes. This way, you can check for REUSE compliance for each build.
 In our [resources for developers](https://reuse.software/dev/) you can learn how
-to integrate the REUSE tool in Drone, Travis, or GitLab CI.
+to integrate the REUSE tool in Drone, Travis, GitHub, or GitLab CI.
 
 You can run the helper tool simply by providing the command you want to run
 (e.g., `lint`, `spdx`). The image's working directory is `/data` by default. So
