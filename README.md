@@ -140,15 +140,27 @@ short summary:
 
 ### Run in Docker
 
-REUSE is simple to include in CI/CD processes. This way, you can check
-for REUSE compliance for each build. In our [resources for
-developers](https://reuse.software/dev/) you can learn how to integrate
-the REUSE tool in Drone, Travis, or GitLab CI.
+The `fsfe/reuse` Docker image is available on [Docker
+Hub](https://hub.docker.com/r/fsfe/reuse). With it, you can easily include REUSE
+in CI/CD processes. This way, you can check for REUSE compliance for each build.
+In our [resources for developers](https://reuse.software/dev/) you can learn how
+to integrate the REUSE tool in Drone, Travis, or GitLab CI.
 
-Within the `fsfe/reuse` Docker image available on [Docker
-Hub](https://hub.docker.com/r/fsfe/reuse), you can run the helper tool
-simply by executing `reuse lint`. To use the tool on your computer, you can
-mount your project directory and run `reuse lint <path/to/directory>`.
+You can run the helper tool simply by providing the command you want to run
+(e.g., `lint`, `spdx`). The image's working directory is `/data` by default. So
+if you want to lint a project that is in your current working directory, you can
+mount it on the container's `/data` directory, and tell the tool to lint. That
+looks a little like this:
+
+```bash
+docker run --volume $(pwd):/data fsfe/reuse lint
+```
+
+You can also provide additional arguments, like so:
+
+```bash
+docker run --volume $(pwd):/data fsfe/reuse --include-submodules spdx -o out.spdx
+```
 
 ### Run as pre-commit hook
 
