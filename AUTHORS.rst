@@ -72,7 +72,7 @@ Translators
 
 - Italian:
 
- + Luca Bonissi <lucabon@fsfe.org>
+  + Luca Bonissi <lucabon@fsfe.org>
 
 - Portuguese:
 
