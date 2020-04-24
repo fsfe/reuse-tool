@@ -172,6 +172,9 @@ project is compliant with `the REUSE Specification
 have copyright and licensing information in their headers, but it also checks a
 few other things.
 
+The STDOUT output of ``reuse lint`` is valid Markdown. Occasionally some logging
+will be printed to STDERR, which is not valid Markdown.
+
 This is some example output of ``reuse lint``:
 
 .. code-block:: text
@@ -207,15 +210,6 @@ This is some example output of ``reuse lint``:
   * Files with license information: 57 / 58
 
   Unfortunately, your project is not compliant with version 3.0 of the REUSE Specification :-(
-
-..
-  Implementation details
-  ----------------------
-
-  The following implementation details might be relevant for your use of the linter.
-
-  The STDOUT output of ``reuse lint`` is valid Markdown. Occasionally some logging
-  will be printed to STDERR, which is not valid Markdown.
 
 Criteria
 --------

@@ -1,5 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
@@ -35,7 +36,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 0.10.0 - 2020-04-24
 
 ### Added
 
@@ -57,14 +58,6 @@ The versions follow [semantic versioning](https://semver.org).
  instead of
 
  `docker run -v $(pwd):/data fsfe/reuse reuse lint`.
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## 0.9.0 - 2020-04-21
 
