@@ -93,6 +93,11 @@ using ``--style``. The supported styles are:
 If your comment style is not supported or a file extension is not correctly
 detected, please `open an issue <https://github.com/fsfe/reuse-tool/issues>`_.
 
+Normally, the tool uses a single-line comment style when it is available (e.g.,
+`//` is used instead of `/* */` for C comment styles). If no single-line comment
+style is available, a multi-line style is used. You can force a certain comment
+style using `--single-line` or `--multi-line`.
+
 Templates
 ---------
 

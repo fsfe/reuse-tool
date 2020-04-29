@@ -49,6 +49,9 @@ The versions follow [semantic versioning](https://semver.org).
   + XSL (`.xsl`)
   + Mailmap (`.mailmap`)
 
+- Added `--single-line` and `--multi-line` flags to `addheader`. These flags
+  force a certain comment style.
+
 ### Changed
 
 - The Docker image has an entrypoint now. In effect, this means running:
