@@ -14,10 +14,11 @@ import datetime
 import logging
 import re
 import sys
+from argparse import ArgumentParser
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
-from typing import NamedTuple, Optional, Sequence
+from typing import List, NamedTuple, Optional, Sequence
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
@@ -282,32 +283,23 @@ def find_and_replace_header(
 
 
 def _get_comment_style(path: Path) -> CommentStyle:
-    """Return value of CommentStyle detected for *path*.
-
-    :raises KeyError: if no comment style is detected.
-    """
+    """Return value of CommentStyle detected for *path* or None."""
     style = FILENAME_COMMENT_STYLE_MAP.get(path.name)
     if style is None:
-        style = EXTENSION_COMMENT_STYLE_MAP[path.suffix]
+        style = EXTENSION_COMMENT_STYLE_MAP.get(path.suffix)
     return style
 
 
-def _verify_paths_supported(
-    paths, parser, skip_unrecognised=False, force_single=False, force_multi=False
+def _verify_paths_line_handling(
+    paths: List[Path],
+    parser: ArgumentParser,
+    force_single: bool,
+    force_multi: bool,
 ):
     for path in paths:
-        try:
-            style = _get_comment_style(path)
-        except KeyError:
-            # TODO: This check is duplicated.
-            if not is_binary(str(path)) and not skip_unrecognised:
-                parser.error(
-                    _(
-                        "'{path}' does not have a recognised file extension,"
-                        " please use --style, --explicit-license or"
-                        " --skip-unrecognised"
-                    ).format(path=path)
-                )
+        style = _get_comment_style(path)
+        if style is None:
+            continue
         if force_single and not style.can_handle_single():
             parser.error(
                 _(
@@ -320,6 +312,20 @@ def _verify_paths_supported(
                 _(
                     "'{path}' does not support multi-line comments, please"
                     " do not use --multi-line"
+                ).format(path=path)
+            )
+
+
+def _verify_paths_comment_style(paths: List[Path], parser: ArgumentParser):
+    for path in paths:
+        style = _get_comment_style(path)
+        # TODO: This check is duplicated.
+        if style is None and not is_binary(str(path)):
+            parser.error(
+                _(
+                    "'{path}' does not have a recognised file extension,"
+                    " please use --style, --explicit-license or"
+                    " --skip-unrecognised"
                 ).format(path=path)
             )
 
@@ -364,6 +370,10 @@ def _add_header_to_file(
         style = NAME_STYLE_MAP[style]
     else:
         style = _get_comment_style(path)
+        if style is None:
+            out.write(_("Skipped unrecognised file {path}").format(path=path))
+            out.write("\n")
+            return result
 
     with path.open("r") as fp:
         text = fp.read()
@@ -495,15 +505,16 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     paths = [_determine_license_path(path) for path in args.path]
 
-    # First loop to verify before proceeding
+    # Verify line handling and comment styles before proceeding
     if args.style is None and not args.explicit_license:
-        _verify_paths_supported(
+        _verify_paths_line_handling(
             paths,
             args.parser,
-            skip_unrecognised=args.skip_unrecognised,
             force_single=args.single_line,
             force_multi=args.multi_line,
         )
+        if not args.skip_unrecognised:
+            _verify_paths_comment_style(paths, args.parser)
 
     template = None
     commented = False
@@ -550,19 +561,14 @@ def run(args, project: Project, out=sys.stdout) -> int:
                 )
             path = Path(new_path)
             path.touch()
-        try:
-            result += _add_header_to_file(
-                path,
-                spdx_info,
-                template,
-                commented,
-                args.style,
-                args.multi_line,
-                out,
-            )
-        except KeyError:
-            out.write(_("Skipped unrecognised file {path}").format(path=path))
-            out.write("\n")
-
+        result += _add_header_to_file(
+            path,
+            spdx_info,
+            template,
+            commented,
+            args.style,
+            args.multi_line,
+            out,
+        )
 
     return min(result, 1)

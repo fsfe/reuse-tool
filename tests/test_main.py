@@ -467,17 +467,17 @@ def test_addheader_skip_unrecognised(fake_repository, stringio):
     simple_file.write_text("pass")
 
     result = main(
-            [
-                "addheader",
-                "--license",
-                "GPL-3.0-or-later",
-                "--copyright",
-                "Mary Sue",
-                "--skip-unrecognised",
-                "foo.foo",
-            ],
-            out=stringio,
-        )
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--skip-unrecognised",
+            "foo.foo",
+        ],
+        out=stringio,
+    )
 
     assert result == 0
     assert "Skipped unrecognised file foo.foo" in stringio.getvalue()
@@ -489,18 +489,18 @@ def test_addheader_skip_unrecognised_and_style(fake_repository, stringio):
     simple_file.write_text("pass")
 
     result = main(
-            [
-                "addheader",
-                "--license",
-                "GPL-3.0-or-later",
-                "--copyright",
-                "Mary Sue",
-				"--style=c",
-                "--skip-unrecognised",
-                "foo.foo",
-            ],
-            out=stringio,
-        )
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "--style=c",
+            "--skip-unrecognised",
+            "foo.foo",
+        ],
+        out=stringio,
+    )
 
     assert result == 0
     assert "Warning" in stringio.getvalue()
@@ -958,7 +958,9 @@ def test_addheader_single_multi_line_mutually_exclusive(
 
 
 @pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
-def test_addheader_multi_line_not_supported(fake_repository, stringio, skip_option):
+def test_addheader_multi_line_not_supported(
+    fake_repository, stringio, skip_option
+):
     """Expect a fail if --multi-line is not supported for a file type."""
     with pytest.raises(SystemExit):
         main(
@@ -974,8 +976,11 @@ def test_addheader_multi_line_not_supported(fake_repository, stringio, skip_opti
             ]
         )
 
+
 @pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
-def test_addheader_single_line_not_supported(fake_repository, stringio, skip_option):
+def test_addheader_single_line_not_supported(
+    fake_repository, stringio, skip_option
+):
     """Expect a fail if --single-line is not supported for a file type."""
     with pytest.raises(SystemExit):
         main(
