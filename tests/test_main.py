@@ -461,7 +461,7 @@ def test_addheader_unrecognised_style(fake_repository):
         )
 
 
-def test_addheader_skip_unrecognised_style(fake_repository, stringio):
+def test_addheader_skip_unrecognised(fake_repository, stringio):
     """Skip file that has an unrecognised extension."""
     simple_file = fake_repository / "foo.foo"
     simple_file.write_text("pass")
@@ -481,6 +481,29 @@ def test_addheader_skip_unrecognised_style(fake_repository, stringio):
 
     assert result == 0
     assert "Skipped unrecognised file foo.foo" in stringio.getvalue()
+
+
+def test_addheader_skip_unrecognised_and_style(fake_repository, stringio):
+    """--skip-unrecognised and --style show warning message."""
+    simple_file = fake_repository / "foo.foo"
+    simple_file.write_text("pass")
+
+    result = main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+				"--style=c",
+                "--skip-unrecognised",
+                "foo.foo",
+            ],
+            out=stringio,
+        )
+
+    assert result == 0
+    assert "Warning" in stringio.getvalue()
 
 
 def test_addheader_no_copyright_or_license(fake_repository):

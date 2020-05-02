@@ -485,6 +485,14 @@ def run(args, project: Project, out=sys.stdout) -> int:
             _("option --single-line and --multi-line are mutually exclusive")
         )
 
+    if args.style is not None and args.skip_unrecognised:
+        out.write(
+            _(
+                "Warning: --skip-unrecognised has no effect when used along"
+                " --style"
+            )
+        )
+
     paths = [_determine_license_path(path) for path in args.path]
 
     # First loop to verify before proceeding
