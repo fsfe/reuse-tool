@@ -293,18 +293,19 @@ def _get_comment_style(path: Path) -> CommentStyle:
 
 
 def _verify_paths_supported(
-    paths, parser, force_single=False, force_multi=False
+    paths, parser, skip_unrecognised=False, force_single=False, force_multi=False
 ):
     for path in paths:
         try:
             style = _get_comment_style(path)
         except KeyError:
             # TODO: This check is duplicated.
-            if not is_binary(str(path)):
+            if not is_binary(str(path)) and not skip_unrecognised:
                 parser.error(
                     _(
                         "'{path}' does not have a recognised file extension,"
-                        " please use --style or --explicit-license"
+                        " please use --style, --explicit-license or"
+                        " --skip-unrecognised"
                     ).format(path=path)
                 )
         if force_single and not style.can_handle_single():
@@ -460,6 +461,11 @@ def add_arguments(parser) -> None:
         action="store_true",
         help=_("place header in path.license instead of path"),
     )
+    parser.add_argument(
+        "--skip-unrecognised",
+        action="store_true",
+        help=_("skip files with unrecognised comment styles"),
+    )
     parser.add_argument("path", action="store", nargs="+", type=PathType("w"))
 
 
@@ -486,6 +492,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         _verify_paths_supported(
             paths,
             args.parser,
+            skip_unrecognised=args.skip_unrecognised,
             force_single=args.single_line,
             force_multi=args.multi_line,
         )
@@ -535,14 +542,19 @@ def run(args, project: Project, out=sys.stdout) -> int:
                 )
             path = Path(new_path)
             path.touch()
-        result += _add_header_to_file(
-            path,
-            spdx_info,
-            template,
-            commented,
-            args.style,
-            args.multi_line,
-            out,
-        )
+        try:
+            result += _add_header_to_file(
+                path,
+                spdx_info,
+                template,
+                commented,
+                args.style,
+                args.multi_line,
+                out,
+            )
+        except KeyError:
+            out.write(_("Skipped unrecognised file {path}").format(path=path))
+            out.write("\n")
+
 
     return min(result, 1)

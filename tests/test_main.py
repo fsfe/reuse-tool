@@ -461,6 +461,28 @@ def test_addheader_unrecognised_style(fake_repository):
         )
 
 
+def test_addheader_skip_unrecognised_style(fake_repository, stringio):
+    """Skip file that has an unrecognised extension."""
+    simple_file = fake_repository / "foo.foo"
+    simple_file.write_text("pass")
+
+    result = main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--skip-unrecognised",
+                "foo.foo",
+            ],
+            out=stringio,
+        )
+
+    assert result == 0
+    assert "Skipped unrecognised file foo.foo" in stringio.getvalue()
+
+
 def test_addheader_no_copyright_or_license(fake_repository):
     """Add a header, but supply no copyright or license."""
     simple_file = fake_repository / "foo.py"
@@ -912,7 +934,8 @@ def test_addheader_single_multi_line_mutually_exclusive(
         )
 
 
-def test_addheader_multi_line_not_supported(fake_repository, stringio):
+@pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
+def test_addheader_multi_line_not_supported(fake_repository, stringio, skip_option):
     """Expect a fail if --multi-line is not supported for a file type."""
     with pytest.raises(SystemExit):
         main(
@@ -923,12 +946,13 @@ def test_addheader_multi_line_not_supported(fake_repository, stringio):
                 "--copyright",
                 "Mary Sue",
                 "--multi-line",
+                skip_option,
                 "src/source_code.py",
             ]
         )
 
-
-def test_addheader_single_line_not_supported(fake_repository, stringio):
+@pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
+def test_addheader_single_line_not_supported(fake_repository, stringio, skip_option):
     """Expect a fail if --single-line is not supported for a file type."""
     with pytest.raises(SystemExit):
         main(
@@ -939,6 +963,7 @@ def test_addheader_single_line_not_supported(fake_repository, stringio):
                 "--copyright",
                 "Mary Sue",
                 "--single-line",
+                skip_option,
                 "src/source_code.html",
             ]
         )
