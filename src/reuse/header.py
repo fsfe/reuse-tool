@@ -296,6 +296,9 @@ def _verify_paths_line_handling(
     force_single: bool,
     force_multi: bool,
 ):
+    """This function aborts the parser when *force_single* or *force_multi* is
+    used, but the file type does not support that type of comment style.
+    """
     for path in paths:
         style = _get_comment_style(path)
         if style is None:
