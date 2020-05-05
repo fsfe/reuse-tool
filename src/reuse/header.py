@@ -282,7 +282,7 @@ def find_and_replace_header(
     return new_text
 
 
-def _get_comment_style(path: Path) -> CommentStyle:
+def _get_comment_style(path: Path) -> Optional[CommentStyle]:
     """Return value of CommentStyle detected for *path* or None."""
     style = FILENAME_COMMENT_STYLE_MAP.get(path.name)
     if style is None:
