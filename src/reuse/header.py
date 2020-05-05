@@ -499,9 +499,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
         )
 
     if args.style is not None and args.skip_unrecognised:
-        out.write(
+        _LOGGER.warning(
             _(
-                "Warning: --skip-unrecognised has no effect when used along"
+                "--skip-unrecognised has no effect when used together with"
                 " --style"
             )
         )

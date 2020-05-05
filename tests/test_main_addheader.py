@@ -255,7 +255,9 @@ def test_addheader_skip_unrecognised(fake_repository, stringio):
     assert "Skipped unrecognised file foo.foo" in stringio.getvalue()
 
 
-def test_addheader_skip_unrecognised_and_style(fake_repository, stringio):
+def test_addheader_skip_unrecognised_and_style(
+    fake_repository, stringio, caplog
+):
     """--skip-unrecognised and --style show warning message."""
     simple_file = fake_repository / "foo.foo"
     simple_file.write_text("pass")
@@ -275,7 +277,7 @@ def test_addheader_skip_unrecognised_and_style(fake_repository, stringio):
     )
 
     assert result == 0
-    assert "Warning" in stringio.getvalue()
+    assert "no effect" in caplog.text
 
 
 def test_addheader_no_copyright_or_license(fake_repository):
