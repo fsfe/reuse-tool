@@ -38,6 +38,8 @@ Contributors
 
 - Diego Elio Pettenò <flameeyes@flameeyes.com>
 
+- David Alfonso
+
 
 Translators
 -----------

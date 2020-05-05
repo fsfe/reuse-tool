@@ -36,6 +36,23 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- Added `--skip-unrecognised` flag to `addheader` in order to skip files with
+  unrecognised comment styles instead of aborting without processing any file.
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 0.10.0 - 2020-04-24
 
 ### Added

@@ -6,6 +6,7 @@
 
 # pylint: disable=redefined-outer-name,subprocess-run-check
 
+import datetime
 import logging
 import multiprocessing as mp
 import os
@@ -16,6 +17,7 @@ from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
 from typing import Optional
+from unittest.mock import create_autospec
 
 import pytest
 from debian.copyright import Copyright
@@ -347,3 +349,11 @@ def template_commented(template_commented_source):
     """Provide a Jinja2 template that is already commented."""
     env = Environment(trim_blocks=True)
     return env.from_string(template_commented_source)
+
+
+@pytest.fixture()
+def mock_date_today(monkeypatch):
+    """Mock away datetime.date.today to always return 2018."""
+    date = create_autospec(datetime.date)
+    date.today.return_value = datetime.date(2018, 1, 1)
+    monkeypatch.setattr(datetime, "date", date)
