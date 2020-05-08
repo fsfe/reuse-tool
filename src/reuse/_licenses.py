@@ -7,10 +7,7 @@
 # load_license_list was copied and altered from its original location
 # at <https://github.com/spdx/tools-python/blob/master/spdx/config.py>.
 
-"""A list with all SPDX licenses.
-
-Last updated 2020-04-09.
-"""
+"""A list with all SPDX licenses."""
 
 import json
 import os

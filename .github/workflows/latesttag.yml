@@ -7,8 +7,6 @@ name: Verify latest tag
 on:
   schedule:
     - cron: '0 9 * * *'
-  create:
-    types: []
 
 jobs:
   latest-tag:
