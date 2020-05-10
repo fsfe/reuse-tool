@@ -9,12 +9,10 @@ on:
     - cron: '0 9 * * *'
 
 jobs:
-  latest-tag:
+  license-list-up-to-date:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-      with:
-        ref: latest
+    - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
