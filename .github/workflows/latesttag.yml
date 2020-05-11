@@ -27,31 +27,6 @@ jobs:
     - name: Install reuse
       run: |
         python setup.py install
-    - name: Create verification file
-      run: |
-        cat > verify_latest.py <<EOL
-        import json
-        import subprocess
-        from distutils.version import LooseVersion
-        from urllib.request import urlopen
-
-        from packaging.version import parse
-        from reuse import __version__ as current
-
-        data = json.loads(
-            urlopen("https://pypi.python.org/pypi/reuse/json").read().decode("utf-8")
-        )
-        latest = max(
-            LooseVersion(release)
-            for release in data["releases"]
-            if not parse(release).is_prerelease
-        )
-
-        print(f"Latest stable version on PyPI is '{latest}'")
-        print(f"Version in this revision is '{current}'")
-
-        assert str(latest) == current
-        EOL
     - name: Verify latest tag
       run: |
-        python verify_latest.py
+        python .github/workflows/latesttag.py
