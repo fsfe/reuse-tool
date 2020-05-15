@@ -378,7 +378,7 @@ def _add_header_to_file(
             out.write("\n")
             return result
 
-    with path.open("r") as fp:
+    with path.open("rt") as fp:
         text = fp.read()
 
     try:
@@ -407,7 +407,7 @@ def _add_header_to_file(
         out.write("\n")
         result = 1
     else:
-        with path.open("w") as fp:
+        with path.open("wt", encoding='utf-8') as fp:
             fp.write(output)
         # TODO: This may need to be rephrased more elegantly.
         out.write(_("Successfully changed header of {path}").format(path=path))
