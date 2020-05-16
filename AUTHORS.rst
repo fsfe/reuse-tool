@@ -40,6 +40,8 @@ Contributors
 
 - David Alfonso
 
+- Maximilian Dolling <mdolling@gfz-potsdam.de>
+
 
 Translators
 -----------
