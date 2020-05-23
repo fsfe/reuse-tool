@@ -52,6 +52,9 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r"^\.gitkeep$"),
     re.compile(r".*\.license$"),
     re.compile(r".*\.spdx$"),
+
+    # go.sum is a machine-maintained list of checksums used by Go modules.
+    re.compile(r".*go.sum$"),
 ]
 
 #: Simple structure for holding SPDX information.
