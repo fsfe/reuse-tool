@@ -36,7 +36,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 0.11.0 - 2020-05-25
 
 ### Added
 
@@ -50,10 +50,6 @@ The versions follow [semantic versioning](https://semver.org).
 
 - All symlinks and 0-sized files in projects are now ignored.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - The licenses CAL-1.0 and CAL-1.0-Combined-Work-Exception contain an SPDX tag
@@ -62,8 +58,6 @@ The versions follow [semantic versioning](https://semver.org).
 - Fixed a bug where `addheader` wouldn't properly apply the template on
   `.license` files if the `.license` file was non-empty, but did not contain
   valid SPDX tags.
-
-### Security
 
 ## 0.10.1 - 2020-05-14
 
