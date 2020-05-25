@@ -53,6 +53,10 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- Fixed a bug where `addheader` wouldn't properly apply the template on
+  `.license` files if the `.license` file was non-empty, but did not contain
+  valid SPDX tags.
+
 ### Security
 
 ## 0.10.1 - 2020-05-14
