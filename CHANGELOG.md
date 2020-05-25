@@ -48,6 +48,8 @@ The versions follow [semantic versioning](https://semver.org).
 - Always write the output files encoded in UTF-8, explicitly. This is already the
   default on most Unix systems, but it was not on Windows.
 
+- All symlinks and 0-sized files in projects are now ignored.
+
 ### Deprecated
 
 ### Removed
@@ -56,6 +58,10 @@ The versions follow [semantic versioning](https://semver.org).
 
 - The licenses CAL-1.0 and CAL-1.0-Combined-Work-Exception contain an SPDX tag
   within themselves. Files that are named after these licenses are now ignored.
+
+- Fixed a bug where `addheader` wouldn't properly apply the template on
+  `.license` files if the `.license` file was non-empty, but did not contain
+  valid SPDX tags.
 
 ### Security
 

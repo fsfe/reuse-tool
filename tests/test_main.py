@@ -48,7 +48,7 @@ def test_lint_git(git_repository, stringio):
 
 def test_lint_submodule(submodule_repository, stringio):
     """Run a successful lint."""
-    (submodule_repository / "submodule/foo.c").touch()
+    (submodule_repository / "submodule/foo.c").write_text("foo")
     result = main(["lint"], out=stringio)
 
     assert result == 0
@@ -65,7 +65,7 @@ def test_lint_submodule_included(submodule_repository, stringio):
 
 def test_lint_submodule_included_fail(submodule_repository, stringio):
     """Run a failed lint."""
-    (submodule_repository / "submodule/foo.c").touch()
+    (submodule_repository / "submodule/foo.c").write_text("foo")
     result = main(["--include-submodules", "lint"], out=stringio)
 
     assert result == 1
@@ -74,7 +74,7 @@ def test_lint_submodule_included_fail(submodule_repository, stringio):
 
 def test_lint_fail(fake_repository, stringio):
     """Run a failed lint."""
-    (fake_repository / "foo.py").touch()
+    (fake_repository / "foo.py").write_text("foo")
     result = main(["lint"], out=stringio)
 
     assert result > 0

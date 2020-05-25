@@ -142,11 +142,11 @@ def _repo_contents(
 
     for file_ in (fake_repository / "src").iterdir():
         if file_.suffix == ".py":
-            file_.with_suffix(".pyc").touch()
+            file_.with_suffix(".pyc").write_text("foo")
 
     build_dir = fake_repository / "build"
     build_dir.mkdir()
-    (build_dir / "hello.py").touch()
+    (build_dir / "hello.py").write_text("foo")
 
 
 @pytest.fixture()

@@ -8,6 +8,7 @@ from distutils.version import LooseVersion
 from urllib.request import urlopen
 
 from packaging.version import parse
+
 from reuse import __version__ as current
 
 

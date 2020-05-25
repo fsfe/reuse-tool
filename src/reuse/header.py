@@ -34,6 +34,7 @@ from ._comment import (
     CommentCreateError,
     CommentParseError,
     CommentStyle,
+    EmptyCommentStyle,
     PythonCommentStyle,
 )
 from ._util import (
@@ -234,6 +235,7 @@ def find_and_replace_header(
     :raises MissingSpdxInfo: if the generated comment is missing SPDX
         information.
     """
+    # pylint: disable=too-many-branches
     if style is None:
         style = PythonCommentStyle
 
@@ -241,6 +243,10 @@ def find_and_replace_header(
         before, header, after = _find_first_spdx_comment(text, style=style)
     except MissingSpdxInfo:
         before, header, after = "", "", text
+
+    # Workaround. EmptyCommentStyle should always be completely replaced.
+    if style is EmptyCommentStyle:
+        after = ""
 
     # pylint: disable=logging-format-interpolation
     _LOGGER.debug(f"before = {repr(before)}")

@@ -4,6 +4,7 @@
 
 """Module that contains the central Project class."""
 
+import contextlib
 import glob
 import logging
 import os
@@ -91,6 +92,9 @@ class Project:
                 if self._is_path_ignored(the_dir):
                     _LOGGER.debug("ignoring '%s'", the_dir)
                     dirs.remove(dir_)
+                elif the_dir.is_symlink():
+                    _LOGGER.debug("skipping symlink '%s'", the_dir)
+                    dirs.remove(dir_)
                 elif (
                     the_dir / ".git"
                 ).is_file() and not self.include_submodules:
@@ -105,6 +109,15 @@ class Project:
                 if self._is_path_ignored(the_file):
                     _LOGGER.debug("ignoring '%s'", the_file)
                     continue
+                if the_file.is_symlink():
+                    _LOGGER.debug("skipping symlink '%s'", the_file)
+                    continue
+                # Suppressing this error because I simply don't want to deal
+                # with that here.
+                with contextlib.suppress(OSError):
+                    if the_file.stat().st_size == 0:
+                        _LOGGER.debug("skipping 0-sized file '%s'", the_file)
+                        continue
 
                 _LOGGER.debug("yielding '%s'", the_file)
                 yield the_file

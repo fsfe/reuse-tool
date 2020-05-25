@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -8,7 +9,7 @@
 
 import os
 import shutil
-import sys
+from inspect import cleandoc
 from pathlib import Path
 from textwrap import dedent
 
@@ -18,11 +19,14 @@ from license_expression import LicenseSymbol
 from reuse import _util
 from reuse.project import Project
 
+try:
+    import posix as is_posix
+except ImportError:
+    is_posix = False
+
 git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
 hg = pytest.mark.skipif(not _util.HG_EXE, reason="requires hg")
-posix = pytest.mark.skipif(
-    sys.platform == "win32", reason="Windows not supported"
-)
+posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
@@ -30,15 +34,15 @@ RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
 def test_project_not_a_directory(empty_directory):
     """Cannot create a Project without a valid directory."""
-    (empty_directory / "foo.py").touch()
+    (empty_directory / "foo.py").write_text("foo")
     with pytest.raises(NotADirectoryError):
         Project(empty_directory / "foo.py")
 
 
 def test_all_files(empty_directory):
     """Given a directory with some files, yield all files."""
-    (empty_directory / "foo").touch()
-    (empty_directory / "bar").touch()
+    (empty_directory / "foo").write_text("foo")
+    (empty_directory / "bar").write_text("foo")
 
     project = Project(empty_directory)
     assert {file_.name for file_ in project.all_files()} == {"foo", "bar"}
@@ -46,8 +50,8 @@ def test_all_files(empty_directory):
 
 def test_all_files_ignore_dot_license(empty_directory):
     """When file and file.license are present, only yield file."""
-    (empty_directory / "foo").touch()
-    (empty_directory / "foo.license").touch()
+    (empty_directory / "foo").write_text("foo")
+    (empty_directory / "foo.license").write_text("foo")
 
     project = Project(empty_directory)
     assert {file_.name for file_ in project.all_files()} == {"foo"}
@@ -69,7 +73,7 @@ def test_all_files_ignore_cal_license(empty_directory):
 def test_all_files_ignore_git(empty_directory):
     """When the git directory is present, ignore it."""
     (empty_directory / ".git").mkdir()
-    (empty_directory / ".git/config").touch()
+    (empty_directory / ".git/config").write_text("foo")
 
     project = Project(empty_directory)
     assert not list(project.all_files())
@@ -82,6 +86,32 @@ def test_all_files_ignore_hg(empty_directory):
 
     project = Project(empty_directory)
     assert not list(project.all_files())
+
+
+@posix
+def test_all_files_symlinks(empty_directory):
+    """All symlinks must be ignored."""
+    (empty_directory / "blob").write_text("foo")
+    (empty_directory / "blob.license").write_text(
+        cleandoc(
+            """
+            spdx-FileCopyrightText: Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+    (empty_directory / "symlink").symlink_to("blob")
+    project = Project(empty_directory)
+    assert Path("symlink").absolute() not in project.all_files()
+
+
+def test_all_files_ignore_zero_sized(empty_directory):
+    """Empty files should be skipped."""
+    (empty_directory / "foo").touch()
+
+    project = Project(empty_directory)
+    assert Path("foo").absolute() not in project.all_files()
 
 
 @git
@@ -108,7 +138,7 @@ def test_all_files_git_ignored_different_cwd(git_repository):
 @git
 def test_all_files_git_ignored_contains_space(git_repository):
     """Files that contain spaces are also ignored."""
-    (git_repository / "I contain spaces.pyc").touch()
+    (git_repository / "I contain spaces.pyc").write_text("foo")
     project = Project(git_repository)
     assert Path("I contain spaces.pyc").absolute() not in project.all_files()
 
@@ -117,7 +147,7 @@ def test_all_files_git_ignored_contains_space(git_repository):
 @posix
 def test_all_files_git_ignored_contains_newline(git_repository):
     """Files that contain newlines are also ignored."""
-    (git_repository / "hello\nworld.pyc").touch()
+    (git_repository / "hello\nworld.pyc").write_text("foo")
     project = Project(git_repository)
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
@@ -125,7 +155,7 @@ def test_all_files_git_ignored_contains_newline(git_repository):
 @git
 def test_all_files_submodule_is_ignored(submodule_repository):
     """If a submodule is ignored, all_files should not raise an Exception."""
-    (submodule_repository / "submodule/foo.py").touch()
+    (submodule_repository / "submodule/foo.py").write_text("foo")
     gitignore = submodule_repository / ".gitignore"
     contents = gitignore.read_text()
     contents += "\nsubmodule/\n"
@@ -194,7 +224,7 @@ def test_spdx_info_of_unlicensed_file(fake_repository):
     """Return an empty SpdxInfo object when asking for the SPDX information
     of a file that has no SPDX information.
     """
-    (fake_repository / "foo.py").touch()
+    (fake_repository / "foo.py").write_text("foo")
     project = Project(fake_repository)
     assert not any(project.spdx_info_of("foo.py"))
 
@@ -287,7 +317,7 @@ def test_license_file_detected(empty_directory):
     """Test whether---when given a file and a license file---the license file
     is detected and read.
     """
-    (empty_directory / "foo.py").touch()
+    (empty_directory / "foo.py").write_text("foo")
     (empty_directory / "foo.py.license").write_text(
         "SPDX-FileCopyrightText: 2017 Mary Sue\nSPDX-License-Identifier: MIT\n"
     )
@@ -302,7 +332,7 @@ def test_license_file_detected(empty_directory):
 def test_licenses_filename(empty_directory):
     """Detect the license identifier of a license from its stem."""
     (empty_directory / "LICENSES").mkdir()
-    (empty_directory / "LICENSES/foo.txt").touch()
+    (empty_directory / "LICENSES/foo.txt").write_text("foo")
     project = Project(empty_directory)
     assert "foo" in project.licenses
 
@@ -312,8 +342,8 @@ def test_licenses_no_extension(empty_directory):
     in the license list.
     """
     (empty_directory / "LICENSES").mkdir()
-    (empty_directory / "LICENSES/GPL-3.0-or-later").touch()
-    (empty_directory / "LICENSES/MIT-3.0-or-later").touch()
+    (empty_directory / "LICENSES/GPL-3.0-or-later").write_text("foo")
+    (empty_directory / "LICENSES/MIT-3.0-or-later").write_text("foo")
     project = Project(empty_directory)
     assert "GPL-3.0-or-later" in project.licenses
     assert "MIT-3" in project.licenses
@@ -322,7 +352,7 @@ def test_licenses_no_extension(empty_directory):
 def test_licenses_subdirectory(empty_directory):
     """Find a license in a subdirectory of LICENSES/."""
     (empty_directory / "LICENSES/sub").mkdir(parents=True)
-    (empty_directory / "LICENSES/sub/MIT.txt").touch()
+    (empty_directory / "LICENSES/sub/MIT.txt").write_text("foo")
     project = Project(empty_directory)
     assert "MIT" in project.licenses
 

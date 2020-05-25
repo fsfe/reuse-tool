@@ -36,6 +36,8 @@ with the ``--root`` optional argument.
 Git submodules are automatically ignored unless ``--include-submodules`` is
 passed as optional argument.
 
+Symbolically links and files that are zero-sized are automatically ignored.
+
 addheader
 =========
 
