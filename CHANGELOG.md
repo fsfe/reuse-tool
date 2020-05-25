@@ -51,6 +51,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- The licenses CAL-1.0 and CAL-1.0-Combined-Work-Exception contain an SPDX tag
+  within themselves. Files that are named after these licenses are now ignored.
+
 ### Security
 
 ## 0.10.1 - 2020-05-14

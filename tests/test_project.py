@@ -53,6 +53,19 @@ def test_all_files_ignore_dot_license(empty_directory):
     assert {file_.name for file_ in project.all_files()} == {"foo"}
 
 
+def test_all_files_ignore_cal_license(empty_directory):
+    """CAL licenses contain SPDX tags referencing themselves. They should be
+    skipped.
+    """
+    (empty_directory / "CAL-1.0").write_text("foo")
+    (empty_directory / "CAL-1.0.txt").write_text("foo")
+    (empty_directory / "CAL-1.0-Combined-Work-Exception").write_text("foo")
+    (empty_directory / "CAL-1.0-Combined-Work-Exception.txt").write_text("foo")
+
+    project = Project(empty_directory)
+    assert not list(project.all_files())
+
+
 def test_all_files_ignore_git(empty_directory):
     """When the git directory is present, ignore it."""
     (empty_directory / ".git").mkdir()
