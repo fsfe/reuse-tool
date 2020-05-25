@@ -45,6 +45,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Changed
 
+- Always write the output files encoded in UTF-8, explicitly. This is already the
+  default on most Unix systems, but it was not on Windows.
+
 ### Deprecated
 
 ### Removed
