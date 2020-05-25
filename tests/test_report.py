@@ -132,7 +132,7 @@ def test_generate_project_report_missing_license(
 
 def test_generate_project_report_bad_license(fake_repository, multiprocessing):
     """Bad licenses are detected."""
-    (fake_repository / "LICENSES/bad.txt").touch()
+    (fake_repository / "LICENSES/bad.txt").write_text("foo")
 
     project = Project(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
@@ -184,7 +184,7 @@ def test_generate_project_report_deprecated_license(
 @posix
 def test_generate_project_report_read_error(fake_repository, multiprocessing):
     """Files that cannot be read are added to the read error list."""
-    (fake_repository / "bad").touch()
+    (fake_repository / "bad").write_text("foo")
     (fake_repository / "bad").chmod(0o000)
 
     project = Project(fake_repository)

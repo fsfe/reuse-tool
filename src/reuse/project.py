@@ -4,6 +4,7 @@
 
 """Module that contains the central Project class."""
 
+import contextlib
 import glob
 import logging
 import os
@@ -111,6 +112,12 @@ class Project:
                 if the_file.is_symlink():
                     _LOGGER.debug("skipping symlink '%s'", the_file)
                     continue
+                # Suppressing this error because I simply don't want to deal
+                # with that here.
+                with contextlib.suppress(OSError):
+                    if the_file.stat().st_size == 0:
+                        _LOGGER.debug("skipping 0-sized file '%s'", the_file)
+                        continue
 
                 _LOGGER.debug("yielding '%s'", the_file)
                 yield the_file

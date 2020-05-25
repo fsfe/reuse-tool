@@ -45,7 +45,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Changed
 
-- All symlinks in projects are now ignored.
+- All symlinks and 0-sized files in projects are now ignored.
 
 ### Deprecated
 

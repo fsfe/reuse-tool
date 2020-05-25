@@ -584,8 +584,8 @@ def test_addheader_explicit_license_double(
     simple_file_license = fake_repository / "foo.txt.license"
     simple_file_license_license = fake_repository / "foo.txt.license.license"
 
-    simple_file.touch()
-    simple_file_license.touch()
+    simple_file.write_text("foo")
+    simple_file_license.write_text("foo")
 
     result = main(
         [
@@ -655,7 +655,7 @@ def test_addheader_explicit_license_unsupported_filetype(
 def test_addheader_license_file(fake_repository, stringio, mock_date_today):
     """Add a header to a .license file if it exists."""
     simple_file = fake_repository / "foo.py"
-    simple_file.touch()
+    simple_file.write_text("foo")
     license_file = fake_repository / "foo.py.license"
     license_file.write_text(
         cleandoc(
@@ -691,7 +691,7 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
             """
         ).replace("spdx", "SPDX")
     )
-    assert not simple_file.read_text()
+    assert simple_file.read_text() == "foo"
 
 
 def test_addheader_year_mutually_exclusive(fake_repository):
@@ -770,7 +770,7 @@ def test_addheader_force_multi_line_for_c(
 ):
     """--multi-line forces a multi-line comment for C."""
     simple_file = fake_repository / "foo.c"
-    simple_file.touch()
+    simple_file.write_text("foo")
 
     result = main(
         [
@@ -795,6 +795,8 @@ def test_addheader_force_multi_line_for_c(
              *
              * spdx-License-Identifier: GPL-3.0-or-later
              */
+
+            foo
             """
         ).replace("spdx", "SPDX")
     )
