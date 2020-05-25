@@ -60,7 +60,7 @@ current year is 2019):
   #
   # SPDX-License-Identifier: MIT
 
-You can use as many ``--copyright`` and ``--copyright`` arguments, so long as
+You can use as many ``--copyright`` and ``--license`` arguments, so long as
 there is at least one such argument.
 
 The REUSE header is placed at the very top of the file. If a different REUSE
