@@ -32,25 +32,27 @@ jobs:
         run: |
           make test
 
-  pypy3-test:
-    runs-on: ubuntu-latest
-    container: pypy:3
-    steps:
-      - uses: actions/checkout@v1
-      - name: Create alias to python
-        run: |
-          test -f /usr/local/bin/pypy && ln -s pypy /usr/local/bin/python
-          test -f /usr/local/bin/pypy3 && ln -s pypy3 /usr/local/bin/python
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-      - name: Install reuse
-        run: |
-          python setup.py install
-      - name: Run tests with pytest
-        run: |
-          make test
+# Commented out because `cryptography` doesn't install on PyPy3
+#
+#  pypy3-test:
+#    runs-on: ubuntu-latest
+#    container: pypy:3
+#    steps:
+#      - uses: actions/checkout@v1
+#      - name: Create alias to python
+#        run: |
+#          test -f /usr/local/bin/pypy && ln -s pypy /usr/local/bin/python
+#          test -f /usr/local/bin/pypy3 && ln -s pypy3 /usr/local/bin/python
+#      - name: Install dependencies
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install -r requirements-dev.txt
+#      - name: Install reuse
+#        run: |
+#          python setup.py install
+#      - name: Run tests with pytest
+#        run: |
+#          make test
 
   pylint:
     runs-on: ubuntu-latest
