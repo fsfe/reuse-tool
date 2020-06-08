@@ -17,7 +17,7 @@ try:
     __version__ = get_distribution(__name__).version
 except DistributionNotFound:
     # package is not installed
-    __version__ = "0.11.0"
+    __version__ = "0.11.1"
 
 __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
@@ -54,6 +54,7 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r".*\.spdx$"),
     # Workaround for https://github.com/fsfe/reuse-tool/issues/229
     re.compile(r"^CAL-1.0(-Combined-Work-Exception)?(\..+)?$"),
+    re.compile(r"^SHL-2.1(\..+)?$"),
 ]
 
 #: Simple structure for holding SPDX information.

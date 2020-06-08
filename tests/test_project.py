@@ -70,6 +70,15 @@ def test_all_files_ignore_cal_license(empty_directory):
     assert not list(project.all_files())
 
 
+def test_all_files_ignore_shl_license(empty_directory):
+    """SHL-2.1 contains an SPDX tag referencing itself. It should be skipped."""
+    (empty_directory / "SHL-2.1").write_text("foo")
+    (empty_directory / "SHL-2.1.txt").write_text("foo")
+
+    project = Project(empty_directory)
+    assert not list(project.all_files())
+
+
 def test_all_files_ignore_git(empty_directory):
     """When the git directory is present, ignore it."""
     (empty_directory / ".git").mkdir()

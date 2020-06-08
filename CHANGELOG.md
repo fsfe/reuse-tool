@@ -36,6 +36,13 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## 0.11.1 - 2020-06-08
+
+### Fixed
+
+- Similar to CAL-1.0 and CAL-1.0-Combined-Work-Exception, SHL-2.1 is now ignored
+  because it contains an SPDX tag within itself.
+
 ## 0.11.0 - 2020-05-25
 
 ### Added
