@@ -54,6 +54,7 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r".*\.spdx$"),
     # Workaround for https://github.com/fsfe/reuse-tool/issues/229
     re.compile(r"^CAL-1.0(-Combined-Work-Exception)?(\..+)?$"),
+    re.compile(r"^SHL-2.1(\..+)?$"),
 ]
 
 #: Simple structure for holding SPDX information.
