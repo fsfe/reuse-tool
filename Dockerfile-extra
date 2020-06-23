@@ -2,8 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Use fsfe/reuse image with the tag specified via the DOCKER_TAG env variable
-ARG DOCKER_TAG
-FROM fsfe/reuse:$DOCKER_TAG
+# Use fsfe/reuse:latest as a base, and install additional packages on top
+FROM fsfe/reuse:latest
 
 RUN apk --no-cache add openssh-client
