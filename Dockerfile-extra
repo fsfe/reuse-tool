@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2020 Free Software Foundation Europe e.V. <https://fsfe.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Use fsfe/reuse image with the tag specified via the DOCKER_TAG env variable
+ARG DOCKER_TAG
+FROM fsfe/reuse:$DOCKER_TAG
+
+RUN apk --no-cache add openssh-client
