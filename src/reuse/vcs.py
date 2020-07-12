@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 John Mulligan <jmulligan@redhat.com>
+# SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -46,6 +47,14 @@ class VCSStrategy(ABC):
         :raises NotADirectoryError: if directory is not a directory.
         """
 
+    @classmethod
+    @abstractmethod
+    def find_author(cls, cwd: PathLike = None) -> Optional[str]:
+        """Try to find the author's name and email from *cwd*. If none is found, return None.
+
+        :raises NotADirectoryError: if directory is not a directory.
+        """
+
 
 class VCSStrategyNone(VCSStrategy):
     """Strategy that is used when there is no VCS."""
@@ -63,6 +72,10 @@ class VCSStrategyNone(VCSStrategy):
 
     @classmethod
     def find_root(cls, cwd: PathLike = None) -> Optional[Path]:
+        return None
+
+    @classmethod
+    def find_author(cls, cwd: PathLike = None) -> Optional[str]:
         return None
 
 
@@ -131,6 +144,62 @@ class VCSStrategyGit(VCSStrategy):
 
         return None
 
+    @classmethod
+    def find_author(cls, cwd: PathLike = None) -> Optional[str]:
+        if cwd is None:
+            cwd = Path.cwd()
+
+        if not Path(cwd).is_dir():
+            raise NotADirectoryError()
+
+        def find_name():
+            if "GIT_AUTHOR_NAME" in os.environ:
+                return os.environ["GIT_AUTHOR_NAME"]
+
+            if "GIT_COMMITTER_NAME" in os.environ:
+                return os.environ["GIT_COMMITTER_NAME"]
+
+            command = [GIT_EXE, "config", "--get", "user.name"]
+            result = execute_command(command, _LOGGER, cwd=cwd)
+
+            if not result.returncode:
+                return result.stdout.decode("utf-8")[:-1]
+
+            return None
+
+        def find_email():
+            if "GIT_AUTHOR_EMAIL" in os.environ:
+                return os.environ["GIT_AUTHOR_EMAIL"]
+
+            if "GIT_COMMITTER_EMAIL" in os.environ:
+                return os.environ["GIT_COMMITTER_EMAIL"]
+
+            command = [GIT_EXE, "config", "--get", "user.email"]
+            result = execute_command(command, _LOGGER, cwd=cwd)
+
+            if not result.returncode:
+                return result.stdout.decode("utf-8")[:-1]
+
+            if "EMAIL" in os.environ:
+                return os.environ["EMAIL"]
+
+            return None
+
+        parts = []
+
+        name = find_name()
+        if name:
+            parts.append(name)
+
+        email = find_email()
+        if email:
+            parts.append("<" + email + ">")
+
+        if parts:
+            return " ".join(parts)
+
+        return None
+
 
 class VCSStrategyHg(VCSStrategy):
     """Strategy that is used for Mercurial."""
@@ -192,6 +261,28 @@ class VCSStrategyHg(VCSStrategy):
         if not result.returncode:
             path = result.stdout.decode("utf-8")[:-1]
             return Path(os.path.relpath(path, cwd))
+
+        return None
+
+    @classmethod
+    def find_author(cls, cwd: PathLike = None) -> Optional[str]:
+        if cwd is None:
+            cwd = Path.cwd()
+
+        if not Path(cwd).is_dir():
+            raise NotADirectoryError()
+
+        if "HGUSER" in os.environ:
+            return os.environ["HGUSER"]
+
+        command = [HG_EXE, "config", "ui.username"]
+        result = execute_command(command, _LOGGER, cwd=cwd)
+
+        if not result.returncode:
+            return result.stdout.decode("utf-8")[:-1]
+
+        if "EMAIL" in os.environ:
+            return os.environ["EMAIL"]
 
         return None
 

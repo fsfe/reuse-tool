@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
+# SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -829,6 +830,138 @@ def test_addheader_force_multi_line_for_c(
              */
 
             foo
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_git_default(git_repository, stringio, mock_date_today):
+    """Add a header in Git repository with default copyright."""
+    git_config = git_repository / ".git/config"
+    with git_config.open("a") as fp:
+        fp.write(
+            "[user]\nname = Mary Default\nemail = mary.default@example.org"
+        )
+
+    simple_file = git_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        ["addheader", "--license", "GPL-3.0-or-later", "foo.py",],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Default <mary.default@example.org>
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_git_override(git_repository, stringio, mock_date_today):
+    """Add a header in Git repository with custom copyright."""
+    git_config = git_repository / ".git/config"
+    with git_config.open("a") as fp:
+        fp.write(
+            "[user]\nname = Mary Ovérride\nemail = mary.default@example.org"
+        )
+
+    simple_file = git_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Override",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Override
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_hg_default(hg_repository, stringio, mock_date_today):
+    """Add a header in Mercurial repository with default copyright."""
+    hgrc = hg_repository / ".hg/hgrc"
+    hgrc.write_text("[ui]\nusername = Mary Default <mary.default@example.org>")
+
+    simple_file = hg_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        ["addheader", "--license", "GPL-3.0-or-later", "foo.py",],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Default <mary.default@example.org>
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_hg_override(hg_repository, stringio, mock_date_today):
+    """Add a header in Mercurial repository with custom copyright."""
+    hgrc = hg_repository / ".hg/hgrc"
+    hgrc.write_text("[ui]\nusername = Mary Default <mary.default@example.org>")
+
+    simple_file = hg_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Override",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Override
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
             """
         ).replace("spdx", "SPDX")
     )

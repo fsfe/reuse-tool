@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin <kirelagin@gmail.com>
+# SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
+# SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 #
@@ -509,8 +510,14 @@ def add_arguments(parser) -> None:
 
 def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
-    # pylint: disable=too-many-branches
-    if not any((args.copyright, args.license)):
+    # pylint: disable=too-many-branches,too-many-locals
+    copyright = args.copyright
+    if copyright is None:
+        author = project.vcs_strategy.find_author()
+        if author is not None:
+            copyright = [author]
+
+    if not any((copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
     if args.exclude_year and args.year:
@@ -573,9 +580,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
     copyright_lines = (
         {
             make_copyright_line(x, year=year, copyright_style=copyright_style)
-            for x in args.copyright
+            for x in copyright
         }
-        if args.copyright is not None
+        if copyright is not None
         else set()
     )
 
