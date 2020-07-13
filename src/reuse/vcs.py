@@ -18,6 +18,22 @@ from ._util import GIT_EXE, HG_EXE, execute_command
 
 _LOGGER = logging.getLogger(__name__)
 
+# pylint: disable=too-few-public-methods
+class Author:
+    """Author with name and email for version control systems."""
+
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+
+    def __str__(self):
+        parts = []
+        if self.name:
+            parts.append(self.name)
+        if self.email:
+            parts.append("<" + self.email + ">")
+        return " ".join(parts)
+
 
 class VCSStrategy(ABC):
     """Strategy pattern for version control systems."""
@@ -49,7 +65,7 @@ class VCSStrategy(ABC):
 
     @classmethod
     @abstractmethod
-    def find_author(cls, cwd: PathLike = None) -> Optional[str]:
+    def find_author(cls, cwd: PathLike = None) -> Optional[Author]:
         """Try to find the author's name and email from *cwd*. If none is found, return None.
 
         :raises NotADirectoryError: if directory is not a directory.
@@ -75,7 +91,7 @@ class VCSStrategyNone(VCSStrategy):
         return None
 
     @classmethod
-    def find_author(cls, cwd: PathLike = None) -> Optional[str]:
+    def find_author(cls, cwd: PathLike = None) -> Optional[Author]:
         return None
 
 
@@ -145,7 +161,7 @@ class VCSStrategyGit(VCSStrategy):
         return None
 
     @classmethod
-    def find_author(cls, cwd: PathLike = None) -> Optional[str]:
+    def find_author(cls, cwd: PathLike = None) -> Optional[Author]:
         if cwd is None:
             cwd = Path.cwd()
 
@@ -185,18 +201,10 @@ class VCSStrategyGit(VCSStrategy):
 
             return None
 
-        parts = []
-
         name = find_name()
-        if name:
-            parts.append(name)
-
         email = find_email()
-        if email:
-            parts.append("<" + email + ">")
-
-        if parts:
-            return " ".join(parts)
+        if name and email:
+            return Author(name, email)
 
         return None
 
@@ -265,24 +273,41 @@ class VCSStrategyHg(VCSStrategy):
         return None
 
     @classmethod
-    def find_author(cls, cwd: PathLike = None) -> Optional[str]:
+    def find_author(cls, cwd: PathLike = None) -> Optional[Author]:
         if cwd is None:
             cwd = Path.cwd()
 
         if not Path(cwd).is_dir():
             raise NotADirectoryError()
 
-        if "HGUSER" in os.environ:
-            return os.environ["HGUSER"]
+        def find_user():
+            if "HGUSER" in os.environ:
+                return os.environ["HGUSER"]
 
-        command = [HG_EXE, "config", "ui.username"]
-        result = execute_command(command, _LOGGER, cwd=cwd)
+            command = [HG_EXE, "config", "ui.username"]
+            result = execute_command(command, _LOGGER, cwd=cwd)
 
-        if not result.returncode:
-            return result.stdout.decode("utf-8")[:-1]
+            if not result.returncode:
+                return result.stdout.decode("utf-8")[:-1]
 
-        if "EMAIL" in os.environ:
-            return os.environ["EMAIL"]
+            if "EMAIL" in os.environ:
+                return os.environ["EMAIL"]
+
+            return None
+
+        user = find_user()
+        if user:
+            start = user.find("<")
+            if start >= 0:
+                end = user.find(">")
+                if end >= 0:
+                    return Author(user[:start].strip(), user[start + 1 : end])
+                return Author(user, None)
+
+            if "@" in user:
+                return Author(None, user)
+
+            return Author(user, None)
 
         return None
 

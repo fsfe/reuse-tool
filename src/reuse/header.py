@@ -515,7 +515,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
     if copyright is None:
         author = project.vcs_strategy.find_author()
         if author is not None:
-            copyright = [author]
+            copyright = [str(author)]
 
     if not any((copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
