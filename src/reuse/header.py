@@ -384,7 +384,7 @@ def _add_header_to_file(
             out.write("\n")
             return result
 
-    with path.open("rt") as fp:
+    with path.open("rt", encoding="utf-8") as fp:
         text = fp.read()
 
     try:
