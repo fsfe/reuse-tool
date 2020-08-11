@@ -451,6 +451,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".m4": M4CommentStyle,
     ".markdown": HtmlCommentStyle,
     ".md": HtmlCommentStyle,
+    ".mk": PythonCommentStyle,
     ".ml": MlCommentStyle,
     ".ML": MlCommentStyle,
     ".mli": MlCommentStyle,
