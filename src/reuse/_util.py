@@ -54,6 +54,14 @@ _COPYRIGHT_PATTERNS = [
     re.compile(r"(© .*?)" + _END_PATTERN),
 ]
 
+_COPYRIGHT_STYLES = {
+    "spdx": "SPDX-FileCopyrightText:",
+    "string": "Copyright",
+    "string-c": "Copyright (C)",
+    "string-symbol": "Copyright ©",
+    "symbol": "©",
+}
+
 # Amount of bytes that we assume will be big enough to contain the entire
 # comment header (including SPDX tags), so that we don't need to read the
 # entire file.
@@ -201,19 +209,29 @@ def contains_spdx_info(text: str) -> bool:
         return False
 
 
-def make_copyright_line(statement: str, year: str = None) -> str:
+def make_copyright_line(
+    statement: str, year: str = None, copyright_style: str = "spdx"
+) -> str:
     """Given a statement, prefix it with ``SPDX-FileCopyrightText:`` if it is
     not already prefixed with some manner of copyright tag.
     """
     if "\n" in statement:
         raise RuntimeError(f"Unexpected newline in '{statement}'")
+
+    copyright_prefix = _COPYRIGHT_STYLES.get(copyright_style)
+    if copyright_prefix is None:
+        raise RuntimeError(
+            "Unexpected copyright syle: Need 'spdx', 'string', 'string-c',"
+            "'string-symbol' or 'symbol'"
+        )
+
     for pattern in _COPYRIGHT_PATTERNS:
         match = pattern.search(statement)
         if match is not None:
             return statement
     if year is not None:
-        return f"SPDX-FileCopyrightText: {year} {statement}"
-    return f"SPDX-FileCopyrightText: {statement}"
+        return f"{copyright_prefix} {year} {statement}"
+    return f"{copyright_prefix} {statement}"
 
 
 def _checksum(path: PathLike) -> str:
