@@ -517,6 +517,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "ROOT": MlCommentStyle,
     "configure.ac": M4CommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
+    "meson.build": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
     "setup.cfg": PythonCommentStyle,
 }
