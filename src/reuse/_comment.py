@@ -379,6 +379,15 @@ class PythonCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class ReStructedTextCommentStyle(CommentStyle):
+    """reStructuredText comment style."""
+
+    _shorthand = "rst"
+
+    SINGLE_LINE = ".."
+    INDENT_AFTER_SINGLE = " "
+
+
 class TexCommentStyle(CommentStyle):
     """TeX comment style."""
 
@@ -482,6 +491,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rbx": PythonCommentStyle,
     ".rs": CCommentStyle,
     ".rss": HtmlCommentStyle,
+    ".rst": ReStructedTextCommentStyle,
     ".sass": CssCommentStyle,
     ".scala": PythonCommentStyle,
     ".scm": LispCommentStyle,
