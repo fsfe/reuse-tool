@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Tests for reuse._main: lint, spdx, download"""
+"""Tests for reuse._main: lint, list, spdx, download"""
 
 # pylint: disable=redefined-outer-name,unused-argument
 
@@ -139,6 +139,53 @@ def test_lint_no_multiprocessing(fake_repository, stringio, multiprocessing):
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
+
+
+def test_list(fake_repository, stringio):
+    """List all files and their copyright information."""
+    os.chdir(str(fake_repository))
+    result = main(["list"], out=stringio)
+
+    lines = [line.rstrip() for line in stringio.getvalue().split("\n")]
+    expected_lines = [
+        "File                    License",
+        "----------------------  ----------------------------------------",
+        "doc/index.rst           CC0-1.0",
+        "src/custom.py           LicenseRef-custom",
+        "src/exception.py        Autoconf-exception-3.0, GPL-3.0-or-later",
+        "src/source_code.c       GPL-3.0-or-later",
+        "src/source_code.html    GPL-3.0-or-later",
+        "src/source_code.jinja2  GPL-3.0-or-later",
+        "src/source_code.py      GPL-3.0-or-later",
+        "",
+    ]
+
+    assert result == 0
+    assert lines == expected_lines
+
+
+def test_list_no_multiprocessing(fake_repository, stringio):
+    """List all files and their copyright information, with the
+    --no-multiprocessing option set."""
+    os.chdir(str(fake_repository))
+    result = main(["--no-multiprocessing", "list"], out=stringio)
+
+    lines = [line.rstrip() for line in stringio.getvalue().split("\n")]
+    expected_lines = [
+        "File                    License",
+        "----------------------  ----------------------------------------",
+        "doc/index.rst           CC0-1.0",
+        "src/custom.py           LicenseRef-custom",
+        "src/exception.py        Autoconf-exception-3.0, GPL-3.0-or-later",
+        "src/source_code.c       GPL-3.0-or-later",
+        "src/source_code.html    GPL-3.0-or-later",
+        "src/source_code.jinja2  GPL-3.0-or-later",
+        "src/source_code.py      GPL-3.0-or-later",
+        "",
+    ]
+
+    assert result == 0
+    assert lines == expected_lines
 
 
 def test_spdx(fake_repository, stringio):
