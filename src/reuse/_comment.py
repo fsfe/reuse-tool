@@ -529,6 +529,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Manifest.in": PythonCommentStyle,
     "ROOT": MlCommentStyle,
     "configure.ac": M4CommentStyle,
+    "go.mod": CCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "meson.build": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
