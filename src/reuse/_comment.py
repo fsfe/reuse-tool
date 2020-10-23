@@ -38,14 +38,12 @@ class CommentStyle:
 
     @classmethod
     def can_handle_single(cls) -> bool:
-        """Whether the :class:`CommentStyle` can handle single-line comments.
-        """
+        """Whether the :class:`CommentStyle` can handle single-line comments."""
         return bool(cls.SINGLE_LINE)
 
     @classmethod
     def can_handle_multi(cls) -> bool:
-        """Whether the :class:`CommentStyle` can handle multi-line comments.
-        """
+        """Whether the :class:`CommentStyle` can handle multi-line comments."""
         return all((cls.MULTI_LINE[0], cls.MULTI_LINE[2]))
 
     @classmethod
@@ -260,6 +258,15 @@ class AspxCommentStyle(CommentStyle):
     MULTI_LINE = ("<%--", "", "--%>")
 
 
+class BatchFileCommentStyle(CommentStyle):
+    """Windows batch file comment style."""
+
+    _shorthand = "bat"
+
+    SINGLE_LINE = "REM"
+    INDENT_AFTER_SINGLE = " "
+
+
 class BibTexCommentStyle(CommentStyle):
     """BibTex comment style."""
 
@@ -306,6 +313,15 @@ class EmptyCommentStyle(CommentStyle):
     @classmethod
     def comment_at_first_character(cls, text: str) -> str:
         return text
+
+
+class FortranCommentStyle(CommentStyle):
+    """Fortran comment style."""
+
+    _shorthand = "f"
+
+    SINGLE_LINE = "c"
+    INDENT_AFTER_SINGLE = " "
 
 
 class HaskellCommentStyle(CommentStyle):
@@ -412,6 +428,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".axd": AspxCommentStyle,
     ".applescript": AppleScriptCommentStyle,
     ".bash": PythonCommentStyle,
+    ".bat": BatchFileCommentStyle,
     ".bib": BibTexCommentStyle,
     ".c": CCommentStyle,
     ".cl": LispCommentStyle,
@@ -430,6 +447,13 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".erl": TexCommentStyle,
     ".ex": PythonCommentStyle,
     ".exs": PythonCommentStyle,
+    ".F": FortranCommentStyle,
+    ".F90": FortranCommentStyle,
+    ".f90": FortranCommentStyle,
+    ".f95": FortranCommentStyle,
+    ".f03": FortranCommentStyle,
+    ".f": FortranCommentStyle,
+    ".for": FortranCommentStyle,
     ".fish": PythonCommentStyle,
     ".fs": CCommentStyle,
     ".gemspec": PythonCommentStyle,
