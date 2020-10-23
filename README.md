@@ -77,7 +77,10 @@ You then only need to run the following command:
 pip3 install --user reuse
 ```
 
-After this, make sure that `~/.local/bin` is in your `$PATH`.
+After this, make sure that `~/.local/bin` is in your `$PATH`. On
+Windows, the required path for your environment may look like
+`%USERPROFILE%\AppData\Roaming\Python\Python39\Scripts`, depending on
+the Python version you have installed.
 
 To update reuse, run this command:
 
