@@ -38,6 +38,7 @@ from ._comment import (
     PythonCommentStyle,
 )
 from ._util import (
+    _COPYRIGHT_STYLES,
     PathType,
     _determine_license_path,
     _determine_license_suffix_path,
@@ -454,6 +455,12 @@ def add_arguments(parser) -> None:
         help=_("comment style to use, optional"),
     )
     parser.add_argument(
+        "--copyright-style",
+        action="store",
+        choices=list(_COPYRIGHT_STYLES.keys()),
+        help=_("copyright style to use, optional"),
+    )
+    parser.add_argument(
         "--template",
         "-t",
         action="store",
@@ -548,8 +555,14 @@ def run(args, project: Project, out=sys.stdout) -> int:
             year = datetime.date.today().year
 
     expressions = set(args.license) if args.license is not None else set()
+    copyright_style = (
+        args.copyright_style if args.copyright_style is not None else "spdx"
+    )
     copyright_lines = (
-        {make_copyright_line(x, year=year) for x in args.copyright}
+        {
+            make_copyright_line(x, year=year, copyright_style=copyright_style)
+            for x in args.copyright
+        }
         if args.copyright is not None
         else set()
     )

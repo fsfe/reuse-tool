@@ -69,6 +69,17 @@ The REUSE header is placed at the very top of the file. If a different REUSE
 header already existed---at the top or elsewhere---its tags are copied, and the
 header is replaced in-place.
 
+With the argument ``--copyright-style`` it is posible to change the default
+``SPDX-FileCopyrightText`` to one of the following style:
+
+.. code-block::
+
+  spdx:           SPDX-FileCopyrightText: <year> <statement>
+  string:         Copyright <year> <statement>
+  string-c:       Copyright (C) <year> <statement>
+  string-symbol:  Copyright © <year> <statement>
+  symbol:         © <year> <statement>
+
 Shebangs are always preserved at the top of the file.
 
 Comment styles
