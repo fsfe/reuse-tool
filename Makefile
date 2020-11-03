@@ -120,6 +120,13 @@ uninstall:  ## uninstall reuse
 install: uninstall install-requirements  ## install reuse
 	python setup.py install
 
+.PHONY: update-resources
+update-resources:
+	curl https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json \
+		> src/reuse/resources/licenses.json
+	curl https://raw.githubusercontent.com/spdx/license-list-data/master/json/exceptions.json \
+		> src/reuse/resources/exceptions.json
+
 .PHONY: develop
 develop: uninstall install-dev-requirements  ## install source directory
 	pre-commit install
