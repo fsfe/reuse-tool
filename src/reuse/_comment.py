@@ -386,6 +386,19 @@ class MlCommentStyle(CommentStyle):
     INDENT_BEFORE_END = " "
 
 
+class PlantUmlCommentStyle(CommentStyle):
+    """PlantUML comment style."""
+
+    _shorthand = "plantuml"
+
+    SINGLE_LINE = "'"
+    INDENT_AFTER_SINGLE = " "
+    MULTI_LINE = ("/'", "'", "'/")
+    INDENT_BEFORE_MIDDLE = " "
+    INDENT_AFTER_MIDDLE = " "
+    INDENT_BEFORE_END = " "
+
+
 class PythonCommentStyle(CommentStyle):
     """Python comment style."""
 
@@ -469,6 +482,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".hxsl": CCommentStyle,
     ".ini": LispCommentStyle,
     ".ino": CCommentStyle,
+    ".iuml": PlantUmlCommentStyle,
     ".java": CCommentStyle,
     ".jinja": JinjaCommentStyle,
     ".jinja2": JinjaCommentStyle,
@@ -498,10 +512,13 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".php4": CCommentStyle,
     ".php5": CCommentStyle,
     ".pl": PythonCommentStyle,
+    ".plantuml": PlantUmlCommentStyle,
     ".po": PythonCommentStyle,
     ".pot": PythonCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
     ".psm1": PythonCommentStyle,  # TODO: Multiline comments
+    ".pu": PlantUmlCommentStyle,
+    ".puml": PlantUmlCommentStyle,
     ".py": PythonCommentStyle,
     ".pyi": PythonCommentStyle,
     ".pyw": PythonCommentStyle,
