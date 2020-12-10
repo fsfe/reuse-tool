@@ -549,6 +549,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".thy": MlCommentStyle,
     ".toc": TexCommentStyle,
     ".toml": PythonCommentStyle,
+    ".ts": CCommentStyle,
     ".tsx": JsxCommentStyle,
     ".vala": CCommentStyle,
     ".xml": HtmlCommentStyle,
