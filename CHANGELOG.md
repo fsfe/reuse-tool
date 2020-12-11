@@ -36,6 +36,45 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- Separate Docker image with additional executables installed
+  (`fsfe/reuse:latest-extra`) (#238)
+
+- Allow different styles of copyright lines: SPDX (default), String, String (C),
+  String ©, and © (#248)
+
+- Convenience function to update resources (SPDX license list and exceptions)
+  (#268)
+
+- More file types are recognised:
+  + ClojureScript (`.cljc`, `.cljs`)
+  + Fortran (`.F`, `.F90`, `.f90`, `.f95`, `.f03`, `.f`, `.for`)
+  + Makefile (`.mk`)
+  + PlantUML (`.iuml`, `.plantuml`, `.pu`, `.puml`)
+  + R (`.R`, `.Renviron`, `.Rprofile`)
+  + ReStructured Text (`.rst`)
+  + RMarkdown (`.Rmd`)
+  + Scheme (`.scm`)
+  + TypeScript (`.ts`)
+  + TypeScript JSX (`.tsx`)
+  + Windows Batch (`.bat`)
+
+- More file names are recognised:
+  + go.mod
+  + meson.build
+
+### Changed
+
+- Use UTF-8 explicitly when reading files (#242)
+
+### Fixed
+
+- Updated license list to 3.10-16-gd252819.
+
+
 ## 0.11.1 - 2020-06-08
 
 ### Fixed
