@@ -561,6 +561,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
 }
 
 FILENAME_COMMENT_STYLE_MAP = {
+    ".dockerignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
     ".gitattributes": PythonCommentStyle,
     ".gitignore": PythonCommentStyle,
@@ -571,9 +572,11 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".Rprofile": PythonCommentStyle,
     "CMakeLists.txt": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
+    "Gemfile": PythonCommentStyle,
     "Makefile": PythonCommentStyle,
     "Makefile.am": PythonCommentStyle,
     "Manifest.in": PythonCommentStyle,
+    "Rakefile": PythonCommentStyle,
     "ROOT": MlCommentStyle,
     "configure.ac": M4CommentStyle,
     "go.mod": CCommentStyle,
