@@ -63,8 +63,11 @@ The versions follow [semantic versioning](https://semver.org).
   + Windows Batch (`.bat`)
 
 - More file names are recognised:
+  + .dockerignore
+  + Gemfile
   + go.mod
   + meson.build
+  + Rakefile
 
 ### Changed
 
