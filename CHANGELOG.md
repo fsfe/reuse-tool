@@ -82,8 +82,7 @@ Diego Elio Pettenò.
 
 ### Fixed
 
-- Updated license list to 3.10-16-gd252819.
-
+- Updated license list to 3.11.
 
 ## 0.11.1 - 2020-06-08
 
