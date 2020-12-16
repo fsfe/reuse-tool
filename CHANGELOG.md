@@ -36,7 +36,14 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 0.12.0 - 2020-12-16
+
+This release was delayed due to the absence of the lead developer (Carmen, me,
+the person writing these release notes). Many thanks to Max Mehl for
+coordinating the project in my absence. Many thanks also to the contributors who
+sent in pull requests, in reverse chronological order: Olaf Meeuwissen, Mikko
+Piuola, Wolfgang Traylor, Paul Spooren, Robert Cohn, ethulhu, pukkamustard, and
+Diego Elio Pettenò.
 
 ### Added
 
