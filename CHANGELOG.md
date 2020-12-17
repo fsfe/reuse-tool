@@ -36,6 +36,12 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## 0.12.1 - 2020-12-17
+
+### Fixed
+
+- Bumped versions of requirements (#288).
+
 ## 0.12.0 - 2020-12-16
 
 This release was delayed due to the absence of the lead developer (Carmen, me,
