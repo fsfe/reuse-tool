@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 binaryornot==0.4.4
-boolean.py==3.7
+boolean.py==3.8
 Jinja2==2.11.2
 license-expression==1.2
-python-debian==0.1.37
-requests==2.23.0
+python-debian==0.1.38
+requests==2.25.1
 
-setuptools==47.1.1
-setuptools-scm==4.1.1
+setuptools==51.0.0
+setuptools-scm==5.0.1
