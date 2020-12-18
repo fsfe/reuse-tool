@@ -83,8 +83,7 @@ def test_parse_comment_generic_multi(Style):
 
 
 def test_base_class_throws_errors():
-    """When trying to do much of anything with the base class, expect errors.
-    """
+    """When trying to do much of anything with the base class, expect errors."""
     with pytest.raises(CommentParseError):
         CommentStyle.parse_comment("hello")
     with pytest.raises(CommentCreateError):
@@ -166,8 +165,7 @@ def test_create_comment_python_force_multi():
 
 
 def test_parse_comment_python_strip_newlines():
-    """When given a comment, remove newlines before and after before parsing.
-    """
+    """When given a comment, remove newlines before and after before parsing."""
     text = dedent(
         """
 

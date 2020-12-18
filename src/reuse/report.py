@@ -46,7 +46,9 @@ class _MultiprocessingContainer:
             return _MultiprocessingResult(file_, None, exc)
 
 
-class _MultiprocessingResult(NamedTuple):
+class _MultiprocessingResult(
+    NamedTuple
+):  # pylint: disable=too-few-public-methods
     """Result of :class:`MultiprocessingContainer`."""
 
     path: PathLike
