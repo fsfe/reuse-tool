@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
+# SPDX-FileCopyrightText: 2021 Alliander N.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -573,6 +574,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "CMakeLists.txt": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
     "Gemfile": PythonCommentStyle,
+    "Jenkinsfile": CCommentStyle,
     "Makefile": PythonCommentStyle,
     "Makefile.am": PythonCommentStyle,
     "Manifest.in": PythonCommentStyle,
