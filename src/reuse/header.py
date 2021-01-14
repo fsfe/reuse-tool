@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2019 Kirill Elagin <kirelagin@gmail.com>
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2021 Alvar Penning
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -36,6 +37,7 @@ from ._comment import (
     CommentStyle,
     EmptyCommentStyle,
     PythonCommentStyle,
+    UncommentableCommentStyle,
 )
 from ._util import (
     _COPYRIGHT_STYLES,
@@ -297,6 +299,14 @@ def _get_comment_style(path: Path) -> Optional[CommentStyle]:
     return style
 
 
+def _is_uncommentable(path: Path) -> bool:
+    """Determines if *path* is uncommentable, e.g., the file is a binary or
+    registered as an UncommentableCommentStyle.
+    """
+    is_uncommentable = _get_comment_style(path) == UncommentableCommentStyle
+    return is_uncommentable or is_binary(str(path))
+
+
 def _verify_paths_line_handling(
     paths: List[Path],
     parser: ArgumentParser,
@@ -329,8 +339,10 @@ def _verify_paths_line_handling(
 def _verify_paths_comment_style(paths: List[Path], parser: ArgumentParser):
     for path in paths:
         style = _get_comment_style(path)
+        not_uncommentable = not _is_uncommentable(path)
+
         # TODO: This check is duplicated.
-        if style is None and not is_binary(str(path)):
+        if style is None and not_uncommentable:
             parser.error(
                 _(
                     "'{path}' does not have a recognised file extension,"
@@ -571,10 +583,10 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     result = 0
     for path in paths:
-        binary = is_binary(str(path))
-        if binary or args.explicit_license:
+        uncommentable = _is_uncommentable(path)
+        if uncommentable or args.explicit_license:
             new_path = _determine_license_suffix_path(path)
-            if binary:
+            if uncommentable:
                 _LOGGER.info(
                     _(
                         "'{path}' is a binary, therefore using '{new_path}'"

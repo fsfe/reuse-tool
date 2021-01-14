@@ -540,6 +540,38 @@ def test_addheader_binary(
     )
 
 
+def test_addheader_uncommentable_json(
+    fake_repository, stringio, mock_date_today
+):
+    """Add a header to a .license file if the file is uncommentable, e.g., JSON."""
+    json_file = fake_repository / "foo.json"
+    json_file.write_text('{"foo": 23, "bar": 42}')
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.json",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        json_file.with_name(f"{json_file.name}.license").read_text().strip()
+        == cleandoc(
+            """
+            spdx-FileCopyrightText: 2018 Mary Sue
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
 def test_addheader_explicit_license(
     fake_repository, stringio, mock_date_today
 ):
