@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2021 Alliander N.V.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -50,6 +51,7 @@ _IGNORE_FILE_PATTERNS = [
     # ".git" as file happens in submodules
     re.compile(r"^\.git$"),
     re.compile(r"^\.gitkeep$"),
+    re.compile(r"^\.hgtags$"),
     re.compile(r".*\.license$"),
     re.compile(r".*\.spdx$"),
     # Workaround for https://github.com/fsfe/reuse-tool/issues/229
