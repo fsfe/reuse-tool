@@ -490,6 +490,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".hxsl": CCommentStyle,
     ".ini": LispCommentStyle,
     ".ino": CCommentStyle,
+    ".ipynb": UncommentableCommentStyle,
     ".iuml": PlantUmlCommentStyle,
     ".java": CCommentStyle,
     ".jinja": JinjaCommentStyle,
