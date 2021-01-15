@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2019 Kirill Elagin
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
 # SPDX-FileCopyrightText: 2021 Alliander N.V.
+# SPDX-FileCopyrightText: 2021 Alvar Penning
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -427,6 +428,12 @@ class TexCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class UncommentableCommentStyle(EmptyCommentStyle):
+    """A pseudo comment style to indicate that this file is uncommentable. This
+    results in an external .license file as for binaries or --explicit-license.
+    """
+
+
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
@@ -488,6 +495,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".jinja": JinjaCommentStyle,
     ".jinja2": JinjaCommentStyle,
     ".js": CCommentStyle,
+    ".json": UncommentableCommentStyle,
     ".jsx": JsxCommentStyle,
     ".jy": PythonCommentStyle,
     ".ksh": PythonCommentStyle,
@@ -584,6 +592,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "ROOT": MlCommentStyle,
     "configure.ac": M4CommentStyle,
     "go.mod": CCommentStyle,
+    "go.sum": UncommentableCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "meson.build": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
@@ -604,6 +613,7 @@ def _all_style_classes() -> List[CommentStyle]:
 
 _result = _all_style_classes()
 _result.remove(EmptyCommentStyle)
+_result.remove(UncommentableCommentStyle)
 
 #: A map of human-friendly names against style classes.
 NAME_STYLE_MAP = {style._shorthand: style for style in _result}
