@@ -170,35 +170,44 @@ class VCSStrategyGit(VCSStrategy):
 
         def find_name():
             if "GIT_AUTHOR_NAME" in os.environ:
+                _LOGGER.debug("git name from $GIT_AUTHOR_NAME")
                 return os.environ["GIT_AUTHOR_NAME"]
 
             if "GIT_COMMITTER_NAME" in os.environ:
+                _LOGGER.debug("git name from $GIT_COMMITTER_NAME")
                 return os.environ["GIT_COMMITTER_NAME"]
 
             command = [GIT_EXE, "config", "--get", "user.name"]
             result = execute_command(command, _LOGGER, cwd=cwd)
 
             if not result.returncode:
+                _LOGGER.debug("git name from `git config --get user.name`")
                 return result.stdout.decode("utf-8")[:-1]
 
+            _LOGGER.debug("no git name found")
             return None
 
         def find_email():
             if "GIT_AUTHOR_EMAIL" in os.environ:
+                _LOGGER.debug("git email from $GIT_AUTHOR_EMAIL")
                 return os.environ["GIT_AUTHOR_EMAIL"]
 
             if "GIT_COMMITTER_EMAIL" in os.environ:
+                _LOGGER.debug("git email from $GIT_COMMITTER_EMAIL")
                 return os.environ["GIT_COMMITTER_EMAIL"]
 
             command = [GIT_EXE, "config", "--get", "user.email"]
             result = execute_command(command, _LOGGER, cwd=cwd)
 
             if not result.returncode:
+                _LOGGER.debug("git email from `git config --get user.email`")
                 return result.stdout.decode("utf-8")[:-1]
 
             if "EMAIL" in os.environ:
+                _LOGGER.debug("git email from $EMAIL")
                 return os.environ["EMAIL"]
 
+            _LOGGER.debug("no git email found")
             return None
 
         name = find_name()
@@ -282,17 +291,21 @@ class VCSStrategyHg(VCSStrategy):
 
         def find_user():
             if "HGUSER" in os.environ:
+                _LOGGER.debug("hg user from $HGUSER")
                 return os.environ["HGUSER"]
 
             command = [HG_EXE, "config", "ui.username"]
             result = execute_command(command, _LOGGER, cwd=cwd)
 
             if not result.returncode:
+                _LOGGER.debug("hg user from `hg config ui.username`")
                 return result.stdout.decode("utf-8")[:-1]
 
             if "EMAIL" in os.environ:
+                _LOGGER.debug("hg user from $EMAIL")
                 return os.environ["EMAIL"]
 
+            _LOGGER.debug("no hg user found")
             return None
 
         user = find_user()
