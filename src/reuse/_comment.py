@@ -572,6 +572,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
 }
 
 FILENAME_COMMENT_STYLE_MAP = {
+    ".bashrc": PythonCommentStyle,
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
