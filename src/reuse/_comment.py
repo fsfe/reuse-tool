@@ -461,6 +461,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".cpp": CCommentStyle,
     ".cs": CCommentStyle,
     ".css": CssCommentStyle,
+    ".csv": UncommentableCommentStyle,
     ".d": CCommentStyle,
     ".dart": CCommentStyle,
     ".di": CCommentStyle,
