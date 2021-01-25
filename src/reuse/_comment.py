@@ -600,6 +600,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "meson.build": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
     "setup.cfg": PythonCommentStyle,
+    "sonar-project.properties": PythonCommentStyle,
 }
 
 
