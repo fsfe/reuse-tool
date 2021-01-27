@@ -544,6 +544,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rb": PythonCommentStyle,
     ".rbw": PythonCommentStyle,
     ".rbx": PythonCommentStyle,
+    ".rkt": LispCommentStyle,
     ".rs": CCommentStyle,
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
