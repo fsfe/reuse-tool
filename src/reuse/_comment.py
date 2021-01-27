@@ -519,6 +519,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".nim": PythonCommentStyle,
     ".nimrod": PythonCommentStyle,
     ".nix": PythonCommentStyle,
+    ".org": PythonCommentStyle,
     ".php": CCommentStyle,
     ".php3": CCommentStyle,
     ".php4": CCommentStyle,
