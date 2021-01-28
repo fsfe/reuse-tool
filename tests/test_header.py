@@ -340,8 +340,7 @@ def test_find_and_replace_separate_shebang():
 
 
 def test_find_and_replace_only_shebang():
-    """When the file only contains a shebang, keep it at the top of the file.
-    """
+    """When the file only contains a shebang, keep it at the top of the file."""
     spdx_info = SpdxInfo({"GPL-3.0-or-later"}, set())
     text = cleandoc(
         """

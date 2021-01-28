@@ -9,5 +9,5 @@ license-expression==1.2
 python-debian==0.1.38
 requests==2.25.1
 
-setuptools==51.0.0
+setuptools==52.0.0
 setuptools-scm==5.0.1

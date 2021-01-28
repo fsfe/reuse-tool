@@ -39,8 +39,7 @@ def test_download_404(monkeypatch):
 
 
 def test_download_exception(monkeypatch):
-    """If requests raises an exception itself, that exception is not escaped.
-    """
+    """If requests raises an exception itself, that exception is not escaped."""
 
     def raise_exception(_):
         raise requests.RequestException()

@@ -61,7 +61,7 @@ DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
 _NEWLINE_PATTERN = re.compile(r"\n", re.MULTILINE)
 
 
-class _TextSections(NamedTuple):
+class _TextSections(NamedTuple):  # pylint: disable=too-few-public-methods
     """Used to split up text in three parts."""
 
     before: str

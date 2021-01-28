@@ -287,18 +287,20 @@ class PathType:  # pylint: disable=too-few-public-methods
                 if not path.exists() and os.access(path.parent, os.W_OK):
                     return path
                 raise ArgumentTypeError(_("can't write to '{}'").format(path))
-        except OSError:
-            raise ArgumentTypeError(_("can't read or write '{}'").format(path))
+        except OSError as error:
+            raise ArgumentTypeError(
+                _("can't read or write '{}'").format(path)
+            ) from error
 
 
 def spdx_identifier(text: str) -> Expression:
     """argparse factory for creating SPDX expressions."""
     try:
         return _LICENSING.parse(text)
-    except (ExpressionError, ParseError):
+    except (ExpressionError, ParseError) as error:
         raise ArgumentTypeError(
             _("'{}' is not a valid SPDX expression, aborting").format(text)
-        )
+        ) from error
 
 
 def similar_spdx_identifiers(identifier: str) -> List[str]:

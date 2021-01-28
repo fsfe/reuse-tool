@@ -53,7 +53,7 @@ blackcheck: ## check with black
 
 .PHONY: black
 black: ## format with black
-	isort -y -s build -s dist
+	isort src/ tests/ *.py
 	black .
 
 .PHONY: reuse
