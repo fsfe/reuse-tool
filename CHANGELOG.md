@@ -51,6 +51,8 @@ The versions follow [semantic versioning](https://semver.org).
   + .svg
   + .json
   + .csv
+  + .rkt
+  + .org
 
 - More file names are recognised:
   + .bashrc
