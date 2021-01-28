@@ -52,6 +52,11 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- Better support for unary "+" operator in license identifiers. For example, if
+  `Apache-1.0+` appears as a declared license, it should not be identified as
+  missing, bad, or unused if `LICENSES/Apache-1.0.txt` exists. It is, however,
+  identified separately as a used license. (#123)
+
 ### Security
 
 ## 0.14.0 - 2021-12-27
