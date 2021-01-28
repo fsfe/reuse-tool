@@ -45,6 +45,7 @@ from ._util import (
     _determine_license_path,
     _determine_license_suffix_path,
     contains_spdx_info,
+    detect_line_endings,
     extract_spdx_info,
     make_copyright_line,
     spdx_identifier,
@@ -398,8 +399,13 @@ def _add_header_to_file(
             out.write("\n")
             return result
 
-    with path.open("r", encoding="utf-8") as fp:
+    with path.open("r", encoding="utf-8", newline="") as fp:
         text = fp.read()
+
+    # Detect and remember line endings for later conversion.
+    line_ending = detect_line_endings(text)
+    # Normalise line endings.
+    text = text.replace(line_ending, "\n")
 
     try:
         output = find_and_replace_header(
@@ -427,7 +433,7 @@ def _add_header_to_file(
         out.write("\n")
         result = 1
     else:
-        with path.open("w", encoding="utf-8") as fp:
+        with path.open("w", encoding="utf-8", newline=line_ending) as fp:
             fp.write(output)
         # TODO: This may need to be rephrased more elegantly.
         out.write(_("Successfully changed header of {path}").format(path=path))
