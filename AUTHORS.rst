@@ -42,6 +42,8 @@ Contributors
 
 - Maximilian Dolling <mdolling@gfz-potsdam.de>
 
+- yoctocell
+
 
 Translators
 -----------
