@@ -141,6 +141,18 @@ def test_generate_project_report_bad_license(fake_repository, multiprocessing):
     assert not result.missing_licenses
 
 
+def test_generate_project_report_unused_license(
+    fake_repository, multiprocessing
+):
+    """Unused licenses are detected."""
+    (fake_repository / "LICENSES/MIT.txt").write_text("foo")
+
+    project = Project(fake_repository)
+    result = ProjectReport.generate(project, multiprocessing=multiprocessing)
+
+    assert result.unused_licenses == {"MIT"}
+
+
 def test_generate_project_report_bad_license_in_file(
     fake_repository, multiprocessing
 ):

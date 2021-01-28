@@ -263,10 +263,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             for lic in file_report.spdxfile.licenses_in_file
         }
         self._unused_licenses = {
-            lic
-            for file_report in self.file_reports
-            for lic in file_report.spdxfile.licenses_in_file
-            if lic not in all_used_licenses
+            lic for lic in self.licenses if lic not in all_used_licenses
         }
 
         return self._unused_licenses
