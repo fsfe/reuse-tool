@@ -43,6 +43,9 @@ The versions follow [semantic versioning](https://semver.org).
 - Declared dependency on `python-debian <= 0.1.38`. Later versions of the
   dependency do not import on Windows.
 
+- `MANIFEST.in` is now recognised instead of the incorrect `Manifest.in` by
+  `addheader`.
+
 ## 0.12.1 - 2020-12-17
 
 ### Fixed
