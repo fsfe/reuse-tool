@@ -61,6 +61,8 @@ The versions follow [semantic versioning](https://semver.org).
   + sonar-project.properties
 ### Fixed
 
+- Fixed a regression where unused licenses were not at all detected. (#285)
+
 - Declared dependency on `python-debian <= 0.1.38`. Later versions of the
   dependency do not import on Windows. (#310)
 
