@@ -591,7 +591,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Jenkinsfile": CCommentStyle,
     "Makefile": PythonCommentStyle,
     "Makefile.am": PythonCommentStyle,
-    "Manifest.in": PythonCommentStyle,
+    "MANIFEST.in": PythonCommentStyle,
     "Rakefile": PythonCommentStyle,
     "ROOT": MlCommentStyle,
     "configure.ac": M4CommentStyle,
