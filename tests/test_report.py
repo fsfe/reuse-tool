@@ -76,6 +76,22 @@ def test_generate_file_report_file_bad_license(fake_repository):
     assert result.missing_licenses == {"fakelicense"}
 
 
+def test_generate_file_report_license_contains_plus(fake_repository):
+    """Given a license expression akin to Apache-1.0+, LICENSES/Apache-1.0.txt
+    should be an appropriate license file.
+    """
+    (fake_repository / "foo.py").write_text(
+        "SPDX" "-License-Identifier: Apache-1.0+"
+    )
+    (fake_repository / "LICENSES/Apache-1.0.txt").touch()
+    project = Project(fake_repository)
+    result = FileReport.generate(project, "foo.py")
+
+    assert result.spdxfile.copyright == ""
+    assert not result.bad_licenses
+    assert not result.missing_licenses
+
+
 def test_generate_file_report_exception(fake_repository):
     """Simple generate test to test if the exception is detected."""
     project = Project(fake_repository)
