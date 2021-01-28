@@ -348,3 +348,14 @@ def print_incorrect_spdx_identifier(identifier: str, out=sys.stdout) -> None:
             "SPDX License Identifiers."
         )
     )
+
+
+def detect_line_endings(text: str) -> str:
+    """Return one of '\n', '\r' or '\r\n' depending on the line endings used in
+    *text*. Return os.linesep if there are no line endings.
+    """
+    line_endings = ["\r\n", "\r", "\n"]
+    for line_ending in line_endings:
+        if line_ending in text:
+            return line_ending
+    return os.linesep

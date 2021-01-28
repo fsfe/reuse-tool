@@ -380,3 +380,23 @@ def test_similar_spdx_identifiers():
     assert "GPL-3.0-or-later" in result
     assert "AGPL-3.0-or-later" in result
     assert "LGPL-3.0-or-later" in result
+
+
+def test_detect_line_endings_windows():
+    """Given a CRLF string, detect the line endings."""
+    assert _util.detect_line_endings("hello\r\nworld") == "\r\n"
+
+
+def test_detect_line_endings_mac():
+    """Given a CR string, detect the line endings."""
+    assert _util.detect_line_endings("hello\rworld") == "\r"
+
+
+def test_detect_line_endings_linux():
+    """Given a LF string, detect the line endings."""
+    assert _util.detect_line_endings("hello\nworld") == "\n"
+
+
+def test_detect_line_endings_no_newlines():
+    """Given a file without line endings, default to os.linesep."""
+    assert _util.detect_line_endings("hello world") == os.linesep
