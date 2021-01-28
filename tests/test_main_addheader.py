@@ -8,7 +8,6 @@
 
 # pylint: disable=unused-argument
 
-import os
 from inspect import cleandoc
 
 import pytest
@@ -835,13 +834,15 @@ def test_addheader_force_multi_line_for_c(
     )
 
 
-@pytest.mark.parametrize("line_ending", ["\r\n", "\r", "\n", os.linesep])
+@pytest.mark.parametrize("line_ending", ["\r\n", "\r", "\n"])
 def test_addheader_line_endings(
     empty_directory, stringio, mock_date_today, line_ending
 ):
     """Given a file with a certain type of line ending, preserve it."""
     simple_file = empty_directory / "foo.py"
-    simple_file.write_text(f"hello{line_ending}world")
+    simple_file.write_bytes(
+        line_ending.encode("utf-8").join([b"hello", b"world"])
+    )
 
     result = main(
         [
