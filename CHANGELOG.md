@@ -73,6 +73,8 @@ The versions follow [semantic versioning](https://semver.org).
 - `addheader` now checks whether a file is both readable and writeable instead
   of only writeable. (#241)
 
+- `addheader` now preserves line endings. (#308)
+
 ## 0.12.1 - 2020-12-17
 
 ### Fixed
