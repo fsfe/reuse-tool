@@ -248,7 +248,11 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._used_licenses is not None:
             return self._used_licenses
 
-        self._used_licenses = set(self.licenses) - self.unused_licenses
+        self._used_licenses = {
+            lic
+            for file_report in self.file_reports
+            for lic in file_report.spdxfile.licenses_in_file
+        }
         return self._used_licenses
 
     @property
@@ -257,15 +261,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._unused_licenses is not None:
             return self._unused_licenses
 
-        all_used_licenses = {
-            lic
-            for file_report in self.file_reports
-            for lic in file_report.spdxfile.licenses_in_file
-        }
         self._unused_licenses = {
-            lic for lic in self.licenses if lic not in all_used_licenses
+            lic for lic in self.licenses if lic not in self.used_licenses
         }
-
         return self._unused_licenses
 
     @property
