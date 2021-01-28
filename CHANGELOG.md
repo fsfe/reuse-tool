@@ -38,19 +38,38 @@ The versions follow [semantic versioning](https://semver.org).
 
 ## Unreleased - YYYY-MM-DD
 
+### Added
+
+- `addheader` recognises file types that specifically require .license files
+  instead of headers using `UncommentableCommentStyle`. (#189)
+
+- `.hgtags` is ignored. (#227)
+
+- More file types are recognised:
+  + .mjs
+  + .ipynb
+  + .svg
+  + .json
+  + .csv
+
+- More file names are recognised:
+  + .bashrc
+  + .coveragerc
+  + Jenkinsfile
+  + sonar-project.properties
 ### Fixed
 
 - Declared dependency on `python-debian <= 0.1.38`. Later versions of the
-  dependency do not import on Windows.
+  dependency do not import on Windows. (#310)
 
 - `MANIFEST.in` is now recognised instead of the incorrect `Manifest.in` by
-  `addheader`.
+  `addheader`. (#306)
 
 ## 0.12.1 - 2020-12-17
 
 ### Fixed
 
-- Bumped versions of requirements (#288).
+- Bumped versions of requirements. (#288)
 
 ## 0.12.0 - 2020-12-16
 
