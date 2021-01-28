@@ -192,6 +192,25 @@ def test_generate_project_report_unused_license_plus(
     assert {"Apache-1.0", "Apache-1.0+"}.issubset(result.used_licenses)
 
 
+def test_generate_project_report_unused_license_plus_only_plus(
+    fake_repository, multiprocessing
+):
+    """If Apache-1.0+ is the only declared license in the project,
+    LICENSES/Apache-1.0.txt should not be an unused license.
+    """
+    (fake_repository / "foo.py").write_text(
+        "SPDX" "-License-Identifier: Apache-1.0+"
+    )
+    (fake_repository / "LICENSES/Apache-1.0.txt").touch()
+
+    project = Project(fake_repository)
+    result = ProjectReport.generate(project, multiprocessing=multiprocessing)
+
+    assert not result.unused_licenses
+    assert "Apache-1.0+" in result.used_licenses
+    assert "Apache-1.0" not in result.used_licenses
+
+
 def test_generate_project_report_bad_license_in_file(
     fake_repository, multiprocessing
 ):

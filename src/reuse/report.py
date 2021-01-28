@@ -261,8 +261,15 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._unused_licenses is not None:
             return self._unused_licenses
 
-        self._unused_licenses = {
+        # First collect licenses that are suspected to be unused.
+        suspected_unused_licenses = {
             lic for lic in self.licenses if lic not in self.used_licenses
+        }
+        # Remove false positives.
+        self._unused_licenses = {
+            lic
+            for lic in suspected_unused_licenses
+            if f"{lic}+" not in self.used_licenses
         }
         return self._unused_licenses
 
@@ -376,8 +383,7 @@ class FileReport:
                     report.missing_licenses.add(identifier)
 
                 # Add license to report.
-                for id_ in identifiers:
-                    report.spdxfile.licenses_in_file.append(id_)
+                report.spdxfile.licenses_in_file.append(identifier)
 
         # Copyright text
         report.spdxfile.copyright = "\n".join(
