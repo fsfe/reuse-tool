@@ -249,7 +249,7 @@ class PathType:  # pylint: disable=too-few-public-methods
     """Factory for creating Paths"""
 
     def __init__(self, mode="r", force_file=False, force_directory=False):
-        if mode in ("r", "w"):
+        if mode in ("r", "r+", "w"):
             self._mode = mode
         else:
             raise ValueError(f"mode='{mode}' is not valid")
@@ -260,33 +260,38 @@ class PathType:  # pylint: disable=too-few-public-methods
                 "'force_file' and 'force_directory' cannot both be True"
             )
 
+    def _check_read(self, path):
+        if path.exists() and os.access(path, os.R_OK):
+            if self._force_file and not path.is_file():
+                raise ArgumentTypeError(_("'{}' is not a file").format(path))
+            if self._force_directory and not path.is_dir():
+                raise ArgumentTypeError(
+                    _("'{}' is not a directory").format(path)
+                )
+            return
+        raise ArgumentTypeError(_("can't open '{}'").format(path))
+
+    def _check_write(self, path):
+        # pylint: disable=no-self-use
+        if path.is_dir():
+            raise ArgumentTypeError(
+                _("can't write to directory '{}'").format(path)
+            )
+        if path.exists() and os.access(path, os.W_OK):
+            return
+        if not path.exists() and os.access(path.parent, os.W_OK):
+            return
+        raise ArgumentTypeError(_("can't write to '{}'").format(path))
+
     def __call__(self, string):
         path = Path(string)
 
         try:
-            # pylint: disable=no-else-raise
-            if self._mode == "r":
-                if path.exists() and os.access(path, os.R_OK):
-                    if self._force_file and not path.is_file():
-                        raise ArgumentTypeError(
-                            _("'{}' is not a file").format(path)
-                        )
-                    if self._force_directory and not path.is_dir():
-                        raise ArgumentTypeError(
-                            _("'{}' is not a directory").format(path)
-                        )
-                    return path
-                raise ArgumentTypeError(_("can't open '{}'").format(path))
-            else:
-                if path.is_dir():
-                    raise ArgumentTypeError(
-                        _("can't write to directory '{}'").format(path)
-                    )
-                if path.exists() and os.access(path, os.W_OK):
-                    return path
-                if not path.exists() and os.access(path.parent, os.W_OK):
-                    return path
-                raise ArgumentTypeError(_("can't write to '{}'").format(path))
+            if self._mode in ("r", "r+"):
+                self._check_read(path)
+            if self._mode in ("w", "r+"):
+                self._check_write(path)
+            return path
         except OSError as error:
             raise ArgumentTypeError(
                 _("can't read or write '{}'").format(path)

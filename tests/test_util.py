@@ -247,18 +247,57 @@ def test_pathtype_read_directory_force_file(fake_repository):
 @posix
 def test_pathtype_read_not_readable(fake_repository):
     """Cannot read a nonreadable file."""
-    os.chmod("src/source_code.py", 0o000)
+    try:
+        os.chmod("src/source_code.py", 0o000)
 
-    with pytest.raises(ArgumentTypeError):
-        _util.PathType("r")("src/source_code.py")
-
-    os.chmod("src/source_code.py", 0o777)
+        with pytest.raises(ArgumentTypeError):
+            _util.PathType("r")("src/source_code.py")
+    finally:
+        os.chmod("src/source_code.py", 0o777)
 
 
 def test_pathtype_read_not_exists(empty_directory):
     """Cannot read a file that does not exist."""
     with pytest.raises(ArgumentTypeError):
         _util.PathType("r")("foo.py")
+
+
+def test_pathtype_read_write_not_exists(empty_directory):
+    """Cannot read/write a file that does not exist."""
+    with pytest.raises(ArgumentTypeError):
+        _util.PathType("r+")("foo.py")
+
+
+@no_root
+@posix
+def test_pathtype_read_write_only_write(empty_directory):
+    """A write-only file loaded with read/write needs both permissions."""
+    path = Path("foo.py")
+    path.touch()
+
+    try:
+        path.chmod(0o222)
+
+        with pytest.raises(ArgumentTypeError):
+            _util.PathType("r+")("foo.py")
+    finally:
+        path.chmod(0o777)
+
+
+@no_root
+@posix
+def test_pathtype_read_write_only_read(empty_directory):
+    """A read-only file loaded with read/write needs both permissions."""
+    path = Path("foo.py")
+    path.touch()
+
+    try:
+        path.chmod(0o444)
+
+        with pytest.raises(ArgumentTypeError):
+            _util.PathType("r+")("foo.py")
+    finally:
+        path.chmod(0o777)
 
 
 def test_pathtype_write_not_exists(empty_directory):

@@ -44,6 +44,8 @@ Contributors
 
 - yoctocell
 
+- Tuomas Siipola
+
 
 Translators
 -----------

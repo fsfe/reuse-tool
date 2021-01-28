@@ -59,6 +59,7 @@ The versions follow [semantic versioning](https://semver.org).
   + .coveragerc
   + Jenkinsfile
   + sonar-project.properties
+
 ### Fixed
 
 - Fixed a regression where unused licenses were not at all detected. (#285)
@@ -68,6 +69,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `MANIFEST.in` is now recognised instead of the incorrect `Manifest.in` by
   `addheader`. (#306)
+
+- `addheader` now checks whether a file is both readable and writeable instead
+  of only writeable. (#241)
 
 ## 0.12.1 - 2020-12-17
 
