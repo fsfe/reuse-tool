@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
+# SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -7,8 +8,11 @@
 """Tests for reuse._main: addheader"""
 
 # pylint: disable=unused-argument
+# pylint: disable=too-many-lines
 
+import os
 from inspect import cleandoc
+from unittest import mock
 
 import pytest
 
@@ -832,3 +836,220 @@ def test_addheader_force_multi_line_for_c(
             """
         ).replace("spdx", "SPDX")
     )
+
+
+def test_addheader_git_default(git_repository, stringio, mock_date_today):
+    """Add a header in Git repository with default copyright."""
+    git_config = git_repository / ".git/config"
+    with git_config.open("a") as fp:
+        fp.write(
+            "[user]\nname = Mary Default\nemail = mary.default@example.org"
+        )
+
+    simple_file = git_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        ["addheader", "--license", "GPL-3.0-or-later", "foo.py",],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Default <mary.default@example.org>
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_git_override(git_repository, stringio, mock_date_today):
+    """Add a header in Git repository with custom copyright from command line."""
+    git_config = git_repository / ".git/config"
+    with git_config.open("a") as fp:
+        fp.write(
+            "[user]\nname = Mary Default\nemail = mary.default@example.org"
+        )
+
+    simple_file = git_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Override",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Override
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+@mock.patch.dict(
+    os.environ,
+    {
+        "GIT_AUTHOR_NAME": "Mary Override",
+        "GIT_AUTHOR_EMAIL": "mary.override@example.org",
+    },
+)
+def test_addheader_git_override_env(git_repository, stringio, mock_date_today):
+    """Add a header in Git repository with copyright with environment variable."""
+    git_config = git_repository / ".git/config"
+    with git_config.open("a") as fp:
+        fp.write(
+            "[user]\nname = Mary Default\nemail = mary.default@example.org"
+        )
+
+    simple_file = git_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        ["addheader", "--license", "GPL-3.0-or-later", "foo.py",],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Override <mary.override@example.org>
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+@mock.patch.dict(os.environ, {"GIT_AUTHOR_NAME": ""})
+def test_addheader_git_empty_env(git_repository):
+    """Expect fail if author is overridden with empty environment variable and --copyright is not specified"""
+    simple_file = git_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    with pytest.raises(SystemExit):
+        main(["addheader", "foo.py"])
+
+
+def test_addheader_hg_default(hg_repository, stringio, mock_date_today):
+    """Add a header in Mercurial repository with default copyright."""
+    hgrc = hg_repository / ".hg/hgrc"
+    hgrc.write_text("[ui]\nusername = Mary Default <mary.default@example.org>")
+
+    simple_file = hg_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        ["addheader", "--license", "GPL-3.0-or-later", "foo.py",],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Default <mary.default@example.org>
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+def test_addheader_hg_override(hg_repository, stringio, mock_date_today):
+    """Add a header in Mercurial repository with custom copyright from command line."""
+    hgrc = hg_repository / ".hg/hgrc"
+    hgrc.write_text("[ui]\nusername = Mary Default <mary.default@example.org>")
+
+    simple_file = hg_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Override",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Override
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+@mock.patch.dict(os.environ, {"HGUSER": "Mary Override"})
+def test_addheader_hg_override_env(hg_repository, stringio, mock_date_today):
+    """Add a header in Mercurial repository with custom copyright from environment variable."""
+
+    simple_file = hg_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    result = main(
+        ["addheader", "--license", "GPL-3.0-or-later", "foo.py",],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        simple_file.read_text()
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Override
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        ).replace("spdx", "SPDX")
+    )
+
+
+@mock.patch.dict(os.environ, {"HGUSER": ""})
+def test_addheader_hg_empty_env(hg_repository):
+    """Expect fail if author is overridden with empty environment variable and --copyright is not specified"""
+    simple_file = hg_repository / "foo.py"
+    simple_file.write_text("pass")
+
+    with pytest.raises(SystemExit):
+        main(["addheader", "foo.py"])

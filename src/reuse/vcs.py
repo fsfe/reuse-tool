@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 John Mulligan <jmulligan@redhat.com>
+# SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -16,6 +17,22 @@ from typing import Optional, Set
 from ._util import GIT_EXE, HG_EXE, execute_command
 
 _LOGGER = logging.getLogger(__name__)
+
+# pylint: disable=too-few-public-methods
+class Author:
+    """Author with name and email for version control systems."""
+
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+
+    def __str__(self):
+        parts = []
+        if self.name:
+            parts.append(self.name)
+        if self.email:
+            parts.append("<" + self.email + ">")
+        return " ".join(parts)
 
 
 class VCSStrategy(ABC):
@@ -46,6 +63,14 @@ class VCSStrategy(ABC):
         :raises NotADirectoryError: if directory is not a directory.
         """
 
+    @classmethod
+    @abstractmethod
+    def find_author(cls, cwd: PathLike = None) -> Optional[Author]:
+        """Try to find the author's name and email from *cwd*. If none is found, return None.
+
+        :raises NotADirectoryError: if directory is not a directory.
+        """
+
 
 class VCSStrategyNone(VCSStrategy):
     """Strategy that is used when there is no VCS."""
@@ -63,6 +88,10 @@ class VCSStrategyNone(VCSStrategy):
 
     @classmethod
     def find_root(cls, cwd: PathLike = None) -> Optional[Path]:
+        return None
+
+    @classmethod
+    def find_author(cls, cwd: PathLike = None) -> Optional[Author]:
         return None
 
 
@@ -131,6 +160,63 @@ class VCSStrategyGit(VCSStrategy):
 
         return None
 
+    @classmethod
+    def find_author(cls, cwd: PathLike = None) -> Optional[Author]:
+        if cwd is None:
+            cwd = Path.cwd()
+
+        if not Path(cwd).is_dir():
+            raise NotADirectoryError()
+
+        def find_name():
+            if "GIT_AUTHOR_NAME" in os.environ:
+                _LOGGER.debug("git name from $GIT_AUTHOR_NAME")
+                return os.environ["GIT_AUTHOR_NAME"]
+
+            if "GIT_COMMITTER_NAME" in os.environ:
+                _LOGGER.debug("git name from $GIT_COMMITTER_NAME")
+                return os.environ["GIT_COMMITTER_NAME"]
+
+            command = [GIT_EXE, "config", "--get", "user.name"]
+            result = execute_command(command, _LOGGER, cwd=cwd)
+
+            if not result.returncode:
+                _LOGGER.debug("git name from `git config --get user.name`")
+                return result.stdout.decode("utf-8")[:-1]
+
+            _LOGGER.debug("no git name found")
+            return None
+
+        def find_email():
+            if "GIT_AUTHOR_EMAIL" in os.environ:
+                _LOGGER.debug("git email from $GIT_AUTHOR_EMAIL")
+                return os.environ["GIT_AUTHOR_EMAIL"]
+
+            if "GIT_COMMITTER_EMAIL" in os.environ:
+                _LOGGER.debug("git email from $GIT_COMMITTER_EMAIL")
+                return os.environ["GIT_COMMITTER_EMAIL"]
+
+            command = [GIT_EXE, "config", "--get", "user.email"]
+            result = execute_command(command, _LOGGER, cwd=cwd)
+
+            if not result.returncode:
+                _LOGGER.debug("git email from `git config --get user.email`")
+                return result.stdout.decode("utf-8")[:-1]
+
+            if "EMAIL" in os.environ:
+                _LOGGER.debug("git email from $EMAIL")
+                return os.environ["EMAIL"]
+
+            _LOGGER.debug("no git email found")
+            return None
+
+        name = find_name()
+        email = find_email()
+        if name and email:
+            return Author(name, email)
+
+        return None
+
 
 class VCSStrategyHg(VCSStrategy):
     """Strategy that is used for Mercurial."""
@@ -192,6 +278,49 @@ class VCSStrategyHg(VCSStrategy):
         if not result.returncode:
             path = result.stdout.decode("utf-8")[:-1]
             return Path(os.path.relpath(path, cwd))
+
+        return None
+
+    @classmethod
+    def find_author(cls, cwd: PathLike = None) -> Optional[Author]:
+        if cwd is None:
+            cwd = Path.cwd()
+
+        if not Path(cwd).is_dir():
+            raise NotADirectoryError()
+
+        def find_user():
+            if "HGUSER" in os.environ:
+                _LOGGER.debug("hg user from $HGUSER")
+                return os.environ["HGUSER"]
+
+            command = [HG_EXE, "config", "ui.username"]
+            result = execute_command(command, _LOGGER, cwd=cwd)
+
+            if not result.returncode:
+                _LOGGER.debug("hg user from `hg config ui.username`")
+                return result.stdout.decode("utf-8")[:-1]
+
+            if "EMAIL" in os.environ:
+                _LOGGER.debug("hg user from $EMAIL")
+                return os.environ["EMAIL"]
+
+            _LOGGER.debug("no hg user found")
+            return None
+
+        user = find_user()
+        if user:
+            start = user.find("<")
+            if start >= 0:
+                end = user.find(">")
+                if end >= 0:
+                    return Author(user[:start].strip(), user[start + 1 : end])
+                return Author(user, None)
+
+            if "@" in user:
+                return Author(None, user)
+
+            return Author(user, None)
 
         return None
 

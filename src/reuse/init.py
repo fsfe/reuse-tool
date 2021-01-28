@@ -75,6 +75,8 @@ def run(args, project: Project, out=sys.stdout):
         out.write("\n")
         return 1
 
+    author = project.vcs_strategy.find_author()
+
     out.write(_("Initializing project for REUSE."))
     out.write("\n\n")
 
@@ -93,14 +95,22 @@ def run(args, project: Project, out=sys.stdout):
     out.write("\n")
 
     out.write(_("What is the name of the maintainer?"))
+    if author and author.name:
+        out.write(_(" (default: {})".format(author.name)))
     out.write("\n")
     contact_name = input()
+    if author and author.name and contact_name == "":
+        contact_name = author.name
 
     out.write("\n")
 
     out.write(_("What is the e-mail address of the maintainer?"))
+    if author and author.email:
+        out.write(_(" (default: {})".format(author.email)))
     out.write("\n")
     contact_address = input()
+    if author and author.email and contact_address == "":
+        contact_address = author.email
 
     out.write("\n")
 
