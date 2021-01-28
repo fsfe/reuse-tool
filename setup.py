@@ -15,8 +15,8 @@ from setuptools import setup
 from setuptools.command.build_py import build_py
 
 requirements = [
-    # For parsing .reuse/dep5.
-    "python-debian",
+    # For parsing .reuse/dep5. TODO: Later versions do not work on Windows.
+    "python-debian <= 0.1.38",
     # For downloading from spdx/spdx-license-list-data. Could maybe use
     # standard library instead?
     "requests",

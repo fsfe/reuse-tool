@@ -6,7 +6,7 @@ binaryornot==0.4.4
 boolean.py==3.8
 Jinja2==2.11.2
 license-expression==1.2
-python-debian==0.1.39
+python-debian==0.1.38
 requests==2.25.1
 
 setuptools==52.0.0
