@@ -365,15 +365,21 @@ class FileReport:
         spdx_info = project.spdx_info_of(path)
         for expression in spdx_info.spdx_expressions:
             for identifier in _LICENSING.license_keys(expression):
+                # A license expression akin to Apache-1.0+ should register
+                # correctly if LICENSES/Apache-1.0.txt exists.
+                identifiers = {identifier}
+                if identifier.endswith("+"):
+                    identifiers.add(identifier[:-1])
                 # Bad license
-                if identifier not in project.license_map:
+                if not identifiers.intersection(project.license_map):
                     report.bad_licenses.add(identifier)
                 # Missing license
-                if identifier not in project.licenses:
+                if not identifiers.intersection(project.licenses):
                     report.missing_licenses.add(identifier)
 
                 # Add license to report.
-                report.spdxfile.licenses_in_file.append(identifier)
+                for id_ in identifiers:
+                    report.spdxfile.licenses_in_file.append(id_)
 
         # Copyright text
         report.spdxfile.copyright = "\n".join(
