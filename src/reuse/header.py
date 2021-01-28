@@ -116,6 +116,7 @@ def _create_new_header(
                 " expressions"
             )
         )
+        _LOGGER.debug(result)
         raise MissingSpdxInfo()
 
     return result
