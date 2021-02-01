@@ -11,6 +11,7 @@
 import errno
 import os
 from pathlib import Path
+from typing import Optional
 from unittest.mock import create_autospec
 
 import pytest
@@ -18,6 +19,25 @@ import requests
 
 from reuse import download
 from reuse._main import main
+from reuse._util import GIT_EXE, HG_EXE
+
+
+@pytest.fixture(params=[True, False])
+def optional_git_exe(request, monkeypatch) -> Optional[str]:
+    """Run the test with or without git."""
+    exe = GIT_EXE if request.param else ""
+    monkeypatch.setattr("reuse.project.GIT_EXE", exe)
+    monkeypatch.setattr("reuse._util.GIT_EXE", exe)
+    yield exe
+
+
+@pytest.fixture(params=[True, False])
+def optional_hg_exe(request, monkeypatch) -> Optional[str]:
+    """Run the test with or without mercurial."""
+    exe = HG_EXE if request.param else ""
+    monkeypatch.setattr("reuse.project.HG_EXE", exe)
+    monkeypatch.setattr("reuse._util.HG_EXE", exe)
+    yield exe
 
 
 @pytest.fixture()
@@ -28,9 +48,9 @@ def mock_put_license_in_file(monkeypatch):
     return result
 
 
-def test_lint(fake_repository, stringio, git_exe):
-    """Run a successful lint. git_exe is there to make sure that the test
-    also works if git is not installed.
+def test_lint(fake_repository, stringio, optional_git_exe, optional_hg_exe):
+    """Run a successful lint. The optional VCSs are there to make sure that the
+    test also works if these programs are not installed.
     """
     result = main(["lint"], out=stringio)
 
