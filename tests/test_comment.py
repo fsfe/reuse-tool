@@ -22,64 +22,72 @@ from reuse._comment import (
 )
 
 
-@pytest.fixture(params=_all_style_classes())
-def Style(request):
-    """Yield the available Style classes."""
+@pytest.fixture(
+    params=[
+        Style for Style in _all_style_classes() if Style.can_handle_single()
+    ]
+)
+def SingleStyle(request):
+    """Yield all Style classes that support single-line comments."""
     yield request.param
 
 
-def test_create_comment_generic_single(Style):
+@pytest.fixture(
+    params=[
+        Style for Style in _all_style_classes() if Style.can_handle_multi()
+    ]
+)
+def MultiStyle(request):
+    """Yield all Style classes that support multi-line comments."""
+    yield request.param
+
+
+def test_create_comment_generic_single(SingleStyle):
     """Create a comment for all classes that support single-line comments."""
-    if not Style.can_handle_single():
-        pytest.skip("does not support single-line comments")
     text = "Hello"
-    expected = f"{Style.SINGLE_LINE}{Style.INDENT_AFTER_SINGLE}Hello"
+    expected = (
+        f"{SingleStyle.SINGLE_LINE}{SingleStyle.INDENT_AFTER_SINGLE}Hello"
+    )
 
-    assert Style.create_comment(text) == expected
+    assert SingleStyle.create_comment(text) == expected
 
 
-def test_create_comment_generic_multi(Style):
+def test_create_comment_generic_multi(MultiStyle):
     """Create a comment for all classes that support multi-line comments."""
     # pylint: disable=line-too-long
-    if not Style.can_handle_multi():
-        pytest.skip("does not support multi-line comments")
     text = "Hello"
     expected = cleandoc(
         f"""
-        {Style.MULTI_LINE[0]}
-        {Style.INDENT_BEFORE_MIDDLE}{Style.MULTI_LINE[1]}{Style.INDENT_AFTER_MIDDLE}Hello
-        {Style.INDENT_BEFORE_END}{Style.MULTI_LINE[2]}
+        {MultiStyle.MULTI_LINE[0]}
+        {MultiStyle.INDENT_BEFORE_MIDDLE}{MultiStyle.MULTI_LINE[1]}{MultiStyle.INDENT_AFTER_MIDDLE}Hello
+        {MultiStyle.INDENT_BEFORE_END}{MultiStyle.MULTI_LINE[2]}
         """
     )
 
-    assert Style.create_comment(text, force_multi=True) == expected
+    assert MultiStyle.create_comment(text, force_multi=True) == expected
 
 
-def test_parse_comment_generic_single(Style):
+def test_parse_comment_generic_single(SingleStyle):
     """Parse a comment for all classes that support single-line comments."""
-    if not Style.can_handle_single():
-        pytest.skip("does not support single-line comments")
-    text = f"{Style.SINGLE_LINE}{Style.INDENT_AFTER_SINGLE}Hello"
+    text = f"{SingleStyle.SINGLE_LINE}{SingleStyle.INDENT_AFTER_SINGLE}Hello"
     expected = "Hello"
 
-    assert Style.parse_comment(text) == expected
+    assert SingleStyle.parse_comment(text) == expected
 
 
-def test_parse_comment_generic_multi(Style):
+def test_parse_comment_generic_multi(MultiStyle):
     """Parse a comment for all classes that support multi-line comments."""
     # pylint: disable=line-too-long
-    if not Style.can_handle_multi():
-        pytest.skip("does not support multi-line comments")
     text = cleandoc(
         f"""
-        {Style.MULTI_LINE[0]}
-        {Style.INDENT_BEFORE_MIDDLE}{Style.MULTI_LINE[1]}{Style.INDENT_AFTER_MIDDLE}Hello
-        {Style.INDENT_BEFORE_END}{Style.MULTI_LINE[2]}
+        {MultiStyle.MULTI_LINE[0]}
+        {MultiStyle.INDENT_BEFORE_MIDDLE}{MultiStyle.MULTI_LINE[1]}{MultiStyle.INDENT_AFTER_MIDDLE}Hello
+        {MultiStyle.INDENT_BEFORE_END}{MultiStyle.MULTI_LINE[2]}
         """
     )
     expected = "Hello"
 
-    assert Style.parse_comment(text) == expected
+    assert MultiStyle.parse_comment(text) == expected
 
 
 def test_base_class_throws_errors():
