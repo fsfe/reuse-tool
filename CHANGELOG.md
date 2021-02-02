@@ -39,6 +39,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
+- Python 3.10 support declared.
+
 - `addheader` recognises file types that specifically require .license files
   instead of headers using `UncommentableCommentStyle`. (#189)
 
