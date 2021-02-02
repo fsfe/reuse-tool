@@ -16,7 +16,6 @@ from textwrap import dedent
 import pytest
 from license_expression import LicenseSymbol
 
-from reuse import _util
 from reuse.project import Project
 
 try:
@@ -24,8 +23,6 @@ try:
 except ImportError:
     is_posix = False
 
-git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
-hg = pytest.mark.skipif(not _util.HG_EXE, reason="requires hg")
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
@@ -123,7 +120,6 @@ def test_all_files_ignore_zero_sized(empty_directory):
     assert Path("foo").absolute() not in project.all_files()
 
 
-@git
 def test_all_files_git_ignored(git_repository):
     """Given a Git repository where some files are ignored, do not yield those
     files.
@@ -132,7 +128,6 @@ def test_all_files_git_ignored(git_repository):
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
-@git
 def test_all_files_git_ignored_different_cwd(git_repository):
     """Given a Git repository where some files are ignored, do not yield those
     files.
@@ -144,7 +139,6 @@ def test_all_files_git_ignored_different_cwd(git_repository):
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
-@git
 def test_all_files_git_ignored_contains_space(git_repository):
     """Files that contain spaces are also ignored."""
     (git_repository / "I contain spaces.pyc").write_text("foo")
@@ -152,7 +146,6 @@ def test_all_files_git_ignored_contains_space(git_repository):
     assert Path("I contain spaces.pyc").absolute() not in project.all_files()
 
 
-@git
 @posix
 def test_all_files_git_ignored_contains_newline(git_repository):
     """Files that contain newlines are also ignored."""
@@ -161,7 +154,6 @@ def test_all_files_git_ignored_contains_newline(git_repository):
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 
-@git
 def test_all_files_submodule_is_ignored(submodule_repository):
     """If a submodule is ignored, all_files should not raise an Exception."""
     (submodule_repository / "submodule/foo.py").write_text("foo")
@@ -173,7 +165,6 @@ def test_all_files_submodule_is_ignored(submodule_repository):
     assert Path("submodule/foo.py").absolute() not in project.all_files()
 
 
-@hg
 def test_all_files_hg_ignored(hg_repository):
     """Given a mercurial repository where some files are ignored, do not yield
     those files.
@@ -182,7 +173,6 @@ def test_all_files_hg_ignored(hg_repository):
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
-@hg
 def test_all_files_hg_ignored_different_cwd(hg_repository):
     """Given a mercurial repository where some files are ignored, do not yield
     those files.
@@ -194,7 +184,6 @@ def test_all_files_hg_ignored_different_cwd(hg_repository):
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
-@hg
 def test_all_files_hg_ignored_contains_space(hg_repository):
     """File names that contain spaces are also ignored."""
     (hg_repository / "I contain spaces.pyc").touch()
@@ -202,7 +191,6 @@ def test_all_files_hg_ignored_contains_space(hg_repository):
     assert Path("I contain spaces.pyc").absolute() not in project.all_files()
 
 
-@hg
 @posix
 def test_all_files_hg_ignored_contains_newline(hg_repository):
     """File names that contain newlines are also ignored."""

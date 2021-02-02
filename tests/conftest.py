@@ -56,22 +56,20 @@ def pytest_runtest_setup(item):
     os.chdir(CWD)
 
 
-@pytest.fixture(params=[True, False])
-def git_exe(request, monkeypatch) -> Optional[str]:
-    """Run the test with or without git."""
-    exe = GIT_EXE if request.param else ""
-    monkeypatch.setattr("reuse.project.GIT_EXE", exe)
-    monkeypatch.setattr("reuse._util.GIT_EXE", exe)
-    yield exe
+@pytest.fixture()
+def git_exe() -> str:
+    """Run the test with git."""
+    if not GIT_EXE:
+        pytest.skip("cannot run this test without git")
+    yield GIT_EXE
 
 
-@pytest.fixture(params=[True, False])
-def hg_exe(request, monkeypatch) -> Optional[str]:
-    """Run the test with or without mercurial (hg)."""
-    exe = HG_EXE if request.param else ""
-    monkeypatch.setattr("reuse.project.HG_EXE", exe)
-    monkeypatch.setattr("reuse._util.HG_EXE", exe)
-    yield exe
+@pytest.fixture()
+def hg_exe() -> str:
+    """Run the test with mercurial (hg)."""
+    if not HG_EXE:
+        pytest.skip("cannot run this test without mercurial")
+    yield HG_EXE
 
 
 @pytest.fixture(params=[True, False])
@@ -152,9 +150,6 @@ def _repo_contents(
 @pytest.fixture()
 def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     """Create a git repository with ignored files."""
-    if not git_exe:
-        pytest.skip("cannot run this test without git")
-
     os.chdir(fake_repository)
     _repo_contents(fake_repository)
 
@@ -181,9 +176,6 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
 @pytest.fixture()
 def hg_repository(fake_repository: Path, hg_exe: Optional[str]) -> Path:
     """Create a mercurial repository with ignored files."""
-    if not hg_exe:
-        pytest.skip("cannot run this test without mercurial")
-
     os.chdir(fake_repository)
     _repo_contents(
         fake_repository,
