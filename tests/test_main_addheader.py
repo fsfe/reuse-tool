@@ -832,3 +832,46 @@ def test_addheader_force_multi_line_for_c(
             """
         ).replace("spdx", "SPDX")
     )
+
+
+@pytest.mark.parametrize("line_ending", ["\r\n", "\r", "\n"])
+def test_addheader_line_endings(
+    empty_directory, stringio, mock_date_today, line_ending
+):
+    """Given a file with a certain type of line ending, preserve it."""
+    simple_file = empty_directory / "foo.py"
+    simple_file.write_bytes(
+        line_ending.encode("utf-8").join([b"hello", b"world"])
+    )
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Mary Sue",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    with open(simple_file, newline="") as fp:
+        contents = fp.read()
+
+    assert (
+        contents
+        == cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Mary Sue
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            hello
+            world
+            """
+        )
+        .replace("spdx", "SPDX")
+        .replace("\n", line_ending)
+    )
