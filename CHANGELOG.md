@@ -64,8 +64,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Fixed a regression where unused licenses were not at all detected. (#285)
 
-- Declared dependency on `python-debian <= 0.1.38`. Later versions of the
-  dependency do not import on Windows. (#310)
+- Declared dependency on `python-debian != 0.1.39` on Windows. This version does
+  not import on Windows. (#310)
 
 - `MANIFEST.in` is now recognised instead of the incorrect `Manifest.in` by
   `addheader`. (#306)

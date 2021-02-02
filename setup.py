@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import glob
+import platform
 import shutil
 import subprocess
 from distutils import cmd
@@ -15,8 +16,10 @@ from setuptools import setup
 from setuptools.command.build_py import build_py
 
 requirements = [
-    # For parsing .reuse/dep5. TODO: Later versions do not work on Windows.
-    "python-debian <= 0.1.38",
+    # For parsing .reuse/dep5.
+    "python-debian"
+    if platform.system() != "Windows"
+    else "python-debian != 0.1.39",
     # For downloading from spdx/spdx-license-list-data. Could maybe use
     # standard library instead?
     "requests",
