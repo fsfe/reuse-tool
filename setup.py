@@ -134,6 +134,7 @@ if __name__ == "__main__":
         install_requires=requirements,
         tests_require=test_requirements,
         setup_requires=setup_requirements,
+        python_requires=">=3.6",
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
@@ -146,6 +147,7 @@ if __name__ == "__main__":
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
         ],
         cmdclass={"build_py": Build, "build_trans": BuildTrans},
     )
