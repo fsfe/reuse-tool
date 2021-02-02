@@ -24,12 +24,12 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 Copyright and licensing is difficult, especially when reusing software from
 different projects that are released under various different licenses.
-[REUSE](https://reuse.software) was started by the [Free Software Foundation
-Europe](https://fsfe.org) (FSFE) to provide a set of recommendations to make
-licensing your Free Software projects easier. Not only do these recommendations
-make it easier for you to declare the licenses under which your works are
-released, but they also make it easier for a computer to understand how your
-project is licensed.
+[REUSE](https://reuse.software) was started by the
+[Free Software Foundation Europe](https://fsfe.org) (FSFE) to provide a set of
+recommendations to make licensing your Free Software projects easier. Not only
+do these recommendations make it easier for you to declare the licenses under
+which your works are released, but they also make it easier for a computer to
+understand how your project is licensed.
 
 As a short summary, the recommendations are threefold:
 
@@ -37,27 +37,26 @@ As a short summary, the recommendations are threefold:
 2. Add copyright and licensing information to each file
 3. Confirm REUSE compliance
 
-You are recommended to read [our
-tutorial](https://reuse.software/tutorial) for a step-by-step guide
-through these three steps. The [FAQ](https://reuse.software/faq) covers
-basic questions about licensing, copyright, and more complex use cases.
-Advanced users and integrators will find the [full
-specification](https://reuse.software/spec) helpful.
+You are recommended to read [our tutorial](https://reuse.software/tutorial) for
+a step-by-step guide through these three steps. The
+[FAQ](https://reuse.software/faq) covers basic questions about licensing,
+copyright, and more complex use cases. Advanced users and integrators will find
+the [full specification](https://reuse.software/spec) helpful.
 
 This tool exists to facilitate the developer in complying with the above
 recommendations.
 
-There are [other tools](https://reuse.software/comparison) that have a
-lot more features and functionality surrounding the analysis and
-inspection of copyright and licenses in software projects. The REUSE
-helper tool, on the other hand, is solely designed to be a simple tool
-to assist in compliance with the REUSE recommendations.
+There are [other tools](https://reuse.software/comparison) that have a lot more
+features and functionality surrounding the analysis and inspection of copyright
+and licenses in software projects. The REUSE helper tool, on the other hand, is
+solely designed to be a simple tool to assist in compliance with the REUSE
+recommendations.
 
 ## Example demo
 
 In this screencast, we are going to follow the
-[tutorial](https://reuse.software/tutorial), making the [REUSE example
-repository](https://github.com/fsfe/reuse-example/) compliant.
+[tutorial](https://reuse.software/tutorial), making the
+[REUSE example repository](https://github.com/fsfe/reuse-example/) compliant.
 
 ![Demo of some basic REUSE tool commands](https://download.fsfe.org/videos/reuse/screencasts/reuse-tool.gif)
 
@@ -65,8 +64,8 @@ repository](https://github.com/fsfe/reuse-example/) compliant.
 
 ### Installation via pip
 
-To install reuse, you need to have the following pieces of software on
-your computer:
+To install reuse, you need to have the following pieces of software on your
+computer:
 
 - Python 3.6+
 - pip
@@ -77,10 +76,10 @@ You then only need to run the following command:
 pip3 install --user reuse
 ```
 
-After this, make sure that `~/.local/bin` is in your `$PATH`. On
-Windows, the required path for your environment may look like
-`%USERPROFILE%\AppData\Roaming\Python\Python39\Scripts`, depending on
-the Python version you have installed.
+After this, make sure that `~/.local/bin` is in your `$PATH`. On Windows, the
+required path for your environment may look like
+`%USERPROFILE%\AppData\Roaming\Python\Python39\Scripts`, depending on the Python
+version you have installed.
 
 To update reuse, run this command:
 
@@ -98,11 +97,11 @@ For full functionality, the following pieces of software are recommended:
 There are packages available for easy install on some operating systems. You are
 welcome to help us package this tool for more distributions!
 
-* Arch Linux (AUR): [reuse](https://aur.archlinux.org/packages/reuse/)
-* Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
-* openSUSE: [reuse](https://software.opensuse.org/package/reuse)
-* GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.5.0/)
-* NixOS: [reuse](https://nixos.org/nixos/packages.html?attr=reuse)
+- Arch Linux (AUR): [reuse](https://aur.archlinux.org/packages/reuse/)
+- Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
+- openSUSE: [reuse](https://software.opensuse.org/package/reuse)
+- GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.5.0/)
+- NixOS: [reuse](https://nixos.org/nixos/packages.html?attr=reuse)
 
 ### Installation from source
 
@@ -120,10 +119,10 @@ First, read the [REUSE tutorial](https://reuse.software/tutorial/). In a
 nutshell:
 
 1. Put your licenses in the `LICENSES/` directory.
-2. Add a comment header to each file that says `SPDX-License-Identifier:
-   GPL-3.0-or-later`, and `SPDX-FileCopyrightText: $YEAR $NAME`. You can be
-   flexible with the format, just make sure that the line starts with
-   `SPDX-FileCopyrightText:`.
+2. Add a comment header to each file that says
+   `SPDX-License-Identifier: GPL-3.0-or-later`, and
+   `SPDX-FileCopyrightText: $YEAR $NAME`. You can be flexible with the format,
+   just make sure that the line starts with `SPDX-FileCopyrightText:`.
 3. Verify your work using this tool.
 
 Example of header:
@@ -159,11 +158,12 @@ short summary:
 
 ### Run in Docker
 
-The `fsfe/reuse` Docker image is available on [Docker
-Hub](https://hub.docker.com/r/fsfe/reuse). With it, you can easily include REUSE
-in CI/CD processes. This way, you can check for REUSE compliance for each build.
-In our [resources for developers](https://reuse.software/dev/) you can learn how
-to integrate the REUSE tool in Drone, Travis, GitHub, or GitLab CI.
+The `fsfe/reuse` Docker image is available on
+[Docker Hub](https://hub.docker.com/r/fsfe/reuse). With it, you can easily
+include REUSE in CI/CD processes. This way, you can check for REUSE compliance
+for each build. In our [resources for developers](https://reuse.software/dev/)
+you can learn how to integrate the REUSE tool in Drone, Travis, GitHub, or
+GitLab CI.
 
 You can run the helper tool simply by providing the command you want to run
 (e.g., `lint`, `spdx`). The image's working directory is `/data` by default. So
@@ -184,16 +184,16 @@ docker run --volume $(pwd):/data fsfe/reuse --include-submodules spdx -o out.spd
 ### Run as pre-commit hook
 
 You can automatically run `reuse lint` on every commit as a pre-commit hook for
-Git. This uses [pre-commit](https://pre-commit.com/). Once you [have it
-installed](https://pre-commit.com/#install), add this to the
+Git. This uses [pre-commit](https://pre-commit.com/). Once you
+[have it installed](https://pre-commit.com/#install), add this to the
 `.pre-commit-config.yaml` in your repository:
 
 ```yaml
 repos:
--   repo: https://github.com/fsfe/reuse-tool
+  - repo: https://github.com/fsfe/reuse-tool
     rev: latest
     hooks:
-    - id: reuse
+      - id: reuse
 ```
 
 Then run `pre-commit install`. Now, every time you commit, `reuse lint` is run
@@ -202,7 +202,7 @@ an error.
 
 ## Maintainers
 
--   Carmen Bianca Bakker - <carmenbianca@fsfe.org>
+- Carmen Bianca Bakker - <carmenbianca@fsfe.org>
 
 ## Contribute
 
@@ -210,11 +210,10 @@ Any pull requests or suggestions are welcome at
 <https://github.com/fsfe/reuse-tool> or via e-mail to one of the maintainers.
 General inquiries can be sent to <reuse@lists.fsfe.org>.
 
-Interaction within this project is covered by the [FSFE's Code of
-Conduct](https://fsfe.org/about/codeofconduct).
+Interaction within this project is covered by the
+[FSFE's Code of Conduct](https://fsfe.org/about/codeofconduct).
 
-Starting local development is very simple, just execute the following
-commands:
+Starting local development is very simple, just execute the following commands:
 
 ```bash
 git clone git@github.com:fsfe/reuse-tool.git
