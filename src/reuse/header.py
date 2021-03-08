@@ -508,7 +508,7 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--year",
         "-y",
-        action="store",
+        action="append",
         type=str,
         help=_("year of copyright statement, optional"),
     )
@@ -659,8 +659,10 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     year = None
     if not args.exclude_year:
-        if args.year:
-            year = args.year
+        if args.year and len(args.year) > 1:
+            year = f"{min(args.year)} - {max(args.year)}"
+        elif args.year:
+            year = args.year.pop()
         else:
             year = datetime.date.today().year
 
