@@ -54,6 +54,7 @@ from ._util import (
     detect_line_endings,
     extract_spdx_info,
     make_copyright_line,
+    merge_copyright_lines,
     spdx_identifier,
 )
 from .project import Project
@@ -134,6 +135,7 @@ def create_header(
     template_is_commented: bool = False,
     style: CommentStyle = None,
     force_multi: bool = False,
+    merge_copyrights: bool = False,
 ) -> str:
     """Create a header containing *spdx_info*. *header* is an optional argument
     containing a header which should be modified to include *spdx_info*. If
@@ -160,10 +162,19 @@ def create_header(
                 "existing header contains an erroneous SPDX expression"
             ) from err
 
+        if merge_copyrights:
+            spdx_copyrights = merge_copyright_lines(
+                spdx_info.copyright_lines.union(existing_spdx.copyright_lines),
+            )
+        else:
+            spdx_copyrights = spdx_info.copyright_lines.union(
+                existing_spdx.copyright_lines
+            )
+
         # TODO: This behaviour does not match the docstring.
         spdx_info = SpdxInfo(
             spdx_info.spdx_expressions.union(existing_spdx.spdx_expressions),
-            spdx_info.copyright_lines.union(existing_spdx.copyright_lines),
+            spdx_copyrights,
         )
 
     new_header += _create_new_header(
@@ -239,6 +250,7 @@ def find_and_replace_header(
     template_is_commented: bool = False,
     style: CommentStyle = None,
     force_multi: bool = False,
+    merge_copyrights: bool = False,
 ) -> str:
     """Find the first SPDX comment block in *text*. That comment block is
     replaced by a new comment block containing *spdx_info*. It is formatted as
@@ -300,6 +312,7 @@ def find_and_replace_header(
         template_is_commented=template_is_commented,
         style=style,
         force_multi=force_multi,
+        merge_copyrights=merge_copyrights,
     )
 
     new_text = f"{header}\n"
@@ -411,6 +424,7 @@ def _add_header_to_file(
     style: Optional[str],
     force_multi: bool = False,
     skip_existing: bool = False,
+    merge_copyrights: bool = False,
     out=sys.stdout,
 ) -> int:
     """Helper function."""
@@ -452,6 +466,7 @@ def _add_header_to_file(
             template_is_commented=template_is_commented,
             style=style,
             force_multi=force_multi,
+            merge_copyrights=merge_copyrights,
         )
     except CommentCreateError:
         out.write(
@@ -537,6 +552,11 @@ def add_arguments(parser) -> None:
         "--exclude-year",
         action="store_true",
         help=_("do not include year in statement"),
+    )
+    parser.add_argument(
+        "--merge-copyrights",
+        action="store_true",
+        help=_("merge copyright lines if copyright statements are identical"),
     )
     parser.add_argument(
         "--single-line",
@@ -703,6 +723,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
             style=args.style,
             force_multi=args.multi_line,
             skip_existing=args.skip_existing,
+            merge_copyrights=args.merge_copyrights,
             out=out,
         )
 

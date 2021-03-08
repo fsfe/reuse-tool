@@ -20,7 +20,7 @@ from gettext import gettext as _
 from hashlib import sha1
 from os import PathLike
 from pathlib import Path
-from typing import BinaryIO, List, Optional
+from typing import BinaryIO, List, Optional, Set
 
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
@@ -185,6 +185,68 @@ def _copyright_from_dep5(path: PathLike, dep5_copyright: Copyright) -> SpdxInfo:
         set(map(_LICENSING.parse, [result.license.synopsis])),
         set(map(str.strip, result.copyright.splitlines())),
     )
+
+
+def _parse_copyright_year(year: str) -> list:
+    """Parse copyright years and return list."""
+    if not year:
+        ret = []
+    if re.match(r"\d{4}$", year):
+        ret = [int(year)]
+    if re.match(r"\d{4} - \d{4}$", year):
+        ret = [int(year[:4]), int(year[-4:])]
+    return ret
+
+
+def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
+    """Parse all copyright lines and merge identical statements making years
+    into a range.
+    If a same statement uses multiple prefixes, use only the most frequent one.
+    """
+    copyright_in = []
+    for line in copyright_lines:
+        for pattern in _COPYRIGHT_PATTERNS:
+            match = pattern.search(line)
+            if match is not None:
+                copyright_in.append(
+                    {
+                        "statement": match.groupdict()["statement"],
+                        "year": _parse_copyright_year(
+                            match.groupdict()["year"]
+                        ),
+                        "prefix": match.groupdict()["prefix"],
+                    }
+                )
+
+    copyright_out = []
+    for statement in {item["statement"] for item in copyright_in}:
+        copyright = [
+            item for item in copyright_in if item["statement"] == statement
+        ]
+        prefixes = [item["prefix"] for item in copyright]
+
+        # Get the style of the most common prefix
+        prefix = max(set(prefixes), key=prefixes.count)
+        style = "spdx"
+        for sty in _COPYRIGHT_STYLES:
+            if prefix == _COPYRIGHT_STYLES[sty]:
+                style = sty
+                break
+
+        # get year range if any
+        years = []
+        for copy in copyright:
+            years += copy["year"]
+
+        if len(years) == 0:
+            year = None
+        elif min(years) == max(years):
+            year = min(years)
+        else:
+            year = f"{min(years)} - {max(years)}"
+
+        copyright_out.append(make_copyright_line(statement, year, style))
+    return copyright_out
 
 
 def extract_spdx_info(text: str) -> SpdxInfo:
