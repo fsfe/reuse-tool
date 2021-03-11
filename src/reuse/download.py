@@ -129,7 +129,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         licenses = report.missing_licenses
         if args.file:
             _LOGGER.warning(
-                _("--output has no efect when used together with --all")
+                _("--output has no effect when used together with --all")
             )
             args.file = None
     elif not args.license:
