@@ -6,6 +6,7 @@
 
 import errno
 import sys
+import logging
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
@@ -21,6 +22,8 @@ from ._util import (
 )
 from .project import Project
 from .report import ProjectReport
+
+_LOGGER = logging.getLogger(__name__)
 
 # All raw text files are available as files underneath this path.
 _SPDX_REPOSITORY_BASE_URL = (
@@ -124,6 +127,11 @@ def run(args, project: Project, out=sys.stdout) -> int:
         # TODO: This is fairly inefficient, but gets the job done.
         report = ProjectReport.generate(project)
         licenses = report.missing_licenses
+        if args.file:
+            _LOGGER.warning(
+                _("--output has no effect when used together with --all")
+            )
+            args.file = None
     elif not args.license:
         args.parser.error(_("the following arguments are required: license"))
     elif len(args.license) > 1 and args.file:
