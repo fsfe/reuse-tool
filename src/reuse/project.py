@@ -155,7 +155,7 @@ class Project:
                     _(
                         "'{path}' holds an SPDX expression that cannot be"
                         " parsed, skipping the file"
-                    ).format(path)
+                    ).format(path=path)
                 )
 
         return SpdxInfo(
