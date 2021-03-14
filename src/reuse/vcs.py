@@ -196,18 +196,38 @@ class VCSStrategyHg(VCSStrategy):
         return None
 
 
+def find_dot_reuse_dir(cwd: PathLike = None, break_path: PathLike = None) -> Optional[Path]:
+    if cwd is None:
+        cwd = Path.cwd()
+    if break_path is not None:
+        break_path = Path(break_path).resolve()
+
+    for path_to_check in [cwd] + list(cwd.parents):
+        if break_path is not None and break_path.samefile(Path(path_to_check).resolve()):
+            break
+
+        if (path_to_check / '.reuse').is_dir():
+            return Path(os.path.relpath(path_to_check))
+
+    return None
+
+
 def find_root(cwd: PathLike = None) -> Optional[Path]:
     """Try to find the root of the project from *cwd*. If none is found,
     return None.
 
     :raises NotADirectoryError: if directory is not a directory.
     """
+    root = None
     if GIT_EXE:
         root = VCSStrategyGit.find_root(cwd=cwd)
-        if root:
-            return root
-    if HG_EXE:
+    if HG_EXE and root is not None:
         root = VCSStrategyHg.find_root(cwd=cwd)
-        if root:
-            return root
-    return None
+
+    # A .reuse directory takes precedence even if not at the root of a repo to
+    # support Monorepos.
+    dot_reuse_root = find_dot_reuse_dir(cwd=cwd, break_path=root)
+    if dot_reuse_root is not None:
+        root = dot_reuse_root
+
+    return root
