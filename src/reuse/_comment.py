@@ -465,6 +465,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".d": CCommentStyle,
     ".dart": CCommentStyle,
     ".di": CCommentStyle,
+    ".dts": CCommentStyle,
+    ".dtsi": CCommentStyle,
     ".el": LispCommentStyle,
     ".erl": TexCommentStyle,
     ".ex": PythonCommentStyle,
