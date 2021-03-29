@@ -558,6 +558,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".sh": PythonCommentStyle,
     ".sml": MlCommentStyle,
     ".sql": HaskellCommentStyle,
+    ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
     ".swift": CCommentStyle,
     ".tex": TexCommentStyle,
