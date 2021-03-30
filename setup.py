@@ -32,6 +32,8 @@ requirements = [
     "Jinja2",
     # Exactly what it says.
     "binaryornot",
+    # For pkg_resources
+    "setuptools",
 ]
 
 test_requirements = ["pytest"]
