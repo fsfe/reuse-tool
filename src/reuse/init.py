@@ -8,9 +8,10 @@ import sys
 from gettext import gettext as _
 from inspect import cleandoc
 from pathlib import Path
-from typing import List
+from typing import List, Mapping, IO, Union
 
 import requests
+import toml
 
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import PathType, print_incorrect_spdx_identifier
@@ -60,6 +61,39 @@ def add_arguments(parser):
     )
 
 
+def read_pyproject_toml(
+    path: Path, out: IO
+) -> Mapping[str, Union[str, List[str]]]:
+    """Parse information from pyproject.toml"""
+    out.write(_("Using information from pyproject.toml."))
+    out.write("\n")
+    doc = toml.load(path)
+    project = doc.get("project")
+    config = {}
+
+    if "license" in project:
+        license = project["license"].get("text")
+        if license not in ALL_NON_DEPRECATED_MAP:
+            print_incorrect_spdx_identifier(license, out)
+            out.write("\n")
+        else:
+            config["licenses"] = [license]
+
+    if "name" in project:
+        config["project_name"] = project["name"]
+
+    homepage = project.get("urls", {}).get("homepage")
+    if homepage:
+        config["project_url"] = homepage
+
+    authors = project.get("authors", [])
+    if authors:
+        config["contact_name"] = authors[0]["name"]
+        config["contact_address"] = authors[0]["email"]
+
+    return config
+
+
 def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
     # pylint: disable=too-many-statements,unused-argument
@@ -75,34 +109,41 @@ def run(args, project: Project, out=sys.stdout):
         out.write("\n")
         return 1
 
+    if (root / "pyproject.toml").exists():
+        config = read_pyproject_toml(root / "pyproject.toml", out)
+
     out.write(_("Initializing project for REUSE."))
     out.write("\n\n")
 
-    licenses = prompt_licenses(out=out)
+    licenses = config.get("licenses") or prompt_licenses(out=out)
 
-    out.write(_("What is the name of the project?"))
-    out.write("\n")
-    project_name = input()
+    project_name = config.get("project_name")
+    if not project_name:
+        out.write(_("What is the name of the project?"))
+        out.write("\n")
+        project_name = config.get("project_name") or input()
+        out.write("\n")
 
-    out.write("\n")
+    project_url = config.get("project_url") or input()
+    if not project_url:
+        out.write(_("What is the internet address of the project?"))
+        out.write("\n")
+        project_url = input()
+        out.write("\n")
 
-    out.write(_("What is the internet address of the project?"))
-    out.write("\n")
-    project_url = input()
+    contact_name = config.get("contact_name")
+    if not contact_name:
+        out.write(_("What is the name of the maintainer?"))
+        out.write("\n")
+        contact_name = input()
+        out.write("\n")
 
-    out.write("\n")
-
-    out.write(_("What is the name of the maintainer?"))
-    out.write("\n")
-    contact_name = input()
-
-    out.write("\n")
-
-    out.write(_("What is the e-mail address of the maintainer?"))
-    out.write("\n")
-    contact_address = input()
-
-    out.write("\n")
+    contact_address = config.get("contact_address") or input()
+    if not contact_address:
+        out.write(_("What is the e-mail address of the maintainer?"))
+        out.write("\n")
+        contact_address = input()
+        out.write("\n")
 
     out.write(_("All done! Initializing now."))
     out.write("\n\n")
