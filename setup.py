@@ -32,6 +32,8 @@ requirements = [
     "Jinja2",
     # Exactly what it says.
     "binaryornot",
+    # For reusing info from  pyproject.toml
+    "toml",
 ]
 
 test_requirements = ["pytest"]

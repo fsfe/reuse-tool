@@ -8,6 +8,7 @@ Jinja2==2.11.3
 license-expression==1.2
 python-debian==0.1.38
 requests==2.25.1
+toml==0.10.2
 
 setuptools==52.0.0
 setuptools-scm==5.0.1
