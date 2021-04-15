@@ -522,7 +522,7 @@ def add_arguments(parser) -> None:
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
     )
-    parser.add_argument("path", action="store", nargs="+", type=PathType("r+"))
+    parser.add_argument("path", action="store", nargs="+", type=PathType("r"))
 
 
 def run(args, project: Project, out=sys.stdout) -> int:
