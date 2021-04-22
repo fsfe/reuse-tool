@@ -19,7 +19,7 @@ from argparse import ArgumentParser
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
-from typing import List, NamedTuple, Optional, Sequence
+from typing import List, NamedTuple, Optional, Sequence, TextIO
 
 from binaryornot.check import is_binary
 from boolean.boolean import Expression, ParseError
@@ -692,9 +692,6 @@ def run(args, project: Project, out=sys.stdout) -> int:
         else:
             year = datetime.date.today().year
 
-    spdx_info = _make_spdx_info(
-        args.license, args.copyright_style, args.copyright, year
-    )
     repo = None
     if args.use_first_commit_year:
         try:
@@ -707,28 +704,82 @@ def run(args, project: Project, out=sys.stdout) -> int:
             )
             repo = None
 
+    return process_paths(
+        out,
+        paths,
+        template,
+        commented,
+        year,
+        args.license,
+        args.copyright_style,
+        args.copyright,
+        args.explicit_license,
+        args.style,
+        args.multi_line,
+        repo,
+    )
+
+
+def process_paths(
+    out: TextIO,
+    paths: List[PathLike],
+    template: Template,
+    template_is_commented: bool,
+    year: Optional[str],
+    license: List[Expression],
+    copyright_style: Optional[str],
+    copyright: Optional[List[str]],
+    explicit_license: bool,
+    style: Optional[str],
+    multi_line: bool,
+    repo: "Optional[git.Repo]" = None,
+) -> int:
+    """
+    Add headers to a number of paths, as requested.
+
+    :param out: Output stream for messages.
+    :param paths: The paths to add headers to.
+    :param template: The header template to use.
+    :param template_is_commented: :const:`True` if the template is already
+        commented (not typical)
+    :param year: The year string to use, if any.
+    :param license: The SPDX license expressions to use.
+    :param copyright_style: Optional - the name of the copyright style to use.
+    :param copyright: Optional - a list of copyright holders to add.
+    :param explicit_license: if :const:`True`, will unconditionally make a
+        `.license` file.
+    :param style: Optional - the name of the comment style to use (defaults
+        to python).
+    :param multi_line: Whether to force multi-line comments.
+    :param repo: Optional - a :class:`git.Repo` object that will be used to
+        override the year, on a per-file basis, with the earlier of year of the
+        first commit to a file and the supplied *year*.
+
+    :return: An integer return code: 0 on success, 1 if errors.
+    """
+    # pylint: disable=too-many-locals
+    spdx_info = _make_spdx_info(license, copyright_style, copyright, year)
     result = 0
     for path in paths:
-        header_path = _determine_header_path(path, args.explicit_license)
+        header_path = _determine_header_path(path, explicit_license)
         file_spdx_info = spdx_info
         if repo:
             file_year = _find_commit_year(path, repo, year)
 
             if file_year:
                 file_spdx_info = _make_spdx_info(
-                    args.license,
-                    args.copyright_style,
-                    args.copyright,
+                    license,
+                    copyright_style,
+                    copyright,
                     file_year,
                 )
         result += _add_header_to_file(
             header_path,
             file_spdx_info,
             template,
-            commented,
-            args.style,
-            args.multi_line,
+            template_is_commented,
+            style,
+            multi_line,
             out,
         )
-
     return min(result, 1)
