@@ -27,6 +27,14 @@ from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
 from jinja2.exceptions import TemplateNotFound
 from license_expression import ExpressionError
 
+try:
+    # pylint: disable=unused-import
+    import git
+
+    HAVE_GIT = True
+except ImportError:
+    HAVE_GIT = False
+
 from . import SpdxInfo
 from ._comment import (
     EXTENSION_COMMENT_STYLE_MAP,
@@ -486,6 +494,58 @@ def _determine_header_path(path, explicit_license: bool):
     return header_path
 
 
+def _find_commit_year(
+    path: Path, repo: "git.Repo", year: str
+) -> Optional[str]:
+    known_year = None
+    # TODO Right now, it will only set the year from commit if it's
+    # earlier than the otherwise-specified or assumed year, if we can
+    # parse it as an int.
+    # This may or may not be useful.
+    # If we want a version history to always trump the specified year
+    # when the use-git flag is enabled, then we just remove the
+    # first `try`/`except` block below and the `year` argument to this
+    # function.
+    try:
+        numeric_year = int(year)
+        if numeric_year:
+            # OK, we could parse the string as an integer, so
+            # we will include it in the comparison.
+            known_year = numeric_year
+    except ValueError:
+        # If we can't convert the provided year to an int, just
+        # always use the detected year
+        pass
+
+    try:
+        output = repo.git.log(
+            "--follow",
+            "--author-date-order",
+            "--format=format:%at",
+            "--",
+            str(path.resolve()),
+        )
+        for line in output.split("\n"):
+            try:
+                timestamp = datetime.datetime.fromtimestamp(int(line.strip()))
+                if known_year is None or timestamp.year < known_year:
+                    known_year = timestamp.year
+            except ValueError:
+                continue
+
+        _LOGGER.debug(
+            _("'{path}' oldest commit: {year}").format(
+                path=path, year=known_year
+            )
+        )
+        if known_year is not None:
+            return str(known_year)
+        return None
+    except (git.GitCommandError, FileNotFoundError, OSError) as ex:
+        _LOGGER.warning("Got exception: %s", str(ex))
+        return None
+
+
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -535,6 +595,12 @@ def add_arguments(parser) -> None:
         action="store_true",
         help=_("do not include year in statement"),
     )
+    if HAVE_GIT:
+        parser.add_argument(
+            "--use-first-commit-year",
+            action="store_true",
+            help=_("use the year of the first git commit for a given file"),
+        )
     parser.add_argument(
         "--single-line",
         action="store_true",
@@ -561,6 +627,9 @@ def add_arguments(parser) -> None:
 def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
     # pylint: disable=too-many-branches
+    if not hasattr(args, "use_first_commit_year"):
+        args.use_first_commit_year = False
+
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
@@ -569,6 +638,12 @@ def run(args, project: Project, out=sys.stdout) -> int:
             _("option --exclude-year and --year are mutually exclusive")
         )
 
+    if args.exclude_year and args.use_first_commit_year:
+        args.parser.error(
+            _(
+                "option --exclude-year and --use-first-commit-year are mutually exclusive"
+            )
+        )
     if args.single_line and args.multi_line:
         args.parser.error(
             _("option --single-line and --multi-line are mutually exclusive")
@@ -620,13 +695,35 @@ def run(args, project: Project, out=sys.stdout) -> int:
     spdx_info = _make_spdx_info(
         args.license, args.copyright_style, args.copyright, year
     )
+    repo = None
+    if args.use_first_commit_year:
+        try:
+            repo = git.Repo(project.root)
+        except git.InvalidGitRepositoryError:
+            _LOGGER.warning(
+                _("'{path}' does not appear to be a git repo").format(
+                    path=project.root
+                )
+            )
+            repo = None
 
     result = 0
     for path in paths:
         header_path = _determine_header_path(path, args.explicit_license)
+        file_spdx_info = spdx_info
+        if repo:
+            file_year = _find_commit_year(path, repo, year)
+
+            if file_year:
+                file_spdx_info = _make_spdx_info(
+                    args.license,
+                    args.copyright_style,
+                    args.copyright,
+                    file_year,
+                )
         result += _add_header_to_file(
             header_path,
-            spdx_info,
+            file_spdx_info,
             template,
             commented,
             args.style,
