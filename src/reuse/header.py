@@ -465,6 +465,27 @@ def _make_spdx_info(
     return spdx_info
 
 
+def _determine_header_path(path, explicit_license: bool):
+    """Return the file path to add a header to.
+
+    Depending on the type of the file and the *explicit_license*
+    argument, this may be the input path, or it may be suffixed."""
+    header_path = path
+    uncommentable = _is_uncommentable(path)
+    if uncommentable or explicit_license:
+        new_path = _determine_license_suffix_path(path)
+        if uncommentable:
+            _LOGGER.info(
+                _(
+                    "'{path}' is a binary, therefore using '{new_path}'"
+                    " for the header"
+                ).format(path=path, new_path=new_path)
+            )
+        header_path = Path(new_path)
+        header_path.touch()
+    return header_path
+
+
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -602,20 +623,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     result = 0
     for path in paths:
-        uncommentable = _is_uncommentable(path)
-        if uncommentable or args.explicit_license:
-            new_path = _determine_license_suffix_path(path)
-            if uncommentable:
-                _LOGGER.info(
-                    _(
-                        "'{path}' is a binary, therefore using '{new_path}'"
-                        " for the header"
-                    ).format(path=path, new_path=new_path)
-                )
-            path = Path(new_path)
-            path.touch()
+        header_path = _determine_header_path(path, args.explicit_license)
         result += _add_header_to_file(
-            path,
+            header_path,
             spdx_info,
             template,
             commented,
