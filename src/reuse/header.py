@@ -391,9 +391,9 @@ def _add_header_to_file(
     # pylint: disable=too-many-arguments
     result = 0
     if style is not None:
-        style = NAME_STYLE_MAP[style]
+        style: CommentStyle = NAME_STYLE_MAP[style]
     else:
-        style = _get_comment_style(path)
+        style: CommentStyle = _get_comment_style(path)
         if style is None:
             out.write(_("Skipped unrecognised file {path}").format(path=path))
             out.write("\n")
