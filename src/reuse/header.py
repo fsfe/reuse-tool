@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import List, NamedTuple, Optional, Sequence
 
 from binaryornot.check import is_binary
-from boolean.boolean import ParseError
+from boolean.boolean import Expression, ParseError
 from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
 from jinja2.exceptions import TemplateNotFound
 from license_expression import ExpressionError
@@ -442,6 +442,29 @@ def _add_header_to_file(
     return result
 
 
+def _make_spdx_info(
+    license: List[Expression],
+    copyright_style: Optional[str],
+    copyright: Optional[List[str]],
+    year: Optional[str],
+) -> SpdxInfo:
+    """Helper function to make SpdxInfo from command line args and a year."""
+    expressions = set(license) if license is not None else set()
+    copyright_style = (
+        copyright_style if copyright_style is not None else "spdx"
+    )
+    copyright_lines = (
+        {
+            make_copyright_line(x, year=year, copyright_style=copyright_style)
+            for x in copyright
+        }
+        if copyright is not None
+        else set()
+    )
+    spdx_info = SpdxInfo(expressions, copyright_lines)
+    return spdx_info
+
+
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -573,20 +596,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
         else:
             year = datetime.date.today().year
 
-    expressions = set(args.license) if args.license is not None else set()
-    copyright_style = (
-        args.copyright_style if args.copyright_style is not None else "spdx"
+    spdx_info = _make_spdx_info(
+        args.license, args.copyright_style, args.copyright, year
     )
-    copyright_lines = (
-        {
-            make_copyright_line(x, year=year, copyright_style=copyright_style)
-            for x in args.copyright
-        }
-        if args.copyright is not None
-        else set()
-    )
-
-    spdx_info = SpdxInfo(expressions, copyright_lines)
 
     result = 0
     for path in paths:
