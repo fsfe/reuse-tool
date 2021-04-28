@@ -56,6 +56,7 @@ _COPYRIGHT_PATTERNS = [
 
 _COPYRIGHT_STYLES = {
     "spdx": "SPDX-FileCopyrightText:",
+    "spdx-symbol": "SPDX-FileCopyrightText: ©",
     "string": "Copyright",
     "string-c": "Copyright (C)",
     "string-symbol": "Copyright ©",
@@ -221,7 +222,7 @@ def make_copyright_line(
     copyright_prefix = _COPYRIGHT_STYLES.get(copyright_style)
     if copyright_prefix is None:
         raise RuntimeError(
-            "Unexpected copyright syle: Need 'spdx', 'string', 'string-c',"
+            "Unexpected copyright syle: Need 'spdx', 'spdx-symbol', 'string', 'string-c',"
             "'string-symbol' or 'symbol'"
         )
 
