@@ -605,6 +605,8 @@ FILENAME_COMMENT_STYLE_MAP = {
     "configure.ac": M4CommentStyle,
     "go.mod": CCommentStyle,
     "go.sum": UncommentableCommentStyle,
+    "gradle-wrapper.properties": PythonCommentStyle,
+    "gradlew": PythonCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "meson.build": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
