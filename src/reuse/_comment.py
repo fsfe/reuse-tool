@@ -574,6 +574,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".tsx": JsxCommentStyle,
     ".vala": CCommentStyle,
     ".xml": HtmlCommentStyle,
+    ".XML": HtmlCommentStyle,
     ".xsh": PythonCommentStyle,
     ".xsl": PythonCommentStyle,
     ".yaml": PythonCommentStyle,
