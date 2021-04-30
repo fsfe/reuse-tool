@@ -5,8 +5,8 @@
 """Functions for downloading license files from spdx/license-data-list."""
 
 import errno
-import sys
 import logging
+import sys
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
