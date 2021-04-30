@@ -19,13 +19,21 @@ from argparse import ArgumentParser
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
-from typing import List, NamedTuple, Optional, Sequence
+from typing import List, NamedTuple, Optional, Sequence, TextIO
 
 from binaryornot.check import is_binary
-from boolean.boolean import ParseError
+from boolean.boolean import Expression, ParseError
 from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
 from jinja2.exceptions import TemplateNotFound
 from license_expression import ExpressionError
+
+try:
+    # pylint: disable=unused-import
+    import git
+
+    HAVE_GIT = True
+except ImportError:
+    HAVE_GIT = False
 
 from . import SpdxInfo
 from ._comment import (
@@ -391,9 +399,9 @@ def _add_header_to_file(
     # pylint: disable=too-many-arguments
     result = 0
     if style is not None:
-        style = NAME_STYLE_MAP[style]
+        style: CommentStyle = NAME_STYLE_MAP[style]
     else:
-        style = _get_comment_style(path)
+        style: CommentStyle = _get_comment_style(path)
         if style is None:
             out.write(_("Skipped unrecognised file {path}").format(path=path))
             out.write("\n")
@@ -440,6 +448,102 @@ def _add_header_to_file(
         out.write("\n")
 
     return result
+
+
+def _make_spdx_info(
+    license: List[Expression],
+    copyright_style: Optional[str],
+    copyright: Optional[List[str]],
+    year: Optional[str],
+) -> SpdxInfo:
+    """Helper function to make SpdxInfo from command line args and a year."""
+    expressions = set(license) if license is not None else set()
+    copyright_style = (
+        copyright_style if copyright_style is not None else "spdx"
+    )
+    copyright_lines = (
+        {
+            make_copyright_line(x, year=year, copyright_style=copyright_style)
+            for x in copyright
+        }
+        if copyright is not None
+        else set()
+    )
+    spdx_info = SpdxInfo(expressions, copyright_lines)
+    return spdx_info
+
+
+def _determine_header_path(path, explicit_license: bool):
+    """Return the file path to add a header to.
+
+    Depending on the type of the file and the *explicit_license*
+    argument, this may be the input path, or it may be suffixed."""
+    header_path = path
+    uncommentable = _is_uncommentable(path)
+    if uncommentable or explicit_license:
+        new_path = _determine_license_suffix_path(path)
+        if uncommentable:
+            _LOGGER.info(
+                _(
+                    "'{path}' is a binary, therefore using '{new_path}'"
+                    " for the header"
+                ).format(path=path, new_path=new_path)
+            )
+        header_path = Path(new_path)
+        header_path.touch()
+    return header_path
+
+
+def _find_commit_year(
+    path: Path, repo: "git.Repo", year: str
+) -> Optional[str]:
+    known_year = None
+    # TODO Right now, it will only set the year from commit if it's
+    # earlier than the otherwise-specified or assumed year, if we can
+    # parse it as an int.
+    # This may or may not be useful.
+    # If we want a version history to always trump the specified year
+    # when the use-git flag is enabled, then we just remove the
+    # first `try`/`except` block below and the `year` argument to this
+    # function.
+    try:
+        numeric_year = int(year)
+        if numeric_year:
+            # OK, we could parse the string as an integer, so
+            # we will include it in the comparison.
+            known_year = numeric_year
+    except ValueError:
+        # If we can't convert the provided year to an int, just
+        # always use the detected year
+        pass
+
+    try:
+        output = repo.git.log(
+            "--follow",
+            "--author-date-order",
+            "--format=format:%at",
+            "--",
+            str(path.resolve()),
+        )
+        for line in output.split("\n"):
+            try:
+                timestamp = datetime.datetime.fromtimestamp(int(line.strip()))
+                if known_year is None or timestamp.year < known_year:
+                    known_year = timestamp.year
+            except ValueError:
+                continue
+
+        _LOGGER.debug(
+            _("'{path}' oldest commit: {year}").format(
+                path=path, year=known_year
+            )
+        )
+        if known_year is not None:
+            return str(known_year)
+        return None
+    except (git.GitCommandError, FileNotFoundError, OSError) as ex:
+        _LOGGER.warning("Got exception: %s", str(ex))
+        return None
 
 
 def add_arguments(parser) -> None:
@@ -491,6 +595,12 @@ def add_arguments(parser) -> None:
         action="store_true",
         help=_("do not include year in statement"),
     )
+    if HAVE_GIT:
+        parser.add_argument(
+            "--use-first-commit-year",
+            action="store_true",
+            help=_("use the year of the first git commit for a given file"),
+        )
     parser.add_argument(
         "--single-line",
         action="store_true",
@@ -517,6 +627,9 @@ def add_arguments(parser) -> None:
 def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
     # pylint: disable=too-many-branches
+    if not hasattr(args, "use_first_commit_year"):
+        args.use_first_commit_year = False
+
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
@@ -525,6 +638,12 @@ def run(args, project: Project, out=sys.stdout) -> int:
             _("option --exclude-year and --year are mutually exclusive")
         )
 
+    if args.exclude_year and args.use_first_commit_year:
+        args.parser.error(
+            _(
+                "option --exclude-year and --use-first-commit-year are mutually exclusive"
+            )
+        )
     if args.single_line and args.multi_line:
         args.parser.error(
             _("option --single-line and --multi-line are mutually exclusive")
@@ -573,43 +692,94 @@ def run(args, project: Project, out=sys.stdout) -> int:
         else:
             year = datetime.date.today().year
 
-    expressions = set(args.license) if args.license is not None else set()
-    copyright_style = (
-        args.copyright_style if args.copyright_style is not None else "spdx"
-    )
-    copyright_lines = (
-        {
-            make_copyright_line(x, year=year, copyright_style=copyright_style)
-            for x in args.copyright
-        }
-        if args.copyright is not None
-        else set()
+    repo = None
+    if args.use_first_commit_year:
+        try:
+            repo = git.Repo(project.root)
+        except git.InvalidGitRepositoryError:
+            _LOGGER.warning(
+                _("'{path}' does not appear to be a git repo").format(
+                    path=project.root
+                )
+            )
+            repo = None
+
+    return process_paths(
+        out,
+        paths,
+        template,
+        commented,
+        year,
+        args.license,
+        args.copyright_style,
+        args.copyright,
+        args.explicit_license,
+        args.style,
+        args.multi_line,
+        repo,
     )
 
-    spdx_info = SpdxInfo(expressions, copyright_lines)
 
+def process_paths(
+    out: TextIO,
+    paths: List[PathLike],
+    template: Template,
+    template_is_commented: bool,
+    year: Optional[str],
+    license: List[Expression],
+    copyright_style: Optional[str],
+    copyright: Optional[List[str]],
+    explicit_license: bool,
+    style: Optional[str],
+    multi_line: bool,
+    repo: "Optional[git.Repo]" = None,
+) -> int:
+    """
+    Add headers to a number of paths, as requested.
+
+    :param out: Output stream for messages.
+    :param paths: The paths to add headers to.
+    :param template: The header template to use.
+    :param template_is_commented: :const:`True` if the template is already
+        commented (not typical)
+    :param year: The year string to use, if any.
+    :param license: The SPDX license expressions to use.
+    :param copyright_style: Optional - the name of the copyright style to use.
+    :param copyright: Optional - a list of copyright holders to add.
+    :param explicit_license: if :const:`True`, will unconditionally make a
+        `.license` file.
+    :param style: Optional - the name of the comment style to use (defaults
+        to python).
+    :param multi_line: Whether to force multi-line comments.
+    :param repo: Optional - a :class:`git.Repo` object that will be used to
+        override the year, on a per-file basis, with the earlier of year of the
+        first commit to a file and the supplied *year*.
+
+    :return: An integer return code: 0 on success, 1 if errors.
+    """
+    # pylint: disable=too-many-locals
+    spdx_info = _make_spdx_info(license, copyright_style, copyright, year)
     result = 0
     for path in paths:
-        uncommentable = _is_uncommentable(path)
-        if uncommentable or args.explicit_license:
-            new_path = _determine_license_suffix_path(path)
-            if uncommentable:
-                _LOGGER.info(
-                    _(
-                        "'{path}' is a binary, therefore using '{new_path}'"
-                        " for the header"
-                    ).format(path=path, new_path=new_path)
+        header_path = _determine_header_path(path, explicit_license)
+        file_spdx_info = spdx_info
+        if repo:
+            file_year = _find_commit_year(path, repo, year)
+
+            if file_year:
+                file_spdx_info = _make_spdx_info(
+                    license,
+                    copyright_style,
+                    copyright,
+                    file_year,
                 )
-            path = Path(new_path)
-            path.touch()
         result += _add_header_to_file(
-            path,
-            spdx_info,
+            header_path,
+            file_spdx_info,
             template,
-            commented,
-            args.style,
-            args.multi_line,
+            template_is_commented,
+            style,
+            multi_line,
             out,
         )
-
     return min(result, 1)
