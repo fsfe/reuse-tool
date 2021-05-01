@@ -248,7 +248,11 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._used_licenses is not None:
             return self._used_licenses
 
-        self._used_licenses = set(self.licenses) - self.unused_licenses
+        self._used_licenses = {
+            lic
+            for file_report in self.file_reports
+            for lic in file_report.spdxfile.licenses_in_file
+        }
         return self._used_licenses
 
     @property
@@ -257,15 +261,16 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._unused_licenses is not None:
             return self._unused_licenses
 
-        all_used_licenses = {
-            lic
-            for file_report in self.file_reports
-            for lic in file_report.spdxfile.licenses_in_file
+        # First collect licenses that are suspected to be unused.
+        suspected_unused_licenses = {
+            lic for lic in self.licenses if lic not in self.used_licenses
         }
+        # Remove false positives.
         self._unused_licenses = {
-            lic for lic in self.licenses if lic not in all_used_licenses
+            lic
+            for lic in suspected_unused_licenses
+            if f"{lic}+" not in self.used_licenses
         }
-
         return self._unused_licenses
 
     @property
@@ -365,11 +370,16 @@ class FileReport:
         spdx_info = project.spdx_info_of(path)
         for expression in spdx_info.spdx_expressions:
             for identifier in _LICENSING.license_keys(expression):
+                # A license expression akin to Apache-1.0+ should register
+                # correctly if LICENSES/Apache-1.0.txt exists.
+                identifiers = {identifier}
+                if identifier.endswith("+"):
+                    identifiers.add(identifier[:-1])
                 # Bad license
-                if identifier not in project.license_map:
+                if not identifiers.intersection(project.license_map):
                     report.bad_licenses.add(identifier)
                 # Missing license
-                if identifier not in project.licenses:
+                if not identifiers.intersection(project.licenses):
                     report.missing_licenses.add(identifier)
 
                 # Add license to report.
