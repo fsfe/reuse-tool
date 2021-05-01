@@ -18,6 +18,7 @@ from . import (
     header,
     init,
     lint,
+    list,
     spdx,
 )
 from ._format import INDENT, fill_all, fill_paragraph
@@ -203,6 +204,17 @@ def parser() -> argparse.ArgumentParser:
         spdx.add_arguments,
         spdx.run,
         help=_("print the project's bill of materials in SPDX format"),
+    )
+
+    add_command(
+        subparsers,
+        "list",
+        list.add_arguments,
+        list.run,
+        help=_(
+            "list the project files and their license information in a "
+            "human-readable format"
+        ),
     )
 
     return parser
