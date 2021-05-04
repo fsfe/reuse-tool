@@ -137,3 +137,15 @@ jobs:
       - name: Run Docker image
         run: |
           docker run -v "$(pwd):/data" reuse
+      - name: Build Dockerfile-extra
+        run: |
+          docker build -t reuse-extra --file Dockerfile-extra .
+      - name: Run Docker extra image
+        run: |
+          docker run -v "$(pwd):/data" reuse-extra
+      - name: Build Dockerfile-debian
+        run: |
+          docker build -t reuse-debian --file Dockerfile-debian .
+      - name: Run Docker debian image
+        run: |
+          docker run -v "$(pwd):/data" reuse-debian

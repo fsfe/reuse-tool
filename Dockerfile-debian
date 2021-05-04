@@ -1,13 +1,15 @@
-# SPDX-FileCopyrightText: 2020 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2021 Free Software Foundation Europe e.V. <https://fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Like normal Dockerfile, but install additional packages on top
+# Like normal Dockerfile, but based on python:slim (Debian) to ease compliance
 
 # Create a base image that has dependencies installed.
-FROM alpine:3.11 AS base
+FROM python:slim AS base
 
-RUN apk --no-cache add git mercurial python3 openssh-client
+RUN apt-get update \
+    && apt-get install -y git mercurial \
+    && rm -rf /var/lib/apt/lists/*
 
 # Build reuse into a virtualenv
 FROM base AS build
