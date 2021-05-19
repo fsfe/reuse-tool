@@ -172,13 +172,13 @@ mount it on the container's `/data` directory, and tell the tool to lint. That
 looks a little like this:
 
 ```bash
-docker run --volume $(pwd):/data fsfe/reuse lint
+docker run --rm --volume $(pwd):/data fsfe/reuse lint
 ```
 
 You can also provide additional arguments, like so:
 
 ```bash
-docker run --volume $(pwd):/data fsfe/reuse --include-submodules spdx -o out.spdx
+docker run --rm --volume $(pwd):/data fsfe/reuse --include-submodules spdx -o out.spdx
 ```
 
 ### Run as pre-commit hook
