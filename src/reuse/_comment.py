@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
-# SPDX-FileCopyrightText: 2021 Alliander N.V.
+# SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -474,8 +474,6 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".erl": TexCommentStyle,
     ".ex": PythonCommentStyle,
     ".exs": PythonCommentStyle,
-    ".F": FortranCommentStyle,
-    ".F90": FortranCommentStyle,
     ".f90": FortranCommentStyle,
     ".f95": FortranCommentStyle,
     ".f03": FortranCommentStyle,
@@ -519,7 +517,6 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".mjs": CCommentStyle,
     ".mk": PythonCommentStyle,
     ".ml": MlCommentStyle,
-    ".ML": MlCommentStyle,
     ".mli": MlCommentStyle,
     ".nim": PythonCommentStyle,
     ".nimrod": PythonCommentStyle,
@@ -582,6 +579,10 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".zsh": PythonCommentStyle,
 }
 
+EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
+    k.lower(): v for k, v in EXTENSION_COMMENT_STYLE_MAP.items()
+}
+
 FILENAME_COMMENT_STYLE_MAP = {
     ".bashrc": PythonCommentStyle,
     ".coveragerc": PythonCommentStyle,
@@ -613,6 +614,10 @@ FILENAME_COMMENT_STYLE_MAP = {
     "requirements.txt": PythonCommentStyle,
     "setup.cfg": PythonCommentStyle,
     "sonar-project.properties": PythonCommentStyle,
+}
+
+FILENAME_COMMENT_STYLE_MAP_LOWERCASE = {
+    k.lower(): v for k, v in FILENAME_COMMENT_STYLE_MAP.items()
 }
 
 
