@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
+# SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -29,8 +30,8 @@ from license_expression import ExpressionError
 
 from . import SpdxInfo
 from ._comment import (
-    EXTENSION_COMMENT_STYLE_MAP,
-    FILENAME_COMMENT_STYLE_MAP,
+    EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
+    FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
     NAME_STYLE_MAP,
     CommentCreateError,
     CommentParseError,
@@ -295,9 +296,9 @@ def find_and_replace_header(
 
 def _get_comment_style(path: Path) -> Optional[CommentStyle]:
     """Return value of CommentStyle detected for *path* or None."""
-    style = FILENAME_COMMENT_STYLE_MAP.get(path.name)
+    style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
     if style is None:
-        style = EXTENSION_COMMENT_STYLE_MAP.get(path.suffix)
+        style = EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower())
     return style
 
 
