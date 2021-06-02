@@ -552,6 +552,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
     ".sass": CssCommentStyle,
+    ".scad": CCommentStyle,
     ".scala": PythonCommentStyle,
     ".scm": LispCommentStyle,
     ".scpt": AppleScriptCommentStyle,
