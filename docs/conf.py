@@ -76,7 +76,7 @@ try:
     # The full version, including alpha/beta/rc tags.
     release = get_distribution("reuse").version
 except DistributionNotFound:
-    release = "0.12.1"
+    release = "0.13.0"
 # The short X.Y.Z version.
 version = ".".join(release.split(".")[:3])
 
