@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Create a base image that has dependencies installed.
-FROM alpine:3.11 AS base
+FROM alpine:3.13 AS base
 
 RUN apk --no-cache add git mercurial python3
 
