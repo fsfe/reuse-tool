@@ -50,6 +50,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`. (#321)
 
+- Bump `alpine` Docker base image to 3.13. (#369)
+
 - More file types are recognised:
 
   - Javascript modules (`.mjs`)
