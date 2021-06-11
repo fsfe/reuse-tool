@@ -181,6 +181,14 @@ You can also provide additional arguments, like so:
 docker run --rm --volume $(pwd):/data fsfe/reuse --include-submodules spdx -o out.spdx
 ```
 
+There are a number of tags available:
+- `latest` is the most recent stable release.
+- `dev` follows the `master` branch of this repository. Up-to-date, but
+  potentially unstable.
+- `latest-extra` has a few extra packages installed, currently `openssh-client`.
+- `latest-debian` is based on `python:slim`. It is larger, but may be better
+  suited for license compliance.
+
 ### Run as pre-commit hook
 
 You can automatically run `reuse lint` on every commit as a pre-commit hook for
