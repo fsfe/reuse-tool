@@ -35,7 +35,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 0.13.0 - 2021-06-11
 
 ### Added
 
@@ -49,8 +49,6 @@ The versions follow [semantic versioning](https://semver.org).
 - `addheader` ignores case when matching file extensions and names. (#359)
 
 - Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`. (#321)
-
-- Bump `alpine` Docker base image to 3.13. (#369)
 
 - More file types are recognised:
 
@@ -74,6 +72,10 @@ The versions follow [semantic versioning](https://semver.org).
   - SonarScanner (`sonar-project.properties`)
   - Gradle (`gradle-wrapper.properties`, `gradlew`)
 
+### Changed
+
+- Bump `alpine` Docker base image to 3.13. (#369)
+
 ### Fixed
 
 - Fixed a regression where unused licenses were not at all detected. (#285)
@@ -92,6 +94,8 @@ The versions follow [semantic versioning](https://semver.org).
 - `download` does no longer fail when both `--output` and `--all` are used. (#326)
 
 - Catch erroneous SPDX expressions. (#331)
+
+- Updated SPDX license list to 3.13.
 
 ## 0.12.1 - 2020-12-17
 
