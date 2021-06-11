@@ -48,6 +48,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `addheader` ignores case when matching file extensions and names. (#359)
 
+- Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`. (#321)
+
 - More file types are recognised:
 
   - Javascript modules (`.mjs`)
