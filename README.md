@@ -211,6 +211,7 @@ an error.
 ## Maintainers
 
 - Carmen Bianca Bakker - <carmenbianca@fsfe.org>
+- Max Mehl - <max.mehl@fsfe.org>
 
 ## Contribute
 
