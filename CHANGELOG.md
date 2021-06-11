@@ -44,21 +44,31 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `.hgtags` is ignored. (#227)
 
+- `spdx-symbol` added to possible copyright styles. (#350)
+
+- `addheader` ignores case when matching file extensions and names. (#359)
+
 - More file types are recognised:
 
-  - .mjs
-  - .ipynb
-  - .svg
-  - .json
-  - .csv
-  - .rkt
-  - .org
+  - Javascript modules (`.mjs`)
+  - Jupyter Notebook (`.ipynb`)
+  - Scalable Vector Graphics (`.svg`)
+  - JSON (`.json`)
+  - Comma-separated values (`.csv`)
+  - Racket (`.rkt`)
+  - Org-mode (`.org`)
+  - LaTeX package files (`.sty`)
+  - devicetree (`.dts`, `.dtsi`)
+  - Bitbake (.bb, .bbappend, .bbclass)
+  - XML schemas (`.xsd`)
+  - OpenSCAD (`.scad`)
 
 - More file names are recognised:
-  - .bashrc
-  - .coveragerc
-  - Jenkinsfile
-  - sonar-project.properties
+  - Bash configuration (`.bashrc`)
+  - Coverage.py (`.coveragerc`)
+  - Jenkins (`Jenkinsfile`)
+  - SonarScanner (`sonar-project.properties`)
+  - Gradle (`gradle-wrapper.properties`, `gradlew`)
 
 ### Fixed
 
@@ -74,6 +84,10 @@ The versions follow [semantic versioning](https://semver.org).
   of only writeable. (#241)
 
 - `addheader` now preserves line endings. (#308)
+
+- `download` does no longer fail when both `--output` and `--all` are used. (#326)
+
+- Catch erroneous SPDX expressions. (#331)
 
 ## 0.12.1 - 2020-12-17
 
