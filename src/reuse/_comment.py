@@ -463,6 +463,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".coffee": PythonCommentStyle,
     ".cpp": CCommentStyle,
     ".cs": CCommentStyle,
+    ".csl": HtmlCommentStyle,  # Bibliography (XML based)
     ".css": CssCommentStyle,
     ".csv": UncommentableCommentStyle,
     ".d": CCommentStyle,
