@@ -35,6 +35,26 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- `addheader` now also recognises the following extensions:
+
+  - Markdown-linter config (`.mdlrc`)
+  - Nim build config (`*.nim.cfg`)
+  - Nim build (`*.nimble`)
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 0.13.0 - 2021-06-11
 
 ### Added
