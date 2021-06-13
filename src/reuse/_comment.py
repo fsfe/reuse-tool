@@ -593,6 +593,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".gitignore": PythonCommentStyle,
     ".gitmodules": PythonCommentStyle,
     ".mailmap": PythonCommentStyle,
+    ".mdlrc": PythonCommentStyle,  # Markdown-linter config
     ".pylintrc": PythonCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
