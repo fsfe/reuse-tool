@@ -5,6 +5,7 @@
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
+# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
