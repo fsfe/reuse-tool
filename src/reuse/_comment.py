@@ -574,6 +574,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".toml": PythonCommentStyle,
     ".ts": CCommentStyle,
     ".tsx": JsxCommentStyle,
+    ".ttl": PythonCommentStyle,  # Turtle/RDF
     ".vala": CCommentStyle,
     ".xml": HtmlCommentStyle,
     ".xsd": HtmlCommentStyle,
