@@ -5,6 +5,7 @@
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
+# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -37,6 +38,7 @@ from ._comment import (
     CommentParseError,
     CommentStyle,
     EmptyCommentStyle,
+    HtmlCommentStyle,
     PythonCommentStyle,
     UncommentableCommentStyle,
 )
@@ -259,23 +261,31 @@ def find_and_replace_header(
     _LOGGER.debug(f"header = {repr(header)}")
     _LOGGER.debug(f"after = {repr(after)}")
 
-    # Extract shebang from header and put it in before. It's a bit messy, but
-    # it ends up working.
-    if header.startswith("#!") and not before.strip():
-        before = ""
-        for line in header.splitlines():
-            if line.startswith("#!"):
-                before = before + "\n" + line
-                header = header.replace(line, "", 1)
-            else:
-                break
-    elif after.startswith("#!") and not any((before, header)):
-        for line in after.splitlines():
-            if line.startswith("#!"):
-                before = before + "\n" + line
-                after = after.replace(line, "", 1)
-            else:
-                break
+    # Keep special first-line-of-file lines as the first line in the file,
+    # or say, move our comments after it.
+    for (com_style, prefix) in [
+        (PythonCommentStyle, "#!"),
+        (HtmlCommentStyle, "<?xml"),
+    ]:
+        # Extract shebang from header and put it in before. It's a bit messy, but
+        # it ends up working.
+        if style is not com_style:
+            continue
+        if header.startswith(prefix) and not before.strip():
+            before = ""
+            for line in header.splitlines():
+                if line.startswith(prefix):
+                    before = before + "\n" + line
+                    header = header.replace(line, "", 1)
+                else:
+                    break
+        elif after.startswith(prefix) and not any((before, header)):
+            for line in after.splitlines():
+                if line.startswith(prefix):
+                    before = before + "\n" + line
+                    after = after.replace(line, "", 1)
+                else:
+                    break
 
     header = create_header(
         spdx_info,
