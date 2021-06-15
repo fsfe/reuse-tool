@@ -44,6 +44,14 @@ The versions follow [semantic versioning](https://semver.org).
   - Portable document format (`.pdf`)
   - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
   - MS Office (`.doc`, `.xsl`, `.pptx` and many more)
+  - SuperCollider (`.sc`, `.scsyndef`)
+  - Bibliography (`.csl`)
+  - Turtle/RDF (`.ttl`)
+  - Nimble (`.nim.cfg`, `.nimble`)
+  - Markdown-linter config (`.mdlrc`)
+
+- More file names are recognised:
+  - SuperCollider (`archive.sctxar`)
 
 ### Changed
 
