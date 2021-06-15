@@ -41,6 +41,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - More file types are recognised:
   - Perl plain old documentation (`.pod`)
+  - Portable document format (`.pdf`)
+  - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
+  - MS Office (`.doc`, `.xsl`, `.pptx` and many more)
 
 ### Changed
 
