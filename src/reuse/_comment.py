@@ -521,6 +521,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ml": MlCommentStyle,
     ".mli": MlCommentStyle,
     ".nim": PythonCommentStyle,
+    ".nim.cfg": PythonCommentStyle,  # Nim-lang build config parameters/settings
+    ".nimble": PythonCommentStyle,  # Nim-lang build config
     ".nimrod": PythonCommentStyle,
     ".nix": PythonCommentStyle,
     ".org": PythonCommentStyle,
