@@ -35,6 +35,23 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- More file types are recognised:
+  - Perl plain old documentation (`.pod`)
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 0.13.0 - 2021-06-11
 
 ### Added

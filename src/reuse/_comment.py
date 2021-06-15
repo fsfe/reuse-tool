@@ -533,6 +533,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pl": PythonCommentStyle,
     ".plantuml": PlantUmlCommentStyle,
     ".po": PythonCommentStyle,
+    ".pod": PythonCommentStyle,
     ".pot": PythonCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
     ".psm1": PythonCommentStyle,  # TODO: Multiline comments
