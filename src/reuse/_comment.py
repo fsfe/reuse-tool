@@ -603,7 +603,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".xml": HtmlCommentStyle,
     ".xsd": HtmlCommentStyle,
     ".xsh": PythonCommentStyle,
-    ".xsl": PythonCommentStyle,
+    ".xsl": HtmlCommentStyle,
     ".yaml": PythonCommentStyle,
     ".yml": PythonCommentStyle,
     ".zsh": PythonCommentStyle,

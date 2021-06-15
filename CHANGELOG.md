@@ -43,7 +43,7 @@ The versions follow [semantic versioning](https://semver.org).
   - Perl plain old documentation (`.pod`)
   - Portable document format (`.pdf`)
   - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
-  - MS Office (`.doc`, `.xsl`, `.pptx` and many more)
+  - MS Office (`.doc`, `.xls`, `.pptx` and many more)
   - SuperCollider (`.sc`, `.scsyndef`)
   - Bibliography (`.csl`)
   - Turtle/RDF (`.ttl`)
@@ -60,6 +60,9 @@ The versions follow [semantic versioning](https://semver.org).
 ### Removed
 
 ### Fixed
+
+- Fix faulty file types:
+  - Extensible Stylesheet Language (`.xsl`) actually uses HTML comment syntax
 
 ### Security
 
