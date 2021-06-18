@@ -438,11 +438,14 @@ class UncommentableCommentStyle(EmptyCommentStyle):
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
+    ".adoc": CCommentStyle,
     ".ads": HaskellCommentStyle,
     ".ahk": LispCommentStyle,
     ".ahkl": LispCommentStyle,
     ".applescript": AppleScriptCommentStyle,
     ".asax": AspxCommentStyle,
+    ".asc": CCommentStyle,
+    ".asciidoc": CCommentStyle,
     ".ashx": AspxCommentStyle,
     ".asmx": AspxCommentStyle,
     ".aspx": AspxCommentStyle,
