@@ -49,7 +49,8 @@ The versions follow [semantic versioning](https://semver.org).
   - Turtle/RDF (`.ttl`)
   - Nimble (`.nim.cfg`, `.nimble`)
   - Markdown-linter config (`.mdlrc`)
-  - AsciiDoc (`.adoc`, `.asc`, `asciidoc`)
+  - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
+  - Handlebars (`.hbs`)
 
 - More file names are recognised:
   - SuperCollider (`archive.sctxar`)
