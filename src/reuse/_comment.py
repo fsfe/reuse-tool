@@ -327,6 +327,14 @@ class FortranCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class HandlebarsCommentStyle(CommentStyle):
+    """Handlebars comment style."""
+
+    _shorthand = "handlebars"
+
+    MULTI_LINE = ("{{!--", "", "--}}")
+
+
 class HaskellCommentStyle(CommentStyle):
     """Haskell comment style."""
 
@@ -497,6 +505,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".gradle": CCommentStyle,
     ".groovy": CCommentStyle,
     ".h": CCommentStyle,
+    ".hbs": HandlebarsCommentStyle,
     ".hpp": CCommentStyle,
     ".hrl": TexCommentStyle,
     ".hs": HaskellCommentStyle,
