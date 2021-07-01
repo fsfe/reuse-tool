@@ -53,6 +53,7 @@ The versions follow [semantic versioning](https://semver.org).
   - Markdown-linter config (`.mdlrc`)
   - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
   - Handlebars (`.hbs`)
+  - V-Lang (`.v`, `.vsh`)
   - Vue.js (`.vue`)
   - C++ (`.cc` and `.hh`)
 
