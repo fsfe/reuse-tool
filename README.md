@@ -97,7 +97,7 @@ For full functionality, the following pieces of software are recommended:
 There are packages available for easy install on some operating systems. You are
 welcome to help us package this tool for more distributions!
 
-- Arch Linux (AUR): [reuse](https://aur.archlinux.org/packages/reuse/)
+- Arch Linux: [reuse](https://archlinux.org/packages/community/any/reuse/)
 - Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
 - openSUSE: [reuse](https://software.opensuse.org/package/reuse)
 - GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.5.0/)
