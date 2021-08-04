@@ -66,6 +66,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Fix faulty file types:
   - Extensible Stylesheet Language (`.xsl`) actually uses HTML comment syntax
+- Allow creating .license file for write-protected files (#347)
 
 ### Security
 
