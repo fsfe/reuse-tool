@@ -51,6 +51,7 @@ The versions follow [semantic versioning](https://semver.org).
   - Markdown-linter config (`.mdlrc`)
   - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
   - Handlebars (`.hbs`)
+  - Vue.js (`.vue`)
 
 - More file names are recognised:
   - SuperCollider (`archive.sctxar`)

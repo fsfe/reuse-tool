@@ -610,6 +610,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".tsx": JsxCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
     ".vala": CCommentStyle,
+    ".vue": HtmlCommentStyle,
     ".xls": UncommentableCommentStyle,
     ".xlsx": UncommentableCommentStyle,
     ".xml": HtmlCommentStyle,
