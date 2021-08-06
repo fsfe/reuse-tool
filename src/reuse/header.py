@@ -15,6 +15,7 @@
 
 import datetime
 import logging
+import os
 import re
 import sys
 from argparse import ArgumentParser
@@ -320,6 +321,16 @@ def _is_uncommentable(path: Path) -> bool:
     return is_uncommentable or is_binary(str(path))
 
 
+def _verify_writable(paths: List[Path], parser: ArgumentParser):
+    for path in paths:
+        if not os.access(path, os.W_OK):
+            parser.error(
+                _(
+                    "'{path}' is not writable, please use --explicit-license"
+                ).format(path=path)
+            )
+
+
 def _verify_paths_line_handling(
     paths: List[Path],
     parser: ArgumentParser,
@@ -553,6 +564,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     # Verify line handling and comment styles before proceeding
     if args.style is None and not args.explicit_license:
+        _verify_writable(paths, args.parser)
         _verify_paths_line_handling(
             paths,
             args.parser,
