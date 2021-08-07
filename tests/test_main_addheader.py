@@ -685,6 +685,30 @@ def test_addheader_explicit_license_unsupported_filetype(
     assert simple_file.read_text() == "Preserve this"
 
 
+def test_addheader_no_access_to_file(
+    fake_repository, stringio, mock_date_today
+):
+    """Adding a header to a file without write permissions and without
+    --explicit-license is given.
+    """
+    simple_file = fake_repository / "foo.txt"
+    simple_file.write_text("Preserve this")
+    simple_file.chmod(mode=stat.S_IREAD)
+
+    with pytest.raises(SystemExit) as e:
+        result = main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "foo.txt",
+            ],
+            out=stringio
+        )
+
+
 def test_addheader_explicit_license_doesnt_write_to_file(
     fake_repository, stringio, mock_date_today
 ):
