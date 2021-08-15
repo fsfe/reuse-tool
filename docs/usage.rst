@@ -194,6 +194,9 @@ few other things.
 The STDOUT output of ``reuse lint`` is valid Markdown. Occasionally some logging
 will be printed to STDERR, which is not valid Markdown.
 
+You may prevent STDOUT output by using the `--quiet` option. This can be useful
+if you are only interested in the exit code.
+
 This is some example output of ``reuse lint``:
 
 .. code-block:: text

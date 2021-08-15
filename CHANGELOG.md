@@ -56,6 +56,8 @@ The versions follow [semantic versioning](https://semver.org).
 - More file names are recognised:
   - SuperCollider (`archive.sctxar`)
 
+- `--quiet` switch to the `lint` command
+
 ### Changed
 
 ### Deprecated
