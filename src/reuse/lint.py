@@ -6,6 +6,7 @@
 the reports and printing some conclusions.
 """
 
+import os
 import sys
 from gettext import gettext as _
 from typing import Iterable
@@ -324,6 +325,9 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
 
 def add_arguments(parser):  # pylint: disable=unused-argument
     """Add arguments to parser."""
+    parser.add_argument(
+        "-q", "--quiet", action="store_true", help="Prevents output"
+    )
 
 
 def run(args, project: Project, out=sys.stdout):
@@ -332,6 +336,10 @@ def run(args, project: Project, out=sys.stdout):
     report = ProjectReport.generate(
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )
+
+    if args.quiet:
+        out = open(os.devnull, "w")
+
     result = lint(report, out=out)
 
     return 0 if result else 1
