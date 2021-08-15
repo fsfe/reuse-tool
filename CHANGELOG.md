@@ -59,6 +59,7 @@ The versions follow [semantic versioning](https://semver.org).
   - SuperCollider (`archive.sctxar`)
 
 - `--quiet` switch to the `lint` command
+- `supported-licenses` command that lists all licenses supported by REUSE
 
 ### Changed
 
