@@ -503,6 +503,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".gemspec": PythonCommentStyle,
     ".go": CCommentStyle,
     ".gradle": CCommentStyle,
+    ".graphql": PythonCommentStyle,
     ".groovy": CCommentStyle,
     ".h": CCommentStyle,
     ".hbs": HandlebarsCommentStyle,
