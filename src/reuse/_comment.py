@@ -360,12 +360,10 @@ class JinjaCommentStyle(CommentStyle):
     MULTI_LINE = ("{#", "", "#}")
 
 
-class JsxCommentStyle(CommentStyle):
+class JsxCommentStyle(CCommentStyle):
     """JSX comment style."""
 
     _shorthand = "jsx"
-
-    MULTI_LINE = ("{/*", "", "*/}")
 
 
 class LispCommentStyle(CommentStyle):
