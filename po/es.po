@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-09 13:51+0100\n"
+"POT-Creation-Date: 2021-09-09 15:07+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Carmen Bianca BAKKER <carmen@carmenbianca.eu>\n"
+"Last-Translator: Alejandro Criado-Pérez <alejandro@criadoperez.com>\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -196,7 +196,7 @@ msgstr ""
 "no esté en uso en el proyecto?\n"
 "\n"
 "- ¿Tienen todos los ficheros información válida sobre copyright y "
-"licenciamiento?"
+"licencia?"
 
 #: src/reuse/_main.py:199
 msgid "print the project's bill of materials in SPDX format"
@@ -241,7 +241,7 @@ msgstr "Identificador SPDX de la licencia"
 
 #: src/reuse/download.py:85
 msgid "download all missing licenses detected in the project"
-msgstr "descarga todas las licencias no disponibles detectadas en el proyecto"
+msgstr "descargar todas las licencias no disponibles detectadas en el proyecto"
 
 #: src/reuse/download.py:97
 #, python-brace-format
@@ -271,7 +271,7 @@ msgstr "¿Está funcionando tu conexión a Internet?"
 #: src/reuse/download.py:125
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
-msgstr "Descarga exitosa de {spdx_identifier}."
+msgstr "{spdx_identifier} descargado con éxito."
 
 #: src/reuse/download.py:136
 msgid "the following arguments are required: license"
@@ -456,7 +456,7 @@ msgstr ""
 
 #: src/reuse/lint.py:79
 msgid "BAD LICENSES"
-msgstr "MALAS LICENCIAS"
+msgstr "LICENCIAS MALAS"
 
 #: src/reuse/lint.py:83 src/reuse/lint.py:148
 #, fuzzy
@@ -501,13 +501,13 @@ msgstr "No se pudo leer:"
 
 #: src/reuse/lint.py:209
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
-msgstr "FALTA INFORMACIÓN SOBRE COPYRIGHT Y LICENCIAMIENTO"
+msgstr "FALTA INFORMACIÓN SOBRE COPYRIGHT Y LICENCIA"
 
 #: src/reuse/lint.py:214
 msgid "The following files have no copyright and licensing information:"
 msgstr ""
-"Los siguientes archivos carecen de información sobre copyright y "
-"licenciamiento:"
+"Los siguientes archivos carecen de información de copyright y "
+"licencia:"
 
 #: src/reuse/lint.py:223
 msgid "The following files have no copyright information:"
@@ -515,7 +515,7 @@ msgstr "Los siguientes ficheros carecen de información de copyright:"
 
 #: src/reuse/lint.py:229
 msgid "The following files have no licensing information:"
-msgstr "Los siguientes ficheros carecen de información de licenciamiento:"
+msgstr "Los siguientes ficheros carecen de información de licencia:"
 
 #: src/reuse/lint.py:243
 msgid "SUMMARY"
@@ -523,7 +523,7 @@ msgstr "RESUMEN"
 
 #: src/reuse/lint.py:249
 msgid "Bad licenses:"
-msgstr "Malas licencias:"
+msgstr "Licencias malas:"
 
 #: src/reuse/lint.py:258
 msgid "Deprecated licenses:"
@@ -558,7 +558,7 @@ msgstr "Ficheros con información sobre copyright: {count} / {total}"
 #: src/reuse/lint.py:317
 #, python-brace-format
 msgid "Files with license information: {count} / {total}"
-msgstr "Ficheros con información de licenciamiento: {count} / {total}"
+msgstr "Ficheros con información de licencia: {count} / {total}"
 
 #: src/reuse/project.py:59
 msgid "could not find Git"
@@ -668,7 +668,7 @@ msgstr "no se pueden fusionar las acciones: dos grupos se llaman %r"
 #: /usr/lib64/python3.7/argparse.py:1452 /usr/lib64/python3.8/argparse.py:1465
 #, fuzzy
 msgid "'required' is an invalid argument for positionals"
-msgstr "'required' es un argumento inválido para posicionales"
+msgstr "'required' es un argumento no válido para posicionales"
 
 #: /usr/lib64/python3.5/argparse.py:1445 /usr/lib64/python3.6/argparse.py:1453
 #: /usr/lib64/python3.7/argparse.py:1474 /usr/lib64/python3.8/argparse.py:1487
@@ -690,7 +690,7 @@ msgstr "se requiere dest= para opciones como %r"
 #: /usr/lib64/python3.7/argparse.py:1511 /usr/lib64/python3.8/argparse.py:1524
 #, python-format
 msgid "invalid conflict_resolution value: %r"
-msgstr "valor inválido de conflict_resolution: %r"
+msgstr "valor no válido de conflict_resolution: %r"
 
 #: /usr/lib64/python3.5/argparse.py:1500 /usr/lib64/python3.6/argparse.py:1508
 #: /usr/lib64/python3.7/argparse.py:1529 /usr/lib64/python3.8/argparse.py:1542
@@ -718,7 +718,7 @@ msgstr "parámetros opcionales"
 #: /usr/lib64/python3.5/argparse.py:1645 /usr/lib64/python3.6/argparse.py:1653
 #: /usr/lib64/python3.7/argparse.py:1674 /usr/lib64/python3.8/argparse.py:1687
 msgid "show this help message and exit"
-msgstr "muestra este mensaje de ayuda y sale"
+msgstr "mostrar este mensaje de ayuda y salir"
 
 #: /usr/lib64/python3.5/argparse.py:1676 /usr/lib64/python3.6/argparse.py:1684
 #: /usr/lib64/python3.7/argparse.py:1705 /usr/lib64/python3.8/argparse.py:1718
@@ -803,7 +803,7 @@ msgstr "%r no se puede invocar"
 #: /usr/lib64/python3.7/argparse.py:2420 /usr/lib64/python3.8/argparse.py:2434
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
-msgstr "valor inválido de %(type)s: %(value)r"
+msgstr "valor no válido de %(type)s: %(value)r"
 
 #: /usr/lib64/python3.5/argparse.py:2309 /usr/lib64/python3.6/argparse.py:2317
 #: /usr/lib64/python3.7/argparse.py:2431 /usr/lib64/python3.8/argparse.py:2445
