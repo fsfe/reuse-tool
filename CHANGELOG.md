@@ -40,6 +40,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Added
 
 - More file types are recognised:
+  - Protobuf files (`.proto`)
   - Perl plain old documentation (`.pod`)
   - Portable document format (`.pdf`)
   - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
