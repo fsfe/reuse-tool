@@ -41,6 +41,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 - More file types are recognised:
   - Protobuf files (`.proto`)
+  - GraphQL (`.graphql`)
   - Perl plain old documentation (`.pod`)
   - Portable document format (`.pdf`)
   - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
@@ -56,6 +57,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - More file names are recognised:
   - SuperCollider (`archive.sctxar`)
+
+- `--quiet` switch to the `lint` command
 
 ### Changed
 
