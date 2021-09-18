@@ -19,6 +19,7 @@ from . import (
     init,
     lint,
     spdx,
+    supported_licenses,
 )
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import PathType, setup_logging
@@ -205,6 +206,15 @@ def parser() -> argparse.ArgumentParser:
         help=_("print the project's bill of materials in SPDX format"),
     )
 
+    add_command(
+        subparsers,
+        "supported-licenses",
+        supported_licenses.add_arguments,
+        supported_licenses.run,
+        help=_("list all supported SPDX licenses"),
+        aliases=["supported-licences"],
+    )
+
     return parser
 
 
@@ -216,6 +226,7 @@ def add_command(  # pylint: disable=too-many-arguments
     formatter_class=None,
     description: str = None,
     help: str = None,
+    aliases: list = None,
 ) -> None:
     """Add a subparser for a command."""
     if formatter_class is None:
@@ -225,6 +236,7 @@ def add_command(  # pylint: disable=too-many-arguments
         formatter_class=formatter_class,
         description=description,
         help=help,
+        aliases=aliases or [],
     )
     add_arguments_func(subparser)
     subparser.set_defaults(func=run_func)

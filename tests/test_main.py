@@ -10,6 +10,7 @@
 
 import errno
 import os
+import re
 from pathlib import Path
 from typing import Optional
 from unittest.mock import create_autospec
@@ -260,3 +261,15 @@ def test_download_custom_output_too_many(
         main(
             ["download", "-o", "foo", "0BSD", "GPL-3.0-or-later"], out=stringio
         )
+
+
+def test_supported_licenses(stringio):
+    """Invoke the supported-licenses command and check whether the result
+    contains at least one license in the expected format.
+    """
+
+    assert main(["supported-licenses"], out=stringio) == 0
+    assert re.search(
+        r"GPL-3\.0-or-later\s+GNU General Public License v3\.0 or later\s+https:\/\/spdx\.org\/licenses\/GPL-3\.0-or-later\.html\s+\n",
+        stringio.getvalue(),
+    )

@@ -156,6 +156,8 @@ short summary:
 
 - `spdx` --- Generate an SPDX Document of all files in the project.
 
+- `supported-licenses` --- Prints all licenses supported by REUSE.
+
 ### Run in Docker
 
 The `fsfe/reuse` Docker image is available on
