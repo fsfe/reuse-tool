@@ -317,7 +317,7 @@ def similar_spdx_identifiers(identifier: str) -> List[str]:
 
     for valid_identifier in ALL_NON_DEPRECATED_MAP:
         distance = SequenceMatcher(
-            a=identifier.lower(), b=valid_identifier.lower()
+            a=identifier.lower(), b=valid_identifier[: len(identifier)].lower()
         ).ratio()
         if distance > 0.75:
             suggestions.append(valid_identifier)
