@@ -60,6 +60,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `--quiet` switch to the `lint` command
 - `supported-licenses` command that lists all licenses supported by REUSE
+- Better suggestions for faulty SPDX license identifiers in `download` and
+  `init` (#416)
 
 ### Changed
 

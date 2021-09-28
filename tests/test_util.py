@@ -381,13 +381,20 @@ def test_decoded_text_from_binary_crlf():
     assert _util.decoded_text_from_binary(BytesIO(encoded)) == "Hello\nworld"
 
 
-def test_similar_spdx_identifiers():
+def test_similar_spdx_identifiers_typo():
     """Given a misspelt SPDX License Identifier, suggest a better one."""
     result = _util.similar_spdx_identifiers("GPL-3.0-or-lter")
 
     assert "GPL-3.0-or-later" in result
     assert "AGPL-3.0-or-later" in result
     assert "LGPL-3.0-or-later" in result
+
+
+def test_similar_spdx_identifiers_prefix():
+    """Given an incomplete SPDX License Identifier, suggest a better one."""
+    result = _util.similar_spdx_identifiers("CC0")
+
+    assert "CC0-1.0" in result
 
 
 def test_detect_line_endings_windows():
