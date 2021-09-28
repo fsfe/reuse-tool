@@ -50,7 +50,7 @@ lint: ## check with pylint
 .PHONY: blackcheck
 blackcheck: ## check with black
 	black --check .
-	isort --check --recursive src/ tests/ *.py
+	isort --check src/ tests/ *.py
 
 .PHONY: black
 black: ## format with black
