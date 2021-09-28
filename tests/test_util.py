@@ -391,7 +391,7 @@ def test_similar_spdx_identifiers_typo():
 
 
 def test_similar_spdx_identifiers_prefix():
-    """Given a misspelt SPDX License Identifier, suggest a better one."""
+    """Given an incomplete SPDX License Identifier, suggest a better one."""
     result = _util.similar_spdx_identifiers("CC0")
 
     assert "CC0-1.0" in result
