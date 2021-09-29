@@ -15,6 +15,7 @@
 
 import datetime
 import logging
+import os
 import re
 import sys
 from argparse import ArgumentParser
@@ -551,6 +552,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     paths = [_determine_license_path(path) for path in args.path]
 
+    if not args.explicit_license:
+        _check_write_access(args)
+
     # Verify line handling and comment styles before proceeding
     if args.style is None and not args.explicit_license:
         _verify_paths_line_handling(
@@ -624,3 +628,13 @@ def run(args, project: Project, out=sys.stdout) -> int:
         )
 
     return min(result, 1)
+
+
+def _check_write_access(args):
+    not_writeable = [
+        str(path) for path in args.path if not os.access(path, os.W_OK)
+    ]
+    if not_writeable:
+        args.parser.error(
+            _("can't write to '{}'").format("', '".join(not_writeable))
+        )
