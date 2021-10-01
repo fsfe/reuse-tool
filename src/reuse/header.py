@@ -22,7 +22,7 @@ from argparse import ArgumentParser
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
-from typing import List, NamedTuple, Optional, Sequence, Iterable
+from typing import Iterable, List, NamedTuple, Optional, Sequence
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError

@@ -727,7 +727,7 @@ def test_addheader_explicit_license_doesnt_write_to_file(
 def test_addheader_to_read_only_file_does_not_traceback(
     fake_repository, stringio, mock_date_today
 ):
-    """Trying to add a header without havig write permission, shouldn't result
+    """Trying to add a header without having write permission, shouldn't result
     in a traceback. See issue #398"""
     _file = fake_repository / "test.sh"
     _file.write_text("#!/bin/sh")
@@ -740,6 +740,8 @@ def test_addheader_to_read_only_file_does_not_traceback(
                 "Apache-2.0",
                 "--copyright",
                 "mycorp",
+                "--style",
+                "python",
                 "test.sh",
             ]
         )
