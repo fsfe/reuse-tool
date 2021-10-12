@@ -54,6 +54,7 @@ The versions follow [semantic versioning](https://semver.org).
   - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
   - Handlebars (`.hbs`)
   - Vue.js (`.vue`)
+  - C++ (`.cc` and `.hh`)
 
 - More file names are recognised:
   - SuperCollider (`archive.sctxar`)
