@@ -647,6 +647,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "CMakeLists.txt": PythonCommentStyle,
     "configure.ac": M4CommentStyle,
     "Dockerfile": PythonCommentStyle,
+    "Doxyfile": PythonCommentStyle,
     "Gemfile": PythonCommentStyle,
     "go.mod": CCommentStyle,
     "go.sum": UncommentableCommentStyle,
