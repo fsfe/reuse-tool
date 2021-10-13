@@ -58,6 +58,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 - More file names are recognised:
   - SuperCollider (`archive.sctxar`)
+  - Doxygen (`Doxyfile`)
 
 - `--quiet` switch to the `lint` command
 - `supported-licenses` command that lists all licenses supported by REUSE
