@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021 Matija Šuklje <matija@suklje.name>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -436,6 +437,13 @@ class TexCommentStyle(CommentStyle):
     SINGLE_LINE = "%"
     INDENT_AFTER_SINGLE = " "
 
+class TplCommentStyle(CommentStyle):
+    """Tpl template comment style.""" #TODO: see if it fits elsewhere already
+
+    _shorthand = "tpl"
+
+    MULTI_LINE = ("{*", "", "*}")
+
 
 class UncommentableCommentStyle(EmptyCommentStyle):
     """A pseudo comment style to indicate that this file is uncommentable. This
@@ -602,6 +610,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".scsyndef": UncommentableCommentStyle,  # SuperCollider synth definition (binary)
     ".sh": PythonCommentStyle,
     ".sml": MlCommentStyle,
+    ".soy": CCommentStyle,
     ".sql": HaskellCommentStyle,
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
@@ -635,14 +644,18 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
+    ".eslintignore": PythonCommentStyle,
+    ".eslintrc": UncommentableCommentStyle,
     ".gitattributes": PythonCommentStyle,
     ".gitignore": PythonCommentStyle,
     ".gitmodules": PythonCommentStyle,
     ".mailmap": PythonCommentStyle,
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
+    ".npmignore": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
+    ".yarnrc": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "CMakeLists.txt": PythonCommentStyle,
     "configure.ac": M4CommentStyle,
@@ -664,6 +677,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
     "sonar-project.properties": PythonCommentStyle,
+    "yarn.lock": UncommentableCommentStyle,
 }
 
 FILENAME_COMMENT_STYLE_MAP_LOWERCASE = {
