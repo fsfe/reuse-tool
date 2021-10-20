@@ -328,6 +328,14 @@ class FortranCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class FtlCommentStyle(CommentStyle):
+    """FreeMarker Template Language comment style."""
+
+    _shorthand = "ftl"
+
+    MULTI_LINE = ("<#--", "", "-->")
+
+
 class HandlebarsCommentStyle(CommentStyle):
     """Handlebars comment style."""
 
@@ -436,13 +444,6 @@ class TexCommentStyle(CommentStyle):
 
     SINGLE_LINE = "%"
     INDENT_AFTER_SINGLE = " "
-
-class TplCommentStyle(CommentStyle):
-    """Tpl template comment style.""" #TODO: see if it fits elsewhere already
-
-    _shorthand = "tpl"
-
-    MULTI_LINE = ("{*", "", "*}")
 
 
 class UncommentableCommentStyle(EmptyCommentStyle):
