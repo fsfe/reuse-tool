@@ -55,10 +55,15 @@ The versions follow [semantic versioning](https://semver.org).
   - Handlebars (`.hbs`)
   - Vue.js (`.vue`)
   - C++ (`.cc` and `.hh`)
+  - Soy templates (`.soy`)
+  - Apache FreeMarker Template Language (`.ftl`)
 
 - More file names are recognised:
   - SuperCollider (`archive.sctxar`)
   - Doxygen (`Doxyfile`)
+  - ESLint (`.eslintignore` and `.eslintrc`)
+  - NPM ignore (`.npmignore`)
+  - Yarn package manager (`.yarn.lock` and `.yarnrc`)
 
 - `--quiet` switch to the `lint` command
 - `supported-licenses` command that lists all licenses supported by REUSE
