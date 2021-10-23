@@ -49,7 +49,7 @@ def download_license(spdx_identifier: str) -> str:
     raise requests.RequestException("Status code was not 200")
 
 
-def _path_to_license_file(spdx_identifier: str, root: PathLike = None) -> Path:
+def _path_to_license_file(spdx_identifier: str, root: PathLike) -> Path:
     licenses_path = find_licenses_directory(root=root)
     return licenses_path / "".join((spdx_identifier, ".txt"))
 
@@ -144,7 +144,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         if args.file:
             destination = args.file
         else:
-            destination = _path_to_license_file(lic)
+            destination = _path_to_license_file(lic, project.root)
         try:
             put_license_in_file(lic, destination=destination)
         except requests.RequestException:
