@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021 Matija Šuklje <matija@suklje.name>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -327,6 +328,14 @@ class FortranCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class FtlCommentStyle(CommentStyle):
+    """FreeMarker Template Language comment style."""
+
+    _shorthand = "ftl"
+
+    MULTI_LINE = ("<#--", "", "-->")
+
+
 class HandlebarsCommentStyle(CommentStyle):
     """Handlebars comment style."""
 
@@ -501,6 +510,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".fodt": UncommentableCommentStyle,
     ".for": FortranCommentStyle,
     ".fs": CCommentStyle,
+    ".ftl": FtlCommentStyle,
     ".gemspec": PythonCommentStyle,
     ".go": CCommentStyle,
     ".gradle": CCommentStyle,
@@ -602,6 +612,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".scsyndef": UncommentableCommentStyle,  # SuperCollider synth definition (binary)
     ".sh": PythonCommentStyle,
     ".sml": MlCommentStyle,
+    ".soy": CCommentStyle,
     ".sql": HaskellCommentStyle,
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
@@ -635,14 +646,18 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
+    ".eslintignore": PythonCommentStyle,
+    ".eslintrc": UncommentableCommentStyle,
     ".gitattributes": PythonCommentStyle,
     ".gitignore": PythonCommentStyle,
     ".gitmodules": PythonCommentStyle,
     ".mailmap": PythonCommentStyle,
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
+    ".npmignore": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
+    ".yarnrc": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "CMakeLists.txt": PythonCommentStyle,
     "configure.ac": M4CommentStyle,
@@ -664,6 +679,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
     "sonar-project.properties": PythonCommentStyle,
+    "yarn.lock": UncommentableCommentStyle,
 }
 
 FILENAME_COMMENT_STYLE_MAP_LOWERCASE = {
