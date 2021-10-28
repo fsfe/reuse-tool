@@ -64,6 +64,7 @@ The versions follow [semantic versioning](https://semver.org).
 - `supported-licenses` command that lists all licenses supported by REUSE
 - Better suggestions for faulty SPDX license identifiers in `download` and
   `init` (#416)
+- Python 3.10 support declared.
 
 ### Changed
 
