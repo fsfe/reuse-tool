@@ -62,6 +62,19 @@ In this screencast, we are going to follow the
 
 ## Install
 
+### Installation via package managers
+
+There are packages available for easy install on some operating systems. You are
+welcome to help us package this tool for more distributions!
+
+- Arch Linux: [reuse](https://archlinux.org/packages/community/any/reuse/)
+- Debian: [reuse](https://packages.debian.org/search?keywords=reuse&exact=1)
+- GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.13.0/)
+- Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
+- NixOS: [reuse](https://search.nixos.org/packages?channel=21.05&from=0&size=50&sort=relevance&type=packages&query=reuse)
+- openSUSE: [reuse](https://software.opensuse.org/package/reuse)
+- VoidLinux: [reuse](https://voidlinux.org/packages/?arch=x86_64&q=reuse)
+
 ### Installation via pip
 
 To install reuse, you need to have the following pieces of software on your
@@ -91,17 +104,6 @@ For full functionality, the following pieces of software are recommended:
 
 - Git
 - Mercurial 4.3+
-
-### Installation via package managers
-
-There are packages available for easy install on some operating systems. You are
-welcome to help us package this tool for more distributions!
-
-- Arch Linux: [reuse](https://archlinux.org/packages/community/any/reuse/)
-- Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
-- openSUSE: [reuse](https://software.opensuse.org/package/reuse)
-- GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.13.0/)
-- NixOS: [reuse](https://search.nixos.org/packages?channel=21.05&from=0&size=50&sort=relevance&type=packages&query=reuse)
 
 ### Installation from source
 
