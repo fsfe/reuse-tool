@@ -76,6 +76,10 @@ welcome to help us package this tool for more distributions!
 - openSUSE: [reuse](https://software.opensuse.org/package/reuse)
 - VoidLinux: [reuse](https://voidlinux.org/packages/?arch=x86_64&q=reuse)
 
+An automatically generated list can be found at
+[repology.org](https://repology.org/project/reuse/versions), without any
+guarantee for completeness.
+
 ### Installation via pip
 
 To install reuse, you need to have the following pieces of software on your
