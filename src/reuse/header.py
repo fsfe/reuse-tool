@@ -15,13 +15,14 @@
 
 import datetime
 import logging
+import os
 import re
 import sys
 from argparse import ArgumentParser
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
-from typing import List, NamedTuple, Optional, Sequence
+from typing import Iterable, List, NamedTuple, Optional, Sequence
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
@@ -551,6 +552,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     paths = [_determine_license_path(path) for path in args.path]
 
+    if not args.explicit_license:
+        _verify_write_access(paths, args.parser)
+
     # Verify line handling and comment styles before proceeding
     if args.style is None and not args.explicit_license:
         _verify_paths_line_handling(
@@ -624,3 +628,13 @@ def run(args, project: Project, out=sys.stdout) -> int:
         )
 
     return min(result, 1)
+
+
+def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
+    not_writeable = [
+        str(path) for path in paths if not os.access(path, os.W_OK)
+    ]
+    if not_writeable:
+        parser.error(
+            _("can't write to '{}'").format("', '".join(not_writeable))
+        )

@@ -724,6 +724,30 @@ def test_addheader_explicit_license_doesnt_write_to_file(
     assert simple_file.read_text() == "Preserve this"
 
 
+def test_addheader_to_read_only_file_does_not_traceback(
+    fake_repository, stringio, mock_date_today
+):
+    """Trying to add a header without having write permission, shouldn't result
+    in a traceback. See issue #398"""
+    _file = fake_repository / "test.sh"
+    _file.write_text("#!/bin/sh")
+    _file.chmod(mode=stat.S_IREAD)
+    with pytest.raises(SystemExit) as info:
+        main(
+            [
+                "addheader",
+                "--license",
+                "Apache-2.0",
+                "--copyright",
+                "mycorp",
+                "--style",
+                "python",
+                "test.sh",
+            ]
+        )
+    assert info.value  # should not exit with 0
+
+
 def test_addheader_license_file(fake_repository, stringio, mock_date_today):
     """Add a header to a .license file if it exists."""
     simple_file = fake_repository / "foo.py"
