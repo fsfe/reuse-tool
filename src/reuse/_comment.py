@@ -677,6 +677,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "MANIFEST.in": PythonCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "meson.build": PythonCommentStyle,
+    "meson_options.txt": PythonCommentStyle,
     "Rakefile": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
