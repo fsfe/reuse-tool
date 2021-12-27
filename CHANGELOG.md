@@ -39,41 +39,6 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
-- More file types are recognised:
-  - Protobuf files (`.proto`)
-  - GraphQL (`.graphql`)
-  - Perl plain old documentation (`.pod`)
-  - Portable document format (`.pdf`)
-  - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
-  - MS Office (`.doc`, `.xls`, `.pptx` and many more)
-  - SuperCollider (`.sc`, `.scsyndef`)
-  - Bibliography (`.csl`)
-  - Turtle/RDF (`.ttl`)
-  - Nimble (`.nim.cfg`, `.nimble`)
-  - Markdown-linter config (`.mdlrc`)
-  - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
-  - Handlebars (`.hbs`)
-  - V-Lang (`.v`, `.vsh`)
-  - Vue.js (`.vue`)
-  - C++ (`.cc` and `.hh`)
-  - Soy templates (`.soy`)
-  - Apache FreeMarker Template Language (`.ftl`)
-
-- More file names are recognised:
-  - SuperCollider (`archive.sctxar`)
-  - Doxygen (`Doxyfile`)
-  - ESLint (`.eslintignore` and `.eslintrc`)
-  - NPM ignore (`.npmignore`)
-  - Yarn package manager (`.yarn.lock` and `.yarnrc`)
-  - Podman container files (`Containerfile`)
-  - Meson options file (`meson_options.txt`)
-
-- `--quiet` switch to the `lint` command
-- `supported-licenses` command that lists all licenses supported by REUSE
-- Better suggestions for faulty SPDX license identifiers in `download` and
-  `init` (#416)
-- Python 3.10 support declared.
-
 ### Changed
 
 ### Deprecated
@@ -82,13 +47,72 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
-- Fix faulty file types:
-  - Extensible Stylesheet Language (`.xsl`) actually uses HTML comment syntax
+### Security
+
+## 0.14.0 - 2021-12-27
+
+Happy holidays! This is mainly a maintenance release fixing some subcommands and
+adding loads of supported file types and file names. However, you can also enjoy
+the `supported-licenses` subcommand and the `--quiet` flag for linting as well
+as better suggestions for license identifiers. Thanks to everyone who
+contributed!
+
+### Added
+
+- `supported-licenses` command that lists all licenses supported by REUSE (#401)
+
+- `--quiet` switch to the `lint` command (#402)
+
+- Better suggestions for faulty SPDX license identifiers in `download` and
+  `init` (#416)
+
+- Python 3.10 support declared
+
+- More file types are recognised:
+
+  - Apache FreeMarker Template Language (`.ftl`)
+  - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
+  - Bibliography (`.csl`)
+  - C++ (`.cc` and `.hh`)
+  - GraphQL (`.graphql`)
+  - Handlebars (`.hbs`)
+  - Markdown-linter config (`.mdlrc`)
+  - MS Office (`.doc`, `.xls`, `.pptx` and many more)
+  - Nimble (`.nim.cfg`, `.nimble`)
+  - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
+  - Perl plain old documentation (`.pod`)
+  - Portable document format (`.pdf`)
+  - Protobuf files (`.proto`)
+  - Soy templates (`.soy`)
+  - SuperCollider (`.sc`, `.scsyndef`)
+  - Turtle/RDF (`.ttl`)
+  - V-Lang (`.v`, `.vsh`)
+  - Vue.js (`.vue`)
+
+- More file names are recognised:
+
+  - Doxygen (`Doxyfile`)
+  - ESLint (`.eslintignore` and `.eslintrc`)
+  - Meson options file (`meson_options.txt`)
+  - NPM ignore (`.npmignore`)
+  - Podman container files (`Containerfile`)
+  - SuperCollider (`archive.sctxar`)
+  - Yarn package manager (`.yarn.lock` and `.yarnrc`)
+
+## Changed
+
+- Updated SPDX license list to 3.15
+
+### Fixed
+
+- Fix Extensible Stylesheet Language (`.xsl`) to use HTML comment syntax
+
 - Allow creating .license file for write-protected files (#347) (#418)
+
+- Do not break XML files special first line (#378)
+
 - Make `download` subcommand work correctly outside of project root and with
   `--root` (#430)
-
-### Security
 
 ## 0.13.0 - 2021-06-11
 
