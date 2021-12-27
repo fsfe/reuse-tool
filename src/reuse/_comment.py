@@ -662,8 +662,8 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".yarnrc": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "CMakeLists.txt": PythonCommentStyle,
-    "Containerfile": PythonCommentStyle,
     "configure.ac": M4CommentStyle,
+    "Containerfile": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
     "Doxyfile": PythonCommentStyle,
     "Gemfile": PythonCommentStyle,
