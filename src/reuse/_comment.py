@@ -663,6 +663,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "CMakeLists.txt": PythonCommentStyle,
     "configure.ac": M4CommentStyle,
+    "Containerfile": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
     "Doxyfile": PythonCommentStyle,
     "Gemfile": PythonCommentStyle,
