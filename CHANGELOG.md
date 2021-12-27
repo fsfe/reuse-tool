@@ -35,20 +35,6 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
-
 ## 0.14.0 - 2021-12-27
 
 Happy holidays! This is mainly a maintenance release fixing some subcommands and
@@ -99,7 +85,7 @@ contributed!
   - SuperCollider (`archive.sctxar`)
   - Yarn package manager (`.yarn.lock` and `.yarnrc`)
 
-## Changed
+### Changed
 
 - Updated SPDX license list to 3.15
 
