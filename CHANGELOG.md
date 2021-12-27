@@ -66,6 +66,7 @@ The versions follow [semantic versioning](https://semver.org).
   - NPM ignore (`.npmignore`)
   - Yarn package manager (`.yarn.lock` and `.yarnrc`)
   - Podman container files (`Containerfile`)
+  - Meson options file (`meson_options.txt`)
 
 - `--quiet` switch to the `lint` command
 - `supported-licenses` command that lists all licenses supported by REUSE
