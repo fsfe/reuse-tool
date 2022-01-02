@@ -8,11 +8,10 @@ import glob
 import platform
 import shutil
 import subprocess
-from distutils import cmd
 from pathlib import Path
 from warnings import warn
 
-from setuptools import setup
+from setuptools import setup, Command
 from setuptools.command.build_py import build_py
 
 requirements = [
@@ -53,7 +52,7 @@ def changelog_md():
     return open("CHANGELOG.md").read()
 
 
-class BuildTrans(cmd.Command):
+class BuildTrans(Command):
     """Command for compiling the .mo files."""
 
     user_options = []
