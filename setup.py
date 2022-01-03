@@ -11,7 +11,7 @@ import subprocess
 from pathlib import Path
 from warnings import warn
 
-from setuptools import setup, Command
+from setuptools import Command, setup
 from setuptools.command.build_py import build_py
 
 requirements = [
