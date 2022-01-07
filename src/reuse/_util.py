@@ -239,7 +239,7 @@ def _checksum(path: PathLike) -> str:
     path = Path(path)
 
     file_sha1 = sha1()
-    with path.open("rb") as fp:
+    with path.open("rb", encoding="utf-8") as fp:
         for chunk in iter(lambda: fp.read(128 * file_sha1.block_size), b""):
             file_sha1.update(chunk)
 

@@ -145,7 +145,7 @@ class Project:
                 )
 
         # Search the file for SPDX information.
-        with path.open("rb") as fp:
+        with path.open("rb", encoding="utf-8") as fp:
             try:
                 file_result = extract_spdx_info(
                     decoded_text_from_binary(fp, size=_HEADER_BYTES)
