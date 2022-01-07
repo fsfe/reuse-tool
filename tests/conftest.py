@@ -261,7 +261,9 @@ def submodule_repository(
 @pytest.fixture(scope="session")
 def dep5_copyright():
     """Create a dep5 Copyright object."""
-    with (RESOURCES_DIRECTORY / "fake_repository/.reuse/dep5").open() as fp:
+    with (RESOURCES_DIRECTORY / "fake_repository/.reuse/dep5").open(
+        encoding="utf-8"
+    ) as fp:
         return Copyright(fp)
 
 

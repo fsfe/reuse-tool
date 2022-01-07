@@ -1002,7 +1002,7 @@ def test_addheader_line_endings(
     )
 
     assert result == 0
-    with open(simple_file, newline="") as fp:
+    with open(simple_file, newline="", encoding="utf-8") as fp:
         contents = fp.read()
 
     assert contents == expected

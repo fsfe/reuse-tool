@@ -70,7 +70,7 @@ def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
         raise FileExistsError(errno.EEXIST, "File exists", str(destination))
 
     text = download_license(spdx_identifier)
-    with destination.open("w") as fp:
+    with destination.open("w", encoding="utf-8") as fp:
         fp.write(header)
         fp.write(text)
 

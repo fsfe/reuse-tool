@@ -44,12 +44,12 @@ fallback_version = "0.14.0"
 
 def readme_md():
     """Return contents of README.md"""
-    return open("README.md").read()
+    return open("README.md", encoding="utf-8").read()
 
 
 def changelog_md():
     """Return contents of CHANGELOG.md"""
-    return open("CHANGELOG.md").read()
+    return open("CHANGELOG.md", encoding="utf-8").read()
 
 
 class BuildTrans(Command):

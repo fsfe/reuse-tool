@@ -166,7 +166,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 out.write(f"LicenseID: {lic}\n")
                 out.write("LicenseName: NOASSERTION\n")
 
-                with (Path(self.path) / path).open() as fp:
+                with (Path(self.path) / path).open(encoding="utf-8") as fp:
                     out.write(f"ExtractedText: <text>{fp.read()}</text>\n")
 
         return out.getvalue()
