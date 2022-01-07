@@ -215,12 +215,15 @@ class Project:
         if self._copyright_val == 0:
             copyright_path = self.root / ".reuse/dep5"
             try:
-                with copyright_path.open() as fp:
+                with copyright_path.open(encoding="utf-8") as fp:
                     self._copyright_val = Copyright(fp)
             except OSError:
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
             except DebianError:
                 _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
+            except UnicodeError as err:
+                _LOGGER.exception(_(".reuse/dep5 reading aborted with unicode / utf-8 issue"))
+                _LOGGER.exception(err)
 
             # This check is a bit redundant, but otherwise I'd have to repeat
             # this line under each exception.
