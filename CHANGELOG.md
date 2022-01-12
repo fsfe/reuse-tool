@@ -35,6 +35,23 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+### Changed
+
+- Use `setuptools` instead of the deprecated `distutils` which will be removed
+  with Python 3.12 (#451)
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 0.14.0 - 2021-12-27
 
 Happy holidays! This is mainly a maintenance release fixing some subcommands and
