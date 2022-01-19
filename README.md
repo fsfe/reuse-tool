@@ -82,7 +82,10 @@ guarantee for completeness.
 
 ### Run via pipx (Recommended)
 
-The following one-liner both installs and runs this tool from [PyPI](https://pypi.org/project/reuse/) via [pipx](https://pypa.github.io/pipx/):
+The following one-liner both installs and runs this tool from
+[PyPI](https://pypi.org/project/reuse/) via
+[pipx](https://pypa.github.io/pipx/):
+
 ```bash
 pipx run reuse lint
 ```
