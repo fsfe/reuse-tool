@@ -63,14 +63,7 @@ In this screencast, we are going to follow the
 
 ## Install
 
-### Run via pipx
-
-The following one-liner both installs and runs this tool from [PyPI](https://pypi.org/project/reuse/) via [pipx](https://pypa.github.io/pipx/):
-```bash
-pipx run reuse lint
-```
-
-### Installation via package managers
+### Installation via package managers (Recommended)
 
 There are packages available for easy install on some operating systems. You are
 welcome to help us package this tool for more distributions!
@@ -86,6 +79,13 @@ welcome to help us package this tool for more distributions!
 An automatically generated list can be found at
 [repology.org](https://repology.org/project/reuse/versions), without any
 guarantee for completeness.
+
+### Run via pipx (Recommended)
+
+The following one-liner both installs and runs this tool from [PyPI](https://pypi.org/project/reuse/) via [pipx](https://pypa.github.io/pipx/):
+```bash
+pipx run reuse lint
+```
 
 ### Installation via pip
 
