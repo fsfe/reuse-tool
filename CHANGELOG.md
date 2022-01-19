@@ -39,6 +39,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
+- Recommendations for installation/run methods: package managers and pipx (#457)
+
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
