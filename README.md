@@ -63,6 +63,13 @@ In this screencast, we are going to follow the
 
 ## Install
 
+### Run via pipx
+
+The following one-liner both installs and runs this tool from [PyPI](https://pypi.org/project/reuse/) via [pipx](https://pypa.github.io/pipx/):
+```bash
+pipx run reuse lint
+```
+
 ### Installation via package managers
 
 There are packages available for easy install on some operating systems. You are
