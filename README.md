@@ -80,7 +80,7 @@ An automatically generated list can be found at
 [repology.org](https://repology.org/project/reuse/versions), without any
 guarantee for completeness.
 
-### Run via pipx (Recommended)
+### Install and run via pipx (Recommended)
 
 The following one-liner both installs and runs this tool from
 [PyPI](https://pypi.org/project/reuse/) via
@@ -89,6 +89,20 @@ The following one-liner both installs and runs this tool from
 ```bash
 pipx run reuse lint
 ```
+
+pipx automatically isolates reuse into its own Python virtualenv, which means
+that it won't interfere with other Python packages, and other Python packages
+won't interfere with it.
+
+If you want to be able to use reuse without prepending it with `pipx run` every
+time, install it globally like so:
+
+```bash
+pipx install reuse
+```
+
+reuse will then be available in `~/.local/bin`, which must be added to your
+`$PATH`.
 
 ### Installation via pip
 
@@ -201,6 +215,7 @@ docker run --rm --volume $(pwd):/data fsfe/reuse --include-submodules spdx -o ou
 ```
 
 There are a number of tags available:
+
 - `latest` is the most recent stable release.
 - `dev` follows the `master` branch of this repository. Up-to-date, but
   potentially unstable.
