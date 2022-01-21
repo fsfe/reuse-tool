@@ -132,7 +132,8 @@ contributed!
 
 - `addheader` ignores case when matching file extensions and names. (#359)
 
-- Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`. (#321)
+- Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`.
+  (#321)
 
 - More file types are recognised:
 
@@ -175,7 +176,8 @@ contributed!
 
 - `addheader` now preserves line endings. (#308)
 
-- `download` does no longer fail when both `--output` and `--all` are used. (#326)
+- `download` does no longer fail when both `--output` and `--all` are used.
+  (#326)
 
 - Catch erroneous SPDX expressions. (#331)
 
