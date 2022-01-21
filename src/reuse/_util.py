@@ -211,7 +211,7 @@ def contains_spdx_info(text: str) -> bool:
 
 
 def make_copyright_line(
-    statement: str, year: str = None, copyright_style: str = "spdx"
+    statement: str, year: Optional[str] = None, copyright_style: str = "spdx"
 ) -> str:
     """Given a statement, prefix it with ``SPDX-FileCopyrightText:`` if it is
     not already prefixed with some manner of copyright tag.
