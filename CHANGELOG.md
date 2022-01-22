@@ -41,6 +41,10 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Recommendations for installation/run methods: package managers and pipx (#457)
 
+- More file types are recognised:
+
+  - sbt build files (`.sbt`)
+
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
