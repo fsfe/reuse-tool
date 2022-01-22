@@ -516,7 +516,7 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--explicit-license",
         action="store_true",
-        help=_("place header in path.license instead of path"),
+        help=_("write a .license file instead of a header inside the file"),
     )
     parser.add_argument(
         "--skip-unrecognised",
