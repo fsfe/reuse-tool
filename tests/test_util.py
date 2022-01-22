@@ -156,8 +156,10 @@ def test_extract_with_ignore_block():
     assert len(result.spdx_expressions) == 1
 
 
-def test_filter_ignore_block():
-    """Test that the ignore block is properly removed."""
+def test_filter_ignore_block_with_comment_style():
+    """Test that the ignore block is properly removed if start and end markers
+    are in comment style.
+    """
     text = cleandoc(
         """
         Relevant text
@@ -165,6 +167,75 @@ def test_filter_ignore_block():
         Ignored text
         # REUSE_IGNORE_END
         Other relevant text
+        """
+    )
+    expected = "Relevant text\n# \n\nOther relevant text"
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_non_comment_style():
+    """Test that the ignore block is properly removed if start and end markers
+    are not comment style.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        REUSE_IGNORE_BEGIN
+        Ignored text
+        REUSE_IGNORE_END
+        Other relevant text
+        """
+    )
+    expected = cleandoc(
+        """
+        Relevant text
+
+
+        Other relevant text
+        """
+    )
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_ignored_information_on_same_line():
+    """Test that the ignore block is properly removed if there is information to
+    be ignored on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        REUSE_IGNORE_BEGIN Copyright me
+        Ignored text
+        sdojfsdREUSE_IGNORE_END
+        Other relevant text
+        """
+    )
+    expected = cleandoc(
+        """
+        Relevant text
+
+
+        Other relevant text
+        """
+    )
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_relevant_information_on_same_line():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant textREUSE_IGNORE_BEGIN
+        Ignored text
+        REUSE_IGNORE_ENDOther relevant text
         """
     )
     expected = cleandoc(
