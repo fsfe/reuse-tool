@@ -213,22 +213,23 @@ def filter_ignore_block(text: str) -> str:
     """
     reuse_ignore_begin = "REUSE_IGNORE_BEGIN"
     reuse_ignore_end = "REUSE_IGNORE_END"
-    inside_ignore = False
-    output = []
-    for line in text.splitlines():
-        if reuse_ignore_begin in line:
-            inside_ignore = True
-            ignore_start = line.index(reuse_ignore_begin)
-            output.append(line[:ignore_start])
-        if reuse_ignore_end in line:
-            inside_ignore = False
-            ignore_end = line.index(reuse_ignore_end) + len(reuse_ignore_end)
-            output.append(line[ignore_end:])
-            continue
-        if inside_ignore:
-            continue
-        output.append(line)
-    return "\n".join(output)
+    ignore_start = None
+    ignore_end = None
+    if reuse_ignore_begin in text:
+        ignore_start = text.index(reuse_ignore_begin)
+    if reuse_ignore_end in text:
+        ignore_end = text.index(reuse_ignore_end) + len(reuse_ignore_end)
+    if not ignore_start:
+        return text
+    if not ignore_end:
+        return text[:ignore_start]
+    if ignore_end > ignore_start:
+        return text[:ignore_start] + filter_ignore_block(text[ignore_end:])
+    rest = text[ignore_start + len(reuse_ignore_begin) :]
+    if reuse_ignore_end in rest:
+        ignore_end = rest.index(reuse_ignore_end) + len(reuse_ignore_end)
+        return text[:ignore_start] + filter_ignore_block(rest[ignore_end:])
+    return text[:ignore_start]
 
 
 def contains_spdx_info(text: str) -> bool:
