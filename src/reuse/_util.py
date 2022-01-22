@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
+# SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -200,6 +203,25 @@ def extract_spdx_info(text: str) -> SpdxInfo:
                 break
 
     return SpdxInfo(expressions, copyright_matches)
+
+
+def filter_ignore_block(text: str) -> str:
+    """Filter out blocks beginning with REUSE_IGNORE_BEGIN and ending with
+    REUSE_IGNORE_END to remove lines that should not be treated as copyright and
+    licensing information.
+    """
+    inside_ignore = False
+    output = []
+    for line in text.splitlines():
+        if "REUSE_IGNORE_BEGIN" in line:
+            inside_ignore = True
+        if "REUSE_IGNORE_END" in line:
+            inside_ignore = False
+            continue
+        if inside_ignore:
+            continue
+        output.append(line)
+    return "\n".join(output)
 
 
 def contains_spdx_info(text: str) -> bool:

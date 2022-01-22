@@ -1,5 +1,8 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -131,6 +134,28 @@ def test_extract_copyright_variations():
     for line in lines:
         assert line in result.copyright_lines
     assert len(lines) == len(result.copyright_lines)
+
+
+def test_filter_ignore_block():
+    """Test that the ignore block is properly removed."""
+    text = cleandoc(
+        """
+        Relevant text
+        # REUSE_IGNORE_BEGIN
+        Ignored text
+        # REUSE_IGNORE_END
+        Other relevant text
+        """
+    )
+    expected = cleandoc(
+        """
+        Relevant text
+        Other relevant text
+        """
+    )
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
 
 
 def test_copyright_from_dep5(copyright):
