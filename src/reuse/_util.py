@@ -211,13 +211,19 @@ def filter_ignore_block(text: str) -> str:
     REUSE_IGNORE_END to remove lines that should not be treated as copyright and
     licensing information.
     """
+    reuse_ignore_begin = "REUSE_IGNORE_BEGIN"
+    reuse_ignore_end = "REUSE_IGNORE_END"
     inside_ignore = False
     output = []
     for line in text.splitlines():
-        if "REUSE_IGNORE_BEGIN" in line:
+        if reuse_ignore_begin in line:
             inside_ignore = True
-        if "REUSE_IGNORE_END" in line:
+            ignore_start = line.index(reuse_ignore_begin)
+            output.append(line[:ignore_start])
+        if reuse_ignore_end in line:
             inside_ignore = False
+            ignore_end = line.index(reuse_ignore_end) + len(reuse_ignore_end)
+            output.append(line[ignore_end:])
             continue
         if inside_ignore:
             continue
