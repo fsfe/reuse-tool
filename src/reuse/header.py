@@ -575,7 +575,7 @@ def add_arguments(parser) -> None:
 
 def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
-    # pylint: disable=too-many-branches,too-many-locals
+    # pylint: disable=too-many-branches,too-many-locals,too-many-statements
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
@@ -606,16 +606,19 @@ def run(args, project: Project, out=sys.stdout) -> int:
         args.force_dot_license = True
 
     if args.recursive:
-        paths = []
+        paths = set()
         all_files = project.all_files()
         for path in args.path:
-            paths = paths + [
-                child for child in all_files if path in child.parents
-            ]
+            if path.is_file():
+                paths.add(path)
+            else:
+                paths |= {
+                    child for child in all_files if path in child.parents
+                }
     else:
         paths = args.path
 
-    paths = [_determine_license_path(path) for path in paths]
+    paths = {_determine_license_path(path) for path in paths}
 
     if not args.force_dot_license:
         _verify_write_access(paths, args.parser)

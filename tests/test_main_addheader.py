@@ -1099,3 +1099,24 @@ def test_addheader_recursive(fake_repository, stringio, mock_date_today):
 
     assert "Joe Somebody" not in (fake_repository / "bar/bar.py").read_text()
     assert result == 0
+
+
+def test_addheader_recursive_on_file(
+    fake_repository, stringio, mock_date_today
+):
+    """Don't expect errors when addheader is run 'recursively' on a file."""
+    result = main(
+        [
+            "addheader",
+            "--copyright",
+            "Joe Somebody",
+            "--recursive",
+            "src/source_code.py",
+        ],
+        out=stringio,
+    )
+
+    assert (
+        "Joe Somebody" in (fake_repository / "src/source_code.py").read_text()
+    )
+    assert result == 0
