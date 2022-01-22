@@ -602,6 +602,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
     ".sass": CssCommentStyle,
+    ".sbt": CCommentStyle,
     ".sc": CCommentStyle,  # SuperCollider source file
     ".scad": CCommentStyle,
     ".scala": PythonCommentStyle,
