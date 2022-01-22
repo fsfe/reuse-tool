@@ -28,7 +28,7 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "foo.py",
         ],
         out=stringio,
@@ -39,7 +39,7 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
         simple_file.read_text()
         == cleandoc(
             """
-            # spdx-FileCopyrightText: 2018 Mary Sue
+            # spdx-FileCopyrightText: 2018 Jane Doe
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -62,7 +62,7 @@ def test_addheader_year(fake_repository, stringio):
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "foo.py",
         ],
         out=stringio,
@@ -73,7 +73,7 @@ def test_addheader_year(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            # spdx-FileCopyrightText: 2016 Mary Sue
+            # spdx-FileCopyrightText: 2016 Jane Doe
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -95,7 +95,7 @@ def test_addheader_no_year(fake_repository, stringio):
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "foo.py",
         ],
         out=stringio,
@@ -106,7 +106,7 @@ def test_addheader_no_year(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            # spdx-FileCopyrightText: Mary Sue
+            # spdx-FileCopyrightText: Jane Doe
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -127,7 +127,7 @@ def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--style",
             "c",
             "foo.py",
@@ -140,7 +140,7 @@ def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
         simple_file.read_text()
         == cleandoc(
             """
-            // spdx-FileCopyrightText: 2018 Mary Sue
+            // spdx-FileCopyrightText: 2018 Jane Doe
             //
             // spdx-License-Identifier: GPL-3.0-or-later
 
@@ -161,7 +161,7 @@ def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "foo.js",
         ],
         out=stringio,
@@ -172,7 +172,7 @@ def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
         simple_file.read_text()
         == cleandoc(
             """
-            // spdx-FileCopyrightText: 2018 Mary Sue
+            // spdx-FileCopyrightText: 2018 Jane Doe
             //
             // spdx-License-Identifier: GPL-3.0-or-later
 
@@ -195,7 +195,7 @@ def test_addheader_implicit_style_filename(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "Makefile",
         ],
         out=stringio,
@@ -206,7 +206,7 @@ def test_addheader_implicit_style_filename(
         simple_file.read_text()
         == cleandoc(
             """
-            # spdx-FileCopyrightText: 2018 Mary Sue
+            # spdx-FileCopyrightText: 2018 Jane Doe
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -228,7 +228,7 @@ def test_addheader_unrecognised_style(fake_repository):
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
-                "Mary Sue",
+                "Jane Doe",
                 "foo.foo",
             ]
         )
@@ -245,7 +245,7 @@ def test_addheader_skip_unrecognised(fake_repository, stringio):
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--skip-unrecognised",
             "foo.foo",
         ],
@@ -269,7 +269,7 @@ def test_addheader_skip_unrecognised_and_style(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--style=c",
             "--skip-unrecognised",
             "foo.foo",
@@ -306,7 +306,7 @@ def test_addheader_template_simple(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--template",
             "mytemplate.jinja2",
             "foo.py",
@@ -321,7 +321,7 @@ def test_addheader_template_simple(
             """
             # Hello, world!
             #
-            # spdx-FileCopyrightText: 2018 Mary Sue
+            # spdx-FileCopyrightText: 2018 Jane Doe
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -348,7 +348,7 @@ def test_addheader_template_simple_multiple(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--template",
             "mytemplate.jinja2",
         ]
@@ -364,7 +364,7 @@ def test_addheader_template_simple_multiple(
                 """
                 # Hello, world!
                 #
-                # spdx-FileCopyrightText: 2018 Mary Sue
+                # spdx-FileCopyrightText: 2018 Jane Doe
                 #
                 # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -390,7 +390,7 @@ def test_addheader_template_no_spdx(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--template",
             "mytemplate.jinja2",
             "foo.py",
@@ -419,7 +419,7 @@ def test_addheader_template_commented(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--template",
             "mytemplate.commented.jinja2",
             "foo.c",
@@ -434,7 +434,7 @@ def test_addheader_template_commented(
             """
             # Hello, world!
             #
-            # spdx-FileCopyrightText: 2018 Mary Sue
+            # spdx-FileCopyrightText: 2018 Jane Doe
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -457,7 +457,7 @@ def test_addheader_template_nonexistant(fake_repository):
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
-                "Mary Sue",
+                "Jane Doe",
                 "--template",
                 "mytemplate.jinja2",
                 "foo.py",
@@ -482,7 +482,7 @@ def test_addheader_template_without_extension(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--template",
             "mytemplate",
             "foo.py",
@@ -497,7 +497,7 @@ def test_addheader_template_without_extension(
             """
             # Hello, world!
             #
-            # spdx-FileCopyrightText: 2018 Mary Sue
+            # spdx-FileCopyrightText: 2018 Jane Doe
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -520,7 +520,7 @@ def test_addheader_binary(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "foo.png",
         ],
         out=stringio,
@@ -533,7 +533,7 @@ def test_addheader_binary(
         .strip()
         == cleandoc(
             """
-            spdx-FileCopyrightText: 2018 Mary Sue
+            spdx-FileCopyrightText: 2018 Jane Doe
 
             spdx-License-Identifier: GPL-3.0-or-later
             """
@@ -554,7 +554,7 @@ def test_addheader_uncommentable_json(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "foo.json",
         ],
         out=stringio,
@@ -565,7 +565,7 @@ def test_addheader_uncommentable_json(
         json_file.with_name(f"{json_file.name}.license").read_text().strip()
         == cleandoc(
             """
-            spdx-FileCopyrightText: 2018 Mary Sue
+            spdx-FileCopyrightText: 2018 Jane Doe
 
             spdx-License-Identifier: GPL-3.0-or-later
             """
@@ -586,7 +586,7 @@ def test_addheader_explicit_license(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--explicit-license",
             "foo.py",
         ],
@@ -600,7 +600,7 @@ def test_addheader_explicit_license(
         .strip()
         == cleandoc(
             """
-            spdx-FileCopyrightText: 2018 Mary Sue
+            spdx-FileCopyrightText: 2018 Jane Doe
 
             spdx-License-Identifier: GPL-3.0-or-later
             """
@@ -626,7 +626,7 @@ def test_addheader_explicit_license_double(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--explicit-license",
             "foo.txt",
         ],
@@ -639,7 +639,7 @@ def test_addheader_explicit_license_double(
         simple_file_license.read_text().strip()
         == cleandoc(
             """
-            spdx-FileCopyrightText: 2018 Mary Sue
+            spdx-FileCopyrightText: 2018 Jane Doe
 
             spdx-License-Identifier: GPL-3.0-or-later
             """
@@ -662,7 +662,7 @@ def test_addheader_explicit_license_unsupported_filetype(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--explicit-license",
             "foo.txt",
         ],
@@ -676,7 +676,7 @@ def test_addheader_explicit_license_unsupported_filetype(
         .strip()
         == cleandoc(
             """
-            spdx-FileCopyrightText: 2018 Mary Sue
+            spdx-FileCopyrightText: 2018 Jane Doe
 
             spdx-License-Identifier: GPL-3.0-or-later
             """
@@ -701,7 +701,7 @@ def test_addheader_explicit_license_doesnt_write_to_file(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--explicit-license",
             "foo.txt",
         ],
@@ -715,7 +715,7 @@ def test_addheader_explicit_license_doesnt_write_to_file(
         .strip()
         == cleandoc(
             """
-            spdx-FileCopyrightText: 2018 Mary Sue
+            spdx-FileCopyrightText: 2018 Jane Doe
 
             spdx-License-Identifier: GPL-3.0-or-later
             """
@@ -769,7 +769,7 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "foo.py",
         ],
         out=stringio,
@@ -781,7 +781,7 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
         == cleandoc(
             """
             spdx-FileCopyrightText: 2016 Jane Doe
-            spdx-FileCopyrightText: 2018 Mary Sue
+            spdx-FileCopyrightText: 2018 Jane Doe
 
             spdx-License-Identifier: GPL-3.0-or-later
             """
@@ -799,7 +799,7 @@ def test_addheader_year_mutually_exclusive(fake_repository):
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
-                "Mary Sue",
+                "Jane Doe",
                 "--exclude-year",
                 "--year",
                 "2020",
@@ -817,7 +817,7 @@ def test_addheader_single_multi_line_mutually_exclusive(fake_repository):
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
-                "Mary Sue",
+                "Jane Doe",
                 "--single-line",
                 "--multi-line",
                 "src/source_code.c",
@@ -835,7 +835,7 @@ def test_addheader_multi_line_not_supported(fake_repository, skip_option):
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
-                "Mary Sue",
+                "Jane Doe",
                 "--multi-line",
                 skip_option,
                 "src/source_code.py",
@@ -853,7 +853,7 @@ def test_addheader_single_line_not_supported(fake_repository, skip_option):
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
-                "Mary Sue",
+                "Jane Doe",
                 "--single-line",
                 skip_option,
                 "src/source_code.html",
@@ -874,7 +874,7 @@ def test_addheader_force_multi_line_for_c(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "--multi-line",
             "foo.c",
         ],
@@ -887,7 +887,7 @@ def test_addheader_force_multi_line_for_c(
         == cleandoc(
             """
             /*
-             * spdx-FileCopyrightText: 2018 Mary Sue
+             * spdx-FileCopyrightText: 2018 Jane Doe
              *
              * spdx-License-Identifier: GPL-3.0-or-later
              */
@@ -914,7 +914,7 @@ def test_addheader_line_endings(
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
-            "Mary Sue",
+            "Jane Doe",
             "foo.py",
         ],
         out=stringio,
@@ -928,7 +928,7 @@ def test_addheader_line_endings(
         contents
         == cleandoc(
             """
-            # spdx-FileCopyrightText: 2018 Mary Sue
+            # spdx-FileCopyrightText: 2018 Jane Doe
             #
             # spdx-License-Identifier: GPL-3.0-or-later
 

@@ -104,12 +104,12 @@ def fake_repository(tmpdir_factory) -> Path:
 
     # Adding this here to avoid conflict in main project.
     (directory / "src/exception.py").write_text(
-        "SPDX-FileCopyrightText: 2017 Mary Sue\n"
+        "SPDX-FileCopyrightText: 2017 Jane Doe\n"
         "SPDX"
         "-License-Identifier: GPL-3.0-or-later WITH Autoconf-exception-3.0"
     )
     (directory / "src/custom.py").write_text(
-        "SPDX-FileCopyrightText: 2017 Mary Sue\n"
+        "SPDX-FileCopyrightText: 2017 Jane Doe\n"
         "SPDX"
         "-License-Identifier: LicenseRef-custom"
     )
@@ -132,7 +132,7 @@ def _repo_contents(
         "# SPDX"
         "-License-Identifier: CC0-1.0\n"
         "# SPDX"
-        "-FileCopyrightText: 2017 Mary Sue\n"
+        "-FileCopyrightText: 2017 Jane Doe\n"
         "*.pyc\nbuild"
     )
     (fake_repository / ignore_filename).write_text(gitignore)

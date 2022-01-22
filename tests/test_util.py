@@ -137,7 +137,7 @@ def test_copyright_from_dep5(copyright):
     """Verify that the glob in the dep5 file is matched."""
     result = _util._copyright_from_dep5("doc/foo.rst", copyright)
     assert LicenseSymbol("CC0-1.0") in result.spdx_expressions
-    assert "2017 Mary Sue" in result.copyright_lines
+    assert "2017 Jane Doe" in result.copyright_lines
 
 
 def test_make_copyright_line_simple():

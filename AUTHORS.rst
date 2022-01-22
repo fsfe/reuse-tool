@@ -46,6 +46,7 @@ Contributors
 
 - Tuomas Siipola
 
+- Gri-ffin <gameshunter359@gmail.com>
 
 Translators
 -----------
