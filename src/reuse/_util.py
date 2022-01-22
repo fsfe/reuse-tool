@@ -182,6 +182,7 @@ def extract_spdx_info(text: str) -> SpdxInfo:
     :raises ExpressionError: if an SPDX expression could not be parsed
     :raises ParseError: if an SPDX expression could not be parsed
     """
+    text = filter_ignore_block(text)
     expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
     expressions = set()
     copyright_matches = set()

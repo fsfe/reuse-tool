@@ -136,6 +136,26 @@ def test_extract_copyright_variations():
     assert len(lines) == len(result.copyright_lines)
 
 
+def test_extract_with_ignore_block():
+    """Ensure that the copyright and licensing information inside the ignore
+    block is actually ignored.
+    """
+    text = cleandoc(
+        """
+        SPDX-FileCopyrightText: 2019 Jane Doe
+        SPDX-License-Identifier: CC0-1.0
+        REUSE_IGNORE_BEGIN
+        SPDX-FileCopyrightText: 2019 John Doe
+        SPDX-License-Identifier: GPL-3.0-or-later
+        REUSE_IGNORE_END
+        SPDX-FileCopyrightText: 2019 Eve
+        """
+    )
+    result = _util.extract_spdx_info(text)
+    assert len(result.copyright_lines) == 2
+    assert len(result.spdx_expressions) == 1
+
+
 def test_filter_ignore_block():
     """Test that the ignore block is properly removed."""
     text = cleandoc(
