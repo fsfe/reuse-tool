@@ -36,6 +36,9 @@ from ._licenses import ALL_NON_DEPRECATED_MAP
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
 
+REUSE_IGNORE_BEGIN = "REUSE_IGNORE_BEGIN"
+REUSE_IGNORE_END = "REUSE_IGNORE_END"
+
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
 
@@ -211,23 +214,21 @@ def filter_ignore_block(text: str) -> str:
     REUSE_IGNORE_END to remove lines that should not be treated as copyright and
     licensing information.
     """
-    reuse_ignore_begin = "REUSE_IGNORE_BEGIN"
-    reuse_ignore_end = "REUSE_IGNORE_END"
     ignore_start = None
     ignore_end = None
-    if reuse_ignore_begin in text:
-        ignore_start = text.index(reuse_ignore_begin)
-    if reuse_ignore_end in text:
-        ignore_end = text.index(reuse_ignore_end) + len(reuse_ignore_end)
+    if REUSE_IGNORE_BEGIN in text:
+        ignore_start = text.index(REUSE_IGNORE_BEGIN)
+    if REUSE_IGNORE_END in text:
+        ignore_end = text.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
     if not ignore_start:
         return text
     if not ignore_end:
         return text[:ignore_start]
     if ignore_end > ignore_start:
         return text[:ignore_start] + filter_ignore_block(text[ignore_end:])
-    rest = text[ignore_start + len(reuse_ignore_begin) :]
-    if reuse_ignore_end in rest:
-        ignore_end = rest.index(reuse_ignore_end) + len(reuse_ignore_end)
+    rest = text[ignore_start + len(REUSE_IGNORE_BEGIN) :]
+    if REUSE_IGNORE_END in rest:
+        ignore_end = rest.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
         return text[:ignore_start] + filter_ignore_block(rest[ignore_end:])
     return text[:ignore_start]
 
