@@ -169,7 +169,7 @@ def test_filter_ignore_block_with_comment_style():
         Other relevant text
         """
     )
-    expected = "Relevant text\n# \n\nOther relevant text"
+    expected = "Relevant text\n# \nOther relevant text"
 
     result = _util.filter_ignore_block(text)
     assert result == expected
@@ -191,7 +191,6 @@ def test_filter_ignore_block_non_comment_style():
     expected = cleandoc(
         """
         Relevant text
-
 
         Other relevant text
         """
@@ -218,7 +217,6 @@ def test_filter_ignore_block_with_ignored_information_on_same_line():
         """
         Relevant text
 
-
         Other relevant text
         """
     )
@@ -238,10 +236,86 @@ def test_filter_ignore_block_with_relevant_information_on_same_line():
         REUSE_IGNORE_ENDOther relevant text
         """
     )
+    expected = "Relevant textOther relevant text"
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_beginning_and_end_on_same_line_correct_order():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant textREUSE_IGNORE_BEGINIgnored textREUSE_IGNORE_ENDOther
+        relevant text
+        """
+    )
+    expected = cleandoc(
+        """
+        Relevant textOther
+        relevant text
+        """
+    )
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_beginning_and_end_on_same_line_wrong_order():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = "Relevant textREUSE_IGNORE_ENDOther relevant textREUSE_IGNORE_BEGINIgnored text"
+    expected = "Relevant textREUSE_IGNORE_ENDOther relevant text"
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_without_end():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        REUSE_IGNORE_BEGIN
+        Ignored text
+        Other ignored text
+        """
+    )
+    expected = "Relevant text\n"
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_multiple_ignore_blocks():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        REUSE_IGNORE_BEGIN
+        Ignored text
+        REUSE_IGNORE_END
+        Other relevant text
+        REUSE_IGNORE_BEGIN
+        Other ignored text
+        REUSE_IGNORE_END
+        Even more relevant text
+        """
+    )
     expected = cleandoc(
         """
         Relevant text
+
         Other relevant text
+
+        Even more relevant text
         """
     )
 
