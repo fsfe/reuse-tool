@@ -107,8 +107,8 @@ def test_create_header_already_contains_spdx():
     ).replace("spdx", "SPDX")
     expected = cleandoc(
         """
-        # spdx-FileCopyrightText: John Doe
         # spdx-FileCopyrightText: Jane Doe
+        # spdx-FileCopyrightText: John Doe
         #
         # spdx-License-Identifier: GPL-3.0-or-later
         # spdx-License-Identifier: MIT
@@ -217,7 +217,7 @@ def test_find_and_replace_newline_before_header():
     preceding whitespace.
     """
     spdx_info = SpdxInfo(
-        {"GPL-3.0-or-later"}, {"SPDX" "-FileCopyrightText: Jane Doe"}
+        {"GPL-3.0-or-later"}, {"SPDX" "-FileCopyrightText: John Doe"}
     )
     text = cleandoc(
         """
@@ -230,7 +230,7 @@ def test_find_and_replace_newline_before_header():
     expected = cleandoc(
         """
         # spdx-FileCopyrightText: Jane Doe
-        # spdx-FileCopyrightText: Jane Doe
+        # spdx-FileCopyrightText: John Doe
         #
         # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -244,7 +244,7 @@ def test_find_and_replace_newline_before_header():
 def test_find_and_replace_preserve_preceding():
     """When the SPDX header is in the middle of the file, keep it there."""
     spdx_info = SpdxInfo(
-        {"GPL-3.0-or-later"}, {"SPDX" "-FileCopyrightText: Jane Doe"}
+        {"GPL-3.0-or-later"}, {"SPDX" "-FileCopyrightText: John Doe"}
     )
     text = cleandoc(
         """
@@ -266,7 +266,7 @@ def test_find_and_replace_preserve_preceding():
             return bar
 
         # spdx-FileCopyrightText: Jane Doe
-        # spdx-FileCopyrightText: Jane Doe
+        # spdx-FileCopyrightText: John Doe
         #
         # spdx-License-Identifier: GPL-3.0-or-later
 
@@ -282,7 +282,7 @@ def test_find_and_replace_keep_shebang():
     it.
     """
     spdx_info = SpdxInfo(
-        {"GPL-3.0-or-later"}, {"SPDX" "-FileCopyrightText: Jane Doe"}
+        {"GPL-3.0-or-later"}, {"SPDX" "-FileCopyrightText: John Doe"}
     )
     text = cleandoc(
         """
@@ -298,7 +298,7 @@ def test_find_and_replace_keep_shebang():
         #!/usr/bin/env python3
 
         # spdx-FileCopyrightText: Jane Doe
-        # spdx-FileCopyrightText: Jane Doe
+        # spdx-FileCopyrightText: John Doe
         #
         # spdx-License-Identifier: GPL-3.0-or-later
 
