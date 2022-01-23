@@ -21,6 +21,15 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        # spdx-FileCopyrightText: 2018 Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -35,24 +44,22 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            # spdx-FileCopyrightText: 2018 Jane Doe
-            #
-            # spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_year(fake_repository, stringio):
     """Add a header to a file with a custom year."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        # spdx-FileCopyrightText: 2016 Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -69,24 +76,22 @@ def test_addheader_year(fake_repository, stringio):
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            # spdx-FileCopyrightText: 2016 Jane Doe
-            #
-            # spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_no_year(fake_repository, stringio):
     """Add a header to a file without a year."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        # spdx-FileCopyrightText: Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -102,24 +107,22 @@ def test_addheader_no_year(fake_repository, stringio):
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            # spdx-FileCopyrightText: Jane Doe
-            #
-            # spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one, using a custom style."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        // spdx-FileCopyrightText: 2018 Jane Doe
+        //
+        // spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -136,24 +139,22 @@ def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            // spdx-FileCopyrightText: 2018 Jane Doe
-            //
-            // spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that has a recognised extension."""
     simple_file = fake_repository / "foo.js"
     simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        // spdx-FileCopyrightText: 2018 Jane Doe
+        //
+        // spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -168,18 +169,7 @@ def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            // spdx-FileCopyrightText: 2018 Jane Doe
-            //
-            // spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_implicit_style_filename(
@@ -188,6 +178,15 @@ def test_addheader_implicit_style_filename(
     """Add a header to a filename that is recognised."""
     simple_file = fake_repository / "Makefile"
     simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        # spdx-FileCopyrightText: 2018 Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -202,18 +201,7 @@ def test_addheader_implicit_style_filename(
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            # spdx-FileCopyrightText: 2018 Jane Doe
-            #
-            # spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_unrecognised_style(fake_repository):
@@ -299,6 +287,17 @@ def test_addheader_template_simple(
     template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
     template_file.parent.mkdir(parents=True, exist_ok=True)
     template_file.write_text(template_simple_source)
+    expected = cleandoc(
+        """
+        # Hello, world!
+        #
+        # spdx-FileCopyrightText: 2018 Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -315,20 +314,7 @@ def test_addheader_template_simple(
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            # Hello, world!
-            #
-            # spdx-FileCopyrightText: 2018 Jane Doe
-            #
-            # spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_template_simple_multiple(
@@ -358,20 +344,18 @@ def test_addheader_template_simple_multiple(
 
     assert result == 0
     for simple_file in simple_files:
-        assert (
-            simple_file.read_text()
-            == cleandoc(
-                """
-                # Hello, world!
-                #
-                # spdx-FileCopyrightText: 2018 Jane Doe
-                #
-                # spdx-License-Identifier: GPL-3.0-or-later
+        expected = cleandoc(
+            """
+            # Hello, world!
+            #
+            # spdx-FileCopyrightText: 2018 Jane Doe
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
 
-                pass
-                """
-            ).replace("spdx", "SPDX")
-        )
+            pass
+            """
+        ).replace("spdx", "SPDX")
+        assert simple_file.read_text() == expected
 
 
 def test_addheader_template_no_spdx(
@@ -412,6 +396,17 @@ def test_addheader_template_commented(
     )
     template_file.parent.mkdir(parents=True, exist_ok=True)
     template_file.write_text(template_commented_source)
+    expected = cleandoc(
+        """
+        # Hello, world!
+        #
+        # spdx-FileCopyrightText: 2018 Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -428,20 +423,7 @@ def test_addheader_template_commented(
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            # Hello, world!
-            #
-            # spdx-FileCopyrightText: 2018 Jane Doe
-            #
-            # spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_template_nonexistant(fake_repository):
@@ -475,6 +457,17 @@ def test_addheader_template_without_extension(
     template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
     template_file.parent.mkdir(parents=True, exist_ok=True)
     template_file.write_text(template_simple_source)
+    expected = cleandoc(
+        """
+        # Hello, world!
+        #
+        # spdx-FileCopyrightText: 2018 Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -491,20 +484,7 @@ def test_addheader_template_without_extension(
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            # Hello, world!
-            #
-            # spdx-FileCopyrightText: 2018 Jane Doe
-            #
-            # spdx-License-Identifier: GPL-3.0-or-later
-
-            pass
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 def test_addheader_binary(
@@ -513,6 +493,13 @@ def test_addheader_binary(
     """Add a header to a .license file if the file is a binary."""
     binary_file = fake_repository / "foo.png"
     binary_file.write_bytes(binary_string)
+    expected = cleandoc(
+        """
+        spdx-FileCopyrightText: 2018 Jane Doe
+
+        spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -531,13 +518,7 @@ def test_addheader_binary(
         binary_file.with_name(f"{binary_file.name}.license")
         .read_text()
         .strip()
-        == cleandoc(
-            """
-            spdx-FileCopyrightText: 2018 Jane Doe
-
-            spdx-License-Identifier: GPL-3.0-or-later
-            """
-        ).replace("spdx", "SPDX")
+        == expected
     )
 
 
@@ -547,6 +528,13 @@ def test_addheader_uncommentable_json(
     """Add a header to a .license file if the file is uncommentable, e.g., JSON."""
     json_file = fake_repository / "foo.json"
     json_file.write_text('{"foo": 23, "bar": 42}')
+    expected = cleandoc(
+        """
+        spdx-FileCopyrightText: 2018 Jane Doe
+
+        spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -563,13 +551,7 @@ def test_addheader_uncommentable_json(
     assert result == 0
     assert (
         json_file.with_name(f"{json_file.name}.license").read_text().strip()
-        == cleandoc(
-            """
-            spdx-FileCopyrightText: 2018 Jane Doe
-
-            spdx-License-Identifier: GPL-3.0-or-later
-            """
-        ).replace("spdx", "SPDX")
+        == expected
     )
 
 
@@ -579,6 +561,13 @@ def test_addheader_explicit_license(
     """Add a header to a .license file if --explicit-license is given."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        spdx-FileCopyrightText: 2018 Jane Doe
+
+        spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -598,13 +587,7 @@ def test_addheader_explicit_license(
         simple_file.with_name(f"{simple_file.name}.license")
         .read_text()
         .strip()
-        == cleandoc(
-            """
-            spdx-FileCopyrightText: 2018 Jane Doe
-
-            spdx-License-Identifier: GPL-3.0-or-later
-            """
-        ).replace("spdx", "SPDX")
+        == expected
     )
     assert simple_file.read_text() == "pass"
 
@@ -619,6 +602,13 @@ def test_addheader_explicit_license_double(
 
     simple_file.write_text("foo")
     simple_file_license.write_text("foo")
+    expected = cleandoc(
+        """
+        spdx-FileCopyrightText: 2018 Jane Doe
+
+        spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -635,16 +625,7 @@ def test_addheader_explicit_license_double(
 
     assert result == 0
     assert not simple_file_license_license.exists()
-    assert (
-        simple_file_license.read_text().strip()
-        == cleandoc(
-            """
-            spdx-FileCopyrightText: 2018 Jane Doe
-
-            spdx-License-Identifier: GPL-3.0-or-later
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file_license.read_text().strip() == expected
 
 
 def test_addheader_explicit_license_unsupported_filetype(
@@ -655,6 +636,13 @@ def test_addheader_explicit_license_unsupported_filetype(
     """
     simple_file = fake_repository / "foo.txt"
     simple_file.write_text("Preserve this")
+    expected = cleandoc(
+        """
+        spdx-FileCopyrightText: 2018 Jane Doe
+
+        spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -674,13 +662,7 @@ def test_addheader_explicit_license_unsupported_filetype(
         simple_file.with_name(f"{simple_file.name}.license")
         .read_text()
         .strip()
-        == cleandoc(
-            """
-            spdx-FileCopyrightText: 2018 Jane Doe
-
-            spdx-License-Identifier: GPL-3.0-or-later
-            """
-        ).replace("spdx", "SPDX")
+        == expected
     )
     assert simple_file.read_text() == "Preserve this"
 
@@ -694,6 +676,13 @@ def test_addheader_explicit_license_doesnt_write_to_file(
     simple_file = fake_repository / "foo.txt"
     simple_file.write_text("Preserve this")
     simple_file.chmod(mode=stat.S_IREAD)
+    expected = cleandoc(
+        """
+        spdx-FileCopyrightText: 2018 Jane Doe
+
+        spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -713,13 +702,7 @@ def test_addheader_explicit_license_doesnt_write_to_file(
         simple_file.with_name(f"{simple_file.name}.license")
         .read_text()
         .strip()
-        == cleandoc(
-            """
-            spdx-FileCopyrightText: 2018 Jane Doe
-
-            spdx-License-Identifier: GPL-3.0-or-later
-            """
-        ).replace("spdx", "SPDX")
+        == expected
     )
     assert simple_file.read_text() == "Preserve this"
 
@@ -867,6 +850,17 @@ def test_addheader_force_multi_line_for_c(
     """--multi-line forces a multi-line comment for C."""
     simple_file = fake_repository / "foo.c"
     simple_file.write_text("foo")
+    expected = cleandoc(
+        """
+                /*
+                 * spdx-FileCopyrightText: 2018 Jane Doe
+                 *
+                 * spdx-License-Identifier: GPL-3.0-or-later
+                 */
+
+                foo
+                """
+    ).replace("spdx", "SPDX")
 
     result = main(
         [
@@ -882,20 +876,7 @@ def test_addheader_force_multi_line_for_c(
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
-            /*
-             * spdx-FileCopyrightText: 2018 Jane Doe
-             *
-             * spdx-License-Identifier: GPL-3.0-or-later
-             */
-
-            foo
-            """
-        ).replace("spdx", "SPDX")
-    )
+    assert simple_file.read_text() == expected
 
 
 @pytest.mark.parametrize("line_ending", ["\r\n", "\r", "\n"])
@@ -906,6 +887,20 @@ def test_addheader_line_endings(
     simple_file = empty_directory / "foo.py"
     simple_file.write_bytes(
         line_ending.encode("utf-8").join([b"hello", b"world"])
+    )
+    expected = (
+        cleandoc(
+            """
+            # spdx-FileCopyrightText: 2018 Jane Doe
+            #
+            # spdx-License-Identifier: GPL-3.0-or-later
+
+            hello
+            world
+            """
+        )
+        .replace("spdx", "SPDX")
+        .replace("\n", line_ending)
     )
 
     result = main(
@@ -924,18 +919,4 @@ def test_addheader_line_endings(
     with open(simple_file, newline="") as fp:
         contents = fp.read()
 
-    assert (
-        contents
-        == cleandoc(
-            """
-            # spdx-FileCopyrightText: 2018 Jane Doe
-            #
-            # spdx-License-Identifier: GPL-3.0-or-later
-
-            hello
-            world
-            """
-        )
-        .replace("spdx", "SPDX")
-        .replace("\n", line_ending)
-    )
+    assert contents == expected
