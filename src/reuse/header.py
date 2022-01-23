@@ -13,6 +13,7 @@
 
 # pylint: disable=too-many-arguments
 
+import argparse
 import datetime
 import logging
 import os
@@ -360,7 +361,7 @@ def _verify_paths_comment_style(paths: List[Path], parser: ArgumentParser):
             parser.error(
                 _(
                     "'{path}' does not have a recognised file extension,"
-                    " please use --style, --explicit-license or"
+                    " please use --style, --force-dot-license or"
                     " --skip-unrecognised"
                 ).format(path=path)
             )
@@ -516,6 +517,11 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--explicit-license",
         action="store_true",
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--force-dot-license",
+        action="store_true",
         help=_("write a .license file instead of a header inside the file"),
     )
     parser.add_argument(
@@ -549,14 +555,22 @@ def run(args, project: Project, out=sys.stdout) -> int:
                 " --style"
             )
         )
+    if args.explicit_license:
+        _LOGGER.warning(
+            _(
+                "--explicit-license has been deprecated in favour of"
+                " --force-dot-license"
+            )
+        )
+        args.force_dot_license = True
 
     paths = [_determine_license_path(path) for path in args.path]
 
-    if not args.explicit_license:
+    if not args.force_dot_license:
         _verify_write_access(paths, args.parser)
 
     # Verify line handling and comment styles before proceeding
-    if args.style is None and not args.explicit_license:
+    if args.style is None and not args.force_dot_license:
         _verify_paths_line_handling(
             paths,
             args.parser,
@@ -606,7 +620,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
     result = 0
     for path in paths:
         uncommentable = _is_uncommentable(path)
-        if uncommentable or args.explicit_license:
+        if uncommentable or args.force_dot_license:
             new_path = _determine_license_suffix_path(path)
             if uncommentable:
                 _LOGGER.info(
