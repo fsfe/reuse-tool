@@ -981,3 +981,58 @@ def test_addheader_line_endings(
         .replace("spdx", "SPDX")
         .replace("\n", line_ending)
     )
+
+
+def test_addheader_skip_existing(fake_repository, stringio, mock_date_today):
+    """When addheader --skip-existing on a file that already contains SPDX info,
+    don't write additional information to it.
+    """
+    for path in ("foo.py", "bar.py"):
+        (fake_repository / path).write_text("pass")
+    expected_foo = cleandoc(
+        """
+        # spdx-FileCopyrightText: 2018 Jane Doe
+        #
+        # spdx-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+    expected_bar = cleandoc(
+        """
+        # spdx-FileCopyrightText: 2018 John Doe
+        #
+        # spdx-License-Identifier: MIT
+
+        pass
+        """
+    ).replace("spdx", "SPDX")
+
+    main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "MIT",
+            "--copyright",
+            "John Doe",
+            "--skip-existing",
+            "foo.py",
+            "bar.py",
+        ]
+    )
+
+    assert result == 0
+    assert (fake_repository / "foo.py").read_text() == expected_foo
+    assert (fake_repository / "bar.py").read_text() == expected_bar
