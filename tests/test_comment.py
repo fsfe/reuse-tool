@@ -523,18 +523,18 @@ def test_parse_comment_html():
     assert HtmlCommentStyle.parse_comment(text) == expected
 
 
+def test_create_comment_html_single():
+    """Creating a single-line HTML comment fails."""
+    with pytest.raises(CommentCreateError):
+        HtmlCommentStyle._create_comment_single("hello")
+
+
 def test_parse_comment_html_single_line():
     """Parse a single-line HTML comment."""
     text = "<!-- Hello world -->"
     expected = "Hello world"
 
     assert HtmlCommentStyle.parse_comment(text) == expected
-
-
-def test_create_comment_html_single():
-    """Creating a single-line HTML comment fails."""
-    with pytest.raises(CommentCreateError):
-        HtmlCommentStyle._create_comment_single("hello")
 
 
 def test_comment_at_first_character_python():
