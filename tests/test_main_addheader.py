@@ -739,11 +739,22 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
     license_file.write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2016 Jane Doe
+            spdx-FileCopyrightText: 2016 John Doe
 
             Hello
             """
         ).replace("spdx", "SPDX")
+    )
+    expected = (
+        cleandoc(
+            """
+            spdx-FileCopyrightText: 2016 John Doe
+            spdx-FileCopyrightText: 2018 Jane Doe
+
+            spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
     )
 
     result = main(
@@ -759,17 +770,53 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
     )
 
     assert result == 0
-    assert (
-        license_file.read_text()
-        == cleandoc(
+    assert license_file.read_text() == expected
+    assert simple_file.read_text() == "foo"
+
+
+def test_addheader_license_file_only_one_newline(
+    fake_repository, stringio, mock_date_today
+):
+    """When a header is added to a .license file that already ends with a newline, the new header should end with a single newline."""
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("foo")
+    license_file = fake_repository / "foo.py.license"
+    license_file.write_text(
+        cleandoc(
             """
-            spdx-FileCopyrightText: 2016 Jane Doe
+            spdx-FileCopyrightText: 2016 John Doe
+
+            Hello
+            """
+        ).replace("spdx", "SPDX")
+        + "\n"
+    )
+    expected = (
+        cleandoc(
+            """
+            spdx-FileCopyrightText: 2016 John Doe
             spdx-FileCopyrightText: 2018 Jane Doe
 
             spdx-License-Identifier: GPL-3.0-or-later
             """
         ).replace("spdx", "SPDX")
+        + "\n"
     )
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert license_file.read_text() == expected
     assert simple_file.read_text() == "foo"
 
 
