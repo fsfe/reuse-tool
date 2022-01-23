@@ -51,7 +51,13 @@ The versions follow [semantic versioning](https://semver.org).
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
   with Python 3.12 (#451)
 
+- `addheader --explicit-license` renamed to `--force-dot-license`. (#476)
+
 ### Deprecated
+
+- Deprecated `--explicit-license` in favour of `--force-dot-license`.
+  `--explicit-license` will remain useable (although undocumented) for the
+  foreseeable future. (#476)
 
 ### Removed
 
