@@ -460,6 +460,16 @@ def _add_header_to_file(
     return result
 
 
+def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
+    not_writeable = [
+        str(path) for path in paths if not os.access(path, os.W_OK)
+    ]
+    if not_writeable:
+        parser.error(
+            _("can't write to '{}'").format("', '".join(not_writeable))
+        )
+
+
 def add_arguments(parser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -634,13 +644,3 @@ def run(args, project: Project, out=sys.stdout) -> int:
         )
 
     return min(result, 1)
-
-
-def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
-    not_writeable = [
-        str(path) for path in paths if not os.access(path, os.W_OK)
-    ]
-    if not_writeable:
-        parser.error(
-            _("can't write to '{}'").format("', '".join(not_writeable))
-        )
