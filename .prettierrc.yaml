@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+printWidth: 80
+proseWrap: always
+useTabs: false
+tabWidth: 4
+
+overrides:
+  # Identical to file types specified in .editorconfig
+  - files:
+      - "*.rst"
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+      - "*.json"
+    options:
+      tabWidth: 2
