@@ -84,7 +84,7 @@ jobs:
         id: meta_default
         uses: docker/metadata-action@v3
         with:
-          images: mxmehl/docker-ci-test
+          images: fsfe/reuse
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -103,7 +103,7 @@ jobs:
         id: meta_debian
         uses: docker/metadata-action@v3
         with:
-          images: mxmehl/docker-ci-test
+          images: fsfe/reuse
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -152,7 +152,7 @@ jobs:
         id: meta_default
         uses: docker/metadata-action@v3
         with:
-          images: mxmehl/docker-ci-test
+          images: fsfe/reuse
           tags: |
             type=raw,value=dev
       - name: Default Docker - build and push
@@ -169,7 +169,7 @@ jobs:
         id: meta_debian
         uses: docker/metadata-action@v3
         with:
-          images: mxmehl/docker-ci-test
+          images: fsfe/reuse
           tags: |
             type=raw,value=dev-debian
       - name: Debian Docker - build and push
