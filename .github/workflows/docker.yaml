@@ -98,6 +98,28 @@ jobs:
           tags: ${{ steps.meta_default.outputs.tags }}
           labels: ${{ steps.meta_default.outputs.labels }}
 
+      # Dockerfile-extra
+      - name: Extra Docker - set metadata
+        id: meta_extra
+        uses: docker/metadata-action@v3
+        with:
+          images: fsfe/reuse
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
+          flavor: |
+            suffix=-extra,onlatest=true
+      - name: Extra Docker - build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile-extra
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta_extra.outputs.tags }}
+          labels: ${{ steps.meta_extra.outputs.labels }}
+
       # Dockerfile-debian
       - name: Debian Docker - set metadata
         id: meta_debian
@@ -163,6 +185,24 @@ jobs:
           push: true
           tags: ${{ steps.meta_default.outputs.tags }}
           labels: ${{ steps.meta_default.outputs.labels }}
+
+      # Dockerfile-extra
+      - name: Extra Docker - set metadata
+        id: meta_extra
+        uses: docker/metadata-action@v3
+        with:
+          images: fsfe/reuse
+          tags: |
+            type=raw,value=dev-extra
+      - name: Extra Docker - build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile-extra
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta_extra.outputs.tags }}
+          labels: ${{ steps.meta_extra.outputs.labels }}
 
       # Dockerfile-debian
       - name: Debian Docker - set metadata
