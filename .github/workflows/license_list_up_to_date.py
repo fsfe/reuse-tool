@@ -8,6 +8,7 @@ up-to-date.
 For convenience, also overwrite the files.
 """
 
+import sys
 from pathlib import Path
 
 import requests
@@ -39,4 +40,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
