@@ -6,7 +6,7 @@
 
 """Tests for reuse._main: addheader"""
 
-# pylint: disable=unused-argument
+# pylint: disable=too-many-lines,unused-argument
 
 import stat
 from inspect import cleandoc
