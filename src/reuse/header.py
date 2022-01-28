@@ -358,19 +358,27 @@ def _verify_paths_line_handling(
 
 
 def _verify_paths_comment_style(paths: List[Path], parser: ArgumentParser):
+    unrecognised_files = []
+
     for path in paths:
         style = _get_comment_style(path)
         not_uncommentable = not _is_uncommentable(path)
 
         # TODO: This check is duplicated.
         if style is None and not_uncommentable:
-            parser.error(
+            unrecognised_files.append(path)
+
+    if unrecognised_files:
+        parser.error(
+            "{}\n{}".format(
                 _(
-                    "'{path}' does not have a recognised file extension,"
-                    " please use --style, --force-dot-license or"
-                    " --skip-unrecognised"
-                ).format(path=path)
+                    "The following files do not have a recognised file"
+                    " extension. Please use --style, --force-dot-license or"
+                    " --skip-unrecognised:"
+                ),
+                "\n".join(str(path) for path in unrecognised_files),
             )
+        )
 
 
 def _find_template(project: Project, name: str) -> Template:
