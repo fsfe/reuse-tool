@@ -101,7 +101,7 @@ min-public-methods=1
 [IMPORTS]
 allow-wildcard-with-all=no
 analyse-fallback-blocks=no
-deprecated-modules=optparse,tkinter.tix
+deprecated-modules=optparse,tkinter.tix,distutils
 known-third-party=enchant
 
 
