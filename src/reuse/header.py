@@ -419,6 +419,12 @@ def _add_header_to_file(
     # Ideally, this check is done elsewhere. But that would necessitate reading
     # the file contents before this function is called.
     if skip_existing and contains_spdx_info(text):
+        out.write(
+            _(
+                "Skipped file '{path}' already containing SPDX information"
+            ).format(path=path)
+        )
+        out.write("\n")
         return result
 
     # Detect and remember line endings for later conversion.
