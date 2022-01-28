@@ -16,7 +16,7 @@ enable=useless-suppression
 [REPORTS]
 
 output-format=text
-reports=yes
+reports=no
 
 
 [FORMAT]
