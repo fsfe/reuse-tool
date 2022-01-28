@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -270,6 +271,7 @@ def test_supported_licenses(stringio):
 
     assert main(["supported-licenses"], out=stringio) == 0
     assert re.search(
+        # pylint: disable=line-too-long
         r"GPL-3\.0-or-later\s+GNU General Public License v3\.0 or later\s+https:\/\/spdx\.org\/licenses\/GPL-3\.0-or-later\.html\s+\n",
         stringio.getvalue(),
     )

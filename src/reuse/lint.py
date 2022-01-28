@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -323,7 +324,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("\n")
 
 
-def add_arguments(parser):  # pylint: disable=unused-argument
+def add_arguments(parser):
     """Add arguments to parser."""
     parser.add_argument(
         "-q", "--quiet", action="store_true", help="Prevents output"
@@ -332,7 +333,6 @@ def add_arguments(parser):  # pylint: disable=unused-argument
 
 def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
-    # pylint: disable=unused-argument
     report = ProjectReport.generate(
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )

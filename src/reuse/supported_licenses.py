@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2021 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -9,13 +10,13 @@ import sys
 from ._licenses import _LICENSES, _load_license_list
 from .project import Project
 
+
 # pylint: disable=unused-argument
-
-
 def add_arguments(parser) -> None:
     """Add arguments to the parser."""
 
 
+# pylint: disable=unused-argument
 def run(args, project: Project, out=sys.stdout):
     """Print the supported SPDX licenses list"""
 

@@ -27,8 +27,6 @@ _LOGGER = logging.getLogger(__name__)
 class _MultiprocessingContainer:
     """Container that remembers some data in order to generate a FileReport."""
 
-    # pylint: disable=too-few-public-methods
-
     def __init__(self, project, do_checksum):
         self.project = project
         self.do_checksum = do_checksum
@@ -349,7 +347,6 @@ class FileReport:
         if not path.is_file():
             raise OSError(f"{path} is not a file")
 
-        # pylint: disable=protected-access
         relative = project.relative_from_root(path)
         report = cls("./" + str(relative), path, do_checksum=do_checksum)
 

@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
-# pylint: disable=redefined-outer-name
 
 """All tests for reuse.header"""
 

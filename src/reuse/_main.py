@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -218,7 +219,7 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def add_command(  # pylint: disable=too-many-arguments
+def add_command(  # pylint: disable=too-many-arguments,redefined-builtin
     subparsers,
     name: str,
     add_arguments_func,

@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -43,8 +44,6 @@ class Project:
     """Simple object that holds the project's root, which is necessary for many
     interactions.
     """
-
-    # pylint: disable=too-many-instance-attributes
 
     def __init__(self, root: PathLike, include_submodules: bool = False):
         self._root = Path(root)

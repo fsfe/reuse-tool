@@ -7,7 +7,6 @@
 
 """Misc. utilities for reuse."""
 
-# pylint: disable=ungrouped-imports
 
 import logging
 import os
@@ -249,7 +248,7 @@ def _checksum(path: PathLike) -> str:
     return file_sha1.hexdigest()
 
 
-class PathType:  # pylint: disable=too-few-public-methods
+class PathType:
     """Factory for creating Paths"""
 
     def __init__(self, mode="r", force_file=False, force_directory=False):

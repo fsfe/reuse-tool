@@ -697,7 +697,7 @@ def _all_style_classes() -> List[CommentStyle]:
     return sorted(result, key=operator.attrgetter("__name__"))
 
 
-# pylint: disable=invalid-name,protected-access
+# pylint: disable=protected-access
 
 _result = _all_style_classes()
 _result.remove(EmptyCommentStyle)

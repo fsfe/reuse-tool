@@ -12,7 +12,6 @@
 
 """Functions for manipulating the comment headers of files."""
 
-# pylint: disable=too-many-arguments
 
 import argparse
 import datetime
@@ -69,7 +68,7 @@ DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
 _NEWLINE_PATTERN = re.compile(r"\n", re.MULTILINE)
 
 
-class _TextSections(NamedTuple):  # pylint: disable=too-few-public-methods
+class _TextSections(NamedTuple):
     """Used to split up text in three parts."""
 
     before: str
@@ -275,7 +274,6 @@ def find_and_replace_header(
     if style is EmptyCommentStyle:
         after = ""
 
-    # pylint: disable=logging-format-interpolation
     _LOGGER.debug(f"before = {repr(before)}")
     _LOGGER.debug(f"header = {repr(header)}")
     _LOGGER.debug(f"after = {repr(after)}")
