@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -46,9 +47,7 @@ class _MultiprocessingContainer:
             return _MultiprocessingResult(file_, None, exc)
 
 
-class _MultiprocessingResult(
-    NamedTuple
-):  # pylint: disable=too-few-public-methods
+class _MultiprocessingResult(NamedTuple):
     """Result of :class:`MultiprocessingContainer`."""
 
     path: PathLike
@@ -224,12 +223,12 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             project_report.file_reports.add(file_report)
 
             # Bad and missing licenses.
-            for license in file_report.missing_licenses:
-                project_report.missing_licenses.setdefault(license, set()).add(
-                    file_report.path
-                )
-            for license in file_report.bad_licenses:
-                project_report.bad_licenses.setdefault(license, set()).add(
+            for missing_license in file_report.missing_licenses:
+                project_report.missing_licenses.setdefault(
+                    missing_license, set()
+                ).add(file_report.path)
+            for bad_license in file_report.bad_licenses:
+                project_report.bad_licenses.setdefault(bad_license, set()).add(
                     file_report.path
                 )
 

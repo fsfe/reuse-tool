@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -258,7 +259,7 @@ def submodule_repository(
 
 
 @pytest.fixture(scope="session")
-def copyright():
+def dep5_copyright():
     """Create a dep5 Copyright object."""
     with (RESOURCES_DIRECTORY / "fake_repository/.reuse/dep5").open() as fp:
         return Copyright(fp)

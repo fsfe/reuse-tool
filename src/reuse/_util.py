@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -160,9 +161,11 @@ def _determine_license_suffix_path(path: PathLike) -> Path:
     return Path(f"{path}.license")
 
 
-def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
+def _copyright_from_dep5(
+    path: PathLike, dep5_copyright: Copyright
+) -> SpdxInfo:
     """Find the reuse information of *path* in the dep5 Copyright object."""
-    result = copyright.find_files_paragraph(Path(path).as_posix())
+    result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
         return SpdxInfo(set(), set())
@@ -222,8 +225,8 @@ def make_copyright_line(
     copyright_prefix = _COPYRIGHT_STYLES.get(copyright_style)
     if copyright_prefix is None:
         raise RuntimeError(
-            "Unexpected copyright style: Need 'spdx', 'spdx-symbol', 'string', 'string-c',"
-            "'string-symbol' or 'symbol'"
+            "Unexpected copyright style: Need 'spdx', 'spdx-symbol', 'string',"
+            "'string-c', 'string-symbol' or 'symbol'"
         )
 
     for pattern in _COPYRIGHT_PATTERNS:

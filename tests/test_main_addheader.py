@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -525,7 +526,9 @@ def test_addheader_binary(
 def test_addheader_uncommentable_json(
     fake_repository, stringio, mock_date_today
 ):
-    """Add a header to a .license file if the file is uncommentable, e.g., JSON."""
+    """Add a header to a .license file if the file is uncommentable, e.g.,
+    JSON.
+    """
     json_file = fake_repository / "foo.json"
     json_file.write_text('{"foo": 23, "bar": 42}')
     expected = cleandoc(
