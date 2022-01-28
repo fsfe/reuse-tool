@@ -573,10 +573,10 @@ def test_addheader_uncommentable_json(
     )
 
 
-def test_addheader_explicit_license(
+def test_addheader_force_dot_license(
     fake_repository, stringio, mock_date_today
 ):
-    """Add a header to a .license file if --explicit-license is given."""
+    """Add a header to a .license file if --force-dot-license is given."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
@@ -587,7 +587,7 @@ def test_addheader_explicit_license(
             "GPL-3.0-or-later",
             "--copyright",
             "Jane Doe",
-            "--explicit-license",
+            "--force-dot-license",
             "foo.py",
         ],
         out=stringio,
@@ -609,7 +609,49 @@ def test_addheader_explicit_license(
     assert simple_file.read_text() == "pass"
 
 
-def test_addheader_explicit_license_double(
+def test_addheader_force_dot_license_identical_to_explicit_license(
+    fake_repository, stringio, mock_date_today
+):
+    """For backwards compatibility, --force-dot-license should have identical
+    results as --explicit-license.
+    """
+    files = [
+        fake_repository / "foo.py",
+        fake_repository / "bar.py",
+    ]
+    for path in files:
+        path.write_text("pass")
+    expected = cleandoc(
+        """
+        spdx-FileCopyrightText: 2018 Jane Doe
+
+        spdx-License-Identifier: GPL-3.0-or-later
+        """
+    ).replace("spdx", "SPDX")
+
+    for arg, path in zip(("--force-dot-license", "--explicit-license"), files):
+        main(
+            [
+                "addheader",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Jane Doe",
+                arg,
+                str(path),
+            ],
+            out=stringio,
+        )
+
+    for path in files:
+        assert (
+            path.with_name(f"{path.name}.license").read_text().strip()
+            == expected
+        )
+        assert path.read_text() == "pass"
+
+
+def test_addheader_force_dot_license_double(
     fake_repository, stringio, mock_date_today
 ):
     """When path.license already exists, don't create path.license.license."""
@@ -627,7 +669,7 @@ def test_addheader_explicit_license_double(
             "GPL-3.0-or-later",
             "--copyright",
             "Jane Doe",
-            "--explicit-license",
+            "--force-dot-license",
             "foo.txt",
         ],
         out=stringio,
@@ -647,10 +689,10 @@ def test_addheader_explicit_license_double(
     )
 
 
-def test_addheader_explicit_license_unsupported_filetype(
+def test_addheader_force_dot_license_unsupported_filetype(
     fake_repository, stringio, mock_date_today
 ):
-    """Add a header to a .license file if --explicit-license is given, with the
+    """Add a header to a .license file if --force-dot-license is given, with the
     base file being an otherwise unsupported filetype.
     """
     simple_file = fake_repository / "foo.txt"
@@ -663,7 +705,7 @@ def test_addheader_explicit_license_unsupported_filetype(
             "GPL-3.0-or-later",
             "--copyright",
             "Jane Doe",
-            "--explicit-license",
+            "--force-dot-license",
             "foo.txt",
         ],
         out=stringio,
@@ -685,10 +727,10 @@ def test_addheader_explicit_license_unsupported_filetype(
     assert simple_file.read_text() == "Preserve this"
 
 
-def test_addheader_explicit_license_doesnt_write_to_file(
+def test_addheader_force_dot_license_doesnt_write_to_file(
     fake_repository, stringio, mock_date_today
 ):
-    """Adding a header to a .license file if --explicit-license is given,
+    """Adding a header to a .license file if --force-dot-license is given,
     doesn't require write permission to the file, just the directory.
     """
     simple_file = fake_repository / "foo.txt"
@@ -702,7 +744,7 @@ def test_addheader_explicit_license_doesnt_write_to_file(
             "GPL-3.0-or-later",
             "--copyright",
             "Jane Doe",
-            "--explicit-license",
+            "--force-dot-license",
             "foo.txt",
         ],
         out=stringio,
