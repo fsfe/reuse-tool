@@ -224,7 +224,7 @@ def make_copyright_line(
     copyright_prefix = _COPYRIGHT_STYLES.get(copyright_style)
     if copyright_prefix is None:
         raise RuntimeError(
-            "Unexpected copyright style: Need 'spdx', 'spdx-symbol', 'string',"
+            "Unexpected copyright style: Need 'spdx', 'spdx-symbol', 'string', "
             "'string-c', 'string-symbol' or 'symbol'"
         )
 
