@@ -160,9 +160,7 @@ def _determine_license_suffix_path(path: PathLike) -> Path:
     return Path(f"{path}.license")
 
 
-def _copyright_from_dep5(
-    path: PathLike, dep5_copyright: Copyright
-) -> SpdxInfo:
+def _copyright_from_dep5(path: PathLike, dep5_copyright: Copyright) -> SpdxInfo:
     """Find the reuse information of *path* in the dep5 Copyright object."""
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 

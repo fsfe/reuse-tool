@@ -247,9 +247,7 @@ def test_download_custom_output(
     result = main(["download", "-o", "foo", "0BSD"], out=stringio)
 
     assert result == 0
-    mock_put_license_in_file.assert_called_with(
-        "0BSD", destination=Path("foo")
-    )
+    mock_put_license_in_file.assert_called_with("0BSD", destination=Path("foo"))
 
 
 def test_download_custom_output_too_many(

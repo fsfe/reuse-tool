@@ -252,9 +252,7 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
     main_parser = parser()
     parsed_args = main_parser.parse_args(args)
 
-    setup_logging(
-        level=logging.DEBUG if parsed_args.debug else logging.WARNING
-    )
+    setup_logging(level=logging.DEBUG if parsed_args.debug else logging.WARNING)
 
     if parsed_args.version:
         out.write(f"reuse {__version__}\n")

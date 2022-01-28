@@ -283,9 +283,7 @@ class Project:
                         other_path=license_files[identifier],
                     )
                 )
-                raise RuntimeError(
-                    f"Multiple licenses resolve to {identifier}"
-                )
+                raise RuntimeError(f"Multiple licenses resolve to {identifier}")
             # Add the identifiers
             license_files[identifier] = path
             if (

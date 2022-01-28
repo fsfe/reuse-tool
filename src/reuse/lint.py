@@ -31,9 +31,7 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
     missing_licenses_result = lint_missing_licenses(report, out)
     unused_licenses_result = lint_unused_licenses(report, out)
     read_errors_result = lint_read_errors(report, out)
-    files_without_cali = lint_files_without_copyright_and_licensing(
-        report, out
-    )
+    files_without_cali = lint_files_without_copyright_and_licensing(report, out)
 
     lint_summary(report, out=out)
 

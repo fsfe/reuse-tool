@@ -39,9 +39,7 @@ def download_license(spdx_identifier: str) -> str:
     :return: The license text.
     """
     # This is fairly naive, but I can't see anything wrong with it.
-    url = urljoin(
-        _SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt"))
-    )
+    url = urljoin(_SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt")))
     # TODO: Cache result?
     response = requests.get(url)
     if response.status_code == 200:

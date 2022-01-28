@@ -87,9 +87,7 @@ class CommentStyle:
         :raises CommentCreateError: if *text* could not be commented.
         """
         if not cls.can_handle_multi():
-            raise CommentCreateError(
-                f"{cls} cannot create multi-line comments"
-            )
+            raise CommentCreateError(f"{cls} cannot create multi-line comments")
         result = []
         result.append(cls.MULTI_LINE[0])
         for line in text.split("\n"):

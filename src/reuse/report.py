@@ -382,9 +382,7 @@ class FileReport:
                 report.spdxfile.licenses_in_file.append(identifier)
 
         # Copyright text
-        report.spdxfile.copyright = "\n".join(
-            sorted(spdx_info.copyright_lines)
-        )
+        report.spdxfile.copyright = "\n".join(sorted(spdx_info.copyright_lines))
 
         return report
 

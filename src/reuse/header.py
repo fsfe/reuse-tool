@@ -60,9 +60,7 @@ from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
 
-_ENV = Environment(
-    loader=PackageLoader("reuse", "templates"), trim_blocks=True
-)
+_ENV = Environment(loader=PackageLoader("reuse", "templates"), trim_blocks=True)
 DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
 
 _NEWLINE_PATTERN = re.compile(r"\n", re.MULTILINE)
@@ -289,8 +287,8 @@ def find_and_replace_header(
         )
         if style is com_style
     ):
-        # Extract shebang from header and put it in before. It's a bit messy, but
-        # it ends up working.
+        # Extract shebang from header and put it in before. It's a bit messy,
+        # but it ends up working.
         if header.startswith(prefix) and not before.strip():
             before, header = _extract_shebang(prefix, header)
         elif after.startswith(prefix) and not any((before, header)):

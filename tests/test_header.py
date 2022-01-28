@@ -13,11 +13,7 @@ import pytest
 
 from reuse import SpdxInfo
 from reuse._comment import CCommentStyle, CommentCreateError
-from reuse.header import (
-    MissingSpdxInfo,
-    create_header,
-    find_and_replace_header,
-)
+from reuse.header import MissingSpdxInfo, create_header, find_and_replace_header
 
 
 def test_create_header_simple():
