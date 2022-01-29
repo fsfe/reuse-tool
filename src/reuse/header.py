@@ -615,13 +615,15 @@ def run(args, project: Project, out=sys.stdout) -> int:
 
     if args.recursive:
         paths = set()
-        all_files = project.all_files()
+        all_files = [path.resolve() for path in project.all_files()]
         for path in args.path:
             if path.is_file():
                 paths.add(path)
             else:
                 paths |= {
-                    child for child in all_files if path in child.parents
+                    child
+                    for child in all_files
+                    if path.resolve() in child.parents
                 }
     else:
         paths = args.path
