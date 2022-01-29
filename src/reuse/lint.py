@@ -7,6 +7,7 @@
 the reports and printing some conclusions.
 """
 
+import contextlib
 import os
 import sys
 from gettext import gettext as _
@@ -335,9 +336,9 @@ def run(args, project: Project, out=sys.stdout):
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )
 
-    if args.quiet:
-        out = open(os.devnull, "w")
-
-    result = lint(report, out=out)
+    with contextlib.ExitStack() as stack:
+        if args.quiet:
+            out = stack.enter_context(open(os.devnull, "w", encoding="utf-8"))
+        result = lint(report, out=out)
 
     return 0 if result else 1

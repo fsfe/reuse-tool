@@ -26,9 +26,8 @@ def run(args, project: Project, out=sys.stdout):
         license_name = license_info["name"]
         license_reference = license_info["reference"]
         out.write(
-            "{: <40}\t{: <80}\t{: <50}\n".format(
-                license_id, license_name, license_reference
-            )
+            f"{license_id: <40}\t{license_name: <80}\t"
+            f"{license_reference: <50}\n"
         )
 
     return 0

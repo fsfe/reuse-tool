@@ -36,10 +36,12 @@ HG_EXE = shutil.which("hg")
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
 
-_END_PATTERN = "{}$".format(
+_END_PATTERN = r"{}$".format(  # pylint: disable=consider-using-f-string
     "".join(
         {
-            "(?:{})*".format(re.escape(style.MULTI_LINE[2]))
+            r"(?:{})*".format(  # pylint: disable=consider-using-f-string
+                re.escape(style.MULTI_LINE[2])
+            )
             for style in _all_style_classes()
             if style.MULTI_LINE[2]
         }
@@ -341,7 +343,7 @@ def print_incorrect_spdx_identifier(identifier: str, out=sys.stdout) -> None:
         out.write(_("Did you mean:"))
         out.write("\n")
         for suggestion in suggestions:
-            out.write("* {}\n".format(suggestion))
+            out.write(f"* {suggestion}\n")
         out.write("\n")
     out.write(
         _(

@@ -58,13 +58,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     def __init__(self, do_checksum: bool = True):
         self.path = None
-        self.licenses = dict()
-        self.missing_licenses = dict()
-        self.bad_licenses = dict()
+        self.licenses = {}
+        self.missing_licenses = {}
+        self.bad_licenses = {}
         self.deprecated_licenses = set()
         self.read_errors = set()
         self.file_reports = set()
-        self.licenses_without_extension = dict()
+        self.licenses_without_extension = {}
 
         self.do_checksum = do_checksum
 
@@ -189,11 +189,8 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         container = _MultiprocessingContainer(project, do_checksum)
 
         if multiprocessing:
-            pool = mp.Pool()
-
-            results = pool.map(container, project.all_files())
-
-            pool.close()
+            with mp.Pool() as pool:
+                results = pool.map(container, project.all_files())
             pool.join()
         else:
             results = map(container, project.all_files())
@@ -357,7 +354,7 @@ class FileReport:
             # This path avoids a lot of heavy computation, which is handy for
             # scenarios where you only need a unique hash, not a consistent
             # hash.
-            report.spdxfile.chk_sum = "%040x" % random.getrandbits(40)
+            report.spdxfile.chk_sum = f"{random.getrandbits(160):040x}"
         spdx_id = md5()
         spdx_id.update(str(relative).encode("utf-8"))
         spdx_id.update(report.spdxfile.chk_sum.encode("utf-8"))
