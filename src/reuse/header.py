@@ -398,6 +398,7 @@ def _add_header_to_file(
     template_is_commented: bool,
     style: Optional[str],
     force_multi: bool = False,
+    skip_existing: bool = False,
     out=sys.stdout,
 ) -> int:
     """Helper function."""
@@ -414,6 +415,17 @@ def _add_header_to_file(
 
     with path.open("r", encoding="utf-8", newline="") as fp:
         text = fp.read()
+
+    # Ideally, this check is done elsewhere. But that would necessitate reading
+    # the file contents before this function is called.
+    if skip_existing and contains_spdx_info(text):
+        out.write(
+            _(
+                "Skipped file '{path}' already containing SPDX information"
+            ).format(path=path)
+        )
+        out.write("\n")
+        return result
 
     # Detect and remember line endings for later conversion.
     line_ending = detect_line_endings(text)
@@ -529,6 +541,11 @@ def add_arguments(parser) -> None:
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
     )
+    parser.add_argument(
+        "--skip-existing",
+        action="store_true",
+        help=_("skip files that already contain SPDX information"),
+    )
     parser.add_argument("path", action="store", nargs="+", type=PathType("r"))
 
 
@@ -632,13 +649,14 @@ def run(args, project: Project, out=sys.stdout) -> int:
             path = Path(new_path)
             path.touch()
         result += _add_header_to_file(
-            path,
-            spdx_info,
-            template,
-            commented,
-            args.style,
-            args.multi_line,
-            out,
+            path=path,
+            spdx_info=spdx_info,
+            template=template,
+            template_is_commented=commented,
+            style=args.style,
+            force_multi=args.multi_line,
+            skip_existing=args.skip_existing,
+            out=out,
         )
 
     return min(result, 1)

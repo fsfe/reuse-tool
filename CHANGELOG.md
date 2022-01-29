@@ -46,6 +46,10 @@ The versions follow [semantic versioning](https://semver.org).
 
   - sbt build files (`.sbt`)
 
+- Added `--skip-existing` flag to `addheader` in order to skip files that
+  already contain SPDX information. This may be useful for only adding SPDX
+  information to newly created files.
+
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
