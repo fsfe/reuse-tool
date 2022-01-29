@@ -67,6 +67,11 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- When `addheader` creates a `.license` file, that file now has a newline at the
+  end. (#477)
+
+- Cleaned up internal string manipulation. (#477)
+
 ### Security
 
 ## 0.14.0 - 2021-12-27

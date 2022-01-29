@@ -23,7 +23,7 @@ from argparse import ArgumentParser
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
-from typing import Iterable, List, NamedTuple, Optional, Sequence
+from typing import Iterable, List, NamedTuple, Optional, Sequence, Tuple
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
@@ -101,10 +101,10 @@ def _create_new_header(
     rendered = template.render(
         copyright_lines=sorted(spdx_info.copyright_lines),
         spdx_expressions=sorted(map(str, spdx_info.spdx_expressions)),
-    )
+    ).strip("\n")
 
     if template_is_commented:
-        result = rendered.strip("\n")
+        result = rendered
     else:
         result = style.create_comment(rendered, force_multi=force_multi).strip(
             "\n"
@@ -174,7 +174,7 @@ def create_header(
         style=style,
         force_multi=force_multi,
     )
-    return new_header + "\n"
+    return new_header
 
 
 def _indices_of_newlines(text: str) -> Sequence[int]:
@@ -216,6 +216,21 @@ def _find_first_spdx_comment(
             )
 
     raise MissingSpdxInfo()
+
+
+def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
+    """Remove all lines that start with the shebang prefix from *text*. Return a
+    tuple of (shebang, reduced_text).
+    """
+    shebang_lines = []
+    for line in text.splitlines():
+        if line.startswith(prefix):
+            shebang_lines.append(line)
+            text = text.replace(line, "", 1)
+        else:
+            shebang = "\n".join(shebang_lines)
+            break
+    return (shebang, text)
 
 
 def find_and_replace_header(
@@ -265,29 +280,20 @@ def find_and_replace_header(
 
     # Keep special first-line-of-file lines as the first line in the file,
     # or say, move our comments after it.
-    for (com_style, prefix) in [
-        (PythonCommentStyle, "#!"),
-        (HtmlCommentStyle, "<?xml"),
-    ]:
+    for prefix in (
+        prefix
+        for com_style, prefix in (
+            (PythonCommentStyle, "#!"),
+            (HtmlCommentStyle, "<?xml"),
+        )
+        if style is com_style
+    ):
         # Extract shebang from header and put it in before. It's a bit messy, but
         # it ends up working.
-        if style is not com_style:
-            continue
         if header.startswith(prefix) and not before.strip():
-            before = ""
-            for line in header.splitlines():
-                if line.startswith(prefix):
-                    before = before + "\n" + line
-                    header = header.replace(line, "", 1)
-                else:
-                    break
+            before, header = _extract_shebang(prefix, header)
         elif after.startswith(prefix) and not any((before, header)):
-            for line in after.splitlines():
-                if line.startswith(prefix):
-                    before = before + "\n" + line
-                    after = after.replace(line, "", 1)
-                else:
-                    break
+            before, after = _extract_shebang(prefix, after)
 
     header = create_header(
         spdx_info,
@@ -298,11 +304,11 @@ def find_and_replace_header(
         force_multi=force_multi,
     )
 
-    new_text = header.strip("\n")
+    new_text = f"{header}\n"
     if before.strip():
-        new_text = before.strip("\n") + "\n\n" + new_text
+        new_text = f"{before.rstrip()}\n\n{new_text}"
     if after.strip():
-        new_text = new_text + "\n\n" + after.lstrip("\n")
+        new_text = f"{new_text}\n{after.lstrip()}"
     return new_text
 
 
@@ -465,6 +471,16 @@ def _add_header_to_file(
         out.write("\n")
 
     return result
+
+
+def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
+    not_writeable = [
+        str(path) for path in paths if not os.access(path, os.W_OK)
+    ]
+    if not_writeable:
+        parser.error(
+            _("can't write to '{}'").format("', '".join(not_writeable))
+        )
 
 
 def add_arguments(parser) -> None:
@@ -660,13 +676,3 @@ def run(args, project: Project, out=sys.stdout) -> int:
         )
 
     return min(result, 1)
-
-
-def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
-    not_writeable = [
-        str(path) for path in paths if not os.access(path, os.W_OK)
-    ]
-    if not_writeable:
-        parser.error(
-            _("can't write to '{}'").format("', '".join(not_writeable))
-        )
