@@ -76,6 +76,22 @@ def test_generate_file_report_file_bad_license(fake_repository):
     assert result.missing_licenses == {"fakelicense"}
 
 
+def test_generate_file_report_license_contains_plus(fake_repository):
+    """Given a license expression akin to Apache-1.0+, LICENSES/Apache-1.0.txt
+    should be an appropriate license file.
+    """
+    (fake_repository / "foo.py").write_text(
+        "SPDX" "-License-Identifier: Apache-1.0+"
+    )
+    (fake_repository / "LICENSES/Apache-1.0.txt").touch()
+    project = Project(fake_repository)
+    result = FileReport.generate(project, "foo.py")
+
+    assert result.spdxfile.copyright == ""
+    assert not result.bad_licenses
+    assert not result.missing_licenses
+
+
 def test_generate_file_report_exception(fake_repository):
     """Simple generate test to test if the exception is detected."""
     project = Project(fake_repository)
@@ -151,6 +167,48 @@ def test_generate_project_report_unused_license(
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert result.unused_licenses == {"MIT"}
+
+
+def test_generate_project_report_unused_license_plus(
+    fake_repository, multiprocessing
+):
+    """Apache-1.0+ is not an unused license if LICENSES/Apache-1.0.txt
+    exists.
+
+    Furthermore, Apache-1.0+ is separately identified as a used license.
+    """
+    (fake_repository / "foo.py").write_text(
+        "SPDX" "-License-Identifier: Apache-1.0+"
+    )
+    (fake_repository / "bar.py").write_text(
+        "SPDX" "-License-Identifier: Apache-1.0"
+    )
+    (fake_repository / "LICENSES/Apache-1.0.txt").touch()
+
+    project = Project(fake_repository)
+    result = ProjectReport.generate(project, multiprocessing=multiprocessing)
+
+    assert not result.unused_licenses
+    assert {"Apache-1.0", "Apache-1.0+"}.issubset(result.used_licenses)
+
+
+def test_generate_project_report_unused_license_plus_only_plus(
+    fake_repository, multiprocessing
+):
+    """If Apache-1.0+ is the only declared license in the project,
+    LICENSES/Apache-1.0.txt should not be an unused license.
+    """
+    (fake_repository / "foo.py").write_text(
+        "SPDX" "-License-Identifier: Apache-1.0+"
+    )
+    (fake_repository / "LICENSES/Apache-1.0.txt").touch()
+
+    project = Project(fake_repository)
+    result = ProjectReport.generate(project, multiprocessing=multiprocessing)
+
+    assert not result.unused_licenses
+    assert "Apache-1.0+" in result.used_licenses
+    assert "Apache-1.0" not in result.used_licenses
 
 
 def test_generate_project_report_bad_license_in_file(
