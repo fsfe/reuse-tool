@@ -1064,3 +1064,38 @@ def test_addheader_skip_existing(fake_repository, stringio, mock_date_today):
     assert result == 0
     assert (fake_repository / "foo.py").read_text() == expected_foo
     assert (fake_repository / "bar.py").read_text() == expected_bar
+
+
+def test_addheader_recursive(fake_repository, stringio, mock_date_today):
+    """Add a header to a directory recursively."""
+    (fake_repository / "src/one/two").mkdir(parents=True)
+    (fake_repository / "src/one/two/foo.py").write_text(
+        cleandoc(
+            """
+            # spdx-License-Identifier: GPL-3.0-or-later
+            """
+        ).replace("spdx", "SPDX")
+    )
+    (fake_repository / "bar").mkdir(parents=True)
+    (fake_repository / "bar/bar.py").touch()
+
+    result = main(
+        [
+            "addheader",
+            "--copyright",
+            "Joe Somebody",
+            "--recursive",
+            "src/",
+        ],
+        out=stringio,
+    )
+
+    for path in (fake_repository / "src").glob("src/**"):
+        content = path.read_text()
+        assert (
+            "spdx-FileCopyrightText: 2018 Joe Somebody".replace("spdx", "SPDX")
+            in content
+        )
+
+    assert "Joe Somebody" not in (fake_repository / "bar/bar.py").read_text()
+    assert result == 0
