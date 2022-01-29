@@ -32,7 +32,7 @@ def test_generate_file_report_file_simple(fake_repository):
     project = Project(fake_repository)
     result = FileReport.generate(project, "src/source_code.py")
     assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
-    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Mary Sue"
+    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -45,7 +45,7 @@ def test_generate_file_report_file_from_different_cwd(fake_repository):
         project, fake_repository / "src/source_code.py"
     )
     assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
-    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Mary Sue"
+    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -100,7 +100,7 @@ def test_generate_file_report_exception(fake_repository):
         "GPL-3.0-or-later",
         "Autoconf-exception-3.0",
     }
-    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Mary Sue"
+    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 

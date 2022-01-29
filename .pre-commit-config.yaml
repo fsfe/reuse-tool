@@ -19,6 +19,11 @@ repos:
       - id: isort
         name: isort (pyi)
         types: [pyi]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.4.1
+    hooks:
+      - id: prettier
+        name: prettier
   - repo: local
     hooks:
       - id: pylint

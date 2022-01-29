@@ -4,6 +4,7 @@
 
 import json
 import subprocess
+import sys
 from distutils.version import LooseVersion
 from urllib.request import urlopen
 
@@ -31,4 +32,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

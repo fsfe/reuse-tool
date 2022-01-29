@@ -13,6 +13,7 @@
 
 # pylint: disable=too-many-arguments
 
+import argparse
 import datetime
 import logging
 import os
@@ -22,7 +23,7 @@ from argparse import ArgumentParser
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
-from typing import Iterable, List, NamedTuple, Optional, Sequence
+from typing import Iterable, List, NamedTuple, Optional, Sequence, Tuple
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
@@ -100,10 +101,10 @@ def _create_new_header(
     rendered = template.render(
         copyright_lines=sorted(spdx_info.copyright_lines),
         spdx_expressions=sorted(map(str, spdx_info.spdx_expressions)),
-    )
+    ).strip("\n")
 
     if template_is_commented:
-        result = rendered.strip("\n")
+        result = rendered
     else:
         result = style.create_comment(rendered, force_multi=force_multi).strip(
             "\n"
@@ -173,7 +174,7 @@ def create_header(
         style=style,
         force_multi=force_multi,
     )
-    return new_header + "\n"
+    return new_header
 
 
 def _indices_of_newlines(text: str) -> Sequence[int]:
@@ -215,6 +216,21 @@ def _find_first_spdx_comment(
             )
 
     raise MissingSpdxInfo()
+
+
+def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
+    """Remove all lines that start with the shebang prefix from *text*. Return a
+    tuple of (shebang, reduced_text).
+    """
+    shebang_lines = []
+    for line in text.splitlines():
+        if line.startswith(prefix):
+            shebang_lines.append(line)
+            text = text.replace(line, "", 1)
+        else:
+            shebang = "\n".join(shebang_lines)
+            break
+    return (shebang, text)
 
 
 def find_and_replace_header(
@@ -264,29 +280,20 @@ def find_and_replace_header(
 
     # Keep special first-line-of-file lines as the first line in the file,
     # or say, move our comments after it.
-    for (com_style, prefix) in [
-        (PythonCommentStyle, "#!"),
-        (HtmlCommentStyle, "<?xml"),
-    ]:
+    for prefix in (
+        prefix
+        for com_style, prefix in (
+            (PythonCommentStyle, "#!"),
+            (HtmlCommentStyle, "<?xml"),
+        )
+        if style is com_style
+    ):
         # Extract shebang from header and put it in before. It's a bit messy, but
         # it ends up working.
-        if style is not com_style:
-            continue
         if header.startswith(prefix) and not before.strip():
-            before = ""
-            for line in header.splitlines():
-                if line.startswith(prefix):
-                    before = before + "\n" + line
-                    header = header.replace(line, "", 1)
-                else:
-                    break
+            before, header = _extract_shebang(prefix, header)
         elif after.startswith(prefix) and not any((before, header)):
-            for line in after.splitlines():
-                if line.startswith(prefix):
-                    before = before + "\n" + line
-                    after = after.replace(line, "", 1)
-                else:
-                    break
+            before, after = _extract_shebang(prefix, after)
 
     header = create_header(
         spdx_info,
@@ -297,11 +304,11 @@ def find_and_replace_header(
         force_multi=force_multi,
     )
 
-    new_text = header.strip("\n")
+    new_text = f"{header}\n"
     if before.strip():
-        new_text = before.strip("\n") + "\n\n" + new_text
+        new_text = f"{before.rstrip()}\n\n{new_text}"
     if after.strip():
-        new_text = new_text + "\n\n" + after.lstrip("\n")
+        new_text = f"{new_text}\n{after.lstrip()}"
     return new_text
 
 
@@ -360,7 +367,7 @@ def _verify_paths_comment_style(paths: List[Path], parser: ArgumentParser):
             parser.error(
                 _(
                     "'{path}' does not have a recognised file extension,"
-                    " please use --style, --explicit-license or"
+                    " please use --style, --force-dot-license or"
                     " --skip-unrecognised"
                 ).format(path=path)
             )
@@ -397,6 +404,7 @@ def _add_header_to_file(
     template_is_commented: bool,
     style: Optional[str],
     force_multi: bool = False,
+    skip_existing: bool = False,
     out=sys.stdout,
 ) -> int:
     """Helper function."""
@@ -413,6 +421,17 @@ def _add_header_to_file(
 
     with path.open("r", encoding="utf-8", newline="") as fp:
         text = fp.read()
+
+    # Ideally, this check is done elsewhere. But that would necessitate reading
+    # the file contents before this function is called.
+    if skip_existing and contains_spdx_info(text):
+        out.write(
+            _(
+                "Skipped file '{path}' already containing SPDX information"
+            ).format(path=path)
+        )
+        out.write("\n")
+        return result
 
     # Detect and remember line endings for later conversion.
     line_ending = detect_line_endings(text)
@@ -452,6 +471,16 @@ def _add_header_to_file(
         out.write("\n")
 
     return result
+
+
+def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
+    not_writeable = [
+        str(path) for path in paths if not os.access(path, os.W_OK)
+    ]
+    if not_writeable:
+        parser.error(
+            _("can't write to '{}'").format("', '".join(not_writeable))
+        )
 
 
 def add_arguments(parser) -> None:
@@ -516,12 +545,22 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--explicit-license",
         action="store_true",
-        help=_("place header in path.license instead of path"),
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--force-dot-license",
+        action="store_true",
+        help=_("write a .license file instead of a header inside the file"),
     )
     parser.add_argument(
         "--skip-unrecognised",
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
+    )
+    parser.add_argument(
+        "--skip-existing",
+        action="store_true",
+        help=_("skip files that already contain SPDX information"),
     )
     parser.add_argument("path", action="store", nargs="+", type=PathType("r"))
 
@@ -549,14 +588,22 @@ def run(args, project: Project, out=sys.stdout) -> int:
                 " --style"
             )
         )
+    if args.explicit_license:
+        _LOGGER.warning(
+            _(
+                "--explicit-license has been deprecated in favour of"
+                " --force-dot-license"
+            )
+        )
+        args.force_dot_license = True
 
     paths = [_determine_license_path(path) for path in args.path]
 
-    if not args.explicit_license:
+    if not args.force_dot_license:
         _verify_write_access(paths, args.parser)
 
     # Verify line handling and comment styles before proceeding
-    if args.style is None and not args.explicit_license:
+    if args.style is None and not args.force_dot_license:
         _verify_paths_line_handling(
             paths,
             args.parser,
@@ -606,7 +653,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
     result = 0
     for path in paths:
         uncommentable = _is_uncommentable(path)
-        if uncommentable or args.explicit_license:
+        if uncommentable or args.force_dot_license:
             new_path = _determine_license_suffix_path(path)
             if uncommentable:
                 _LOGGER.info(
@@ -618,23 +665,14 @@ def run(args, project: Project, out=sys.stdout) -> int:
             path = Path(new_path)
             path.touch()
         result += _add_header_to_file(
-            path,
-            spdx_info,
-            template,
-            commented,
-            args.style,
-            args.multi_line,
-            out,
+            path=path,
+            spdx_info=spdx_info,
+            template=template,
+            template_is_commented=commented,
+            style=args.style,
+            force_multi=args.multi_line,
+            skip_existing=args.skip_existing,
+            out=out,
         )
 
     return min(result, 1)
-
-
-def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
-    not_writeable = [
-        str(path) for path in paths if not os.access(path, os.W_OK)
-    ]
-    if not_writeable:
-        parser.error(
-            _("can't write to '{}'").format("', '".join(not_writeable))
-        )

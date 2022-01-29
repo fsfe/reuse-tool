@@ -40,13 +40,28 @@ The versions follow [semantic versioning](https://semver.org).
 ### Added
 
 - Recommendations for installation/run methods: package managers and pipx (#457)
+- Docker images for AArch64 (#478)
+
+- More file types are recognised:
+
+  - sbt build files (`.sbt`)
+
+- Added `--skip-existing` flag to `addheader` in order to skip files that
+  already contain SPDX information. This may be useful for only adding SPDX
+  information to newly created files.
 
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
   with Python 3.12 (#451)
 
+- `addheader --explicit-license` renamed to `--force-dot-license`. (#476)
+
 ### Deprecated
+
+- Deprecated `--explicit-license` in favour of `--force-dot-license`.
+  `--explicit-license` will remain useable (although undocumented) for the
+  foreseeable future. (#476)
 
 ### Removed
 
@@ -56,6 +71,11 @@ The versions follow [semantic versioning](https://semver.org).
   `Apache-1.0+` appears as a declared license, it should not be identified as
   missing, bad, or unused if `LICENSES/Apache-1.0.txt` exists. It is, however,
   identified separately as a used license. (#123)
+
+- When `addheader` creates a `.license` file, that file now has a newline at the
+  end. (#477)
+
+- Cleaned up internal string manipulation. (#477)
 
 ### Security
 
@@ -137,7 +157,8 @@ contributed!
 
 - `addheader` ignores case when matching file extensions and names. (#359)
 
-- Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`. (#321)
+- Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`.
+  (#321)
 
 - More file types are recognised:
 
@@ -180,7 +201,8 @@ contributed!
 
 - `addheader` now preserves line endings. (#308)
 
-- `download` does no longer fail when both `--output` and `--all` are used. (#326)
+- `download` does no longer fail when both `--output` and `--all` are used.
+  (#326)
 
 - Catch erroneous SPDX expressions. (#331)
 

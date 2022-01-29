@@ -57,6 +57,10 @@ black: ## format with black
 	isort src/ tests/ *.py
 	black .
 
+.PHONY: prettier
+prettier: ## format with prettier
+	prettier --write .
+
 .PHONY: reuse
 reuse: dist ## check with self
 	reuse lint
