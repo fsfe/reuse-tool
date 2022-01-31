@@ -36,6 +36,7 @@ from ._comment import (
     EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
     FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
     NAME_STYLE_MAP,
+    CCommentStyle,
     CommentCreateError,
     CommentParseError,
     CommentStyle,
@@ -283,8 +284,9 @@ def find_and_replace_header(
     for prefix in (
         prefix
         for com_style, prefix in (
-            (PythonCommentStyle, "#!"),
-            (HtmlCommentStyle, "<?xml"),
+            (CCommentStyle, "#!"),  # e.g. V-Lang
+            (HtmlCommentStyle, "<?xml"),  # e.g. XML/XHTML
+            (PythonCommentStyle, "#!"),  # e.g. Shell, Python
         )
         if style is com_style
     ):
