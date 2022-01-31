@@ -50,6 +50,10 @@ The versions follow [semantic versioning](https://semver.org).
   already contain SPDX information. This may be useful for only adding SPDX
   information to newly created files.
 
+- Preserve shebang for more script files:
+
+  - V-Lang (#432)
+
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
