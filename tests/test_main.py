@@ -94,6 +94,97 @@ def test_lint_submodule_included_fail(submodule_repository, stringio):
     assert ":-(" in stringio.getvalue()
 
 
+def test_lint_meson_subprojects(fake_repository, stringio):
+    """Run a successful lint."""
+    (fake_repository / "meson.build").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: CC0-1.0"
+    )
+    subprojects_dir = fake_repository / "subprojects"
+    subprojects_dir.mkdir()
+    libfoo_dir = subprojects_dir / "libfoo"
+    libfoo_dir.mkdir()
+		# ./subprojects/foo.wrap has license and linter succeeds
+    (subprojects_dir / "foo.wrap").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: CC0-1.0"
+    )
+    # ./subprojects/libfoo/foo.c misses license but is ignored
+    (libfoo_dir / "foo.c").write_text("foo")
+    result = main(["lint"], out=stringio)
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
+def test_lint_meson_subprojects_fail(fake_repository, stringio):
+    """Run a successful lint."""
+    (fake_repository / "meson.build").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: CC0-1.0"
+    )
+    subprojects_dir = fake_repository / "subprojects"
+    subprojects_dir.mkdir()
+    libfoo_dir = subprojects_dir / "libfoo"
+    libfoo_dir.mkdir()
+		# ./subprojects/foo.wrap misses license and linter fails
+    (subprojects_dir / "foo.wrap").write_text("foo")
+    # ./subprojects/libfoo/foo.c misses license but is ignored
+    (libfoo_dir / "foo.c").write_text("foo")
+    result = main(["lint"], out=stringio)
+
+    assert result == 1
+    assert ":-(" in stringio.getvalue()
+
+
+def test_lint_meson_subprojects_included_fail(fake_repository, stringio):
+    """Run a successful lint."""
+    (fake_repository / "meson.build").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: CC0-1.0"
+    )
+    subprojects_dir = fake_repository / "subprojects"
+    subprojects_dir.mkdir()
+    libfoo_dir = subprojects_dir / "libfoo"
+    libfoo_dir.mkdir()
+		# ./subprojects/foo.wrap has license
+    (subprojects_dir / "foo.wrap").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: CC0-1.0"
+    )
+    # ./subprojects/libfoo/foo.c misses license and linter fails
+    (libfoo_dir / "foo.c").write_text("foo")
+    result = main(["--include-meson-subprojects", "lint"], out=stringio)
+
+    assert result == 1
+    assert ":-(" in stringio.getvalue()
+
+
+def test_lint_meson_subprojects_included(fake_repository, stringio):
+    """Run a successful lint."""
+    (fake_repository / "meson.build").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: CC0-1.0"
+    )
+    subprojects_dir = fake_repository / "subprojects"
+    subprojects_dir.mkdir()
+    libfoo_dir = subprojects_dir / "libfoo"
+    libfoo_dir.mkdir()
+		# ./subprojects/foo.wrap has license
+    (subprojects_dir / "foo.wrap").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: CC0-1.0"
+    )
+    # ./subprojects/libfoo/foo.c has license and linter succeeds
+    (libfoo_dir / "foo.c").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: GPL-3.0-or-later"
+    )
+    result = main(["--include-meson-subprojects", "lint"], out=stringio)
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
 def test_lint_fail(fake_repository, stringio):
     """Run a failed lint."""
     (fake_repository / "foo.py").write_text("foo")

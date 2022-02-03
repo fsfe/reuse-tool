@@ -45,6 +45,10 @@ _IGNORE_DIR_PATTERNS = [
     re.compile(r"^\.reuse$"),
 ]
 
+_IGNORE_MESON_PARENT_DIR_PATTERNS = [
+    re.compile(r"^subprojects$"),
+]
+
 _IGNORE_FILE_PATTERNS = [
     re.compile(r"^LICENSE"),
     re.compile(r"^COPYING"),
