@@ -223,7 +223,7 @@ def test_make_copyright_line_existing_other_copyright():
 
 
 def test_make_copyright_line_multine_error():
-    """Given a multiline arguement, expect an error."""
+    """Given a multiline argument, expect an error."""
     with pytest.raises(RuntimeError):
         _util.make_copyright_line("hello\nworld")
 
