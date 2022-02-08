@@ -126,11 +126,8 @@ install: uninstall install-requirements  ## install reuse
 	python setup.py install
 
 .PHONY: update-resources
-update-resources:  ## update spdx data files
-	curl https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json \
-		> src/reuse/resources/licenses.json
-	curl https://raw.githubusercontent.com/spdx/license-list-data/master/json/exceptions.json \
-		> src/reuse/resources/exceptions.json
+update-resources: ## update spdx data files
+	python .github/workflows/license_list_up_to_date.py --download
 
 .PHONY: develop
 develop: uninstall install-dev-requirements  ## install source directory
