@@ -149,7 +149,7 @@ A sign-off annotation in a commit also contains author details that can be as va
 
 .. code-block:: console
 
-  $ git log --all | grep 'Signed-off-by\|Co-authored-by' | sort | uniq
+  $ git log --all | grep -i 'Signed-off-by\|Co-authored-by' | sort | uniq
       Co-authored-by: Ethel Morgan <eth@ethulhu.co.uk>
       Co-authored-by: max.mehl <max.mehl@fsfe.org>
       Co-authored-by: Max Mehl <max.mehl@fsfe.org>
