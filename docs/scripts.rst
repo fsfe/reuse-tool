@@ -168,13 +168,13 @@ A common use-case is to add headers to existing, modified or newly written code.
 Add headers to staged files based on git settings
 =================================================
 
-This script helps you add your copyright headers right before commiting the code you wrote.
+This script helps you add your copyright headers right before committing the code you wrote.
 
 The list of files staged in git can be retrieved using ``git diff --name-only --cached``, which is the basis to apply the ``reuse addheader`` command to.
 
 Git user and email address are available through ``git config --get user.name`` and ``git config --get user.email``.
 
-Reuse already sets the current year, so there is no need to set that explicitly.
+REUSE already sets the current year, so there is no need to set that explicitly.
 
 These elements can be combined into a single command:
 
