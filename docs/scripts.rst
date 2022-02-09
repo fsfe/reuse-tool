@@ -7,13 +7,13 @@
 Helper scripts
 ==============
 
-This section contains scripts and snippets to help with the usage of reuse.
-Reuse already has a lot of functionality builtin, but there are still cases where reuse could use support from some external scripts.
+This section contains scripts and snippets to help with the usage of REUSE.
+REUSE already has a lot of functionality builtin, but there are still cases where REUSE could use support from some external scripts.
 A typical example is adding SPDX headers based on the information in the version control system.
 This collection of scripts and snippets offers help for such situations.
 
 .. warning::
-  These scripts help you run reuse-tool against your codebase.
+  These scripts help you run REUSE against your codebase.
   Automatically extracted information might not resemble the truth.
   The correctness of these scripts is not guaranteed.
   Use with caution and at your own risk.
