@@ -8,7 +8,7 @@ Helper scripts
 ==============
 
 This section contains scripts and snippets to help with the usage of reuse.
-Reuse already has a lot of functionality built-in, but there are still cases where reuse could use support from some external scripts.
+Reuse already has a lot of functionality builtin, but there are still cases where reuse could use support from some external scripts.
 A typical example is adding SPDX headers based on the information in the version control system.
 This collection of scripts and snippets offers help for such situations.
 
@@ -22,7 +22,7 @@ This collection of scripts and snippets offers help for such situations.
 Starting point of the codebase
 ******************************
 
-The first code contribution can be a worthwile date to include in the copyright annotation.
+The first code contribution can be a worthwhile date to include in the copyright annotation.
 
 First commit
 ============
@@ -63,7 +63,7 @@ Authors
 *******
 
 Unless the authors have signed away their copyright to a company or the project, the authors are also the copyright holders of their contributions.
-So in a lot of cases it is valuable to know the original authors in order to explictly state these copyright holders.
+So in a lot of cases it is valuable to know the original authors in order to explicitly state these copyright holders.
 
 Commit authors
 ==============
