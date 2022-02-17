@@ -6,6 +6,7 @@
 
 import errno
 import logging
+import os
 import sys
 from gettext import gettext as _
 from os import PathLike
@@ -38,13 +39,21 @@ def download_license(spdx_identifier: str) -> str:
     :raises requests.RequestException: if the license could not be downloaded.
     :return: The license text.
     """
+    filename = "".join((spdx_identifier, ".txt"))
     # This is fairly naive, but I can't see anything wrong with it.
-    url = urljoin(
-        _SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt"))
-    )
-    # TODO: Cache result?
+    url = urljoin(_SPDX_REPOSITORY_BASE_URL, filename)
+    cachehome = os.environ["XDG_CACHE_HOME"] if "XDG_CACHE_HOME" in os.environ else Path(os.environ["HOME"]) / ".cache"
+    cachedir = Path(cachehome) / "reuse"
+    try:
+        with open(cachedir / filename, "r") as cachefile:
+            return cachefile.read()
+    except FileNotFoundError:
+        pass
     response = requests.get(url)
     if response.status_code == 200:
+        os.makedirs(cachedir, exist_ok=True)
+        with open(cachedir / filename, "w") as cachefile:
+            cachefile.write(response.text)
         return response.text
     raise requests.RequestException("Status code was not 200")
 
