@@ -31,4 +31,7 @@ repos:
         entry: pylint
         language: system
         types: [python]
-        files: ^(src|tests)/
+        args: [
+            "-rn", # Only display messages
+            "-sn", # Don't display the score
+          ]
