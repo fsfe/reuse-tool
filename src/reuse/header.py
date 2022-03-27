@@ -259,7 +259,6 @@ def find_and_replace_header(
     :raises MissingSpdxInfo: if the generated comment is missing SPDX
         information.
     """
-    # pylint: disable=too-many-branches
     if style is None:
         style = PythonCommentStyle
 
