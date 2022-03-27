@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [tool.black]
-line-length = 79
+line-length = 80
 exclude = '''
 /(
     \.git
@@ -23,4 +23,4 @@ multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
-line_length = 79
+line_length = 80

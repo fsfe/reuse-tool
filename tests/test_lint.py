@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """All tests for reuse.lint"""
 
-# pylint: disable=invalid-name
 
 import shutil
 import sys

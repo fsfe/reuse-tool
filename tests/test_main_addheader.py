@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -515,9 +516,7 @@ def test_addheader_binary(
 
     assert result == 0
     assert (
-        binary_file.with_name(f"{binary_file.name}.license")
-        .read_text()
-        .strip()
+        binary_file.with_name(f"{binary_file.name}.license").read_text().strip()
         == expected
     )
 
@@ -525,7 +524,9 @@ def test_addheader_binary(
 def test_addheader_uncommentable_json(
     fake_repository, stringio, mock_date_today
 ):
-    """Add a header to a .license file if the file is uncommentable, e.g., JSON."""
+    """Add a header to a .license file if the file is uncommentable, e.g.,
+    JSON.
+    """
     json_file = fake_repository / "foo.json"
     json_file.write_text('{"foo": 23, "bar": 42}')
     expected = cleandoc(
@@ -584,9 +585,7 @@ def test_addheader_force_dot_license(
 
     assert result == 0
     assert (
-        simple_file.with_name(f"{simple_file.name}.license")
-        .read_text()
-        .strip()
+        simple_file.with_name(f"{simple_file.name}.license").read_text().strip()
         == expected
     )
     assert simple_file.read_text() == "pass"
@@ -701,9 +700,7 @@ def test_addheader_force_dot_license_unsupported_filetype(
 
     assert result == 0
     assert (
-        simple_file.with_name(f"{simple_file.name}.license")
-        .read_text()
-        .strip()
+        simple_file.with_name(f"{simple_file.name}.license").read_text().strip()
         == expected
     )
     assert simple_file.read_text() == "Preserve this"
@@ -741,9 +738,7 @@ def test_addheader_force_dot_license_doesnt_write_to_file(
 
     assert result == 0
     assert (
-        simple_file.with_name(f"{simple_file.name}.license")
-        .read_text()
-        .strip()
+        simple_file.with_name(f"{simple_file.name}.license").read_text().strip()
         == expected
     )
     assert simple_file.read_text() == "Preserve this"
@@ -819,7 +814,9 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
 def test_addheader_license_file_only_one_newline(
     fake_repository, stringio, mock_date_today
 ):
-    """When a header is added to a .license file that already ends with a newline, the new header should end with a single newline."""
+    """When a header is added to a .license file that already ends with a
+    newline, the new header should end with a single newline.
+    """
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("foo")
     license_file = fake_repository / "foo.py.license"
@@ -1005,7 +1002,7 @@ def test_addheader_line_endings(
     )
 
     assert result == 0
-    with open(simple_file, newline="") as fp:
+    with open(simple_file, newline="", encoding="utf-8") as fp:
         contents = fp.read()
 
     assert contents == expected

@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -44,8 +45,6 @@ class Project:
     interactions.
     """
 
-    # pylint: disable=too-many-instance-attributes
-
     def __init__(self, root: PathLike, include_submodules: bool = False):
         self._root = Path(root)
         if not self._root.is_dir():
@@ -59,7 +58,7 @@ class Project:
             _LOGGER.warning(_("could not find supported VCS"))
             self.vcs_strategy = VCSStrategyNone(self)
 
-        self.licenses_without_extension = dict()
+        self.licenses_without_extension = {}
 
         self.license_map = LICENSE_MAP.copy()
         # TODO: Is this correct?
@@ -215,12 +214,14 @@ class Project:
         if self._copyright_val == 0:
             copyright_path = self.root / ".reuse/dep5"
             try:
-                with copyright_path.open() as fp:
+                with copyright_path.open(encoding="utf-8") as fp:
                     self._copyright_val = Copyright(fp)
             except OSError:
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
             except DebianError:
                 _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
+            except UnicodeError:
+                _LOGGER.exception(_(".reuse/dep5 could not be parsed as utf-8"))
 
             # This check is a bit redundant, but otherwise I'd have to repeat
             # this line under each exception.
@@ -232,7 +233,7 @@ class Project:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
         """
-        license_files = dict()
+        license_files = {}
 
         directory = str(self.root / "LICENSES/**")
         for path in glob.iglob(directory, recursive=True):
@@ -284,9 +285,7 @@ class Project:
                         other_path=license_files[identifier],
                     )
                 )
-                raise RuntimeError(
-                    f"Multiple licenses resolve to {identifier}"
-                )
+                raise RuntimeError(f"Multiple licenses resolve to {identifier}")
             # Add the identifiers
             license_files[identifier] = path
             if (

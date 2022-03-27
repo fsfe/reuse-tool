@@ -33,9 +33,7 @@ def SingleStyle(request):
 
 
 @pytest.fixture(
-    params=[
-        Style for Style in _all_style_classes() if Style.can_handle_multi()
-    ]
+    params=[Style for Style in _all_style_classes() if Style.can_handle_multi()]
 )
 def MultiStyle(request):
     """Yield all Style classes that support multi-line comments."""

@@ -6,12 +6,12 @@
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Functions for manipulating the comment headers of files."""
 
-# pylint: disable=too-many-arguments
 
 import argparse
 import datetime
@@ -60,15 +60,13 @@ from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
 
-_ENV = Environment(
-    loader=PackageLoader("reuse", "templates"), trim_blocks=True
-)
+_ENV = Environment(loader=PackageLoader("reuse", "templates"), trim_blocks=True)
 DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
 
 _NEWLINE_PATTERN = re.compile(r"\n", re.MULTILINE)
 
 
-class _TextSections(NamedTuple):  # pylint: disable=too-few-public-methods
+class _TextSections(NamedTuple):
     """Used to split up text in three parts."""
 
     before: str
@@ -261,7 +259,6 @@ def find_and_replace_header(
     :raises MissingSpdxInfo: if the generated comment is missing SPDX
         information.
     """
-    # pylint: disable=too-many-branches
     if style is None:
         style = PythonCommentStyle
 
@@ -274,7 +271,6 @@ def find_and_replace_header(
     if style is EmptyCommentStyle:
         after = ""
 
-    # pylint: disable=logging-format-interpolation
     _LOGGER.debug(f"before = {repr(before)}")
     _LOGGER.debug(f"header = {repr(header)}")
     _LOGGER.debug(f"after = {repr(after)}")
@@ -290,8 +286,8 @@ def find_and_replace_header(
         )
         if style is com_style
     ):
-        # Extract shebang from header and put it in before. It's a bit messy, but
-        # it ends up working.
+        # Extract shebang from header and put it in before. It's a bit messy,
+        # but it ends up working.
         if header.startswith(prefix) and not before.strip():
             before, header = _extract_shebang(prefix, header)
         elif after.startswith(prefix) and not any((before, header)):
