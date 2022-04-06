@@ -61,6 +61,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `addheader --explicit-license` renamed to `--force-dot-license`. (#476)
 
+- Dockerfiles for reuse-tool are now in a separate subdirectory `docker`. (#499)
+
 ### Deprecated
 
 - Deprecated `--explicit-license` in favour of `--force-dot-license`.

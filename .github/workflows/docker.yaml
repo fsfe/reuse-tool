@@ -34,21 +34,21 @@ jobs:
       # Dockerfile
       - name: Build Dockerfile
         run: |
-          docker build -t reuse .
+          docker build -t reuse -f docker/Dockerfile .
       - name: Run Docker image
         run: |
           docker run -v "$(pwd):/data" reuse
       # Dockerfile-extra
       - name: Build Dockerfile-extra
         run: |
-          docker build -t reuse-extra --file Dockerfile-extra .
+          docker build -t reuse-extra -f docker/Dockerfile-extra .
       - name: Run Docker extra image
         run: |
           docker run -v "$(pwd):/data" reuse-extra
       # Dockerfile-debian
       - name: Build Dockerfile-debian
         run: |
-          docker build -t reuse-debian --file Dockerfile-debian .
+          docker build -t reuse-debian -f docker/Dockerfile-debian .
       - name: Run Docker debian image
         run: |
           docker run -v "$(pwd):/data" reuse-debian
@@ -93,6 +93,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta_default.outputs.tags }}
@@ -114,7 +115,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Dockerfile-extra
+          file: ./docker/Dockerfile-extra
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta_extra.outputs.tags }}
@@ -136,7 +137,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Dockerfile-debian
+          file: ./docker/Dockerfile-debian
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta_debian.outputs.tags }}
@@ -181,6 +182,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta_default.outputs.tags }}
@@ -198,7 +200,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Dockerfile-extra
+          file: ./docker/Dockerfile-extra
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta_extra.outputs.tags }}
@@ -216,7 +218,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Dockerfile-debian
+          file: ./docker/Dockerfile-debian
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta_debian.outputs.tags }}
