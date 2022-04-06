@@ -1124,7 +1124,8 @@ def test_addheader_recursive_on_file(
 def test_addheader_recursive_contains_unrecognised(
     fake_repository, stringio, mock_date_today
 ):
-    """Expect error and no edited files if at least one file has not been recognised."""
+    """Expect error and no edited files if at least one file has not been
+    recognised."""
     (fake_repository / "baz").mkdir(parents=True)
     (fake_repository / "baz/foo.py").write_text("foo")
     (fake_repository / "baz/bar.unknown").write_text("bar")
