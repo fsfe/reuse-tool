@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -246,9 +247,7 @@ def test_download_custom_output(
     result = main(["download", "-o", "foo", "0BSD"], out=stringio)
 
     assert result == 0
-    mock_put_license_in_file.assert_called_with(
-        "0BSD", destination=Path("foo")
-    )
+    mock_put_license_in_file.assert_called_with("0BSD", destination=Path("foo"))
 
 
 def test_download_custom_output_too_many(
@@ -270,6 +269,7 @@ def test_supported_licenses(stringio):
 
     assert main(["supported-licenses"], out=stringio) == 0
     assert re.search(
+        # pylint: disable=line-too-long
         r"GPL-3\.0-or-later\s+GNU General Public License v3\.0 or later\s+https:\/\/spdx\.org\/licenses\/GPL-3\.0-or-later\.html\s+\n",
         stringio.getvalue(),
     )

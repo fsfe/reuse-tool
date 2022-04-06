@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -218,7 +219,7 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def add_command(  # pylint: disable=too-many-arguments
+def add_command(  # pylint: disable=too-many-arguments,redefined-builtin
     subparsers,
     name: str,
     add_arguments_func,
@@ -251,9 +252,7 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
     main_parser = parser()
     parsed_args = main_parser.parse_args(args)
 
-    setup_logging(
-        level=logging.DEBUG if parsed_args.debug else logging.WARNING
-    )
+    setup_logging(level=logging.DEBUG if parsed_args.debug else logging.WARNING)
 
     if parsed_args.version:
         out.write(f"reuse {__version__}\n")

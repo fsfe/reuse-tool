@@ -5,6 +5,7 @@
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-FileCopyrightText: 2021 Matija Šuklje <matija@suklje.name>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -86,9 +87,7 @@ class CommentStyle:
         :raises CommentCreateError: if *text* could not be commented.
         """
         if not cls.can_handle_multi():
-            raise CommentCreateError(
-                f"{cls} cannot create multi-line comments"
-            )
+            raise CommentCreateError(f"{cls} cannot create multi-line comments")
         result = []
         result.append(cls.MULTI_LINE[0])
         for line in text.split("\n"):
@@ -604,7 +603,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".scpt": AppleScriptCommentStyle,
     ".scptd": AppleScriptCommentStyle,
     ".scss": CssCommentStyle,
-    ".scsyndef": UncommentableCommentStyle,  # SuperCollider synth definition (binary)
+    # SuperCollider synth definition (binary)
+    ".scsyndef": UncommentableCommentStyle,
     ".sh": PythonCommentStyle,
     ".sml": MlCommentStyle,
     ".soy": CCommentStyle,
@@ -695,7 +695,7 @@ def _all_style_classes() -> List[CommentStyle]:
     return sorted(result, key=operator.attrgetter("__name__"))
 
 
-# pylint: disable=invalid-name,protected-access
+# pylint: disable=protected-access
 
 _result = _all_style_classes()
 _result.remove(EmptyCommentStyle)

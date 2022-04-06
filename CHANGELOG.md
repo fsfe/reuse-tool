@@ -52,6 +52,10 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Added `--recursive` flag to `addheader`.
 
+- Preserve shebang for more script files:
+
+  - V-Lang (#432)
+
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
@@ -68,6 +72,11 @@ The versions follow [semantic versioning](https://semver.org).
 ### Removed
 
 ### Fixed
+
+- Better support for unary "+" operator in license identifiers. For example, if
+  `Apache-1.0+` appears as a declared license, it should not be identified as
+  missing, bad, or unused if `LICENSES/Apache-1.0.txt` exists. It is, however,
+  identified separately as a used license. (#123)
 
 - When `addheader` creates a `.license` file, that file now has a newline at the
   end. (#477)

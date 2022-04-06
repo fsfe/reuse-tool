@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+"""reuse setup.py."""
+
 import glob
 import platform
 import shutil
@@ -13,6 +15,8 @@ from warnings import warn
 
 from setuptools import Command, setup
 from setuptools.command.build_py import build_py
+
+# pylint: disable=invalid-name,missing-function-docstring,attribute-defined-outside-init
 
 requirements = [
     # For parsing .reuse/dep5.
@@ -44,12 +48,12 @@ fallback_version = "0.14.0"
 
 def readme_md():
     """Return contents of README.md"""
-    return open("README.md").read()
+    return open("README.md", encoding="utf-8").read()
 
 
 def changelog_md():
     """Return contents of CHANGELOG.md"""
-    return open("CHANGELOG.md").read()
+    return open("CHANGELOG.md", encoding="utf-8").read()
 
 
 class BuildTrans(Command):
@@ -83,7 +87,8 @@ class BuildTrans(Command):
                 )
                 destination = str(Path(lang_dir) / "reuse.mo")
                 compile_func = lambda msgfmt, in_file, out: subprocess.run(
-                    [msgfmt, in_file, "-o", out]
+                    [msgfmt, in_file, "-o", out],
+                    check=True,
                 )
 
                 self.mkpath(lang_dir)
@@ -109,9 +114,12 @@ class Build(build_py):
         self.run_command("build_trans")
         super().run()
 
-    def get_outputs(self):
+    def get_outputs(self, include_bytecode=1):
         build_trans = self.get_finalized_command("build_trans")
-        return super().get_outputs() + build_trans.get_outputs()
+        return (
+            super().get_outputs(include_bytecode=include_bytecode)
+            + build_trans.get_outputs()
+        )
 
 
 if __name__ == "__main__":
@@ -143,7 +151,7 @@ if __name__ == "__main__":
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
             "License :: OSI Approved :: "
-            "GNU General Public License v3 or later (GPLv3+)",
+            + "GNU General Public License v3 or later (GPLv3+)",
             "License :: OSI Approved :: Apache Software License",
             "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
             "Programming Language :: Python :: 3",

@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -6,6 +7,7 @@
 the reports and printing some conclusions.
 """
 
+import contextlib
 import os
 import sys
 from gettext import gettext as _
@@ -30,9 +32,7 @@ def lint(report: ProjectReport, out=sys.stdout) -> bool:
     missing_licenses_result = lint_missing_licenses(report, out)
     unused_licenses_result = lint_unused_licenses(report, out)
     read_errors_result = lint_read_errors(report, out)
-    files_without_cali = lint_files_without_copyright_and_licensing(
-        report, out
-    )
+    files_without_cali = lint_files_without_copyright_and_licensing(report, out)
 
     lint_summary(report, out=out)
 
@@ -323,7 +323,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
     out.write("\n")
 
 
-def add_arguments(parser):  # pylint: disable=unused-argument
+def add_arguments(parser):
     """Add arguments to parser."""
     parser.add_argument(
         "-q", "--quiet", action="store_true", help="Prevents output"
@@ -332,14 +332,13 @@ def add_arguments(parser):  # pylint: disable=unused-argument
 
 def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
-    # pylint: disable=unused-argument
     report = ProjectReport.generate(
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )
 
-    if args.quiet:
-        out = open(os.devnull, "w")
-
-    result = lint(report, out=out)
+    with contextlib.ExitStack() as stack:
+        if args.quiet:
+            out = stack.enter_context(open(os.devnull, "w", encoding="utf-8"))
+        result = lint(report, out=out)
 
     return 0 if result else 1
