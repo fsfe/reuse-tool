@@ -79,6 +79,6 @@
                 });
             });
           };
-        in pkgs.mkShell { buildInputs = [ reuseEnv pkgs.poetry ]; };
+        in pkgs.mkShell { buildInputs = [ reuseEnv pkgs.poetry pkgs.gh ]; };
       }));
 }
