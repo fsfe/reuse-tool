@@ -9,7 +9,6 @@
 
 """Misc. utilities for reuse."""
 
-# pylint: disable=ungrouped-imports
 
 import logging
 import os
@@ -42,10 +41,12 @@ REUSE_IGNORE_END = "REUSE_IGNORE_END"
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
 
-_END_PATTERN = "{}$".format(
+_END_PATTERN = r"{}$".format(  # pylint: disable=consider-using-f-string
     "".join(
         {
-            "(?:{})*".format(re.escape(style.MULTI_LINE[2]))
+            r"(?:{})*".format(  # pylint: disable=consider-using-f-string
+                re.escape(style.MULTI_LINE[2])
+            )
             for style in _all_style_classes()
             if style.MULTI_LINE[2]
         }
@@ -166,9 +167,9 @@ def _determine_license_suffix_path(path: PathLike) -> Path:
     return Path(f"{path}.license")
 
 
-def _copyright_from_dep5(path: PathLike, copyright: Copyright) -> SpdxInfo:
+def _copyright_from_dep5(path: PathLike, dep5_copyright: Copyright) -> SpdxInfo:
     """Find the reuse information of *path* in the dep5 Copyright object."""
-    result = copyright.find_files_paragraph(Path(path).as_posix())
+    result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
         return SpdxInfo(set(), set())
@@ -253,8 +254,8 @@ def make_copyright_line(
     copyright_prefix = _COPYRIGHT_STYLES.get(copyright_style)
     if copyright_prefix is None:
         raise RuntimeError(
-            "Unexpected copyright style: Need 'spdx', 'spdx-symbol', 'string', 'string-c',"
-            "'string-symbol' or 'symbol'"
+            "Unexpected copyright style: Need 'spdx', 'spdx-symbol', 'string', "
+            "'string-c', 'string-symbol' or 'symbol'"
         )
 
     for pattern in _COPYRIGHT_PATTERNS:
@@ -277,7 +278,7 @@ def _checksum(path: PathLike) -> str:
     return file_sha1.hexdigest()
 
 
-class PathType:  # pylint: disable=too-few-public-methods
+class PathType:
     """Factory for creating Paths"""
 
     def __init__(self, mode="r", force_file=False, force_directory=False):
@@ -372,7 +373,7 @@ def print_incorrect_spdx_identifier(identifier: str, out=sys.stdout) -> None:
         out.write(_("Did you mean:"))
         out.write("\n")
         for suggestion in suggestions:
-            out.write("* {}\n".format(suggestion))
+            out.write(f"* {suggestion}\n")
         out.write("\n")
     out.write(
         _(

@@ -20,7 +20,7 @@ specification. It searches the first 4 kibibytes of the file. This makes sure
 that the tool can parse any type of plain-text file, even if the comment style
 is not recognised.
 
-If a file is found to have an unparseable tag, that file is not parsed at all.
+If a file is found to have an unparsable tag, that file is not parsed at all.
 This is `a bug <https://github.com/fsfe/reuse-tool/issues/4>`_.
 
 The tool does not verify the correctness of copyright notices. If it finds any
@@ -69,7 +69,7 @@ The REUSE header is placed at the very top of the file. If a different REUSE
 header already existed---at the top or elsewhere---its tags are copied, and the
 header is replaced in-place.
 
-With the argument ``--copyright-style`` it is posible to change the default
+With the argument ``--copyright-style`` it is possible to change the default
 ``SPDX-FileCopyrightText`` to one of the following style:
 
 .. code-block::

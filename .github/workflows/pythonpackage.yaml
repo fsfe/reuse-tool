@@ -4,7 +4,11 @@
 
 name: Python package
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   test:
@@ -12,11 +16,11 @@ jobs:
     strategy:
       max-parallel: 10
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
         os: [ubuntu-latest, macos-latest, windows-latest]
         exclude:
           - os: macos-latest
-            python-version: '3.6'
+            python-version: "3.6"
 
     steps:
       - uses: actions/checkout@v2
@@ -104,27 +108,3 @@ jobs:
       - name: Create docs with Sphinx
         run: |
           make docs
-
-  docker:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build Dockerfile
-        run: |
-          docker build -t reuse .
-      - name: Run Docker image
-        run: |
-          docker run -v "$(pwd):/data" reuse
-      - name: Build Dockerfile-extra
-        run: |
-          docker build -t reuse-extra --file Dockerfile-extra .
-      - name: Run Docker extra image
-        run: |
-          docker run -v "$(pwd):/data" reuse-extra
-      - name: Build Dockerfile-debian
-        run: |
-          docker build -t reuse-debian --file Dockerfile-debian .
-      - name: Run Docker debian image
-        run: |
-          docker run -v "$(pwd):/data" reuse-debian

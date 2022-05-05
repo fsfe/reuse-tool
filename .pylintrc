@@ -1,55 +1,124 @@
 # SPDX-FileCopyrightText: 2018 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [MASTER]
-
 jobs=0
+
 
 [MESSAGES CONTROL]
 
-# Disable the message, report, category or checker with the given id(s). You
-# can either give multiple identifiers separated by comma (,) or put this
-# option multiple times (only on the command line, not in the configuration
-# file where it should appear only once).You can also use "--disable=all" to
-# disable everything first and then reenable specific checks. For example, if
-# you want to run only the similarities checker, you can use "--disable=all
-# --enable=similarities". If you want to run only the classes checker, but have
-# no Warning level messages displayed, use"--disable=all --enable=classes
-# --disable=W"
-disable=redefined-builtin,C0330,duplicate-code,logging-format-interpolation,line-too-long,implicit-str-concat,logging-fstring-interpolation,unsubscriptable-object,inherit-non-class
+disable=R0801,
+         logging-fstring-interpolation,
+enable=useless-suppression
 
 [REPORTS]
 
-# Set the output format. Available formats are text, parseable, colorized, json
-# and msvs (visual studio).You can also give a reporter class, eg
-# mypackage.mymodule.MyReporterClass.
 output-format=text
+reports=no
 
-# Tells whether to display a full report or only the messages
-reports=yes
 
 [FORMAT]
 
-# Expected format of line ending, e.g. empty (any line ending), LF or CRLF.
 expected-line-ending-format=LF
 
-# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
-# tab).
+ignore-long-lines=^\s*(# )?<?https?://\S+>?$|^# SPDX-.*$
+indent-after-paren=4
 indent-string='    '
-
-# Maximum number of characters on a single line.
-max-line-length=79
-
-# Allow the body of an if to be on the same line as the test if there is no
-# else.
+max-line-length=80
 single-line-if-stmt=no
+
+
+[REFACTORING]
+
+max-nested-blocks=4
+never-returning-functions=sys.exit
+
 
 [BASIC]
 
-# Good variable names which should always be accepted, separated by a comma
+argument-naming-style=snake_case
+attr-naming-style=snake_case
+bad-names=foo,
+          bar,
+          baz,
+          toto,
+          tutu,
+          tata
+class-attribute-rgx=^[a-z0-9_]*$|^[A-Z0-9_]*$
+class-naming-style=PascalCase
+const-naming-style=UPPER_CASE
+docstring-min-length=3
+function-naming-style=snake_case
 good-names=i,j,k,ex,Run,_,fp
+inlinevar-naming-style=snake_case
+method-naming-style=snake_case
+module-naming-style=snake_case
+variable-naming-style=snake_case
+
 
 [MISCELLANEOUS]
 
 notes=FIXME,XXX
+
+
+[SIMILARITIES]
+
+ignore-comments=yes
+ignore-docstrings=yes
+ignore-imports=yes
+min-similarity-lines=4
+
+
+[SPELLING]
+
+max-spelling-suggestions=4
+spelling-store-unknown-words=no
+
+
+[STRING]
+
+check-quote-consistency=yes
+check-str-concat-over-line-jumps=yes
+
+
+[DESIGN]
+
+max-args=6
+max-attributes=10
+max-bool-expr=5
+# we probably want to reduce this a bit, after some refactoring
+max-branches=12
+max-locals=15
+max-parents=7
+max-public-methods=20
+max-returns=6
+max-statements=50
+min-public-methods=1
+
+
+[IMPORTS]
+allow-wildcard-with-all=no
+analyse-fallback-blocks=no
+deprecated-modules=optparse,tkinter.tix,distutils
+known-third-party=enchant
+
+
+[CLASSES]
+defining-attr-methods=__init__,
+                      __new__,
+                      setUp,
+                      __post_init__
+exclude-protected=_asdict,
+                  _fields,
+                  _replace,
+                  _source,
+                  _make
+valid-classmethod-first-arg=cls
+valid-metaclass-classmethod-first-arg=cls
+
+
+[EXCEPTIONS]
+overgeneral-exceptions=BaseException,
+                       Exception

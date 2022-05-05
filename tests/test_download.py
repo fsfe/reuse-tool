@@ -51,9 +51,7 @@ def test_download_exception(monkeypatch):
 
 def test_put_simple(fake_repository, monkeypatch):
     """Straightforward test."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
+    monkeypatch.setattr(requests, "get", lambda _: MockResponse("hello\n", 200))
     put_license_in_file("0BSD", "LICENSES/0BSD.txt")
 
     assert (fake_repository / "LICENSES/0BSD.txt").read_text() == "hello\n"
@@ -62,14 +60,10 @@ def test_put_simple(fake_repository, monkeypatch):
 def test_put_file_exists(fake_repository, monkeypatch):
     """The to-be-downloaded file already exists."""
     # pylint: disable=unused-argument
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
+    monkeypatch.setattr(requests, "get", lambda _: MockResponse("hello\n", 200))
 
     with pytest.raises(FileExistsError) as exc_info:
-        put_license_in_file(
-            "GPL-3.0-or-later", "LICENSES/GPL-3.0-or-later.txt"
-        )
+        put_license_in_file("GPL-3.0-or-later", "LICENSES/GPL-3.0-or-later.txt")
     assert Path(exc_info.value.filename).name == "GPL-3.0-or-later.txt"
 
 
@@ -86,9 +80,7 @@ def test_put_request_exception(fake_repository, monkeypatch):
 
 def test_put_empty_dir(empty_directory, monkeypatch):
     """Create a LICENSES/ directory if one does not yet exist."""
-    monkeypatch.setattr(
-        requests, "get", lambda _: MockResponse("hello\n", 200)
-    )
+    monkeypatch.setattr(requests, "get", lambda _: MockResponse("hello\n", 200))
     put_license_in_file("0BSD", "LICENSES/0BSD.txt")
 
     assert (empty_directory / "LICENSES").exists()

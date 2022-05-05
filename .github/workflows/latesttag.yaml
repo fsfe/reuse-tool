@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-name: Verify latest tag
+name: Verify latest version tag on PyPI equals version on head of default branch
 
 on:
   schedule:

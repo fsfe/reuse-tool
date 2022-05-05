@@ -70,9 +70,10 @@ welcome to help us package this tool for more distributions!
 
 - Arch Linux: [reuse](https://archlinux.org/packages/community/any/reuse/)
 - Debian: [reuse](https://packages.debian.org/search?keywords=reuse&exact=1)
-- GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.13.0/)
+- GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.14.0/)
 - Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
-- NixOS: [reuse](https://search.nixos.org/packages?channel=21.05&from=0&size=50&sort=relevance&type=packages&query=reuse)
+- NixOS:
+  [reuse](https://search.nixos.org/packages?channel=21.05&from=0&size=50&sort=relevance&type=packages&query=reuse)
 - openSUSE: [reuse](https://software.opensuse.org/package/reuse)
 - VoidLinux: [reuse](https://voidlinux.org/packages/?arch=x86_64&q=reuse)
 

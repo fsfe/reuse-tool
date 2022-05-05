@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -26,8 +27,6 @@ _LOGGER = logging.getLogger(__name__)
 class _MultiprocessingContainer:
     """Container that remembers some data in order to generate a FileReport."""
 
-    # pylint: disable=too-few-public-methods
-
     def __init__(self, project, do_checksum):
         self.project = project
         self.do_checksum = do_checksum
@@ -46,9 +45,7 @@ class _MultiprocessingContainer:
             return _MultiprocessingResult(file_, None, exc)
 
 
-class _MultiprocessingResult(
-    NamedTuple
-):  # pylint: disable=too-few-public-methods
+class _MultiprocessingResult(NamedTuple):
     """Result of :class:`MultiprocessingContainer`."""
 
     path: PathLike
@@ -61,13 +58,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     def __init__(self, do_checksum: bool = True):
         self.path = None
-        self.licenses = dict()
-        self.missing_licenses = dict()
-        self.bad_licenses = dict()
+        self.licenses = {}
+        self.missing_licenses = {}
+        self.bad_licenses = {}
         self.deprecated_licenses = set()
         self.read_errors = set()
         self.file_reports = set()
-        self.licenses_without_extension = dict()
+        self.licenses_without_extension = {}
 
         self.do_checksum = do_checksum
 
@@ -169,7 +166,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 out.write(f"LicenseID: {lic}\n")
                 out.write("LicenseName: NOASSERTION\n")
 
-                with (Path(self.path) / path).open() as fp:
+                with (Path(self.path) / path).open(encoding="utf-8") as fp:
                     out.write(f"ExtractedText: <text>{fp.read()}</text>\n")
 
         return out.getvalue()
@@ -192,11 +189,8 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         container = _MultiprocessingContainer(project, do_checksum)
 
         if multiprocessing:
-            pool = mp.Pool()
-
-            results = pool.map(container, project.all_files())
-
-            pool.close()
+            with mp.Pool() as pool:
+                results = pool.map(container, project.all_files())
             pool.join()
         else:
             results = map(container, project.all_files())
@@ -224,12 +218,12 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             project_report.file_reports.add(file_report)
 
             # Bad and missing licenses.
-            for license in file_report.missing_licenses:
-                project_report.missing_licenses.setdefault(license, set()).add(
-                    file_report.path
-                )
-            for license in file_report.bad_licenses:
-                project_report.bad_licenses.setdefault(license, set()).add(
+            for missing_license in file_report.missing_licenses:
+                project_report.missing_licenses.setdefault(
+                    missing_license, set()
+                ).add(file_report.path)
+            for bad_license in file_report.bad_licenses:
+                project_report.bad_licenses.setdefault(bad_license, set()).add(
                     file_report.path
                 )
 
@@ -248,7 +242,11 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._used_licenses is not None:
             return self._used_licenses
 
-        self._used_licenses = set(self.licenses) - self.unused_licenses
+        self._used_licenses = {
+            lic
+            for file_report in self.file_reports
+            for lic in file_report.spdxfile.licenses_in_file
+        }
         return self._used_licenses
 
     @property
@@ -257,15 +255,16 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._unused_licenses is not None:
             return self._unused_licenses
 
-        all_used_licenses = {
-            lic
-            for file_report in self.file_reports
-            for lic in file_report.spdxfile.licenses_in_file
+        # First collect licenses that are suspected to be unused.
+        suspected_unused_licenses = {
+            lic for lic in self.licenses if lic not in self.used_licenses
         }
+        # Remove false positives.
         self._unused_licenses = {
-            lic for lic in self.licenses if lic not in all_used_licenses
+            lic
+            for lic in suspected_unused_licenses
+            if f"{lic}+" not in self.used_licenses
         }
-
         return self._unused_licenses
 
     @property
@@ -345,7 +344,6 @@ class FileReport:
         if not path.is_file():
             raise OSError(f"{path} is not a file")
 
-        # pylint: disable=protected-access
         relative = project.relative_from_root(path)
         report = cls("./" + str(relative), path, do_checksum=do_checksum)
 
@@ -356,7 +354,7 @@ class FileReport:
             # This path avoids a lot of heavy computation, which is handy for
             # scenarios where you only need a unique hash, not a consistent
             # hash.
-            report.spdxfile.chk_sum = "%040x" % random.getrandbits(40)
+            report.spdxfile.chk_sum = f"{random.getrandbits(160):040x}"
         spdx_id = md5()
         spdx_id.update(str(relative).encode("utf-8"))
         spdx_id.update(report.spdxfile.chk_sum.encode("utf-8"))
@@ -365,20 +363,23 @@ class FileReport:
         spdx_info = project.spdx_info_of(path)
         for expression in spdx_info.spdx_expressions:
             for identifier in _LICENSING.license_keys(expression):
+                # A license expression akin to Apache-1.0+ should register
+                # correctly if LICENSES/Apache-1.0.txt exists.
+                identifiers = {identifier}
+                if identifier.endswith("+"):
+                    identifiers.add(identifier[:-1])
                 # Bad license
-                if identifier not in project.license_map:
+                if not identifiers.intersection(project.license_map):
                     report.bad_licenses.add(identifier)
                 # Missing license
-                if identifier not in project.licenses:
+                if not identifiers.intersection(project.licenses):
                     report.missing_licenses.add(identifier)
 
                 # Add license to report.
                 report.spdxfile.licenses_in_file.append(identifier)
 
         # Copyright text
-        report.spdxfile.copyright = "\n".join(
-            sorted(spdx_info.copyright_lines)
-        )
+        report.spdxfile.copyright = "\n".join(sorted(spdx_info.copyright_lines))
 
         return report
 

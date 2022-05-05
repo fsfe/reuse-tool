@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# SPDX resources
+/src/reuse/resources/*.json
+
+# Additional paths in which third-party code/files are located
+.env
+.pytest_cache/
+.tox/
+.venv
+build/
+dist/
+docs/_build/
+env.bak/
+env/
+ENV/
+venv.bak/
+venv/

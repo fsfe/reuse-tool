@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
-# pylint: disable=redefined-outer-name
 
 """All tests for reuse.header"""
 
@@ -14,11 +13,7 @@ import pytest
 
 from reuse import SpdxInfo
 from reuse._comment import CCommentStyle, CommentCreateError
-from reuse.header import (
-    MissingSpdxInfo,
-    create_header,
-    find_and_replace_header,
-)
+from reuse.header import MissingSpdxInfo, create_header, find_and_replace_header
 
 
 def test_create_header_simple():

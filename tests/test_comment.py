@@ -33,9 +33,7 @@ def SingleStyle(request):
 
 
 @pytest.fixture(
-    params=[
-        Style for Style in _all_style_classes() if Style.can_handle_multi()
-    ]
+    params=[Style for Style in _all_style_classes() if Style.can_handle_multi()]
 )
 def MultiStyle(request):
     """Yield all Style classes that support multi-line comments."""
@@ -158,10 +156,16 @@ def test_parse_comment_python_indented():
     assert PythonCommentStyle.parse_comment(text) == expected
 
 
-def test_create_comment_python_strip_newlines():
-    """Don't include unnecessary newlines in the comment."""
+def test_create_comment_python_dont_strip_newlines():
+    """Include newlines in the comment."""
     text = "\nhello\n"
-    expected = "# hello"
+    expected = cleandoc(
+        """
+        #
+        # hello
+        #
+        """
+    )
 
     assert PythonCommentStyle.create_comment(text) == expected
 
@@ -172,8 +176,8 @@ def test_create_comment_python_force_multi():
         PythonCommentStyle.create_comment("hello", force_multi=True)
 
 
-def test_parse_comment_python_strip_newlines():
-    """When given a comment, remove newlines before and after before parsing."""
+def test_parse_comment_python_fail_on_newline():
+    """If a provided comment does not start with the comment character, fail."""
     text = dedent(
         """
 
@@ -183,9 +187,8 @@ def test_parse_comment_python_strip_newlines():
 
         """
     )
-    expected = "\nhello\n"
-
-    assert PythonCommentStyle.parse_comment(text) == expected
+    with pytest.raises(CommentParseError):
+        assert PythonCommentStyle.parse_comment(text)
 
 
 def test_parse_comment_python_not_a_comment():
@@ -266,6 +269,45 @@ def test_create_comment_c_multi():
         /*
          * Hello
          * world
+         */
+        """
+    )
+
+    assert CCommentStyle.create_comment(text, force_multi=True) == expected
+
+
+def test_create_comment_c_multi_empty_newlines():
+    """Create a C comment that contains empty lines."""
+    text = cleandoc(
+        """
+        Hello
+
+        world
+        """
+    )
+    expected = cleandoc(
+        """
+        /*
+         * Hello
+         *
+         * world
+         */
+        """
+    )
+
+    assert CCommentStyle.create_comment(text, force_multi=True) == expected
+
+
+def test_create_comment_c_multi_surrounded_by_newlines():
+    """Create a C comment that is surrounded by empty lines."""
+    text = "\nHello\nworld\n"
+    expected = cleandoc(
+        """
+        /*
+         *
+         * Hello
+         * world
+         *
          */
         """
     )
@@ -523,18 +565,18 @@ def test_parse_comment_html():
     assert HtmlCommentStyle.parse_comment(text) == expected
 
 
+def test_create_comment_html_single():
+    """Creating a single-line HTML comment fails."""
+    with pytest.raises(CommentCreateError):
+        HtmlCommentStyle._create_comment_single("hello")
+
+
 def test_parse_comment_html_single_line():
     """Parse a single-line HTML comment."""
     text = "<!-- Hello world -->"
     expected = "Hello world"
 
     assert HtmlCommentStyle.parse_comment(text) == expected
-
-
-def test_create_comment_html_single():
-    """Creating a single-line HTML comment fails."""
-    with pytest.raises(CommentCreateError):
-        HtmlCommentStyle._create_comment_single("hello")
 
 
 def test_comment_at_first_character_python():

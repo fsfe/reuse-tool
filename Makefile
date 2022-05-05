@@ -45,7 +45,7 @@ clean-docs: ## remove docs build artifacts
 
 .PHONY: lint
 lint: ## check with pylint
-	pylint src/reuse tests/*.py
+	pylint src/reuse tests/*.py *.py
 
 .PHONY: blackcheck
 blackcheck: ## check with black
@@ -56,6 +56,10 @@ blackcheck: ## check with black
 black: ## format with black
 	isort src/ tests/ *.py
 	black .
+
+.PHONY: prettier
+prettier: ## format with prettier
+	prettier --write .
 
 .PHONY: reuse
 reuse: dist ## check with self
