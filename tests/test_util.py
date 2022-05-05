@@ -244,7 +244,7 @@ def test_filter_ignore_block_with_relevant_information_on_same_line():
     assert result == expected
 
 
-def test_filter_ignore_block_with_beginning_and_end_on_same_line_correct_order(): # pylint: disable=line-too-long
+def test_filter_ignore_block_with_beginning_and_end_on_same_line_correct_order():  # pylint: disable=line-too-long
     """Test that the ignore block is properly removed if it has relevant
     information on the same line.
     """
@@ -269,7 +269,7 @@ def test_filter_ignore_block_with_beginning_and_end_on_same_line_wrong_order():
     """Test that the ignore block is properly removed if it has relevant
     information on the same line.
     """
-    text = "Relevant textREUSE_IGNORE_ENDOther relevant textREUSE_IGNORE_BEGINIgnored text" # pylint: disable=line-too-long
+    text = "Relevant textREUSE_IGNORE_ENDOther relevant textREUSE_IGNORE_BEGINIgnored text"  # pylint: disable=line-too-long
     expected = "Relevant textREUSE_IGNORE_ENDOther relevant text"
 
     result = _util.filter_ignore_block(text)
