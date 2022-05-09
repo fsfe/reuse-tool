@@ -22,3 +22,11 @@ License: GPL-3.0-or-later
 Files: src/reuse.egg-info/*
 Copyright: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 License: GPL-3.0-or-later
+
+Files: poetry.lock
+Copyright: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+License: CC0-1.0
+
+Files: flake.lock
+Copyright: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+License: CC0-1.0

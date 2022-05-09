@@ -24,3 +24,42 @@ include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
 line_length = 80
+
+[tool.poetry]
+name = "reuse"
+version = "0.14.0"
+description = "reuse is a tool for compliance with the REUSE recommendations."
+authors = ["Free Software Foundation Europe <contact@fsfe.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.6.2"
+Jinja2 = "^3.0.3"
+binaryornot = "0.4.4"
+"boolean.py" = "3.8"
+license-expression = "21.6.14"
+python-debian = "0.1.38"
+requests = "2.27.1"
+
+[tool.poetry.dev-dependencies]
+Sphinx = "4.4.0"
+recommonmark = "0.7.1"
+sphinx-autodoc-typehints = "1.12.0"
+sphinx-rtd-theme = "1.0.0"
+sphinxcontrib-apidoc = "0.3.0"
+black = "^22.3.0"
+isort = "5.10.1"
+pylint = "2.12.2"
+pytest = "6.2.5"
+pytest-cov = "3.0.0"
+tox = "3.24.5"
+bump2version = "1.0.1"
+pre-commit = "2.17.0"
+twine = "3.7.1"
+wheel = "0.37.1"
+
+[tool.poetry.scripts]
+reuse = 'reuse._main:main'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
