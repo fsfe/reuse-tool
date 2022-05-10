@@ -63,6 +63,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Dockerfiles for reuse-tool are now in a separate subdirectory `docker`. (#499)
 
+- Updated SPDX license list to 3.17. (#513)
+
 ### Deprecated
 
 - Deprecated `--explicit-license` in favour of `--force-dot-license`.
