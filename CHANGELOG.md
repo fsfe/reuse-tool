@@ -39,39 +39,121 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
+- Recommendations for installation/run methods: package managers and pipx (#457)
+- Docker images for AArch64 (#478)
+
 - More file types are recognised:
 
-  - Perl plain old documentation (`.pod`)
-  - Portable document format (`.pdf`)
-  - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
-  - MS Office (`.doc`, `.xls`, `.pptx` and many more)
-  - SuperCollider (`.sc`, `.scsyndef`)
-  - Bibliography (`.csl`)
-  - Turtle/RDF (`.ttl`)
-  - Nimble (`.nim.cfg`, `.nimble`)
-  - Markdown-linter config (`.mdlrc`)
-  - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
-  - Handlebars (`.hbs`)
-  - Vue.js (`.vue`)
+  - sbt build files (`.sbt`)
 
-- More file names are recognised:
-  - SuperCollider (`archive.sctxar`)
+- Added `--skip-existing` flag to `addheader` in order to skip files that
+  already contain SPDX information. This may be useful for only adding SPDX
+  information to newly created files.
+
+- Preserve shebang for more script files:
+
+  - V-Lang (#432)
 
 ### Changed
 
+- Use `setuptools` instead of the deprecated `distutils` which will be removed
+  with Python 3.12 (#451)
+
+- `addheader --explicit-license` renamed to `--force-dot-license`. (#476)
+
+- Dockerfiles for reuse-tool are now in a separate subdirectory `docker`. (#499)
+
+- Updated SPDX license list to 3.17. (#513)
+
 ### Deprecated
+
+- Deprecated `--explicit-license` in favour of `--force-dot-license`.
+  `--explicit-license` will remain useable (although undocumented) for the
+  foreseeable future. (#476)
 
 ### Removed
 
 ### Fixed
 
-- Fix faulty file types:
-  - Extensible Stylesheet Language (`.xsl`) actually uses HTML comment syntax
-  - JSX (`.jxs` and `.tsx`) actually uses C comment syntax as JSX blocks never
-    stand at the beginning of the file where the licensing info needs to go
-- Allow creating .license file for write-protected files (#347)
+- Better support for unary "+" operator in license identifiers. For example, if
+  `Apache-1.0+` appears as a declared license, it should not be identified as
+  missing, bad, or unused if `LICENSES/Apache-1.0.txt` exists. It is, however,
+  identified separately as a used license. (#123)
+
+- When `addheader` creates a `.license` file, that file now has a newline at the
+  end. (#477)
+
+- Cleaned up internal string manipulation. (#477)
+
+- JSX (`.jxs` and `.tsx`) actually uses C comment syntax as JSX blocks never
+  stand at the beginning of the file where the licensing info needs to go. (#406)
 
 ### Security
+
+## 0.14.0 - 2021-12-27
+
+Happy holidays! This is mainly a maintenance release fixing some subcommands and
+adding loads of supported file types and file names. However, you can also enjoy
+the `supported-licenses` subcommand and the `--quiet` flag for linting as well
+as better suggestions for license identifiers. Thanks to everyone who
+contributed!
+
+### Added
+
+- `supported-licenses` command that lists all licenses supported by REUSE (#401)
+
+- `--quiet` switch to the `lint` command (#402)
+
+- Better suggestions for faulty SPDX license identifiers in `download` and
+  `init` (#416)
+
+- Python 3.10 support declared
+
+- More file types are recognised:
+
+  - Apache FreeMarker Template Language (`.ftl`)
+  - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
+  - Bibliography (`.csl`)
+  - C++ (`.cc` and `.hh`)
+  - GraphQL (`.graphql`)
+  - Handlebars (`.hbs`)
+  - Markdown-linter config (`.mdlrc`)
+  - MS Office (`.doc`, `.xls`, `.pptx` and many more)
+  - Nimble (`.nim.cfg`, `.nimble`)
+  - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
+  - Perl plain old documentation (`.pod`)
+  - Portable document format (`.pdf`)
+  - Protobuf files (`.proto`)
+  - Soy templates (`.soy`)
+  - SuperCollider (`.sc`, `.scsyndef`)
+  - Turtle/RDF (`.ttl`)
+  - V-Lang (`.v`, `.vsh`)
+  - Vue.js (`.vue`)
+
+- More file names are recognised:
+
+  - Doxygen (`Doxyfile`)
+  - ESLint (`.eslintignore` and `.eslintrc`)
+  - Meson options file (`meson_options.txt`)
+  - NPM ignore (`.npmignore`)
+  - Podman container files (`Containerfile`)
+  - SuperCollider (`archive.sctxar`)
+  - Yarn package manager (`.yarn.lock` and `.yarnrc`)
+
+### Changed
+
+- Updated SPDX license list to 3.15
+
+### Fixed
+
+- Fix Extensible Stylesheet Language (`.xsl`) to use HTML comment syntax
+
+- Allow creating .license file for write-protected files (#347) (#418)
+
+- Do not break XML files special first line (#378)
+
+- Make `download` subcommand work correctly outside of project root and with
+  `--root` (#430)
 
 ## 0.13.0 - 2021-06-11
 
@@ -86,7 +168,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `addheader` ignores case when matching file extensions and names. (#359)
 
-- Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`. (#321)
+- Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`.
+  (#321)
 
 - More file types are recognised:
 
@@ -129,7 +212,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - `addheader` now preserves line endings. (#308)
 
-- `download` does no longer fail when both `--output` and `--all` are used. (#326)
+- `download` does no longer fail when both `--output` and `--all` are used.
+  (#326)
 
 - Catch erroneous SPDX expressions. (#331)
 

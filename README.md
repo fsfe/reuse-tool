@@ -6,10 +6,11 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 # reuse
 
-[![](https://img.shields.io/pypi/v/reuse.svg)](https://pypi.python.org/pypi/reuse)
-[![](https://img.shields.io/pypi/pyversions/reuse.svg)](https://pypi.python.org/pypi/reuse)
+[![The latest version of reuse can be found on PyPI.](https://img.shields.io/pypi/v/reuse.svg)](https://pypi.python.org/pypi/reuse)
+[![Information on what versions of Python reuse supports can be found on PyPI.](https://img.shields.io/pypi/pyversions/reuse.svg)](https://pypi.python.org/pypi/reuse)
 [![REUSE status](https://api.reuse.software/badge/github.com/fsfe/reuse-tool)](https://api.reuse.software/info/github.com/fsfe/reuse-tool)
-[![](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
+[![readme style standard](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
+[![Packaging status](https://repology.org/badge/tiny-repos/reuse.svg?header=in%20distro%20repos)](https://repology.org/project/reuse/versions)
 
 > reuse is a tool for compliance with the [REUSE](https://reuse.software/)
 > recommendations.
@@ -62,6 +63,48 @@ In this screencast, we are going to follow the
 
 ## Install
 
+### Installation via package managers (Recommended)
+
+There are packages available for easy install on some operating systems. You are
+welcome to help us package this tool for more distributions!
+
+- Arch Linux: [reuse](https://archlinux.org/packages/community/any/reuse/)
+- Debian: [reuse](https://packages.debian.org/search?keywords=reuse&exact=1)
+- GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.14.0/)
+- Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
+- NixOS:
+  [reuse](https://search.nixos.org/packages?channel=21.05&from=0&size=50&sort=relevance&type=packages&query=reuse)
+- openSUSE: [reuse](https://software.opensuse.org/package/reuse)
+- VoidLinux: [reuse](https://voidlinux.org/packages/?arch=x86_64&q=reuse)
+
+An automatically generated list can be found at
+[repology.org](https://repology.org/project/reuse/versions), without any
+guarantee for completeness.
+
+### Install and run via pipx (Recommended)
+
+The following one-liner both installs and runs this tool from
+[PyPI](https://pypi.org/project/reuse/) via
+[pipx](https://pypa.github.io/pipx/):
+
+```bash
+pipx run reuse lint
+```
+
+pipx automatically isolates reuse into its own Python virtualenv, which means
+that it won't interfere with other Python packages, and other Python packages
+won't interfere with it.
+
+If you want to be able to use reuse without prepending it with `pipx run` every
+time, install it globally like so:
+
+```bash
+pipx install reuse
+```
+
+reuse will then be available in `~/.local/bin`, which must be added to your
+`$PATH`.
+
 ### Installation via pip
 
 To install reuse, you need to have the following pieces of software on your
@@ -91,17 +134,6 @@ For full functionality, the following pieces of software are recommended:
 
 - Git
 - Mercurial 4.3+
-
-### Installation via package managers
-
-There are packages available for easy install on some operating systems. You are
-welcome to help us package this tool for more distributions!
-
-- Arch Linux: [reuse](https://archlinux.org/packages/community/any/reuse/)
-- Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
-- openSUSE: [reuse](https://software.opensuse.org/package/reuse)
-- GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.5.0/)
-- NixOS: [reuse](https://nixos.org/nixos/packages.html?attr=reuse)
 
 ### Installation from source
 
@@ -156,6 +188,8 @@ short summary:
 
 - `spdx` --- Generate an SPDX Document of all files in the project.
 
+- `supported-licenses` --- Prints all licenses supported by REUSE.
+
 ### Run in Docker
 
 The `fsfe/reuse` Docker image is available on
@@ -182,6 +216,7 @@ docker run --rm --volume $(pwd):/data fsfe/reuse --include-submodules spdx -o ou
 ```
 
 There are a number of tags available:
+
 - `latest` is the most recent stable release.
 - `dev` follows the `master` branch of this repository. Up-to-date, but
   potentially unstable.

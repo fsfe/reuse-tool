@@ -4,9 +4,26 @@
 
 repos:
   - repo: https://github.com/ambv/black
-    rev: stable
+    rev: 21.12b0
     hooks:
       - id: black
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort (python)
+        types: [python]
+      - id: isort
+        name: isort (cython)
+        types: [cython]
+      - id: isort
+        name: isort (pyi)
+        types: [pyi]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.4.1
+    hooks:
+      - id: prettier
+        name: prettier
   - repo: local
     hooks:
       - id: pylint
@@ -14,4 +31,7 @@ repos:
         entry: pylint
         language: system
         types: [python]
-        files: ^(src|tests)/
+        args: [
+            "-rn", # Only display messages
+            "-sn", # Don't display the score
+          ]

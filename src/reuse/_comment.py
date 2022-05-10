@@ -4,6 +4,8 @@
 # SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021 Matija Šuklje <matija@suklje.name>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -56,7 +58,6 @@ class CommentStyle:
 
         :raises CommentCreateError: if *text* could not be commented.
         """
-        text = text.strip("\n")
         if force_multi or not cls.can_handle_single():
             return cls._create_comment_multi(text)
         return cls._create_comment_single(text)
@@ -71,9 +72,8 @@ class CommentStyle:
             raise CommentCreateError(
                 f"{cls} cannot create single-line comments"
             )
-        text = text.strip("\n")
         result = []
-        for line in text.splitlines():
+        for line in text.split("\n"):
             line_result = cls.SINGLE_LINE
             if line:
                 line_result += cls.INDENT_AFTER_SINGLE + line
@@ -87,13 +87,10 @@ class CommentStyle:
         :raises CommentCreateError: if *text* could not be commented.
         """
         if not cls.can_handle_multi():
-            raise CommentCreateError(
-                f"{cls} cannot create multi-line comments"
-            )
-        text = text.strip("\n")
+            raise CommentCreateError(f"{cls} cannot create multi-line comments")
         result = []
         result.append(cls.MULTI_LINE[0])
-        for line in text.splitlines():
+        for line in text.split("\n"):
             if cls.MULTI_LINE[2] in text:
                 raise CommentCreateError(
                     f"'{line}' contains a premature comment delimiter"
@@ -113,8 +110,6 @@ class CommentStyle:
 
         :raises CommentParseError: if *text* could not be parsed.
         """
-        text = text.strip("\n")
-
         try:
             return cls._parse_comment_single(text)
         except CommentParseError:
@@ -129,7 +124,6 @@ class CommentStyle:
         """
         if not cls.can_handle_single():
             raise CommentParseError(f"{cls} cannot parse single-line comments")
-        text = text.strip("\n")
         result = []
 
         for line in text.splitlines():
@@ -143,6 +137,23 @@ class CommentStyle:
         return dedent(result)
 
     @classmethod
+    def _remove_middle_marker(cls, line: str) -> str:
+        if cls.MULTI_LINE[1]:
+            possible_line = line.lstrip()
+            prefix = cls.MULTI_LINE[1]
+            if possible_line.startswith(prefix):
+                line = possible_line.lstrip(prefix)
+                # Note to future self: line.removeprefix would be preferable
+                # here.
+                if line.startswith(cls.INDENT_AFTER_MIDDLE):
+                    line = line.replace(cls.INDENT_AFTER_MIDDLE, "", 1)
+            else:
+                _LOGGER.debug(
+                    "'%s' does not contain a middle comment marker", line
+                )
+        return line
+
+    @classmethod
     def _parse_comment_multi(cls, text: str) -> str:
         """Uncomment all lines in *text*, assuming they are commented by
         multi-line comments.
@@ -152,7 +163,6 @@ class CommentStyle:
         if not cls.can_handle_multi():
             raise CommentParseError(f"{cls} cannot parse multi-line comments")
 
-        text = text.strip("\n")
         result = []
         try:
             first, *lines, last = text.splitlines()
@@ -168,18 +178,10 @@ class CommentStyle:
                 f"'{first}' does not start with a comment marker"
             )
         first = first.lstrip(cls.MULTI_LINE[0])
-        first = first.strip()
+        first = first.lstrip()
 
         for line in lines:
-            if cls.MULTI_LINE[1]:
-                possible_line = line.lstrip(cls.INDENT_BEFORE_MIDDLE)
-                prefix = cls.MULTI_LINE[1]
-                if possible_line.startswith(prefix):
-                    line = possible_line.lstrip(prefix)
-                else:
-                    _LOGGER.debug(
-                        "'%s' does not contain a middle comment marker", line
-                    )
+            line = cls._remove_middle_marker(line)
             result.append(line)
 
         if last_is_first:
@@ -190,21 +192,13 @@ class CommentStyle:
                 f"'{last}' does not end with a comment delimiter"
             )
         last = last.rstrip(cls.MULTI_LINE[2])
-        last = last.rstrip(cls.INDENT_BEFORE_END)
-        last = last.strip()
-        if cls.MULTI_LINE[1] and last.startswith(cls.MULTI_LINE[1]):
-            last = last.lstrip(cls.MULTI_LINE[1])
-            last = last.lstrip()
+        last = last.rstrip()
+        last = cls._remove_middle_marker(last)
 
         result = "\n".join(result)
         result = dedent(result)
 
-        if result:
-            result = "\n".join((first, result, last))
-        else:
-            result = "\n".join((first, last))
-        result = result.strip("\n")
-        return result
+        return "\n".join(item for item in (first, result, last) if item)
 
     @classmethod
     def comment_at_first_character(cls, text: str) -> str:
@@ -307,11 +301,11 @@ class EmptyCommentStyle(CommentStyle):
 
     @classmethod
     def create_comment(cls, text: str, force_multi: bool = False) -> str:
-        return text.strip("\n")
+        return text
 
     @classmethod
     def parse_comment(cls, text: str) -> str:
-        return text.strip("\n")
+        return text
 
     @classmethod
     def comment_at_first_character(cls, text: str) -> str:
@@ -325,6 +319,14 @@ class FortranCommentStyle(CommentStyle):
 
     SINGLE_LINE = "c"
     INDENT_AFTER_SINGLE = " "
+
+
+class FtlCommentStyle(CommentStyle):
+    """FreeMarker Template Language comment style."""
+
+    _shorthand = "ftl"
+
+    MULTI_LINE = ("<#--", "", "-->")
 
 
 class HandlebarsCommentStyle(CommentStyle):
@@ -465,6 +467,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".bbclass": PythonCommentStyle,
     ".bib": BibTexCommentStyle,
     ".c": CCommentStyle,
+    ".cc": CCommentStyle,
     ".cl": LispCommentStyle,
     ".clj": LispCommentStyle,
     ".cljc": LispCommentStyle,
@@ -498,11 +501,14 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".fodt": UncommentableCommentStyle,
     ".for": FortranCommentStyle,
     ".fs": CCommentStyle,
+    ".ftl": FtlCommentStyle,
     ".gemspec": PythonCommentStyle,
     ".go": CCommentStyle,
     ".gradle": CCommentStyle,
+    ".graphql": PythonCommentStyle,
     ".groovy": CCommentStyle,
     ".h": CCommentStyle,
+    ".hh": CCommentStyle,
     ".hbs": HandlebarsCommentStyle,
     ".hpp": CCommentStyle,
     ".hrl": TexCommentStyle,
@@ -564,6 +570,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pot": PythonCommentStyle,
     ".ppt": UncommentableCommentStyle,
     ".pptx": UncommentableCommentStyle,
+    ".proto": CCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
     ".psm1": PythonCommentStyle,  # TODO: Multiline comments
     ".pu": PlantUmlCommentStyle,
@@ -586,6 +593,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
     ".sass": CssCommentStyle,
+    ".sbt": CCommentStyle,
     ".sc": CCommentStyle,  # SuperCollider source file
     ".scad": CCommentStyle,
     ".scala": PythonCommentStyle,
@@ -593,9 +601,11 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".scpt": AppleScriptCommentStyle,
     ".scptd": AppleScriptCommentStyle,
     ".scss": CssCommentStyle,
-    ".scsyndef": UncommentableCommentStyle,  # SuperCollider synth definition (binary)
+    # SuperCollider synth definition (binary)
+    ".scsyndef": UncommentableCommentStyle,
     ".sh": PythonCommentStyle,
     ".sml": MlCommentStyle,
+    ".soy": CCommentStyle,
     ".sql": HaskellCommentStyle,
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
@@ -607,7 +617,9 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ts": CCommentStyle,
     ".tsx": JsxCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
+    ".v": CCommentStyle,  # V-Lang source code
     ".vala": CCommentStyle,
+    ".vsh": CCommentStyle,  # V-Lang script
     ".vue": HtmlCommentStyle,
     ".xls": UncommentableCommentStyle,
     ".xlsx": UncommentableCommentStyle,
@@ -629,18 +641,24 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
+    ".eslintignore": PythonCommentStyle,
+    ".eslintrc": UncommentableCommentStyle,
     ".gitattributes": PythonCommentStyle,
     ".gitignore": PythonCommentStyle,
     ".gitmodules": PythonCommentStyle,
     ".mailmap": PythonCommentStyle,
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
+    ".npmignore": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
+    ".yarnrc": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "CMakeLists.txt": PythonCommentStyle,
     "configure.ac": M4CommentStyle,
+    "Containerfile": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
+    "Doxyfile": PythonCommentStyle,
     "Gemfile": PythonCommentStyle,
     "go.mod": CCommentStyle,
     "go.sum": UncommentableCommentStyle,
@@ -652,11 +670,13 @@ FILENAME_COMMENT_STYLE_MAP = {
     "MANIFEST.in": PythonCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "meson.build": PythonCommentStyle,
+    "meson_options.txt": PythonCommentStyle,
     "Rakefile": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
     "sonar-project.properties": PythonCommentStyle,
+    "yarn.lock": UncommentableCommentStyle,
 }
 
 FILENAME_COMMENT_STYLE_MAP_LOWERCASE = {
@@ -673,7 +693,7 @@ def _all_style_classes() -> List[CommentStyle]:
     return sorted(result, key=operator.attrgetter("__name__"))
 
 
-# pylint: disable=invalid-name,protected-access
+# pylint: disable=protected-access
 
 _result = _all_style_classes()
 _result.remove(EmptyCommentStyle)

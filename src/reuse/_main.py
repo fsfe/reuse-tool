@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,6 +20,7 @@ from . import (
     init,
     lint,
     spdx,
+    supported_licenses,
 )
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import PathType, setup_logging
@@ -205,10 +207,19 @@ def parser() -> argparse.ArgumentParser:
         help=_("print the project's bill of materials in SPDX format"),
     )
 
+    add_command(
+        subparsers,
+        "supported-licenses",
+        supported_licenses.add_arguments,
+        supported_licenses.run,
+        help=_("list all supported SPDX licenses"),
+        aliases=["supported-licences"],
+    )
+
     return parser
 
 
-def add_command(  # pylint: disable=too-many-arguments
+def add_command(  # pylint: disable=too-many-arguments,redefined-builtin
     subparsers,
     name: str,
     add_arguments_func,
@@ -216,6 +227,7 @@ def add_command(  # pylint: disable=too-many-arguments
     formatter_class=None,
     description: str = None,
     help: str = None,
+    aliases: list = None,
 ) -> None:
     """Add a subparser for a command."""
     if formatter_class is None:
@@ -225,6 +237,7 @@ def add_command(  # pylint: disable=too-many-arguments
         formatter_class=formatter_class,
         description=description,
         help=help,
+        aliases=aliases or [],
     )
     add_arguments_func(subparser)
     subparser.set_defaults(func=run_func)
@@ -239,9 +252,7 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
     main_parser = parser()
     parsed_args = main_parser.parse_args(args)
 
-    setup_logging(
-        level=logging.DEBUG if parsed_args.debug else logging.WARNING
-    )
+    setup_logging(level=logging.DEBUG if parsed_args.debug else logging.WARNING)
 
     if parsed_args.version:
         out.write(f"reuse {__version__}\n")

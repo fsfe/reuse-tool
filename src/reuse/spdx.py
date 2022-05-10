@@ -25,22 +25,18 @@ def add_arguments(parser) -> None:
 
 def run(args, project: Project, out=sys.stdout) -> int:
     """Print the project's bill of materials."""
-    if args.file:
-        out = args.file.open("w", encoding="UTF-8")
-        if args.file.suffix != ".spdx":
-            _LOGGER.warning(
-                _("'{path}' does not end with .spdx").format(path=out.name)
-            )
+    with contextlib.ExitStack() as stack:
+        if args.file:
+            out = stack.enter_context(args.file.open("w", encoding="utf-8"))
+            if args.file.suffix != ".spdx":
+                _LOGGER.warning(
+                    _("'{path}' does not end with .spdx").format(path=out.name)
+                )
 
-    report = ProjectReport.generate(
-        project, multiprocessing=not args.no_multiprocessing
-    )
+        report = ProjectReport.generate(
+            project, multiprocessing=not args.no_multiprocessing
+        )
 
-    out.write(report.bill_of_materials())
-
-    # Don't close sys.stdout or StringIO
-    if args.file:
-        with contextlib.suppress(Exception):
-            out.close()
+        out.write(report.bill_of_materials())
 
     return 0

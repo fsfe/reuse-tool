@@ -8,35 +8,67 @@ up-to-date.
 For convenience, also overwrite the files.
 """
 
+import argparse
+import json
+import sys
+import urllib.request
 from pathlib import Path
 
-import requests
-
+API_URL = "https://api.github.com/repos/spdx/license-list-data/releases/latest"
 URLS = {
-    "exceptions.json": "https://raw.githubusercontent.com/spdx/license-list-data/master/json/exceptions.json",
-    "licenses.json": "https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json",
+    # pylint: disable=line-too-long
+    "exceptions.json": "https://raw.githubusercontent.com/spdx/license-list-data/{tag}/json/exceptions.json",
+    "licenses.json": "https://raw.githubusercontent.com/spdx/license-list-data/{tag}/json/licenses.json",
 }
 
 
-def main():
-    result = 0
-    for file_, url in URLS.items():
-        path = Path(f"src/reuse/resources/{file_}")
-        contents = path.read_text()
+# Fetch arguments
+parser = argparse.ArgumentParser(
+    description="Check and update included SPDX licenses and exceptions"
+)
+parser.add_argument(
+    "-d",
+    "--download",
+    action="store_true",
+    help="if newer licenses/exceptions are found, download them to the repo",
+)
+args = parser.parse_args()
 
-        response = requests.get(url)
-        if response.status_code == 200:
-            if response.text == contents:
-                print(f"{file_} is up-to-date")
+
+def latest_tag():
+    """Find out the tag name of latest stable release of the repo"""
+    with urllib.request.urlopen(API_URL) as response:
+        contents = response.read().decode("utf-8")
+    dictionary = json.loads(contents)
+    return dictionary["tag_name"]
+
+
+def main(args_):
+    """Compare local and remote files, and download if not matching"""
+    result = 0
+
+    tag = latest_tag()
+    print(f"spdx-license-list-data latest version is {tag}")
+
+    for file_, url in URLS.items():
+        url = url.format(tag=tag)
+        path = Path(f"src/reuse/resources/{file_}")
+        local_contents = path.read_text(encoding="utf-8")
+
+        with urllib.request.urlopen(url) as response:
+            remote_contents = response.read().decode("utf-8")
+        if remote_contents == local_contents:
+            print(f"{file_} is up-to-date")
+        else:
+            if args_.download:
+                print(f"{file_} is not up-to-date, downloading newer release")
+                path.write_text(remote_contents, encoding="utf-8")
             else:
                 result = 1
                 print(f"{file_} is not up-to-date")
-                path.write_text(response.text)
-        else:
-            result = 1
-            print(f"could not download {file_}")
+
     return result
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main(args))

@@ -39,9 +39,7 @@ def download_license(spdx_identifier: str) -> str:
     :return: The license text.
     """
     # This is fairly naive, but I can't see anything wrong with it.
-    url = urljoin(
-        _SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt"))
-    )
+    url = urljoin(_SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt")))
     # TODO: Cache result?
     response = requests.get(url)
     if response.status_code == 200:
@@ -49,7 +47,7 @@ def download_license(spdx_identifier: str) -> str:
     raise requests.RequestException("Status code was not 200")
 
 
-def _path_to_license_file(spdx_identifier: str, root: PathLike = None) -> Path:
+def _path_to_license_file(spdx_identifier: str, root: PathLike) -> Path:
     licenses_path = find_licenses_directory(root=root)
     return licenses_path / "".join((spdx_identifier, ".txt"))
 
@@ -72,7 +70,7 @@ def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
         raise FileExistsError(errno.EEXIST, "File exists", str(destination))
 
     text = download_license(spdx_identifier)
-    with destination.open("w") as fp:
+    with destination.open("w", encoding="utf-8") as fp:
         fp.write(header)
         fp.write(text)
 
@@ -144,7 +142,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         if args.file:
             destination = args.file
         else:
-            destination = _path_to_license_file(lic)
+            destination = _path_to_license_file(lic, project.root)
         try:
             put_license_in_file(lic, destination=destination)
         except requests.RequestException:

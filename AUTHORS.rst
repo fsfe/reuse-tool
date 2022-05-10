@@ -20,7 +20,7 @@ Contributors
 
 - Max Mehl <max.mehl@fsfe.org>
 
-- Matija Šuklje <hook@fsfe.org>
+- Matija Šuklje <matija@suklje.name>
 
 - Greg Kroah-Hartman
 
@@ -46,6 +46,7 @@ Contributors
 
 - Tuomas Siipola
 
+- Gri-ffin <gameshunter359@gmail.com>
 
 Translators
 -----------
