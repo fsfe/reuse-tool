@@ -40,6 +40,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Added
 
 - More file types are recognised:
+
   - Perl plain old documentation (`.pod`)
   - Portable document format (`.pdf`)
   - Open Document Format (`.odt`, `.ods`, `.fodp` and many more)
@@ -66,6 +67,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Fix faulty file types:
   - Extensible Stylesheet Language (`.xsl`) actually uses HTML comment syntax
+  - JSX (`.jxs` and `.tsx`) actually uses C comment syntax as JSX blocks never
+    stand at the beginning of the file where the licensing info needs to go
 - Allow creating .license file for write-protected files (#347)
 
 ### Security
