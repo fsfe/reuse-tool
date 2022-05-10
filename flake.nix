@@ -79,6 +79,9 @@
                 });
             });
           };
-        in pkgs.mkShell { buildInputs = [ reuseEnv pkgs.poetry pkgs.gh ]; };
+        in pkgs.mkShell {
+          buildInputs =
+            [ reuseEnv pkgs.poetry pkgs.nodePackages.pyright pkgs.gh ];
+        };
       }));
 }
