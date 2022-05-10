@@ -4,7 +4,6 @@
 
 """Tests for reuse._main: addheader merge-copyrights option"""
 
-# pylint: disable=unused-argument
 
 from inspect import cleandoc
 

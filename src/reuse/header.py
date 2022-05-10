@@ -128,6 +128,7 @@ def _create_new_header(
     return result
 
 
+# pylint: disable=too-many-arguments
 def create_header(
     spdx_info: SpdxInfo,
     header: str = None,
@@ -243,6 +244,7 @@ def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
     return (shebang, text)
 
 
+# pylint: disable=too-many-arguments
 def find_and_replace_header(
     text: str,
     spdx_info: SpdxInfo,

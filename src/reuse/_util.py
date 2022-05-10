@@ -220,14 +220,15 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
 
     copyright_out = []
     for statement in {item["statement"] for item in copyright_in}:
-        copyright = [
+        copyright_list = [
             item for item in copyright_in if item["statement"] == statement
         ]
-        prefixes = [item["prefix"] for item in copyright]
+        prefixes = [item["prefix"] for item in copyright_list]
 
         # Get the style of the most common prefix
         prefix = max(set(prefixes), key=prefixes.count)
         style = "spdx"
+        # pylint: disable=consider-using-dict-items
         for sty in _COPYRIGHT_STYLES:
             if prefix == _COPYRIGHT_STYLES[sty]:
                 style = sty
@@ -235,7 +236,7 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
 
         # get year range if any
         years = []
-        for copy in copyright:
+        for copy in copyright_list:
             years += copy["year"]
 
         if len(years) == 0:
