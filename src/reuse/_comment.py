@@ -664,6 +664,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".pylintrc": PythonCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
+    ".vimrc": VimCommentStyle,
     ".yarnrc": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "CMakeLists.txt": PythonCommentStyle,
@@ -688,7 +689,6 @@ FILENAME_COMMENT_STYLE_MAP = {
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
     "sonar-project.properties": PythonCommentStyle,
-    ".vimrc": VimCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
 
