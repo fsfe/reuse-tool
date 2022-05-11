@@ -45,6 +45,7 @@ The versions follow [semantic versioning](https://semver.org).
 - More file types are recognised:
 
   - sbt build files (`.sbt`)
+  - Vimscript files (`.vim`)
 
 - Added `--skip-existing` flag to `addheader` in order to skip files that
   already contain SPDX information. This may be useful for only adding SPDX

@@ -445,6 +445,15 @@ class UncommentableCommentStyle(EmptyCommentStyle):
     """
 
 
+class VimCommentStyle(CommentStyle):
+    """Vim(Script|Config) style."""
+
+    _shorthand = "vim"
+
+    SINGLE_LINE = '"'
+    INDENT_AFTER_SINGLE = " "
+
+
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
@@ -621,6 +630,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ttl": PythonCommentStyle,  # Turtle/RDF
     ".v": CCommentStyle,  # V-Lang source code
     ".vala": CCommentStyle,
+    ".vim": VimCommentStyle,
     ".vsh": CCommentStyle,  # V-Lang script
     ".vue": HtmlCommentStyle,
     ".xls": UncommentableCommentStyle,
@@ -654,6 +664,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".pylintrc": PythonCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
+    ".vimrc": VimCommentStyle,
     ".yarnrc": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "CMakeLists.txt": PythonCommentStyle,
