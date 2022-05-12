@@ -35,7 +35,7 @@ from ._licenses import ALL_NON_DEPRECATED_MAP
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
 
-REUSE_IGNORE_BEGIN = "REUSE-IgnoreStart"
+REUSE_IGNORE_START = "REUSE-IgnoreStart"
 REUSE_IGNORE_END = "REUSE-IgnoreEnd"
 
 _LOGGER = logging.getLogger(__name__)
@@ -211,14 +211,14 @@ def extract_spdx_info(text: str) -> SpdxInfo:
 
 
 def filter_ignore_block(text: str) -> str:
-    """Filter out blocks beginning with REUSE_IGNORE_BEGIN and ending with
+    """Filter out blocks beginning with REUSE_IGNORE_START and ending with
     REUSE_IGNORE_END to remove lines that should not be treated as copyright and
     licensing information.
     """
     ignore_start = None
     ignore_end = None
-    if REUSE_IGNORE_BEGIN in text:
-        ignore_start = text.index(REUSE_IGNORE_BEGIN)
+    if REUSE_IGNORE_START in text:
+        ignore_start = text.index(REUSE_IGNORE_START)
     if REUSE_IGNORE_END in text:
         ignore_end = text.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
     if not ignore_start:
@@ -227,7 +227,7 @@ def filter_ignore_block(text: str) -> str:
         return text[:ignore_start]
     if ignore_end > ignore_start:
         return text[:ignore_start] + filter_ignore_block(text[ignore_end:])
-    rest = text[ignore_start + len(REUSE_IGNORE_BEGIN) :]
+    rest = text[ignore_start + len(REUSE_IGNORE_START) :]
     if REUSE_IGNORE_END in rest:
         ignore_end = rest.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
         return text[:ignore_start] + filter_ignore_block(rest[ignore_end:])
