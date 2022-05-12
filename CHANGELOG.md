@@ -57,6 +57,8 @@ The versions follow [semantic versioning](https://semver.org).
 
   - V-Lang (#432)
 
+- Ignore all SPDX files with their typical formats and extensions (#494).
+
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
