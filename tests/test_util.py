@@ -146,10 +146,10 @@ def test_extract_with_ignore_block():
         """
         SPDX-FileCopyrightText: 2019 Jane Doe
         SPDX-License-Identifier: CC0-1.0
-        REUSE_IGNORE_BEGIN
+        REUSE-IgnoreStart
         SPDX-FileCopyrightText: 2019 John Doe
         SPDX-License-Identifier: GPL-3.0-or-later
-        REUSE_IGNORE_END
+        REUSE-IgnoreEnd
         SPDX-FileCopyrightText: 2019 Eve
         """
     )
@@ -165,9 +165,9 @@ def test_filter_ignore_block_with_comment_style():
     text = cleandoc(
         """
         Relevant text
-        # REUSE_IGNORE_BEGIN
+        # REUSE-IgnoreStart
         Ignored text
-        # REUSE_IGNORE_END
+        # REUSE-IgnoreEnd
         Other relevant text
         """
     )
@@ -184,9 +184,9 @@ def test_filter_ignore_block_non_comment_style():
     text = cleandoc(
         """
         Relevant text
-        REUSE_IGNORE_BEGIN
+        REUSE-IgnoreStart
         Ignored text
-        REUSE_IGNORE_END
+        REUSE-IgnoreEnd
         Other relevant text
         """
     )
@@ -209,9 +209,9 @@ def test_filter_ignore_block_with_ignored_information_on_same_line():
     text = cleandoc(
         """
         Relevant text
-        REUSE_IGNORE_BEGIN Copyright me
+        REUSE-IgnoreStart Copyright me
         Ignored text
-        sdojfsdREUSE_IGNORE_END
+        sdojfsdREUSE-IgnoreEnd
         Other relevant text
         """
     )
@@ -233,9 +233,9 @@ def test_filter_ignore_block_with_relevant_information_on_same_line():
     """
     text = cleandoc(
         """
-        Relevant textREUSE_IGNORE_BEGIN
+        Relevant textREUSE-IgnoreStart
         Ignored text
-        REUSE_IGNORE_ENDOther relevant text
+        REUSE-IgnoreEndOther relevant text
         """
     )
     expected = "Relevant textOther relevant text"
@@ -250,7 +250,7 @@ def test_filter_ignore_block_with_beginning_and_end_on_same_line_correct_order()
     """
     text = cleandoc(
         """
-        Relevant textREUSE_IGNORE_BEGINIgnored textREUSE_IGNORE_ENDOther
+        Relevant textREUSE-IgnoreStartIgnored textREUSE-IgnoreEndOther
         relevant text
         """
     )
@@ -269,8 +269,8 @@ def test_filter_ignore_block_with_beginning_and_end_on_same_line_wrong_order():
     """Test that the ignore block is properly removed if it has relevant
     information on the same line.
     """
-    text = "Relevant textREUSE_IGNORE_ENDOther relevant textREUSE_IGNORE_BEGINIgnored text"  # pylint: disable=line-too-long
-    expected = "Relevant textREUSE_IGNORE_ENDOther relevant text"
+    text = "Relevant textREUSE-IgnoreEndOther relevant textREUSE-IgnoreStartIgnored text"  # pylint: disable=line-too-long
+    expected = "Relevant textREUSE-IgnoreEndOther relevant text"
 
     result = _util.filter_ignore_block(text)
     assert result == expected
@@ -283,7 +283,7 @@ def test_filter_ignore_block_without_end():
     text = cleandoc(
         """
         Relevant text
-        REUSE_IGNORE_BEGIN
+        REUSE-IgnoreStart
         Ignored text
         Other ignored text
         """
@@ -301,13 +301,13 @@ def test_filter_ignore_block_with_multiple_ignore_blocks():
     text = cleandoc(
         """
         Relevant text
-        REUSE_IGNORE_BEGIN
+        REUSE-IgnoreStart
         Ignored text
-        REUSE_IGNORE_END
+        REUSE-IgnoreEnd
         Other relevant text
-        REUSE_IGNORE_BEGIN
+        REUSE-IgnoreStart
         Other ignored text
-        REUSE_IGNORE_END
+        REUSE-IgnoreEnd
         Even more relevant text
         """
     )
