@@ -356,19 +356,27 @@ def _verify_paths_line_handling(
 
 
 def _verify_paths_comment_style(paths: List[Path], parser: ArgumentParser):
+    unrecognised_files = []
+
     for path in paths:
         style = _get_comment_style(path)
         not_uncommentable = not _is_uncommentable(path)
 
         # TODO: This check is duplicated.
         if style is None and not_uncommentable:
-            parser.error(
+            unrecognised_files.append(path)
+
+    if unrecognised_files:
+        parser.error(
+            "{}\n{}".format(
                 _(
-                    "'{path}' does not have a recognised file extension,"
-                    " please use --style, --force-dot-license or"
-                    " --skip-unrecognised"
-                ).format(path=path)
+                    "The following files do not have a recognised file"
+                    " extension. Please use --style, --force-dot-license or"
+                    " --skip-unrecognised:"
+                ),
+                "\n".join(str(path) for path in unrecognised_files),
             )
+        )
 
 
 def _find_template(project: Project, name: str) -> Template:
@@ -551,6 +559,14 @@ def add_arguments(parser) -> None:
         help=_("write a .license file instead of a header inside the file"),
     )
     parser.add_argument(
+        "--recursive",
+        "-r",
+        action="store_true",
+        help=_(
+            "add headers to all files under specified directories recursively"
+        ),
+    )
+    parser.add_argument(
         "--skip-unrecognised",
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
@@ -565,7 +581,7 @@ def add_arguments(parser) -> None:
 
 def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
-    # pylint: disable=too-many-branches
+    # pylint: disable=too-many-branches,too-many-locals,too-many-statements
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
@@ -595,7 +611,22 @@ def run(args, project: Project, out=sys.stdout) -> int:
         )
         args.force_dot_license = True
 
-    paths = [_determine_license_path(path) for path in args.path]
+    if args.recursive:
+        paths = set()
+        all_files = [path.resolve() for path in project.all_files()]
+        for path in args.path:
+            if path.is_file():
+                paths.add(path)
+            else:
+                paths |= {
+                    child
+                    for child in all_files
+                    if path.resolve() in child.parents
+                }
+    else:
+        paths = args.path
+
+    paths = {_determine_license_path(path) for path in paths}
 
     if not args.force_dot_license:
         _verify_write_access(paths, args.parser)

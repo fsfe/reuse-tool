@@ -51,6 +51,8 @@ The versions follow [semantic versioning](https://semver.org).
   already contain SPDX information. This may be useful for only adding SPDX
   information to newly created files.
 
+- Added `--recursive` flag to `addheader`.
+
 - Preserve shebang for more script files:
 
   - V-Lang (#432)
