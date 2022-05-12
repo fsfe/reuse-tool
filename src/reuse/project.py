@@ -20,8 +20,8 @@ from license_expression import ExpressionError
 
 from . import (
     _IGNORE_DIR_PATTERNS,
-    _IGNORE_MESON_PARENT_DIR_PATTERNS,
     _IGNORE_FILE_PATTERNS,
+    _IGNORE_MESON_PARENT_DIR_PATTERNS,
     IdentifierNotFound,
     SpdxInfo,
 )
