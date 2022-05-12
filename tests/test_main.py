@@ -96,7 +96,7 @@ def test_lint_submodule_included_fail(submodule_repository, stringio):
 
 
 def test_lint_meson_subprojects(fake_repository, stringio):
-    """Run a successful lint."""
+    """Verify that subprojects are ignored."""
     (fake_repository / "meson.build").write_text(
         cleandoc(
             """
@@ -127,7 +127,7 @@ def test_lint_meson_subprojects(fake_repository, stringio):
 
 
 def test_lint_meson_subprojects_fail(fake_repository, stringio):
-    """Run a successful lint."""
+    """Verify that files in './subprojects' are not ignored."""
     (fake_repository / "meson.build").write_text(
         cleandoc(
             """
@@ -138,12 +138,8 @@ def test_lint_meson_subprojects_fail(fake_repository, stringio):
     )
     subprojects_dir = fake_repository / "subprojects"
     subprojects_dir.mkdir()
-    libfoo_dir = subprojects_dir / "libfoo"
-    libfoo_dir.mkdir()
     # ./subprojects/foo.wrap misses license and linter fails
     (subprojects_dir / "foo.wrap").write_text("foo")
-    # ./subprojects/libfoo/foo.c misses license but is ignored
-    (libfoo_dir / "foo.c").write_text("foo")
     result = main(["lint"], out=stringio)
 
     assert result == 1
@@ -151,7 +147,7 @@ def test_lint_meson_subprojects_fail(fake_repository, stringio):
 
 
 def test_lint_meson_subprojects_included_fail(fake_repository, stringio):
-    """Run a successful lint."""
+    """When Meson subprojects are included, fail on errors."""
     (fake_repository / "meson.build").write_text(
         cleandoc(
             """
@@ -160,19 +156,8 @@ def test_lint_meson_subprojects_included_fail(fake_repository, stringio):
             """
         ).replace("spdx", "SPDX")
     )
-    subprojects_dir = fake_repository / "subprojects"
-    subprojects_dir.mkdir()
-    libfoo_dir = subprojects_dir / "libfoo"
-    libfoo_dir.mkdir()
-    # ./subprojects/foo.wrap has license
-    (subprojects_dir / "foo.wrap").write_text(
-        cleandoc(
-            """
-            spdx-FileCopyrightText: 2022 Jane Doe
-            spdx-License-Identifier: CC0-1.0
-            """
-        ).replace("spdx", "SPDX")
-    )
+    libfoo_dir = fake_repository / "subprojects/libfoo"
+    libfoo_dir.mkdir(parents=True)
     # ./subprojects/libfoo/foo.c misses license and linter fails
     (libfoo_dir / "foo.c").write_text("foo")
     result = main(["--include-meson-subprojects", "lint"], out=stringio)
@@ -182,7 +167,7 @@ def test_lint_meson_subprojects_included_fail(fake_repository, stringio):
 
 
 def test_lint_meson_subprojects_included(fake_repository, stringio):
-    """Run a successful lint."""
+    """Successfully lint when Meson subprojects are included."""
     (fake_repository / "meson.build").write_text(
         cleandoc(
             """
@@ -191,19 +176,8 @@ def test_lint_meson_subprojects_included(fake_repository, stringio):
             """
         ).replace("spdx", "SPDX")
     )
-    subprojects_dir = fake_repository / "subprojects"
-    subprojects_dir.mkdir()
-    libfoo_dir = subprojects_dir / "libfoo"
-    libfoo_dir.mkdir()
-    # ./subprojects/foo.wrap has license
-    (subprojects_dir / "foo.wrap").write_text(
-        cleandoc(
-            """
-            spdx-FileCopyrightText: 2022 Jane Doe
-            spdx-License-Identifier: CC0-1.0
-            """
-        ).replace("spdx", "SPDX")
-    )
+    libfoo_dir = fake_repository / "subprojects/libfoo"
+    libfoo_dir.mkdir(parents=True)
     # ./subprojects/libfoo/foo.c has license and linter succeeds
     (libfoo_dir / "foo.c").write_text(
         cleandoc(
