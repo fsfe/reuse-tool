@@ -35,8 +35,8 @@ from ._licenses import ALL_NON_DEPRECATED_MAP
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
 
-REUSE_IGNORE_BEGIN = "REUSE_IGNORE_BEGIN"
-REUSE_IGNORE_END = "REUSE_IGNORE_END"
+REUSE_IGNORE_BEGIN = "REUSE-IgnoreStart"
+REUSE_IGNORE_END = "REUSE-IgnoreEnd"
 
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
