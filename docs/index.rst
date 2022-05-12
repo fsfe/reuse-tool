@@ -16,6 +16,7 @@ Welcome to reuse's documentation!
 
    readme
    usage
+   scripts
    authors
    history
    API<api/modules>

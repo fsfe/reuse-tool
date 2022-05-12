@@ -48,6 +48,8 @@ Contributors
 
 - Gri-ffin <gameshunter359@gmail.com>
 
+- Nico Rikken <nico.rikken@fsfe.org>
+
 Translators
 -----------
 
