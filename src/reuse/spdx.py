@@ -29,12 +29,10 @@ def run(args, project: Project, out=sys.stdout) -> int:
     with contextlib.ExitStack() as stack:
         if args.file:
             out = stack.enter_context(args.file.open("w", encoding="utf-8"))
-            spdxfile = [
-                pattern
+            if not any(
+                pattern.match(args.file.name)
                 for pattern in _IGNORE_SPDX_PATTERNS
-                if pattern.match(args.file.name)
-            ]
-            if not spdxfile:
+            ):
                 # pylint: disable=line-too-long
                 _LOGGER.warning(
                     _(
