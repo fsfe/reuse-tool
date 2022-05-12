@@ -52,7 +52,6 @@ Contributors
 
 - Florian Snow <florian@familysnow.net>
 
-
 Translators
 -----------
 

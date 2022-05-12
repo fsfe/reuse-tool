@@ -153,3 +153,8 @@ docs/api/
 docs/history.md
 docs/readme.md
 prof/
+
+# Nix-related
+.direnv/
+result
+.envrc

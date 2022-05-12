@@ -48,10 +48,13 @@ The versions follow [semantic versioning](https://semver.org).
 - More file types are recognised:
 
   - sbt build files (`.sbt`)
+  - Vimscript files (`.vim`)
 
 - Added `--skip-existing` flag to `addheader` in order to skip files that
   already contain SPDX information. This may be useful for only adding SPDX
   information to newly created files.
+
+- Added `--recursive` flag to `addheader`.
 
 - Preserve shebang for more script files:
 
@@ -65,6 +68,8 @@ The versions follow [semantic versioning](https://semver.org).
 - `addheader --explicit-license` renamed to `--force-dot-license`. (#476)
 
 - Dockerfiles for reuse-tool are now in a separate subdirectory `docker`. (#499)
+
+- Updated SPDX license list to 3.17. (#513)
 
 ### Deprecated
 
