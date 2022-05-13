@@ -41,6 +41,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Recommendations for installation/run methods: package managers and pipx (#457)
 - Docker images for AArch64 (#478)
+- [Meson subprojects](https://mesonbuild.com/Subprojects.html) are now ignored
+  by default (#496)
 
 - More file types are recognised:
 
