@@ -41,6 +41,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Recommendations for installation/run methods: package managers and pipx (#457)
 - Docker images for AArch64 (#478)
+- Added the ability to ignore parts of a file when running `reuse lint`. Simply
+  add `REUSE-IgnoreStart` and `REUSE-IgnoreEnd` as comments and all lines
+  between the two will be ignored by the next run of `reuse lint` (#463).
 
 - More file types are recognised:
 

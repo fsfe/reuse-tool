@@ -1,7 +1,9 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
+# SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -32,6 +34,9 @@ from ._licenses import ALL_NON_DEPRECATED_MAP
 
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
+
+REUSE_IGNORE_START = "REUSE-IgnoreStart"
+REUSE_IGNORE_END = "REUSE-IgnoreEnd"
 
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
@@ -256,6 +261,7 @@ def extract_spdx_info(text: str) -> SpdxInfo:
     :raises ExpressionError: if an SPDX expression could not be parsed
     :raises ParseError: if an SPDX expression could not be parsed
     """
+    text = filter_ignore_block(text)
     expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
     expressions = set()
     copyright_matches = set()
@@ -277,6 +283,30 @@ def extract_spdx_info(text: str) -> SpdxInfo:
                 break
 
     return SpdxInfo(expressions, copyright_matches)
+
+
+def filter_ignore_block(text: str) -> str:
+    """Filter out blocks beginning with REUSE_IGNORE_START and ending with
+    REUSE_IGNORE_END to remove lines that should not be treated as copyright and
+    licensing information.
+    """
+    ignore_start = None
+    ignore_end = None
+    if REUSE_IGNORE_START in text:
+        ignore_start = text.index(REUSE_IGNORE_START)
+    if REUSE_IGNORE_END in text:
+        ignore_end = text.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
+    if not ignore_start:
+        return text
+    if not ignore_end:
+        return text[:ignore_start]
+    if ignore_end > ignore_start:
+        return text[:ignore_start] + filter_ignore_block(text[ignore_end:])
+    rest = text[ignore_start + len(REUSE_IGNORE_START) :]
+    if REUSE_IGNORE_END in rest:
+        ignore_end = rest.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
+        return text[:ignore_start] + filter_ignore_block(rest[ignore_end:])
+    return text[:ignore_start]
 
 
 def contains_spdx_info(text: str) -> bool:

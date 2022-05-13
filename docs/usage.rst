@@ -328,3 +328,53 @@ are the methods:
 
 If a file is found that does not have copyright and/or license information
 associated with it, then the project is not compliant.
+
+Ignoring parts of a file
+------------------------
+
+You can easily ignore parts of a file that will always cause problems for
+``reuse lint``. Suppose you have the following bash script:
+
+.. code:: bash
+
+   #!/usr/bin/env bash
+   # SPDX-FileCopyrightText: 2021 John Doe
+   #
+   # SPDX-License-Identifier: CC0-1.0
+
+   echo "SPDX-FileCopyrightText: $(date +'%Y') Jane Doe" > file.txt
+   echo "SPDX-License-Identifier: MIT" > file.txt
+
+   exit 0
+
+This will lead to the following error message despite the file having the
+correct licensing info in the header:
+
+.. code:: text
+
+  $ reuse lint
+  reuse._util - ERROR - Could not parse 'MIT" > file.txt'
+  reuse.project - ERROR - 'foobar.sh' holds an SPDX expression that cannot be parsed, skipping the file
+  # MISSING COPYRIGHT AND LICENSING INFORMATION
+
+  The following files have no copyright and licensing information:
+  * foobar.sh
+  [...]
+
+To avoid this error message, you can simply amend the file as follows:
+
+.. code:: bash
+
+  #!/usr/bin/env bash
+  # SPDX-FileCopyrightText: 2021 John Doe
+  #
+  # SPDX-License-Identifier: CC0-1.0
+
+  # REUSE-IgnoreStart
+  echo "SPDX-FileCopyrightText: $(date +'%Y') Jane Doe" > file.txt
+  echo "SPDX-License-Identifier: MIT" > file.txt
+  # REUSE-IgnoreEnd
+
+  exit 0
+
+Now, `reuse lint` will not report any problems with this file anymore.

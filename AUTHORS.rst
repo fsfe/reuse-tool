@@ -50,6 +50,8 @@ Contributors
 
 - Nico Rikken <nico.rikken@fsfe.org>
 
+- Florian Snow <florian@familysnow.net>
+
 Translators
 -----------
 
