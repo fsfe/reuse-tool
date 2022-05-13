@@ -44,6 +44,8 @@ The versions follow [semantic versioning](https://semver.org).
 - Added the ability to ignore parts of a file when running `reuse lint`. Simply
   add `REUSE-IgnoreStart` and `REUSE-IgnoreEnd` as comments and all lines
   between the two will be ignored by the next run of `reuse lint` (#463).
+- [Meson subprojects](https://mesonbuild.com/Subprojects.html) are now ignored
+  by default (#496)
 
 - More file types are recognised:
 

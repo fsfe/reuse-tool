@@ -74,6 +74,11 @@ def parser() -> argparse.ArgumentParser:
         help=_("do not skip over Git submodules"),
     )
     parser.add_argument(
+        "--include-meson-subprojects",
+        action="store_true",
+        help=_("do not skip over Meson subprojects"),
+    )
+    parser.add_argument(
         "--no-multiprocessing",
         action="store_true",
         help=_("do not use multiprocessing"),
@@ -263,6 +268,7 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
     else:
         project = create_project()
     project.include_submodules = parsed_args.include_submodules
+    project.include_meson_subprojects = parsed_args.include_meson_subprojects
 
     return parsed_args.func(parsed_args, project, out)
 

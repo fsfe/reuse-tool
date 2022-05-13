@@ -21,6 +21,7 @@ from license_expression import ExpressionError
 from . import (
     _IGNORE_DIR_PATTERNS,
     _IGNORE_FILE_PATTERNS,
+    _IGNORE_MESON_PARENT_DIR_PATTERNS,
     IdentifierNotFound,
     SpdxInfo,
 )
@@ -45,7 +46,12 @@ class Project:
     interactions.
     """
 
-    def __init__(self, root: PathLike, include_submodules: bool = False):
+    def __init__(
+        self,
+        root: PathLike,
+        include_submodules: bool = False,
+        include_meson_subprojects: bool = False,
+    ):
         self._root = Path(root)
         if not self._root.is_dir():
             raise NotADirectoryError(f"{self._root} is no valid path")
@@ -67,6 +73,12 @@ class Project:
         # Use '0' as None, because None is a valid value...
         self._copyright_val = 0
         self.include_submodules = include_submodules
+
+        meson_build_path = self._root / "meson.build"
+        uses_meson = meson_build_path.is_file()
+        self.include_meson_subprojects = (
+            include_meson_subprojects and uses_meson
+        )
 
     def all_files(self, directory: PathLike = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
@@ -174,6 +186,8 @@ class Project:
     def _is_path_ignored(self, path: Path) -> bool:
         """Is *path* ignored by some mechanism?"""
         name = path.name
+        parent_parts = path.parent.parts
+        parent_dir = parent_parts[-1] if len(parent_parts) > 0 else ""
         if path.is_file():
             for pattern in _IGNORE_FILE_PATTERNS:
                 if pattern.match(name):
@@ -182,6 +196,10 @@ class Project:
             for pattern in _IGNORE_DIR_PATTERNS:
                 if pattern.match(name):
                     return True
+            if not self.include_meson_subprojects:
+                for pattern in _IGNORE_MESON_PARENT_DIR_PATTERNS:
+                    if pattern.match(parent_dir):
+                        return True
 
         if self.vcs_strategy.is_ignored(path):
             return True
