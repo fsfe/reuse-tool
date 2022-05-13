@@ -59,6 +59,10 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Ignore all SPDX files with their typical formats and extensions (#494).
 
+- Add support for merging copyright lines based on copyright statement,
+  transforming multiple lines with a single year into a single line with a
+  range. (#328)
+
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed

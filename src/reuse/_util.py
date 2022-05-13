@@ -20,7 +20,7 @@ from gettext import gettext as _
 from hashlib import sha1
 from os import PathLike
 from pathlib import Path
-from typing import BinaryIO, List, Optional
+from typing import BinaryIO, List, Optional, Set
 
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
@@ -51,9 +51,21 @@ _IDENTIFIER_PATTERN = re.compile(
     r"SPDX" "-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
 _COPYRIGHT_PATTERNS = [
-    re.compile(r"(SPDX" "-FileCopyrightText:[ \t]+.*?)" + _END_PATTERN),
-    re.compile(r"(Copyright .*?)" + _END_PATTERN),
-    re.compile(r"(© .*?)" + _END_PATTERN),
+    re.compile(
+        r"(?P<copyright>(?P<prefix>SPDX-FileCopyrightText:)\s+"
+        r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
+        r"(?P<statement>.*)?)" + _END_PATTERN
+    ),
+    re.compile(
+        r"(?P<copyright>(?P<prefix>Copyright(\s\([cC]\))?)\s+"
+        r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
+        r"(?P<statement>.*)?)" + _END_PATTERN
+    ),
+    re.compile(
+        r"(?P<copyright>(?P<prefix>©)\s+"
+        r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
+        r"(?P<statement>.*)?)" + _END_PATTERN
+    ),
 ]
 
 _COPYRIGHT_STYLES = {
@@ -175,6 +187,69 @@ def _copyright_from_dep5(path: PathLike, dep5_copyright: Copyright) -> SpdxInfo:
     )
 
 
+def _parse_copyright_year(year: str) -> list:
+    """Parse copyright years and return list."""
+    if not year:
+        ret = []
+    if re.match(r"\d{4}$", year):
+        ret = [int(year)]
+    if re.match(r"\d{4} - \d{4}$", year):
+        ret = [int(year[:4]), int(year[-4:])]
+    return ret
+
+
+def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
+    """Parse all copyright lines and merge identical statements making years
+    into a range.
+    If a same statement uses multiple prefixes, use only the most frequent one.
+    """
+    copyright_in = []
+    for line in copyright_lines:
+        for pattern in _COPYRIGHT_PATTERNS:
+            match = pattern.search(line)
+            if match is not None:
+                copyright_in.append(
+                    {
+                        "statement": match.groupdict()["statement"],
+                        "year": _parse_copyright_year(
+                            match.groupdict()["year"]
+                        ),
+                        "prefix": match.groupdict()["prefix"],
+                    }
+                )
+
+    copyright_out = []
+    for statement in {item["statement"] for item in copyright_in}:
+        copyright_list = [
+            item for item in copyright_in if item["statement"] == statement
+        ]
+        prefixes = [item["prefix"] for item in copyright_list]
+
+        # Get the style of the most common prefix
+        prefix = max(set(prefixes), key=prefixes.count)
+        style = "spdx"
+        # pylint: disable=consider-using-dict-items
+        for sty in _COPYRIGHT_STYLES:
+            if prefix == _COPYRIGHT_STYLES[sty]:
+                style = sty
+                break
+
+        # get year range if any
+        years = []
+        for copy in copyright_list:
+            years += copy["year"]
+
+        if len(years) == 0:
+            year = None
+        elif min(years) == max(years):
+            year = min(years)
+        else:
+            year = f"{min(years)} - {max(years)}"
+
+        copyright_out.append(make_copyright_line(statement, year, style))
+    return copyright_out
+
+
 def extract_spdx_info(text: str) -> SpdxInfo:
     """Extract SPDX information from comments in a string.
 
@@ -198,7 +273,7 @@ def extract_spdx_info(text: str) -> SpdxInfo:
         for pattern in _COPYRIGHT_PATTERNS:
             match = pattern.search(line)
             if match is not None:
-                copyright_matches.add(match.groups()[0])
+                copyright_matches.add(match.groupdict()["copyright"])
                 break
 
     return SpdxInfo(expressions, copyright_matches)

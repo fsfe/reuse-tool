@@ -83,6 +83,47 @@ With the argument ``--copyright-style`` it is possible to change the default
 
 Shebangs are always preserved at the top of the file.
 
+Merging Statements
+------------------
+
+When the tool parses copyright headers, `reuse` can be configured to
+automatically merge copyright lines based on the statement element.
+This effectively transforms multiple lines with a single year into a single line
+with a range.
+
+Starting with the following header,
+
+.. code-block:: python
+
+   # SPDX-FileCopyrightText: 2016 Jane Doe
+   # SPDX-FileCopyrightText: 2018 John Doe
+   #
+   # SPDX-License-Identifier: GPL-2.0
+
+The standard tool options would produce the following
+
+.. code-block:: console
+
+   $ reuse addheader --year 2018 --license GPL-2.0 --copyright="Jane Doe" file.py
+
+.. code-block:: python
+
+   # SPDX-FileCopyrightText: 2016 Jane Doe
+   # SPDX-FileCopyrightText: 2018 John Doe
+   # SPDX-FileCopyrightText: 2018 Jane Doe
+   #
+   # SPDX-License-Identifier: GPL-2.0
+
+Running the same command with the `--merge-copyrights` option will instead
+produce the following
+
+.. code-block:: python
+
+   # SPDX-FileCopyrightText: 2016 - 2018 Jane Doe
+   # SPDX-FileCopyrightText: 2018 John Doe
+   #
+   # SPDX-License-Identifier: GPL-2.0
+
 Comment styles
 --------------
 
