@@ -73,6 +73,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Removed
 
+- `JsxCommentStyle` in favor of using `CCommentStyle` directly (see section
+  `Fixed`)
+
 ### Fixed
 
 - Better support for unary "+" operator in license identifiers. For example, if
