@@ -82,6 +82,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Removed
 
+- `JsxCommentStyle` in favor of using `CCommentStyle` directly (see section
+  `Fixed`)
+
 ### Fixed
 
 - Better support for unary "+" operator in license identifiers. For example, if
@@ -93,6 +96,10 @@ The versions follow [semantic versioning](https://semver.org).
   end. (#477)
 
 - Cleaned up internal string manipulation. (#477)
+
+- JSX (`.jxs` and `.tsx`) actually uses C comment syntax as JSX blocks never
+  stand at the beginning of the file where the licensing info needs to go.
+  (#406)
 
 ### Security
 
