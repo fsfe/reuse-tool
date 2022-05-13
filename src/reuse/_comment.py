@@ -362,14 +362,6 @@ class JinjaCommentStyle(CommentStyle):
     MULTI_LINE = ("{#", "", "#}")
 
 
-class JsxCommentStyle(CommentStyle):
-    """JSX comment style."""
-
-    _shorthand = "jsx"
-
-    MULTI_LINE = ("{/*", "", "*/}")
-
-
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
 
@@ -536,7 +528,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".jinja2": JinjaCommentStyle,
     ".js": CCommentStyle,
     ".json": UncommentableCommentStyle,
-    ".jsx": JsxCommentStyle,
+    ".jsx": CCommentStyle,
     ".jy": PythonCommentStyle,
     ".ksh": PythonCommentStyle,
     ".kt": CCommentStyle,
@@ -626,7 +618,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".toc": TexCommentStyle,
     ".toml": PythonCommentStyle,
     ".ts": CCommentStyle,
-    ".tsx": JsxCommentStyle,
+    ".tsx": CCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
     ".v": CCommentStyle,  # V-Lang source code
     ".vala": CCommentStyle,

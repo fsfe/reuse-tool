@@ -9,6 +9,7 @@ import logging
 import sys
 from gettext import gettext as _
 
+from . import _IGNORE_SPDX_PATTERNS
 from ._util import PathType
 from .project import Project
 from .report import ProjectReport
@@ -28,9 +29,17 @@ def run(args, project: Project, out=sys.stdout) -> int:
     with contextlib.ExitStack() as stack:
         if args.file:
             out = stack.enter_context(args.file.open("w", encoding="utf-8"))
-            if args.file.suffix != ".spdx":
+            if not any(
+                pattern.match(args.file.name)
+                for pattern in _IGNORE_SPDX_PATTERNS
+            ):
+                # pylint: disable=line-too-long
                 _LOGGER.warning(
-                    _("'{path}' does not end with .spdx").format(path=out.name)
+                    _(
+                        "'{path}' does not match a common SPDX file pattern. Find"
+                        " the suggested naming conventions here:"
+                        " https://spdx.github.io/spdx-spec/conformance/#44-standard-data-format-requirements"
+                    ).format(path=out.name)
                 )
 
         report = ProjectReport.generate(

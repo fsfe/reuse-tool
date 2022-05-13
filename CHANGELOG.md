@@ -41,6 +41,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Recommendations for installation/run methods: package managers and pipx (#457)
 - Docker images for AArch64 (#478)
+- Added the ability to ignore parts of a file when running `reuse lint`. Simply
+  add `REUSE-IgnoreStart` and `REUSE-IgnoreEnd` as comments and all lines
+  between the two will be ignored by the next run of `reuse lint` (#463).
 - [Meson subprojects](https://mesonbuild.com/Subprojects.html) are now ignored
   by default (#496)
 
@@ -58,6 +61,12 @@ The versions follow [semantic versioning](https://semver.org).
 - Preserve shebang for more script files:
 
   - V-Lang (#432)
+
+- Ignore all SPDX files with their typical formats and extensions (#494).
+
+- Add support for merging copyright lines based on copyright statement,
+  transforming multiple lines with a single year into a single line with a
+  range. (#328)
 
 ### Changed
 
@@ -78,6 +87,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Removed
 
+- `JsxCommentStyle` in favor of using `CCommentStyle` directly (see section
+  `Fixed`)
+
 ### Fixed
 
 - Better support for unary "+" operator in license identifiers. For example, if
@@ -89,6 +101,10 @@ The versions follow [semantic versioning](https://semver.org).
   end. (#477)
 
 - Cleaned up internal string manipulation. (#477)
+
+- JSX (`.jxs` and `.tsx`) actually uses C comment syntax as JSX blocks never
+  stand at the beginning of the file where the licensing info needs to go.
+  (#406)
 
 ### Security
 

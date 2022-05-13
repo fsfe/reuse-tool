@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -134,6 +136,193 @@ def test_extract_copyright_variations():
     for line in lines:
         assert line in result.copyright_lines
     assert len(lines) == len(result.copyright_lines)
+
+
+def test_extract_with_ignore_block():
+    """Ensure that the copyright and licensing information inside the ignore
+    block is actually ignored.
+    """
+    text = cleandoc(
+        """
+        SPDX-FileCopyrightText: 2019 Jane Doe
+        SPDX-License-Identifier: CC0-1.0
+        REUSE-IgnoreStart
+        SPDX-FileCopyrightText: 2019 John Doe
+        SPDX-License-Identifier: GPL-3.0-or-later
+        REUSE-IgnoreEnd
+        SPDX-FileCopyrightText: 2019 Eve
+        """
+    )
+    result = _util.extract_spdx_info(text)
+    assert len(result.copyright_lines) == 2
+    assert len(result.spdx_expressions) == 1
+
+
+def test_filter_ignore_block_with_comment_style():
+    """Test that the ignore block is properly removed if start and end markers
+    are in comment style.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        # REUSE-IgnoreStart
+        Ignored text
+        # REUSE-IgnoreEnd
+        Other relevant text
+        """
+    )
+    expected = "Relevant text\n# \nOther relevant text"
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_non_comment_style():
+    """Test that the ignore block is properly removed if start and end markers
+    are not comment style.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        REUSE-IgnoreStart
+        Ignored text
+        REUSE-IgnoreEnd
+        Other relevant text
+        """
+    )
+    expected = cleandoc(
+        """
+        Relevant text
+
+        Other relevant text
+        """
+    )
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_ignored_information_on_same_line():
+    """Test that the ignore block is properly removed if there is information to
+    be ignored on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        REUSE-IgnoreStart Copyright me
+        Ignored text
+        sdojfsdREUSE-IgnoreEnd
+        Other relevant text
+        """
+    )
+    expected = cleandoc(
+        """
+        Relevant text
+
+        Other relevant text
+        """
+    )
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_relevant_information_on_same_line():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant textREUSE-IgnoreStart
+        Ignored text
+        REUSE-IgnoreEndOther relevant text
+        """
+    )
+    expected = "Relevant textOther relevant text"
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_beginning_and_end_on_same_line_correct_order():  # pylint: disable=line-too-long
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant textREUSE-IgnoreStartIgnored textREUSE-IgnoreEndOther
+        relevant text
+        """
+    )
+    expected = cleandoc(
+        """
+        Relevant textOther
+        relevant text
+        """
+    )
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_beginning_and_end_on_same_line_wrong_order():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = "Relevant textREUSE-IgnoreEndOther relevant textREUSE-IgnoreStartIgnored text"  # pylint: disable=line-too-long
+    expected = "Relevant textREUSE-IgnoreEndOther relevant text"
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_without_end():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        REUSE-IgnoreStart
+        Ignored text
+        Other ignored text
+        """
+    )
+    expected = "Relevant text\n"
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
+
+
+def test_filter_ignore_block_with_multiple_ignore_blocks():
+    """Test that the ignore block is properly removed if it has relevant
+    information on the same line.
+    """
+    text = cleandoc(
+        """
+        Relevant text
+        REUSE-IgnoreStart
+        Ignored text
+        REUSE-IgnoreEnd
+        Other relevant text
+        REUSE-IgnoreStart
+        Other ignored text
+        REUSE-IgnoreEnd
+        Even more relevant text
+        """
+    )
+    expected = cleandoc(
+        """
+        Relevant text
+
+        Other relevant text
+
+        Even more relevant text
+        """
+    )
+
+    result = _util.filter_ignore_block(text)
+    assert result == expected
 
 
 def test_copyright_from_dep5(dep5_copyright):
