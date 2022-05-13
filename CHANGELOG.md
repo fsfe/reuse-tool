@@ -61,7 +61,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Add support for merging copyright lines based on copyright statement,
   transforming multiple lines with a single year into a single line with a
-  range.
+  range. (#328)
 
 ### Changed
 
