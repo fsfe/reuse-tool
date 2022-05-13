@@ -53,11 +53,20 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r"^\.gitkeep$"),
     re.compile(r"^\.hgtags$"),
     re.compile(r".*\.license$"),
-    re.compile(r".*\.spdx$"),
     # Workaround for https://github.com/fsfe/reuse-tool/issues/229
     re.compile(r"^CAL-1.0(-Combined-Work-Exception)?(\..+)?$"),
     re.compile(r"^SHL-2.1(\..+)?$"),
 ]
+
+_IGNORE_SPDX_PATTERNS = [
+    # SPDX files from
+    # https://spdx.github.io/spdx-spec/conformance/#44-standard-data-format-requirements
+    re.compile(r".*\.spdx$"),
+    re.compile(r".*\.spdx.(rdf|json|xml|ya?ml)$"),
+]
+
+# Combine SPDX patterns into file patterns to ease default ignore usage
+_IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
 #: Simple structure for holding SPDX information.
 #:
