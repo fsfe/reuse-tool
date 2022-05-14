@@ -78,9 +78,6 @@ _COPYRIGHT_STYLES = {
     "spdx-symbol": "SPDX-FileCopyrightText: ©",
     "string": "Copyright",
     "string-c": "Copyright (C)",
-    "string-c-lower": "Copyright (c)",
-    "string-c-no-space": "Copyright(C)",
-    "string-c-lower-no-space": "Copyright(c)",
     "string-symbol": "Copyright ©",
     "symbol": "©",
 }
@@ -333,8 +330,7 @@ def make_copyright_line(
     if copyright_prefix is None:
         raise RuntimeError(
             "Unexpected copyright style: Need 'spdx', 'spdx-symbol', 'string', "
-            "'string-c', 'string-c-lower', 'string-c-no-space', "
-            "'straing-c-lower-no-space', 'string-symbol' or 'symbol'"
+            "'string-c', 'string-symbol' or 'symbol'"
         )
 
     for pattern in _COPYRIGHT_PATTERNS:
