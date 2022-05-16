@@ -79,6 +79,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Updated SPDX license list to 3.17. (#513)
 
+- The copyright detection mechanism now silently accepts the following strings:
+  `Copyright(c)` and `Copyright(C)`. (#440)
+
 ### Deprecated
 
 - Deprecated `--explicit-license` in favour of `--force-dot-license`.
