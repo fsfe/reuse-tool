@@ -35,17 +35,41 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 1.0.0 - 2022-05-19
+
+A major release! Do not worry, no breaking changes but a development team
+(@carmenbianca, @floriansnow, @linozen, @mxmehl and @nicorikken) that is
+confident enough to declare the REUSE helper tool stable, and a bunch of
+long-awaited features!
+
+Apart from smaller changes under the hood and typical maintenance tasks, the
+main additions are new flags to the `addheader` subcommand that ease recursive
+and automatic operations, the ability to ignore areas of a file that contain
+strings that may falsely be detected as copyright or license statements, and the
+option to merge copyright lines. The tool now also has better handling of some
+edge cases with copyright and license identifiers.
+
+We would like to thank the many contributors to this release, among them
+@ajinkyapatil8190, @aspiers, @ferdnyc, @Gri-ffin, @hexagonrecursion, @hoijui,
+@Jakelyst, @Liambeguin, @rex4539, @robinkrahl, @rpavlik, @siiptuo, @thbde and
+@ventosus.
 
 ### Added
 
+- Extend [tool documentation](https://reuse.readthedocs.io) with scripts to help
+  using this tool and automating some steps that are not built into the tool
+  itself. (#500)
+
 - Recommendations for installation/run methods: package managers and pipx (#457)
+
 - Docker images for AArch64 (#478)
+
 - Added the ability to ignore parts of a file when running `reuse lint`. Simply
   add `REUSE-IgnoreStart` and `REUSE-IgnoreEnd` as comments and all lines
-  between the two will be ignored by the next run of `reuse lint` (#463).
+  between the two will be ignored by the next run of `reuse lint`. (#463)
+
 - [Meson subprojects](https://mesonbuild.com/Subprojects.html) are now ignored
-  by default (#496)
+  by default. (#496)
 
 - More file types are recognised:
 
@@ -54,15 +78,15 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Added `--skip-existing` flag to `addheader` in order to skip files that
   already contain SPDX information. This may be useful for only adding SPDX
-  information to newly created files.
+  information to newly created files. (#480)
 
-- Added `--recursive` flag to `addheader`.
+- Added `--recursive` flag to `addheader`. (#469)
 
 - Preserve shebang for more script files:
 
   - V-Lang (#432)
 
-- Ignore all SPDX files with their typical formats and extensions (#494).
+- Ignore all SPDX files with their typical formats and extensions. (#494)
 
 - Add support for merging copyright lines based on copyright statement,
   transforming multiple lines with a single year into a single line with a
@@ -71,7 +95,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Changed
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
-  with Python 3.12 (#451)
+  with Python 3.12. (#451)
 
 - `addheader --explicit-license` renamed to `--force-dot-license`. (#476)
 
@@ -91,7 +115,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Removed
 
 - `JsxCommentStyle` in favor of using `CCommentStyle` directly (see section
-  `Fixed`)
+  `Fixed`). (#406)
 
 ### Fixed
 
@@ -108,8 +132,6 @@ The versions follow [semantic versioning](https://semver.org).
 - JSX (`.jxs` and `.tsx`) actually uses C comment syntax as JSX blocks never
   stand at the beginning of the file where the licensing info needs to go.
   (#406)
-
-### Security
 
 ## 0.14.0 - 2021-12-27
 
