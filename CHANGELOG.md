@@ -35,6 +35,22 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+### Changed
+
+- Updated PyPI development status to 'production/stable' (#381)
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 1.0.0 - 2022-05-19
 
 A major release! Do not worry, no breaking changes but a development team

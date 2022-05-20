@@ -148,7 +148,7 @@ if __name__ == "__main__":
         setup_requires=setup_requirements,
         python_requires=">=3.6",
         classifiers=[
-            "Development Status :: 3 - Alpha",
+            "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
             "License :: OSI Approved :: "
             + "GNU General Public License v3 or later (GPLv3+)",
