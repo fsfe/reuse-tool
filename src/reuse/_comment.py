@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
-# SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
+# SPDX-FileCopyrightText: 2021-2022 Alliander N.V. <https://alliander.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-FileCopyrightText: 2021 Matija Šuklje <matija@suklje.name>
@@ -532,6 +532,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".jy": PythonCommentStyle,
     ".ksh": PythonCommentStyle,
     ".kt": CCommentStyle,
+    ".kts": CCommentStyle,
     ".l": LispCommentStyle,
     ".latex": TexCommentStyle,
     ".license": EmptyCommentStyle,
