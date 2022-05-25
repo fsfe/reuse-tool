@@ -53,6 +53,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- Sanitize xargs input in scripts documentation
+
 ### Security
 
 ## 1.0.0 - 2022-05-19

@@ -183,7 +183,7 @@ These elements can be combined into a single command:
 
 .. code-block:: console
 
-  $ git diff --name-only --cached | xargs reuse addheader -c "$(git config --get user.name) <$(git config --get user.email)>"
+  $ git diff --name-only --cached | xargs -I {} reuse addheader -c "$(git config --get user.name) <$(git config --get user.email)>" "{}"
 
 .. SPDX-SnippetEnd
 
