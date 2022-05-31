@@ -42,6 +42,7 @@ The versions follow [semantic versioning](https://semver.org).
 - More file types are recognised:
 
   - Kotlin script (`.kts`)
+  - Android Interface Definition Language (`.aidl`)
 
 ### Changed
 
