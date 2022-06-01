@@ -100,10 +100,10 @@ def test_lint_meson_subprojects(fake_repository, stringio):
     (fake_repository / "meson.build").write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2022 Jane Doe
-            spdx-License-Identifier: CC0-1.0
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     subprojects_dir = fake_repository / "subprojects"
     subprojects_dir.mkdir()
@@ -113,10 +113,10 @@ def test_lint_meson_subprojects(fake_repository, stringio):
     (subprojects_dir / "foo.wrap").write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2022 Jane Doe
-            spdx-License-Identifier: CC0-1.0
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     # ./subprojects/libfoo/foo.c misses license but is ignored
     (libfoo_dir / "foo.c").write_text("foo")
@@ -131,10 +131,10 @@ def test_lint_meson_subprojects_fail(fake_repository, stringio):
     (fake_repository / "meson.build").write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2022 Jane Doe
-            spdx-License-Identifier: CC0-1.0
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     subprojects_dir = fake_repository / "subprojects"
     subprojects_dir.mkdir()
@@ -151,10 +151,10 @@ def test_lint_meson_subprojects_included_fail(fake_repository, stringio):
     (fake_repository / "meson.build").write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2022 Jane Doe
-            spdx-License-Identifier: CC0-1.0
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     libfoo_dir = fake_repository / "subprojects/libfoo"
     libfoo_dir.mkdir(parents=True)
@@ -171,10 +171,10 @@ def test_lint_meson_subprojects_included(fake_repository, stringio):
     (fake_repository / "meson.build").write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2022 Jane Doe
-            spdx-License-Identifier: CC0-1.0
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     libfoo_dir = fake_repository / "subprojects/libfoo"
     libfoo_dir.mkdir(parents=True)
@@ -182,10 +182,10 @@ def test_lint_meson_subprojects_included(fake_repository, stringio):
     (libfoo_dir / "foo.c").write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2022 Jane Doe
-            spdx-License-Identifier: GPL-3.0-or-later
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: GPL-3.0-or-later
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     result = main(["--include-meson-subprojects", "lint"], out=stringio)
 

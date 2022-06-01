@@ -35,13 +35,13 @@ def test_addheader_merge_copyrights_simple(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            # spdx-FileCopyrightText: 2016 Mary Sue
+            # SPDX-FileCopyrightText: 2016 Mary Sue
             #
-            # spdx-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
             """
-        ).replace("spdx", "SPDX")
+        )
     )
 
     result = main(
@@ -64,13 +64,13 @@ def test_addheader_merge_copyrights_simple(fake_repository, stringio):
         simple_file.read_text()
         == cleandoc(
             """
-            # spdx-FileCopyrightText: 2016 - 2018 Mary Sue
+            # SPDX-FileCopyrightText: 2016 - 2018 Mary Sue
             #
-            # spdx-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
             """
-        ).replace("spdx", "SPDX")
+        )
     )
 
 
@@ -124,15 +124,15 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
             # Copyright (C) 2017 Mary Sue
             # Copyright (C) 2018 Mary Sue
             # Copyright (C) 2019 Mary Sue
-            # spdx-FileCopyrightText: 2010 Mary Sue
-            # spdx-FileCopyrightText: 2011 Mary Sue
-            # spdx-FileCopyrightText: 2012 Mary Sue
+            # SPDX-FileCopyrightText: 2010 Mary Sue
+            # SPDX-FileCopyrightText: 2011 Mary Sue
+            # SPDX-FileCopyrightText: 2012 Mary Sue
             #
-            # spdx-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
             """
-        ).replace("spdx", "SPDX")
+        )
     )
 
     result = main(
@@ -157,9 +157,9 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
             """
             # Copyright (C) 2010 - 2019 Mary Sue
             #
-            # spdx-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
             """
-        ).replace("spdx", "SPDX")
+        )
     )

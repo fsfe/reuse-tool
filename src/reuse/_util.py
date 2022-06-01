@@ -53,7 +53,7 @@ _END_PATTERN = r"{}$".format(  # pylint: disable=consider-using-f-string
     )
 )
 _IDENTIFIER_PATTERN = re.compile(
-    r"SPDX" "-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
+    r"SPDX-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
 _COPYRIGHT_PATTERNS = [
     re.compile(

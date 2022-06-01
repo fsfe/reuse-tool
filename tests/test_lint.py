@@ -82,10 +82,8 @@ def test_lint_deprecated(fake_repository, stringio):
         fake_repository / "LICENSES/GPL-3.0.txt",
     )
     (fake_repository / "foo.py").write_text(
-        "SPDX"
-        "-License-Identifier: GPL-3.0\n"
-        "SPDX"
-        "-FileCopyrightText: Jane Doe"
+        "SPDX-License-Identifier: GPL-3.0\n"
+        "SPDX-FileCopyrightText: Jane Doe"
     )
 
     project = Project(fake_repository)
@@ -99,7 +97,7 @@ def test_lint_deprecated(fake_repository, stringio):
 def test_lint_bad_license(fake_repository, stringio):
     """A bad license is detected."""
     (fake_repository / "foo.py").write_text(
-        "SPDX" "-License-Identifier: bad-license"
+        "SPDX-License-Identifier: bad-license"
     )
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
@@ -112,7 +110,7 @@ def test_lint_bad_license(fake_repository, stringio):
 
 def test_lint_missing_licenses(fake_repository, stringio):
     """A missing license is detected."""
-    (fake_repository / "foo.py").write_text("SPDX" "-License-Identifier: MIT")
+    (fake_repository / "foo.py").write_text("SPDX-License-Identifier: MIT")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
     result = lint_missing_licenses(report, out=stringio)

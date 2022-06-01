@@ -100,11 +100,11 @@ def test_all_files_symlinks(empty_directory):
     (empty_directory / "blob.license").write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: Jane Doe
+            SPDX-FileCopyrightText: Jane Doe
 
-            spdx-License-Identifier: GPL-3.0-or-later
+            SPDX-License-Identifier: GPL-3.0-or-later
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     (empty_directory / "symlink").symlink_to("blob")
     project = Project(empty_directory)
