@@ -44,6 +44,7 @@ RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
 # REUSE-IgnoreStart
 
+
 def pytest_configure():
     """Called after command line options have been parsed and all plugins and
     initial conftest files been loaded.
@@ -351,5 +352,6 @@ def mock_date_today(monkeypatch):
     date = create_autospec(datetime.date)
     date.today.return_value = datetime.date(2018, 1, 1)
     monkeypatch.setattr(datetime, "date", date)
+
 
 # REUSE-IgnoreEnd

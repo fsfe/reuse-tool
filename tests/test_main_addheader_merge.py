@@ -9,8 +9,8 @@ from inspect import cleandoc
 
 from reuse._main import main
 
-
 # REUSE-IgnoreStart
+
 
 def test_addheader_merge_copyrights_simple(fake_repository, stringio):
     """Add multiple headers to a file with merge copyrights."""
@@ -33,17 +33,14 @@ def test_addheader_merge_copyrights_simple(fake_repository, stringio):
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
+    assert simple_file.read_text() == cleandoc(
+        """
             # SPDX-FileCopyrightText: 2016 Mary Sue
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
             """
-        )
     )
 
     result = main(
@@ -62,17 +59,14 @@ def test_addheader_merge_copyrights_simple(fake_repository, stringio):
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
+    assert simple_file.read_text() == cleandoc(
+        """
             # SPDX-FileCopyrightText: 2016 - 2018 Mary Sue
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
             """
-        )
     )
 
 
@@ -117,10 +111,8 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
 
         assert result == 0
 
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
+    assert simple_file.read_text() == cleandoc(
+        """
             # Copyright (C) 2015 Mary Sue
             # Copyright (C) 2016 Mary Sue
             # Copyright (C) 2017 Mary Sue
@@ -134,7 +126,6 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
 
             pass
             """
-        )
     )
 
     result = main(
@@ -153,17 +144,15 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
     )
 
     assert result == 0
-    assert (
-        simple_file.read_text()
-        == cleandoc(
-            """
+    assert simple_file.read_text() == cleandoc(
+        """
             # Copyright (C) 2010 - 2019 Mary Sue
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
             """
-        )
     )
+
 
 # REUSE-IgnoreEnd

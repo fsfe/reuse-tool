@@ -35,6 +35,7 @@ posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 # REUSE-IgnoreStart
 
+
 def test_lint_simple(fake_repository):
     """Extremely simple test for lint."""
     project = Project(fake_repository)
@@ -84,8 +85,7 @@ def test_lint_deprecated(fake_repository, stringio):
         fake_repository / "LICENSES/GPL-3.0.txt",
     )
     (fake_repository / "foo.py").write_text(
-        "SPDX-License-Identifier: GPL-3.0\n"
-        "SPDX-FileCopyrightText: Jane Doe"
+        "SPDX-License-Identifier: GPL-3.0\n" "SPDX-FileCopyrightText: Jane Doe"
     )
 
     project = Project(fake_repository)
@@ -155,5 +155,6 @@ def test_lint_files_without_copyright_and_licensing(fake_repository, stringio):
 
     assert "foo.py" in str(list(result)[0])
     assert "foo.py" in stringio.getvalue()
+
 
 # REUSE-IgnoreEnd

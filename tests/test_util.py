@@ -40,6 +40,7 @@ posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 # REUSE-IgnoreStart
 
+
 def test_extract_expression():
     """Parse various expressions."""
     expressions = ["GPL-3.0+", "GPL-3.0 AND CC0-1.0", "nonsense"]
@@ -336,10 +337,7 @@ def test_copyright_from_dep5(dep5_copyright):
 
 def test_make_copyright_line_simple():
     """Given a simple statement, make it a copyright line."""
-    assert (
-        _util.make_copyright_line("hello")
-        == "SPDX-FileCopyrightText: hello"
-    )
+    assert _util.make_copyright_line("hello") == "SPDX-FileCopyrightText: hello"
 
 
 def test_make_copyright_line_year():
@@ -609,5 +607,6 @@ def test_detect_line_endings_linux():
 def test_detect_line_endings_no_newlines():
     """Given a file without line endings, default to os.linesep."""
     assert _util.detect_line_endings("hello world") == os.linesep
+
 
 # REUSE-IgnoreEnd

@@ -27,6 +27,7 @@ posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 # REUSE-IgnoreStart
 
+
 def test_generate_file_report_file_simple(fake_repository):
     """An extremely simple generate test, just to see if the function doesn't
     crash.
@@ -280,5 +281,6 @@ def test_bill_of_materials(fake_repository, multiprocessing):
     report = ProjectReport.generate(project, multiprocessing=multiprocessing)
     # TODO: Actually do something
     report.bill_of_materials()
+
 
 # REUSE-IgnoreEnd

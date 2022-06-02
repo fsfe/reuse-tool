@@ -16,7 +16,6 @@ import pytest
 
 from reuse._main import main
 
-
 # REUSE-IgnoreStart
 
 # TODO: Replace this test with a monkeypatched test
@@ -976,9 +975,8 @@ def test_addheader_line_endings(
     simple_file.write_bytes(
         line_ending.encode("utf-8").join([b"hello", b"world"])
     )
-    expected = (
-        cleandoc(
-            """
+    expected = cleandoc(
+        """
             # SPDX-FileCopyrightText: 2018 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
@@ -986,8 +984,7 @@ def test_addheader_line_endings(
             hello
             world
             """
-        ).replace("\n", line_ending)
-    )
+    ).replace("\n", line_ending)
 
     result = main(
         [
@@ -1091,10 +1088,7 @@ def test_addheader_recursive(fake_repository, stringio, mock_date_today):
 
     for path in (fake_repository / "src").glob("src/**"):
         content = path.read_text()
-        assert (
-            "SPDX-FileCopyrightText: 2018 Joe Somebody"
-            in content
-        )
+        assert "SPDX-FileCopyrightText: 2018 Joe Somebody" in content
 
     assert "Joe Somebody" not in (fake_repository / "bar/bar.py").read_text()
     assert result == 0
@@ -1145,5 +1139,6 @@ def test_addheader_recursive_contains_unrecognised(
         )
 
     assert "Jane Doe" not in (fake_repository / "baz/foo.py").read_text()
+
 
 # REUSE-IgnoreEnd

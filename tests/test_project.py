@@ -30,6 +30,7 @@ RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
 # REUSE-IgnoreStart
 
+
 def test_project_not_a_directory(empty_directory):
     """Cannot create a Project without a valid directory."""
     (empty_directory / "foo.py").write_text("foo")
@@ -377,5 +378,6 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     assert project.relative_from_root(
         Path(f"{project.root.name}/src/hello.py")
     ) == Path("src/hello.py")
+
 
 # REUSE-IgnoreEnd
