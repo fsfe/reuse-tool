@@ -15,6 +15,8 @@ from reuse import SpdxInfo
 from reuse._comment import CCommentStyle, CommentCreateError
 from reuse.header import MissingSpdxInfo, create_header, find_and_replace_header
 
+# REUSE-IgnoreStart
+
 def test_create_header_simple():
     """Create a super simple header."""
     spdx_info = SpdxInfo(
@@ -407,3 +409,5 @@ def test_find_and_replace_preserve_newline():
     )
 
     assert find_and_replace_header(text, spdx_info) == text
+
+# REUSE-IgnoreEnd

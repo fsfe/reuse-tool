@@ -74,12 +74,14 @@ _COPYRIGHT_PATTERNS = [
 ]
 
 _COPYRIGHT_STYLES = {
+    # REUSE-IgnoreStart
     "spdx": "SPDX-FileCopyrightText:",
     "spdx-symbol": "SPDX-FileCopyrightText: ©",
     "string": "Copyright",
     "string-c": "Copyright (C)",
     "string-symbol": "Copyright ©",
     "symbol": "©",
+    # REUSE-IgnoreEnd
 }
 
 # Amount of bytes that we assume will be big enough to contain the entire

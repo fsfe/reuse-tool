@@ -38,6 +38,8 @@ no_root = pytest.mark.xfail(is_root, reason="fails when user is root")
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
+# REUSE-IgnoreStart
+
 def test_extract_expression():
     """Parse various expressions."""
     expressions = ["GPL-3.0+", "GPL-3.0 AND CC0-1.0", "nonsense"]
@@ -607,3 +609,5 @@ def test_detect_line_endings_linux():
 def test_detect_line_endings_no_newlines():
     """Given a file without line endings, default to os.linesep."""
     assert _util.detect_line_endings("hello world") == os.linesep
+
+# REUSE-IgnoreEnd

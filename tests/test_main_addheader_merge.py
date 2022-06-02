@@ -10,6 +10,8 @@ from inspect import cleandoc
 from reuse._main import main
 
 
+# REUSE-IgnoreStart
+
 def test_addheader_merge_copyrights_simple(fake_repository, stringio):
     """Add multiple headers to a file with merge copyrights."""
     simple_file = fake_repository / "foo.py"
@@ -163,3 +165,5 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
             """
         )
     )
+
+# REUSE-IgnoreEnd

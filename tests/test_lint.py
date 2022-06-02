@@ -33,6 +33,8 @@ cpython = pytest.mark.skipif(
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
+# REUSE-IgnoreStart
+
 def test_lint_simple(fake_repository):
     """Extremely simple test for lint."""
     project = Project(fake_repository)
@@ -153,3 +155,5 @@ def test_lint_files_without_copyright_and_licensing(fake_repository, stringio):
 
     assert "foo.py" in str(list(result)[0])
     assert "foo.py" in stringio.getvalue()
+
+# REUSE-IgnoreEnd

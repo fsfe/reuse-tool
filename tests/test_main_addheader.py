@@ -17,6 +17,8 @@ import pytest
 from reuse._main import main
 
 
+# REUSE-IgnoreStart
+
 # TODO: Replace this test with a monkeypatched test
 def test_addheader_simple(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one."""
@@ -1143,3 +1145,5 @@ def test_addheader_recursive_contains_unrecognised(
         )
 
     assert "Jane Doe" not in (fake_repository / "baz/foo.py").read_text()
+
+# REUSE-IgnoreEnd
