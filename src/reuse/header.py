@@ -7,6 +7,7 @@
 # SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Yaman Qalieh
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -295,6 +296,7 @@ def find_and_replace_header(
         prefix
         for com_style, prefix in (
             (CCommentStyle, "#!"),  # e.g. V-Lang
+            (CCommentStyle, "<?php"),  # e.g. PHP
             (HtmlCommentStyle, "<?xml"),  # e.g. XML/XHTML
             (PythonCommentStyle, "#!"),  # e.g. Shell, Python
         )

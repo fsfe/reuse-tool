@@ -54,6 +54,8 @@ Contributors
 
 - Linus Sehn <linus@fsfe.org>
 
+- Yaman Qalieh
+
 Translators
 -----------
 
