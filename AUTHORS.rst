@@ -52,6 +52,8 @@ Contributors
 
 - Florian Snow <florian@familysnow.net>
 
+- Linus Sehn <linus@fsfe.org>
+
 Translators
 -----------
 
