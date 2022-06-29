@@ -4,7 +4,9 @@
 
 """Entry module for reuse."""
 
+import sys
+
 if __name__ == "__main__":
     from ._main import main
 
-    main()
+    sys.exit(main())
