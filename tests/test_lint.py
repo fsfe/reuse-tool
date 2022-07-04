@@ -85,7 +85,7 @@ def test_lint_deprecated(fake_repository, stringio):
         fake_repository / "LICENSES/GPL-3.0.txt",
     )
     (fake_repository / "foo.py").write_text(
-        "SPDX-License-Identifier: GPL-3.0\n" "SPDX-FileCopyrightText: Jane Doe"
+        "SPDX-License-Identifier: GPL-3.0\nSPDX-FileCopyrightText: Jane Doe"
     )
 
     project = Project(fake_repository)
