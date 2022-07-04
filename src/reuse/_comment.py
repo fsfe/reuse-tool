@@ -564,6 +564,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ots": UncommentableCommentStyle,
     ".ott": UncommentableCommentStyle,
     ".pdf": UncommentableCommentStyle,
+    ".pem": UncommentableCommentStyle,
     ".php": CCommentStyle,
     ".php3": CCommentStyle,
     ".php4": CCommentStyle,
