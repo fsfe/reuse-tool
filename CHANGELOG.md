@@ -47,6 +47,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Changed
 
 - Updated PyPI development status to 'production/stable' (#381)
+- Updated versions of pre-commit check packages
 
 ### Deprecated
 
