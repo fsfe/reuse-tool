@@ -141,6 +141,15 @@ def parser() -> argparse.ArgumentParser:
         ),
     )
 
+    # TODO: Display a warning when using this deprecated function.
+    add_command(
+        subparsers,
+        "addheader",
+        header.add_arguments,
+        header.run,
+        help=argparse.SUPPRESS,
+    )
+
     add_command(
         subparsers,
         "download",

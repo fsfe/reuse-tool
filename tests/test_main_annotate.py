@@ -49,6 +49,36 @@ def test_annotate_simple(fake_repository, stringio, mock_date_today):
     assert simple_file.read_text() == expected
 
 
+def test_addheader_simple(fake_repository, stringio, mock_date_today):
+    """Add a header to a file that does not have one."""
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: 2018 Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    )
+
+    result = main(
+        [
+            "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
 def test_annotate_year(fake_repository, stringio):
     """Add a header to a file with a custom year."""
     simple_file = fake_repository / "foo.py"
