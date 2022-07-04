@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -66,6 +67,51 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
     result = main(
         [
             "addheader",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
+def test_annotate_simple_no_replace(fake_repository, stringio, mock_date_today):
+    """Add a header to a file without replacing the existing header."""
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text(
+        cleandoc(
+            """
+            # SPDX-FileCopyrightText: 2017 John Doe
+            #
+            # SPDX-License-Identifier: MIT
+
+            pass
+            """
+        )
+    )
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: 2018 Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+
+        # SPDX-FileCopyrightText: 2017 John Doe
+        #
+        # SPDX-License-Identifier: MIT
+
+        pass
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--no-replace",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",

@@ -8,6 +8,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Stefan Hynek <stefan.hynek@uni-goettingen.de>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -52,6 +53,7 @@ class CommentStyle:
     INDENT_BEFORE_MIDDLE = ""
     INDENT_AFTER_MIDDLE = ""
     INDENT_BEFORE_END = ""
+    SHEBANGS = []
 
     @classmethod
     def can_handle_single(cls) -> bool:
@@ -295,6 +297,10 @@ class CCommentStyle(CommentStyle):
     INDENT_BEFORE_MIDDLE = " "
     INDENT_AFTER_MIDDLE = " "
     INDENT_BEFORE_END = " "
+    SHEBANGS = [
+        "#!",  #  V-Lang
+        "<?php",  # PHP
+    ]
 
 
 class CssCommentStyle(CommentStyle):
@@ -364,6 +370,7 @@ class HtmlCommentStyle(CommentStyle):
     _shorthand = "html"
 
     MULTI_LINE = MultiLineSegments("<!--", "", "-->")
+    SHEBANGS = ["<?xml"]
 
 
 class JinjaCommentStyle(CommentStyle):
@@ -423,6 +430,7 @@ class PythonCommentStyle(CommentStyle):
 
     SINGLE_LINE = "#"
     INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["#!"]
 
 
 class ReStructedTextCommentStyle(CommentStyle):
