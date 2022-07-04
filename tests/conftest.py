@@ -42,6 +42,8 @@ CWD = Path.cwd()
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
+# REUSE-IgnoreStart
+
 
 def pytest_configure():
     """Called after command line options have been parsed and all plugins and
@@ -106,14 +108,12 @@ def fake_repository(tmpdir_factory) -> Path:
     # Adding this here to avoid conflict in main project.
     (directory / "src/exception.py").write_text(
         "SPDX-FileCopyrightText: 2017 Jane Doe\n"
-        "SPDX"
-        "-License-Identifier: GPL-3.0-or-later WITH Autoconf-exception-3.0",
+        "SPDX-License-Identifier: GPL-3.0-or-later WITH Autoconf-exception-3.0",
         encoding="utf-8",
     )
     (directory / "src/custom.py").write_text(
         "SPDX-FileCopyrightText: 2017 Jane Doe\n"
-        "SPDX"
-        "-License-Identifier: LicenseRef-custom",
+        "SPDX-License-Identifier: LicenseRef-custom",
         encoding="utf-8",
     )
 
@@ -132,10 +132,8 @@ def _repo_contents(
     with a prefix line in the ignore file.
     """
     gitignore = ignore_prefix + (
-        "# SPDX"
-        "-License-Identifier: CC0-1.0\n"
-        "# SPDX"
-        "-FileCopyrightText: 2017 Jane Doe\n"
+        "# SPDX-License-Identifier: CC0-1.0\n"
+        "# SPDX-FileCopyrightText: 2017 Jane Doe\n"
         "*.pyc\nbuild"
     )
     (fake_repository / ignore_filename).write_text(gitignore)
@@ -209,11 +207,11 @@ def submodule_repository(
     """Create a git repository that contains a submodule."""
     header = cleandoc(
         """
-            spdx-FileCopyrightText: 2019 Jane Doe
+            SPDX-FileCopyrightText: 2019 Jane Doe
 
-            spdx-License-Identifier: CC0-1.0
+            SPDX-License-Identifier: CC0-1.0
             """
-    ).replace("spdx", "SPDX")
+    )
 
     submodule = Path(str(tmpdir_factory.mktemp("submodule")))
     (submodule / "foo.py").write_text(header, encoding="utf-8")
@@ -293,7 +291,7 @@ def template_simple_source():
         {% endfor %}
 
         {% for expression in spdx_expressions %}
-        spdx-License-Identifier: {{ expression }}
+        SPDX-License-Identifier: {{ expression }}
         {% endfor %}
         """.replace(
             "spdx-Lic", "SPDX-Lic"
@@ -333,7 +331,7 @@ def template_commented_source():
         {% endfor %}
         #
         {% for expression in spdx_expressions %}
-        # spdx-License-Identifier: {{ expression }}
+        # SPDX-License-Identifier: {{ expression }}
         {% endfor %}
         """.replace(
             "spdx-Lic", "SPDX-Lic"
@@ -354,3 +352,6 @@ def mock_date_today(monkeypatch):
     date = create_autospec(datetime.date)
     date.today.return_value = datetime.date(2018, 1, 1)
     monkeypatch.setattr(datetime, "date", date)
+
+
+# REUSE-IgnoreEnd

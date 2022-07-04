@@ -53,7 +53,7 @@ _END_PATTERN = r"{}$".format(  # pylint: disable=consider-using-f-string
     )
 )
 _IDENTIFIER_PATTERN = re.compile(
-    r"SPDX" "-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
+    r"SPDX-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
 _COPYRIGHT_PATTERNS = [
     re.compile(
@@ -74,12 +74,14 @@ _COPYRIGHT_PATTERNS = [
 ]
 
 _COPYRIGHT_STYLES = {
+    # REUSE-IgnoreStart
     "spdx": "SPDX-FileCopyrightText:",
     "spdx-symbol": "SPDX-FileCopyrightText: ©",
     "string": "Copyright",
     "string-c": "Copyright (C)",
     "string-symbol": "Copyright ©",
     "symbol": "©",
+    # REUSE-IgnoreEnd
 }
 
 # Amount of bytes that we assume will be big enough to contain the entire

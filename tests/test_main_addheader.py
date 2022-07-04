@@ -16,6 +16,7 @@ import pytest
 
 from reuse._main import main
 
+# REUSE-IgnoreStart
 
 # TODO: Replace this test with a monkeypatched test
 def test_addheader_simple(fake_repository, stringio, mock_date_today):
@@ -24,13 +25,13 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
     simple_file.write_text("pass")
     expected = cleandoc(
         """
-        # spdx-FileCopyrightText: 2018 Jane Doe
+        # SPDX-FileCopyrightText: 2018 Jane Doe
         #
-        # spdx-License-Identifier: GPL-3.0-or-later
+        # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -54,13 +55,13 @@ def test_addheader_year(fake_repository, stringio):
     simple_file.write_text("pass")
     expected = cleandoc(
         """
-        # spdx-FileCopyrightText: 2016 Jane Doe
+        # SPDX-FileCopyrightText: 2016 Jane Doe
         #
-        # spdx-License-Identifier: GPL-3.0-or-later
+        # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -86,13 +87,13 @@ def test_addheader_no_year(fake_repository, stringio):
     simple_file.write_text("pass")
     expected = cleandoc(
         """
-        # spdx-FileCopyrightText: Jane Doe
+        # SPDX-FileCopyrightText: Jane Doe
         #
-        # spdx-License-Identifier: GPL-3.0-or-later
+        # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -117,13 +118,13 @@ def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
     simple_file.write_text("pass")
     expected = cleandoc(
         """
-        // spdx-FileCopyrightText: 2018 Jane Doe
+        // SPDX-FileCopyrightText: 2018 Jane Doe
         //
-        // spdx-License-Identifier: GPL-3.0-or-later
+        // SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -149,13 +150,13 @@ def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
     simple_file.write_text("pass")
     expected = cleandoc(
         """
-        // spdx-FileCopyrightText: 2018 Jane Doe
+        // SPDX-FileCopyrightText: 2018 Jane Doe
         //
-        // spdx-License-Identifier: GPL-3.0-or-later
+        // SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -181,13 +182,13 @@ def test_addheader_implicit_style_filename(
     simple_file.write_text("pass")
     expected = cleandoc(
         """
-        # spdx-FileCopyrightText: 2018 Jane Doe
+        # SPDX-FileCopyrightText: 2018 Jane Doe
         #
-        # spdx-License-Identifier: GPL-3.0-or-later
+        # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -292,13 +293,13 @@ def test_addheader_template_simple(
         """
         # Hello, world!
         #
-        # spdx-FileCopyrightText: 2018 Jane Doe
+        # SPDX-FileCopyrightText: 2018 Jane Doe
         #
-        # spdx-License-Identifier: GPL-3.0-or-later
+        # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -349,13 +350,13 @@ def test_addheader_template_simple_multiple(
             """
             # Hello, world!
             #
-            # spdx-FileCopyrightText: 2018 Jane Doe
+            # SPDX-FileCopyrightText: 2018 Jane Doe
             #
-            # spdx-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
             """
-        ).replace("spdx", "SPDX")
+        )
         assert simple_file.read_text() == expected
 
 
@@ -401,13 +402,13 @@ def test_addheader_template_commented(
         """
         # Hello, world!
         #
-        # spdx-FileCopyrightText: 2018 Jane Doe
+        # SPDX-FileCopyrightText: 2018 Jane Doe
         #
-        # spdx-License-Identifier: GPL-3.0-or-later
+        # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -462,13 +463,13 @@ def test_addheader_template_without_extension(
         """
         # Hello, world!
         #
-        # spdx-FileCopyrightText: 2018 Jane Doe
+        # SPDX-FileCopyrightText: 2018 Jane Doe
         #
-        # spdx-License-Identifier: GPL-3.0-or-later
+        # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -496,11 +497,11 @@ def test_addheader_binary(
     binary_file.write_bytes(binary_string)
     expected = cleandoc(
         """
-        spdx-FileCopyrightText: 2018 Jane Doe
+        SPDX-FileCopyrightText: 2018 Jane Doe
 
-        spdx-License-Identifier: GPL-3.0-or-later
+        SPDX-License-Identifier: GPL-3.0-or-later
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -531,11 +532,11 @@ def test_addheader_uncommentable_json(
     json_file.write_text('{"foo": 23, "bar": 42}')
     expected = cleandoc(
         """
-        spdx-FileCopyrightText: 2018 Jane Doe
+        SPDX-FileCopyrightText: 2018 Jane Doe
 
-        spdx-License-Identifier: GPL-3.0-or-later
+        SPDX-License-Identifier: GPL-3.0-or-later
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -564,11 +565,11 @@ def test_addheader_force_dot_license(
     simple_file.write_text("pass")
     expected = cleandoc(
         """
-        spdx-FileCopyrightText: 2018 Jane Doe
+        SPDX-FileCopyrightText: 2018 Jane Doe
 
-        spdx-License-Identifier: GPL-3.0-or-later
+        SPDX-License-Identifier: GPL-3.0-or-later
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -605,11 +606,11 @@ def test_addheader_force_dot_license_identical_to_explicit_license(
         path.write_text("pass")
     expected = cleandoc(
         """
-        spdx-FileCopyrightText: 2018 Jane Doe
+        SPDX-FileCopyrightText: 2018 Jane Doe
 
-        spdx-License-Identifier: GPL-3.0-or-later
+        SPDX-License-Identifier: GPL-3.0-or-later
         """
-    ).replace("spdx", "SPDX")
+    )
 
     for arg, path in zip(("--force-dot-license", "--explicit-license"), files):
         main(
@@ -645,11 +646,11 @@ def test_addheader_force_dot_license_double(
     simple_file_license.write_text("foo")
     expected = cleandoc(
         """
-        spdx-FileCopyrightText: 2018 Jane Doe
+        SPDX-FileCopyrightText: 2018 Jane Doe
 
-        spdx-License-Identifier: GPL-3.0-or-later
+        SPDX-License-Identifier: GPL-3.0-or-later
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -679,11 +680,11 @@ def test_addheader_force_dot_license_unsupported_filetype(
     simple_file.write_text("Preserve this")
     expected = cleandoc(
         """
-        spdx-FileCopyrightText: 2018 Jane Doe
+        SPDX-FileCopyrightText: 2018 Jane Doe
 
-        spdx-License-Identifier: GPL-3.0-or-later
+        SPDX-License-Identifier: GPL-3.0-or-later
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -717,11 +718,11 @@ def test_addheader_force_dot_license_doesnt_write_to_file(
     simple_file.chmod(mode=stat.S_IREAD)
     expected = cleandoc(
         """
-        spdx-FileCopyrightText: 2018 Jane Doe
+        SPDX-FileCopyrightText: 2018 Jane Doe
 
-        spdx-License-Identifier: GPL-3.0-or-later
+        SPDX-License-Identifier: GPL-3.0-or-later
         """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -776,21 +777,21 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
     license_file.write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2016 John Doe
+            SPDX-FileCopyrightText: 2016 John Doe
 
             Hello
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     expected = (
         cleandoc(
             """
-            spdx-FileCopyrightText: 2016 John Doe
-            spdx-FileCopyrightText: 2018 Jane Doe
+            SPDX-FileCopyrightText: 2016 John Doe
+            SPDX-FileCopyrightText: 2018 Jane Doe
 
-            spdx-License-Identifier: GPL-3.0-or-later
+            SPDX-License-Identifier: GPL-3.0-or-later
             """
-        ).replace("spdx", "SPDX")
+        )
         + "\n"
     )
 
@@ -823,22 +824,22 @@ def test_addheader_license_file_only_one_newline(
     license_file.write_text(
         cleandoc(
             """
-            spdx-FileCopyrightText: 2016 John Doe
+            SPDX-FileCopyrightText: 2016 John Doe
 
             Hello
             """
-        ).replace("spdx", "SPDX")
+        )
         + "\n"
     )
     expected = (
         cleandoc(
             """
-            spdx-FileCopyrightText: 2016 John Doe
-            spdx-FileCopyrightText: 2018 Jane Doe
+            SPDX-FileCopyrightText: 2016 John Doe
+            SPDX-FileCopyrightText: 2018 Jane Doe
 
-            spdx-License-Identifier: GPL-3.0-or-later
+            SPDX-License-Identifier: GPL-3.0-or-later
             """
-        ).replace("spdx", "SPDX")
+        )
         + "\n"
     )
 
@@ -939,14 +940,14 @@ def test_addheader_force_multi_line_for_c(
     expected = cleandoc(
         """
                 /*
-                 * spdx-FileCopyrightText: 2018 Jane Doe
+                 * SPDX-FileCopyrightText: 2018 Jane Doe
                  *
-                 * spdx-License-Identifier: GPL-3.0-or-later
+                 * SPDX-License-Identifier: GPL-3.0-or-later
                  */
 
                 foo
                 """
-    ).replace("spdx", "SPDX")
+    )
 
     result = main(
         [
@@ -974,20 +975,16 @@ def test_addheader_line_endings(
     simple_file.write_bytes(
         line_ending.encode("utf-8").join([b"hello", b"world"])
     )
-    expected = (
-        cleandoc(
-            """
-            # spdx-FileCopyrightText: 2018 Jane Doe
+    expected = cleandoc(
+        """
+            # SPDX-FileCopyrightText: 2018 Jane Doe
             #
-            # spdx-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: GPL-3.0-or-later
 
             hello
             world
             """
-        )
-        .replace("spdx", "SPDX")
-        .replace("\n", line_ending)
-    )
+    ).replace("\n", line_ending)
 
     result = main(
         [
@@ -1016,22 +1013,22 @@ def test_addheader_skip_existing(fake_repository, stringio, mock_date_today):
         (fake_repository / path).write_text("pass")
     expected_foo = cleandoc(
         """
-        # spdx-FileCopyrightText: 2018 Jane Doe
+        # SPDX-FileCopyrightText: 2018 Jane Doe
         #
-        # spdx-License-Identifier: GPL-3.0-or-later
+        # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
     expected_bar = cleandoc(
         """
-        # spdx-FileCopyrightText: 2018 John Doe
+        # SPDX-FileCopyrightText: 2018 John Doe
         #
-        # spdx-License-Identifier: MIT
+        # SPDX-License-Identifier: MIT
 
         pass
         """
-    ).replace("spdx", "SPDX")
+    )
 
     main(
         [
@@ -1069,9 +1066,9 @@ def test_addheader_recursive(fake_repository, stringio, mock_date_today):
     (fake_repository / "src/one/two/foo.py").write_text(
         cleandoc(
             """
-            # spdx-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: GPL-3.0-or-later
             """
-        ).replace("spdx", "SPDX")
+        )
     )
     (fake_repository / "src/hello.py").touch()
     (fake_repository / "src/one/world.py").touch()
@@ -1091,10 +1088,7 @@ def test_addheader_recursive(fake_repository, stringio, mock_date_today):
 
     for path in (fake_repository / "src").glob("src/**"):
         content = path.read_text()
-        assert (
-            "spdx-FileCopyrightText: 2018 Joe Somebody".replace("spdx", "SPDX")
-            in content
-        )
+        assert "SPDX-FileCopyrightText: 2018 Joe Somebody" in content
 
     assert "Joe Somebody" not in (fake_repository / "bar/bar.py").read_text()
     assert result == 0
@@ -1145,3 +1139,6 @@ def test_addheader_recursive_contains_unrecognised(
         )
 
     assert "Jane Doe" not in (fake_repository / "baz/foo.py").read_text()
+
+
+# REUSE-IgnoreEnd

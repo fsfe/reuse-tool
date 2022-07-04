@@ -25,6 +25,9 @@ cpython = pytest.mark.skipif(
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
+# REUSE-IgnoreStart
+
+
 def test_generate_file_report_file_simple(fake_repository):
     """An extremely simple generate test, just to see if the function doesn't
     crash.
@@ -53,7 +56,7 @@ def test_generate_file_report_file_from_different_cwd(fake_repository):
 def test_generate_file_report_file_missing_license(fake_repository):
     """Simple generate test with a missing license."""
     (fake_repository / "foo.py").write_text(
-        "SPDX" "-License-Identifier: BSD-3-Clause"
+        "SPDX-License-Identifier: BSD-3-Clause"
     )
     project = Project(fake_repository)
     result = FileReport.generate(project, "foo.py")
@@ -66,7 +69,7 @@ def test_generate_file_report_file_missing_license(fake_repository):
 def test_generate_file_report_file_bad_license(fake_repository):
     """Simple generate test with a bad license."""
     (fake_repository / "foo.py").write_text(
-        "SPDX" "-License-Identifier: fakelicense"
+        "SPDX-License-Identifier: fakelicense"
     )
     project = Project(fake_repository)
     result = FileReport.generate(project, "foo.py")
@@ -81,7 +84,7 @@ def test_generate_file_report_license_contains_plus(fake_repository):
     should be an appropriate license file.
     """
     (fake_repository / "foo.py").write_text(
-        "SPDX" "-License-Identifier: Apache-1.0+"
+        "SPDX-License-Identifier: Apache-1.0+"
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
     project = Project(fake_repository)
@@ -178,10 +181,10 @@ def test_generate_project_report_unused_license_plus(
     Furthermore, Apache-1.0+ is separately identified as a used license.
     """
     (fake_repository / "foo.py").write_text(
-        "SPDX" "-License-Identifier: Apache-1.0+"
+        "SPDX-License-Identifier: Apache-1.0+"
     )
     (fake_repository / "bar.py").write_text(
-        "SPDX" "-License-Identifier: Apache-1.0"
+        "SPDX-License-Identifier: Apache-1.0"
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
 
@@ -199,7 +202,7 @@ def test_generate_project_report_unused_license_plus_only_plus(
     LICENSES/Apache-1.0.txt should not be an unused license.
     """
     (fake_repository / "foo.py").write_text(
-        "SPDX" "-License-Identifier: Apache-1.0+"
+        "SPDX-License-Identifier: Apache-1.0+"
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
 
@@ -215,7 +218,7 @@ def test_generate_project_report_bad_license_in_file(
     fake_repository, multiprocessing
 ):
     """Bad licenses in files are detected."""
-    (fake_repository / "foo.py").write_text("SPDX" "-License-Identifier: bad")
+    (fake_repository / "foo.py").write_text("SPDX-License-Identifier: bad")
 
     project = Project(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
@@ -227,7 +230,7 @@ def test_generate_project_report_bad_license_can_also_be_missing(
     fake_repository, multiprocessing
 ):
     """Bad licenses can also be missing licenses."""
-    (fake_repository / "foo.py").write_text("SPDX" "-License-Identifier: bad")
+    (fake_repository / "foo.py").write_text("SPDX-License-Identifier: bad")
 
     project = Project(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
@@ -278,3 +281,6 @@ def test_bill_of_materials(fake_repository, multiprocessing):
     report = ProjectReport.generate(project, multiprocessing=multiprocessing)
     # TODO: Actually do something
     report.bill_of_materials()
+
+
+# REUSE-IgnoreEnd

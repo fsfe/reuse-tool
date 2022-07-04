@@ -38,19 +38,22 @@ no_root = pytest.mark.xfail(is_root, reason="fails when user is root")
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
+# REUSE-IgnoreStart
+
+
 def test_extract_expression():
     """Parse various expressions."""
     expressions = ["GPL-3.0+", "GPL-3.0 AND CC0-1.0", "nonsense"]
     for expression in expressions:
         result = _util.extract_spdx_info(
-            "SPDX" + f"-License-Identifier: {expression}"
+            f"SPDX-License-Identifier: {expression}"
         )
         assert result.spdx_expressions == {_LICENSING.parse(expression)}
 
 
 def test_extract_erroneous_expression():
     """Parse an incorrect expression."""
-    expression = "SPDX" + "-License-Identifier: GPL-3.0-or-later AND (MIT OR)"
+    expression = "SPDX-License-Identifier: GPL-3.0-or-later AND (MIT OR)"
     with pytest.raises(ParseError):
         _util.extract_spdx_info(expression)
 
@@ -65,7 +68,7 @@ def test_extract_no_info():
 
 def test_extract_tab():
     """A tag followed by a tab is also valid."""
-    result = _util.extract_spdx_info("SPDX" + "-License-Identifier:\tMIT")
+    result = _util.extract_spdx_info("SPDX-License-Identifier:\tMIT")
     assert result.spdx_expressions == {_LICENSING.parse("MIT")}
 
 
@@ -73,13 +76,13 @@ def test_extract_many_whitespace():
     """When a tag is followed by a lot of whitespace, the whitespace should be
     filtered out.
     """
-    result = _util.extract_spdx_info("SPDX" + "-License-Identifier:    MIT")
+    result = _util.extract_spdx_info("SPDX-License-Identifier:    MIT")
     assert result.spdx_expressions == {_LICENSING.parse("MIT")}
 
 
 def test_extract_bibtex_comment():
     """A special case for BibTex comments."""
-    expression = "@Comment{SPDX" + "-License-Identifier: GPL-3.0-or-later}"
+    expression = "@Comment{SPDX-License-Identifier: GPL-3.0-or-later}"
     result = _util.extract_spdx_info(expression)
     assert str(list(result.spdx_expressions)[0]) == "GPL-3.0-or-later"
 
@@ -88,14 +91,14 @@ def test_extract_copyright():
     """Given a file with copyright information, have it return that copyright
     information.
     """
-    copyright_line = "SPDX" + "-FileCopyrightText: 2019 Jane Doe"
+    copyright_line = "SPDX-FileCopyrightText: 2019 Jane Doe"
     result = _util.extract_spdx_info(copyright_line)
     assert result.copyright_lines == {copyright_line}
 
 
 def test_extract_copyright_duplicate():
     """When a copyright line is duplicated, only yield one."""
-    copyright_line = "SPDX" + "-FileCopyrightText: 2019 Jane Doe"
+    copyright_line = "SPDX-FileCopyrightText: 2019 Jane Doe"
     result = _util.extract_spdx_info(
         "\n".join((copyright_line, copyright_line))
     )
@@ -104,7 +107,7 @@ def test_extract_copyright_duplicate():
 
 def test_extract_copyright_tab():
     """A tag followed by a tab is also valid."""
-    copyright_line = "SPDX" + "-FileCopyrightText:\t2019 Jane Doe"
+    copyright_line = "SPDX-FileCopyrightText:\t2019 Jane Doe"
     result = _util.extract_spdx_info(copyright_line)
     assert result.copyright_lines == {copyright_line}
 
@@ -113,7 +116,7 @@ def test_extract_copyright_many_whitespace():
     """When a tag is followed by a lot of whitespace, that is also valid. The
     whitespace is not filtered out.
     """
-    copyright_line = "SPDX" + "-FileCopyrightText:    2019 Jane Doe"
+    copyright_line = "SPDX-FileCopyrightText:    2019 Jane Doe"
     result = _util.extract_spdx_info(copyright_line)
     assert result.copyright_lines == {copyright_line}
 
@@ -334,17 +337,14 @@ def test_copyright_from_dep5(dep5_copyright):
 
 def test_make_copyright_line_simple():
     """Given a simple statement, make it a copyright line."""
-    assert (
-        _util.make_copyright_line("hello")
-        == "SPDX" + "-FileCopyrightText: hello"
-    )
+    assert _util.make_copyright_line("hello") == "SPDX-FileCopyrightText: hello"
 
 
 def test_make_copyright_line_year():
     """Given a simple statement and a year, make it a copyright line."""
     assert (
         _util.make_copyright_line("hello", year="2019")
-        == "SPDX" + "-FileCopyrightText: 2019 hello"
+        == "SPDX-FileCopyrightText: 2019 hello"
     )
 
 
@@ -404,7 +404,7 @@ def test_make_copyright_line_style_symbol_year():
 
 def test_make_copyright_line_existing_spdx_copyright():
     """Given a copyright line, do nothing."""
-    value = "SPDX" + "-FileCopyrightText: hello"
+    value = "SPDX-FileCopyrightText: hello"
     assert _util.make_copyright_line(value) == value
 
 
@@ -607,3 +607,6 @@ def test_detect_line_endings_linux():
 def test_detect_line_endings_no_newlines():
     """Given a file without line endings, default to os.linesep."""
     assert _util.detect_line_endings("hello world") == os.linesep
+
+
+# REUSE-IgnoreEnd
