@@ -5,7 +5,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Tests for reuse._main: addheader"""
+"""Tests for reuse._main: annotate"""
 
 # pylint: disable=too-many-lines,unused-argument
 
@@ -19,7 +19,7 @@ from reuse._main import main
 # REUSE-IgnoreStart
 
 # TODO: Replace this test with a monkeypatched test
-def test_addheader_simple(fake_repository, stringio, mock_date_today):
+def test_annotate_simple(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
@@ -35,7 +35,7 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -49,7 +49,7 @@ def test_addheader_simple(fake_repository, stringio, mock_date_today):
     assert simple_file.read_text() == expected
 
 
-def test_addheader_year(fake_repository, stringio):
+def test_annotate_year(fake_repository, stringio):
     """Add a header to a file with a custom year."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
@@ -65,7 +65,7 @@ def test_addheader_year(fake_repository, stringio):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--year",
             "2016",
             "--license",
@@ -81,7 +81,7 @@ def test_addheader_year(fake_repository, stringio):
     assert simple_file.read_text() == expected
 
 
-def test_addheader_no_year(fake_repository, stringio):
+def test_annotate_no_year(fake_repository, stringio):
     """Add a header to a file without a year."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
@@ -97,7 +97,7 @@ def test_addheader_no_year(fake_repository, stringio):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--exclude-year",
             "--license",
             "GPL-3.0-or-later",
@@ -112,7 +112,7 @@ def test_addheader_no_year(fake_repository, stringio):
     assert simple_file.read_text() == expected
 
 
-def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
+def test_annotate_specify_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one, using a custom style."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
@@ -128,7 +128,7 @@ def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -144,7 +144,7 @@ def test_addheader_specify_style(fake_repository, stringio, mock_date_today):
     assert simple_file.read_text() == expected
 
 
-def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
+def test_annotate_implicit_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that has a recognised extension."""
     simple_file = fake_repository / "foo.js"
     simple_file.write_text("pass")
@@ -160,7 +160,7 @@ def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -174,7 +174,7 @@ def test_addheader_implicit_style(fake_repository, stringio, mock_date_today):
     assert simple_file.read_text() == expected
 
 
-def test_addheader_implicit_style_filename(
+def test_annotate_implicit_style_filename(
     fake_repository, stringio, mock_date_today
 ):
     """Add a header to a filename that is recognised."""
@@ -192,7 +192,7 @@ def test_addheader_implicit_style_filename(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -206,7 +206,7 @@ def test_addheader_implicit_style_filename(
     assert simple_file.read_text() == expected
 
 
-def test_addheader_unrecognised_style(fake_repository):
+def test_annotate_unrecognised_style(fake_repository):
     """Add a header to a file that has an unrecognised extension."""
     simple_file = fake_repository / "foo.foo"
     simple_file.write_text("pass")
@@ -214,7 +214,7 @@ def test_addheader_unrecognised_style(fake_repository):
     with pytest.raises(SystemExit):
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
@@ -224,14 +224,14 @@ def test_addheader_unrecognised_style(fake_repository):
         )
 
 
-def test_addheader_skip_unrecognised(fake_repository, stringio):
+def test_annotate_skip_unrecognised(fake_repository, stringio):
     """Skip file that has an unrecognised extension."""
     simple_file = fake_repository / "foo.foo"
     simple_file.write_text("pass")
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -246,7 +246,7 @@ def test_addheader_skip_unrecognised(fake_repository, stringio):
     assert "Skipped unrecognised file foo.foo" in stringio.getvalue()
 
 
-def test_addheader_skip_unrecognised_and_style(
+def test_annotate_skip_unrecognised_and_style(
     fake_repository, stringio, caplog
 ):
     """--skip-unrecognised and --style show warning message."""
@@ -255,7 +255,7 @@ def test_addheader_skip_unrecognised_and_style(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -271,16 +271,16 @@ def test_addheader_skip_unrecognised_and_style(
     assert "no effect" in caplog.text
 
 
-def test_addheader_no_copyright_or_license(fake_repository):
+def test_annotate_no_copyright_or_license(fake_repository):
     """Add a header, but supply no copyright or license."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
     with pytest.raises(SystemExit):
-        main(["addheader", "foo.py"])
+        main(["annotate", "foo.py"])
 
 
-def test_addheader_template_simple(
+def test_annotate_template_simple(
     fake_repository, stringio, mock_date_today, template_simple_source
 ):
     """Add a header with a custom template."""
@@ -303,7 +303,7 @@ def test_addheader_template_simple(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -319,7 +319,7 @@ def test_addheader_template_simple(
     assert simple_file.read_text() == expected
 
 
-def test_addheader_template_simple_multiple(
+def test_annotate_template_simple_multiple(
     fake_repository, stringio, mock_date_today, template_simple_source
 ):
     """Add a header with a custom template to multiple files."""
@@ -332,7 +332,7 @@ def test_addheader_template_simple_multiple(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -360,7 +360,7 @@ def test_addheader_template_simple_multiple(
         assert simple_file.read_text() == expected
 
 
-def test_addheader_template_no_spdx(
+def test_annotate_template_no_spdx(
     fake_repository, stringio, template_no_spdx_source
 ):
     """Add a header with a template that lacks SPDX info."""
@@ -372,7 +372,7 @@ def test_addheader_template_no_spdx(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -387,7 +387,7 @@ def test_addheader_template_no_spdx(
     assert result == 1
 
 
-def test_addheader_template_commented(
+def test_annotate_template_commented(
     fake_repository, stringio, mock_date_today, template_commented_source
 ):
     """Add a header with a custom template that is already commented."""
@@ -412,7 +412,7 @@ def test_addheader_template_commented(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -428,7 +428,7 @@ def test_addheader_template_commented(
     assert simple_file.read_text() == expected
 
 
-def test_addheader_template_nonexistant(fake_repository):
+def test_annotate_template_nonexistant(fake_repository):
     """Raise an error when using a header that does not exist."""
 
     simple_file = fake_repository / "foo.py"
@@ -437,7 +437,7 @@ def test_addheader_template_nonexistant(fake_repository):
     with pytest.raises(SystemExit):
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
@@ -449,7 +449,7 @@ def test_addheader_template_nonexistant(fake_repository):
         )
 
 
-def test_addheader_template_without_extension(
+def test_annotate_template_without_extension(
     fake_repository, stringio, mock_date_today, template_simple_source
 ):
 
@@ -473,7 +473,7 @@ def test_addheader_template_without_extension(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -489,7 +489,7 @@ def test_addheader_template_without_extension(
     assert simple_file.read_text() == expected
 
 
-def test_addheader_binary(
+def test_annotate_binary(
     fake_repository, stringio, mock_date_today, binary_string
 ):
     """Add a header to a .license file if the file is a binary."""
@@ -505,7 +505,7 @@ def test_addheader_binary(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -522,7 +522,7 @@ def test_addheader_binary(
     )
 
 
-def test_addheader_uncommentable_json(
+def test_annotate_uncommentable_json(
     fake_repository, stringio, mock_date_today
 ):
     """Add a header to a .license file if the file is uncommentable, e.g.,
@@ -540,7 +540,7 @@ def test_addheader_uncommentable_json(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -557,9 +557,7 @@ def test_addheader_uncommentable_json(
     )
 
 
-def test_addheader_force_dot_license(
-    fake_repository, stringio, mock_date_today
-):
+def test_annotate_force_dot_license(fake_repository, stringio, mock_date_today):
     """Add a header to a .license file if --force-dot-license is given."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
@@ -573,7 +571,7 @@ def test_addheader_force_dot_license(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -592,7 +590,7 @@ def test_addheader_force_dot_license(
     assert simple_file.read_text() == "pass"
 
 
-def test_addheader_force_dot_license_identical_to_explicit_license(
+def test_annotate_force_dot_license_identical_to_explicit_license(
     fake_repository, stringio, mock_date_today
 ):
     """For backwards compatibility, --force-dot-license should have identical
@@ -615,7 +613,7 @@ def test_addheader_force_dot_license_identical_to_explicit_license(
     for arg, path in zip(("--force-dot-license", "--explicit-license"), files):
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
@@ -634,7 +632,7 @@ def test_addheader_force_dot_license_identical_to_explicit_license(
         assert path.read_text() == "pass"
 
 
-def test_addheader_force_dot_license_double(
+def test_annotate_force_dot_license_double(
     fake_repository, stringio, mock_date_today
 ):
     """When path.license already exists, don't create path.license.license."""
@@ -654,7 +652,7 @@ def test_addheader_force_dot_license_double(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -670,7 +668,7 @@ def test_addheader_force_dot_license_double(
     assert simple_file_license.read_text().strip() == expected
 
 
-def test_addheader_force_dot_license_unsupported_filetype(
+def test_annotate_force_dot_license_unsupported_filetype(
     fake_repository, stringio, mock_date_today
 ):
     """Add a header to a .license file if --force-dot-license is given, with the
@@ -688,7 +686,7 @@ def test_addheader_force_dot_license_unsupported_filetype(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -707,7 +705,7 @@ def test_addheader_force_dot_license_unsupported_filetype(
     assert simple_file.read_text() == "Preserve this"
 
 
-def test_addheader_force_dot_license_doesnt_write_to_file(
+def test_annotate_force_dot_license_doesnt_write_to_file(
     fake_repository, stringio, mock_date_today
 ):
     """Adding a header to a .license file if --force-dot-license is given,
@@ -726,7 +724,7 @@ def test_addheader_force_dot_license_doesnt_write_to_file(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -745,7 +743,7 @@ def test_addheader_force_dot_license_doesnt_write_to_file(
     assert simple_file.read_text() == "Preserve this"
 
 
-def test_addheader_to_read_only_file_does_not_traceback(
+def test_annotate_to_read_only_file_does_not_traceback(
     fake_repository, stringio, mock_date_today
 ):
     """Trying to add a header without having write permission, shouldn't result
@@ -756,7 +754,7 @@ def test_addheader_to_read_only_file_does_not_traceback(
     with pytest.raises(SystemExit) as info:
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "Apache-2.0",
                 "--copyright",
@@ -769,7 +767,7 @@ def test_addheader_to_read_only_file_does_not_traceback(
     assert info.value  # should not exit with 0
 
 
-def test_addheader_license_file(fake_repository, stringio, mock_date_today):
+def test_annotate_license_file(fake_repository, stringio, mock_date_today):
     """Add a header to a .license file if it exists."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("foo")
@@ -797,7 +795,7 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -812,7 +810,7 @@ def test_addheader_license_file(fake_repository, stringio, mock_date_today):
     assert simple_file.read_text() == "foo"
 
 
-def test_addheader_license_file_only_one_newline(
+def test_annotate_license_file_only_one_newline(
     fake_repository, stringio, mock_date_today
 ):
     """When a header is added to a .license file that already ends with a
@@ -845,7 +843,7 @@ def test_addheader_license_file_only_one_newline(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -860,12 +858,12 @@ def test_addheader_license_file_only_one_newline(
     assert simple_file.read_text() == "foo"
 
 
-def test_addheader_year_mutually_exclusive(fake_repository):
+def test_annotate_year_mutually_exclusive(fake_repository):
     """--exclude-year and --year are mutually exclusive."""
     with pytest.raises(SystemExit):
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
@@ -878,12 +876,12 @@ def test_addheader_year_mutually_exclusive(fake_repository):
         )
 
 
-def test_addheader_single_multi_line_mutually_exclusive(fake_repository):
+def test_annotate_single_multi_line_mutually_exclusive(fake_repository):
     """--single-line and --multi-line are mutually exclusive."""
     with pytest.raises(SystemExit):
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
@@ -896,12 +894,12 @@ def test_addheader_single_multi_line_mutually_exclusive(fake_repository):
 
 
 @pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
-def test_addheader_multi_line_not_supported(fake_repository, skip_option):
+def test_annotate_multi_line_not_supported(fake_repository, skip_option):
     """Expect a fail if --multi-line is not supported for a file type."""
     with pytest.raises(SystemExit):
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
@@ -914,12 +912,12 @@ def test_addheader_multi_line_not_supported(fake_repository, skip_option):
 
 
 @pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
-def test_addheader_single_line_not_supported(fake_repository, skip_option):
+def test_annotate_single_line_not_supported(fake_repository, skip_option):
     """Expect a fail if --single-line is not supported for a file type."""
     with pytest.raises(SystemExit):
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "GPL-3.0-or-later",
                 "--copyright",
@@ -931,7 +929,7 @@ def test_addheader_single_line_not_supported(fake_repository, skip_option):
         )
 
 
-def test_addheader_force_multi_line_for_c(
+def test_annotate_force_multi_line_for_c(
     fake_repository, stringio, mock_date_today
 ):
     """--multi-line forces a multi-line comment for C."""
@@ -951,7 +949,7 @@ def test_addheader_force_multi_line_for_c(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -967,7 +965,7 @@ def test_addheader_force_multi_line_for_c(
 
 
 @pytest.mark.parametrize("line_ending", ["\r\n", "\r", "\n"])
-def test_addheader_line_endings(
+def test_annotate_line_endings(
     empty_directory, stringio, mock_date_today, line_ending
 ):
     """Given a file with a certain type of line ending, preserve it."""
@@ -988,7 +986,7 @@ def test_addheader_line_endings(
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -1005,8 +1003,8 @@ def test_addheader_line_endings(
     assert contents == expected
 
 
-def test_addheader_skip_existing(fake_repository, stringio, mock_date_today):
-    """When addheader --skip-existing on a file that already contains SPDX info,
+def test_annotate_skip_existing(fake_repository, stringio, mock_date_today):
+    """When annotate --skip-existing on a file that already contains SPDX info,
     don't write additional information to it.
     """
     for path in ("foo.py", "bar.py"):
@@ -1032,7 +1030,7 @@ def test_addheader_skip_existing(fake_repository, stringio, mock_date_today):
 
     main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "GPL-3.0-or-later",
             "--copyright",
@@ -1044,7 +1042,7 @@ def test_addheader_skip_existing(fake_repository, stringio, mock_date_today):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--license",
             "MIT",
             "--copyright",
@@ -1060,7 +1058,7 @@ def test_addheader_skip_existing(fake_repository, stringio, mock_date_today):
     assert (fake_repository / "bar.py").read_text() == expected_bar
 
 
-def test_addheader_recursive(fake_repository, stringio, mock_date_today):
+def test_annotate_recursive(fake_repository, stringio, mock_date_today):
     """Add a header to a directory recursively."""
     (fake_repository / "src/one/two").mkdir(parents=True)
     (fake_repository / "src/one/two/foo.py").write_text(
@@ -1077,7 +1075,7 @@ def test_addheader_recursive(fake_repository, stringio, mock_date_today):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--copyright",
             "Joe Somebody",
             "--recursive",
@@ -1094,13 +1092,11 @@ def test_addheader_recursive(fake_repository, stringio, mock_date_today):
     assert result == 0
 
 
-def test_addheader_recursive_on_file(
-    fake_repository, stringio, mock_date_today
-):
-    """Don't expect errors when addheader is run 'recursively' on a file."""
+def test_annotate_recursive_on_file(fake_repository, stringio, mock_date_today):
+    """Don't expect errors when annotate is run 'recursively' on a file."""
     result = main(
         [
-            "addheader",
+            "annotate",
             "--copyright",
             "Joe Somebody",
             "--recursive",
@@ -1115,7 +1111,7 @@ def test_addheader_recursive_on_file(
     assert result == 0
 
 
-def test_addheader_recursive_contains_unrecognised(
+def test_annotate_recursive_contains_unrecognised(
     fake_repository, stringio, mock_date_today
 ):
     """Expect error and no edited files if at least one file has not been
@@ -1128,7 +1124,7 @@ def test_addheader_recursive_contains_unrecognised(
     with pytest.raises(SystemExit):
         main(
             [
-                "addheader",
+                "annotate",
                 "--license",
                 "Apache-2.0",
                 "--copyright",

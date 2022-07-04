@@ -38,6 +38,8 @@ passed as optional argument.
 
 Symbolically links and files that are zero-sized are automatically ignored.
 
+.. TODO: Review addheader documentation.
+
 addheader
 =========
 

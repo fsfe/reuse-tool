@@ -178,7 +178,9 @@ Congratulations! Your project is compliant with version 3.0 of the REUSE Specifi
 This tool can do various more things, detailed in the documentation. Here a
 short summary:
 
-- `addheader` --- Add copyright and/or licensing information to the header of a
+<!-- TODO: Review this -->
+
+- `annotate` --- Add copyright and/or licensing information to the header of a
   file.
 
 - `download` --- Download the specified license into the `LICENSES/` directory.

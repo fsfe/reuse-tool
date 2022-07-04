@@ -168,6 +168,8 @@ A common use-case is to add headers to existing, modified or newly written code.
 Add headers to staged files based on git settings
 =================================================
 
+.. TODO: Review addheader scripts.
+
 This script helps you add your copyright headers right before committing the code you wrote.
 
 The list of files staged in git can be retrieved using ``git diff --name-only --cached``, which is the basis to apply the ``reuse addheader`` command to.

@@ -101,9 +101,10 @@ def parser() -> argparse.ArgumentParser:
 
     add_command(
         subparsers,
-        "addheader",
+        "annotate",
         header.add_arguments,
         header.run,
+        # TODO: Review help and description.
         help=_("add copyright and licensing into the header of files"),
         description=fill_all(
             _(
