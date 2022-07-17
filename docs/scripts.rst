@@ -168,11 +168,9 @@ A common use-case is to add headers to existing, modified or newly written code.
 Add headers to staged files based on git settings
 =================================================
 
-.. TODO: Review addheader scripts.
-
 This script helps you add your copyright headers right before committing the code you wrote.
 
-The list of files staged in git can be retrieved using ``git diff --name-only --cached``, which is the basis to apply the ``reuse addheader`` command to.
+The list of files staged in git can be retrieved using ``git diff --name-only --cached``, which is the basis to apply the ``reuse annotate`` command to.
 
 Git user and email address are available through ``git config --get user.name`` and ``git config --get user.email``.
 
@@ -185,7 +183,7 @@ These elements can be combined into a single command:
 
 .. code-block:: console
 
-  $ git diff --name-only --cached | xargs -I {} reuse addheader -c "$(git config --get user.name) <$(git config --get user.email)>" "{}"
+  $ git diff --name-only --cached | xargs -I {} reuse annotate -c "$(git config --get user.name) <$(git config --get user.email)>" "{}"
 
 .. SPDX-SnippetEnd
 
