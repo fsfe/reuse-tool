@@ -664,6 +664,14 @@ def add_arguments(parser) -> None:
 def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
     # pylint: disable=too-many-branches,too-many-locals,too-many-statements
+    if "addheader" in args.parser.prog.split():
+        _LOGGER.warning(
+            _(
+                "'reuse addheader' has been deprecated in favour of"
+                " 'reuse annotate'"
+            )
+        )
+
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
