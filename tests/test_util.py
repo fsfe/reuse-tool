@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -49,6 +50,20 @@ def test_extract_expression():
             f"SPDX-License-Identifier: {expression}"
         )
         assert result.spdx_expressions == {_LICENSING.parse(expression)}
+
+
+def test_extract_expression_from_ascii_art_frame():
+    """Parse an expression from an ASCII art frame"""
+    result = _util.extract_spdx_info(
+        cleandoc(
+            """
+             /**********************************\\
+             |*  SPDX-License-Identifier: MIT  *|
+             \\**********************************/
+            """
+        )
+    )
+    assert result.spdx_expressions == {_LICENSING.parse("MIT")}
 
 
 def test_extract_erroneous_expression():
