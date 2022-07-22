@@ -71,10 +71,17 @@ _COPYRIGHT_PATTERNS = [
         r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
         r"(?P<statement>.*)?)" + _END_PATTERN
     ),
+    re.compile(
+        r"(?P<copyright>(?P<prefix>\([cC]\))\s+"
+        r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
+        r"(?P<statement>.*)?)" + _END_PATTERN
+    ),
 ]
 
 _COPYRIGHT_STYLES = {
     # REUSE-IgnoreStart
+    "c": "(C)",
+    "c-lower": "(c)",
     "spdx": "SPDX-FileCopyrightText:",
     "spdx-symbol": "SPDX-FileCopyrightText: ©",
     "string": "Copyright",
@@ -331,8 +338,8 @@ def make_copyright_line(
     copyright_prefix = _COPYRIGHT_STYLES.get(copyright_style)
     if copyright_prefix is None:
         raise RuntimeError(
-            "Unexpected copyright style: Need 'spdx', 'spdx-symbol', 'string', "
-            "'string-c', 'string-symbol' or 'symbol'"
+            "Unexpected copyright style: Need 'c', 'c-lower', 'spdx', "
+            "'spdx-symbol', 'string', 'string-c', 'string-symbol' or 'symbol'"
         )
 
     for pattern in _COPYRIGHT_PATTERNS:

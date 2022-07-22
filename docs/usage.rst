@@ -74,6 +74,8 @@ With the argument ``--copyright-style`` it is possible to change the default
 
 .. code-block::
 
+  c:              (C) <year> <statement>
+  c-lower:        (c) <year> <statement>
   spdx:           SPDX-FileCopyrightText: <year> <statement>
   spdx-symbol:    SPDX-FileCopyrightText: © <year> <statement>
   string:         Copyright <year> <statement>

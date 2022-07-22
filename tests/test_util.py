@@ -378,6 +378,22 @@ def test_make_copyright_line_style_string_year():
     assert statement == "Copyright 2019 hello"
 
 
+def test_make_copyright_line_style_c():
+    """Given a simple statement, style and a year, make it a copyright line."""
+    statement = _util.make_copyright_line(
+        "hello", year=2019, copyright_style="c"
+    )
+    assert statement == "(C) 2019 hello"
+
+
+def test_make_copyright_line_style_c_lower():
+    """Given a simple statement, style and a year, make it a copyright line."""
+    statement = _util.make_copyright_line(
+        "hello", year=2019, copyright_style="c-lower"
+    )
+    assert statement == "(c) 2019 hello"
+
+
 def test_make_copyright_line_style_string_c_year():
     """Given a simple statement, style and a year, make it a copyright line."""
     statement = _util.make_copyright_line(
