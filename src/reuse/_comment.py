@@ -6,6 +6,7 @@
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-FileCopyrightText: 2021 Matija Šuklje <matija@suklje.name>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -536,6 +537,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".kts": CCommentStyle,
     ".l": LispCommentStyle,
     ".latex": TexCommentStyle,
+    ".less": CssCommentStyle,
     ".license": EmptyCommentStyle,
     ".lisp": LispCommentStyle,
     ".lsp": LispCommentStyle,
