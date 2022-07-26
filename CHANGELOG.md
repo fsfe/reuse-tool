@@ -58,6 +58,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Sanitize xargs input in scripts documentation
 
+- In PHP files, add header after `<?php` (#543).
+
 ### Security
 
 ## 1.0.0 - 2022-05-19
