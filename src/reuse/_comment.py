@@ -663,6 +663,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".Rprofile": PythonCommentStyle,
     ".vimrc": VimCommentStyle,
     ".yarnrc": PythonCommentStyle,
+    "ansible.cfg": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "CMakeLists.txt": PythonCommentStyle,
     "CODEOWNERS": PythonCommentStyle,
