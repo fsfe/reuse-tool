@@ -325,6 +325,14 @@ class BibTexCommentStyle(CommentStyle):
     SHEBANGS = ["% !BIB", "%!BIB"]
 
 
+class BladeCommentStyle(CommentStyle):
+    """Laravel Blade Template comment style."""
+
+    _shorthand = "blade"
+
+    MULTI_LINE = MultiLineSegments("{{--", "", "--}}")
+
+
 class CCommentStyle(CommentStyle):
     """C comment style."""
 
@@ -734,7 +742,6 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".mk": PythonCommentStyle,
     ".ml": MlCommentStyle,
     ".mli": MlCommentStyle,
-    ".nim.cfg": PythonCommentStyle,  # Nim-lang build config parameters/settings
     ".nim": PythonCommentStyle,
     ".nimble": PythonCommentStyle,  # Nim-lang build config
     ".nimrod": PythonCommentStyle,
@@ -865,6 +872,16 @@ EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
     key.lower(): value for key, value in EXTENSION_COMMENT_STYLE_MAP.items()
 }
 
+#: A map of (common) double file extensions against comment types.
+MULTIPLE_EXTENSION_COMMENT_STYLE_MAP = {
+    ".blade.php": BladeCommentStyle,
+    ".nim.cfg": PythonCommentStyle,  # Nim-lang build config parameters/settings
+}
+
+MULTIPLE_EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
+    k.lower(): v for k, v in MULTIPLE_EXTENSION_COMMENT_STYLE_MAP.items()
+}
+
 FILENAME_COMMENT_STYLE_MAP = {
     ".bashrc": PythonCommentStyle,
     ".bazelignore": PythonCommentStyle,
@@ -958,6 +975,10 @@ def get_comment_style(path: StrPath) -> type[CommentStyle] | None:
     """Return value of CommentStyle detected for *path* or None."""
     path = Path(path)
     style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
+    if style is None:
+        style = MULTIPLE_EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(
+            "".join(path.suffixes).lower()
+        )
     if style is None:
         style = cast(
             Optional[type[CommentStyle]],
