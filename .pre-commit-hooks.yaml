@@ -4,7 +4,8 @@
 
 - id: reuse
   name: reuse
-  entry: reuse lint
+  entry: reuse
+  args: ["lint"]
   language: python
   pass_filenames: false
   description:
