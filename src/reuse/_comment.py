@@ -7,6 +7,7 @@
 # SPDX-FileCopyrightText: 2021 Matija Šuklje <matija@suklje.name>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Stefan Hynek <stefan.hynek@uni-goettingen.de>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -447,6 +448,17 @@ class VimCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class XQueryCommentStyle(CommentStyle):
+    """XQuery comment style."""
+
+    _shorthand = "xq"
+
+    MULTI_LINE = ("(:", ":", ":)")
+    INDENT_BEFORE_MIDDLE = " "
+    INDENT_AFTER_MIDDLE = " "
+    INDENT_BEFORE_END = " "
+
+
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
@@ -634,6 +646,11 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".xls": UncommentableCommentStyle,
     ".xlsx": UncommentableCommentStyle,
     ".xml": HtmlCommentStyle,
+    ".xq": XQueryCommentStyle,
+    ".xql": XQueryCommentStyle,
+    ".xqm": XQueryCommentStyle,
+    ".xqy": XQueryCommentStyle,
+    ".xquery": XQueryCommentStyle,
     ".xsd": HtmlCommentStyle,
     ".xsh": PythonCommentStyle,
     ".xsl": HtmlCommentStyle,

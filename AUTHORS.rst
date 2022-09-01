@@ -56,6 +56,8 @@ Contributors
 
 - Yaman Qalieh
 
+- Stefan Hynek <stefan.hynek@uni-goettingen.de>
+
 Translators
 -----------
 
