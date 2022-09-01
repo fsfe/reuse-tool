@@ -58,6 +58,8 @@ Contributors
 
 - Pietro Albini <pietro.albini@ferrous-systems.com>
 
+- Stefan Hynek <stefan.hynek@uni-goettingen.de>
+
 Translators
 -----------
 
