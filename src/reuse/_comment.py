@@ -451,7 +451,7 @@ class VimCommentStyle(CommentStyle):
 class XQueryCommentStyle(CommentStyle):
     """XQuery comment style."""
 
-    _shorthand = "xq"
+    _shorthand = "xquery"
 
     MULTI_LINE = ("(:", ":", ":)")
     INDENT_BEFORE_MIDDLE = " "
