@@ -39,11 +39,13 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
+- Add support for XQuery comment style.
 - More file types are recognised:
 
   - Kotlin script (`.kts`)
   - Android Interface Definition Language (`.aidl`)
   - Certificate files (`.pem`)
+  - XQuery script and module files (`.xq(l|m|y|uery|)`)
 
 - Added comment style:
 
