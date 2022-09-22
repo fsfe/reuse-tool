@@ -46,10 +46,10 @@ _END_PATTERN = r"{}$".format(  # pylint: disable=consider-using-f-string
     "".join(
         {
             r"(?:{})*".format(  # pylint: disable=consider-using-f-string
-                re.escape(style.MULTI_LINE[2])
+                re.escape(style.MULTI_LINE.end)
             )
             for style in _all_style_classes()
-            if style.MULTI_LINE[2]
+            if style.MULTI_LINE.end
         }
     )
 )

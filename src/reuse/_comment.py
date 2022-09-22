@@ -17,7 +17,7 @@ headers, in any case.
 import logging
 import operator
 from textwrap import dedent
-from typing import List
+from typing import List, NamedTuple
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,6 +30,16 @@ class CommentCreateError(Exception):
     """An error occurred during the creation of a comment."""
 
 
+class MultiLineSegments(NamedTuple):
+    """Components that make up a multi-line comment style, e.g. '/*', '*', and
+    '*/'.
+    """
+
+    start: str
+    middle: str
+    end: str
+
+
 class CommentStyle:
     """Base class for comment style."""
 
@@ -37,7 +47,7 @@ class CommentStyle:
     INDENT_AFTER_SINGLE = ""
     # (start, middle, end)
     # e.g., ("/*", "*", "*/")
-    MULTI_LINE = ("", "", "")
+    MULTI_LINE = MultiLineSegments("", "", "")
     INDENT_BEFORE_MIDDLE = ""
     INDENT_AFTER_MIDDLE = ""
     INDENT_BEFORE_END = ""
@@ -50,7 +60,7 @@ class CommentStyle:
     @classmethod
     def can_handle_multi(cls) -> bool:
         """Whether the :class:`CommentStyle` can handle multi-line comments."""
-        return all((cls.MULTI_LINE[0], cls.MULTI_LINE[2]))
+        return all((cls.MULTI_LINE.start, cls.MULTI_LINE.end))
 
     @classmethod
     def create_comment(cls, text: str, force_multi: bool = False) -> str:
@@ -90,19 +100,19 @@ class CommentStyle:
         if not cls.can_handle_multi():
             raise CommentCreateError(f"{cls} cannot create multi-line comments")
         result = []
-        result.append(cls.MULTI_LINE[0])
+        result.append(cls.MULTI_LINE.start)
         for line in text.split("\n"):
-            if cls.MULTI_LINE[2] in text:
+            if cls.MULTI_LINE.end in text:
                 raise CommentCreateError(
                     f"'{line}' contains a premature comment delimiter"
                 )
             line_result = ""
-            if cls.MULTI_LINE[1]:
-                line_result += cls.INDENT_BEFORE_MIDDLE + cls.MULTI_LINE[1]
+            if cls.MULTI_LINE.middle:
+                line_result += cls.INDENT_BEFORE_MIDDLE + cls.MULTI_LINE.middle
             if line:
                 line_result += cls.INDENT_AFTER_MIDDLE + line
             result.append(line_result)
-        result.append(cls.INDENT_BEFORE_END + cls.MULTI_LINE[2])
+        result.append(cls.INDENT_BEFORE_END + cls.MULTI_LINE.end)
         return "\n".join(result)
 
     @classmethod
@@ -139,9 +149,9 @@ class CommentStyle:
 
     @classmethod
     def _remove_middle_marker(cls, line: str) -> str:
-        if cls.MULTI_LINE[1]:
+        if cls.MULTI_LINE.middle:
             possible_line = line.lstrip()
-            prefix = cls.MULTI_LINE[1]
+            prefix = cls.MULTI_LINE.middle
             if possible_line.startswith(prefix):
                 line = possible_line.lstrip(prefix)
                 # Note to future self: line.removeprefix would be preferable
@@ -174,11 +184,11 @@ class CommentStyle:
             last = None  # Set this later.
             last_is_first = True
 
-        if not first.startswith(cls.MULTI_LINE[0]):
+        if not first.startswith(cls.MULTI_LINE.start):
             raise CommentParseError(
                 f"'{first}' does not start with a comment marker"
             )
-        first = first.lstrip(cls.MULTI_LINE[0])
+        first = first.lstrip(cls.MULTI_LINE.start)
         first = first.lstrip()
 
         for line in lines:
@@ -188,11 +198,11 @@ class CommentStyle:
         if last_is_first:
             last = first
             first = ""
-        if not last.endswith(cls.MULTI_LINE[2]):
+        if not last.endswith(cls.MULTI_LINE.end):
             raise CommentParseError(
                 f"'{last}' does not end with a comment delimiter"
             )
-        last = last.rstrip(cls.MULTI_LINE[2])
+        last = last.rstrip(cls.MULTI_LINE.end)
         last = last.rstrip()
         last = cls._remove_middle_marker(last)
 
@@ -223,11 +233,11 @@ class CommentStyle:
                     break
                 end = i
             return "\n".join(lines[0 : end + 1])
-        if cls.can_handle_multi() and text.startswith(cls.MULTI_LINE[0]):
+        if cls.can_handle_multi() and text.startswith(cls.MULTI_LINE.start):
             end = 0
             for i, line in enumerate(lines):
                 end = i
-                if line.endswith(cls.MULTI_LINE[2]):
+                if line.endswith(cls.MULTI_LINE.end):
                     break
             else:
                 raise CommentParseError("Comment block never delimits")
@@ -245,7 +255,7 @@ class AppleScriptCommentStyle(CommentStyle):
 
     SINGLE_LINE = "--"
     INDENT_AFTER_SINGLE = " "
-    MULTI_LINE = ("(*", "", "*)")
+    MULTI_LINE = MultiLineSegments("(*", "", "*)")
 
 
 class AspxCommentStyle(CommentStyle):
@@ -253,7 +263,7 @@ class AspxCommentStyle(CommentStyle):
 
     _shorthand = "aspx"
 
-    MULTI_LINE = ("<%--", "", "--%>")
+    MULTI_LINE = MultiLineSegments("<%--", "", "--%>")
 
 
 class BatchFileCommentStyle(CommentStyle):
@@ -270,7 +280,7 @@ class BibTexCommentStyle(CommentStyle):
 
     _shorthand = "bibtex"
 
-    MULTI_LINE = ("@Comment{", "", "}")
+    MULTI_LINE = MultiLineSegments("@Comment{", "", "}")
 
 
 class CCommentStyle(CommentStyle):
@@ -280,7 +290,7 @@ class CCommentStyle(CommentStyle):
 
     SINGLE_LINE = "//"
     INDENT_AFTER_SINGLE = " "
-    MULTI_LINE = ("/*", "*", "*/")
+    MULTI_LINE = MultiLineSegments("/*", "*", "*/")
     INDENT_BEFORE_MIDDLE = " "
     INDENT_AFTER_MIDDLE = " "
     INDENT_BEFORE_END = " "
@@ -291,7 +301,7 @@ class CssCommentStyle(CommentStyle):
 
     _shorthand = "css"
 
-    MULTI_LINE = ("/*", "*", "*/")
+    MULTI_LINE = MultiLineSegments("/*", "*", "*/")
     INDENT_BEFORE_MIDDLE = " "
     INDENT_AFTER_MIDDLE = " "
     INDENT_BEFORE_END = " "
@@ -327,7 +337,7 @@ class FtlCommentStyle(CommentStyle):
 
     _shorthand = "ftl"
 
-    MULTI_LINE = ("<#--", "", "-->")
+    MULTI_LINE = MultiLineSegments("<#--", "", "-->")
 
 
 class HandlebarsCommentStyle(CommentStyle):
@@ -335,7 +345,7 @@ class HandlebarsCommentStyle(CommentStyle):
 
     _shorthand = "handlebars"
 
-    MULTI_LINE = ("{{!--", "", "--}}")
+    MULTI_LINE = MultiLineSegments("{{!--", "", "--}}")
 
 
 class HaskellCommentStyle(CommentStyle):
@@ -352,7 +362,7 @@ class HtmlCommentStyle(CommentStyle):
 
     _shorthand = "html"
 
-    MULTI_LINE = ("<!--", "", "-->")
+    MULTI_LINE = MultiLineSegments("<!--", "", "-->")
 
 
 class JinjaCommentStyle(CommentStyle):
@@ -360,7 +370,7 @@ class JinjaCommentStyle(CommentStyle):
 
     _shorthand = "jinja"
 
-    MULTI_LINE = ("{#", "", "#}")
+    MULTI_LINE = MultiLineSegments("{#", "", "#}")
 
 
 class LispCommentStyle(CommentStyle):
@@ -386,7 +396,7 @@ class MlCommentStyle(CommentStyle):
 
     _shorthand = "ml"
 
-    MULTI_LINE = ("(*", "*", "*)")
+    MULTI_LINE = MultiLineSegments("(*", "*", "*)")
     INDENT_BEFORE_MIDDLE = " "
     INDENT_AFTER_MIDDLE = " "
     INDENT_BEFORE_END = " "
@@ -399,7 +409,7 @@ class PlantUmlCommentStyle(CommentStyle):
 
     SINGLE_LINE = "'"
     INDENT_AFTER_SINGLE = " "
-    MULTI_LINE = ("/'", "'", "'/")
+    MULTI_LINE = MultiLineSegments("/'", "'", "'/")
     INDENT_BEFORE_MIDDLE = " "
     INDENT_AFTER_MIDDLE = " "
     INDENT_BEFORE_END = " "

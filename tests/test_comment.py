@@ -56,9 +56,9 @@ def test_create_comment_generic_multi(MultiStyle):
     text = "Hello"
     expected = cleandoc(
         f"""
-        {MultiStyle.MULTI_LINE[0]}
-        {MultiStyle.INDENT_BEFORE_MIDDLE}{MultiStyle.MULTI_LINE[1]}{MultiStyle.INDENT_AFTER_MIDDLE}Hello
-        {MultiStyle.INDENT_BEFORE_END}{MultiStyle.MULTI_LINE[2]}
+        {MultiStyle.MULTI_LINE.start}
+        {MultiStyle.INDENT_BEFORE_MIDDLE}{MultiStyle.MULTI_LINE.middle}{MultiStyle.INDENT_AFTER_MIDDLE}Hello
+        {MultiStyle.INDENT_BEFORE_END}{MultiStyle.MULTI_LINE.end}
         """
     )
 
@@ -78,9 +78,9 @@ def test_parse_comment_generic_multi(MultiStyle):
     # pylint: disable=line-too-long
     text = cleandoc(
         f"""
-        {MultiStyle.MULTI_LINE[0]}
-        {MultiStyle.INDENT_BEFORE_MIDDLE}{MultiStyle.MULTI_LINE[1]}{MultiStyle.INDENT_AFTER_MIDDLE}Hello
-        {MultiStyle.INDENT_BEFORE_END}{MultiStyle.MULTI_LINE[2]}
+        {MultiStyle.MULTI_LINE.start}
+        {MultiStyle.INDENT_BEFORE_MIDDLE}{MultiStyle.MULTI_LINE.middle}{MultiStyle.INDENT_AFTER_MIDDLE}Hello
+        {MultiStyle.INDENT_BEFORE_END}{MultiStyle.MULTI_LINE.end}
         """
     )
     expected = "Hello"
