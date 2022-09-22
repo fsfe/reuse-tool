@@ -56,6 +56,8 @@ Contributors
 
 - Yaman Qalieh
 
+- Pietro Albini <pietro.albini@ferrous-systems.com>
+
 Translators
 -----------
 

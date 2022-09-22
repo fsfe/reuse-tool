@@ -58,6 +58,8 @@ The versions follow [semantic versioning](https://semver.org).
 ### Fixed
 
 - Sanitize xargs input in scripts documentation
+- License identifiers in comments with symmetrical ASCII art frames are now
+  properly detected (#560)
 
 - In PHP files, add header after `<?php` (#543).
 

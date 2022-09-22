@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,7 +23,7 @@ from gettext import gettext as _
 from hashlib import sha1
 from os import PathLike
 from pathlib import Path
-from typing import BinaryIO, List, Optional, Set
+from typing import BinaryIO, Iterator, List, Optional, Set
 
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
@@ -53,7 +54,7 @@ _END_PATTERN = r"{}$".format(  # pylint: disable=consider-using-f-string
     )
 )
 _IDENTIFIER_PATTERN = re.compile(
-    r"SPDX-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
+    r"^(.*?)SPDX-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
 _COPYRIGHT_PATTERNS = [
     re.compile(
@@ -264,7 +265,7 @@ def extract_spdx_info(text: str) -> SpdxInfo:
     :raises ParseError: if an SPDX expression could not be parsed
     """
     text = filter_ignore_block(text)
-    expression_matches = set(map(str.strip, _IDENTIFIER_PATTERN.findall(text)))
+    expression_matches = set(find_license_identifiers(text))
     expressions = set()
     copyright_matches = set()
     for expression in expression_matches:
@@ -285,6 +286,28 @@ def extract_spdx_info(text: str) -> SpdxInfo:
                 break
 
     return SpdxInfo(expressions, copyright_matches)
+
+
+def find_license_identifiers(text: str) -> Iterator[str]:
+    """Extract all the license identifiers matching the IDENTIFIER_PATTERN
+    regex, taking care of stripping extraneous whitespace of formatting."""
+    for prefix, identifier in _IDENTIFIER_PATTERN.findall(text):
+        prefix, identifier = prefix.strip(), identifier.strip()
+
+        # Some comment headers have ASCII art to "frame" the comment, like this:
+        #
+        # /***********************\
+        # |*  This is a comment  *|
+        # \***********************/
+        #
+        # To ensure we parse them correctly, if the line ends with the inverse
+        # of the comment prefix, we strip that suffix. See #343 for a real
+        # world example of a project doing this (LLVM).
+        suffix = prefix[::-1]
+        if suffix and identifier.endswith(suffix):
+            identifier = identifier[: -len(suffix)]
+
+        yield identifier.strip()
 
 
 def filter_ignore_block(text: str) -> str:
