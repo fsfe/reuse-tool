@@ -188,6 +188,82 @@ def test_annotate_no_year(fake_repository, stringio):
     assert simple_file.read_text() == expected
 
 
+def test_annotate_shebang(fake_repository, stringio):
+    """Keep the shebang when annotating."""
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text(
+        cleandoc(
+            """
+            #!/usr/bin/env python3
+
+            pass
+            """
+        )
+    )
+    expected = cleandoc(
+        """
+        #!/usr/bin/env python3
+
+        # SPDX-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
+def test_annotate_shebang_wrong_comment_style(fake_repository, stringio):
+    """If a comment style does not support the shebang at the top, don't treat
+    the shebang as special.
+    """
+    simple_file = fake_repository / "foo.html"
+    simple_file.write_text(
+        cleandoc(
+            """
+            #!/usr/bin/env python3
+
+            pass
+            """
+        )
+    )
+    expected = cleandoc(
+        """
+        <!--
+        SPDX-License-Identifier: GPL-3.0-or-later
+        -->
+
+        #!/usr/bin/env python3
+
+        pass
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "foo.html",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
 def test_annotate_specify_style(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one, using a custom style."""
     simple_file = fake_repository / "foo.py"
