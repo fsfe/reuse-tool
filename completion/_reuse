@@ -1,0 +1,148 @@
+#compdef reuse
+
+# SPDX-FileCopyrightText: 2022 tastytea <tastytea@tastytea.de>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+local curcontext=${curcontext} state state_descr line ret=1
+
+function _reuse_licenses() {
+    local -a licenses
+    OLDIFS=${IFS}
+    IFS=$'\n'
+    for line in $(reuse supported-licenses 2>&-); do
+        # remove everything before and including the first whitespace and
+        # everything after and including the first http
+        desc=${${line#*[[:blank:]]}%[[:blank:]]http*}
+        # trim whitespace
+        [[ ${desc} =~ '^\s*(\S.*\S)\s*$' ]] && desc=$match[1] || desc=''
+        licenses+=(${line%% *}:${desc})
+    done
+    IFS=${OLDIFS}
+    _describe -t licenses license licenses && ret=0
+}
+
+function _reuse_styles() {
+    local -a styles=(
+        applescript
+        aspx
+        bat
+        bibtex
+        c
+        css
+        f
+        ftl
+        handlebars
+        haskell
+        html
+        jinja
+        lisp
+        m4
+        ml
+        plantuml
+        python
+        rst
+        tex
+        vim
+    )
+    _values 'style' ${styles}
+}
+
+function _reuse_copyright_styles() {
+    local -a styles=(
+        spdx
+        spdx-symbol
+        string
+        string-c
+        string-symbol
+        symbol
+    )
+    _values 'copyright style' ${styles}
+}
+
+_arguments  -C \
+    {'(--help)-h','(-h)--help'}'[show help message and exit]' \
+    --debug'[enable debug statements]' \
+    --include-submodules'[do not skip over Git submodules]' \
+    --include-meson-subprojects'[do not skip over Meson subprojects]' \
+    --no-multiprocessing'[do not use multiprocessing]' \
+    --root'[define root of project]':PATH:'_files -/' \
+    --version"[show program's version number and exit]" \
+    '(-): :->command' \
+    '(-)*:: :->subcommand' \
+    && ret=0
+
+case ${state} in
+    (command)
+        local -a subcommands=(
+            addheader:'add copyright and licensing into the header of files'
+            download:'download a license and place it in the LICENSES/ directory'
+            init:'initialize REUSE project'
+            lint:'list all non-compliant files'
+            spdx:"print the project's bill of materials in SPDX format"
+            {supported-licenses,supported-licences}:'list all supported SPDX licenses'
+        )
+        _describe -t subcommands subcommand subcommands && ret=0
+        ;;
+    (subcommand)
+        curcontext=${curcontext%:*}-$line[1]:
+        case ${line[1]} in
+            (addheader)
+                _arguments -C -A '-*' \
+                    {'(--help)-h','(-h)--help'}'[show help message and exit]' \
+                    {'(--copyright)-c','(-c)--copyright'}'[copyright statement, repeatable]':copyright \
+                    {'(--license)-l','(-l)--license'}'[SPDX Identifier, repeatable]':license:_reuse_licenses \
+                    {'(--year)-y','(-y)--year'}'[year of copyright statement, optional]':year \
+                    {'(--style)-s','(-s)--style'}'[comment style to use, optional]':style:_reuse_styles \
+                    --copyright-style'[copyright style to use, optional]':'copyright style':_reuse_copyright_styles \
+                    {'(--template)-t','(-t)--template'}'[name of template to use, optional]':template \
+                    --exclude-year'[do not include year in statement]' \
+                    --merge-copyrights'[merge copyright lines if copyright statements are identical]' \
+                    --single-line'[force single-line comment style, optional]' \
+                    --multi-line'[force multi-line comment style, optional]' \
+                    --force-dot-license'[write a .license file instead of a header inside the file]' \
+                    {'(--recursive)-r','(-r)--recursive'}'[add headers to all files under specified directories recursively]' \
+                    --skip-unrecognised'[skip files with unrecognised comment styles]' \
+                    --skip-existing'[skip files that already contain SPDX information]' \
+                    1:path:'_files' \
+                    && ret=0
+                ;;
+            (download)
+                _arguments -C -A '-*' \
+                    {'(--help)-h','(-h)--help'}'[show help message and exit]' \
+                    --all'[download all missing licenses detected in the project]' \
+                    {'(--output)-o','(-o)--output'}:file:_files \
+                    1:license:_reuse_licenses \
+                    && ret=0
+                ;;
+            (init)
+                _arguments -C -A '-*' \
+                    {'(--help)-h','(-h)--help'}'[show help message and exit]' \
+                    1:path:'_files -/' \
+                    && ret=0
+                ;;
+            (lint)
+                _arguments -C -A '-*' \
+                    {'(--help)-h','(-h)--help'}'[show help message and exit]' \
+                    {'(--quiet)-q','(-q)--quiet'}'[Prevents output]' \
+                    && ret=0
+                ;;
+            (spdx)
+                _arguments -C -A '-*' \
+                    {'(--help)-h','(-h)--help'}'[show help message and exit]' \
+                    {'(--output)-o','(-o)--output'}:file:_files \
+                    && ret=0
+                ;;
+            (supported-licenses|supported-licences)
+                _arguments -C -A '-*' \
+                    {'(--help)-h','(-h)--help'}'[show help message and exit]' \
+                    && ret=0
+                ;;
+            (*)
+                _nothing
+                ;;
+        esac
+        ;;
+esac
+
+return ret
