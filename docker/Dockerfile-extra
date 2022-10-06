@@ -7,29 +7,18 @@
 # Create a base image that has dependencies installed.
 FROM alpine:3.13 AS base
 
-RUN apk --no-cache add git mercurial python3 openssh-client
+RUN apk --no-cache add git mercurial python3 py3-pip openssh-client
 
 # Build reuse into a virtualenv
 FROM base AS build
 
 WORKDIR /reuse-tool
 
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
 COPY . /reuse-tool/
 
-RUN pip3 install -r requirements.txt
-RUN pip3 install .
-
-
-# Copy over the virtualenv and use it
-FROM base
-COPY --from=build /opt/venv /opt/venv
-
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN pip3 install "poetry>=1.2"
+RUN poetry config virtualenvs.create false \
+  && poetry install --without dev --no-interaction --no-ansi
 
 WORKDIR /data
 
