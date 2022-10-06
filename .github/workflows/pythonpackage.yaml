@@ -47,7 +47,7 @@ jobs:
           poetry install
       - name: Lint with PyLint
         run: |
-          poetry run pylint src/reuse tests/*.py *.py
+          poetry run pylint src/reuse tests/*.py
 
   black:
     runs-on: ubuntu-latest
@@ -63,7 +63,7 @@ jobs:
           poetry install
       - name: Test formatting with black
         run: |
-          poetry run isort --check src/ tests/ *.py
+          poetry run isort --check src/ tests/
           poetry run black .
 
   reuse:
