@@ -19,7 +19,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 - Source code: <https://github.com/fsfe/reuse-tool>
 - PyPI: <https://pypi.python.org/pypi/reuse>
 - REUSE: 3.0
-- Python: 3.6+
+- Python: 3.7+
 
 ## Background
 
@@ -110,7 +110,7 @@ reuse will then be available in `~/.local/bin`, which must be added to your
 To install reuse, you need to have the following pieces of software on your
 computer:
 
-- Python 3.6+
+- Python 3.7+
 - pip
 
 You then only need to run the following command:
