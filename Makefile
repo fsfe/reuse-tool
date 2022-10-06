@@ -45,11 +45,11 @@ clean-docs: ## remove docs build artifacts
 
 .PHONY: reuse
 reuse: dist ## check with self
-	reuse lint
+	poetry run reuse lint
 	tar -xf dist/reuse*.tar.gz -C dist/
 	# This prevents the linter from using the project root as root.
 	git init dist/reuse*/
-	cd dist/reuse*/; reuse lint
+	cd dist/reuse*/; poetry run reuse lint
 
 .PHONY: docs
 docs: ## generate Sphinx HTML documentation, including API docs
