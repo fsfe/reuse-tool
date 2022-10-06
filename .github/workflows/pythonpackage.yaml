@@ -30,14 +30,11 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-      - name: Install reuse
-        run: |
-          python setup.py install
+          pip install poetry
+          poetry install
       - name: Run tests with pytest
         run: |
-          make test
+          pytest tests
 
   pylint:
     runs-on: ubuntu-latest
@@ -49,11 +46,11 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
+          pip install poetry
+          poetry install
       - name: Lint with PyLint
         run: |
-          make lint
+          pylint src/reuse tests/*.py *.py
 
   black:
     runs-on: ubuntu-latest
@@ -65,11 +62,12 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
+          pip install poetry
+          poetry install
       - name: Test formatting with black
         run: |
-          make blackcheck
+          isort --check src/ tests/ *.py
+          black .
 
   reuse:
     runs-on: ubuntu-latest
@@ -81,11 +79,8 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-      - name: Install reuse
-        run: |
-          python setup.py install
+          pip install poetry
+          poetry install
       - name: Test REUSE compliance
         run: |
           make reuse
@@ -100,11 +95,8 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-      - name: Install reuse
-        run: |
-          python setup.py install
+          pip install poetry
+          poetry install
       - name: Create docs with Sphinx
         run: |
           make docs
