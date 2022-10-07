@@ -49,7 +49,7 @@ reuse: dist ## check with self
 	tar -xf dist/reuse*.tar.gz -C dist/
 	# This prevents the linter from using the project root as root.
 	git init dist/reuse*/
-	cd dist/reuse*/; poetry run reuse lint
+	poetry run reuse --root dist/reuse*/ lint
 
 .PHONY: docs
 docs: ## generate Sphinx HTML documentation, including API docs
