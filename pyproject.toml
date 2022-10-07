@@ -49,7 +49,7 @@ license-expression = ">=1.0"
 python-debian = "0.1.38"
 requests = "^2.18"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev-dependencies]
 Sphinx = "^4.4.0"
 recommonmark = "^0.7.1"
 sphinx-autodoc-typehints = "^1.12.0"
@@ -61,8 +61,6 @@ bump2version = "^1.0.1"
 pre-commit = "^2.17.0"
 twine = "^3.7.1"
 wheel = "^0.37.1"
-
-[tool.poetry.group.test.dependencies]
 pylint = "^2.12.2"
 pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
@@ -75,7 +73,7 @@ reuse = 'reuse._main:main'
 generate-setup-file = false
 
 [build-system]
-requires = ["poetry-core>=1.2.0"]
+requires = ["poetry-core>=1.1.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
