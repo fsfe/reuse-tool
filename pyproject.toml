@@ -22,7 +22,6 @@ packages = [
 ]
 include = [
     { path = "tests", format = "sdist" },
-    { path = "tox.ini", format = "sdist" },
     { path = "po", format = "sdist" },
     { path = "AUTHORS.rst" },
     { path = "README.md" },
@@ -64,7 +63,6 @@ wheel = "^0.37.1"
 pylint = "^2.12.2"
 pytest = ">=6.0.0"
 pytest-cov = ">=2.10.0"
-tox = "^3.24.5"
 
 [tool.poetry.scripts]
 reuse = 'reuse._main:main'
