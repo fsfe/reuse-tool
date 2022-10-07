@@ -4,20 +4,32 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Create a base image that has dependencies installed.
-FROM alpine:3.13 AS base
+FROM alpine:3.16 AS base
 
-RUN apk --no-cache add git mercurial python3 py3-pip
+RUN apk --no-cache add git mercurial python3
 
 # Build reuse into a virtualenv
 FROM base AS build
 
-WORKDIR /reuse-tool
+RUN apk --no-cache add poetry
 
+WORKDIR /reuse-tool
 COPY . /reuse-tool/
 
-RUN pip3 install "poetry>=1.2"
-RUN poetry config virtualenvs.create false \
-  && poetry install --without dev --no-interaction --no-ansi
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN poetry install --no-dev --no-root
+RUN poetry build
+RUN pip install dist/*.whl
+
+# Copy over the virtualenv and use it
+FROM base
+COPY --from=build /opt/venv /opt/venv
+
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR /data
 
