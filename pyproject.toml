@@ -23,6 +23,7 @@ packages = [
 include = [
     { path = "tests", format = "sdist" },
     { path = "po", format = "sdist" },
+    { path = "src/reuse/locale/**/*.mo", format="wheel" },
     { path = "AUTHORS.rst" },
     { path = "README.md" },
     { path = "CHANGELOG.md" },
@@ -67,9 +68,10 @@ reuse = 'reuse._main:main'
 
 [tool.poetry.build]
 generate-setup-file = false
+script = "build.py"
 
 [build-system]
-requires = ["poetry-core>=1.1.0"]
+requires = ["poetry-core>=1.1.0", "setuptools"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
