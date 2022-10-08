@@ -75,6 +75,8 @@ The versions follow [semantic versioning](https://semver.org).
 - `setup.py`. (#600)
 - Releases to PyPI are no longer GPG-signed. Support for this is not present in
   Poetry and not planned. (#600)
+- Dependency on `requests` removed; using `urllib.request` from the standard
+  library instead. (#600)
 
 ### Fixed
 
