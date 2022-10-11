@@ -46,10 +46,10 @@ _END_PATTERN = r"{}$".format(  # pylint: disable=consider-using-f-string
     "".join(
         {
             r"(?:{})*".format(  # pylint: disable=consider-using-f-string
-                re.escape(style.MULTI_LINE[2])
+                re.escape(style.MULTI_LINE.end)
             )
             for style in _all_style_classes()
-            if style.MULTI_LINE[2]
+            if style.MULTI_LINE.end
         }
     )
 )
@@ -60,17 +60,17 @@ _COPYRIGHT_PATTERNS = [
     re.compile(
         r"(?P<copyright>(?P<prefix>SPDX-FileCopyrightText:)\s+"
         r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
-        r"(?P<statement>.*)?)" + _END_PATTERN
+        r"(?P<statement>.*?))" + _END_PATTERN
     ),
     re.compile(
         r"(?P<copyright>(?P<prefix>Copyright(\s?\([cC]\))?)\s+"
         r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
-        r"(?P<statement>.*)?)" + _END_PATTERN
+        r"(?P<statement>.*?))" + _END_PATTERN
     ),
     re.compile(
         r"(?P<copyright>(?P<prefix>©)\s+"
         r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
-        r"(?P<statement>.*)?)" + _END_PATTERN
+        r"(?P<statement>.*?))" + _END_PATTERN
     ),
 ]
 
@@ -282,7 +282,7 @@ def extract_spdx_info(text: str) -> SpdxInfo:
         for pattern in _COPYRIGHT_PATTERNS:
             match = pattern.search(line)
             if match is not None:
-                copyright_matches.add(match.groupdict()["copyright"])
+                copyright_matches.add(match.groupdict()["copyright"].strip())
                 break
 
     return SpdxInfo(expressions, copyright_matches)

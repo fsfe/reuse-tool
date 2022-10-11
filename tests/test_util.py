@@ -176,6 +176,16 @@ def test_extract_with_ignore_block():
     assert len(result.spdx_expressions) == 1
 
 
+def test_extract_sameline_multiline():
+    """When a copyright line is in a multi-line style comment on a single line,
+    do not include the comment end pattern as part of the copyright.
+    """
+    text = "<!-- SPDX-FileCopyrightText: Jane Doe -->"
+    result = _util.extract_spdx_info(text)
+    assert len(result.copyright_lines) == 1
+    assert result.copyright_lines == {"SPDX-FileCopyrightText: Jane Doe"}
+
+
 def test_filter_ignore_block_with_comment_style():
     """Test that the ignore block is properly removed if start and end markers
     are in comment style.
