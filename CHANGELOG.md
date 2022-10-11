@@ -45,6 +45,12 @@ The versions follow [semantic versioning](https://semver.org).
   - Android Interface Definition Language (`.aidl`)
   - Certificate files (`.pem`)
 
+- Some special endings are always stripped from copyright and licensing
+  statements (#602):
+
+  - `">` (and variations such as `'>`, `" >`, and `"/>`)
+  - `] ::`
+
 ### Changed
 
 - Updated PyPI development status to 'production/stable' (#381)
