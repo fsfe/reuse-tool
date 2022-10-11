@@ -8,7 +8,9 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 ## Table of Contents
 
-- [Release a new version](#release-a-new-version)
+- [Contribution Guidelines](#contribution-guidelines)
+  - [Table of Contents](#table-of-contents)
+  - [Release a new version](#release-a-new-version)
 
 ## Release a new version
 
@@ -23,9 +25,9 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 - Test here possibly
 - `git push --tags origin`
 - `make release` (use one of the documented keys of maintainers)
-- `git checkout master`
+- `git checkout main`
 - `git merge release-1.XX.Y`
-- `git push origin master`
+- `git push origin main`
 - Update readthedocs (if not happened automatically)
 - Update API worker: https://git.fsfe.org/reuse/api-worker#user-content-server
 - Make sure package is updated in distros (contact maintainers)

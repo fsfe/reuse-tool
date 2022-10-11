@@ -17,8 +17,6 @@ on:
     # Main branch will be "dev"
     branches:
       - main
-      # TODO: remove as soon as master -> main branch
-      - master
   # On PRs only do tests
   pull_request:
 
@@ -152,10 +150,9 @@ jobs:
     # Depends on successful Docker build/test
     needs:
       - docker_test
-    # TODO: remove master when we switched to main
     if:
       ${{ github.event_name != 'pull_request' && ( github.ref ==
-      'refs/heads/main' || github.ref == 'refs/heads/master' ) }}
+      'refs/heads/main' ) }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
