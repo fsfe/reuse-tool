@@ -186,6 +186,27 @@ def test_extract_sameline_multiline():
     assert result.copyright_lines == {"SPDX-FileCopyrightText: Jane Doe"}
 
 
+def test_extract_special_endings():
+    """Strip some non-comment-style endings from the end of copyright and
+    licensing information.
+    """
+    text = cleandoc(
+        """
+        <tag value="Copyright 2019 Jane Doe">
+        <tag value="Copyright 2019 John Doe" >
+        <tag value="Copyright 2019 Joe Somebody" />
+        <tag value='Copyright 2019 Alice'>
+        <tag value='Copyright 2019 Bob' >
+        <tag value='Copyright 2019 Eve' />
+        [Copyright 2019 Ajnulo] ::
+        """
+    )
+    result = _util.extract_spdx_info(text)
+    for item in result.copyright_lines:
+        assert ">" not in item
+        assert "] ::" not in item
+
+
 def test_filter_ignore_block_with_comment_style():
     """Test that the ignore block is properly removed if start and end markers
     are in comment style.
