@@ -34,17 +34,6 @@ from jinja2.exceptions import TemplateNotFound
 from license_expression import ExpressionError
 
 from . import SpdxInfo
-from ._comment import (
-    EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
-    FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
-    NAME_STYLE_MAP,
-    CommentCreateError,
-    CommentParseError,
-    CommentStyle,
-    EmptyCommentStyle,
-    PythonCommentStyle,
-    UncommentableCommentStyle,
-)
 from ._util import (
     _COPYRIGHT_STYLES,
     PathType,
@@ -56,6 +45,17 @@ from ._util import (
     make_copyright_line,
     merge_copyright_lines,
     spdx_identifier,
+)
+from .comment import (
+    EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
+    FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
+    NAME_STYLE_MAP,
+    CommentCreateError,
+    CommentParseError,
+    CommentStyle,
+    EmptyCommentStyle,
+    PythonCommentStyle,
+    UncommentableCommentStyle,
 )
 from .project import Project
 

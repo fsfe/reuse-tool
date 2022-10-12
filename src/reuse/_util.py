@@ -31,8 +31,8 @@ from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
 
 from . import SpdxInfo
-from ._comment import _all_style_classes
 from ._licenses import ALL_NON_DEPRECATED_MAP
+from .comment import _all_style_classes
 
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
