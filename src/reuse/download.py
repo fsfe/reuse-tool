@@ -14,6 +14,7 @@ from pathlib import Path
 from urllib.error import URLError
 from urllib.parse import urljoin
 
+from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import find_licenses_directory
 from .extract import _LICENSEREF_PATTERN
 from .project import Project
@@ -40,6 +41,8 @@ def download_license(spdx_identifier: str) -> str:
     Returns:
         The license text.
     """
+    if spdx_identifier not in ALL_NON_DEPRECATED_MAP:
+        spdx_identifier = f"deprecated_{spdx_identifier}"
     # This is fairly naive, but I can't see anything wrong with it.
     url = urljoin(_SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt")))
     _LOGGER.debug("downloading license from '%s'", url)
