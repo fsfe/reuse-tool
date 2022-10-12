@@ -45,6 +45,10 @@ The versions follow [semantic versioning](https://semver.org).
   - Android Interface Definition Language (`.aidl`)
   - Certificate files (`.pem`)
 
+- Added comment style:
+
+  - Apache Velocity Template (Extensions: `.vm`, `.vtl`)
+
 ### Changed
 
 - Updated PyPI development status to 'production/stable' (#381)
