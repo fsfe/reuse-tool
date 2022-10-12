@@ -72,6 +72,7 @@ welcome to help us package this tool for more distributions!
 - Debian: [reuse](https://packages.debian.org/search?keywords=reuse&exact=1)
 - GNU Guix: [reuse](https://guix.gnu.org/packages/reuse-0.14.0/)
 - Fedora: [reuse](https://apps.fedoraproject.org/packages/reuse)
+- MacPorts: [reuse](https://ports.macports.org/port/reuse/)
 - NixOS:
   [reuse](https://search.nixos.org/packages?channel=21.05&from=0&size=50&sort=relevance&type=packages&query=reuse)
 - openSUSE: [reuse](https://software.opensuse.org/package/reuse)
