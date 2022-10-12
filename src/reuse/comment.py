@@ -223,7 +223,7 @@ class CommentStyle:
         file.
 
         :raises CommentParseError: if *text* does not start with a parseable
-        comment block.
+            comment block.
         """
         if not any((cls.can_handle_single(), cls.can_handle_multi())):
             raise CommentParseError(f"{cls} cannot parse comments")

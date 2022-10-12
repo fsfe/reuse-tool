@@ -131,20 +131,7 @@ Comment styles
 The tool normally tries to auto-detect the comment style to use from the file
 extension of a file, and use that comment style. If the tool is unable to detect
 the comment style, or if it detects the wrong style, you can override the style
-using ``--style``. The supported styles are:
-
-- AppleScript
-- ASPX
-- BibTex
-- C
-- CSS
-- Haskell
-- HTML
-- Jinja
-- JSX
-- ML
-- Python
-- TeX
+using ``--style``. The list of styles can be found in :doc:`api/reuse.comment`.
 
 If your comment style is not supported or a file extension is not correctly
 detected, please `open an issue <https://github.com/fsfe/reuse-tool/issues>`_.
