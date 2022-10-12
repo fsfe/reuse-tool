@@ -448,6 +448,15 @@ class UncommentableCommentStyle(EmptyCommentStyle):
     """
 
 
+class VelocityCommentStyle(CommentStyle):
+    """Apache Velocity Template Language comment style."""
+
+    _shorthand = "vst"
+
+    # TODO: SINGLE_LINE requires refactor to support trailing `**`.
+    MULTI_LINE = MultiLineSegments("#*", "  ", "*#")
+
+
 class VimCommentStyle(CommentStyle):
     """Vim(Script|Config) style."""
 
@@ -639,7 +648,9 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".v": CCommentStyle,  # V-Lang source code
     ".vala": CCommentStyle,
     ".vim": VimCommentStyle,
+    ".vm": VelocityCommentStyle,
     ".vsh": CCommentStyle,  # V-Lang script
+    ".vtl": VelocityCommentStyle,
     ".vue": HtmlCommentStyle,
     ".xls": UncommentableCommentStyle,
     ".xlsx": UncommentableCommentStyle,
