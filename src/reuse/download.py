@@ -38,6 +38,8 @@ def download_license(spdx_identifier: str) -> str:
     :raises requests.RequestException: if the license could not be downloaded.
     :return: The license text.
     """
+    if spdx_identifier not in ALL_NON_DEPRECATED_MAP:
+        spdx_identifier = f"deprecated_{spdx_identifier}"
     # This is fairly naive, but I can't see anything wrong with it.
     url = urljoin(_SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt")))
     # TODO: Cache result?

@@ -5,6 +5,7 @@
 """All tests for reuse.download"""
 
 from pathlib import Path
+from unittest.mock import MagicMock
 
 import pytest
 import requests
@@ -47,6 +48,14 @@ def test_download_exception(monkeypatch):
     monkeypatch.setattr(requests, "get", raise_exception)
     with pytest.raises(requests.RequestException):
         download_license("hello world")
+
+
+def test_download_deprecated(monkeypatch):
+    """Adjust the requested file for deprecated licenses."""
+    mocked = MagicMock(return_value=MockResponse("hello", 200))
+    monkeypatch.setattr(requests, "get", mocked)
+    download_license("GPL-3.0")
+    assert "deprecated_GPL-3.0" in mocked.call_args[0][0]
 
 
 def test_put_simple(fake_repository, monkeypatch):
