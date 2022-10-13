@@ -64,6 +64,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Fixed
 
 - Sanitize xargs input in scripts documentation
+- Support deprecated licences for `reuse download`. (#606)
 - License identifiers in comments with symmetrical ASCII art frames are now
   properly detected (#560)
 - Fixed an error where copyright statements contained within a multi-line
