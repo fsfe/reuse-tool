@@ -21,6 +21,7 @@ from argparse import ArgumentTypeError
 from difflib import SequenceMatcher
 from gettext import gettext as _
 from hashlib import sha1
+from itertools import chain
 from os import PathLike
 from pathlib import Path
 from typing import BinaryIO, Iterator, List, Optional, Set
@@ -42,14 +43,32 @@ REUSE_IGNORE_END = "REUSE-IgnoreEnd"
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
 
-_END_PATTERN = r"{}$".format(  # pylint: disable=consider-using-f-string
+# REUSE-IgnoreStart
+
+_END_PATTERN = r"{}$".format(
     "".join(
         {
-            r"(?:{})*".format(  # pylint: disable=consider-using-f-string
-                re.escape(style.MULTI_LINE.end)
+            r"(?:{})*".format(item)  # pylint: disable=consider-using-f-string
+            for item in chain(
+                (
+                    re.escape(style.MULTI_LINE.end)
+                    for style in _all_style_classes()
+                    if style.MULTI_LINE.end
+                ),
+                # These are special endings which do not belong to specific
+                # comment styles, but which we want to nonetheless strip away
+                # while parsing.
+                (
+                    ending
+                    for ending in [
+                        # ex: <tag value="Copyright Jane Doe">
+                        r'"\s*/*>',
+                        r"'\s*/*>",
+                        # ex: [SPDX-License-Identifier: GPL-3.0-or-later] ::
+                        r"\]\s*::",
+                    ]
+                ),
             )
-            for style in _all_style_classes()
-            if style.MULTI_LINE.end
         }
     )
 )
@@ -75,14 +94,12 @@ _COPYRIGHT_PATTERNS = [
 ]
 
 _COPYRIGHT_STYLES = {
-    # REUSE-IgnoreStart
     "spdx": "SPDX-FileCopyrightText:",
     "spdx-symbol": "SPDX-FileCopyrightText: ©",
     "string": "Copyright",
     "string-c": "Copyright (C)",
     "string-symbol": "Copyright ©",
     "symbol": "©",
-    # REUSE-IgnoreEnd
 }
 
 # Amount of bytes that we assume will be big enough to contain the entire
@@ -492,3 +509,6 @@ def detect_line_endings(text: str) -> str:
         if line_ending in text:
             return line_ending
     return os.linesep
+
+
+# REUSE-IgnoreEnd
