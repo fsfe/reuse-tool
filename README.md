@@ -235,7 +235,7 @@ Git. This uses [pre-commit](https://pre-commit.com/). Once you
 ```yaml
 repos:
   - repo: https://github.com/fsfe/reuse-tool
-    rev: latest
+    rev: v1.0.0
     hooks:
       - id: reuse
 ```
