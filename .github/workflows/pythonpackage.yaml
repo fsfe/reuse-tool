@@ -30,14 +30,14 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-      - name: Install reuse
-        run: |
-          python setup.py install
+          pip install poetry
+          poetry install --no-interaction
       - name: Run tests with pytest
         run: |
-          make test
+          # Re-enable this once
+          # https://github.com/pytest-dev/pytest-cov/issues/564 is resolved.
+          # poetry run pytest --cov=reuse
+          poetry run pytest
 
   pylint:
     runs-on: ubuntu-latest
@@ -49,11 +49,11 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
+          pip install poetry
+          poetry install --no-interaction
       - name: Lint with PyLint
         run: |
-          make lint
+          poetry run pylint src/reuse tests/*.py
 
   black:
     runs-on: ubuntu-latest
@@ -65,11 +65,12 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
+          pip install poetry
+          poetry install --no-interaction
       - name: Test formatting with black
         run: |
-          make blackcheck
+          poetry run isort --check src/ tests/
+          poetry run black .
 
   reuse:
     runs-on: ubuntu-latest
@@ -81,11 +82,8 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-      - name: Install reuse
-        run: |
-          python setup.py install
+          pip install poetry
+          poetry install --no-interaction --no-dev
       - name: Test REUSE compliance
         run: |
           make reuse
@@ -100,11 +98,8 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-      - name: Install reuse
-        run: |
-          python setup.py install
+          pip install poetry
+          poetry install --no-interaction
       - name: Create docs with Sphinx
         run: |
           make docs

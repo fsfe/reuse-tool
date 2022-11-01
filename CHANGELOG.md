@@ -62,6 +62,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Changed
 
+- Removed `setup.py` and replaced it with a Poetry configuration. Maintainers
+  beware. (#600)
 - Updated PyPI development status to 'production/stable' (#381)
 - Updated versions of pre-commit check packages
 - The pre-commit hook now passes `lint` as an overridable argument
@@ -69,6 +71,12 @@ The versions follow [semantic versioning](https://semver.org).
 ### Deprecated
 
 ### Removed
+
+- `setup.py`. (#600)
+- Releases to PyPI are no longer GPG-signed. Support for this is not present in
+  Poetry and not planned. (#600)
+- Dependency on `requests` removed; using `urllib.request` from the standard
+  library instead. (#600)
 
 ### Fixed
 

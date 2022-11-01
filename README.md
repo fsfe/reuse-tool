@@ -143,7 +143,7 @@ methods above for easier and more stable updates. Please make sure the
 requirements for the installation via pip are present on your machine.
 
 ```bash
-python3 setup.py install
+pip install .
 ```
 
 ## Usage
@@ -263,14 +263,16 @@ Starting local development is very simple, just execute the following commands:
 ```bash
 git clone git@github.com:fsfe/reuse-tool.git
 cd reuse-tool/
-python3 -mvenv venv
-source venv/bin/activate
-make develop
+poetry install  # You may need to install poetry using your package manager.
+poetry run pre-commit install  # Using poetry is optional here if you already have pre-commit.
 ```
 
-You need to run `make develop` at least once to set up the virtualenv.
+Next, you'll find the following commands handy:
 
-Next, run `make help` to see the available interactions.
+- `poetry run reuse`
+- `poetry run pytest`
+- `poetry run pylint src`
+- `make docs`
 
 ## License
 

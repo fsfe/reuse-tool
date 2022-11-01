@@ -9,8 +9,7 @@ from gettext import gettext as _
 from inspect import cleandoc
 from pathlib import Path
 from typing import List
-
-import requests
+from urllib.error import URLError
 
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import PathType, print_incorrect_spdx_identifier
@@ -119,7 +118,7 @@ def run(args, project: Project, out=sys.stdout):
         except FileExistsError:
             out.write(_("{} already exists").format(destination))
             out.write("\n")
-        except requests.RequestException:
+        except URLError:
             out.write(_("Could not download {}").format(lic))
             out.write("\n")
 

@@ -7,12 +7,12 @@
 import errno
 import logging
 import sys
+import urllib.request
 from gettext import gettext as _
 from os import PathLike
 from pathlib import Path
+from urllib.error import URLError
 from urllib.parse import urljoin
-
-import requests
 
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import (
@@ -35,16 +35,16 @@ def download_license(spdx_identifier: str) -> str:
     """Download the license text from the SPDX repository.
 
     :param spdx_identifier: SPDX identifier of the license.
-    :raises requests.RequestException: if the license could not be downloaded.
+    :raises URLError: if the license could not be downloaded.
     :return: The license text.
     """
     # This is fairly naive, but I can't see anything wrong with it.
     url = urljoin(_SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt")))
     # TODO: Cache result?
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.text
-    raise requests.RequestException("Status code was not 200")
+    with urllib.request.urlopen(url) as response:
+        if response.getcode() == 200:
+            return response.read().decode("utf-8")
+    raise URLError("Status code was not 200")
 
 
 def _path_to_license_file(spdx_identifier: str, root: PathLike) -> Path:
@@ -59,7 +59,7 @@ def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
 
     :param spdx_identifier: SPDX License Identifier of the license.
     :param destination: Where to put the license.
-    :raises requests.RequestException: if the license could not be downloaded.
+    :raises URLError: if the license could not be downloaded.
     :raises FileExistsError: if the license file already exists.
     """
     header = ""
@@ -145,7 +145,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
             destination = _path_to_license_file(lic, project.root)
         try:
             put_license_in_file(lic, destination=destination)
-        except requests.RequestException:
+        except URLError:
             _could_not_download(lic)
             return_code = 1
         except FileExistsError as err:

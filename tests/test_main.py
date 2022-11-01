@@ -16,9 +16,9 @@ from inspect import cleandoc
 from pathlib import Path
 from typing import Optional
 from unittest.mock import create_autospec
+from urllib.error import URLError
 
 import pytest
-import requests
 
 from reuse import download
 from reuse._main import main
@@ -317,11 +317,11 @@ def test_download_file_exists(
     assert "GPL-3.0-or-later.txt already exists" in stringio.getvalue()
 
 
-def test_download_request_exception(
+def test_download_exception(
     fake_repository, stringio, mock_put_license_in_file
 ):
     """There was an error while downloading the license file."""
-    mock_put_license_in_file.side_effect = requests.RequestException()
+    mock_put_license_in_file.side_effect = URLError("test")
 
     result = main(["download", "0BSD"], out=stringio)
 
@@ -333,7 +333,7 @@ def test_download_invalid_spdx(
     fake_repository, stringio, mock_put_license_in_file
 ):
     """An invalid SPDX identifier was provided."""
-    mock_put_license_in_file.side_effect = requests.RequestException()
+    mock_put_license_in_file.side_effect = URLError("test")
 
     result = main(["download", "does-not-exist"], out=stringio)
 

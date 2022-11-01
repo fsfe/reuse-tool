@@ -5,24 +5,25 @@
 # Like normal Dockerfile, but install additional packages on top
 
 # Create a base image that has dependencies installed.
-FROM alpine:3.13 AS base
+FROM alpine:3.16 AS base
 
 RUN apk --no-cache add git mercurial python3 openssh-client
 
 # Build reuse into a virtualenv
 FROM base AS build
 
+RUN apk --no-cache add poetry
+
 WORKDIR /reuse-tool
+COPY . /reuse-tool/
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-COPY . /reuse-tool/
-
-RUN pip3 install -r requirements.txt
-RUN pip3 install .
-
+RUN poetry install --no-interaction --no-dev --no-root
+RUN poetry build --no-interaction
+RUN pip install dist/*.whl
 
 # Copy over the virtualenv and use it
 FROM base
