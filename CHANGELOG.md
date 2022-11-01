@@ -39,7 +39,10 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
+- Added support for Python 3.11. (#603)
+
 - Add support for XQuery comment style.
+
 - More file types are recognised:
 
   - Kotlin script (`.kts`)
