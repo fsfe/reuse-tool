@@ -1,11 +1,12 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Global fixtures and configuration."""
 
-# pylint: disable=redefined-outer-name,subprocess-run-check
+# pylint: disable=redefined-outer-name
 
 import datetime
 import logging
@@ -154,21 +155,21 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     os.chdir(fake_repository)
     _repo_contents(fake_repository)
 
-    subprocess.run([git_exe, "init", str(fake_repository)])
-    subprocess.run([git_exe, "add", str(fake_repository)])
+    subprocess.run([git_exe, "init", str(fake_repository)], check=True)
+    subprocess.run([git_exe, "config", "user.name", "Example"], check=True)
+    subprocess.run(
+        [git_exe, "config", "user.email", "example@example.com"], check=True
+    )
+
+    subprocess.run([git_exe, "add", str(fake_repository)], check=True)
     subprocess.run(
         [
             git_exe,
-            "-c",
-            "user.name",
-            "Example",
-            "-c",
-            "user.email",
-            "example@example.com",
             "commit",
             "-m",
             "initial",
-        ]
+        ],
+        check=True,
     )
 
     return fake_repository
@@ -184,8 +185,8 @@ def hg_repository(fake_repository: Path, hg_exe: Optional[str]) -> Path:
         ignore_prefix="syntax:glob",
     )
 
-    subprocess.run([hg_exe, "init", "."])
-    subprocess.run([hg_exe, "addremove"])
+    subprocess.run([hg_exe, "init", "."], check=True)
+    subprocess.run([hg_exe, "addremove"], check=True)
     subprocess.run(
         [
             hg_exe,
@@ -194,7 +195,8 @@ def hg_repository(fake_repository: Path, hg_exe: Optional[str]) -> Path:
             "Example <example@example.com>",
             "-m",
             "initial",
-        ]
+        ],
+        check=True,
     )
 
     return fake_repository
@@ -217,40 +219,51 @@ def submodule_repository(
     (submodule / "foo.py").write_text(header, encoding="utf-8")
 
     os.chdir(submodule)
-    subprocess.run([git_exe, "init", str(submodule)])
-    subprocess.run([git_exe, "add", str(submodule)])
+
+    subprocess.run([git_exe, "init", str(submodule)], check=True)
+    subprocess.run([git_exe, "config", "user.name", "Example"], check=True)
+    subprocess.run(
+        [git_exe, "config", "user.email", "example@example.com"], check=True
+    )
+
+    subprocess.run([git_exe, "add", str(submodule)], check=True)
     subprocess.run(
         [
             git_exe,
-            "-c",
-            "user.name",
-            "Example",
-            "-c",
-            "user.email",
-            "example@example.com",
             "commit",
             "-m",
             "initial",
-        ]
+        ],
+        check=True,
     )
 
     os.chdir(git_repository)
+
     subprocess.run(
-        [git_exe, "submodule", "add", str(submodule.resolve()), "submodule"]
+        [
+            git_exe,
+            # https://git-scm.com/docs/git-config#Documentation/git-config.txt-protocolallow
+            #
+            # This circumvents a bug/behaviour caused by CVE-2022-39253 where
+            # you cannot use `git submodule add repository path` where
+            # repository is a file on the filesystem.
+            "-c",
+            "protocol.file.allow=always",
+            "submodule",
+            "add",
+            str(submodule.resolve()),
+            "submodule",
+        ],
+        check=True,
     )
     subprocess.run(
         [
             git_exe,
-            "-c",
-            "user.name",
-            "Example",
-            "-c",
-            "user.email",
-            "example@example.com",
             "commit",
             "-m",
             "add submodule",
-        ]
+        ],
+        check=True,
     )
 
     (git_repository / ".gitmodules.license").write_text(header)

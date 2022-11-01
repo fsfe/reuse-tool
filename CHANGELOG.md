@@ -69,6 +69,10 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- Repair tests related to CVE-2022-39253 changes in upstream Git. New versions
+  of Git no longer allow `git submodule add repository path` where repository is
+  a file. A flag was added to explicitly allow this in the test framework.
+  (#619)
 - Sanitize xargs input in scripts documentation
 - License identifiers in comments with symmetrical ASCII art frames are now
   properly detected (#560)
