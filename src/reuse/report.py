@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -145,9 +146,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             out.write(f"FileName: {report.spdxfile.name}\n")
             out.write(f"SPDXID: {report.spdxfile.spdx_id}\n")
             out.write(f"FileChecksum: SHA1: {report.spdxfile.chk_sum}\n")
-            # IMPORTANT: Make no assertion about concluded license. This tool
-            # cannot, with full certainty, determine the license of a file.
-            out.write("LicenseConcluded: NOASSERTION\n")
+            out.write(
+                f"LicenseConcluded: {report.spdxfile.license_concluded}\n"
+            )
 
             for lic in sorted(report.spdxfile.licenses_in_file):
                 out.write(f"LicenseInfoInFile: {lic}\n")
@@ -306,6 +307,7 @@ class _File:  # pylint: disable=too-few-public-methods
         self.spdx_id: str = spdx_id
         self.chk_sum: str = chk_sum
         self.licenses_in_file: List[str] = []
+        self.license_concluded: str = None
         self.copyright: str = None
 
 
@@ -377,6 +379,24 @@ class FileReport:
 
                 # Add license to report.
                 report.spdxfile.licenses_in_file.append(identifier)
+
+        if not spdx_info.spdx_expressions:
+            report.spdxfile.license_concluded = "NONE"
+        else:
+            # Merge all the license expressions together, wrapping them in
+            # parentheses to make sure an expression doesn't spill into another
+            # one. The extra parentheses will be removed by the roundtrip
+            # through parse() -> simplify() -> render().
+            report.spdxfile.license_concluded = (
+                _LICENSING.parse(
+                    " AND ".join(
+                        f"({expression})"
+                        for expression in spdx_info.spdx_expressions
+                    ),
+                )
+                .simplify()
+                .render()
+            )
 
         # Copyright text
         report.spdxfile.copyright = "\n".join(sorted(spdx_info.copyright_lines))

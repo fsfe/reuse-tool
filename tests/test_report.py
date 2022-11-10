@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -35,6 +36,7 @@ def test_generate_file_report_file_simple(fake_repository):
     project = Project(fake_repository)
     result = FileReport.generate(project, "src/source_code.py")
     assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
+    assert result.spdxfile.license_concluded == "GPL-3.0-or-later"
     assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
@@ -48,6 +50,7 @@ def test_generate_file_report_file_from_different_cwd(fake_repository):
         project, fake_repository / "src/source_code.py"
     )
     assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
+    assert result.spdxfile.license_concluded == "GPL-3.0-or-later"
     assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
@@ -62,6 +65,8 @@ def test_generate_file_report_file_missing_license(fake_repository):
     result = FileReport.generate(project, "foo.py")
 
     assert result.spdxfile.copyright == ""
+    assert result.spdxfile.licenses_in_file == ["BSD-3-Clause"]
+    assert result.spdxfile.license_concluded == "BSD-3-Clause"
     assert result.missing_licenses == {"BSD-3-Clause"}
     assert not result.bad_licenses
 
@@ -75,6 +80,8 @@ def test_generate_file_report_file_bad_license(fake_repository):
     result = FileReport.generate(project, "foo.py")
 
     assert result.spdxfile.copyright == ""
+    assert result.spdxfile.licenses_in_file == ["fakelicense"]
+    assert result.spdxfile.license_concluded == "fakelicense"
     assert result.bad_licenses == {"fakelicense"}
     assert result.missing_licenses == {"fakelicense"}
 
@@ -91,6 +98,8 @@ def test_generate_file_report_license_contains_plus(fake_repository):
     result = FileReport.generate(project, "foo.py")
 
     assert result.spdxfile.copyright == ""
+    assert result.spdxfile.licenses_in_file == ["Apache-1.0+"]
+    assert result.spdxfile.license_concluded == "Apache-1.0+"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -103,7 +112,45 @@ def test_generate_file_report_exception(fake_repository):
         "GPL-3.0-or-later",
         "Autoconf-exception-3.0",
     }
+    assert (
+        result.spdxfile.license_concluded
+        == "GPL-3.0-or-later WITH Autoconf-exception-3.0"
+    )
     assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
+    assert not result.bad_licenses
+    assert not result.missing_licenses
+
+
+def test_generate_file_report_no_licenses(fake_repository):
+    """Test behavior when no license information is present in the file"""
+    (fake_repository / "foo.py").write_text("")
+    project = Project(fake_repository)
+    result = FileReport.generate(project, "foo.py")
+
+    assert result.spdxfile.copyright == ""
+    assert not result.spdxfile.licenses_in_file
+    assert result.spdxfile.license_concluded == "NONE"
+    assert not result.bad_licenses
+    assert not result.missing_licenses
+
+
+def test_generate_file_report_multiple_licenses(fake_repository):
+    """Test that all licenses are included in LicenseConcluded"""
+    project = Project(fake_repository)
+    result = FileReport.generate(project, "src/multiple_licenses.rs")
+
+    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2022 Jane Doe"
+    assert set(result.spdxfile.licenses_in_file) == {
+        "GPL-3.0-or-later",
+        "Apache-2.0",
+        "CC0-1.0",
+        "Autoconf-exception-3.0",
+    }
+    assert (
+        result.spdxfile.license_concluded
+        == "GPL-3.0-or-later AND (Apache-2.0 OR CC0-1.0"
+        " WITH Autoconf-exception-3.0)"
+    )
     assert not result.bad_licenses
     assert not result.missing_licenses
 
