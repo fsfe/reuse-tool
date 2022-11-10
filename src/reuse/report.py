@@ -28,9 +28,10 @@ _LOGGER = logging.getLogger(__name__)
 class _MultiprocessingContainer:
     """Container that remembers some data in order to generate a FileReport."""
 
-    def __init__(self, project, do_checksum):
+    def __init__(self, project, do_checksum, add_license_concluded):
         self.project = project
         self.do_checksum = do_checksum
+        self.add_license_concluded = add_license_concluded
 
     def __call__(self, file_):
         # pylint: disable=broad-except
@@ -38,7 +39,10 @@ class _MultiprocessingContainer:
             return _MultiprocessingResult(
                 file_,
                 FileReport.generate(
-                    self.project, file_, do_checksum=self.do_checksum
+                    self.project,
+                    file_,
+                    do_checksum=self.do_checksum,
+                    add_license_concluded=self.add_license_concluded,
                 ),
                 None,
             )
@@ -178,6 +182,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         project: Project,
         do_checksum: bool = True,
         multiprocessing: bool = cpu_count() > 1,
+        add_license_concluded: bool = False,
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
         project_report = cls(do_checksum=do_checksum)
@@ -187,7 +192,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             project.licenses_without_extension
         )
 
-        container = _MultiprocessingContainer(project, do_checksum)
+        container = _MultiprocessingContainer(
+            project, do_checksum, add_license_concluded
+        )
 
         if multiprocessing:
             with mp.Pool() as pool:
@@ -339,7 +346,11 @@ class FileReport:
 
     @classmethod
     def generate(
-        cls, project: Project, path: PathLike, do_checksum: bool = True
+        cls,
+        project: Project,
+        path: PathLike,
+        do_checksum: bool = True,
+        add_license_concluded: bool = False,
     ) -> "FileReport":
         """Generate a FileReport from a path in a Project."""
         path = Path(path)
@@ -380,7 +391,9 @@ class FileReport:
                 # Add license to report.
                 report.spdxfile.licenses_in_file.append(identifier)
 
-        if not spdx_info.spdx_expressions:
+        if not add_license_concluded:
+            report.spdxfile.license_concluded = "NOASSERTION"
+        elif not spdx_info.spdx_expressions:
             report.spdxfile.license_concluded = "NONE"
         else:
             # Merge all the license expressions together, wrapping them in

@@ -29,64 +29,101 @@ posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 # REUSE-IgnoreStart
 
 
-def test_generate_file_report_file_simple(fake_repository):
+def test_generate_file_report_file_simple(
+    fake_repository, add_license_concluded
+):
     """An extremely simple generate test, just to see if the function doesn't
     crash.
     """
     project = Project(fake_repository)
-    result = FileReport.generate(project, "src/source_code.py")
+    result = FileReport.generate(
+        project,
+        "src/source_code.py",
+        add_license_concluded=add_license_concluded,
+    )
+
     assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
-    assert result.spdxfile.license_concluded == "GPL-3.0-or-later"
+    assert (
+        result.spdxfile.license_concluded == "GPL-3.0-or-later"
+        if add_license_concluded
+        else "NOASSERTION"
+    )
     assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
 
-def test_generate_file_report_file_from_different_cwd(fake_repository):
+def test_generate_file_report_file_from_different_cwd(
+    fake_repository, add_license_concluded
+):
     """Another simple generate test, but from a different CWD."""
     os.chdir("/")
     project = Project(fake_repository)
     result = FileReport.generate(
-        project, fake_repository / "src/source_code.py"
+        project,
+        fake_repository / "src/source_code.py",
+        add_license_concluded=add_license_concluded,
     )
     assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
-    assert result.spdxfile.license_concluded == "GPL-3.0-or-later"
+    assert (
+        result.spdxfile.license_concluded == "GPL-3.0-or-later"
+        if add_license_concluded
+        else "NOASSERTION"
+    )
     assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
 
-def test_generate_file_report_file_missing_license(fake_repository):
+def test_generate_file_report_file_missing_license(
+    fake_repository, add_license_concluded
+):
     """Simple generate test with a missing license."""
     (fake_repository / "foo.py").write_text(
         "SPDX-License-Identifier: BSD-3-Clause"
     )
     project = Project(fake_repository)
-    result = FileReport.generate(project, "foo.py")
+    result = FileReport.generate(
+        project, "foo.py", add_license_concluded=add_license_concluded
+    )
 
     assert result.spdxfile.copyright == ""
     assert result.spdxfile.licenses_in_file == ["BSD-3-Clause"]
-    assert result.spdxfile.license_concluded == "BSD-3-Clause"
+    assert (
+        result.spdxfile.license_concluded == "BSD-3-Clause"
+        if add_license_concluded
+        else "NOASSERTION"
+    )
     assert result.missing_licenses == {"BSD-3-Clause"}
     assert not result.bad_licenses
 
 
-def test_generate_file_report_file_bad_license(fake_repository):
+def test_generate_file_report_file_bad_license(
+    fake_repository, add_license_concluded
+):
     """Simple generate test with a bad license."""
     (fake_repository / "foo.py").write_text(
         "SPDX-License-Identifier: fakelicense"
     )
     project = Project(fake_repository)
-    result = FileReport.generate(project, "foo.py")
+    result = FileReport.generate(
+        project, "foo.py", add_license_concluded=add_license_concluded
+    )
 
     assert result.spdxfile.copyright == ""
     assert result.spdxfile.licenses_in_file == ["fakelicense"]
-    assert result.spdxfile.license_concluded == "fakelicense"
+    assert (
+        result.spdxfile.license_concluded == "fakelicense"
+        if add_license_concluded
+        else "NOASSERTION"
+    )
     assert result.bad_licenses == {"fakelicense"}
     assert result.missing_licenses == {"fakelicense"}
 
 
-def test_generate_file_report_license_contains_plus(fake_repository):
+def test_generate_file_report_license_contains_plus(
+    fake_repository, add_license_concluded
+):
     """Given a license expression akin to Apache-1.0+, LICENSES/Apache-1.0.txt
     should be an appropriate license file.
     """
@@ -95,19 +132,28 @@ def test_generate_file_report_license_contains_plus(fake_repository):
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
     project = Project(fake_repository)
-    result = FileReport.generate(project, "foo.py")
+    result = FileReport.generate(
+        project, "foo.py", add_license_concluded=add_license_concluded
+    )
 
     assert result.spdxfile.copyright == ""
     assert result.spdxfile.licenses_in_file == ["Apache-1.0+"]
-    assert result.spdxfile.license_concluded == "Apache-1.0+"
+    assert (
+        result.spdxfile.license_concluded == "Apache-1.0+"
+        if add_license_concluded
+        else "NOASSERTION"
+    )
     assert not result.bad_licenses
     assert not result.missing_licenses
 
 
-def test_generate_file_report_exception(fake_repository):
+def test_generate_file_report_exception(fake_repository, add_license_concluded):
     """Simple generate test to test if the exception is detected."""
     project = Project(fake_repository)
-    result = FileReport.generate(project, "src/exception.py")
+    result = FileReport.generate(
+        project, "src/exception.py", add_license_concluded=add_license_concluded
+    )
+
     assert set(result.spdxfile.licenses_in_file) == {
         "GPL-3.0-or-later",
         "Autoconf-exception-3.0",
@@ -115,29 +161,45 @@ def test_generate_file_report_exception(fake_repository):
     assert (
         result.spdxfile.license_concluded
         == "GPL-3.0-or-later WITH Autoconf-exception-3.0"
+        if add_license_concluded
+        else "NOASSERTION"
     )
     assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
 
-def test_generate_file_report_no_licenses(fake_repository):
+def test_generate_file_report_no_licenses(
+    fake_repository, add_license_concluded
+):
     """Test behavior when no license information is present in the file"""
     (fake_repository / "foo.py").write_text("")
     project = Project(fake_repository)
-    result = FileReport.generate(project, "foo.py")
+    result = FileReport.generate(
+        project, "foo.py", add_license_concluded=add_license_concluded
+    )
 
     assert result.spdxfile.copyright == ""
     assert not result.spdxfile.licenses_in_file
-    assert result.spdxfile.license_concluded == "NONE"
+    assert (
+        result.spdxfile.license_concluded == "NONE"
+        if add_license_concluded
+        else "NOASSERTION"
+    )
     assert not result.bad_licenses
     assert not result.missing_licenses
 
 
-def test_generate_file_report_multiple_licenses(fake_repository):
+def test_generate_file_report_multiple_licenses(
+    fake_repository, add_license_concluded
+):
     """Test that all licenses are included in LicenseConcluded"""
     project = Project(fake_repository)
-    result = FileReport.generate(project, "src/multiple_licenses.rs")
+    result = FileReport.generate(
+        project,
+        "src/multiple_licenses.rs",
+        add_license_concluded=add_license_concluded,
+    )
 
     assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2022 Jane Doe"
     assert set(result.spdxfile.licenses_in_file) == {
@@ -150,6 +212,8 @@ def test_generate_file_report_multiple_licenses(fake_repository):
         result.spdxfile.license_concluded
         == "GPL-3.0-or-later AND (Apache-2.0 OR CC0-1.0"
         " WITH Autoconf-exception-3.0)"
+        if add_license_concluded
+        else "NOASSERTION"
     )
     assert not result.bad_licenses
     assert not result.missing_licenses

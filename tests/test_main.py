@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -277,10 +278,30 @@ def test_spdx(fake_repository, stringio):
     """Compile to an SPDX document."""
     os.chdir(str(fake_repository))
     result = main(["spdx"], out=stringio)
+    output = stringio.getvalue()
+
+    # Ensure no LicenseConcluded is included without the flag
+    assert "\nLicenseConcluded: NOASSERTION\n" in output
+    assert "\nLicenseConcluded: GPL-3.0-or-later\n" not in output
 
     # TODO: This test is rubbish.
     assert result == 0
-    assert stringio.getvalue()
+    assert output
+
+
+def test_spdx_add_license_concluded(fake_repository, stringio):
+    """Compile to an SPDX document."""
+    os.chdir(str(fake_repository))
+    result = main(["spdx", "--add-license-concluded"], out=stringio)
+    output = stringio.getvalue()
+
+    # Ensure no LicenseConcluded is included without the flag
+    assert "\nLicenseConcluded: NOASSERTION\n" not in output
+    assert "\nLicenseConcluded: GPL-3.0-or-later\n" in output
+
+    # TODO: This test is rubbish.
+    assert result == 0
+    assert output
 
 
 def test_spdx_no_multiprocessing(fake_repository, stringio, multiprocessing):

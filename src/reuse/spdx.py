@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,6 +23,14 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--output", "-o", dest="file", action="store", type=PathType("w")
     )
+    parser.add_argument(
+        "--add-license-concluded",
+        action="store_true",
+        help=_(
+            "Populate the LicenseConcluded field. Note that REUSE cannot "
+            "guarantee the field is accurate."
+        ),
+    )
 
 
 def run(args, project: Project, out=sys.stdout) -> int:
@@ -43,7 +52,9 @@ def run(args, project: Project, out=sys.stdout) -> int:
                 )
 
         report = ProjectReport.generate(
-            project, multiprocessing=not args.no_multiprocessing
+            project,
+            multiprocessing=not args.no_multiprocessing,
+            add_license_concluded=args.add_license_concluded,
         )
 
         out.write(report.bill_of_materials())

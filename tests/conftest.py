@@ -92,6 +92,11 @@ def multiprocessing(request, monkeypatch) -> bool:
     yield request.param
 
 
+@pytest.fixture(params=[True, False])
+def add_license_concluded(request) -> bool:
+    yield request
+
+
 @pytest.fixture()
 def empty_directory(tmpdir_factory) -> Path:
     """Create a temporary empty directory."""
