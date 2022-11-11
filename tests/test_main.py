@@ -283,25 +283,67 @@ def test_spdx(fake_repository, stringio):
     # Ensure no LicenseConcluded is included without the flag
     assert "\nLicenseConcluded: NOASSERTION\n" in output
     assert "\nLicenseConcluded: GPL-3.0-or-later\n" not in output
+    assert "\nCreator: Person: Anonymous ()\n" in output
+    assert "\nCreator: Organization: Anonymous ()\n" in output
 
     # TODO: This test is rubbish.
     assert result == 0
     assert output
 
 
+def test_spdx_creator_info(fake_repository, stringio):
+    """Ensure the --creator-* flags are properly formatted"""
+    os.chdir(str(fake_repository))
+    result = main(
+        [
+            "spdx",
+            "--creator-person=Jane Doe (jane.doe@example.org)",
+            "--creator-organization=FSFE",
+        ],
+        out=stringio,
+    )
+    output = stringio.getvalue()
+
+    assert result == 0
+    assert "\nCreator: Person: Jane Doe (jane.doe@example.org)\n" in output
+    assert "\nCreator: Organization: FSFE ()\n" in output
+
+
 def test_spdx_add_license_concluded(fake_repository, stringio):
-    """Compile to an SPDX document."""
+    """Compile to an SPDX document with the LicenseConcluded field."""
+    os.chdir(str(fake_repository))
+    result = main(
+        [
+            "spdx",
+            "--add-license-concluded",
+            "--creator-person=Jane Doe",
+            "--creator-organization=FSFE",
+        ],
+        out=stringio,
+    )
+    output = stringio.getvalue()
+
+    # Ensure no LicenseConcluded is included without the flag
+    assert result == 0
+    assert "\nLicenseConcluded: NOASSERTION\n" not in output
+    assert "\nLicenseConcluded: GPL-3.0-or-later\n" in output
+    assert "\nCreator: Person: Jane Doe ()\n" in output
+    assert "\nCreator: Organization: FSFE ()\n" in output
+
+
+def test_spdx_add_license_concluded_without_creator_info(
+    fake_repository, stringio
+):
+    """Adding LicenseConcluded should require creator information"""
     os.chdir(str(fake_repository))
     result = main(["spdx", "--add-license-concluded"], out=stringio)
     output = stringio.getvalue()
 
-    # Ensure no LicenseConcluded is included without the flag
-    assert "\nLicenseConcluded: NOASSERTION\n" not in output
-    assert "\nLicenseConcluded: GPL-3.0-or-later\n" in output
-
-    # TODO: This test is rubbish.
-    assert result == 0
-    assert output
+    assert result == 1
+    # An error message is emitted, but on stderr to avoid returning mangled
+    # output when the caller expects an SPDX document. We cannot assert its
+    # contents because of that, unfortunately.
+    assert not output
 
 
 def test_spdx_no_multiprocessing(fake_repository, stringio, multiprocessing):

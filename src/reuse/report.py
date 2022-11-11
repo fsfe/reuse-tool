@@ -103,7 +103,12 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             "file_reports": [report.to_dict() for report in self.file_reports],
         }
 
-    def bill_of_materials(self) -> str:
+    def bill_of_materials(
+        self,
+        *,
+        creator_person: Optional[str] = None,
+        creator_organization: Optional[str] = None,
+    ) -> str:
         """Generate a bill of materials from the project.
 
         See https://spdx.org/specifications.
@@ -124,8 +129,10 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         # Author
         # TODO: Fix Person and Organization
-        out.write("Creator: Person: Anonymous ()\n")
-        out.write("Creator: Organization: Anonymous ()\n")
+        out.write(f"Creator: Person: {format_creator(creator_person)}\n")
+        out.write(
+            f"Creator: Organization: {format_creator(creator_organization)}\n"
+        )
         out.write(f"Creator: Tool: reuse-{__version__}\n")
 
         now = datetime.datetime.utcnow()
@@ -420,3 +427,13 @@ class FileReport:
         if self.spdxfile.chk_sum is not None:
             return hash(self.spdxfile.name + self.spdxfile.chk_sum)
         return super().__hash__(self)
+
+
+def format_creator(creator):
+    """Render the creator field based on the provided flag"""
+    if creator is None:
+        return "Anonymous ()"
+    if "(" in creator and creator.endswith(")"):
+        # The creator field already contains an email address
+        return creator
+    return creator + " ()"
