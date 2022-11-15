@@ -177,6 +177,7 @@ def create_header(
         spdx_info = SpdxInfo(
             spdx_info.spdx_expressions.union(existing_spdx.spdx_expressions),
             spdx_copyrights,
+            ""
         )
 
     new_header += _create_new_header(
@@ -703,7 +704,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         else set()
     )
 
-    spdx_info = SpdxInfo(expressions, copyright_lines)
+    spdx_info = SpdxInfo(expressions, copyright_lines, "")
 
     result = 0
     for path in paths:

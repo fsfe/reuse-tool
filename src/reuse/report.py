@@ -16,6 +16,7 @@ from os import PathLike, cpu_count
 from pathlib import Path
 from typing import Iterable, List, NamedTuple, Optional, Set
 from uuid import uuid4
+from textwrap import fill
 
 from . import __version__
 from ._util import _LICENSING, _checksum
@@ -158,6 +159,12 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 )
             else:
                 out.write("FileCopyrightText: NONE\n")
+            if report.spdxfile.comment:
+                out.write(
+                        f"FileComment: <text>\n"
+                        f"{fill(report.spdxfile.comment, width=72)}\n"
+                        f"</text>\n"
+                )
 
         # Licenses
         for lic, path in sorted(self.licenses.items()):
@@ -307,6 +314,7 @@ class _File:  # pylint: disable=too-few-public-methods
         self.chk_sum: str = chk_sum
         self.licenses_in_file: List[str] = []
         self.copyright: str = None
+        self.comment: str = None
 
 
 class FileReport:
@@ -378,8 +386,9 @@ class FileReport:
                 # Add license to report.
                 report.spdxfile.licenses_in_file.append(identifier)
 
-        # Copyright text
+        # Copyright text and comment
         report.spdxfile.copyright = "\n".join(sorted(spdx_info.copyright_lines))
+        report.spdxfile.comment = spdx_info.comment
 
         return report
 
