@@ -83,7 +83,6 @@ class VCSStrategyGit(VCSStrategy):
             GIT_EXE,
             "ls-files",
             "--exclude-standard",
-            "--ignored",
             "--others",
             "--directory",
             # TODO: This flag is unexpected.  I reported it as a bug in Git.
@@ -95,6 +94,11 @@ class VCSStrategyGit(VCSStrategy):
         ]
         result = execute_command(command, _LOGGER, cwd=self.project.root)
         all_files = result.stdout.decode("utf-8").split("\0")
+
+        command += ["--ignored"]
+        result = execute_command(command, _LOGGER, cwd=self.project.root)
+        all_files += result.stdout.decode("utf-8").split("\0")
+
         return {Path(file_) for file_ in all_files}
 
     def is_ignored(self, path: PathLike) -> bool:
