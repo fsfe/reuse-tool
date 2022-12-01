@@ -8,6 +8,7 @@
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -37,12 +38,10 @@ from ._comment import (
     EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
     FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
     NAME_STYLE_MAP,
-    CCommentStyle,
     CommentCreateError,
     CommentParseError,
     CommentStyle,
     EmptyCommentStyle,
-    HtmlCommentStyle,
     PythonCommentStyle,
     UncommentableCommentStyle,
 )
@@ -292,22 +291,17 @@ def find_and_replace_header(
 
     # Keep special first-line-of-file lines as the first line in the file,
     # or say, move our comments after it.
-    for prefix in (
-        prefix
-        for com_style, prefix in (
-            (CCommentStyle, "#!"),  # e.g. V-Lang
-            (CCommentStyle, "<?php"),  # e.g. PHP
-            (HtmlCommentStyle, "<?xml"),  # e.g. XML/XHTML
-            (PythonCommentStyle, "#!"),  # e.g. Shell, Python
-        )
-        if style is com_style
-    ):
-        # Extract shebang from header and put it in before. It's a bit messy,
-        # but it ends up working.
-        if header.startswith(prefix) and not before.strip():
-            before, header = _extract_shebang(prefix, header)
-        elif after.startswith(prefix) and not any((before, header)):
-            before, after = _extract_shebang(prefix, after)
+    if style.SHEBANGS:
+        for shebang in style.SHEBANGS:
+            # Extract shebang from header and put it in before. It's a bit
+            # messy, but it ends up working.
+            if header.startswith(shebang) and not before.strip():
+                before, header = _extract_shebang(shebang, header)
+            elif after.startswith(shebang) and not any((before, header)):
+                before, after = _extract_shebang(shebang, after)
+            else:
+                continue
+            break
 
     header = create_header(
         spdx_info,
@@ -324,6 +318,51 @@ def find_and_replace_header(
         new_text = f"{before.rstrip()}\n\n{new_text}"
     if after.strip():
         new_text = f"{new_text}\n{after.lstrip()}"
+    return new_text
+
+
+# pylint: disable=too-many-arguments
+def add_new_header(
+    text: str,
+    spdx_info: SpdxInfo,
+    template: Template = None,
+    template_is_commented: bool = False,
+    style: CommentStyle = None,
+    force_multi: bool = False,
+    merge_copyrights: bool = False,
+) -> str:
+    """Add a new header at the very top of *text*, similar to
+    find_and_replace_header. But in this function, do not replace any headers or
+    search for any existing SPDX information.
+
+    :raises CommentCreateError: if a comment could not be created.
+    """
+    if style is None:
+        style = PythonCommentStyle
+
+    shebang = ""
+
+    if style.SHEBANGS:
+        for shebang_prefix in style.SHEBANGS:
+            if text.startswith(shebang_prefix):
+                shebang, text = _extract_shebang(shebang_prefix, text)
+                break
+
+    header = create_header(
+        spdx_info,
+        None,
+        template=template,
+        template_is_commented=template_is_commented,
+        style=style,
+        force_multi=force_multi,
+        merge_copyrights=merge_copyrights,
+    )
+
+    new_text = f"{header}\n"
+    if shebang.strip():
+        new_text = f"{shebang.rstrip()}\n\n{new_text}"
+    if text.strip():
+        new_text = f"{new_text}\n{text.lstrip()}"
     return new_text
 
 
@@ -429,6 +468,7 @@ def _add_header_to_file(
     force_multi: bool = False,
     skip_existing: bool = False,
     merge_copyrights: bool = False,
+    replace: bool = True,
     out=sys.stdout,
 ) -> int:
     """Helper function."""
@@ -463,15 +503,26 @@ def _add_header_to_file(
     text = text.replace(line_ending, "\n")
 
     try:
-        output = find_and_replace_header(
-            text,
-            spdx_info,
-            template=template,
-            template_is_commented=template_is_commented,
-            style=style,
-            force_multi=force_multi,
-            merge_copyrights=merge_copyrights,
-        )
+        if replace:
+            output = find_and_replace_header(
+                text,
+                spdx_info,
+                template=template,
+                template_is_commented=template_is_commented,
+                style=style,
+                force_multi=force_multi,
+                merge_copyrights=merge_copyrights,
+            )
+        else:
+            output = add_new_header(
+                text,
+                spdx_info,
+                template=template,
+                template_is_commented=template_is_commented,
+                style=style,
+                force_multi=force_multi,
+                merge_copyrights=merge_copyrights,
+            )
     except CommentCreateError:
         out.write(
             _("Error: Could not create comment for '{path}'").format(path=path)
@@ -591,6 +642,13 @@ def add_arguments(parser) -> None:
         ),
     )
     parser.add_argument(
+        "--no-replace",
+        action="store_true",
+        help=_(
+            "do not replace the first header in the file; just add a new one"
+        ),
+    )
+    parser.add_argument(
         "--skip-unrecognised",
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
@@ -606,6 +664,14 @@ def add_arguments(parser) -> None:
 def run(args, project: Project, out=sys.stdout) -> int:
     """Add headers to files."""
     # pylint: disable=too-many-branches,too-many-locals,too-many-statements
+    if "addheader" in args.parser.prog.split():
+        _LOGGER.warning(
+            _(
+                "'reuse addheader' has been deprecated in favour of"
+                " 'reuse annotate'"
+            )
+        )
+
     if not any((args.copyright, args.license)):
         args.parser.error(_("option --copyright or --license is required"))
 
@@ -728,6 +794,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
             force_multi=args.multi_line,
             skip_existing=args.skip_existing,
             merge_copyrights=args.merge_copyrights,
+            replace=not args.no_replace,
             out=out,
         )
 

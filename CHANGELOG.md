@@ -67,8 +67,12 @@ The versions follow [semantic versioning](https://semver.org).
 - Updated PyPI development status to 'production/stable' (#381)
 - Updated versions of pre-commit check packages
 - The pre-commit hook now passes `lint` as an overridable argument
+- `addheader` has been renamed to `annotate`. The functionality remains the
+  same. (#550)
 
 ### Deprecated
+
+- `addheader` has been deprecated. It still works, but is now undocumented.
 
 ### Removed
 

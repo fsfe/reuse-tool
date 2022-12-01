@@ -13,7 +13,12 @@ import pytest
 
 from reuse import SpdxInfo
 from reuse._comment import CCommentStyle, CommentCreateError
-from reuse.header import MissingSpdxInfo, create_header, find_and_replace_header
+from reuse.header import (
+    MissingSpdxInfo,
+    add_new_header,
+    create_header,
+    find_and_replace_header,
+)
 
 # REUSE-IgnoreStart
 
@@ -174,6 +179,38 @@ def test_create_header_remove_fluff():
     assert create_header(spdx_info, header=existing).strip() == expected
 
 
+def test_add_new_header_simple():
+    """Given text that already contains a header, create a new one, and preserve
+    the old one.
+    """
+    spdx_info = SpdxInfo(
+        {"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"}
+    )
+    text = cleandoc(
+        """
+        # SPDX-FileCopyrightText: John Doe
+        #
+        # SPDX-License-Identifier: MIT
+
+        pass
+        """
+    )
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+
+        # SPDX-FileCopyrightText: John Doe
+        #
+        # SPDX-License-Identifier: MIT
+
+        pass
+        """
+    )
+    assert add_new_header(text, spdx_info) == expected
+
+
 def test_find_and_replace_no_header():
     """Given text without header, add a header."""
     spdx_info = SpdxInfo(
@@ -190,7 +227,11 @@ def test_find_and_replace_no_header():
         """
     )
 
-    assert find_and_replace_header(text, spdx_info) == expected
+    assert (
+        find_and_replace_header(text, spdx_info)
+        == add_new_header(text, spdx_info)
+        == expected
+    )
 
 
 def test_find_and_replace_verbatim():

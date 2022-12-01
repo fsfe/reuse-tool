@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Tests for reuse._main: addheader merge-copyrights option"""
+"""Tests for reuse._main: annotate merge-copyrights option"""
 
 
 from inspect import cleandoc
@@ -12,14 +12,14 @@ from reuse._main import main
 # REUSE-IgnoreStart
 
 
-def test_addheader_merge_copyrights_simple(fake_repository, stringio):
+def test_annotate_merge_copyrights_simple(fake_repository, stringio):
     """Add multiple headers to a file with merge copyrights."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--year",
             "2016",
             "--license",
@@ -45,7 +45,7 @@ def test_addheader_merge_copyrights_simple(fake_repository, stringio):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--year",
             "2018",
             "--license",
@@ -70,7 +70,7 @@ def test_addheader_merge_copyrights_simple(fake_repository, stringio):
     )
 
 
-def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
+def test_annotate_merge_copyrights_multi_prefix(fake_repository, stringio):
     """Add multiple headers to a file with merge copyrights."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
@@ -78,7 +78,7 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
     for i in range(0, 3):
         result = main(
             [
-                "addheader",
+                "annotate",
                 "--year",
                 str(2010 + i),
                 "--license",
@@ -95,7 +95,7 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
     for i in range(0, 5):
         result = main(
             [
-                "addheader",
+                "annotate",
                 "--year",
                 str(2015 + i),
                 "--license",
@@ -130,7 +130,7 @@ def test_addheader_merge_copyrights_multi_prefix(fake_repository, stringio):
 
     result = main(
         [
-            "addheader",
+            "annotate",
             "--year",
             "2018",
             "--license",

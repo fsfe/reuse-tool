@@ -101,7 +101,7 @@ def parser() -> argparse.ArgumentParser:
 
     add_command(
         subparsers,
-        "addheader",
+        "annotate",
         header.add_arguments,
         header.run,
         help=_("add copyright and licensing into the header of files"),
@@ -113,6 +113,11 @@ def parser() -> argparse.ArgumentParser:
                 "By using --copyright and --license, you can specify which"
                 " copyright holders and licenses to add to the headers of the"
                 " given files.\n"
+                "\n"
+                "The first comment is replaced with a new header containing"
+                " the new copyright and licensing information and its former"
+                " copyright and licensing. If you want to keep the first"
+                " comment intact, use --no-replace.\n"
                 "\n"
                 "The comment style should be auto-detected for your files. If"
                 " a comment style could not be detected and --skip-unrecognised"
@@ -132,12 +137,17 @@ def parser() -> argparse.ArgumentParser:
                 " how to use this feature.\n"
                 "\n"
                 "If a binary file is detected, or if --explicit-license is"
-                " specified, the header is placed in a .license file.\n"
-                # TODO: Remove this
-                "\n"
-                "IMPORTANT: This is currently EXPERIMENTAL!"
+                " specified, the header is placed in a .license file."
             )
         ),
+    )
+
+    add_command(
+        subparsers,
+        "addheader",
+        header.add_arguments,
+        header.run,
+        help=argparse.SUPPRESS,
     )
 
     add_command(

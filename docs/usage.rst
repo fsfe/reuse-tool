@@ -38,21 +38,21 @@ passed as optional argument.
 
 Symbolically links and files that are zero-sized are automatically ignored.
 
-addheader
-=========
+annotate
+========
 
-``addheader`` makes it possible to semi-automatically add copyright and
+``annotate`` makes it possible to semi-automatically add copyright and
 licensing information into the header of a file. This is useful especially in
 scenarios where you want to add a copyright holder or license to a lot of files
 without having to manually edit the header of each file.
 
 .. warning::
-  You should be cautious with using ``addheader`` in automated processes. While
+  You should be cautious with using ``annotate`` in automated processes. While
   nothing is stopping you from using it in your release script, you should make
   sure that the information it adds is actually reflective of reality. This is
   best verified manually.
 
-The basic usage is ``reuse addheader --copyright="Jane Doe" --license=MIT
+The basic usage is ``reuse annotate --copyright="Jane Doe" --license=MIT
 my_file.py``. This will add the following header to the file (assuming that the
 current year is 2019):
 
@@ -81,7 +81,8 @@ With the argument ``--copyright-style`` it is possible to change the default
   string-symbol:  Copyright © <year> <statement>
   symbol:         © <year> <statement>
 
-Shebangs are always preserved at the top of the file.
+Shebangs are always preserved at the top of the file. If you also want to
+preserve the existing header, use the argument ``--no-replace``.
 
 Merging Statements
 ------------------
@@ -104,7 +105,7 @@ The standard tool options would produce the following
 
 .. code-block:: console
 
-   $ reuse addheader --year 2018 --license GPL-2.0 --copyright="Jane Doe" file.py
+   $ reuse annotate --year 2018 --license GPL-2.0 --copyright="Jane Doe" file.py
 
 .. code-block:: python
 
@@ -179,7 +180,7 @@ specified comment style.
 
 You can create your own Jinja2 templates and place them in
 ``.reuse/templates/``. If you create the template ``mytemplate.jinja2``, you can
-use it with ``reuse addheader --copyright="Jane Doe" --template=mytemplate
+use it with ``reuse annotate --copyright="Jane Doe" --template=mytemplate
 foo.py``.
 
 Inside of the template, you have access to the following variables:
