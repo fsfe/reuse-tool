@@ -35,24 +35,22 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 1.1.0 - 2022-12-01
 
 ### Added
 
 - Added support for Python 3.11. (#603)
-
-- Add support for XQuery comment style.
 
 - More file types are recognised:
 
   - Kotlin script (`.kts`)
   - Android Interface Definition Language (`.aidl`)
   - Certificate files (`.pem`)
-  - XQuery script and module files (`.xq(l|m|y|uery|)`)
 
-- Added comment style:
+- Added comment styles:
 
-  - Apache Velocity Template (Extensions: `.vm`, `.vtl`)
+  - Apache Velocity Template (Extensions: `.vm`, `.vtl`) (#554)
+  - XQuery comment style (Extensions: `.xq(l|m|y|uery|)`) (#610)
 
 - Some special endings are always stripped from copyright and licensing
   statements (#602):
@@ -65,14 +63,14 @@ The versions follow [semantic versioning](https://semver.org).
 - Removed `setup.py` and replaced it with a Poetry configuration. Maintainers
   beware. (#600)
 - Updated PyPI development status to 'production/stable' (#381)
-- Updated versions of pre-commit check packages
-- The pre-commit hook now passes `lint` as an overridable argument
+- The pre-commit hook now passes `lint` as an overridable argument. (#574)
 - `addheader` has been renamed to `annotate`. The functionality remains the
   same. (#550)
 
 ### Deprecated
 
 - `addheader` has been deprecated. It still works, but is now undocumented.
+  (#550)
 
 ### Removed
 
@@ -88,14 +86,12 @@ The versions follow [semantic versioning](https://semver.org).
   of Git no longer allow `git submodule add repository path` where repository is
   a file. A flag was added to explicitly allow this in the test framework.
   (#619)
-- Sanitize xargs input in scripts documentation
+- Sanitize xargs input in scripts documentation. (#525)
 - License identifiers in comments with symmetrical ASCII art frames are now
   properly detected (#560)
 - Fixed an error where copyright statements contained within a multi-line
   comment style on a single line could not be parsed (#593).
 - In PHP files, add header after `<?php` (#543).
-
-### Security
 
 ## 1.0.0 - 2022-05-19
 
