@@ -66,6 +66,7 @@ The versions follow [semantic versioning](https://semver.org).
 - The pre-commit hook now passes `lint` as an overridable argument. (#574)
 - `addheader` has been renamed to `annotate`. The functionality remains the
   same. (#550)
+- Bumped SPDX license list to v3.19.
 
 ### Deprecated
 
