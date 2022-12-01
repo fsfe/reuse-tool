@@ -35,6 +35,20 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 1.1.0 - 2022-12-01
 
 ### Added
