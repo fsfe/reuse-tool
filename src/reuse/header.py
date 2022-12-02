@@ -36,6 +36,7 @@ from license_expression import ExpressionError
 from . import SpdxInfo
 from ._comment import (
     EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
+    EXTENSIONS_COMMENT_STYLE_MAP_LOWERCASE,
     FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
     NAME_STYLE_MAP,
     CommentCreateError,
@@ -369,6 +370,9 @@ def add_new_header(
 def _get_comment_style(path: Path) -> Optional[CommentStyle]:
     """Return value of CommentStyle detected for *path* or None."""
     style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
+    if style is None:
+        suffixes_lower = "".join(path.suffixes).lower()
+        style = EXTENSIONS_COMMENT_STYLE_MAP_LOWERCASE.get(suffixes_lower)
     if style is None:
         style = EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower())
     return style

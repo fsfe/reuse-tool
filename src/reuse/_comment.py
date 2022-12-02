@@ -286,6 +286,14 @@ class BibTexCommentStyle(CommentStyle):
     MULTI_LINE = MultiLineSegments("@Comment{", "", "}")
 
 
+class BladeCommentStyle(CommentStyle):
+    """Laravel Blade Template comment style."""
+
+    _shorthand = "blade"
+
+    MULTI_LINE = ("{{--", "", "--}}")
+
+
 class CCommentStyle(CommentStyle):
     """C comment style."""
 
@@ -690,6 +698,15 @@ EXTENSION_COMMENT_STYLE_MAP = {
 
 EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
     k.lower(): v for k, v in EXTENSION_COMMENT_STYLE_MAP.items()
+}
+
+#: A map of (common) double file extensions against comment types.
+EXTENSIONS_COMMENT_STYLE_MAP = {
+    ".blade.php": BladeCommentStyle,
+}
+
+EXTENSIONS_COMMENT_STYLE_MAP_LOWERCASE = {
+    k.lower(): v for k, v in EXTENSIONS_COMMENT_STYLE_MAP.items()
 }
 
 FILENAME_COMMENT_STYLE_MAP = {
