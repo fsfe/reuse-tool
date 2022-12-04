@@ -513,6 +513,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".bib": BibTexCommentStyle,
     ".c": CCommentStyle,
     ".cc": CCommentStyle,
+    ".cjs": CCommentStyle,
     ".cl": LispCommentStyle,
     ".clj": LispCommentStyle,
     ".cljc": LispCommentStyle,
