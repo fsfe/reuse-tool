@@ -11,7 +11,7 @@ import sys
 
 import pytest
 
-from reuse.project import Project
+from reuse.project import Project, create_project
 from reuse.report import FileReport, ProjectReport
 
 try:
@@ -110,7 +110,7 @@ def test_generate_file_report_exception(fake_repository):
 
 def test_generate_project_report_simple(fake_repository, multiprocessing):
     """Simple generate test, just to see if it sort of works."""
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert not result.bad_licenses
@@ -166,7 +166,7 @@ def test_generate_project_report_unused_license(
     """Unused licenses are detected."""
     (fake_repository / "LICENSES/MIT.txt").write_text("foo")
 
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert result.unused_licenses == {"MIT"}
@@ -188,7 +188,7 @@ def test_generate_project_report_unused_license_plus(
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
 
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert not result.unused_licenses
@@ -206,7 +206,7 @@ def test_generate_project_report_unused_license_plus_only_plus(
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
 
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert not result.unused_licenses

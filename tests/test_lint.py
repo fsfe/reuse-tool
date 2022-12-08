@@ -19,7 +19,7 @@ from reuse.lint import (
     lint_read_errors,
     lint_summary,
 )
-from reuse.project import Project
+from reuse.project import Project, create_project
 from reuse.report import ProjectReport
 
 try:
@@ -38,7 +38,7 @@ posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 def test_lint_simple(fake_repository):
     """Extremely simple test for lint."""
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     report = ProjectReport.generate(project)
     result = lint(report)
     assert result
@@ -46,7 +46,7 @@ def test_lint_simple(fake_repository):
 
 def test_lint_git(git_repository):
     """Extremely simple test for lint with a git repository."""
-    project = Project(git_repository)
+    project = create_project(git_repository)
     report = ProjectReport.generate(project)
     result = lint(report)
     assert result
@@ -54,7 +54,7 @@ def test_lint_git(git_repository):
 
 def test_lint_submodule(submodule_repository):
     """Extremely simple test for lint with an ignored submodule."""
-    project = Project(submodule_repository)
+    project = create_project(submodule_repository)
     (submodule_repository / "submodule/foo.c").write_text("foo")
     report = ProjectReport.generate(project)
     result = lint(report)
@@ -149,7 +149,7 @@ def test_lint_read_errors(fake_repository, stringio):
 def test_lint_files_without_copyright_and_licensing(fake_repository, stringio):
     """A file without copyright and licensing is detected."""
     (fake_repository / "foo.py").write_text("foo")
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     report = ProjectReport.generate(project)
     result = lint_files_without_copyright_and_licensing(report, out=stringio)
 

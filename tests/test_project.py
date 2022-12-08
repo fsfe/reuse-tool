@@ -16,7 +16,7 @@ import pytest
 from license_expression import LicenseSymbol
 
 from reuse import Dep5Exception
-from reuse.project import Project
+from reuse.project import Project, create_project
 
 try:
     import posix as is_posix
@@ -253,7 +253,7 @@ def test_spdx_info_of_only_copyright_also_covered_by_debian(fake_repository):
     (fake_repository / "doc/foo.py").write_text(
         "SPDX-FileCopyrightText: in file"
     )
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     spdx_info = project.spdx_info_of("doc/foo.py")
     assert any(spdx_info.spdx_expressions)
     assert len(spdx_info.copyright_lines) == 2
@@ -272,7 +272,7 @@ def test_spdx_info_of_also_covered_by_dep5(fake_repository):
             SPDX-FileCopyrightText: in file"""
         )
     )
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     spdx_info = project.spdx_info_of("doc/foo.py")
     assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
     assert LicenseSymbol("CC0-1.0") in spdx_info.spdx_expressions
@@ -308,7 +308,7 @@ def test_spdx_info_of_binary_succeeds(fake_repository):
         RESOURCES_DIRECTORY / "fsfe.png", fake_repository / "doc/fsfe.png"
     )
 
-    project = Project(fake_repository)
+    project = create_project(fake_repository)
     spdx_info = project.spdx_info_of("doc/fsfe.png")
     assert LicenseSymbol("CC0-1.0") in spdx_info.spdx_expressions
 
@@ -402,9 +402,8 @@ def test_exception_on_dep5(empty_directory):
     )
     (empty_directory / "src").mkdir()
     (empty_directory / "src/file.h").write_text("foo")
-    project = Project(empty_directory)
     with pytest.raises(Dep5Exception):
-        project.spdx_info_of("src/file3.h")
+        create_project(empty_directory)
 
 
 # REUSE-IgnoreEnd
