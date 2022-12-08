@@ -237,9 +237,9 @@ class Project:
             except OSError:
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
             except DebianError:
-                _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
+                _LOGGER.error(_(".reuse/dep5 has syntax errors"))
             except UnicodeError:
-                _LOGGER.exception(_(".reuse/dep5 could not be parsed as utf-8"))
+                _LOGGER.error(_(".reuse/dep5 could not be parsed as utf-8"))
 
             # This check is a bit redundant, but otherwise I'd have to repeat
             # this line under each exception.
