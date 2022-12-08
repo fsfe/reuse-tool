@@ -52,6 +52,7 @@ class Project:
         root: PathLike,
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
+        dep5: Optional[Copyright] = None,
     ):
         self._root = Path(root)
         if not self._root.is_dir():
@@ -71,8 +72,7 @@ class Project:
         # TODO: Is this correct?
         self.license_map.update(EXCEPTION_MAP)
         self.licenses = self._licenses()
-        # Use '0' as None, because None is a valid value...
-        self._copyright_val = 0
+        self._copyright = dep5
         self.include_submodules = include_submodules
 
         meson_build_path = self._root / "meson.build"
@@ -228,32 +228,6 @@ class Project:
         """Path to the root of the project."""
         return self._root
 
-    @property
-    def _copyright(self) -> Optional[Copyright]:
-        if self._copyright_val == 0:
-            copyright_path = self.root / ".reuse/dep5"
-            try:
-                with copyright_path.open(encoding="utf-8") as fp:
-                    self._copyright_val = Copyright(fp)
-            except OSError:
-                _LOGGER.debug("no .reuse/dep5 file, or could not read it")
-            except DebianError as exception:
-                self._copyright_val = None
-                raise Dep5Exception(
-                    ".reuse/dep5 has syntax errors"
-                ) from exception
-            except UnicodeError as exception:
-                self._copyright_val = None
-                raise Dep5Exception(
-                    ".reuse/dep5 could not be parsed as utf-8"
-                ) from exception
-
-            # This check is a bit redundant, but otherwise I'd have to repeat
-            # this line under each exception.
-            if not self._copyright_val:
-                self._copyright_val = None
-        return self._copyright_val
-
     def _licenses(self) -> Dict[str, Path]:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
@@ -331,11 +305,32 @@ class Project:
         return license_files
 
 
-def create_project() -> Project:
+def create_dep5(dep5_path: PathLike) -> Optional[Copyright]:
+    """Create a copyright object containing the parsed contents of the dep5
+    file. Contains error handling for file access issues and dep5 parsing
+    issues.
+    """
+    try:
+        with open(dep5_path, encoding="utf-8") as fp:
+            return Copyright(fp)
+    except OSError:
+        _LOGGER.debug(_("no .reuse/dep5 file, or could not read it"))
+        return None
+    except DebianError as exception:
+        raise Dep5Exception(_(".reuse/dep5 has syntax errors")) from exception
+    except UnicodeError as exception:
+        raise Dep5Exception(
+            _(".reuse/dep5 could not be parsed as utf-8")
+        ) from exception
+
+
+def create_project(root: Optional[PathLike] = None) -> Project:
     """Create a project object. Try to find the project root from CWD,
     otherwise treat CWD as root.
     """
-    root = find_root()
     if root is None:
-        root = Path.cwd()
-    return Project(root)
+        root = find_root()
+        if root is None:
+            root = Path.cwd()
+    dep5 = create_dep5(root / ".reuse/dep5")
+    return Project(root, dep5=dep5)

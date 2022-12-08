@@ -13,6 +13,7 @@ from gettext import gettext as _
 from typing import List
 
 from . import (
+    Dep5Exception,
     __REUSE_version__,
     __version__,
     download,
@@ -24,7 +25,7 @@ from . import (
 )
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import PathType, setup_logging
-from .project import Project, create_project
+from .project import create_project
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -273,10 +274,12 @@ def main(args: List[str] = None, out=sys.stdout) -> int:
         out.write(f"reuse {__version__}\n")
         return 0
 
-    if parsed_args.root:
-        project = Project(parsed_args.root)
-    else:
-        project = create_project()
+    try:
+        project = create_project(parsed_args.root)
+    except Dep5Exception as exception:
+        _LOGGER.error(exception)
+        return 1
+
     project.include_submodules = parsed_args.include_submodules
     project.include_meson_subprojects = parsed_args.include_meson_subprojects
 
