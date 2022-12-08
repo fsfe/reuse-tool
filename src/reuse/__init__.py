@@ -87,3 +87,7 @@ class ReuseException(Exception):
 
 class IdentifierNotFound(ReuseException):
     """Could not find SPDX identifier for license file."""
+
+
+class Dep5Exception(ReuseException):
+    """Error encountered handling dep5 file."""

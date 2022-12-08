@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Iterable, List, NamedTuple, Optional, Set
 from uuid import uuid4
 
-from . import __version__
+from . import Dep5Exception, __version__
 from ._util import _LICENSING, _checksum
 from .project import Project
 
@@ -204,6 +204,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                     )
                     project_report.read_errors.add(result.path)
                     continue
+                if isinstance(result.error, (Dep5Exception)):
+                    _LOGGER.error(result.error)
+                    break
                 _LOGGER.error(
                     _(
                         "Unexpected error occurred while parsing '{path}'"

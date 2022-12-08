@@ -15,6 +15,7 @@ from textwrap import dedent
 import pytest
 from license_expression import LicenseSymbol
 
+from reuse import Dep5Exception
 from reuse.project import Project
 
 try:
@@ -378,6 +379,32 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     assert project.relative_from_root(
         Path(f"{project.root.name}/src/hello.py")
     ) == Path("src/hello.py")
+
+
+def test_exception_on_dep5(empty_directory):
+    """A formatting error in the dep5 file should not result in a stracktrace
+    for each file to interpret. An Dep5Exception should be raised at an early
+    stage.
+
+    Tested using a dep5 file that contains multiple Copyright entries instead
+    of one that has multiple indented statements.
+    """
+    (empty_directory / ".reuse").mkdir()
+    (empty_directory / ".reuse/dep5").write_text(
+        cleandoc(
+            """
+            Files: src/*
+            Copyright: 2001, Author 1
+            Copyright: 2002, Author 2
+            License: BSD-3-Clause
+            """
+        )
+    )
+    (empty_directory / "src").mkdir()
+    (empty_directory / "src/file.h").write_text("foo")
+    project = Project(empty_directory)
+    with pytest.raises(Dep5Exception):
+        project.spdx_info_of("src/file3.h")
 
 
 # REUSE-IgnoreEnd
