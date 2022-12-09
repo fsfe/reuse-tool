@@ -16,6 +16,7 @@ from typing import Dict, Iterator, Optional
 from boolean.boolean import ParseError
 from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
+from dill import dumps, loads
 from license_expression import ExpressionError
 
 from . import (
@@ -72,7 +73,8 @@ class Project:
         # TODO: Is this correct?
         self.license_map.update(EXCEPTION_MAP)
         self.licenses = self._licenses()
-        self._copyright = dep5
+        # Serialize Copyright object for use in multiprocessing
+        self._copyright = dumps(dep5)
         self.include_submodules = include_submodules
 
         meson_build_path = self._root / "meson.build"
@@ -147,9 +149,10 @@ class Project:
         file_result = SpdxInfo(set(), set())
 
         # Search the .reuse/dep5 file for SPDX information.
-        if self._copyright:
+        copyright_obj = loads(self._copyright)
+        if copyright_obj:
             dep5_result = _copyright_from_dep5(
-                self.relative_from_root(path), self._copyright
+                self.relative_from_root(path), copyright_obj
             )
             if any(dep5_result):
                 _LOGGER.info(
