@@ -48,6 +48,7 @@ binaryornot = "^0.4.4"
 license-expression = ">=1.0"
 python-debian = "^0.1.38,!=0.1.45,!=0.1.46,!=0.1.47"
 setuptools = "*"
+nltk = "^3.7"
 
 [tool.poetry.dev-dependencies]
 Sphinx = ">=4.0.0"
