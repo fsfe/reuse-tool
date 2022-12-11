@@ -9,6 +9,7 @@ import logging
 import sys
 import urllib.request
 from gettext import gettext as _
+from nltk.tokenize.util import string_span_tokenize
 from os import PathLike
 from pathlib import Path
 from urllib.error import URLError
@@ -29,6 +30,8 @@ _LOGGER = logging.getLogger(__name__)
 _SPDX_REPOSITORY_BASE_URL = (
     "https://raw.githubusercontent.com/spdx/license-list-data/master/text/"
 )
+
+_LINE_LENGTH = 75
 
 
 def download_license(spdx_identifier: str) -> str:
@@ -70,9 +73,28 @@ def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
         raise FileExistsError(errno.EEXIST, "File exists", str(destination))
 
     text = download_license(spdx_identifier)
+    
+    _splitted = text.split('\n\n')
+    _final_text = []
+    for row in _splitted:
+        if len(row) > _LINE_LENGTH:
+            i = 1
+            _start_tokens = []
+            _tok = list(string_span_tokenize(row, " "))
+            for _start, _end in _tok:
+                if _end > _LINE_LENGTH*i or _end == _tok[-1][1]:
+                    i += 1
+                    _final_text.append(row[min(_start_tokens): _end] + '\n')
+                    _start_tokens.clear()
+                else:
+                    _start_tokens.append(_start)
+            _final_text.append('\n')
+        else:
+            _final_text.append(row + '\n\n')
+    
     with destination.open("w", encoding="utf-8") as fp:
         fp.write(header)
-        fp.write(text)
+        fp.write(''.join(_final_text))
 
 
 def add_arguments(parser) -> None:
