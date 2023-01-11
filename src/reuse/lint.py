@@ -8,6 +8,7 @@ the reports and printing some conclusions.
 """
 
 import contextlib
+import json
 import os
 import sys
 from gettext import gettext as _
@@ -26,6 +27,13 @@ def _write_element(element, out=sys.stdout):
 
 def lint(report: ProjectReport, out=sys.stdout) -> bool:
     """Lint the entire project."""
+
+    # Collect data from report
+    # save into data structure (if report is not suitable)
+
+    # Write output formatting functions (dynamic output formats)
+    # Write output writing functions (stdout[, file, webrequest, ...])
+
     bad_licenses_result = lint_bad_licenses(report, out)
     deprecated_result = lint_deprecated_licenses(report, out)
     extensionless = lint_licenses_without_extension(report, out)
@@ -330,7 +338,178 @@ def add_arguments(parser):
     )
 
 
-def run(args, project: Project, out=sys.stdout):
+def collect_data_from_report(report: ProjectReport) -> dict:
+    """Collects and formats data from report and returns it as a dictionary
+
+    :param report: ProjectReport object
+    :return: Formatted dictionary containing data from the ProjectReport object
+    """
+    # Setup report data container
+    data = {
+        "json_version": "1.0",
+        "reuse_version": __REUSE_version__,
+        "non_compliant": {},
+        "files": {},
+        "summary": {
+            "used_licenses": [],
+        },
+    }
+
+    # Populate 'non_compliant'
+    data["non_compliant"] = {
+        "missing_licenses": [str(f) for f in report.missing_licenses],
+        "unused_licenses": [str(f) for f in report.unused_licenses],
+        "deprecated_licenses": [str(f) for f in report.deprecated_licenses],
+        "bad_licenses": [str(f) for f in report.bad_licenses],
+        "licenses_without_extension": [
+            str(f) for f in report.licenses_without_extension
+        ],
+        "missing_copyright_info": [
+            str(f) for f in report.files_without_copyright
+        ],
+        "missing_licensing_info": [str(f) for f in report.missing_licenses],
+        "read_error": [str(f) for f in report.read_errors],
+    }
+
+    # Populate 'files'
+    for file in report.file_reports:
+        copyrights = file.spdxfile.copyright.split("\n")
+        data["files"][str(file.path)] = {
+            "copyrights": [
+                {"value": copyright, "source": file.spdxfile.name}
+                for copyright in copyrights
+            ],
+            "licenses": [
+                {"value": license, "source": file.spdxfile.name}
+                for license in file.spdxfile.licenses_in_file
+            ],
+        }
+
+    # Populate 'summary'
+    number_of_files = len(report.file_reports)
+    is_compliant = not any(
+        any(result)
+        for result in (
+            data["non_compliant"]["missing_licenses"],
+            data["non_compliant"]["unused_licenses"],
+            data["non_compliant"]["bad_licenses"],
+            data["non_compliant"]["deprecated_licenses"],
+            data["non_compliant"]["licenses_without_extension"],
+            data["non_compliant"]["missing_copyright_info"],
+            data["non_compliant"]["missing_licensing_info"],
+            data["non_compliant"]["read_error"],
+        )
+    )
+    data["summary"] = {
+        "used_licenses": list(report.used_licenses),
+        "files_total": number_of_files,
+        "files_with_copyright_info": number_of_files
+        - len(report.files_without_copyright),
+        "files_with_licensing_info": number_of_files
+        - len(report.files_without_licenses),
+        "compliant": is_compliant,
+    }
+    return data
+
+
+def format_json(data) -> str:
+    """Formats data dictionary as JSON string ready to be printed to std.out
+
+    :param data: Dictionary containing formatted ProjectReport data
+    :return: String (representing JSON) that can be output to std.out
+    """
+    return json.dumps(data, indent=2)
+
+
+def format_plain(data) -> str:
+    """Formats data dictionary as plaintext string to be printed to std.out
+
+    :param data: Dictionary containing formatted ProjectReport data
+    :return: String (in plaintext) that can be output to std.out
+    """
+    output = ""
+    if not data["summary"]["compliant"]:
+
+        output += "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION")
+        output += "\n\n"
+        files_without_copyright = set(
+            data["non_compliant"]["missing_copyright_info"]
+        )
+        files_without_license = set(
+            data["non_compliant"]["missing_licensing_info"]
+        )
+        files_without_both = files_without_license.intersection(
+            files_without_license
+        )
+
+        if files_without_both:
+            output += _(
+                "The following files have no copyright and licensing "
+                "information:"
+            )
+            output += "\n"
+            for file in sorted(files_without_both):
+                output += f"* {file}\n"
+
+        if files_without_copyright - files_without_both:
+            output += _("The following files have no copyright information:")
+            output += "\n"
+            for file in sorted(files_without_copyright - files_without_both):
+                output += f"* {file}\n"
+
+        if files_without_license - files_without_both:
+            output += _("The following files have no licensing information:")
+            output += "\n"
+            for file in sorted(files_without_license - files_without_both):
+                output += f"* {file}\n"
+
+        # bad licenses
+        # deprecated licenses
+
+        output += "\n"
+
+    output += "# " + _("SUMMARY")
+    output += "\n\n"
+    summary_contents = [
+        (_("Bad licenses:"), ", ".join(data["non_compliant"]["bad_licenses"])),
+        (
+            _("Deprecated licenses:"),
+            ", ".join(data["non_compliant"]["deprecated_licenses"]),
+        ),
+        (
+            _("Licenses without file extension:"),
+            ", ".join(data["non_compliant"]["licenses_without_extension"]),
+        ),
+        (
+            _("Missing licenses:"),
+            ", ".join(data["non_compliant"]["missing_licensing_info"]),
+        ),
+        (
+            _("Unused licenses:"),
+            ", ".join(data["non_compliant"]["unused_licenses"]),
+        ),
+        (_("Used licenses:"), ", ".join(data["summary"]["used_licenses"])),
+    ]
+
+    for key, value in summary_contents:
+        if not value:
+            value = "0"
+        output += "* " + key + ": " + value + "\n"
+
+    return output
+
+
+def output_data(data: dict, formatter, out=sys.stdout):
+    """Outputs data to stdout
+
+    :param data:
+    :param formatter:
+    :param out:
+    """
+    out.write(formatter(data))
+
+
+def run(args, project: Project):
     """List all non-compliant files."""
     report = ProjectReport.generate(
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
@@ -338,7 +517,11 @@ def run(args, project: Project, out=sys.stdout):
 
     with contextlib.ExitStack() as stack:
         if args.quiet:
+            # TODO Rework quiet flag
             out = stack.enter_context(open(os.devnull, "w", encoding="utf-8"))
-        result = lint(report, out=out)
+        # TODO Toggle JSON formatter via flag
+        data = collect_data_from_report(report)
+        output_data(data, format_json())
+        result = data["summary"]["compliant"]
 
     return 0 if result else 1
