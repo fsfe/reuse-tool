@@ -17,7 +17,7 @@ jobs:
       max-parallel: 10
       matrix:
         python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-20.04, macos-latest, windows-latest]
         exclude:
           - os: macos-latest
             python-version: "3.6"
@@ -40,7 +40,7 @@ jobs:
           poetry run pytest
 
   pylint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -56,7 +56,7 @@ jobs:
           poetry run pylint src/reuse tests/*.py
 
   black:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -73,7 +73,7 @@ jobs:
           poetry run black .
 
   reuse:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -89,7 +89,7 @@ jobs:
           make reuse
 
   docs:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
