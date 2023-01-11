@@ -43,14 +43,21 @@ CWD = Path.cwd()
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
+
 # REUSE-IgnoreStart
 
 
-def pytest_configure():
+def pytest_addoption(parser):
+    """Allows specification of additional commandline options to parse"""
+    parser.addoption("--loglevel", action="store", default="DEBUG")
+
+
+def pytest_configure(config):
     """Called after command line options have been parsed and all plugins and
     initial conftest files been loaded.
     """
-    setup_logging(level=logging.DEBUG)
+    loglevel = config.getoption("loglevel")
+    setup_logging(level=logging.getLevelName(loglevel))
 
 
 def pytest_runtest_setup(item):
