@@ -424,7 +424,7 @@ def test_annotate_skip_unrecognised_and_style(
     loglevel = logging.getLogger("reuse").level
     if loglevel > logging.WARNING:
         pytest.skip(
-            f"Test needs LogLevel to be WARNING or lower (INFO, DEBUG). Current Level {logging.getLevelName(loglevel)}"
+            "Test needs LogLevel <= WARNING (e.g. WARNING, INFO, DEBUG)."
         )
     else:
         assert "no effect" in caplog.text
