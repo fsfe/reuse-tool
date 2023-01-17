@@ -4,13 +4,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Create a base image that has dependencies installed.
-FROM alpine:3.16 AS base
+FROM alpine:3.17 AS base
 
 RUN apk --no-cache add git mercurial python3
 
 # Build reuse into a virtualenv
 FROM base AS build
 
+# Currently, this is version 1.2.2
 RUN apk --no-cache add poetry
 
 WORKDIR /reuse-tool
