@@ -20,7 +20,7 @@ RUN apt-get update \
 
 RUN python3 -m pip install --user pipx
 # Make sure this is the same version as in the Alpine-based images
-RUN python3 -m pipx install poetry=1.2.2
+RUN python3 -m pipx install poetry==1.2.2
 
 WORKDIR /reuse-tool
 COPY . /reuse-tool/
