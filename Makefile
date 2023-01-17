@@ -55,6 +55,10 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	poetry export --only=dev >docs/requirements.txt
 	$(MAKE) -C docs html
 
+.PHONY: docs-ci
+docs: ## generate Sphinx HTML documentation, including API docs without dependency file generation (for CI)
+	$(MAKE) -C docs html
+
 .PHONY: dist
 dist: clean-build clean-pyc clean-docs ## builds source and wheel package
 	poetry build

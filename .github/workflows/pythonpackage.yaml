@@ -98,8 +98,7 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          pip install poetry
-          poetry install --no-interaction
+          pip install -r docs/requirements.txt
       - name: Create docs with Sphinx
         run: |
-          make docs
+          make docs-ci
