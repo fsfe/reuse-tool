@@ -39,6 +39,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
+- Added loglevel argument to pytest and skip one test if loglevel is too
+  high (#645).
+
 ### Changed
 
 ### Deprecated

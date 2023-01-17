@@ -7,15 +7,16 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for reuse._main: annotate"""
-
-# pylint: disable=too-many-lines,unused-argument
-
+import logging
 import stat
 from inspect import cleandoc
 
 import pytest
 
 from reuse._main import main
+
+# pylint: disable=too-many-lines,unused-argument
+
 
 # REUSE-IgnoreStart
 
@@ -420,7 +421,13 @@ def test_annotate_skip_unrecognised_and_style(
     )
 
     assert result == 0
-    assert "no effect" in caplog.text
+    loglevel = logging.getLogger("reuse").level
+    if loglevel > logging.WARNING:
+        pytest.skip(
+            "Test needs LogLevel <= WARNING (e.g. WARNING, INFO, DEBUG)."
+        )
+    else:
+        assert "no effect" in caplog.text
 
 
 def test_annotate_no_copyright_or_license(fake_repository):
@@ -604,7 +611,6 @@ def test_annotate_template_nonexistant(fake_repository):
 def test_annotate_template_without_extension(
     fake_repository, stringio, mock_date_today, template_simple_source
 ):
-
     """Find the correct header even when not using an extension."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
