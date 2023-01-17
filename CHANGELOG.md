@@ -47,6 +47,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- Fixed automatic generation of Sphinx documentation via readthedocs.io by
+  adding a `.readthedocs.yaml` configuration file (#648)
+
 ### Security
 
 ## 1.1.0 - 2022-12-01

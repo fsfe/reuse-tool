@@ -14,7 +14,7 @@ Welcome to reuse's documentation!
 .. toctree::
    :maxdepth: 2
 
-   readme
+   Overview<readme>
    usage
    scripts
    authors
