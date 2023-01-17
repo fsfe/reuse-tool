@@ -274,13 +274,6 @@ Next, you'll find the following commands handy:
 - `poetry run pylint src`
 - `make docs`
 
-Please note that we currently use version poetry version 1.2.2. You can make
-sure to install this version of poetry, e.g. by running:
-
-```bash
-pipx install poetry==1.2.2
-```
-
 ## License
 
 This work is licensed under multiple licences. Because keeping this section

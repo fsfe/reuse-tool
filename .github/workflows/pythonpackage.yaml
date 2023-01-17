@@ -25,12 +25,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          pipx install poetry==1.2.2
+          pip install poetry
           poetry install --no-interaction
       - name: Run tests with pytest
         run: |
@@ -44,12 +44,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          pipx install poetry==1.2.2
+          pip install poetry
           poetry install --no-interaction
       - name: Lint with PyLint
         run: |
@@ -60,12 +60,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          pipx install poetry==1.2.2
+          pip install poetry
           poetry install --no-interaction
       - name: Test formatting with black
         run: |
@@ -77,12 +77,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          pipx install poetry==1.2.2
+          pip install poetry
           poetry install --no-interaction --no-dev
       - name: Test REUSE compliance
         run: |
