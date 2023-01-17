@@ -19,6 +19,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --user pipx
+RUN python3 -m pipx ensurepath
 # Make sure this is the same version as in the Alpine-based images
 RUN python3 -m pipx install poetry==1.2.2
 
@@ -29,8 +30,8 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN poetry install --no-interaction --no-dev --no-root
-RUN poetry build --no-interaction
+RUN /root/.local/bin/poetry install --no-interaction --no-dev --no-root
+RUN /root/.local/bin/poetry build --no-interaction
 RUN pip install dist/*.whl
 
 # Copy over the virtualenv and use it
