@@ -44,6 +44,9 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Changed
 
+- Bumped dependencies and pinned version of poetry across the CI pipeline
+  (#649).
+
 ### Deprecated
 
 ### Removed
