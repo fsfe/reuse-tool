@@ -24,13 +24,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Install poetry
+        run: pipx install 'poetry<2.0'
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+          cache: poetry
       - name: Install dependencies
         run: |
-          pip install poetry
           poetry install --no-interaction
       - name: Run tests with pytest
         run: |
@@ -43,13 +45,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: Install poetry
+        run: pipx install 'poetry<2.0'
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.6
+          cache: poetry
       - name: Install dependencies
         run: |
-          pip install poetry
           poetry install --no-interaction
       - name: Lint with PyLint
         run: |
@@ -59,13 +63,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: Install poetry
+        run: pipx install 'poetry<2.0'
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.6
+          cache: poetry
       - name: Install dependencies
         run: |
-          pip install poetry
           poetry install --no-interaction
       - name: Test formatting with black
         run: |
@@ -76,13 +82,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: Install poetry
+        run: pipx install 'poetry<2.0'
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.6
+          cache: poetry
       - name: Install dependencies
         run: |
-          pip install poetry
           poetry install --no-interaction --no-dev
       - name: Test REUSE compliance
         run: |
@@ -93,7 +101,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.6
       - name: Install dependencies
