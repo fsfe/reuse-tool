@@ -409,15 +409,6 @@ def collect_data_from_report(report: ProjectReport) -> dict:
     return data
 
 
-def format_json(data) -> str:
-    """Formats data dictionary as JSON string ready to be printed to std.out
-
-    :param data: Dictionary containing formatted ProjectReport data
-    :return: String (representing JSON) that can be output to std.out
-    """
-    return json.dumps(data, indent=2)
-
-
 def format_plain(data) -> str:
     """Formats data dictionary as plaintext string to be printed to sys.stdout
 
@@ -587,15 +578,32 @@ def format_plain(data) -> str:
     return output
 
 
-def output_data(data: dict, formatter, out=sys.stdout):
-    """Outputs data to stdout
+def format_json(data) -> str:
+    """Formats data dictionary as JSON string ready to be printed to sys.stdout
 
-    :param data:
-    :param formatter:
-    :param out:
+    :param data: Dictionary containing formatted ProjectReport data
+    :return: String (representing JSON) that can be output to sys.stdout
     """
+
+    def set_default(obj):
+        if isinstance(obj, set):
+            return list(obj)
+
+    return json.dumps(data, indent=2, default=set_default)
+
+
+def lint(data: dict, formatter=format_plain, out=sys.stdout):
+    """Lints the entire project
+
+    :param data: Dictionary holding formatted ProjectReport data
+    :param formatter: Callable that formats the data dictionary
+    :param out: Where to output
+    """
+
     out.write(formatter(data))
 
+    result = data["summary"]["compliant"]
+    return result
 
 
 def run(args, project: Project, out=sys.stdout, formatter=format_plain):
