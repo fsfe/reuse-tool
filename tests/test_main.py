@@ -26,7 +26,6 @@ from reuse import download
 from reuse._main import main
 from reuse._util import GIT_EXE, HG_EXE
 
-
 # REUSE-IgnoreStart
 
 
@@ -456,5 +455,6 @@ def test_supported_licenses(stringio):
         r"GPL-3\.0-or-later\s+GNU General Public License v3\.0 or later\s+https:\/\/spdx\.org\/licenses\/GPL-3\.0-or-later\.html\s+\n",
         stringio.getvalue(),
     )
+
 
 # REUSE-IgnoreEnd

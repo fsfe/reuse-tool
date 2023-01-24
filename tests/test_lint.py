@@ -10,7 +10,7 @@ import sys
 
 import pytest
 
-from reuse.lint import lint, collect_data_from_report
+from reuse.lint import collect_data_from_report, lint
 from reuse.project import Project
 from reuse.report import ProjectReport
 
@@ -96,7 +96,9 @@ def test_lint_deprecated(fake_repository, stringio):
 
 def test_lint_bad_license(fake_repository, stringio):
     """A bad license is detected."""
-    (fake_repository / "foo.py").write_text("SPDX-License-Identifier: bad-license")
+    (fake_repository / "foo.py").write_text(
+        "SPDX-License-Identifier: bad-license"
+    )
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
     data = collect_data_from_report(report)
