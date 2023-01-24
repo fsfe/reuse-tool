@@ -419,54 +419,107 @@ def format_json(data) -> str:
 
 
 def format_plain(data) -> str:
-    """Formats data dictionary as plaintext string to be printed to std.out
+    """Formats data dictionary as plaintext string to be printed to sys.stdout
 
     :param data: Dictionary containing formatted ProjectReport data
-    :return: String (in plaintext) that can be output to std.out
+    :return: String (in plaintext) that can be output to sys.stdout
     """
     output = ""
+
+    # If the project is not compliant:
     if not data["summary"]["compliant"]:
 
-        output += "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION")
-        output += "\n\n"
-        files_without_copyright = set(
-            data["non_compliant"]["missing_copyright_info"]
-        )
-        files_without_license = set(
-            data["non_compliant"]["missing_licensing_info"]
-        )
-        files_without_both = files_without_license.intersection(
-            files_without_license
-        )
+        # Missing copyright and licensing information
+        files_without_copyright = set(data["non_compliant"]["missing_copyright_info"])
+        files_without_license = set(data["non_compliant"]["missing_licensing_info"])
+        files_without_both = files_without_license.intersection(files_without_copyright)
 
+        header = "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION") + "\n\n"
         if files_without_both:
+            output += header
             output += _(
-                "The following files have no copyright and licensing "
-                "information:"
+                "The following files have no copyright and licensing " "information:"
             )
             output += "\n"
             for file in sorted(files_without_both):
                 output += f"* {file}\n"
+            output += "\n\n"
 
         if files_without_copyright - files_without_both:
+            output += header
             output += _("The following files have no copyright information:")
             output += "\n"
             for file in sorted(files_without_copyright - files_without_both):
                 output += f"* {file}\n"
+            output += "\n\n"
 
         if files_without_license - files_without_both:
+            output += header
             output += _("The following files have no licensing information:")
             output += "\n"
             for file in sorted(files_without_license - files_without_both):
                 output += f"* {file}\n"
+            output += "\n\n"
 
-        # bad licenses
-        # deprecated licenses
+        # Bad licenses
+        bad_licenses = data["non_compliant"]["bad_licenses"]
+        if bad_licenses:
+            output += "# " + _("BAD LICENSES") + "\n\n"
+            for lic, files in sorted(bad_licenses.items()):
+                output += f"'{lic}' found in:" + "\n"
+                for f in sorted(files):
+                    output += f"* {f}\n"
+            output += "\n\n"
 
-        output += "\n"
+        # Deprecated licenses
+        deprecated_licenses = data["non_compliant"]["deprecated_licenses"]
+        if deprecated_licenses:
+            output += "# " + _("DEPRECATED LICENSES") + "\n\n"
+            output += _("The following licenses are deprecated by SPDX:") + "\n"
+            for lic in sorted(deprecated_licenses):
+                output += f"* {lic}\n"
+            output += "\n\n"
+
+        # Licenses without extension
+        licenses_without_extension = data["non_compliant"]["licenses_without_extension"]
+        if licenses_without_extension:
+            output += "# " + _("LICENSES WITHOUT FILE EXTENSION") + "\n\n"
+            output += _("The following licenses have no file extension:") + "\n"
+            for path in sorted(licenses_without_extension):
+                output += f"* {str(path)}" + "\n"
+            output += "\n\n"
+
+        # Missing licenses
+        missing_licenses = data["non_compliant"]["missing_licenses"]
+        if missing_licenses:
+            output += "# " + _("MISSING LICENSES") + "\n\n"
+            for lic, files in sorted(missing_licenses.items()):
+                output += f"'{lic}' found in:" + "\n"
+                for f in sorted(files):
+                    output += f"* {f}\n"
+            output += "\n"
+
+        # Unused licenses
+        unused_licenses = data["non_compliant"]["unused_licenses"]
+        if unused_licenses:
+            output += "# " + _("UNUSED LICENSES") + "\n\n"
+            output += _("The following licenses are not used:") + "\n"
+            for lic in sorted(deprecated_licenses):
+                output += f"* {lic}\n"
+            output += "\n\n"
+
+        # Read errors
+        read_errors = data["non_compliant"]["read_error"]
+        if read_errors:
+            output += "# " + _("READ ERRORS") + "\n\n"
+            output += _("Could not read:") + "\n"
+            for path in sorted(read_errors):
+                output += f"* {str(path)}" + "\n"
+            output += "\n\n"
 
     output += "# " + _("SUMMARY")
     output += "\n\n"
+
     summary_contents = [
         (_("Bad licenses:"), ", ".join(data["non_compliant"]["bad_licenses"])),
         (
@@ -475,23 +528,61 @@ def format_plain(data) -> str:
         ),
         (
             _("Licenses without file extension:"),
-            ", ".join(data["non_compliant"]["licenses_without_extension"]),
+            ", ".join(
+                [
+                    lic.split("/")[1]
+                    for lic in data["non_compliant"]["licenses_without_extension"]
+                ]
+            ),
         ),
         (
             _("Missing licenses:"),
-            ", ".join(data["non_compliant"]["missing_licensing_info"]),
+            ", ".join(data["non_compliant"]["missing_licenses"]),
         ),
         (
             _("Unused licenses:"),
             ", ".join(data["non_compliant"]["unused_licenses"]),
         ),
         (_("Used licenses:"), ", ".join(data["summary"]["used_licenses"])),
+        (
+            _("Read errors: {count}").format(
+                count=len(data["non_compliant"]["read_error"])
+            ),
+            "empty",
+        ),
+        (
+            _("files with copyright information: {count} / {total}").format(
+                count=data["summary"]["files_with_copyright_info"],
+                total=data["summary"]["files_total"],
+            ),
+            "empty",
+        ),
+        (
+            _("files with license information: {count} / {total}").format(
+                count=data["summary"]["files_with_licensing_info"],
+                total=data["summary"]["files_total"],
+            ),
+            "empty",
+        ),
     ]
 
     for key, value in summary_contents:
         if not value:
             value = "0"
-        output += "* " + key + ": " + value + "\n"
+        if value == "empty":
+            value = ""
+        output += "* " + key + " " + value + "\n"
+
+    if data["summary"]["compliant"]:
+        output += _(
+            "Congratulations! Your project is compliant with version"
+            " {} of the REUSE Specification :-)"
+        ).format(__REUSE_version__)
+    else:
+        output += _(
+            "Unfortunately, your project is not compliant with version "
+            "{} of the REUSE Specification :-("
+        ).format(__REUSE_version__)
 
     return output
 
