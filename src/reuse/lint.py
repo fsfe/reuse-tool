@@ -351,27 +351,22 @@ def collect_data_from_report(report: ProjectReport) -> dict:
     data = {
         "json_version": "1.0",
         "reuse_version": __REUSE_version__,
-        "non_compliant": {},
+        "non_compliant": {
+            "missing_licenses": report.missing_licenses,
+            "unused_licenses": [str(f) for f in report.unused_licenses],
+            "deprecated_licenses": [str(f) for f in report.deprecated_licenses],
+            "bad_licenses": report.bad_licenses,
+            "licenses_without_extension": [
+                str(f) for f in report.licenses_without_extension.values()
+            ],
+            "missing_copyright_info": [str(f) for f in report.files_without_copyright],
+            "missing_licensing_info": [str(f) for f in report.files_without_licenses],
+            "read_error": [str(f) for f in report.read_errors],
+        },
         "files": {},
         "summary": {
             "used_licenses": [],
         },
-    }
-
-    # Populate 'non_compliant'
-    data["non_compliant"] = {
-        "missing_licenses": [str(f) for f in report.missing_licenses],
-        "unused_licenses": [str(f) for f in report.unused_licenses],
-        "deprecated_licenses": [str(f) for f in report.deprecated_licenses],
-        "bad_licenses": [str(f) for f in report.bad_licenses],
-        "licenses_without_extension": [
-            str(f) for f in report.licenses_without_extension
-        ],
-        "missing_copyright_info": [
-            str(f) for f in report.files_without_copyright
-        ],
-        "missing_licensing_info": [str(f) for f in report.missing_licenses],
-        "read_error": [str(f) for f in report.read_errors],
     }
 
     # Populate 'files'
@@ -379,12 +374,11 @@ def collect_data_from_report(report: ProjectReport) -> dict:
         copyrights = file.spdxfile.copyright.split("\n")
         data["files"][str(file.path)] = {
             "copyrights": [
-                {"value": copyright, "source": file.spdxfile.name}
-                for copyright in copyrights
+                {"value": cop, "source": file.spdxfile.name} for cop in copyrights
             ],
             "licenses": [
-                {"value": license, "source": file.spdxfile.name}
-                for license in file.spdxfile.licenses_in_file
+                {"value": lic, "source": file.spdxfile.name}
+                for lic in file.spdxfile.licenses_in_file
             ],
         }
 
