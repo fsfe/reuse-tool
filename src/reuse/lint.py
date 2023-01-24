@@ -45,7 +45,7 @@ def collect_data_from_report(report: ProjectReport) -> dict:
             "deprecated_licenses": [str(f) for f in report.deprecated_licenses],
             "bad_licenses": report.bad_licenses,
             "licenses_without_extension": [
-                f for f in report.licenses_without_extension.values()
+                list(report.licenses_without_extension.values())
             ],
             "missing_copyright_info": [
                 str(f) for f in report.files_without_copyright
