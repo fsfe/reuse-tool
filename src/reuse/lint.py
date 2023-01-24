@@ -336,6 +336,9 @@ def add_arguments(parser):
     parser.add_argument(
         "-q", "--quiet", action="store_true", help=_("prevents output")
     )
+    parser.add_argument(
+        "-j", "--json", action="store_true", help=_("formats output as JSON")
+    )
 
 
 def collect_data_from_report(report: ProjectReport) -> dict:
@@ -509,7 +512,8 @@ def output_data(data: dict, formatter, out=sys.stdout):
     out.write(formatter(data))
 
 
-def run(args, project: Project):
+
+def run(args, project: Project, out=sys.stdout, formatter=format_plain):
     """List all non-compliant files."""
     report = ProjectReport.generate(
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
@@ -517,11 +521,13 @@ def run(args, project: Project):
 
     with contextlib.ExitStack() as stack:
         if args.quiet:
-            # TODO Rework quiet flag
             out = stack.enter_context(open(os.devnull, "w", encoding="utf-8"))
-        # TODO Toggle JSON formatter via flag
+
+        if args.json:
+            formatter = format_json
+
         data = collect_data_from_report(report)
-        output_data(data, format_json())
+        lint(data, formatter=formatter, out=out)
         result = data["summary"]["compliant"]
 
     return 0 if result else 1
