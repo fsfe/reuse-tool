@@ -45,7 +45,7 @@ def collect_data_from_report(report: ProjectReport) -> dict:
             "deprecated_licenses": [str(f) for f in report.deprecated_licenses],
             "bad_licenses": report.bad_licenses,
             "licenses_without_extension": [
-                str(f) for f in report.licenses_without_extension.values()
+                f for f in report.licenses_without_extension.values()
             ],
             "missing_copyright_info": [
                 str(f) for f in report.files_without_copyright
@@ -94,9 +94,9 @@ def collect_data_from_report(report: ProjectReport) -> dict:
         "used_licenses": list(report.used_licenses),
         "files_total": number_of_files,
         "files_with_copyright_info": number_of_files
-                                     - len(report.files_without_copyright),
+        - len(report.files_without_copyright),
         "files_with_licensing_info": number_of_files
-                                     - len(report.files_without_licenses),
+        - len(report.files_without_licenses),
         "compliant": is_compliant,
     }
     return data
@@ -226,10 +226,9 @@ def format_plain(data: Dict) -> str:
             _("Licenses without file extension:"),
             ", ".join(
                 [
-                    lic.split("/")[1]
-                    for lic in data["non_compliant"][
-                    "licenses_without_extension"
-                ]
+                    lic.parts[-1] for lic in data["non_compliant"][
+                        "licenses_without_extension"
+                    ]
                 ]
             ),
         ),
@@ -294,7 +293,9 @@ def format_json(data: Dict) -> str:
 
     return json.dumps(
         # Serialize sets to lists
-        data, indent=2, default=lambda x: list(x) if isinstance(x, set) else x
+        data,
+        indent=2,
+        default=lambda x: list(x) if isinstance(x, set) else x,
     )
 
 
