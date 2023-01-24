@@ -44,9 +44,9 @@ def collect_data_from_report(report: ProjectReport) -> dict:
             "unused_licenses": [str(f) for f in report.unused_licenses],
             "deprecated_licenses": [str(f) for f in report.deprecated_licenses],
             "bad_licenses": report.bad_licenses,
-            "licenses_without_extension": [
-                list(report.licenses_without_extension.values())
-            ],
+            "licenses_without_extension": list(
+                report.licenses_without_extension.values()
+            ),
             "missing_copyright_info": [
                 str(f) for f in report.files_without_copyright
             ],
@@ -226,7 +226,8 @@ def format_plain(data: Dict) -> str:
             _("Licenses without file extension:"),
             ", ".join(
                 [
-                    lic.parts[-1] for lic in data["non_compliant"][
+                    file.parts[-1]
+                    for file in data["non_compliant"][
                         "licenses_without_extension"
                     ]
                 ]
