@@ -12,7 +12,7 @@ import json
 import os
 import sys
 from gettext import gettext as _
-from typing import Iterable
+from typing import Dict
 
 from . import __REUSE_version__
 from .project import Project
@@ -47,8 +47,12 @@ def collect_data_from_report(report: ProjectReport) -> dict:
             "licenses_without_extension": [
                 str(f) for f in report.licenses_without_extension.values()
             ],
-            "missing_copyright_info": [str(f) for f in report.files_without_copyright],
-            "missing_licensing_info": [str(f) for f in report.files_without_licenses],
+            "missing_copyright_info": [
+                str(f) for f in report.files_without_copyright
+            ],
+            "missing_licensing_info": [
+                str(f) for f in report.files_without_licenses
+            ],
             "read_error": [str(f) for f in report.read_errors],
         },
         "files": {},
@@ -62,7 +66,8 @@ def collect_data_from_report(report: ProjectReport) -> dict:
         copyrights = file.spdxfile.copyright.split("\n")
         data["files"][str(file.path)] = {
             "copyrights": [
-                {"value": cop, "source": file.spdxfile.name} for cop in copyrights
+                {"value": cop, "source": file.spdxfile.name}
+                for cop in copyrights
             ],
             "licenses": [
                 {"value": lic, "source": file.spdxfile.name}
@@ -89,15 +94,16 @@ def collect_data_from_report(report: ProjectReport) -> dict:
         "used_licenses": list(report.used_licenses),
         "files_total": number_of_files,
         "files_with_copyright_info": number_of_files
-        - len(report.files_without_copyright),
+                                     - len(report.files_without_copyright),
         "files_with_licensing_info": number_of_files
-        - len(report.files_without_licenses),
+                                     - len(report.files_without_licenses),
         "compliant": is_compliant,
     }
     return data
 
 
-def format_plain(data) -> str:
+# pylint: disable=too-many-locals, too-many-branches, too-many-statements
+def format_plain(data: Dict) -> str:
     """Formats data dictionary as plaintext string to be printed to sys.stdout
 
     :param data: Dictionary containing formatted ProjectReport data
@@ -109,15 +115,24 @@ def format_plain(data) -> str:
     if not data["summary"]["compliant"]:
 
         # Missing copyright and licensing information
-        files_without_copyright = set(data["non_compliant"]["missing_copyright_info"])
-        files_without_license = set(data["non_compliant"]["missing_licensing_info"])
-        files_without_both = files_without_license.intersection(files_without_copyright)
+        files_without_copyright = set(
+            data["non_compliant"]["missing_copyright_info"]
+        )
+        files_without_license = set(
+            data["non_compliant"]["missing_licensing_info"]
+        )
+        files_without_both = files_without_license.intersection(
+            files_without_copyright
+        )
 
-        header = "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION") + "\n\n"
+        header = (
+            "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION") + "\n\n"
+        )
         if files_without_both:
             output += header
             output += _(
-                "The following files have no copyright and licensing " "information:"
+                "The following files have no copyright and licensing "
+                "information:"
             )
             output += "\n"
             for file in sorted(files_without_both):
@@ -146,8 +161,8 @@ def format_plain(data) -> str:
             output += "# " + _("BAD LICENSES") + "\n\n"
             for lic, files in sorted(bad_licenses.items()):
                 output += f"'{lic}' found in:" + "\n"
-                for f in sorted(files):
-                    output += f"* {f}\n"
+                for file in sorted(files):
+                    output += f"* {file}\n"
             output += "\n\n"
 
         # Deprecated licenses
@@ -160,7 +175,9 @@ def format_plain(data) -> str:
             output += "\n\n"
 
         # Licenses without extension
-        licenses_without_extension = data["non_compliant"]["licenses_without_extension"]
+        licenses_without_extension = data["non_compliant"][
+            "licenses_without_extension"
+        ]
         if licenses_without_extension:
             output += "# " + _("LICENSES WITHOUT FILE EXTENSION") + "\n\n"
             output += _("The following licenses have no file extension:") + "\n"
@@ -174,8 +191,8 @@ def format_plain(data) -> str:
             output += "# " + _("MISSING LICENSES") + "\n\n"
             for lic, files in sorted(missing_licenses.items()):
                 output += f"'{lic}' found in:" + "\n"
-                for f in sorted(files):
-                    output += f"* {f}\n"
+                for file in sorted(files):
+                    output += f"* {file}\n"
             output += "\n"
 
         # Unused licenses
@@ -210,7 +227,9 @@ def format_plain(data) -> str:
             ", ".join(
                 [
                     lic.split("/")[1]
-                    for lic in data["non_compliant"]["licenses_without_extension"]
+                    for lic in data["non_compliant"][
+                    "licenses_without_extension"
+                ]
                 ]
             ),
         ),
@@ -266,21 +285,20 @@ def format_plain(data) -> str:
     return output
 
 
-def format_json(data) -> str:
+def format_json(data: Dict) -> str:
     """Formats data dictionary as JSON string ready to be printed to sys.stdout
 
     :param data: Dictionary containing formatted ProjectReport data
     :return: String (representing JSON) that can be output to sys.stdout
     """
 
-    def set_default(obj):
-        if isinstance(obj, set):
-            return list(obj)
+    return json.dumps(
+        # Serialize sets to lists
+        data, indent=2, default=lambda x: list(x) if isinstance(x, set) else x
+    )
 
-    return json.dumps(data, indent=2, default=set_default)
 
-
-def lint(data: dict, formatter=format_plain, out=sys.stdout):
+def lint(data: Dict, formatter=format_plain, out=sys.stdout):
     """Lints the entire project
 
     :param data: Dictionary holding formatted ProjectReport data
