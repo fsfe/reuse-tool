@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-name: Python package
+name: Test suites
 
 on:
   push:
@@ -74,6 +75,14 @@ jobs:
         run: |
           poetry run isort --check src/ tests/
           poetry run black .
+
+  prettier:
+    runs-on: ubuntu-20.04
+    container: node:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run prettier
+        run: npx prettier --check .
 
   reuse:
     runs-on: ubuntu-20.04
