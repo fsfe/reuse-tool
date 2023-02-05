@@ -35,6 +35,14 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## 1.1.1 - 2023-02-05
+
+### Fixed
+
+- Don't include documentation files (e.g. `README.md`) in top-level (i.e.,
+  `site-packages/`). (#657)
+- Include documentation directory in sdist. (#657)
+
 ## 1.1.0 - 2022-12-01
 
 ### Added
