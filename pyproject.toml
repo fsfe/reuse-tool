@@ -29,6 +29,7 @@ include = [
     { path = "CHANGELOG.md", format = "sdist" },
     { path = ".reuse", format = "sdist" },
     { path = "LICENSES", format = "sdist" },
+    { path = "docs", format = "sdist" },
 ]
 
 homepage = "https://reuse.software/"
