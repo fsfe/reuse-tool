@@ -39,6 +39,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
+- More file types are recognised:
+  - Fennel (`.fnl`) (#638)
 - Added loglevel argument to pytest and skip one test if loglevel is too high
   (#645).
 
