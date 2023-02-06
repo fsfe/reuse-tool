@@ -644,7 +644,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".sbt": CCommentStyle,
     ".sc": CCommentStyle,  # SuperCollider source file
     ".scad": CCommentStyle,
-    ".scala": PythonCommentStyle,
+    ".scala": CCommentStyle,
     ".scm": LispCommentStyle,
     ".scpt": AppleScriptCommentStyle,
     ".scptd": AppleScriptCommentStyle,
