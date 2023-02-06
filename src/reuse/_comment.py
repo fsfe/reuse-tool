@@ -9,6 +9,7 @@
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Stefan Hynek <stefan.hynek@uni-goettingen.de>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Sebastian Crane <seabass@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -540,6 +541,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".f90": FortranCommentStyle,
     ".f95": FortranCommentStyle,
     ".fish": PythonCommentStyle,
+    ".fnl": LispCommentStyle,
     ".fodp": UncommentableCommentStyle,
     ".fods": UncommentableCommentStyle,
     ".fodt": UncommentableCommentStyle,
