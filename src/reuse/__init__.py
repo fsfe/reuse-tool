@@ -19,6 +19,7 @@ import gettext
 import logging
 import os
 import re
+from dataclasses import dataclass, field
 from typing import NamedTuple, Set
 
 from boolean.boolean import Expression
@@ -82,13 +83,17 @@ _IGNORE_SPDX_PATTERNS = [
 # Combine SPDX patterns into file patterns to ease default ignore usage
 _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
-#: Simple structure for holding SPDX information.
-#:
-#: The two iterables MUST be sets.
-SpdxInfo = NamedTuple(
-    "SpdxInfo",
-    [("spdx_expressions", Set[Expression]), ("copyright_lines", Set[str])],
-)
+
+@dataclass(frozen=True)
+class SpdxInfo:
+    """Simple class holding SPDX information"""
+
+    spdx_expressions: Set[Expression]
+    copyright_lines: Set[str]
+    contributor_lines: Set[str] = field(default_factory=set)
+
+    def __bool__(self):
+        return any(self.__dict__.values())
 
 
 class ReuseException(Exception):

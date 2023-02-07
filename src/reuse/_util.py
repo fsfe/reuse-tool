@@ -368,7 +368,7 @@ def filter_ignore_block(text: str) -> str:
 def contains_spdx_info(text: str) -> bool:
     """The text contains SPDX info."""
     try:
-        return any(extract_spdx_info(text))
+        return bool(extract_spdx_info(text))
     except (ExpressionError, ParseError):
         return False
 
