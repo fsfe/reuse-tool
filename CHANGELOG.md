@@ -70,21 +70,15 @@ The versions follow [semantic versioning](https://semver.org).
 ### Added
 
 - Added support for Python 3.11. (#603)
-
 - More file types are recognised:
-
   - Kotlin script (`.kts`)
   - Android Interface Definition Language (`.aidl`)
   - Certificate files (`.pem`)
-
 - Added comment styles:
-
   - Apache Velocity Template (Extensions: `.vm`, `.vtl`) (#554)
   - XQuery comment style (Extensions: `.xq(l|m|y|uery|)`) (#610)
-
 - Some special endings are always stripped from copyright and licensing
   statements (#602):
-
   - `">` (and variations such as `'>`, `" >`, and `"/>`)
   - `] ::`
 
@@ -148,35 +142,23 @@ We would like to thank the many contributors to this release, among them
 - Extend [tool documentation](https://reuse.readthedocs.io) with scripts to help
   using this tool and automating some steps that are not built into the tool
   itself. (#500)
-
 - Recommendations for installation/run methods: package managers and pipx (#457)
-
 - Docker images for AArch64 (#478)
-
 - Added the ability to ignore parts of a file when running `reuse lint`. Simply
   add `REUSE-IgnoreStart` and `REUSE-IgnoreEnd` as comments and all lines
   between the two will be ignored by the next run of `reuse lint`. (#463)
-
 - [Meson subprojects](https://mesonbuild.com/Subprojects.html) are now ignored
   by default. (#496)
-
 - More file types are recognised:
-
   - sbt build files (`.sbt`)
   - Vimscript files (`.vim`)
-
 - Added `--skip-existing` flag to `addheader` in order to skip files that
   already contain SPDX information. This may be useful for only adding SPDX
   information to newly created files. (#480)
-
 - Added `--recursive` flag to `addheader`. (#469)
-
 - Preserve shebang for more script files:
-
   - V-Lang (#432)
-
 - Ignore all SPDX files with their typical formats and extensions. (#494)
-
 - Add support for merging copyright lines based on copyright statement,
   transforming multiple lines with a single year into a single line with a
   range. (#328)
@@ -185,13 +167,9 @@ We would like to thank the many contributors to this release, among them
 
 - Use `setuptools` instead of the deprecated `distutils` which will be removed
   with Python 3.12. (#451)
-
 - `addheader --explicit-license` renamed to `--force-dot-license`. (#476)
-
 - Dockerfiles for reuse-tool are now in a separate subdirectory `docker`. (#499)
-
 - Updated SPDX license list to 3.17. (#513)
-
 - The copyright detection mechanism now silently accepts the following strings:
   `Copyright(c)` and `Copyright(C)`. (#440)
 
@@ -212,12 +190,9 @@ We would like to thank the many contributors to this release, among them
   `Apache-1.0+` appears as a declared license, it should not be identified as
   missing, bad, or unused if `LICENSES/Apache-1.0.txt` exists. It is, however,
   identified separately as a used license. (#123)
-
 - When `addheader` creates a `.license` file, that file now has a newline at the
   end. (#477)
-
 - Cleaned up internal string manipulation. (#477)
-
 - JSX (`.jxs` and `.tsx`) actually uses C comment syntax as JSX blocks never
   stand at the beginning of the file where the licensing info needs to go.
   (#406)
@@ -233,16 +208,11 @@ contributed!
 ### Added
 
 - `supported-licenses` command that lists all licenses supported by REUSE (#401)
-
 - `--quiet` switch to the `lint` command (#402)
-
 - Better suggestions for faulty SPDX license identifiers in `download` and
   `init` (#416)
-
 - Python 3.10 support declared
-
 - More file types are recognised:
-
   - Apache FreeMarker Template Language (`.ftl`)
   - AsciiDoc (`.adoc`, `.asc`, `.asciidoc`)
   - Bibliography (`.csl`)
@@ -261,9 +231,7 @@ contributed!
   - Turtle/RDF (`.ttl`)
   - V-Lang (`.v`, `.vsh`)
   - Vue.js (`.vue`)
-
 - More file names are recognised:
-
   - Doxygen (`Doxyfile`)
   - ESLint (`.eslintignore` and `.eslintrc`)
   - Meson options file (`meson_options.txt`)
@@ -279,11 +247,8 @@ contributed!
 ### Fixed
 
 - Fix Extensible Stylesheet Language (`.xsl`) to use HTML comment syntax
-
 - Allow creating .license file for write-protected files (#347) (#418)
-
 - Do not break XML files special first line (#378)
-
 - Make `download` subcommand work correctly outside of project root and with
   `--root` (#430)
 
@@ -293,18 +258,12 @@ contributed!
 
 - `addheader` recognises file types that specifically require .license files
   instead of headers using `UncommentableCommentStyle`. (#189)
-
 - `.hgtags` is ignored. (#227)
-
 - `spdx-symbol` added to possible copyright styles. (#350)
-
 - `addheader` ignores case when matching file extensions and names. (#359)
-
 - Provide `latest-debian` as Docker Hub tag, created by `Dockerfile-debian`.
   (#321)
-
 - More file types are recognised:
-
   - Javascript modules (`.mjs`)
   - Jupyter Notebook (`.ipynb`)
   - Scalable Vector Graphics (`.svg`)
@@ -317,7 +276,6 @@ contributed!
   - Bitbake (.bb, .bbappend, .bbclass)
   - XML schemas (`.xsd`)
   - OpenSCAD (`.scad`)
-
 - More file names are recognised:
   - Bash configuration (`.bashrc`)
   - Coverage.py (`.coveragerc`)
@@ -332,23 +290,16 @@ contributed!
 ### Fixed
 
 - Fixed a regression where unused licenses were not at all detected. (#285)
-
 - Declared dependency on `python-debian != 0.1.39` on Windows. This version does
   not import on Windows. (#310)
-
 - `MANIFEST.in` is now recognised instead of the incorrect `Manifest.in` by
   `addheader`. (#306)
-
 - `addheader` now checks whether a file is both readable and writeable instead
   of only writeable. (#241)
-
 - `addheader` now preserves line endings. (#308)
-
 - `download` does no longer fail when both `--output` and `--all` are used.
   (#326)
-
 - Catch erroneous SPDX expressions. (#331)
-
 - Updated SPDX license list to 3.13.
 
 ## 0.12.1 - 2020-12-17
@@ -370,15 +321,11 @@ Diego Elio Pettenò.
 
 - Separate Docker image with additional executables installed
   (`fsfe/reuse:latest-extra`) (#238)
-
 - Allow different styles of copyright lines: SPDX (default), String, String (C),
   String ©, and © (#248)
-
 - Convenience function to update resources (SPDX license list and exceptions)
   (#268)
-
 - More file types are recognised:
-
   - ClojureScript (`.cljc`, `.cljs`)
   - Fortran (`.F`, `.F90`, `.f90`, `.f95`, `.f03`, `.f`, `.for`)
   - Makefile (`.mk`)
@@ -390,7 +337,6 @@ Diego Elio Pettenò.
   - TypeScript (`.ts`)
   - TypeScript JSX (`.tsx`)
   - Windows Batch (`.bat`)
-
 - More file names are recognised:
   - .dockerignore
   - Gemfile
@@ -424,14 +370,12 @@ Diego Elio Pettenò.
 
 - Always write the output files encoded in UTF-8, explicitly. This is already
   the default on most Unix systems, but it was not on Windows.
-
 - All symlinks and 0-sized files in projects are now ignored.
 
 ### Fixed
 
 - The licenses CAL-1.0 and CAL-1.0-Combined-Work-Exception contain an SPDX tag
   within themselves. Files that are named after these licenses are now ignored.
-
 - Fixed a bug where `addheader` wouldn't properly apply the template on
   `.license` files if the `.license` file was non-empty, but did not contain
   valid SPDX tags.
@@ -447,25 +391,18 @@ Diego Elio Pettenò.
 ### Added
 
 - Add support for autoconf comment style (listed as m4).
-
 - More file types are recognised:
-
   - Cython (`.pyx`, `.pxd`)
   - Sass and SCSS (`.sass`, `.scss`)
   - XSL (`.xsl`)
   - Mailmap (`.mailmap`)
-
 - Added `--single-line` and `--multi-line` flags to `addheader`. These flags
   force a certain comment style.
 
 ### Changed
 
 - The Docker image has an entrypoint now. In effect, this means running:
-
-  `docker run -v $(pwd):/data fsfe/reuse lint`
-
-  instead of
-
+  `docker run -v $(pwd):/data fsfe/reuse lint` instead of
   `docker run -v $(pwd):/data fsfe/reuse reuse lint`.
 
 ## 0.9.0 - 2020-04-21
@@ -473,9 +410,7 @@ Diego Elio Pettenò.
 ### Added
 
 - Added support for Mercurial 4.3+.
-
 - A pre-commit hook has been added.
-
 - When an incorrect SPDX identifier is forwarded to `download` or `init`, the
   tool now suggests what you might have meant.
 
@@ -483,7 +418,6 @@ Diego Elio Pettenò.
 
 - Under the hood, a lot of code that has to do with Git and Mercurial was moved
   into its own module.
-
 - The Docker image has been changed such that it now automagically runs
   `reuse lint` on the `/data` directory unless something else is specified by
   the user.
@@ -492,9 +426,7 @@ Diego Elio Pettenò.
 
 - Fixed a bug with `addheader --explicit-license` that would result in
   `file.license.license` if `file.license` already existed.
-
 - Fixed a Windows-only bug to do with calling subprocesses.
-
 - Fixed a rare bug that would trigger when a directory is both ignored and
   contains a `.git` file.
 
@@ -503,15 +435,12 @@ Diego Elio Pettenò.
 ### Added
 
 - Support Jinja (Jinja2) comment style.
-
 - Support all multi-line comment endings when parsing for SPDX information.
 
 ### Fixed
 
 - Improvements to German translation by Thomas Doczkal.
-
 - No longer remove newlines at the end of files when using `addheader`.
-
 - There can now be a tab as whitespace after `SPDX-License-Identifier` and
   `SPDX-FileCopyrightText`.
 
@@ -521,29 +450,20 @@ Diego Elio Pettenò.
 
 - Implemented `--root` argument to specify the root of the project without
   heuristics.
-
 - The linter will complain about licenses without file extensions.
-
 - Deprecated licenses are now recognised. `lint` will complain about deprecated
   licenses.
-
 - ProjectReport generation (`lint`, `spdx`) now uses Python multiprocessing,
   more commonly called multi-threading outside of Python. This has a significant
   speedup of approximately 300% in testing. Because of overhead, performance
   increase is not exactly linear.
-
 - For setups where multiprocessing is unsupported or unwanted,
   `--no-multiprocessing` is added as flag.
-
 - `addheader` now recognises many more extensions. Too many to list here.
-
 - `addheader` now also recognises full filenames such as `Makefile` and
   `.gitignore`.
-
 - Added BibTex comment style.
-
 - Updated translations:
-
   - Dutch (André Ockers, Carmen Bianca Bakker)
   - French (OliBug, Vincent Lequertier)
   - Galician (pd)
@@ -557,7 +477,6 @@ Diego Elio Pettenò.
 
 - The linter output has been very slightly re-ordered to be more internally
   consistent.
-
 - `reuse --version` now prints a version with a Git hash on development
   versions. Towards that end, the tool now depends on `setuptools-scm` during
   setup. It is not a runtime dependency.
@@ -567,7 +486,6 @@ Diego Elio Pettenò.
 - `lint` no longer accepts path arguments. Where previously one could do
   `reuse lint SUBDIRECTORY`, this is no longer possible. When linting, you must
   always lint the entire project. To change the project's root, use `--root`.
-
 - `FileReportInfo` has been removed. `FileReport` is used instead.
 
 ### Fixed
@@ -575,12 +493,9 @@ Diego Elio Pettenò.
 - A license that does not have a file extension, but whose full name is a valid
   SPDX License Identifier, is now correctly identified as such. The linter will
   complain about them, however.
-
 - If the linter detects a license as being a bad license, that license can now
   also be detected as being missing.
-
 - Performance of `project.all_files()` has been improved by quite a lot.
-
 - Files with CRLF line endings are now better supported.
 
 ## 0.7.0 - 2019-11-28
@@ -591,18 +506,14 @@ Diego Elio Pettenò.
   `reuse`. `fsfe-reuse==1.0.0` has been created as an alias that depends on
   `reuse`. `fsfe-reuse` will not receive any more updates, but will still host
   the old versions.
-
 - For users of `fsfe-reuse`, this means:
-
   - If you depend on `fsfe-reuse` or `fsfe-reuse>=0.X.Y` in your
     requirements.txt, you will get the latest version of `reuse` when you
     install `fsfe-reuse`. You may like to change the name to `reuse` explicitly,
     but this is not strictly necessary.
-
   - If you depend on `fsfe-reuse==0.X.Y`, then you will keep getting that
     version. When you bump the version you depend on, you will need to change
     the name to `reuse`.
-
   - If you depend on `fsfe-reuse>=0.X.Y<1.0.0`, then 0.6.0 will be the latest
     version you receive. In order to get a later version, you will need to
     change the name to `reuse`.
@@ -613,9 +524,7 @@ Diego Elio Pettenò.
 
 - `--include-submodules` is added to also include submodules when linting et
   cetera.
-
 - `addheader` now also recognises the following extensions:
-
   - .kt
   - .xml
   - .yaml
@@ -625,14 +534,10 @@ Diego Elio Pettenò.
 
 - Made the workaround for `MachineReadableFormatError` introduced in 0.5.2 more
   generic.
-
 - Improved shebang detection in `addheader`.
-
 - For `addheader`, the SPDX comment block now need not be the first thing in the
   file. It will find the SPDX comment block and deal with it in-place.
-
 - Git submodules are now ignored by default.
-
 - `addheader --explicit-license` now no longer breaks on unsupported filetypes.
 
 ## 0.5.2 - 2019-10-27
@@ -649,7 +554,6 @@ Diego Elio Pettenò.
 
 - Performance of `reuse lint` improved by at least a factor of 2. It no longer
   does any checksums on files behind the scenes.
-
 - Also handle `MachineReadableFormatError` when parsing DEP5 files. Tries to
   import that error. If the import is unsuccessful, it is handled.
 
@@ -663,32 +567,22 @@ This release was replaced by 0.5.2 due to importing
 ### Added
 
 - TeX and ML comment styles added.
-
 - Added `--year` and `--exclude-year` to `reuse addheader`.
-
 - Added `--template` to `reuse addheader`.
-
 - Added `--explicit-license` to `reuse addheader`.
-
 - `binaryornot` added as new dependency.
-
 - Greatly improved the usage documentation.
 
 ### Changed
 
 - `reuse addheader` now automatically adds the current year to the copyright
   notice.
-
 - `reuse addheader` preserves the original header below the new header if it did
   not contain any SPDX information.
-
 - `reuse addheader` now correctly handles `.license` files.
-
 - Bad licenses are no longer resolved to LicenseRef-Unknown<n>. They are instead
   resolved to the stem of the path. This reduces the magic in the code base.
-
 - `.gitkeep` files are now ignored by the tool.
-
 - Changed Lisp's comment character from ';;' to ';'.
 
 ## 0.4.1 - 2019-08-07
@@ -702,9 +596,7 @@ This release was replaced by 0.5.2 due to importing
 
 - When using `reuse addheader` on a file that contains a shebang, the shebang is
   preserved.
-
 - Copyright lines in `reuse spdx` are now sorted.
-
 - Some publicly visible TODOs were patched away.
 
 ## 0.4.0 - 2019-08-07
@@ -718,7 +610,6 @@ Specification.
 - `reuse addheader` has been added as a way to automatically add copyright
   statements and license identifiers to the headers of files. It is currently
   not complete.
-
 - `reuse init` has been added as a way to initialise a REUSE project. Its
   functionality is currently scarce, but should improve in the future.
 
@@ -726,35 +617,26 @@ Specification.
 
 - `reuse lint` now provides a helpful summary instead of merely spitting out
   non-compliant files.
-
 - `reuse compile` is now `reuse spdx`.
-
 - In addition to `Copyright` and `©`, copyright lines can be marked with the tag
   `SPDX-FileCopyrightText:`. This is the new recommended default.
-
 - Project no longer depends on pygit2.
-
 - The list of SPDX licenses has been updated.
-
 - `Valid-License-Identifier` is no longer used, and licenses and exceptions can
   now only live inside of the LICENSES/ directory.
 
 ### Removed
 
 - Removed `--ignore-debian`.
-
 - Removed `--spdx-mandatory`, `--copyright-mandatory`, `--ignore-missing`
   arguments from `reuse lint`.
-
 - Remove `reuse license`.
-
 - GPL-3.0 and GPL-3.0+ (and all other similar GPL licenses) are no longer
   detected as SPDX identifiers. Use GPL-3.0-only and GPL-3.0-or-later instead.
 
 ### Fixed
 
 - Scanning a Git directory is a lot faster now.
-
 - Scanning binary files is a lot faster now.
 
 ## 0.3.4 - 2019-04-15
