@@ -762,8 +762,10 @@ def run(args, project: Project, out=sys.stdout) -> int:
     )
     copyright_lines = (
         {
-            make_copyright_line(x, year=year, copyright_style=copyright_style)
-            for x in args.copyright
+            make_copyright_line(
+                item, year=year, copyright_style=copyright_style
+            )
+            for item in args.copyright
         }
         if args.copyright is not None
         else set()
