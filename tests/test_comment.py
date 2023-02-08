@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""All tests for reuse._comment"""
+"""All tests for reuse.comment"""
 
 # pylint: disable=protected-access,invalid-name,redefined-outer-name
 
@@ -11,7 +11,7 @@ from textwrap import dedent
 
 import pytest
 
-from reuse._comment import (
+from reuse.comment import (
     CCommentStyle,
     CommentCreateError,
     CommentParseError,
