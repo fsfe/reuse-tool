@@ -513,6 +513,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".bib": BibTexCommentStyle,
     ".c": CCommentStyle,
     ".cc": CCommentStyle,
+    ".cjs": CCommentStyle,
     ".cl": LispCommentStyle,
     ".clj": LispCommentStyle,
     ".cljc": LispCommentStyle,
@@ -620,6 +621,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pot": PythonCommentStyle,
     ".ppt": UncommentableCommentStyle,
     ".pptx": UncommentableCommentStyle,
+    ".pro": PythonCommentStyle,
     ".proto": CCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
     ".psm1": PythonCommentStyle,  # TODO: Multiline comments
@@ -696,6 +698,7 @@ EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
 
 FILENAME_COMMENT_STYLE_MAP = {
     ".bashrc": PythonCommentStyle,
+    ".clang-format": PythonCommentStyle,
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
