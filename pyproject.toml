@@ -44,7 +44,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6.2"
+python = "^3.7.2"
 Jinja2 = "^3.0.0"
 binaryornot = "^0.4.4"
 "boolean.py" = ">=3.8"
@@ -56,8 +56,8 @@ setuptools = "*"
 Sphinx = ">=4.0.0"
 recommonmark = "^0.7.1"
 sphinx-autodoc-typehints = "^1.12.0"
-sphinx-rtd-theme = "^1.0.0"
 sphinxcontrib-apidoc = "^0.3.0"
+alabaster = "^0.7"
 black = ">=20"
 isort = "^5.6.0"
 bump2version = "^1.0.0"
