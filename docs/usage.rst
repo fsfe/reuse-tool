@@ -36,7 +36,10 @@ with the ``--root`` optional argument.
 Git submodules are automatically ignored unless ``--include-submodules`` is
 passed as optional argument.
 
-Symbolically links and files that are zero-sized are automatically ignored.
+Meson subprojects are automatically ignored if ``meson.build`` exists in the
+project root. ``--include-meson-subprojects`` overrides this behaviour.
+
+Symbolic links and files that are zero-sized are automatically ignored.
 
 annotate
 ========
