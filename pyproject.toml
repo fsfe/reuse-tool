@@ -69,7 +69,7 @@ reuse = 'reuse._main:main'
 
 [tool.poetry.build]
 generate-setup-file = false
-script = "build.py"
+script = "_build.py"
 
 [build-system]
 requires = ["poetry-core>=1.1.0", "setuptools"]
