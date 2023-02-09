@@ -52,6 +52,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Fixed
 
+- Note to maintainers: It is now possible/easier to use the `build` module to
+  build this module. Previously, there was a namespace conflict.
 - Fixed automatic generation of Sphinx documentation via readthedocs.io by
   adding a `.readthedocs.yaml` configuration file (#648)
 
