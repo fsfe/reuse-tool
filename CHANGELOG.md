@@ -35,6 +35,13 @@ The versions follow [semantic versioning](https://semver.org).
 ### Security
 -->
 
+## 1.1.2 - 2023-02-09
+
+### Fixed
+
+- Note to maintainers: It is now possible/easier to use the `build` module to
+  build this module. Previously, there was a namespace conflict. (#640)
+
 ## 1.1.1 - 2023-02-05
 
 ### Fixed
