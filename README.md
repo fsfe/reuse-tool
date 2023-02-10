@@ -106,35 +106,38 @@ pipx install reuse
 reuse will then be available in `~/.local/bin`, which must be added to your
 `$PATH`.
 
-### Installation via pip
-
-To install reuse, you need to have the following pieces of software on your
-computer:
-
-- Python 3.6+
-- pip
-
-You then only need to run the following command:
-
-```bash
-pip3 install --user reuse
-```
-
 After this, make sure that `~/.local/bin` is in your `$PATH`. On Windows, the
 required path for your environment may look like
 `%USERPROFILE%\AppData\Roaming\Python\Python39\Scripts`, depending on the Python
 version you have installed.
 
-To update reuse, run this command:
+To upgrade reuse, run this command:
 
 ```bash
-pip3 install --user --upgrade reuse
+pipx upgrade reuse
 ```
 
 For full functionality, the following pieces of software are recommended:
 
 - Git
 - Mercurial 4.3+
+
+### Installation via pip
+
+To install reuse into `~/.local/bin`, run:
+
+```bash
+pip3 install --user reuse
+```
+
+Subsequently, make sure that `~/.local/bin` is in your `$PATH` like described in
+the previous section.
+
+To upgrade reuse, run this command:
+
+```bash
+pip3 install --user --upgrade reuse
+```
 
 ### Installation from source
 
