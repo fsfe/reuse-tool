@@ -63,20 +63,10 @@ In this screencast, we are going to follow the
 
 ## Install
 
-### Installation via package managers (Recommended)
+### Installation via package manager (Recommended)
 
-There are packages available for easy install on some operating systems. You are
+There are packages available for easy install on many operating systems. You are
 welcome to help us package this tool for more distributions!
-
-- Alpine Linux: [reuse](https://pkgs.alpinelinux.org/packages?name=reuse)
-- Arch Linux: [reuse](https://archlinux.org/packages/community/any/reuse/)
-- Debian: [reuse](https://packages.debian.org/search?keywords=reuse&exact=1)
-- GNU Guix: [reuse](https://guix.gnu.org/en/packages/reuse-1.0.0/)
-- Fedora: [reuse](https://packages.fedoraproject.org/pkgs/reuse/reuse/)
-- MacPorts: [reuse](https://ports.macports.org/port/reuse/)
-- NixOS: [reuse](https://search.nixos.org/packages?show=reuse)
-- openSUSE: [reuse](https://software.opensuse.org/package/reuse)
-- VoidLinux: [reuse](https://voidlinux.org/packages/?arch=x86_64&q=reuse)
 
 An automatically generated list can be found at
 [repology.org](https://repology.org/project/reuse/versions), without any
