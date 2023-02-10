@@ -160,6 +160,8 @@ Example of header:
 # SPDX-License-Identifier: CC-BY-SA-4.0
 ```
 
+### CLI
+
 To check against the recommendations, use `reuse lint`:
 
 ```
