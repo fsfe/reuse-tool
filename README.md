@@ -12,8 +12,8 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 [![readme style standard](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 [![Packaging status](https://repology.org/badge/tiny-repos/reuse.svg?header=in%20distro%20repos)](https://repology.org/project/reuse/versions)
 
-> reuse is a tool for compliance with the [REUSE](https://reuse.software/)
-> recommendations.
+reuse is a tool for compliance with the [REUSE](https://reuse.software/)
+recommendations.
 
 - Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
 - Source code: <https://github.com/fsfe/reuse-tool>
