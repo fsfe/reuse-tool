@@ -21,6 +21,15 @@ recommendations.
 - REUSE: 3.0
 - Python: 3.6+
 
+## Table of contents
+
+- [Background](#background)
+- [Install](#install)
+- [Usage](#usage)
+- [Maintainers](#maintainers)
+- [Contribute](#contribute)
+- [License](#license)
+
 ## Background
 
 Copyright and licensing is difficult, especially when reusing software from
