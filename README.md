@@ -53,14 +53,6 @@ and licenses in software projects. The REUSE helper tool, on the other hand, is
 solely designed to be a simple tool to assist in compliance with the REUSE
 recommendations.
 
-## Example demo
-
-In this screencast, we are going to follow the
-[tutorial](https://reuse.software/tutorial), making the
-[REUSE example repository](https://github.com/fsfe/reuse-example/) compliant.
-
-![Demo of some basic REUSE tool commands](https://download.fsfe.org/videos/reuse/screencasts/reuse-tool.gif)
-
 ## Install
 
 ### Installation via package manager (Recommended)
@@ -178,6 +170,14 @@ short summary:
 - `lint` --- Verify the project for REUSE compliance.
 - `spdx` --- Generate an SPDX Document of all files in the project.
 - `supported-licenses` --- Prints all licenses supported by REUSE.
+
+### Example demo
+
+In this screencast, we are going to follow the
+[tutorial](https://reuse.software/tutorial), making the
+[REUSE example repository](https://github.com/fsfe/reuse-example/) compliant.
+
+![Demo of some basic REUSE tool commands](https://download.fsfe.org/videos/reuse/screencasts/reuse-tool.gif)
 
 ### Run in Docker
 
