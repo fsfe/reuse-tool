@@ -281,7 +281,7 @@ up-to-date is challenging, here is a brief summary as of February 2023:
 - All documentation is licensed under CC-BY-SA-4.0.
 - Some configuration and data files are licensed under CC0-1.0.
 - Some code borrowed from
-  [spdx/tool-python](https://github.com/spdx/tools-python) is licensed under
+  [spdx/tools-python](https://github.com/spdx/tools-python) is licensed under
   Apache-2.0.
 
 For more accurate information, check the individual files.
