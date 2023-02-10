@@ -275,7 +275,7 @@ Next, you'll find the following commands handy:
 ## License
 
 This work is licensed under multiple licences. Because keeping this section
-up-to-date is challenging, here is a brief summary as of April 2020:
+up-to-date is challenging, here is a brief summary as of February 2023:
 
 - All original source code is licensed under GPL-3.0-or-later.
 - All documentation is licensed under CC-BY-SA-4.0.
