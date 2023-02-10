@@ -27,7 +27,7 @@ recommendations.
 - [Install](#install)
 - [Usage](#usage)
 - [Maintainers](#maintainers)
-- [Contribute](#contribute)
+- [Contributing](#contributing)
 - [License](#license)
 
 ## Background
@@ -248,11 +248,19 @@ an error.
 - Carmen Bianca Bakker - <carmenbianca@fsfe.org>
 - Max Mehl - <max.mehl@fsfe.org>
 
-## Contribute
+## Contributing
 
-Any pull requests or suggestions are welcome at
-<https://github.com/fsfe/reuse-tool> or via e-mail to one of the maintainers.
-General inquiries can be sent to <reuse@lists.fsfe.org>.
+Any issues or suggestions are welcome at <https://github.com/fsfe/reuse-tool> or
+via e-mail to one of the maintainers. General inquiries can be sent to
+<reuse@lists.fsfe.org>.
+
+Pull requests are generally welcome and encouraged, but please beware that they
+may be closed as out-of-scope or otherwise not aligned with the design goals. To
+be safe, open an issue and engage in dialogue before beginning to implement a
+feature that may not be accepted.
+
+When making a pull request, don't hesitate to add yourself to the AUTHORS.rst
+file and the copyright headers of the files you touch.
 
 Interaction within this project is covered by the
 [FSFE's Code of Conduct](https://fsfe.org/about/codeofconduct).
