@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 repos:
-  - repo: https://github.com/ambv/black
+  - repo: https://github.com/psf/black
     rev: 22.8.0
     hooks:
       - id: black
