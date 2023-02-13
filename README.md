@@ -250,36 +250,18 @@ an error.
 
 ## Contributing
 
-Any issues or suggestions are welcome at <https://github.com/fsfe/reuse-tool> or
-via e-mail to one of the maintainers. General inquiries can be sent to
-<reuse@lists.fsfe.org>.
+If you're interested in contributing to the reuse project, there are several
+ways to get involved. Development of the project takes place on GitHub at
+<https://github.com/fsfe/reuse-tool>. There, you can submit bug reports, feature
+requests, and pull requests. Even and especially when in doubt, feel free to
+open an issue with a question. Contributions of all types are welcome, and the
+development team is happy to provide guidance and support for new contributors.
 
-Pull requests are generally welcome and encouraged, but please beware that they
-may be closed as out-of-scope or otherwise not aligned with the design goals. To
-be safe, open an issue and engage in dialogue before beginning to implement a
-feature that may not be accepted.
+Additionally, the <reuse@lists.fsfe.org> mailing list is available for
+discussion and support related to the project.
 
-When making a pull request, don't hesitate to add yourself to the AUTHORS.rst
-file and the copyright headers of the files you touch.
-
-Interaction within this project is covered by the
-[FSFE's Code of Conduct](https://fsfe.org/about/codeofconduct).
-
-Starting local development is very simple, just execute the following commands:
-
-```bash
-git clone git@github.com:fsfe/reuse-tool.git
-cd reuse-tool/
-poetry install  # You may need to install poetry using your package manager.
-poetry run pre-commit install  # Using poetry is optional here if you already have pre-commit.
-```
-
-Next, you'll find the following commands handy:
-
-- `poetry run reuse`
-- `poetry run pytest`
-- `poetry run pylint src`
-- `make docs`
+You can find the full contribution guidelines at
+<https://reuse.readthedocs.io/en/latest/contributing.html>.
 
 ## License
 

@@ -202,6 +202,7 @@ def copy_markdown(_):
     """
     copyfile("../README.md", "readme.md")
     copyfile("../CHANGELOG.md", "history.md")
+    copyfile("../CONTRIBUTING.md", "contributing.md")
 
 
 def setup(app):

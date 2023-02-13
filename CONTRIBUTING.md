@@ -4,9 +4,46 @@ SPDX-FileCopyrightText: 2021 Free Software Foundation Europe e.V. <https://fsfe.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Contribution Guidelines
+# Contribution guidelines
 
-## Release a new version
+Any issues or suggestions are welcome at <https://github.com/fsfe/reuse-tool> or
+via e-mail to one of the maintainers. General inquiries can be sent to
+<reuse@lists.fsfe.org>.
+
+## Code of conduct
+
+Interaction within this project is covered by the
+[FSFE's Code of Conduct](https://fsfe.org/about/codeofconduct).
+
+## Pull requests
+
+Pull requests are generally welcome and encouraged, but please beware that they
+may be closed as out-of-scope or otherwise not aligned with the design goals. To
+be safe, open an issue and engage in dialogue before beginning to implement a
+feature that may not be accepted.
+
+When making a pull request, don't hesitate to add yourself to the AUTHORS.rst
+file and the copyright headers of the files you touch.
+
+## Local development
+
+Starting local development is very simple, just execute the following commands:
+
+```bash
+git clone git@github.com:fsfe/reuse-tool.git
+cd reuse-tool/
+poetry install  # You may need to install poetry using your package manager.
+poetry run pre-commit install  # Using poetry is optional here if you already have pre-commit.
+```
+
+Next, you'll find the following commands handy:
+
+- `poetry run reuse`
+- `poetry run pytest`
+- `poetry run pylint src`
+- `make docs`
+
+## Release checklist
 
 - Verify changelog
 - Create branch release-x.y.z
