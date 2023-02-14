@@ -152,6 +152,7 @@ po/reuse.pot
 docs/api/
 docs/history.md
 docs/readme.md
+docs/contributing.md
 prof/
 
 # Nix-related

@@ -4,30 +4,62 @@ SPDX-FileCopyrightText: 2021 Free Software Foundation Europe e.V. <https://fsfe.
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Contribution Guidelines
+# Contribution guidelines
 
-## Table of Contents
+Any issues or suggestions are welcome at <https://github.com/fsfe/reuse-tool> or
+via e-mail to one of the maintainers. General inquiries can be sent to
+<reuse@lists.fsfe.org>.
 
-- [Contribution Guidelines](#contribution-guidelines)
-  - [Table of Contents](#table-of-contents)
-  - [Release a new version](#release-a-new-version)
+## Code of conduct
 
-## Release a new version
+Interaction within this project is covered by the
+[FSFE's Code of Conduct](https://fsfe.org/about/codeofconduct).
+
+## Pull requests
+
+Pull requests are generally welcome and encouraged, but please beware that they
+may be closed as out-of-scope or otherwise not aligned with the design goals. To
+be safe, open an issue and engage in dialogue before beginning to implement a
+feature that may not be accepted.
+
+When making a pull request, don't hesitate to add yourself to the AUTHORS.rst
+file and the copyright headers of the files you touch.
+
+## Local development
+
+Starting local development is very simple, just execute the following commands:
+
+```bash
+git clone git@github.com:fsfe/reuse-tool.git
+cd reuse-tool/
+poetry install  # You may need to install poetry using your package manager.
+poetry run pre-commit install  # Using poetry is optional here if you already have pre-commit.
+```
+
+Next, you'll find the following commands handy:
+
+- `poetry run reuse`
+- `poetry run pytest`
+- `poetry run pylint src`
+- `make docs`
+
+## Release checklist
 
 - Verify changelog
-- Create branch release-1.XX.Y
-- `bumpversion --new-version 1.XX.Y minor`
+- Create branch release-x.y.z
+- `bumpversion --new-version x.y.z minor`
+- `make update-resources`
 - Alter changelog
 - Do some final tweaks/bugfixes (and alter changelog)
-- `make update-resources` (and alter changelog again)
-- Once everything is good, `git tag -s v1.XX.Y`. Minimal tag message.
 - `make test-release`
-- Test here possibly
-- `git push --tags origin`
-- `make release` (use one of the documented keys of maintainers)
+- `pip install -i https://test.pypi.org/simple reuse` and test the package.
+- Once everything is good, `git tag -s vx.y.z`. Minimal tag message.
+- `git push origin vx.y.z`
+- `make release`
 - `git checkout main`
-- `git merge release-1.XX.Y`
+- `git merge release-x.y.z`
 - `git push origin main`
+- Create a release on GitHub.
 - Update readthedocs (if not happened automatically)
 - Update API worker: https://git.fsfe.org/reuse/api-worker#user-content-server
 - Make sure package is updated in distros (contact maintainers)

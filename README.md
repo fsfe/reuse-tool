@@ -9,17 +9,26 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 [![The latest version of reuse can be found on PyPI.](https://img.shields.io/pypi/v/reuse.svg)](https://pypi.python.org/pypi/reuse)
 [![Information on what versions of Python reuse supports can be found on PyPI.](https://img.shields.io/pypi/pyversions/reuse.svg)](https://pypi.python.org/pypi/reuse)
 [![REUSE status](https://api.reuse.software/badge/github.com/fsfe/reuse-tool)](https://api.reuse.software/info/github.com/fsfe/reuse-tool)
-[![readme style standard](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 [![Packaging status](https://repology.org/badge/tiny-repos/reuse.svg?header=in%20distro%20repos)](https://repology.org/project/reuse/versions)
 
-> reuse is a tool for compliance with the [REUSE](https://reuse.software/)
-> recommendations.
+reuse is a tool for compliance with the [REUSE](https://reuse.software/)
+recommendations.
 
 - Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
 - Source code: <https://github.com/fsfe/reuse-tool>
 - PyPI: <https://pypi.python.org/pypi/reuse>
 - REUSE: 3.0
 - Python: 3.6+
+
+## Table of contents
+
+- [Background](#background)
+- [Install](#install)
+- [Usage](#usage)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Background
 
@@ -53,30 +62,12 @@ and licenses in software projects. The REUSE helper tool, on the other hand, is
 solely designed to be a simple tool to assist in compliance with the REUSE
 recommendations.
 
-## Example demo
-
-In this screencast, we are going to follow the
-[tutorial](https://reuse.software/tutorial), making the
-[REUSE example repository](https://github.com/fsfe/reuse-example/) compliant.
-
-![Demo of some basic REUSE tool commands](https://download.fsfe.org/videos/reuse/screencasts/reuse-tool.gif)
-
 ## Install
 
-### Installation via package managers (Recommended)
+### Installation via package manager (Recommended)
 
-There are packages available for easy install on some operating systems. You are
+There are packages available for easy install on many operating systems. You are
 welcome to help us package this tool for more distributions!
-
-- Alpine Linux: [reuse](https://pkgs.alpinelinux.org/packages?name=reuse)
-- Arch Linux: [reuse](https://archlinux.org/packages/community/any/reuse/)
-- Debian: [reuse](https://packages.debian.org/search?keywords=reuse&exact=1)
-- GNU Guix: [reuse](https://guix.gnu.org/en/packages/reuse-1.0.0/)
-- Fedora: [reuse](https://packages.fedoraproject.org/pkgs/reuse/reuse/)
-- MacPorts: [reuse](https://ports.macports.org/port/reuse/)
-- NixOS: [reuse](https://search.nixos.org/packages?show=reuse)
-- openSUSE: [reuse](https://software.opensuse.org/package/reuse)
-- VoidLinux: [reuse](https://voidlinux.org/packages/?arch=x86_64&q=reuse)
 
 An automatically generated list can be found at
 [repology.org](https://repology.org/project/reuse/versions), without any
@@ -106,35 +97,38 @@ pipx install reuse
 reuse will then be available in `~/.local/bin`, which must be added to your
 `$PATH`.
 
-### Installation via pip
-
-To install reuse, you need to have the following pieces of software on your
-computer:
-
-- Python 3.6+
-- pip
-
-You then only need to run the following command:
-
-```bash
-pip3 install --user reuse
-```
-
 After this, make sure that `~/.local/bin` is in your `$PATH`. On Windows, the
 required path for your environment may look like
 `%USERPROFILE%\AppData\Roaming\Python\Python39\Scripts`, depending on the Python
 version you have installed.
 
-To update reuse, run this command:
+To upgrade reuse, run this command:
 
 ```bash
-pip3 install --user --upgrade reuse
+pipx upgrade reuse
 ```
 
 For full functionality, the following pieces of software are recommended:
 
 - Git
 - Mercurial 4.3+
+
+### Installation via pip
+
+To install reuse into `~/.local/bin`, run:
+
+```bash
+pip3 install --user reuse
+```
+
+Subsequently, make sure that `~/.local/bin` is in your `$PATH` like described in
+the previous section.
+
+To upgrade reuse, run this command:
+
+```bash
+pip3 install --user --upgrade reuse
+```
 
 ### Installation from source
 
@@ -166,6 +160,8 @@ Example of header:
 # SPDX-License-Identifier: CC-BY-SA-4.0
 ```
 
+### CLI
+
 To check against the recommendations, use `reuse lint`:
 
 ```
@@ -185,6 +181,14 @@ short summary:
 - `lint` --- Verify the project for REUSE compliance.
 - `spdx` --- Generate an SPDX Document of all files in the project.
 - `supported-licenses` --- Prints all licenses supported by REUSE.
+
+### Example demo
+
+In this screencast, we are going to follow the
+[tutorial](https://reuse.software/tutorial), making the
+[REUSE example repository](https://github.com/fsfe/reuse-example/) compliant.
+
+![Demo of some basic REUSE tool commands](https://download.fsfe.org/videos/reuse/screencasts/reuse-tool.gif)
 
 ### Run in Docker
 
@@ -244,41 +248,31 @@ an error.
 - Carmen Bianca Bakker - <carmenbianca@fsfe.org>
 - Max Mehl - <max.mehl@fsfe.org>
 
-## Contribute
+## Contributing
 
-Any pull requests or suggestions are welcome at
-<https://github.com/fsfe/reuse-tool> or via e-mail to one of the maintainers.
-General inquiries can be sent to <reuse@lists.fsfe.org>.
+If you're interested in contributing to the reuse project, there are several
+ways to get involved. Development of the project takes place on GitHub at
+<https://github.com/fsfe/reuse-tool>. There, you can submit bug reports, feature
+requests, and pull requests. Even and especially when in doubt, feel free to
+open an issue with a question. Contributions of all types are welcome, and the
+development team is happy to provide guidance and support for new contributors.
 
-Interaction within this project is covered by the
-[FSFE's Code of Conduct](https://fsfe.org/about/codeofconduct).
+Additionally, the <reuse@lists.fsfe.org> mailing list is available for
+discussion and support related to the project.
 
-Starting local development is very simple, just execute the following commands:
-
-```bash
-git clone git@github.com:fsfe/reuse-tool.git
-cd reuse-tool/
-poetry install  # You may need to install poetry using your package manager.
-poetry run pre-commit install  # Using poetry is optional here if you already have pre-commit.
-```
-
-Next, you'll find the following commands handy:
-
-- `poetry run reuse`
-- `poetry run pytest`
-- `poetry run pylint src`
-- `make docs`
+You can find the full contribution guidelines at
+<https://reuse.readthedocs.io/en/latest/contributing.html>.
 
 ## License
 
 This work is licensed under multiple licences. Because keeping this section
-up-to-date is challenging, here is a brief summary as of April 2020:
+up-to-date is challenging, here is a brief summary as of February 2023:
 
 - All original source code is licensed under GPL-3.0-or-later.
 - All documentation is licensed under CC-BY-SA-4.0.
 - Some configuration and data files are licensed under CC0-1.0.
 - Some code borrowed from
-  [spdx/tool-python](https://github.com/spdx/tools-python) is licensed under
+  [spdx/tools-python](https://github.com/spdx/tools-python) is licensed under
   Apache-2.0.
 
 For more accurate information, check the individual files.
