@@ -10,7 +10,7 @@ import sys
 
 import pytest
 
-from reuse.lint import collect_data_from_report, lint
+from reuse.lint import lint
 from reuse.project import Project
 from reuse.report import ProjectReport
 
@@ -32,8 +32,7 @@ def test_lint_simple(fake_repository):
     """Extremely simple test for lint."""
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data)
+    result = lint(report)
     assert result
 
 
@@ -41,8 +40,7 @@ def test_lint_git(git_repository):
     """Extremely simple test for lint with a git repository."""
     project = Project(git_repository)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data)
+    result = lint(report)
     assert result
 
 
@@ -51,8 +49,7 @@ def test_lint_submodule(submodule_repository):
     project = Project(submodule_repository)
     (submodule_repository / "submodule/foo.c").write_text("foo")
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data)
+    result = lint(report)
     assert result
 
 
@@ -61,8 +58,7 @@ def test_lint_submodule_included(submodule_repository):
     project = Project(submodule_repository, include_submodules=True)
     (submodule_repository / "submodule/foo.c").write_text("foo")
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data)
+    result = lint(report)
     assert not result
 
 
@@ -70,8 +66,7 @@ def test_lint_empty_directory(empty_directory):
     """An empty directory is compliant."""
     project = Project(empty_directory)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data)
+    result = lint(report)
     assert result
 
 
@@ -87,8 +82,7 @@ def test_lint_deprecated(fake_repository, stringio):
 
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data, out=stringio)
+    result = lint(report, out=stringio)
 
     assert not result
     assert "GPL-3.0" in stringio.getvalue()
@@ -101,8 +95,7 @@ def test_lint_bad_license(fake_repository, stringio):
     )
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data, out=stringio)
+    result = lint(report, out=stringio)
 
     assert not result
     assert "foo.py" in stringio.getvalue()
@@ -114,8 +107,7 @@ def test_lint_missing_licenses(fake_repository, stringio):
     (fake_repository / "foo.py").write_text("SPDX-License-Identifier: MIT")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data, out=stringio)
+    result = lint(report, out=stringio)
 
     assert not result
     assert "foo.py" in stringio.getvalue()
@@ -127,8 +119,7 @@ def test_lint_unused_licenses(fake_repository, stringio):
     (fake_repository / "LICENSES/MIT.txt").write_text("foo")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data, out=stringio)
+    result = lint(report, out=stringio)
 
     assert not result
     assert "Unused licenses: MIT" in stringio.getvalue()
@@ -142,8 +133,7 @@ def test_lint_read_errors(fake_repository, stringio):
     (fake_repository / "foo.py").chmod(0o000)
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data, out=stringio)
+    result = lint(report, out=stringio)
 
     assert not result
     assert "Could not read:" in stringio.getvalue()
@@ -155,8 +145,7 @@ def test_lint_files_without_copyright_and_licensing(fake_repository, stringio):
     (fake_repository / "foo.py").write_text("foo")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    data = collect_data_from_report(report)
-    result = lint(data, out=stringio)
+    result = lint(report, out=stringio)
 
     assert not result
     assert (
