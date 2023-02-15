@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Iterable, List, NamedTuple, Optional, Set
 from uuid import uuid4
 
-from . import __version__
+from . import __version__, __REUSE_version__
 from ._util import _LICENSING, _checksum
 from .project import Project
 
@@ -79,29 +79,78 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self._files_without_copyright = None
 
     def to_dict(self):
-        """Turn the report into a json-like dictionary."""
-        return {
-            "path": str(Path(self.path).resolve()),
-            "licenses": {
-                identifier: str(path)
-                for identifier, path in self.licenses.items()
+        """Collects and formats data from report and returns it as a dictionary
+
+        :param report: ProjectReport object
+        :return: Formatted dictionary containing data from the ProjectReport object
+        """
+        # Setup report data container
+        data = {
+            "json_version": "1.0",
+            "reuse_version": __REUSE_version__,
+            "non_compliant": {
+                "missing_licenses": self.missing_licenses,
+                "unused_licenses": [str(f) for f in self.unused_licenses],
+                "deprecated_licenses": [str(f) for f in self.deprecated_licenses],
+                "bad_licenses": self.bad_licenses,
+                "licenses_without_extension": list(
+                    self.licenses_without_extension.values()
+                ),
+                "missing_copyright_info": [
+                    str(f) for f in self.files_without_copyright
+                ],
+                "missing_licensing_info": [
+                    str(f) for f in self.files_without_licenses
+                ],
+                "read_error": [str(f) for f in self.read_errors],
             },
-            "bad_licenses": {
-                lic: [str(file_) for file_ in files]
-                for lic, files in self.bad_licenses.items()
+            "files": {},
+            "summary": {
+                "used_licenses": [],
             },
-            "deprecated_licenses": sorted(self.deprecated_licenses),
-            "licenses_without_extension": {
-                identifier: str(path)
-                for identifier, path in self.licenses_without_extension.items()
-            },
-            "missing_licenses": {
-                lic: [str(file_) for file_ in files]
-                for lic, files in self.missing_licenses.items()
-            },
-            "read_errors": list(map(str, self.read_errors)),
-            "file_reports": [report.to_dict() for report in self.file_reports],
         }
+
+        # Populate 'files'
+        for file in self.file_reports:
+            copyrights = file.spdxfile.copyright.split("\n")
+            data["files"][str(file.path)] = {
+                "copyrights": [
+                    # TODO Find correct source file for copyrights info
+                    {"value": cop, "source": file.spdxfile.name}
+                    for cop in copyrights
+                ],
+                "licenses": [
+                    # TODO Find correct source file for licensing info
+                    {"value": lic, "source": file.spdxfile.name}
+                    for lic in file.spdxfile.licenses_in_file
+                ],
+            }
+
+        # Populate 'summary'
+        number_of_files = len(self.file_reports)
+        is_compliant = not any(
+            any(result)
+            for result in (
+                data["non_compliant"]["missing_licenses"],
+                data["non_compliant"]["unused_licenses"],
+                data["non_compliant"]["bad_licenses"],
+                data["non_compliant"]["deprecated_licenses"],
+                data["non_compliant"]["licenses_without_extension"],
+                data["non_compliant"]["missing_copyright_info"],
+                data["non_compliant"]["missing_licensing_info"],
+                data["non_compliant"]["read_error"],
+            )
+        )
+        data["summary"] = {
+            "used_licenses": list(self.used_licenses),
+            "files_total": number_of_files,
+            "files_with_copyright_info": number_of_files
+                                         - len(self.files_without_copyright),
+            "files_with_licensing_info": number_of_files
+                                         - len(self.files_without_licenses),
+            "compliant": is_compliant,
+        }
+        return data
 
     def bill_of_materials(
         self,
@@ -379,6 +428,7 @@ class FileReport:
         report.spdxfile.spdx_id = f"SPDXRef-{spdx_id.hexdigest()}"
 
         spdx_info = project.spdx_info_of(path)
+        # TODO Return source of licensing and copyright info together with SPDX info. Depends on #669
         for expression in spdx_info.spdx_expressions:
             for identifier in _LICENSING.license_keys(expression):
                 # A license expression akin to Apache-1.0+ should register

@@ -14,7 +14,6 @@ import sys
 from gettext import gettext as _
 from typing import Dict
 
-from . import __REUSE_version__
 from .project import Project
 from .report import ProjectReport
 
@@ -29,87 +28,15 @@ def add_arguments(parser):
     )
 
 
-def collect_data_from_report(report: ProjectReport) -> dict:
-    """Collects and formats data from report and returns it as a dictionary
-
-    :param report: ProjectReport object
-    :return: Formatted dictionary containing data from the ProjectReport object
-    """
-    # Setup report data container
-    data = {
-        "json_version": "1.0",
-        "reuse_version": __REUSE_version__,
-        "non_compliant": {
-            "missing_licenses": report.missing_licenses,
-            "unused_licenses": [str(f) for f in report.unused_licenses],
-            "deprecated_licenses": [str(f) for f in report.deprecated_licenses],
-            "bad_licenses": report.bad_licenses,
-            "licenses_without_extension": list(
-                report.licenses_without_extension.values()
-            ),
-            "missing_copyright_info": [
-                str(f) for f in report.files_without_copyright
-            ],
-            "missing_licensing_info": [
-                str(f) for f in report.files_without_licenses
-            ],
-            "read_error": [str(f) for f in report.read_errors],
-        },
-        "files": {},
-        "summary": {
-            "used_licenses": [],
-        },
-    }
-
-    # Populate 'files'
-    for file in report.file_reports:
-        copyrights = file.spdxfile.copyright.split("\n")
-        data["files"][str(file.path)] = {
-            "copyrights": [
-                {"value": cop, "source": file.spdxfile.name}
-                for cop in copyrights
-            ],
-            "licenses": [
-                {"value": lic, "source": file.spdxfile.name}
-                for lic in file.spdxfile.licenses_in_file
-            ],
-        }
-
-    # Populate 'summary'
-    number_of_files = len(report.file_reports)
-    is_compliant = not any(
-        any(result)
-        for result in (
-            data["non_compliant"]["missing_licenses"],
-            data["non_compliant"]["unused_licenses"],
-            data["non_compliant"]["bad_licenses"],
-            data["non_compliant"]["deprecated_licenses"],
-            data["non_compliant"]["licenses_without_extension"],
-            data["non_compliant"]["missing_copyright_info"],
-            data["non_compliant"]["missing_licensing_info"],
-            data["non_compliant"]["read_error"],
-        )
-    )
-    data["summary"] = {
-        "used_licenses": list(report.used_licenses),
-        "files_total": number_of_files,
-        "files_with_copyright_info": number_of_files
-        - len(report.files_without_copyright),
-        "files_with_licensing_info": number_of_files
-        - len(report.files_without_licenses),
-        "compliant": is_compliant,
-    }
-    return data
-
-
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements
-def format_plain(data: Dict) -> str:
+def format_plain(report: ProjectReport) -> str:
     """Formats data dictionary as plaintext string to be printed to sys.stdout
 
-    :param data: Dictionary containing formatted ProjectReport data
+    :param report: ProjectReport data
     :return: String (in plaintext) that can be output to sys.stdout
     """
     output = ""
+    data = report.to_dict()
 
     # If the project is not compliant:
     if not data["summary"]["compliant"]:
@@ -285,31 +212,32 @@ def format_plain(data: Dict) -> str:
     return output
 
 
-def format_json(data: Dict) -> str:
+def format_json(report: ProjectReport) -> str:
     """Formats data dictionary as JSON string ready to be printed to sys.stdout
 
-    :param data: Dictionary containing formatted ProjectReport data
+    :param report: Dictionary containing formatted ProjectReport data
     :return: String (representing JSON) that can be output to sys.stdout
     """
 
     return json.dumps(
-        # Serialize sets to lists
-        data,
+        report.to_dict(),
         indent=2,
+        # Serialize sets to lists
         default=lambda x: list(x) if isinstance(x, set) else x,
     )
 
 
-def lint(data: Dict, formatter=format_plain, out=sys.stdout):
+def lint(report: ProjectReport, formatter=format_plain, out=sys.stdout) -> bool:
     """Lints the entire project
 
-    :param data: Dictionary holding formatted ProjectReport data
+    :param report: Dictionary holding formatted ProjectReport data
     :param formatter: Callable that formats the data dictionary
     :param out: Where to output
     """
 
-    out.write(formatter(data))
+    out.write(formatter(report))
 
+    data = report.to_dict()
     result = data["summary"]["compliant"]
     return result
 
@@ -327,8 +255,6 @@ def run(args, project: Project, out=sys.stdout, formatter=format_plain):
         if args.json:
             formatter = format_json
 
-        data = collect_data_from_report(report)
-        lint(data, formatter=formatter, out=out)
-        result = data["summary"]["compliant"]
+        result = lint(report, formatter=formatter, out=out)
 
     return 0 if result else 1
