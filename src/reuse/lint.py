@@ -211,6 +211,7 @@ def format_plain(report: ProjectReport) -> str:
             "{} of the REUSE Specification :-("
         ).format(data["reuse_version"])
 
+    output += "\n"
     return output
 
 
