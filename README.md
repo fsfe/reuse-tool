@@ -245,8 +245,9 @@ an error.
 
 ## Maintainers
 
-- Carmen Bianca Bakker - <carmenbianca@fsfe.org>
-- Max Mehl - <max.mehl@fsfe.org>
+- Carmen Bianca Bakker <carmenbianca@fsfe.org>
+- Max Mehl <max.mehl@fsfe.org>
+- Linus Sehn <linus@fsfe.org>
 
 ## Contributing
 
