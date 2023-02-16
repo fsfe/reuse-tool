@@ -15,6 +15,10 @@ Files: docs/modules.rst
 Copyright: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 License: CC-BY-SA-4.0
 
+Files: po/*.po
+Copyright: 2023 Free Software Foundation Europe e.V. <https://fsfe.org>
+License: GPL-3.0-or-later
+
 Files: tests/resources/*
 Copyright: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 License: GPL-3.0-or-later

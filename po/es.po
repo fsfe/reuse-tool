@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-09 15:07+0100\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Alejandro Criado-Pérez <alejandro@criadoperez.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2023-02-16 14:56+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
+"es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: src/reuse/_main.py:30
 msgid ""
@@ -101,26 +102,25 @@ msgid ""
 "\n"
 "IMPORTANT: This is currently EXPERIMENTAL!"
 msgstr ""
-"Incluye el copyright y la licencia en la cabecera de uno o más archivos.\n"
+"Añade copyright y licencias en la cabecera de uno o más archivos.\n"
 "\n"
-"Utilizando --copyright y --license, puedes especificar qué propietarios del "
-"copyright y qué licencias añadir a las cabeceras de tales ficheros.\n"
+"Usando --copyright y --license, puede especificar qué titulares de derechos "
+"de autor y licencias añadir a las cabeceras de los archivos dados.\n"
 "\n"
-"El estilo del comentario debería ser autodetectado en tus ficheros. Si el "
-"estilo de un comentario no pudiera ser determinado, el proceso sería "
-"abortado. Usa --style para especificar, o sobreescribir, el estilo de "
-"comentario a utilizar.\n"
+"El estilo de comentario debería detectarse automáticamente para sus "
+"archivos. Si no se puede detectar un estilo de comentario, el proceso se "
+"aborta. Utilice --style para especificar o anular el estilo de comentario a "
+"utilizar.\n"
 "\n"
-"Puedes cambiar la plantilla de la cabecera utilizando --template. Coloca una "
-"plantilla Jinja2 en .reuse/templates/mytemplate.jinja2. Puedes utilizar la "
-"plantilla especificando '--template mytemplate'. Lee la documentación en "
-"línea que explica cómo utilizar esta función.\n"
+"Puede cambiar la plantilla del comentario de cabecera usando --template. "
+"Coloque una plantilla Jinja2 en .reuse/templates/mytemplate.jinja2. Puedes "
+"usar la plantilla especificando '--template mytemplate'. Lea la información "
+"en internet sobre cómo utilizar esta función.\n"
 "\n"
+"Si se detecta un archivo binario, o si se especifica --explicit-license, la "
+"cabecera se coloca en un archivo .license.\n"
 "\n"
-"Si se detecta un fichero de binarios, o si se especifica --explicit-license, "
-"la cabecera es incluida en un archivo .license.\n"
-"\n"
-"IMPORTANTE: ¡Esto es EXPERIMENTAL!"
+"IMPORTANTE: ¡Esto está actualmente disponible de forma EXPERIMENTAL!"
 
 #: src/reuse/_main.py:135
 msgid "download a license and place it in the LICENSES/ directory"
@@ -319,14 +319,12 @@ msgid "Successfully changed header of {path}"
 msgstr "Cabecera de {path} correctamente cambiada"
 
 #: src/reuse/header.py:383
-#, fuzzy
 msgid "copyright statement, repeatable"
-msgstr "declaración de copyright; repetible"
+msgstr "declaración de los derechos de autor, repetible"
 
 #: src/reuse/header.py:390
-#, fuzzy
 msgid "SPDX Identifier, repeatable"
-msgstr "Identificador SPDX; repetible"
+msgstr "Identificador SPDX, repetible"
 
 #: src/reuse/header.py:397
 msgid "year of copyright statement, optional"
@@ -388,14 +386,13 @@ msgid "To stop adding licenses, hit RETURN."
 msgstr "Para terminar de añadir licencias pulsa RETORNO."
 
 #: src/reuse/init.py:85
-#, fuzzy
 msgid "Project already initialized"
-msgstr "Proyecto ya iniciado"
+msgstr "Proyecto ya inicializado"
 
 #: src/reuse/init.py:89
 #, fuzzy
 msgid "Initializing project for REUSE."
-msgstr "Iniciando proyecto para REUSE."
+msgstr "Initializing project for REUSE."
 
 #: src/reuse/init.py:94
 msgid "What is the name of the project?"
@@ -434,9 +431,8 @@ msgid "Creating .reuse/dep5"
 msgstr "Creando .reuse/dep5"
 
 #: src/reuse/init.py:162
-#, fuzzy
 msgid "Initialization complete."
-msgstr "Inicio completado."
+msgstr "Inicialización completa."
 
 #: src/reuse/lint.py:55
 msgid ""
@@ -459,7 +455,6 @@ msgid "BAD LICENSES"
 msgstr "LICENCIAS MALAS"
 
 #: src/reuse/lint.py:83 src/reuse/lint.py:148
-#, fuzzy
 msgid "'{}' found in:"
 msgstr "'{}' encontrado en:"
 
@@ -634,9 +629,8 @@ msgstr "uso: "
 
 #: /usr/lib64/python3.5/argparse.py:822 /usr/lib64/python3.6/argparse.py:830
 #: /usr/lib64/python3.7/argparse.py:845 /usr/lib64/python3.8/argparse.py:846
-#, fuzzy
 msgid ".__call__() not defined"
-msgstr ".__call__() no está definido"
+msgstr ".__call__() no definido"
 
 #: /usr/lib64/python3.5/argparse.py:1119 /usr/lib64/python3.6/argparse.py:1127
 #: /usr/lib64/python3.7/argparse.py:1148 /usr/lib64/python3.8/argparse.py:1149
@@ -666,19 +660,17 @@ msgstr "no se pueden fusionar las acciones: dos grupos se llaman %r"
 
 #: /usr/lib64/python3.5/argparse.py:1423 /usr/lib64/python3.6/argparse.py:1431
 #: /usr/lib64/python3.7/argparse.py:1452 /usr/lib64/python3.8/argparse.py:1465
-#, fuzzy
 msgid "'required' is an invalid argument for positionals"
-msgstr "'required' es un argumento no válido para posicionales"
+msgstr "'required' es un argumento posicional inválido"
 
 #: /usr/lib64/python3.5/argparse.py:1445 /usr/lib64/python3.6/argparse.py:1453
 #: /usr/lib64/python3.7/argparse.py:1474 /usr/lib64/python3.8/argparse.py:1487
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
 "%(prefix_chars)r"
 msgstr ""
-"la cadena de la opción %(option)r es inválida: debe comenzar con un carácter "
-"%(prefix_chars)r"
+"Opción no válida %(option)r: Debe comenzar con una letra %(prefix_chars)r"
 
 #: /usr/lib64/python3.5/argparse.py:1465 /usr/lib64/python3.6/argparse.py:1473
 #: /usr/lib64/python3.7/argparse.py:1494 /usr/lib64/python3.8/argparse.py:1507
@@ -953,4 +945,3 @@ msgstr "no se puede abrir '%(filename)s': %(error)s"
 
 #~ msgid "reuse, version {}\n"
 #~ msgstr "reuse, versión {}\n"
-
