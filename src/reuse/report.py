@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -445,14 +446,14 @@ class FileReport:
     ) -> "FileReport":
         """Generate a FileReport from a path in a Project."""
         path = Path(path)
-        if not path.is_file():
-            raise OSError(f"{path} is not a file")
+        if not path.is_file() and not path.is_symlink():
+            raise OSError(f"{path} is not supported")
 
         relative = project.relative_from_root(path)
         report = cls("./" + str(relative), path, do_checksum=do_checksum)
 
         # Checksum and ID
-        if report.do_checksum:
+        if report.do_checksum and not path.is_symlink():
             report.spdxfile.chk_sum = _checksum(path)
         else:
             # This path avoids a lot of heavy computation, which is handy for

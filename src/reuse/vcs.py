@@ -100,7 +100,7 @@ class VCSStrategyGit(VCSStrategy):
         ]
         result = execute_command(command, _LOGGER, cwd=self.project.root)
         all_files = result.stdout.decode("utf-8").split("\0")
-        return {Path(file_) for file_ in all_files[:-1]}
+        return {Path(file_) for file_ in all_files[:-1]}.union({Path(".git")})
 
     def is_ignored(self, path: StrPath) -> bool:
         path = self.project.relative_from_root(path)
@@ -168,7 +168,7 @@ class VCSStrategyHg(VCSStrategy):
         ]
         result = execute_command(command, _LOGGER, cwd=self.project.root)
         all_files = result.stdout.decode("utf-8").split("\0")
-        return {Path(file_) for file_ in all_files[:-1]}
+        return {Path(file_) for file_ in all_files[:-1]}.union({Path(".hg")})
 
     def is_ignored(self, path: StrPath) -> bool:
         path = self.project.relative_from_root(path)
