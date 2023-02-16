@@ -25,6 +25,16 @@ feature that may not be accepted.
 When making a pull request, don't hesitate to add yourself to the AUTHORS.rst
 file and the copyright headers of the files you touch.
 
+## Translation
+
+Translations are welcome at
+<https://hosted.weblate.org/projects/fsfe/reuse-tool/>. If you need additional
+help to get started, don't hesitate to get in touch with the maintainers.
+
+Broader instructions on how to help the FSFE translate things into local
+languages can be found at <https://fsfe.org/contribute/translators/>. The
+translators keep in touch with the <translators@lists.fsfe.org> mailing list.
+
 ## Local development
 
 Starting local development is very simple, just execute the following commands:
