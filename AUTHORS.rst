@@ -58,6 +58,8 @@ Contributors
 
 - Pietro Albini <pietro.albini@ferrous-systems.com>
 
+- Matthias Riße
+
 - Stefan Hynek <stefan.hynek@uni-goettingen.de>
 
 - rajivsunar07
