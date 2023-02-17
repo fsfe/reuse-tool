@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
-# SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -184,7 +183,15 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     subprocess.run([git_exe, "config", "commit.gpgSign", "false"], check=True)
 
     subprocess.run([git_exe, "add", str(fake_repository)], check=True)
-    git_commit(git_exe, "initial")
+    subprocess.run(
+        [
+            git_exe,
+            "commit",
+            "-m",
+            "initial",
+        ],
+        check=True,
+    )
 
     return fake_repository
 
@@ -241,7 +248,15 @@ def submodule_repository(
     )
 
     subprocess.run([git_exe, "add", str(submodule)], check=True)
-    git_commit(git_exe, "initial")
+    subprocess.run(
+        [
+            git_exe,
+            "commit",
+            "-m",
+            "initial",
+        ],
+        check=True,
+    )
 
     os.chdir(git_repository)
 
@@ -262,7 +277,15 @@ def submodule_repository(
         ],
         check=True,
     )
-    git_commit(git_exe, "add submodule")
+    subprocess.run(
+        [
+            git_exe,
+            "commit",
+            "-m",
+            "add submodule",
+        ],
+        check=True,
+    )
 
     (git_repository / ".gitmodules.license").write_text(header)
 
@@ -363,24 +386,6 @@ def mock_date_today(monkeypatch):
     date = create_autospec(datetime.date)
     date.today.return_value = datetime.date(2018, 1, 1)
     monkeypatch.setattr(datetime, "date", date)
-
-
-def git_commit(git_exe, message):
-    subprocess.run(
-        [
-            git_exe,
-            # Git can be globally configured to digitally sign all commits,
-            # which causes problems when running the test suite, as the user
-            # would be prompted to authorize the signing multiple times per
-            # test execution. The option below configures git to skip signing.
-            "-c",
-            "commit.gpgSign=false",
-            "commit",
-            "-m",
-            message,
-        ],
-        check=True,
-    )
 
 
 # REUSE-IgnoreEnd
