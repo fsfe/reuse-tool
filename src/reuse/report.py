@@ -127,7 +127,6 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         )
 
         # Author
-        # TODO: Fix Person and Organization
         out.write(f"Creator: Person: {format_creator(creator_person)}\n")
         out.write(
             f"Creator: Organization: {format_creator(creator_organization)}\n"
