@@ -53,14 +53,12 @@ def run(args, project: Project, out=sys.stdout) -> int:
         and args.creator_person is None
         and args.creator_organization is None
     ):
-        print(
+        args.parser.error(
             _(
                 "error: --creator-person=NAME or --creator-organization=NAME"
                 " required when --add-license-concluded is provided"
             ),
-            file=sys.stderr,
         )
-        return 1
 
     with contextlib.ExitStack() as stack:
         if args.file:

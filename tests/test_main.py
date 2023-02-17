@@ -336,14 +336,8 @@ def test_spdx_add_license_concluded_without_creator_info(
 ):
     """Adding LicenseConcluded should require creator information"""
     os.chdir(str(fake_repository))
-    result = main(["spdx", "--add-license-concluded"], out=stringio)
-    output = stringio.getvalue()
-
-    assert result == 1
-    # An error message is emitted, but on stderr to avoid returning mangled
-    # output when the caller expects an SPDX document. We cannot assert its
-    # contents because of that, unfortunately.
-    assert not output
+    with pytest.raises(SystemExit):
+        main(["spdx", "--add-license-concluded"], out=stringio)
 
 
 def test_spdx_no_multiprocessing(fake_repository, stringio, multiprocessing):
