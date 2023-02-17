@@ -105,7 +105,6 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     def bill_of_materials(
         self,
-        *,
         creator_person: Optional[str] = None,
         creator_organization: Optional[str] = None,
     ) -> str:
