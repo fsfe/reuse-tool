@@ -175,11 +175,13 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     os.chdir(fake_repository)
     _repo_contents(fake_repository)
 
+    # TODO: To speed this up, maybe directly write to '.gitconfig' instead.
     subprocess.run([git_exe, "init", str(fake_repository)], check=True)
     subprocess.run([git_exe, "config", "user.name", "Example"], check=True)
     subprocess.run(
         [git_exe, "config", "user.email", "example@example.com"], check=True
     )
+    subprocess.run([git_exe, "config", "commit.gpgSign", "false"], check=True)
 
     subprocess.run([git_exe, "add", str(fake_repository)], check=True)
     git_commit(git_exe, "initial")
