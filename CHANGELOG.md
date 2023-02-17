@@ -47,6 +47,8 @@ The versions follow [semantic versioning](https://semver.org).
   - Clang format (`.clang-format`) (#632)
 - Added loglevel argument to pytest and skip one test if loglevel is too high
   (#645).
+- `--add-license-concluded`, `--creator-person`, and `--creator-organization`
+  added to `reuse spdx`. (#623)
 
 ### Changed
 
