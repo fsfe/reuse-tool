@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -223,9 +224,9 @@ def hg_repository(fake_repository: Path, hg_exe: str) -> Path:
     return fake_repository
 
 
-@pytest.fixture()
+@pytest.fixture(params=["submodule-add", "manual"])
 def submodule_repository(
-    git_repository: Path, git_exe: str, tmpdir_factory
+    git_repository: Path, git_exe: str, tmpdir_factory, request
 ) -> Path:
     """Create a git repository that contains a submodule."""
     header = cleandoc(
@@ -260,33 +261,53 @@ def submodule_repository(
 
     os.chdir(git_repository)
 
-    subprocess.run(
-        [
-            git_exe,
-            # https://git-scm.com/docs/git-config#Documentation/git-config.txt-protocolallow
-            #
-            # This circumvents a bug/behaviour caused by CVE-2022-39253 where
-            # you cannot use `git submodule add repository path` where
-            # repository is a file on the filesystem.
-            "-c",
-            "protocol.file.allow=always",
-            "submodule",
-            "add",
-            str(submodule.resolve()),
-            "submodule",
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
-            git_exe,
-            "commit",
-            "-m",
-            "add submodule",
-        ],
-        check=True,
-    )
+    if request.param == "submodule-add":
+        subprocess.run(
+            [
+                git_exe,
+                # https://git-scm.com/docs/git-config#Documentation/git-config.txt-protocolallow
+                #
+                # This circumvents a bug/behaviour caused by CVE-2022-39253
+                # where you cannot use `git submodule add repository path` where
+                # repository is a file on the filesystem.
+                "-c",
+                "protocol.file.allow=always",
+                "submodule",
+                "add",
+                str(submodule.resolve()),
+                "submodule",
+            ],
+            check=True,
+        )
+    elif request.param == "manual":
+        subprocess.run(
+            [git_exe, "clone", str(submodule.resolve()), "submodule"],
+            check=True,
+        )
+        with open(
+            git_repository / ".gitmodules", mode="a", encoding="utf-8"
+        ) as gitmodules_file:
+            gitmodules_file.write(
+                f"""[submodule "submodule"]
+	path = submodule
+	url = {submodule.resolve().as_posix()}
+"""
+            )
+        subprocess.run(
+            [
+                git_exe,
+                "add",
+                "--no-warn-embedded-repo",
+                ".gitmodules",
+                "submodule",
+            ],
+            check=True,
+        )
 
+    subprocess.run(
+        [git_exe, "commit", "-m", "add submodule"],
+        check=True,
+    )
     (git_repository / ".gitmodules.license").write_text(header)
 
     return git_repository
