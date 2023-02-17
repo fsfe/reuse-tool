@@ -27,19 +27,19 @@ def add_arguments(parser) -> None:
         "--add-license-concluded",
         action="store_true",
         help=_(
-            "Populate the LicenseConcluded field. Note that REUSE cannot "
-            "guarantee the field is accurate."
+            "populate the LicenseConcluded field; note that reuse cannot "
+            "guarantee the field is accurate"
         ),
     )
     parser.add_argument(
         "--creator-person",
         metavar="NAME",
-        help=_("Name of the person signing off on the SPDX report"),
+        help=_("name of the person signing off on the SPDX report"),
     )
     parser.add_argument(
         "--creator-organization",
         metavar="NAME",
-        help=_("Name of the organization signing off on the SPDX report"),
+        help=_("name of the organization signing off on the SPDX report"),
     )
 
 

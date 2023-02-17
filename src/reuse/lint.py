@@ -326,7 +326,7 @@ def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
 def add_arguments(parser):
     """Add arguments to parser."""
     parser.add_argument(
-        "-q", "--quiet", action="store_true", help="Prevents output"
+        "-q", "--quiet", action="store_true", help=_("prevents output")
     )
 
 
