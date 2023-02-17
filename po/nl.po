@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-20 12:18+0100\n"
-"PO-Revision-Date: 2023-06-21 09:53+0000\n"
-"Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
+"PO-Revision-Date: 2023-02-18 10:24+0000\n"
+"Last-Translator: \"J. Lavoie\" <j.lavoie@net-c.ca>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/fsfe/reuse-tool/nl/"
 ">\n"
 "Language: nl\n"
@@ -402,7 +402,7 @@ msgstr "Wat is de naam van de beheerder?"
 
 #: src/reuse/init.py:112
 msgid "What is the e-mail address of the maintainer?"
-msgstr "Wat is het emailadres van de beheerder?"
+msgstr "Wat is het e-mailadres van de beheerder?"
 
 #: src/reuse/init.py:118
 msgid "All done! Initializing now."
