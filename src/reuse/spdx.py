@@ -47,9 +47,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
     """Print the project's bill of materials."""
     # The SPDX spec mandates that a creator must be specified when a license
     # conclusion is made, so here we enforce that. More context:
-    #
-    #    https://github.com/fsfe/reuse-tool/issues/586#issuecomment-1310425706
-    #
+    # https://github.com/fsfe/reuse-tool/issues/586#issuecomment-1310425706
     if (
         args.add_license_concluded
         and args.creator_person is None
