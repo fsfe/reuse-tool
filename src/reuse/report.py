@@ -427,7 +427,7 @@ class FileReport:
         return super().__hash__(self)
 
 
-def format_creator(creator):
+def format_creator(creator: str) -> str:
     """Render the creator field based on the provided flag"""
     if creator is None:
         return "Anonymous ()"
