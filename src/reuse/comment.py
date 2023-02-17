@@ -693,7 +693,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
 }
 
 EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
-    k.lower(): v for k, v in EXTENSION_COMMENT_STYLE_MAP.items()
+    key.lower(): value for key, value in EXTENSION_COMMENT_STYLE_MAP.items()
 }
 
 FILENAME_COMMENT_STYLE_MAP = {
@@ -744,7 +744,7 @@ FILENAME_COMMENT_STYLE_MAP = {
 }
 
 FILENAME_COMMENT_STYLE_MAP_LOWERCASE = {
-    k.lower(): v for k, v in FILENAME_COMMENT_STYLE_MAP.items()
+    key.lower(): value for key, value in FILENAME_COMMENT_STYLE_MAP.items()
 }
 
 

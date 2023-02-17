@@ -11,6 +11,7 @@ jobs=0
 
 disable=R0801,
          logging-fstring-interpolation,
+         implicit-str-concat
 enable=useless-suppression
 
 [REPORTS]
@@ -120,5 +121,5 @@ valid-metaclass-classmethod-first-arg=cls
 
 
 [EXCEPTIONS]
-overgeneral-exceptions=BaseException,
-                       Exception
+overgeneral-exceptions=builtins.BaseException,
+                       builtins.Exception

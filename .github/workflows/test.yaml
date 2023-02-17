@@ -20,11 +20,13 @@ jobs:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
       matrix:
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
-        os: [ubuntu-20.04, macos-latest, windows-latest]
-        exclude:
-          - os: macos-latest
-            python-version: "3.6"
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        os: [ubuntu-20.04]
+        include:
+          - python-version: "3.7"
+            os: macos-latest
+          - python-version: "3.7"
+            os: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -50,7 +52,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.6
+          python-version: 3.7
       - name: Install dependencies
         run: |
           pip install poetry
@@ -66,7 +68,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.6
+          python-version: 3.7
       - name: Install dependencies
         run: |
           pip install poetry
@@ -91,7 +93,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.6
+          python-version: 3.7
       - name: Install dependencies
         run: |
           pip install poetry
@@ -107,9 +109,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.6
+          python-version: 3.7
       - name: Install dependencies
         run: |
+          pip install poetry
           pip install -r docs/requirements.txt
       - name: Create docs with Sphinx
         run: |

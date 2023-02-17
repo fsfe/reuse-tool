@@ -422,7 +422,6 @@ class PathType:
         raise ArgumentTypeError(_("can't open '{}'").format(path))
 
     def _check_write(self, path):
-        # pylint: disable=no-self-use
         if path.is_dir():
             raise ArgumentTypeError(
                 _("can't write to directory '{}'").format(path)

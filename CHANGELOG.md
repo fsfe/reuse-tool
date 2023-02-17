@@ -54,6 +54,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Removed
 
+- Python 3.6 support has been dropped. (#673)
+
 ### Fixed
 
 - Fixed automatic generation of Sphinx documentation via readthedocs.io by
