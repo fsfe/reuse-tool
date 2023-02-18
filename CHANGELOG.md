@@ -60,6 +60,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Fixed automatic generation of Sphinx documentation via readthedocs.io by
   adding a `.readthedocs.yaml` configuration file (#648)
+- Fixed a compatibility issue where reuse could not be installed (built) if
+  gettext is not installed. (#691)
 
 ### Security
 
