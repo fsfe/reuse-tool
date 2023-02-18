@@ -52,7 +52,7 @@ class Build(build_py):
                 )
                 destination = str(Path(lang_dir) / "reuse.mo")
                 compile_func = lambda msgfmt, in_file, out: subprocess.run(
-                    [msgfmt, in_file, "-o", out],
+                    [msgfmt, "-o", out, in_file],
                     check=True,
                 )
 
