@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-09 15:07+0100\n"
-"PO-Revision-Date: 2023-06-21 09:53+0000\n"
+"PO-Revision-Date: 2023-02-20 19:38+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -389,9 +389,8 @@ msgid "Project already initialized"
 msgstr "Proyecto ya inicializado"
 
 #: src/reuse/init.py:89
-#, fuzzy
 msgid "Initializing project for REUSE."
-msgstr "Initializing project for REUSE."
+msgstr "Inicializando el proyecto para REUSE."
 
 #: src/reuse/init.py:94
 msgid "What is the name of the project?"
