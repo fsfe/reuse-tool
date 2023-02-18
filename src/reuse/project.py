@@ -9,6 +9,7 @@ import contextlib
 import glob
 import logging
 import os
+import re
 from gettext import gettext as _
 from pathlib import Path
 from typing import Dict, Iterator, Optional
@@ -320,11 +321,20 @@ def create_dep5(dep5_path: PathLike) -> Optional[Copyright]:
         _LOGGER.debug(_("no .reuse/dep5 file, or could not read it"))
         return None
     except DebianError as exception:
+        _LOGGER.error(_(".reuse/dep5 error: %s"), exception)
         raise Dep5Exception(_(".reuse/dep5 has syntax errors")) from exception
     except UnicodeError as exception:
+        _LOGGER.error(_(".reuse/dep5 error: %s"), exception)
         raise Dep5Exception(
             _(".reuse/dep5 could not be parsed as utf-8")
         ) from exception
+    except ValueError as exception:
+        _LOGGER.error(_(".reuse/dep5 error: %s"), exception)
+        if re.match(
+            r"^Duplicate field .* in paragraph number \d+$", exception.args[0]
+        ):
+            raise Dep5Exception(_(".reuse/dep5 syntax error")) from exception
+        raise Dep5Exception from exception
 
 
 def create_project(root: Optional[PathLike] = None) -> Project:
