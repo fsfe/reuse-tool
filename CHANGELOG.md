@@ -50,6 +50,8 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Changed
 
+- Bumped SPDX license list to v3.20. (#692)
+
 ### Deprecated
 
 ### Removed
