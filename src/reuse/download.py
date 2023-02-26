@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2023 Nico Rikken <nico.rikken@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -40,6 +41,7 @@ def download_license(spdx_identifier: str) -> str:
     """
     # This is fairly naive, but I can't see anything wrong with it.
     url = urljoin(_SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt")))
+    _LOGGER.debug("downloading license from '%s'", url)
     # TODO: Cache result?
     with urllib.request.urlopen(url) as response:
         if response.getcode() == 200:
