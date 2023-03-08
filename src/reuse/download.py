@@ -7,6 +7,8 @@
 
 import errno
 import logging
+import re
+import shutil
 import sys
 import urllib.request
 from argparse import ArgumentParser, Namespace
@@ -32,6 +34,8 @@ _LOGGER = logging.getLogger(__name__)
 _SPDX_REPOSITORY_BASE_URL = (
     "https://raw.githubusercontent.com/spdx/license-list-data/master/text/"
 )
+
+REF_RE = re.compile("LicenseRef-.+")
 
 
 def download_license(spdx_identifier: str) -> str:
@@ -61,7 +65,9 @@ def _path_to_license_file(spdx_identifier: str, root: StrPath) -> Path:
     return licenses_path / "".join((spdx_identifier, ".txt"))
 
 
-def put_license_in_file(spdx_identifier: str, destination: StrPath) -> None:
+def put_license_in_file(
+    spdx_identifier: str, destination: StrPath, out: IO[str] = None
+) -> None:
     """Download a license and put it in the destination file.
 
     This function exists solely for convenience.
@@ -81,10 +87,20 @@ def put_license_in_file(spdx_identifier: str, destination: StrPath) -> None:
     if destination.exists():
         raise FileExistsError(errno.EEXIST, "File exists", str(destination))
 
-    text = download_license(spdx_identifier)
-    with destination.open("w", encoding="utf-8") as fp:
-        fp.write(header)
-        fp.write(text)
+    if re.match(REF_RE, spdx_identifier):
+        if out is not None:
+            out.write(_("Enter path to custom license file"))
+            out.write("\n")
+            result = input()
+            out.write("\n")
+            if result:
+                source = Path(result) / "".join((spdx_identifier, ".txt"))
+                shutil.copyfile(source, destination)
+    else:
+        text = download_license(spdx_identifier)
+        with destination.open("w", encoding="utf-8") as fp:
+            fp.write(header)
+            fp.write(text)
 
 
 def add_arguments(parser: ArgumentParser) -> None:

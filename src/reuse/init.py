@@ -4,6 +4,7 @@
 
 """Functions for REUSE-ifying a project."""
 
+import re
 import sys
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
@@ -14,7 +15,7 @@ from urllib.error import URLError
 
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import PathType, print_incorrect_spdx_identifier
-from .download import _path_to_license_file, put_license_in_file
+from .download import REF_RE, _path_to_license_file, put_license_in_file
 from .project import Project
 from .vcs import find_root
 
@@ -44,7 +45,9 @@ def prompt_licenses(out: IO[str] = sys.stdout) -> List[str]:
         out.write("\n")
         if not result:
             return licenses
-        if result not in ALL_NON_DEPRECATED_MAP:
+        if result not in ALL_NON_DEPRECATED_MAP and not re.match(
+            REF_RE, result
+        ):
             print_incorrect_spdx_identifier(result, out=out)
             out.write("\n\n")
         else:
@@ -116,16 +119,20 @@ def run(
 
     for lic in licenses:
         destination = _path_to_license_file(lic, root=root)
+
         try:
-            out.write(_("Downloading {}").format(lic))
+            out.write(_("Retrieving {}").format(lic))
             out.write("\n")
-            put_license_in_file(lic, destination=destination)
+            put_license_in_file(lic, destination=destination, out=out)
         # TODO: exceptions
         except FileExistsError:
             out.write(_("{} already exists").format(destination))
             out.write("\n")
         except URLError:
             out.write(_("Could not download {}").format(lic))
+            out.write("\n")
+        except FileNotFoundError:
+            out.write(_("Could not copy {}").format(lic))
             out.write("\n")
 
     out.write("\n")
