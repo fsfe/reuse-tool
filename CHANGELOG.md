@@ -39,6 +39,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 ### Added
 
+- Detect SPDX snippet tags in files. (#699)
 - More file types are recognised:
   - Fennel (`.fnl`) (#638)
   - CommonJS (`.cjs`) (#632)
