@@ -142,8 +142,8 @@ class Project:
         path = _determine_license_path(path)
         _LOGGER.debug(f"searching '{path}' for SPDX information")
 
-        dep5_result = SpdxInfo(set(), set())
-        file_result = SpdxInfo(set(), set())
+        dep5_result = SpdxInfo(set(), set(), "")
+        file_result = SpdxInfo(set(), set(), "")
 
         # Search the .reuse/dep5 file for SPDX information.
         if self._copyright:
@@ -172,6 +172,7 @@ class Project:
         return SpdxInfo(
             dep5_result.spdx_expressions.union(file_result.spdx_expressions),
             dep5_result.copyright_lines.union(file_result.copyright_lines),
+            dep5_result.comment
         )
 
     def relative_from_root(self, path: Path) -> Path:

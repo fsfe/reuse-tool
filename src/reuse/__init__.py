@@ -77,7 +77,11 @@ _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 #: The two iterables MUST be sets.
 SpdxInfo = NamedTuple(
     "SpdxInfo",
-    [("spdx_expressions", Set[Expression]), ("copyright_lines", Set[str])],
+    [
+      ("spdx_expressions", Set[Expression]),
+      ("copyright_lines", Set[str]),
+      ("comment", str)
+    ],
 )
 
 

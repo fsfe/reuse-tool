@@ -78,7 +78,7 @@ def test_extract_no_info():
     object.
     """
     result = _util.extract_spdx_info("")
-    assert result == _util.SpdxInfo(set(), set())
+    assert result == _util.SpdxInfo(set(), set(), "")
 
 
 def test_extract_tab():
