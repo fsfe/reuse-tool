@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-17 21:21+0000\n"
-"PO-Revision-Date: 2023-03-28 20:36+0000\n"
+"PO-Revision-Date: 2023-04-03 12:37+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -269,7 +269,7 @@ msgstr ""
 
 #: src/reuse/download.py:84
 msgid "SPDX License Identifier of license"
-msgstr ""
+msgstr "Licence SPDX Identifikátor licence"
 
 #: src/reuse/download.py:89
 msgid "download all missing licenses detected in the project"
@@ -347,7 +347,7 @@ msgstr "Přeskočený soubor '{path}' již obsahuje informace SPDX"
 #: src/reuse/header.py:528
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
-msgstr ""
+msgstr "Chyba: Nepodařilo se vytvořit komentář pro '{path}'"
 
 #: src/reuse/header.py:535
 #, python-brace-format
@@ -356,121 +356,128 @@ msgid ""
 "license expressions. The template is probably incorrect. Did not write new "
 "header."
 msgstr ""
+"Chyba: Chybí řádky s autorskými právy nebo licenční výrazy v generovaném "
+"záhlaví komentáře pro '{path}'. Šablona je pravděpodobně nesprávná. "
+"Nepodařilo se zapsat novou hlavičku."
 
 #. TODO: This may need to be rephrased more elegantly.
 #: src/reuse/header.py:546
 #, python-brace-format
 msgid "Successfully changed header of {path}"
-msgstr ""
+msgstr "Úspěšně změněna hlavička {path}"
 
 #: src/reuse/header.py:569
 msgid "copyright statement, repeatable"
-msgstr ""
+msgstr "prohlášení o autorských právech, opakovatelné"
 
 #: src/reuse/header.py:576
 msgid "SPDX Identifier, repeatable"
-msgstr ""
+msgstr "Identifikátor SPDX, opakovatelný"
 
 #: src/reuse/header.py:583
 msgid "year of copyright statement, optional"
-msgstr ""
+msgstr "rok vydání prohlášení o autorských právech, nepovinné"
 
 #: src/reuse/header.py:591
 msgid "comment style to use, optional"
-msgstr ""
+msgstr "styl komentáře, který se má použít, nepovinné"
 
 #: src/reuse/header.py:597
 msgid "copyright style to use, optional"
-msgstr ""
+msgstr "styl autorských práv, který se má použít, nepovinné"
 
 #: src/reuse/header.py:604
 msgid "name of template to use, optional"
-msgstr ""
+msgstr "název šablony, která se má použít, nepovinné"
 
 #: src/reuse/header.py:609
 msgid "do not include year in statement"
-msgstr ""
+msgstr "neuvádět rok v prohlášení"
 
 #: src/reuse/header.py:614
 msgid "merge copyright lines if copyright statements are identical"
 msgstr ""
+"sloučit řádky s autorskými právy, pokud jsou prohlášení o autorských právech "
+"totožná"
 
 #: src/reuse/header.py:619
 msgid "force single-line comment style, optional"
-msgstr ""
+msgstr "vynutit jednořádkový styl komentáře, nepovinné"
 
 #: src/reuse/header.py:624
 msgid "force multi-line comment style, optional"
-msgstr ""
+msgstr "vynutit víceřádkový styl komentáře, nepovinné"
 
 #: src/reuse/header.py:634
 msgid "write a .license file instead of a header inside the file"
-msgstr ""
+msgstr "zapsat soubor .license místo hlavičky uvnitř souboru"
 
 #: src/reuse/header.py:641
 msgid "add headers to all files under specified directories recursively"
-msgstr ""
+msgstr "zpětně přidat hlavičky ke všem souborům v zadaných adresářích"
 
 #: src/reuse/header.py:648
 msgid "do not replace the first header in the file; just add a new one"
-msgstr ""
+msgstr "nenahrazovat první hlavičku v souboru, ale přidat novou"
 
 #: src/reuse/header.py:654
 msgid "skip files with unrecognised comment styles"
-msgstr ""
+msgstr "přeskočit soubory s nerozpoznanými styly komentářů"
 
 #: src/reuse/header.py:659
 msgid "skip files that already contain SPDX information"
-msgstr ""
+msgstr "přeskočit soubory, které již obsahují informace SPDX"
 
 #: src/reuse/header.py:670
 msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
-msgstr ""
+msgstr "'reuse addheader' bylo zrušeno ve prospěch 'reuse annotate'"
 
 #: src/reuse/header.py:676
 msgid "option --copyright or --license is required"
-msgstr ""
+msgstr "je vyžadována volba --copyright nebo --licence"
 
 #: src/reuse/header.py:680
 msgid "option --exclude-year and --year are mutually exclusive"
-msgstr ""
+msgstr "volby --exclude-year a --year se vzájemně vylučují"
 
 #: src/reuse/header.py:685
 msgid "option --single-line and --multi-line are mutually exclusive"
-msgstr ""
+msgstr "volby --single-line a --multi-line se vzájemně vylučují"
 
 #: src/reuse/header.py:691
 msgid "--skip-unrecognised has no effect when used together with --style"
 msgstr ""
+"--skip-unrecognised nemá žádný účinek, pokud se použije společně s --style"
 
 #: src/reuse/header.py:698
 msgid "--explicit-license has been deprecated in favour of --force-dot-license"
-msgstr ""
+msgstr "--explicit-license bylo zrušeno ve prospěch --force-dot-license"
 
 #: src/reuse/header.py:742
 #, python-brace-format
 msgid "template {template} could not be found"
-msgstr ""
+msgstr "šablonu {template} se nepodařilo najít"
 
 #: src/reuse/header.py:784
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
-msgstr ""
+msgstr "'{path}' je binární soubor, proto použijte '{new_path}' pro hlavičku"
 
 #: src/reuse/init.py:24
 msgid ""
 "What license is your project under? Provide the SPDX License Identifier."
-msgstr ""
+msgstr "Pod jakou licencí je váš projekt? Uveďte identifikátor licence SPDX."
 
 #: src/reuse/init.py:28
 msgid ""
 "What other license is your project under? Provide the SPDX License "
 "Identifier."
 msgstr ""
+"Pod jakou jinou licencí je váš projekt? Uveďte identifikátor licence SPDX."
 
 #: src/reuse/init.py:39
 msgid "To stop adding licenses, hit RETURN."
-msgstr ""
+msgstr "Chcete-li přidávání licencí ukončit, stiskněte klávesu RETURN."
 
 #: src/reuse/init.py:73
 msgid "Project already initialized"
