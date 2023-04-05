@@ -43,6 +43,7 @@ The versions follow [semantic versioning](https://semver.org).
   - Fennel (`.fnl`) (#638)
   - CommonJS (`.cjs`) (#632)
   - Qt .pro (`.pro`) (#632)
+  - Textile (`.textile`) (#712)
 - More files are recognised:
   - Clang format (`.clang-format`) (#632)
 - Added loglevel argument to pytest and skip one test if loglevel is too high
