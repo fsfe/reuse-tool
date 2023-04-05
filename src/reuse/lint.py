@@ -12,7 +12,7 @@ import json
 import os
 import sys
 from gettext import gettext as _
-from typing import Dict
+from pathlib import PosixPath
 
 from .project import Project
 from .report import ProjectReport
@@ -29,7 +29,6 @@ def add_arguments(parser):
     mutex_group.add_argument("--format", nargs="?", choices=("json", "plain"),
                              help=_("formats output using the chosen formatter"))
 
-
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements
 def format_plain(report: ProjectReport) -> str:
     """Formats data dictionary as plaintext string to be printed to sys.stdout
@@ -42,57 +41,14 @@ def format_plain(report: ProjectReport) -> str:
 
     # If the project is not compliant:
     if not data["summary"]["compliant"]:
-
-        # Missing copyright and licensing information
-        files_without_copyright = set(
-            data["non_compliant"]["missing_copyright_info"]
-        )
-        files_without_license = set(
-            data["non_compliant"]["missing_licensing_info"]
-        )
-        files_without_both = files_without_license.intersection(
-            files_without_copyright
-        )
-
-        header = (
-            "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION") + "\n\n"
-        )
-        if files_without_both:
-            output += header
-            output += _(
-                "The following files have no copyright and licensing "
-                "information:"
-            )
-            output += "\n"
-            for file in sorted(files_without_both):
-                output += f"* {file}\n"
-            output += "\n\n"
-
-        if files_without_copyright - files_without_both:
-            output += header
-            output += _("The following files have no copyright information:")
-            output += "\n"
-            for file in sorted(files_without_copyright - files_without_both):
-                output += f"* {file}\n"
-            output += "\n\n"
-
-        if files_without_license - files_without_both:
-            output += header
-            output += _("The following files have no licensing information:")
-            output += "\n"
-            for file in sorted(files_without_license - files_without_both):
-                output += f"* {file}\n"
-            output += "\n\n"
-
         # Bad licenses
         bad_licenses = data["non_compliant"]["bad_licenses"]
         if bad_licenses:
             output += "# " + _("BAD LICENSES") + "\n\n"
-            for lic, files in sorted(bad_licenses.items()):
-                output += f"'{lic}' found in:" + "\n"
-                for file in sorted(files):
-                    output += f"* {file}\n"
-            output += "\n\n"
+            for lic in sorted(bad_licenses.keys()):
+                output += _("'{}' found in:").format(lic) + "\n"
+                output += f"* {list(bad_licenses[lic])[0]}" + "\n\n"
+            output += "\n"
 
         # Deprecated licenses
         deprecated_licenses = data["non_compliant"]["deprecated_licenses"]
@@ -110,31 +66,31 @@ def format_plain(report: ProjectReport) -> str:
         if licenses_without_extension:
             output += "# " + _("LICENSES WITHOUT FILE EXTENSION") + "\n\n"
             output += _("The following licenses have no file extension:") + "\n"
-            for path in sorted(licenses_without_extension):
-                output += f"* {str(path)}" + "\n"
+            for lic in sorted(licenses_without_extension):
+                output += f"* {str(licenses_without_extension[lic])}" + "\n"
             output += "\n\n"
 
         # Missing licenses
         missing_licenses = data["non_compliant"]["missing_licenses"]
         if missing_licenses:
             output += "# " + _("MISSING LICENSES") + "\n\n"
-            for lic, files in sorted(missing_licenses.items()):
-                output += f"'{lic}' found in:" + "\n"
-                for file in sorted(files):
+            for lic in zip(missing_licenses.keys()):
+                output += _("'{}' found in:").format(lic[0]) + "\n"
+                for file in missing_licenses[lic[0]]:
                     output += f"* {file}\n"
-            output += "\n"
+            output += "\n\n"
 
         # Unused licenses
         unused_licenses = data["non_compliant"]["unused_licenses"]
         if unused_licenses:
             output += "# " + _("UNUSED LICENSES") + "\n\n"
             output += _("The following licenses are not used:") + "\n"
-            for lic in sorted(deprecated_licenses):
+            for lic in sorted(unused_licenses):
                 output += f"* {lic}\n"
             output += "\n\n"
 
         # Read errors
-        read_errors = data["non_compliant"]["read_error"]
+        read_errors = data["non_compliant"]["read_errors"]
         if read_errors:
             output += "# " + _("READ ERRORS") + "\n\n"
             output += _("Could not read:") + "\n"
@@ -142,6 +98,46 @@ def format_plain(report: ProjectReport) -> str:
                 output += f"* {str(path)}" + "\n"
             output += "\n\n"
 
+        # Missing copyright and licensing information
+        files_without_copyright = set(
+            data["non_compliant"]["missing_copyright_info"]
+        )
+        files_without_license = set(
+            data["non_compliant"]["missing_licensing_info"]
+        )
+        files_without_both = files_without_license.intersection(
+            files_without_copyright
+        )
+
+        header = (
+            "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION") + "\n\n"
+        )
+        output += header
+        if files_without_both:
+            output += _(
+                "The following files have no copyright and licensing "
+                "information:"
+            )
+            output += "\n"
+            for file in sorted(files_without_both):
+                output += f"* {file}\n"
+            output += "\n"
+
+        if files_without_copyright - files_without_both:
+            output += _("The following files have no copyright information:")
+            output += "\n"
+            for file in sorted(files_without_copyright - files_without_both):
+                output += f"* {file}\n"
+            output += "\n"
+
+        if files_without_license - files_without_both:
+            output += _("The following files have no licensing information:")
+            output += "\n"
+            for file in sorted(files_without_license - files_without_both):
+                output += f"* {file}\n"
+            output += "\n"
+
+    output += "\n"
     output += "# " + _("SUMMARY")
     output += "\n\n"
 
@@ -155,7 +151,7 @@ def format_plain(report: ProjectReport) -> str:
             _("Licenses without file extension:"),
             ", ".join(
                 [
-                    file.parts[-1]
+                    file
                     for file in data["non_compliant"][
                         "licenses_without_extension"
                     ]
@@ -173,7 +169,7 @@ def format_plain(report: ProjectReport) -> str:
         (_("Used licenses:"), ", ".join(data["summary"]["used_licenses"])),
         (
             _("Read errors: {count}").format(
-                count=len(data["non_compliant"]["read_error"])
+                count=len(data["non_compliant"]["read_errors"])
             ),
             "empty",
         ),
@@ -200,6 +196,7 @@ def format_plain(report: ProjectReport) -> str:
             value = ""
         output += "* " + key + " " + value + "\n"
 
+    output += "\n"
     if data["summary"]["compliant"]:
         output += _(
             "Congratulations! Your project is compliant with version"
@@ -210,8 +207,8 @@ def format_plain(report: ProjectReport) -> str:
             "Unfortunately, your project is not compliant with version "
             "{} of the REUSE Specification :-("
         ).format(data["reuse_version"])
-
     output += "\n"
+
     return output
 
 
