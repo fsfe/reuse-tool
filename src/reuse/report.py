@@ -109,13 +109,11 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             copyrights = file.spdxfile.copyright.split("\n")
             data["files"][str(file.path)] = {
                 "copyrights": [
-                    # TODO Find correct source file for copyrights info
-                    {"value": cop, "source": file.spdxfile.name}
+                    {"value": cop, "source": file.spdxfile.info.license_path}
                     for cop in copyrights
                 ],
                 "licenses": [
-                    # TODO Find correct source file for licensing info
-                    {"value": lic, "source": file.spdxfile.name}
+                    {"value": lic, "source": file.spdxfile.info.license_path}
                     for lic in file.spdxfile.licenses_in_file
                 ],
             }
