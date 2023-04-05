@@ -20,7 +20,7 @@ import logging
 import os
 import re
 from dataclasses import dataclass, field
-from typing import NamedTuple, Set
+from typing import NamedTuple, Optional, Set
 
 try:
     from importlib.metadata import PackageNotFoundError, version
@@ -95,6 +95,7 @@ class SpdxInfo:
     spdx_expressions: Set[Expression] = field(default_factory=set)
     copyright_lines: Set[str] = field(default_factory=set)
     contributor_lines: Set[str] = field(default_factory=set)
+    license_path: Optional[str] = None
 
     def __bool__(self):
         return any(self.__dict__.values())

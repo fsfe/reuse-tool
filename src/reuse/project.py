@@ -144,13 +144,14 @@ class Project:
         """Return SPDX info of *path*.
 
         This function will return any SPDX information that it can find, both
-        from within the file and from the .reuse/dep5 file.
+        from within the file, the .license file and from the .reuse/dep5 file.
         """
         path = _determine_license_path(path)
         _LOGGER.debug(f"searching '{path}' for SPDX information")
 
-        dep5_result = SpdxInfo(set(), set())
-        file_result = SpdxInfo(set(), set())
+        # NOTE This means that only one 'source' of licensing/copyright information is captured in SpdxInfo
+        dep5_result = SpdxInfo(set(), set(), "")
+        file_result = SpdxInfo(set(), set(), "")
 
         # Search the .reuse/dep5 file for SPDX information.
         if self._copyright:
@@ -188,6 +189,7 @@ class Project:
         return SpdxInfo(
             dep5_result.spdx_expressions.union(file_result.spdx_expressions),
             dep5_result.copyright_lines.union(file_result.copyright_lines),
+            str(path)
         )
 
     def relative_from_root(self, path: Path) -> Path:

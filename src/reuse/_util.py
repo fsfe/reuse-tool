@@ -208,11 +208,12 @@ def _copyright_from_dep5(path: PathLike, dep5_copyright: Copyright) -> SpdxInfo:
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
-        return SpdxInfo(set(), set())
+        return SpdxInfo(set(), set(), str(path))
 
     return SpdxInfo(
         set(map(_LICENSING.parse, [result.license.synopsis])),
         set(map(str.strip, result.copyright.splitlines())),
+        str(path)
     )
 
 
@@ -316,7 +317,7 @@ def extract_spdx_info(text: str) -> SpdxInfo:
                 copyright_matches.add(match.groupdict()["copyright"].strip())
                 break
 
-    return SpdxInfo(expressions, copyright_matches)
+    return SpdxInfo(expressions, copyright_matches, "")
 
 
 def find_license_identifiers(text: str) -> Iterator[str]:
