@@ -11,7 +11,7 @@ RUN apk --no-cache add git mercurial python3
 # Build reuse into a virtualenv
 FROM base AS build
 
-RUN apk --no-cache add poetry
+RUN apk --no-cache add poetry gettext
 
 WORKDIR /reuse-tool
 COPY . /reuse-tool/

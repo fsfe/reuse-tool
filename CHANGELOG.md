@@ -63,6 +63,7 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Fixed automatic generation of Sphinx documentation via readthedocs.io by
   adding a `.readthedocs.yaml` configuration file (#648)
+- Translations are available in Docker images. (#701)
 
 ### Security
 
