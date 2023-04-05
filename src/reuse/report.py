@@ -93,16 +93,10 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 "unused_licenses": [str(f) for f in self.unused_licenses],
                 "deprecated_licenses": [str(f) for f in self.deprecated_licenses],
                 "bad_licenses": self.bad_licenses,
-                "licenses_without_extension": list(
-                    self.licenses_without_extension.values()
-                ),
-                "missing_copyright_info": [
-                    str(f) for f in self.files_without_copyright
-                ],
-                "missing_licensing_info": [
-                    str(f) for f in self.files_without_licenses
-                ],
-                "read_error": [str(f) for f in self.read_errors],
+                "licenses_without_extension": self.licenses_without_extension,
+                "missing_copyright_info": [str(f) for f in self.files_without_copyright],
+                "missing_licensing_info": [str(f) for f in self.files_without_licenses],
+                "read_errors": [str(f) for f in self.read_errors],
             },
             "files": {},
             "summary": {
@@ -111,7 +105,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         }
 
         # Populate 'files'
-        for file in self.file_reports:
+        for file in self.file_reports.copy():
             copyrights = file.spdxfile.copyright.split("\n")
             data["files"][str(file.path)] = {
                 "copyrights": [
@@ -138,7 +132,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 data["non_compliant"]["licenses_without_extension"],
                 data["non_compliant"]["missing_copyright_info"],
                 data["non_compliant"]["missing_licensing_info"],
-                data["non_compliant"]["read_error"],
+                data["non_compliant"]["read_errors"],
             )
         )
         data["summary"] = {
@@ -279,11 +273,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             # File report.
             project_report.file_reports.add(file_report)
 
-            # Bad and missing licenses.
+            # Missing licenses.
             for missing_license in file_report.missing_licenses:
-                project_report.missing_licenses.setdefault(
-                    missing_license, set()
-                ).add(file_report.path)
+                project_report.missing_licenses.setdefault(missing_license, set()).add(
+                    file_report.path
+                )
+
+            # Bad licenses
             for bad_license in file_report.bad_licenses:
                 project_report.bad_licenses.setdefault(bad_license, set()).add(
                     file_report.path
