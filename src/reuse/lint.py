@@ -219,11 +219,24 @@ def format_json(report: ProjectReport) -> str:
     :return: String (representing JSON) that can be output to sys.stdout
     """
 
+    output = report.to_dict()
+
+    def custom_serializer(obj):
+        """Custom serializer for the dictionary output of ProjectReport
+
+        :param obj: Object to be serialized
+        """
+        if isinstance(obj, PosixPath):
+            return str(obj)
+        if isinstance(obj, set):
+            return list(obj)
+        raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
+
     return json.dumps(
         report.to_dict(),
         indent=2,
         # Serialize sets to lists
-        default=lambda x: list(x) if isinstance(x, set) else x,
+        default=custom_serializer
     )
 
 
