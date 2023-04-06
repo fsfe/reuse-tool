@@ -242,6 +242,7 @@ def format_json(report: ProjectReport) -> str:
         indent=2,
         # Serialize sets to lists
         default=custom_serializer,
+        sort_keys=True,
     )
 
 
