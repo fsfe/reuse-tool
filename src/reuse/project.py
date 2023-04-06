@@ -153,7 +153,9 @@ class Project:
         _LOGGER.debug(f"searching '{path}' for SPDX information")
 
         license_path = ""
-        # NOTE This means that only one 'source' of licensing/copyright information is captured in SpdxInfo
+
+        # This means that only one 'source' of licensing/copyright information
+        # is captured in SpdxInfo
         dep5_result = SpdxInfo(set(), set(), "")
         file_result = SpdxInfo(set(), set(), "")
 
@@ -193,13 +195,13 @@ class Project:
                     ).format(path=path)
                 )
 
-        spdx_expressions = dep5_result.spdx_expressions.union(file_result.spdx_expressions)
-        copyright_lines = dep5_result.copyright_lines.union(file_result.copyright_lines)
-        return SpdxInfo(
-            spdx_expressions,
-            copyright_lines,
-            license_path
+        spdx_expressions = dep5_result.spdx_expressions.union(
+            file_result.spdx_expressions
         )
+        copyright_lines = dep5_result.copyright_lines.union(
+            file_result.copyright_lines
+        )
+        return SpdxInfo(spdx_expressions, copyright_lines, license_path)
 
     def relative_from_root(self, path: Path) -> Path:
         """If the project root is /tmp/project, and *path* is

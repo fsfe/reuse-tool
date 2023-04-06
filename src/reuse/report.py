@@ -18,9 +18,9 @@ from pathlib import Path
 from typing import Iterable, List, NamedTuple, Optional, Set
 from uuid import uuid4
 
-from . import __version__, __REUSE_version__
+from . import __REUSE_version__, __version__
 from ._util import _LICENSING, _checksum
-from .project import Project
+from .project import Project, SpdxInfo
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -82,7 +82,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         """Collects and formats data from report and returns it as a dictionary
 
         :param report: ProjectReport object
-        :return: Formatted dictionary containing data from the ProjectReport object
+        :return: Dictionary containing data from the ProjectReport object
         """
         # Setup report data container
         data = {
@@ -90,13 +90,19 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             "reuse_version": __REUSE_version__,
             "non_compliant": {
                 "missing_licenses": self.missing_licenses,
-                "unused_licenses": [str(f) for f in self.unused_licenses],
-                "deprecated_licenses": [str(f) for f in self.deprecated_licenses],
+                "unused_licenses": [str(file) for file in self.unused_licenses],
+                "deprecated_licenses": [
+                    str(file) for file in self.deprecated_licenses
+                ],
                 "bad_licenses": self.bad_licenses,
                 "licenses_without_extension": self.licenses_without_extension,
-                "missing_copyright_info": [str(f) for f in self.files_without_copyright],
-                "missing_licensing_info": [str(f) for f in self.files_without_licenses],
-                "read_errors": [str(f) for f in self.read_errors],
+                "missing_copyright_info": [
+                    str(file) for file in self.files_without_copyright
+                ],
+                "missing_licensing_info": [
+                    str(file) for file in self.files_without_licenses
+                ],
+                "read_errors": [str(file) for file in self.read_errors],
             },
             "files": {},
             "summary": {
@@ -110,11 +116,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             data["files"][str(file.path)] = {
                 "copyrights": [
                     {"value": cop, "source": file.spdxfile.info.license_path}
-                    for cop in copyrights if cop
+                    for cop in copyrights
+                    if cop
                 ],
                 "licenses": [
                     {"value": lic, "source": file.spdxfile.info.license_path}
-                    for lic in file.spdxfile.licenses_in_file if lic
+                    for lic in file.spdxfile.licenses_in_file
+                    if lic
                 ],
             }
 
@@ -137,9 +145,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             "used_licenses": list(self.used_licenses),
             "files_total": number_of_files,
             "files_with_copyright_info": number_of_files
-                                         - len(self.files_without_copyright),
+            - len(self.files_without_copyright),
             "files_with_licensing_info": number_of_files
-                                         - len(self.files_without_licenses),
+            - len(self.files_without_licenses),
             "compliant": is_compliant,
         }
         return data
@@ -163,8 +171,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         # TODO: Generate UUID from git revision maybe
         # TODO: Fix the URL
         out.write(
-            f"DocumentNamespace:"
-            f" http://spdx.org/spdxdocs/spdx-v2.1-{uuid4()}\n"
+            f"DocumentNamespace: http://spdx.org/spdxdocs/spdx-v2.1-{uuid4()}\n"
         )
 
         # Author
@@ -187,7 +194,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         for report in reports:
             out.write(
-                f"Relationship: SPDXRef-DOCUMENT describes"
+                "Relationship: SPDXRef-DOCUMENT describes"
                 f" {report.spdxfile.spdx_id}\n"
             )
 
@@ -204,7 +211,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 out.write(f"LicenseInfoInFile: {lic}\n")
             if report.spdxfile.copyright:
                 out.write(
-                    f"FileCopyrightText:"
+                    "FileCopyrightText:"
                     f" <text>{report.spdxfile.copyright}</text>\n"
                 )
             else:
@@ -273,9 +280,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
             # Missing licenses.
             for missing_license in file_report.missing_licenses:
-                project_report.missing_licenses.setdefault(missing_license, set()).add(
-                    file_report.path
-                )
+                project_report.missing_licenses.setdefault(
+                    missing_license, set()
+                ).add(file_report.path)
 
             # Bad licenses
             for bad_license in file_report.bad_licenses:
@@ -423,7 +430,6 @@ class FileReport:
         report.spdxfile.spdx_id = f"SPDXRef-{spdx_id.hexdigest()}"
 
         spdx_info = project.spdx_info_of(path)
-        # TODO Return source of licensing and copyright info together with SPDX info. Depends on #669
         for expression in spdx_info.spdx_expressions:
             for identifier in _LICENSING.license_keys(expression):
                 # A license expression akin to Apache-1.0+ should register
@@ -463,6 +469,7 @@ class FileReport:
 
         # Copyright text
         report.spdxfile.copyright = "\n".join(sorted(spdx_info.copyright_lines))
+        # Source of licensing and copyright info
         report.spdxfile.info = spdx_info
         return report
 
