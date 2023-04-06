@@ -5,6 +5,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
+# SPDX-FileCopyrightText: 2023 DB Systel GmbH
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -39,6 +40,8 @@ HG_EXE = shutil.which("hg")
 
 REUSE_IGNORE_START = "REUSE-IgnoreStart"
 REUSE_IGNORE_END = "REUSE-IgnoreEnd"
+
+SPDX_SNIPPET_INDICATOR = b"SPDX-SnippetBegin"
 
 _LOGGER = logging.getLogger(__name__)
 _LICENSING = Licensing()
@@ -77,7 +80,7 @@ _IDENTIFIER_PATTERN = re.compile(
 )
 _COPYRIGHT_PATTERNS = [
     re.compile(
-        r"(?P<copyright>(?P<prefix>SPDX-FileCopyrightText:)\s+"
+        r"(?P<copyright>(?P<prefix>SPDX-(File|Snippet)CopyrightText:)\s+"
         r"((?P<year>\d{4} - \d{4}|\d{4}),?\s+)?"
         r"(?P<statement>.*?))" + _END_PATTERN
     ),
@@ -222,6 +225,16 @@ def _parse_copyright_year(year: str) -> list:
     if re.match(r"\d{4} - \d{4}$", year):
         ret = [int(year[:4]), int(year[-4:])]
     return ret
+
+
+def _contains_snippet(binary_file: BinaryIO) -> bool:
+    """Check if a file seems to contain a SPDX snippet"""
+    # Assumes that if SPDX_SNIPPET_INDICATOR (SPDX-SnippetBegin) is found in a
+    # file, the file contains a snippet
+    content = binary_file.read()
+    if SPDX_SNIPPET_INDICATOR in content:
+        return True
+    return False
 
 
 def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:

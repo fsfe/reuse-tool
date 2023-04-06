@@ -33,6 +33,8 @@ recommendations.
 
 ## Background
 
+<!-- REUSE-IgnoreStart -->
+
 Copyright and licensing is difficult, especially when reusing software from
 different projects that are released under various different licenses.
 [REUSE](https://reuse.software) was started by the
@@ -41,6 +43,8 @@ recommendations to make licensing your Free Software projects easier. Not only
 do these recommendations make it easier for you to declare the licenses under
 which your works are released, but they also make it easier for a computer to
 understand how your project is licensed.
+
+<!-- REUSE-IgnoreEnd -->
 
 As a short summary, the recommendations are threefold:
 
@@ -146,6 +150,8 @@ pip install .
 First, read the [REUSE tutorial](https://reuse.software/tutorial/). In a
 nutshell:
 
+<!-- REUSE-IgnoreStart -->
+
 1. Put your licenses in the `LICENSES/` directory.
 2. Add a comment header to each file that says
    `SPDX-License-Identifier: GPL-3.0-or-later`, and
@@ -160,6 +166,8 @@ Example of header:
 #
 # SPDX-License-Identifier: CC-BY-SA-4.0
 ```
+
+<!-- REUSE-IgnoreEnd -->
 
 ### CLI
 

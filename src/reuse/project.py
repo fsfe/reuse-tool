@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2023 DB Systel GmbH
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -31,6 +32,7 @@ from ._util import (
     GIT_EXE,
     HG_EXE,
     PathLike,
+    _contains_snippet,
     _copyright_from_dep5,
     _determine_license_path,
     decoded_text_from_binary,
@@ -158,8 +160,17 @@ class Project:
         # Search the file for SPDX information.
         with path.open("rb") as fp:
             try:
+                # Completely read the file once to search for possible snippets
+                if _contains_snippet(fp):
+                    _LOGGER.debug(f"'{path}' seems to contain a SPDX Snippet")
+                    read_limit = None
+                else:
+                    read_limit = _HEADER_BYTES
+                # Reset read position
+                fp.seek(0)
+                # Scan the file for SPDX info, possible limiting the read length
                 file_result = extract_spdx_info(
-                    decoded_text_from_binary(fp, size=_HEADER_BYTES)
+                    decoded_text_from_binary(fp, size=read_limit)
                 )
             except (ExpressionError, ParseError):
                 _LOGGER.error(
