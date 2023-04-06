@@ -91,6 +91,11 @@ def multiprocessing(request, monkeypatch) -> bool:
     yield request.param
 
 
+@pytest.fixture(params=[True, False])
+def add_license_concluded(request) -> bool:
+    yield request
+
+
 @pytest.fixture()
 def empty_directory(tmpdir_factory) -> Path:
     """Create a temporary empty directory."""
@@ -122,6 +127,13 @@ def fake_repository(tmpdir_factory) -> Path:
     (directory / "src/custom.py").write_text(
         "SPDX-FileCopyrightText: 2017 Jane Doe\n"
         "SPDX-License-Identifier: LicenseRef-custom",
+        encoding="utf-8",
+    )
+    (directory / "src/multiple_licenses.rs").write_text(
+        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
+        "SPDX-License-Identifier: GPL-3.0-or-later\n"
+        "SPDX-License-Identifier: Apache-2.0 OR CC0-1.0"
+        " WITH Autoconf-exception-3.0\n",
         encoding="utf-8",
     )
 
@@ -162,11 +174,13 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
     os.chdir(fake_repository)
     _repo_contents(fake_repository)
 
+    # TODO: To speed this up, maybe directly write to '.gitconfig' instead.
     subprocess.run([git_exe, "init", str(fake_repository)], check=True)
     subprocess.run([git_exe, "config", "user.name", "Example"], check=True)
     subprocess.run(
         [git_exe, "config", "user.email", "example@example.com"], check=True
     )
+    subprocess.run([git_exe, "config", "commit.gpgSign", "false"], check=True)
 
     subprocess.run([git_exe, "add", str(fake_repository)], check=True)
     subprocess.run(

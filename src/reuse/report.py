@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -27,9 +28,10 @@ _LOGGER = logging.getLogger(__name__)
 class _MultiprocessingContainer:
     """Container that remembers some data in order to generate a FileReport."""
 
-    def __init__(self, project, do_checksum):
+    def __init__(self, project, do_checksum, add_license_concluded):
         self.project = project
         self.do_checksum = do_checksum
+        self.add_license_concluded = add_license_concluded
 
     def __call__(self, file_):
         # pylint: disable=broad-except
@@ -37,7 +39,10 @@ class _MultiprocessingContainer:
             return _MultiprocessingResult(
                 file_,
                 FileReport.generate(
-                    self.project, file_, do_checksum=self.do_checksum
+                    self.project,
+                    file_,
+                    do_checksum=self.do_checksum,
+                    add_license_concluded=self.add_license_concluded,
                 ),
                 None,
             )
@@ -98,7 +103,11 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             "file_reports": [report.to_dict() for report in self.file_reports],
         }
 
-    def bill_of_materials(self) -> str:
+    def bill_of_materials(
+        self,
+        creator_person: Optional[str] = None,
+        creator_organization: Optional[str] = None,
+    ) -> str:
         """Generate a bill of materials from the project.
 
         See https://spdx.org/specifications.
@@ -118,9 +127,10 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         )
 
         # Author
-        # TODO: Fix Person and Organization
-        out.write("Creator: Person: Anonymous ()\n")
-        out.write("Creator: Organization: Anonymous ()\n")
+        out.write(f"Creator: Person: {format_creator(creator_person)}\n")
+        out.write(
+            f"Creator: Organization: {format_creator(creator_organization)}\n"
+        )
         out.write(f"Creator: Tool: reuse-{__version__}\n")
 
         now = datetime.datetime.utcnow()
@@ -145,9 +155,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             out.write(f"FileName: {report.spdxfile.name}\n")
             out.write(f"SPDXID: {report.spdxfile.spdx_id}\n")
             out.write(f"FileChecksum: SHA1: {report.spdxfile.chk_sum}\n")
-            # IMPORTANT: Make no assertion about concluded license. This tool
-            # cannot, with full certainty, determine the license of a file.
-            out.write("LicenseConcluded: NOASSERTION\n")
+            out.write(
+                f"LicenseConcluded: {report.spdxfile.license_concluded}\n"
+            )
 
             for lic in sorted(report.spdxfile.licenses_in_file):
                 out.write(f"LicenseInfoInFile: {lic}\n")
@@ -177,6 +187,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         project: Project,
         do_checksum: bool = True,
         multiprocessing: bool = cpu_count() > 1,
+        add_license_concluded: bool = False,
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
         project_report = cls(do_checksum=do_checksum)
@@ -186,7 +197,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             project.licenses_without_extension
         )
 
-        container = _MultiprocessingContainer(project, do_checksum)
+        container = _MultiprocessingContainer(
+            project, do_checksum, add_license_concluded
+        )
 
         if multiprocessing:
             with mp.Pool() as pool:
@@ -306,6 +319,7 @@ class _File:  # pylint: disable=too-few-public-methods
         self.spdx_id: str = spdx_id
         self.chk_sum: str = chk_sum
         self.licenses_in_file: List[str] = []
+        self.license_concluded: str = None
         self.copyright: str = None
 
 
@@ -337,7 +351,11 @@ class FileReport:
 
     @classmethod
     def generate(
-        cls, project: Project, path: PathLike, do_checksum: bool = True
+        cls,
+        project: Project,
+        path: PathLike,
+        do_checksum: bool = True,
+        add_license_concluded: bool = False,
     ) -> "FileReport":
         """Generate a FileReport from a path in a Project."""
         path = Path(path)
@@ -378,6 +396,26 @@ class FileReport:
                 # Add license to report.
                 report.spdxfile.licenses_in_file.append(identifier)
 
+        if not add_license_concluded:
+            report.spdxfile.license_concluded = "NOASSERTION"
+        elif not spdx_info.spdx_expressions:
+            report.spdxfile.license_concluded = "NONE"
+        else:
+            # Merge all the license expressions together, wrapping them in
+            # parentheses to make sure an expression doesn't spill into another
+            # one. The extra parentheses will be removed by the roundtrip
+            # through parse() -> simplify() -> render().
+            report.spdxfile.license_concluded = (
+                _LICENSING.parse(
+                    " AND ".join(
+                        f"({expression})"
+                        for expression in spdx_info.spdx_expressions
+                    ),
+                )
+                .simplify()
+                .render()
+            )
+
         # Copyright text
         report.spdxfile.copyright = "\n".join(sorted(spdx_info.copyright_lines))
 
@@ -387,3 +425,13 @@ class FileReport:
         if self.spdxfile.chk_sum is not None:
             return hash(self.spdxfile.name + self.spdxfile.chk_sum)
         return super().__hash__(self)
+
+
+def format_creator(creator: str) -> str:
+    """Render the creator field based on the provided flag"""
+    if creator is None:
+        return "Anonymous ()"
+    if "(" in creator and creator.endswith(")"):
+        # The creator field already contains an email address
+        return creator
+    return creator + " ()"
