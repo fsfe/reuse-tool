@@ -86,9 +86,9 @@ def format_plain(report: ProjectReport) -> str:
         missing_licenses = data["non_compliant"]["missing_licenses"]
         if missing_licenses:
             output += "# " + _("MISSING LICENSES") + "\n\n"
-            for lic in zip(missing_licenses.keys()):
-                output += _("'{}' found in:").format(lic[0]) + "\n"
-                for file in missing_licenses[lic[0]]:
+            for lic in sorted(missing_licenses.keys()):
+                output += _("'{}' found in:").format(lic) + "\n"
+                for file in sorted(missing_licenses[lic]):
                     output += f"* {file}\n"
             output += "\n\n"
 
