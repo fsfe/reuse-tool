@@ -9,7 +9,7 @@ msgstr ""
 "#-#-#-#-#  reuse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-17 21:21+0000\n"
+"POT-Creation-Date: 2023-04-06 09:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "#-#-#-#-#  argparse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-17 21:21+0000\n"
+"POT-Creation-Date: 2023-04-06 09:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -579,6 +579,10 @@ msgstr ""
 msgid "Files with license information: {count} / {total}"
 msgstr ""
 
+#: src/reuse/lint.py:329
+msgid "prevents output"
+msgstr ""
+
 #: src/reuse/project.py:64
 msgid "could not find supported VCS"
 msgstr ""
@@ -627,17 +631,37 @@ msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 
-#: src/reuse/report.py:202
+#: src/reuse/report.py:215
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr ""
 
-#: src/reuse/report.py:209
+#: src/reuse/report.py:222
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr ""
 
-#: src/reuse/spdx.py:39
+#: src/reuse/spdx.py:30
+msgid ""
+"populate the LicenseConcluded field; note that reuse cannot guarantee the "
+"field is accurate"
+msgstr ""
+
+#: src/reuse/spdx.py:37
+msgid "name of the person signing off on the SPDX report"
+msgstr ""
+
+#: src/reuse/spdx.py:42
+msgid "name of the organization signing off on the SPDX report"
+msgstr ""
+
+#: src/reuse/spdx.py:58
+msgid ""
+"error: --creator-person=NAME or --creator-organization=NAME required when --"
+"add-license-concluded is provided"
+msgstr ""
+
+#: src/reuse/spdx.py:73
 #, python-brace-format
 msgid ""
 "'{path}' does not match a common SPDX file pattern. Find the suggested "
