@@ -9,7 +9,7 @@ msgstr ""
 "#-#-#-#-#  reuse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-06 13:17+0000\n"
+"POT-Creation-Date: 2023-04-06 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "#-#-#-#-#  argparse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-06 13:17+0000\n"
+"POT-Creation-Date: 2023-04-06 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,41 +217,41 @@ msgid ""
 "Identifiers."
 msgstr ""
 
-#: src/reuse/download.py:84
+#: src/reuse/download.py:86
 msgid "SPDX License Identifier of license"
 msgstr ""
 
-#: src/reuse/download.py:89
+#: src/reuse/download.py:91
 msgid "download all missing licenses detected in the project"
 msgstr ""
 
-#: src/reuse/download.py:101
+#: src/reuse/download.py:103
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr ""
 
-#: src/reuse/download.py:108
+#: src/reuse/download.py:110
 msgid "Error: Failed to download license."
 msgstr ""
 
-#: src/reuse/download.py:113
+#: src/reuse/download.py:115
 msgid "Is your internet connection working?"
 msgstr ""
 
-#: src/reuse/download.py:118
+#: src/reuse/download.py:120
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr ""
 
-#: src/reuse/download.py:130
+#: src/reuse/download.py:132
 msgid "--output has no effect when used together with --all"
 msgstr ""
 
-#: src/reuse/download.py:134
+#: src/reuse/download.py:136
 msgid "the following arguments are required: license"
 msgstr ""
 
-#: src/reuse/download.py:136
+#: src/reuse/download.py:138
 msgid "cannot use --output with more than one license"
 msgstr ""
 
