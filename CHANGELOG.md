@@ -69,6 +69,8 @@ The versions follow [semantic versioning](https://semver.org).
 - Fixed a compatibility issue where reuse could not be installed (built) if
   gettext is not installed. (#691)
 - Translations are available in Docker images. (#701)
+- Marked the `/data` directory in Docker containers as safe in Git, preventing
+  errors related to linting Git repositories. (#720)
 
 ### Security
 
