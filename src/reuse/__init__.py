@@ -9,8 +9,12 @@ import gettext
 import logging
 import os
 import re
-from importlib.metadata import PackageNotFoundError, version
 from typing import NamedTuple, Set
+
+try:
+    from importlib.metadata import PackageNotFoundError, version
+except ImportError:
+    from importlib_metadata import PackageNotFoundError, version
 
 from boolean.boolean import Expression
 
