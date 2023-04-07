@@ -122,8 +122,9 @@ class Project:
                 elif the_dir.is_symlink():
                     _LOGGER.debug("skipping symlink '%s'", the_dir)
                     dirs.remove(dir_)
-                elif not self.include_submodules and self._is_submodule(
-                    the_dir
+                elif (
+                    not self.include_submodules
+                    and self.vcs_strategy.is_submodule(the_dir)
                 ):
                     _LOGGER.info(
                         "ignoring '%s' because it is a submodule", the_dir
@@ -255,35 +256,6 @@ class Project:
             return path.relative_to(self.root)
         except ValueError:
             return Path(os.path.relpath(path, start=self.root))
-
-    def _is_submodule(self, path: Path) -> bool:
-        """Is *path* a submodule specified in .gitmodules?"""
-        if not GIT_EXE:
-            # If git is not present fallback to checking if .git exists
-            return (path / ".git").exists()
-        command = [
-            GIT_EXE,
-            "config",
-            "-z",
-            "--file",
-            ".gitmodules",
-            "--get-regexp",
-            "\\.path$",
-        ]
-        result = execute_command(
-            command,
-            _LOGGER,
-            cwd=self.root,
-        )
-        submodule_entries = filter(
-            lambda x: len(x) > 0, result.stdout.decode().split("\0")
-        )
-        submodule_paths = map(lambda x: x.splitlines()[1], submodule_entries)
-        return any(
-            self.relative_from_root(path).resolve()
-            == Path(submodule_path).resolve()
-            for submodule_path in submodule_paths
-        )
 
     def _is_path_ignored(self, path: Path) -> bool:
         """Is *path* ignored by some mechanism?"""

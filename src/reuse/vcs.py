@@ -33,6 +33,10 @@ class VCSStrategy(ABC):
     def is_ignored(self, path: StrPath) -> bool:
         """Is *path* ignored by the VCS?"""
 
+    @abstractmethod
+    def is_submodule(self, path: StrPath) -> bool:
+        """Is *path* a VCS submodule?"""
+
     @classmethod
     @abstractmethod
     def in_repo(cls, directory: StrPath) -> bool:
@@ -63,6 +67,9 @@ class VCSStrategyNone(VCSStrategy):
     def is_ignored(self, path: StrPath) -> bool:
         return False
 
+    def is_submodule(self, path: StrPath) -> bool:
+        return False
+
     @classmethod
     def in_repo(cls, directory: StrPath) -> bool:
         return False
@@ -80,6 +87,7 @@ class VCSStrategyGit(VCSStrategy):
         if not GIT_EXE:
             raise FileNotFoundError("Could not find binary for Git")
         self._all_ignored_files = self._find_all_ignored_files()
+        self._submodules = self._find_submodules()
 
     def _find_all_ignored_files(self) -> Set[Path]:
         """Return a set of all files ignored by git. If a whole directory is
@@ -103,9 +111,36 @@ class VCSStrategyGit(VCSStrategy):
         all_files = result.stdout.decode("utf-8").split("\0")
         return {Path(file_) for file_ in all_files}
 
+    def _find_submodules(self) -> Set[Path]:
+        command = [
+            str(GIT_EXE),
+            "config",
+            "-z",
+            "--file",
+            ".gitmodules",
+            "--get-regexp",
+            r"\.path$",
+        ]
+        result = execute_command(command, _LOGGER, cwd=self.project.root)
+        # The final element may be an empty string. Filter it.
+        submodule_entries = [
+            entry
+            for entry in result.stdout.decode("utf-8").split("\0")
+            if entry
+        ]
+        # Each entry looks a little like 'submodule.submodule.path\nmy_path'.
+        return {Path(entry.splitlines()[1]) for entry in submodule_entries}
+
     def is_ignored(self, path: StrPath) -> bool:
         path = self.project.relative_from_root(path)
         return path in self._all_ignored_files
+
+    def is_submodule(self, path: StrPath) -> bool:
+        return any(
+            self.project.relative_from_root(path).resolve()
+            == submodule_path.resolve()
+            for submodule_path in self._submodules
+        )
 
     @classmethod
     def in_repo(cls, directory: StrPath) -> bool:
@@ -170,6 +205,10 @@ class VCSStrategyHg(VCSStrategy):
     def is_ignored(self, path: StrPath) -> bool:
         path = self.project.relative_from_root(path)
         return path in self._all_ignored_files
+
+    def is_submodule(self, path: StrPath) -> bool:
+        # TODO: Implement me.
+        return False
 
     @classmethod
     def in_repo(cls, directory: StrPath) -> bool:
