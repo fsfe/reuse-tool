@@ -55,6 +55,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Changed
 
 - Bumped SPDX license list to v3.20. (#692)
+- Sphinx documentation: Switched from RTD theme to Furo. (#673, #716)
 
 ### Deprecated
 
