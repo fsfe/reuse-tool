@@ -63,7 +63,12 @@ class Project:
         elif HG_EXE and VCSStrategyHg.in_repo(self._root):
             self.vcs_strategy = VCSStrategyHg(self)
         else:
-            _LOGGER.warning(_("could not find supported VCS"))
+            _LOGGER.info(
+                _(
+                    "project is not a VCS repository or required VCS software"
+                    " is not installed"
+                )
+            )
             self.vcs_strategy = VCSStrategyNone(self)
 
         self.licenses_without_extension = {}
