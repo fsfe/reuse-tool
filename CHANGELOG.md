@@ -56,12 +56,16 @@ The versions follow [semantic versioning](https://semver.org).
 
 - Bumped SPDX license list to v3.20. (#692)
 - Sphinx documentation: Switched from RTD theme to Furo. (#673, #716)
+- Removed dependency on setuptools' `pkg_resources` to determine the installed
+  version of reuse. For Python <3.8, a dependency on `importlib-metadata` is
+  added. (#724)
 
 ### Deprecated
 
 ### Removed
 
 - Python 3.6 support has been dropped. (#673)
+- Removed runtime and build time dependency on `setuptools`. (#724)
 
 ### Fixed
 
