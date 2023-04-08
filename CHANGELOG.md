@@ -50,6 +50,12 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Changed
 
 - Alpine Docker image now uses 3.18 as base. (#846)
+- The Git submodule detection was made less naïve. Where previously it detected
+  a directory with a `.git` file as a submodule, it now uses the git command to
+  detect submodules. This helps detect (quoted from Git man page)
+  "[repositories] that were cloned independently and later added as a submodule
+  or old setups", which "have the submodule's git directory inside the submodule
+  instead of embedded into the superproject's git directory". (#687)
 
 ### Deprecated
 
