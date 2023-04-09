@@ -8,7 +8,9 @@
 import contextlib
 import logging
 import sys
+from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
+from typing import IO
 
 from . import _IGNORE_SPDX_PATTERNS
 from ._util import PathType
@@ -18,7 +20,7 @@ from .report import ProjectReport
 _LOGGER = logging.getLogger(__name__)
 
 
-def add_arguments(parser) -> None:
+def add_arguments(parser: ArgumentParser) -> None:
     """Add arguments to the parser."""
     parser.add_argument(
         "--output", "-o", dest="file", action="store", type=PathType("w")
@@ -43,7 +45,7 @@ def add_arguments(parser) -> None:
     )
 
 
-def run(args, project: Project, out=sys.stdout) -> int:
+def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """Print the project's bill of materials."""
     # The SPDX spec mandates that a creator must be specified when a license
     # conclusion is made, so here we enforce that. More context:
