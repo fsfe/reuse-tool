@@ -78,6 +78,22 @@ jobs:
           poetry run isort --check src/ tests/
           poetry run black .
 
+  mypy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install --no-interaction
+      - name: Test typing with mypy
+        run: |
+          poetry run mypy
+
   prettier:
     runs-on: ubuntu-20.04
     container: node:latest
