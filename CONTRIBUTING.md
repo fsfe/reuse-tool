@@ -51,6 +51,7 @@ Next, you'll find the following commands handy:
 - `poetry run reuse`
 - `poetry run pytest`
 - `poetry run pylint src`
+- `poetry run mypy`
 - `make docs`
 
 ## Development conventions
