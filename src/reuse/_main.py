@@ -10,7 +10,7 @@ import argparse
 import logging
 import sys
 from gettext import gettext as _
-from typing import List
+from typing import IO, Callable, List, Optional, Type, cast
 
 from . import (
     __REUSE_version__,
@@ -238,14 +238,14 @@ def parser() -> argparse.ArgumentParser:
 
 
 def add_command(  # pylint: disable=too-many-arguments,redefined-builtin
-    subparsers,
+    subparsers: argparse._SubParsersAction,
     name: str,
-    add_arguments_func,
-    run_func,
-    formatter_class=None,
-    description: str = None,
-    help: str = None,
-    aliases: list = None,
+    add_arguments_func: Callable[[argparse.ArgumentParser], None],
+    run_func: Callable[[argparse.Namespace, Project, IO[str]], int],
+    formatter_class: Optional[Type[argparse.HelpFormatter]] = None,
+    description: Optional[str] = None,
+    help: Optional[str] = None,
+    aliases: Optional[List[str]] = None,
 ) -> None:
     """Add a subparser for a command."""
     if formatter_class is None:
@@ -262,10 +262,10 @@ def add_command(  # pylint: disable=too-many-arguments,redefined-builtin
     subparser.set_defaults(parser=subparser)
 
 
-def main(args: List[str] = None, out=sys.stdout) -> int:
+def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
     """Main entry function."""
     if args is None:
-        args = sys.argv[1:]
+        args = cast(List[str], sys.argv[1:])
 
     main_parser = parser()
     parsed_args = main_parser.parse_args(args)
