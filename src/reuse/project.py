@@ -232,10 +232,11 @@ class Project:
             source_path=source_path, source_type=source_type
         )
 
-    def relative_from_root(self, path: Path) -> Path:
+    def relative_from_root(self, path: PathLike) -> Path:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
+        path = Path(path)
         try:
             return path.relative_to(self.root)
         except ValueError:
