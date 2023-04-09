@@ -97,6 +97,11 @@ line_length = 80
 addopts = "--doctest-modules"
 
 [[tool.mypy.overrides]]
+module = "reuse.*"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
 module = [
     "binaryornot.check",
     "boolean.boolean",
