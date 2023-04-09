@@ -21,11 +21,20 @@ import logging
 import os
 import re
 import sys
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
-from os import PathLike
 from pathlib import Path
-from typing import Iterable, List, NamedTuple, Optional, Sequence, Tuple
+from typing import (
+    IO,
+    Iterable,
+    NamedTuple,
+    Optional,
+    Sequence,
+    Set,
+    Tuple,
+    Type,
+    cast,
+)
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
@@ -37,6 +46,7 @@ from . import ReuseInfo
 from ._util import (
     _COPYRIGHT_STYLES,
     PathType,
+    StrPath,
     _determine_license_path,
     _determine_license_suffix_path,
     contains_reuse_info,
@@ -82,9 +92,9 @@ class MissingReuseInfo(Exception):
 # TODO: Add a template here maybe.
 def _create_new_header(
     reuse_info: ReuseInfo,
-    template: Template = None,
+    template: Optional[Template] = None,
     template_is_commented: bool = False,
-    style: CommentStyle = None,
+    style: Optional[Type[CommentStyle]] = None,
     force_multi: bool = False,
 ) -> str:
     """Format a new header from scratch.
@@ -96,7 +106,7 @@ def _create_new_header(
     if template is None:
         template = DEFAULT_TEMPLATE
     if style is None:
-        style = PythonCommentStyle
+        style = cast(Type[CommentStyle], PythonCommentStyle)
 
     rendered = template.render(
         copyright_lines=sorted(reuse_info.copyright_lines),
@@ -132,10 +142,10 @@ def _create_new_header(
 # pylint: disable=too-many-arguments
 def create_header(
     reuse_info: ReuseInfo,
-    header: str = None,
-    template: Template = None,
+    header: Optional[str] = None,
+    template: Optional[Template] = None,
     template_is_commented: bool = False,
-    style: CommentStyle = None,
+    style: Optional[Type[CommentStyle]] = None,
     force_multi: bool = False,
     merge_copyrights: bool = False,
 ) -> str:
@@ -203,7 +213,7 @@ def _indices_of_newlines(text: str) -> Sequence[int]:
 
 
 def _find_first_spdx_comment(
-    text: str, style: CommentStyle = None
+    text: str, style: Optional[Type[CommentStyle]] = None
 ) -> _TextSections:
     """Find the first SPDX comment in the file. Return a tuple with everything
     preceding the comment, the comment itself, and everything following it.
@@ -247,9 +257,9 @@ def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
 def find_and_replace_header(
     text: str,
     reuse_info: ReuseInfo,
-    template: Template = None,
+    template: Optional[Template] = None,
     template_is_commented: bool = False,
-    style: CommentStyle = None,
+    style: Optional[Type[CommentStyle]] = None,
     force_multi: bool = False,
     merge_copyrights: bool = False,
 ) -> str:
@@ -324,9 +334,9 @@ def find_and_replace_header(
 def add_new_header(
     text: str,
     reuse_info: ReuseInfo,
-    template: Template = None,
+    template: Optional[Template] = None,
     template_is_commented: bool = False,
-    style: CommentStyle = None,
+    style: Optional[Type[CommentStyle]] = None,
     force_multi: bool = False,
     merge_copyrights: bool = False,
 ) -> str:
@@ -365,11 +375,15 @@ def add_new_header(
     return new_text
 
 
-def _get_comment_style(path: Path) -> Optional[CommentStyle]:
+def _get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
     """Return value of CommentStyle detected for *path* or None."""
+    path = Path(path)
     style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
     if style is None:
-        style = EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower())
+        style = cast(
+            Optional[Type[CommentStyle]],
+            EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower()),
+        )
     return style
 
 
@@ -382,11 +396,11 @@ def _is_uncommentable(path: Path) -> bool:
 
 
 def _verify_paths_line_handling(
-    paths: List[Path],
+    paths: Iterable[Path],
     parser: ArgumentParser,
     force_single: bool,
     force_multi: bool,
-):
+) -> None:
     """This function aborts the parser when *force_single* or *force_multi* is
     used, but the file type does not support that type of comment style.
     """
@@ -410,7 +424,9 @@ def _verify_paths_line_handling(
             )
 
 
-def _verify_paths_comment_style(paths: List[Path], parser: ArgumentParser):
+def _verify_paths_comment_style(
+    paths: Iterable[Path], parser: ArgumentParser
+) -> None:
     unrecognised_files = []
 
     for path in paths:
@@ -459,30 +475,30 @@ def _find_template(project: Project, name: str) -> Template:
 
 
 def _add_header_to_file(
-    path: PathLike,
+    path: StrPath,
     reuse_info: ReuseInfo,
-    template: Template,
+    template: Optional[Template],
     template_is_commented: bool,
     style: Optional[str],
     force_multi: bool = False,
     skip_existing: bool = False,
     merge_copyrights: bool = False,
     replace: bool = True,
-    out=sys.stdout,
+    out: IO[str] = sys.stdout,
 ) -> int:
     """Helper function."""
-    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-arguments,too-many-locals
     result = 0
     if style is not None:
-        style = NAME_STYLE_MAP[style]
+        comment_style: Optional[Type[CommentStyle]] = NAME_STYLE_MAP.get(style)
     else:
-        style = _get_comment_style(path)
-        if style is None:
-            out.write(_("Skipped unrecognised file {path}").format(path=path))
-            out.write("\n")
-            return result
+        comment_style = _get_comment_style(path)
+    if comment_style is None:
+        out.write(_("Skipped unrecognised file {path}").format(path=path))
+        out.write("\n")
+        return result
 
-    with path.open("r", encoding="utf-8", newline="") as fp:
+    with open(path, "r", encoding="utf-8", newline="") as fp:
         text = fp.read()
 
     # Ideally, this check is done elsewhere. But that would necessitate reading
@@ -508,7 +524,7 @@ def _add_header_to_file(
                 reuse_info,
                 template=template,
                 template_is_commented=template_is_commented,
-                style=style,
+                style=comment_style,
                 force_multi=force_multi,
                 merge_copyrights=merge_copyrights,
             )
@@ -518,7 +534,7 @@ def _add_header_to_file(
                 reuse_info,
                 template=template,
                 template_is_commented=template_is_commented,
-                style=style,
+                style=comment_style,
                 force_multi=force_multi,
                 merge_copyrights=merge_copyrights,
             )
@@ -539,7 +555,7 @@ def _add_header_to_file(
         out.write("\n")
         result = 1
     else:
-        with path.open("w", encoding="utf-8", newline=line_ending) as fp:
+        with open(path, "w", encoding="utf-8", newline=line_ending) as fp:
             fp.write(output)
         # TODO: This may need to be rephrased more elegantly.
         out.write(_("Successfully changed header of {path}").format(path=path))
@@ -548,7 +564,9 @@ def _add_header_to_file(
     return result
 
 
-def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
+def _verify_write_access(
+    paths: Iterable[StrPath], parser: ArgumentParser
+) -> None:
     not_writeable = [
         str(path) for path in paths if not os.access(path, os.W_OK)
     ]
@@ -558,7 +576,7 @@ def _verify_write_access(paths: Iterable[PathLike], parser: ArgumentParser):
         )
 
 
-def add_arguments(parser) -> None:
+def add_arguments(parser: ArgumentParser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
         "--copyright",
@@ -666,7 +684,7 @@ def add_arguments(parser) -> None:
     parser.add_argument("path", action="store", nargs="+", type=PathType("r"))
 
 
-def run(args, project: Project, out=sys.stdout) -> int:
+def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """Add headers to files."""
     # pylint: disable=too-many-branches,too-many-locals,too-many-statements
     if "addheader" in args.parser.prog.split():
@@ -709,7 +727,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         args.force_dot_license = True
 
     if args.recursive:
-        paths = set()
+        paths: Set[Path] = set()
         all_files = [path.resolve() for path in project.all_files()]
         for path in args.path:
             if path.is_file():
@@ -739,19 +757,22 @@ def run(args, project: Project, out=sys.stdout) -> int:
         if not args.skip_unrecognised:
             _verify_paths_comment_style(paths, args.parser)
 
-    template = None
+    template: Optional[Template] = None
     commented = False
     if args.template:
         try:
-            template = _find_template(project, args.template)
+            template = cast(Template, _find_template(project, args.template))
         except TemplateNotFound:
             args.parser.error(
                 _("template {template} could not be found").format(
                     template=args.template
                 )
             )
+            # This code is never reached, but mypy is not aware that
+            # parser.error quits the program.
+            raise
 
-        if ".commented" in Path(template.name).suffixes:
+        if ".commented" in Path(cast(str, template.name)).suffixes:
             commented = True
 
     year = None
@@ -761,7 +782,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         elif args.year:
             year = args.year.pop()
         else:
-            year = datetime.date.today().year
+            year = str(datetime.date.today().year)
 
     expressions = set(args.license) if args.license is not None else set()
     copyright_style = (

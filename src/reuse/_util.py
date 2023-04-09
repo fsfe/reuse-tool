@@ -235,7 +235,7 @@ def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:
             map(_LICENSING.parse, [result.license.synopsis])  # type: ignore
         ),
         copyright_lines=set(
-            map(str.strip, result.copyright.splitlines())  # type:ignore
+            map(str.strip, result.copyright.splitlines())  # type: ignore
         ),
         source_type=SourceType.DEP5_FILE,
     )
