@@ -18,7 +18,7 @@ import sys
 from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
-from typing import Optional
+from typing import Generator
 from unittest.mock import create_autospec
 
 import pytest
@@ -72,7 +72,7 @@ def git_exe() -> str:
     """Run the test with git."""
     if not GIT_EXE:
         pytest.skip("cannot run this test without git")
-    yield GIT_EXE
+    return str(GIT_EXE)
 
 
 @pytest.fixture()
@@ -80,11 +80,11 @@ def hg_exe() -> str:
     """Run the test with mercurial (hg)."""
     if not HG_EXE:
         pytest.skip("cannot run this test without mercurial")
-    yield HG_EXE
+    return str(HG_EXE)
 
 
 @pytest.fixture(params=[True, False])
-def multiprocessing(request, monkeypatch) -> bool:
+def multiprocessing(request, monkeypatch) -> Generator[bool, None, None]:
     """Run the test with or without multiprocessing."""
     if not request.param:
         monkeypatch.delattr(mp, "Pool")
@@ -92,7 +92,7 @@ def multiprocessing(request, monkeypatch) -> bool:
 
 
 @pytest.fixture(params=[True, False])
-def add_license_concluded(request) -> bool:
+def add_license_concluded(request) -> Generator[bool, None, None]:
     yield request
 
 
@@ -169,7 +169,7 @@ def _repo_contents(
 
 
 @pytest.fixture()
-def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
+def git_repository(fake_repository: Path, git_exe: str) -> Path:
     """Create a git repository with ignored files."""
     os.chdir(fake_repository)
     _repo_contents(fake_repository)
@@ -197,7 +197,7 @@ def git_repository(fake_repository: Path, git_exe: Optional[str]) -> Path:
 
 
 @pytest.fixture()
-def hg_repository(fake_repository: Path, hg_exe: Optional[str]) -> Path:
+def hg_repository(fake_repository: Path, hg_exe: str) -> Path:
     """Create a mercurial repository with ignored files."""
     os.chdir(fake_repository)
     _repo_contents(
@@ -225,7 +225,7 @@ def hg_repository(fake_repository: Path, hg_exe: Optional[str]) -> Path:
 
 @pytest.fixture()
 def submodule_repository(
-    git_repository: Path, git_exe: Optional[str], tmpdir_factory
+    git_repository: Path, git_exe: str, tmpdir_factory
 ) -> Path:
     """Create a git repository that contains a submodule."""
     header = cleandoc(
