@@ -53,6 +53,15 @@ Next, you'll find the following commands handy:
 - `poetry run pylint src`
 - `make docs`
 
+## Development conventions
+
+### Poetry
+
+Because our downstreams may not have a very recent version of Poetry, we should
+target `poetry-core~=1.0.0` and `poetry~=1.1.0` when interacting with Poetry,
+especially when generating the `poetry.lock` file. You can
+`pip install poetry~=1.1.0` to ascertain that you always get this right.
+
 ## Release checklist
 
 - Verify changelog
