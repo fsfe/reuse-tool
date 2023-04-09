@@ -73,7 +73,7 @@ class VCSStrategyNone(VCSStrategy):
 class VCSStrategyGit(VCSStrategy):
     """Strategy that is used for Git."""
 
-    def __init__(self, project):
+    def __init__(self, project: Project):
         super().__init__(project)
         if not GIT_EXE:
             raise FileNotFoundError("Could not find binary for Git")
