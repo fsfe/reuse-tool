@@ -22,7 +22,7 @@ import re
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from importlib.metadata import PackageNotFoundError, version
-from typing import NamedTuple, Optional, Set, Type
+from typing import Any, Dict, NamedTuple, Optional, Set, Type
 
 from boolean.boolean import Expression
 
@@ -109,7 +109,7 @@ class ReuseInfo:
     source_path: Optional[str] = None
     source_type: Optional[SourceType] = None
 
-    def _check_nonexistent(self, **kwargs) -> None:
+    def _check_nonexistent(self, **kwargs: Any) -> None:
         nonexistent_attributes = set(kwargs) - set(self.__dict__)
         if nonexistent_attributes:
             raise KeyError(
@@ -117,7 +117,7 @@ class ReuseInfo:
                 f" {self.__class__}: {', '.join(nonexistent_attributes)}"
             )
 
-    def copy(self, **kwargs) -> Type["ReuseInfo"]:
+    def copy(self, **kwargs: Any) -> "ReuseInfo":
         """Return a copy of ReuseInfo, replacing the values of attributes with
         the values from *kwargs*.
         """
@@ -125,9 +125,9 @@ class ReuseInfo:
         new_kwargs = {}
         for key, value in self.__dict__.items():
             new_kwargs[key] = kwargs.get(key, value)
-        return self.__class__(**new_kwargs)
+        return self.__class__(**new_kwargs)  # type: ignore
 
-    def union(self, value) -> Type["ReuseInfo"]:
+    def union(self, value: "ReuseInfo") -> "ReuseInfo":
         """Return a new instance of ReuseInfo where all Set attributes are equal
         to the union of the set in *self* and the set in *value*.
 
@@ -147,16 +147,16 @@ class ReuseInfo:
                 new_kwargs[key] = attr_val.union(other_val)
             else:
                 new_kwargs[key] = attr_val
-        return self.__class__(**new_kwargs)
+        return self.__class__(**new_kwargs)  # type: ignore
 
     def contains_copyright_or_licensing(self) -> bool:
         """Either *spdx_expressions* or *copyright_lines* is non-empty."""
         return bool(self.spdx_expressions or self.copyright_lines)
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return any(self.__dict__.values())
 
-    def __or__(self, value) -> Type["ReuseInfo"]:
+    def __or__(self, value: "ReuseInfo") -> "ReuseInfo":
         return self.union(value)
 
 
