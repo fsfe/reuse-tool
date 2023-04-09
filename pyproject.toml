@@ -95,3 +95,12 @@ line_length = 80
 
 [tool.pytest.ini_options]
 addopts = "--doctest-modules"
+
+[[tool.mypy.overrides]]
+module = [
+    "binaryornot.check",
+    "boolean.boolean",
+    "license_expression",
+    "pkg_resources",
+]
+ignore_missing_imports = true
