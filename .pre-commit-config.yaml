@@ -19,6 +19,10 @@ repos:
       - id: isort
         name: isort (pyi)
         types: [pyi]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.2.0
+    hooks:
+      - id: mypy
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.7.1
     hooks:
