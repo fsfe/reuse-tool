@@ -45,7 +45,6 @@ def test_create_header_simple_with_contributor():
     expected = cleandoc(
         """
         # SPDX-FileCopyrightText: Jane Doe
-        #
         # SPDX-FileContributor: John Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later

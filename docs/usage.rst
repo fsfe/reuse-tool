@@ -161,6 +161,9 @@ The default template is:
   {% for copyright_line in copyright_lines %}
   {{ copyright_line }}
   {% endfor %}
+  {% for contributor_line in contributor_lines %}
+  SPDX-FileContributor: {{ contributor_line }}
+  {% endfor %}
 
   {% for expression in spdx_expressions %}
   SPDX-License-Identifier: {{ expression }}
@@ -177,6 +180,7 @@ foo.py``.
 Inside of the template, you have access to the following variables:
 
 - ``copyright_lines`` --- a list of copyright notices (string).
+- ``contributor_lines`` --- a list of contributors (string).
 - ``spdx_expressions`` --- a list of SPDX License Expressions (string).
 
 In the future, more variables will be added.

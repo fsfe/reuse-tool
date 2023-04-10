@@ -272,14 +272,13 @@ def test_annotate_contributors(
     """Add a header with contributor information."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
-    content = ["# SPDX-FileCopyrightText: 2018 Jane Doe", "#"]
+    content = ["# SPDX-FileCopyrightText: 2018 Jane Doe"]
 
     if contributors:
         for contributor in sorted(contributors):
             content.append(f"# SPDX-FileContributor: {contributor}")
-        content.append("#")
 
-    content += ["# SPDX-License-Identifier: GPL-3.0-or-later", "", "pass"]
+    content += ["#", "# SPDX-License-Identifier: GPL-3.0-or-later", "", "pass"]
     expected = cleandoc("\n".join(content))
 
     args = [
