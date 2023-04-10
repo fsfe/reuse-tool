@@ -87,7 +87,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         """
         # Setup report data container
         data = {
-            "json_version": "1.0",
+            "lint_version": "1.0",
             "reuse_version": __REUSE_version__,
             "non_compliant": {
                 "missing_licenses": self.missing_licenses,
