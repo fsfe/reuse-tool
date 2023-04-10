@@ -77,6 +77,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self._used_licenses = None
         self._files_without_licenses = None
         self._files_without_copyright = None
+        self._is_compliant = None
 
     def to_dict_lint(self):
         """Collects and formats data relevant to linting from report and returns
@@ -116,19 +117,6 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         # Populate 'summary'
         number_of_files = len(self.file_reports)
-        is_compliant = not any(
-            any(result)
-            for result in (
-                data["non_compliant"]["missing_licenses"],
-                data["non_compliant"]["unused_licenses"],
-                data["non_compliant"]["bad_licenses"],
-                data["non_compliant"]["deprecated_licenses"],
-                data["non_compliant"]["licenses_without_extension"],
-                data["non_compliant"]["missing_copyright_info"],
-                data["non_compliant"]["missing_licensing_info"],
-                data["non_compliant"]["read_errors"],
-            )
-        )
         data["summary"] = {
             "used_licenses": list(self.used_licenses),
             "files_total": number_of_files,
@@ -136,7 +124,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             - len(self.files_without_copyright),
             "files_with_licensing_info": number_of_files
             - len(self.files_without_licenses),
-            "compliant": is_compliant,
+            "compliant": self.is_compliant,
         }
         return data
 
@@ -345,6 +333,27 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         }
 
         return self._files_without_copyright
+
+    @property
+    def is_compliant(self) -> bool:
+        """Whether the report is compliant with the REUSE Spec."""
+        if self._is_compliant is not None:
+            return self._is_compliant
+
+        self._is_compliant = not any(
+            (
+                self.missing_licenses,
+                self.unused_licenses,
+                self.bad_licenses,
+                self.deprecated_licenses,
+                self.licenses_without_extension,
+                self.files_without_copyright,
+                self.files_without_licenses,
+                self.read_errors,
+            )
+        )
+
+        return self._is_compliant
 
 
 class _File:  # pylint: disable=too-few-public-methods
