@@ -17,7 +17,9 @@ Every release contains the following sections:
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
-The versions follow [semantic versioning](https://semver.org).
+The versions follow [semantic versioning](https://semver.org) for the `reuse`
+CLI command and its behaviour. There are no guarantees of stability for the
+`reuse` Python library.
 
 <!--
 ## Unreleased - YYYY-MM-DD
