@@ -60,10 +60,13 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Additional license metadata for the Python package has been added. The actual
   SPDX license expression remains the same:
   `Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later`. (#733)
+- Added `--contributor` option to `annotate`. (#669)
 
 ### Changed
 
 - Bumped SPDX license list to v3.20. (#692)
+- `reuse.SpdxInfo` is now a (frozen) dataclass instead of a namedtuple. This is
+  only relevant if you're using reuse as a library in Python. (#669)
 - Sphinx documentation: Switched from RTD theme to Furo. (#673, #716)
 
 ### Deprecated
