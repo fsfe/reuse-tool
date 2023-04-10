@@ -11,6 +11,7 @@
 
 import json
 import os
+from typing import Dict, List, Tuple
 
 _BASE_DIR = os.path.dirname(__file__)
 _RESOURCES_DIR = os.path.join(_BASE_DIR, "resources")
@@ -18,7 +19,7 @@ _LICENSES = os.path.join(_RESOURCES_DIR, "licenses.json")
 _EXCEPTIONS = os.path.join(_RESOURCES_DIR, "exceptions.json")
 
 
-def _load_license_list(file_name):
+def _load_license_list(file_name: str) -> Tuple[List[int], Dict[str, Dict]]:
     """Return the licenses list version tuple and a mapping of licenses
     id->name loaded from a JSON file
     from https://github.com/spdx/license-list-data
@@ -33,7 +34,7 @@ def _load_license_list(file_name):
     return version, licenses_map
 
 
-def _load_exception_list(file_name):
+def _load_exception_list(file_name: str) -> Tuple[List[int], Dict[str, Dict]]:
     """Return the exceptions list version tuple and a mapping of
     exceptions id->name loaded from a JSON file
     from https://github.com/spdx/license-list-data
