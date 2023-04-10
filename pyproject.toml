@@ -97,6 +97,10 @@ line_length = 80
 addopts = "--doctest-modules"
 
 [tool.mypy]
+files = [
+    "src/reuse/**.py",
+    "tests/**.py",
+]
 exclude = [
     '^_build\.py$',
     '^conf\.py$',
