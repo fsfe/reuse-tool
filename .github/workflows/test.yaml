@@ -57,9 +57,9 @@ jobs:
         run: |
           pip install poetry
           poetry install --no-interaction
-      - name: Lint with PyLint
+      - name: Lint with Pylint
         run: |
-          poetry run pylint src/reuse tests/*.py
+          poetry run pylint src/reuse/ tests/
 
   black:
     runs-on: ubuntu-20.04

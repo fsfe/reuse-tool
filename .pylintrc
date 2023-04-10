@@ -9,7 +9,7 @@ jobs=0
 
 [MESSAGES CONTROL]
 
-disable=R0801,
+disable=duplicate-code,
          logging-fstring-interpolation,
          implicit-str-concat
 enable=useless-suppression

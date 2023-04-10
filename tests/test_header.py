@@ -5,8 +5,6 @@
 
 """All tests for reuse.header"""
 
-# pylint: disable=implicit-str-concat-in-sequence
-
 from inspect import cleandoc
 
 import pytest
