@@ -246,21 +246,6 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
-def lint(report: ProjectReport, formatter=format_plain, out=sys.stdout) -> bool:
-    """Lints the entire project
-
-    :param report: Dictionary holding formatted ProjectReport data
-    :param formatter: Callable that formats the data dictionary
-    :param out: Where to output
-    """
-
-    out.write(formatter(report))
-
-    data = report.to_dict_lint()
-    result = data["summary"]["compliant"]
-    return result
-
-
 def run(args, project: Project, out=sys.stdout, formatter=format_plain):
     """List all non-compliant files."""
     report = ProjectReport.generate(
@@ -278,6 +263,6 @@ def run(args, project: Project, out=sys.stdout, formatter=format_plain):
         else:
             formatter = format_plain
 
-        result = lint(report, formatter=formatter, out=out)
+        out.write(formatter(report))
 
-    return 0 if result else 1
+    return 0 if report.is_compliant else 1
