@@ -62,6 +62,7 @@ The versions follow [semantic versioning](https://semver.org).
 ### Removed
 
 - Python 3.6 support has been dropped. (#673)
+- `sphinxcontrib-apidoc` dependency removed for Sphinx docs compilation. (#732)
 
 ### Fixed
 
