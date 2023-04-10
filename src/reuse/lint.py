@@ -49,7 +49,7 @@ def format_plain(report: ProjectReport) -> str:
     :return: String (in plaintext) that can be output to sys.stdout
     """
     output = ""
-    data = report.to_dict()
+    data = report.to_dict_lint()
 
     # If the project is not compliant:
     if not data["summary"]["compliant"]:
@@ -238,7 +238,7 @@ def format_json(report: ProjectReport) -> str:
         )
 
     return json.dumps(
-        report.to_dict(),
+        report.to_dict_lint(),
         indent=2,
         # Serialize sets to lists
         default=custom_serializer,
@@ -256,7 +256,7 @@ def lint(report: ProjectReport, formatter=format_plain, out=sys.stdout) -> bool:
 
     out.write(formatter(report))
 
-    data = report.to_dict()
+    data = report.to_dict_lint()
     result = data["summary"]["compliant"]
     return result
 

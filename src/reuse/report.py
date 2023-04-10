@@ -78,10 +78,10 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self._files_without_licenses = None
         self._files_without_copyright = None
 
-    def to_dict(self):
-        """Collects and formats data from report and returns it as a dictionary
+    def to_dict_lint(self):
+        """Collects and formats data relevant to linting from report and returns
+        it as a dictionary.
 
-        :param report: ProjectReport object
         :return: Dictionary containing data from the ProjectReport object
         """
         # Setup report data container
@@ -104,27 +104,15 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 ],
                 "read_errors": [str(file) for file in self.read_errors],
             },
-            "files": {},
+            "files": [],
             "summary": {
                 "used_licenses": [],
             },
         }
 
         # Populate 'files'
-        for file in self.file_reports.copy():
-            copyrights = file.spdxfile.copyright.split("\n")
-            data["files"][str(file.path)] = {
-                "copyrights": [
-                    {"value": cop, "source": file.spdxfile.info.license_path}
-                    for cop in copyrights
-                    if cop
-                ],
-                "licenses": [
-                    {"value": lic, "source": file.spdxfile.info.license_path}
-                    for lic in file.spdxfile.licenses_in_file
-                    if lic
-                ],
-            }
+        for file_report in self.file_reports:
+            data["files"].append(file_report.to_dict_lint())
 
         # Populate 'summary'
         number_of_files = len(self.file_reports)
@@ -389,15 +377,24 @@ class FileReport:
         self.bad_licenses = set()
         self.missing_licenses = set()
 
-    def to_dict(self):
-        """Turn the report into a json-like dictionary."""
+    def to_dict_lint(self):
+        """Turn the report into a json-like dictionary with exclusively
+        information relevant for linting.
+        """
         return {
             "path": str(Path(self.path).resolve()),
-            "name": self.spdxfile.name,
-            "spdx_id": self.spdxfile.spdx_id,
-            "chk_sum": self.spdxfile.chk_sum,
-            "licenses_in_file": sorted(self.spdxfile.licenses_in_file),
-            "copyright": self.spdxfile.copyright,
+            # TODO: Why does every copyright line have the same source?
+            "copyrights": [
+                {"value": copyright_, "source": self.spdxfile.info.license_path}
+                for copyright_ in self.spdxfile.copyright.split("\n")
+                if copyright_
+            ],
+            # TODO: Why does every license expression have the same source?
+            "licenses": [
+                {"value": license_, "source": self.spdxfile.info.license_path}
+                for license_ in self.spdxfile.licenses_in_file
+                if license_
+            ],
         }
 
     @classmethod

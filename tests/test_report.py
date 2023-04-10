@@ -378,12 +378,12 @@ def test_generate_project_report_read_error(fake_repository, multiprocessing):
     assert (fake_repository / "bad") in result.read_errors
 
 
-def test_generate_project_report_to_dict(fake_repository, multiprocessing):
+def test_generate_project_report_to_dict_lint(fake_repository, multiprocessing):
     """Extremely simple test for ProjectReport.to_dict."""
     project = Project(fake_repository)
     report = ProjectReport.generate(project, multiprocessing=multiprocessing)
     # TODO: Actually do something
-    report.to_dict()
+    report.to_dict_lint()
 
 
 def test_bill_of_materials(fake_repository, multiprocessing):
