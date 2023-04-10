@@ -19,7 +19,6 @@ clean-build: ## remove build artifacts
 	rm -fr .eggs/
 	rm -fr pip-wheel-metadata/
 	find . -name '*.mo' -exec rm -f {} +
-	find ./po -name '*.pot' -exec rm -f {} +
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -fr {} +
 
@@ -51,8 +50,9 @@ reuse: dist ## check with self
 	poetry run reuse --root dist/reuse*/ lint
 
 .PHONY: docs
-docs: ## generate Sphinx HTML documentation, including API docs
+docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 	poetry export --with dev --without-hashes >docs/requirements.txt
+	poetry run sphinx-apidoc --separate --maxdepth 1 -o docs/api/ src/reuse
 	$(MAKE) -C docs html
 
 .PHONY: docs-ci
