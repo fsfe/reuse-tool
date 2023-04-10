@@ -96,6 +96,12 @@ line_length = 80
 [tool.pytest.ini_options]
 addopts = "--doctest-modules"
 
+[tool.mypy]
+exclude = [
+    '^_build\.py$',
+    '^conf\.py$',
+]
+
 [[tool.mypy.overrides]]
 module = "reuse.*"
 disallow_untyped_defs = true
