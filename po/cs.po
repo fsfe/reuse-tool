@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-17 21:21+0000\n"
-"PO-Revision-Date: 2023-04-03 12:37+0000\n"
+"PO-Revision-Date: 2023-04-12 13:49+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -481,199 +481,202 @@ msgstr "Chcete-li přidávání licencí ukončit, stiskněte klávesu RETURN."
 
 #: src/reuse/init.py:73
 msgid "Project already initialized"
-msgstr ""
+msgstr "Projekt je již inicializován"
 
 #: src/reuse/init.py:77
 msgid "Initializing project for REUSE."
-msgstr ""
+msgstr "Inicializace projektu REUSE."
 
 #: src/reuse/init.py:82
 msgid "What is the name of the project?"
-msgstr ""
+msgstr "Jaký je název projektu?"
 
 #: src/reuse/init.py:88
 msgid "What is the internet address of the project?"
-msgstr ""
+msgstr "Jaká je internetová adresa projektu?"
 
 #: src/reuse/init.py:94
 msgid "What is the name of the maintainer?"
-msgstr ""
+msgstr "Jak se jmenuje správce?"
 
 #: src/reuse/init.py:100
 msgid "What is the e-mail address of the maintainer?"
-msgstr ""
+msgstr "Jaká je e-mailová adresa správce?"
 
 #: src/reuse/init.py:106
 msgid "All done! Initializing now."
-msgstr ""
+msgstr "Hotovo! Inicializuje se."
 
 #: src/reuse/init.py:114
 msgid "Downloading {}"
-msgstr ""
+msgstr "Stahování {}"
 
 #: src/reuse/init.py:119
 msgid "{} already exists"
-msgstr ""
+msgstr "{} již existuje"
 
 #: src/reuse/init.py:122
 msgid "Could not download {}"
-msgstr ""
+msgstr "Nelze stáhnout {}"
 
 #: src/reuse/init.py:127
 msgid "Creating .reuse/dep5"
-msgstr ""
+msgstr "Vytvoření .reuse/dep5"
 
 #: src/reuse/init.py:150
 msgid "Initialization complete."
-msgstr ""
+msgstr "Inicializace dokončena."
 
 #: src/reuse/lint.py:56
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
-msgstr ""
+msgstr "Gratulujeme! Váš projekt je v souladu s verzí {} specifikace REUSE :-)"
 
 #: src/reuse/lint.py:63
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
-msgstr ""
+msgstr "Váš projekt bohužel není v souladu s verzí {} specifikace REUSE :-("
 
 #: src/reuse/lint.py:80
 msgid "BAD LICENSES"
-msgstr ""
+msgstr "NEVHODNÉ LICENCE"
 
 #: src/reuse/lint.py:84 src/reuse/lint.py:149
 msgid "'{}' found in:"
-msgstr ""
+msgstr "'{}' nalezeno v:"
 
 #: src/reuse/lint.py:102
 msgid "DEPRECATED LICENSES"
-msgstr ""
+msgstr "ZASTARALÉ LICENCE"
 
 #: src/reuse/lint.py:104
 msgid "The following licenses are deprecated by SPDX:"
-msgstr ""
+msgstr "Následující licence jsou v SPDX zrušeny:"
 
 #: src/reuse/lint.py:122
 msgid "LICENSES WITHOUT FILE EXTENSION"
-msgstr ""
+msgstr "LICENCE BEZ KONCOVKY SOUBORU"
 
 #: src/reuse/lint.py:124
 msgid "The following licenses have no file extension:"
-msgstr ""
+msgstr "Následující licence nemají příponu souboru:"
 
 #: src/reuse/lint.py:144
 msgid "MISSING LICENSES"
-msgstr ""
+msgstr "CHYBĚJÍCÍ LICENCE"
 
 #: src/reuse/lint.py:167
 msgid "UNUSED LICENSES"
-msgstr ""
+msgstr "NEPOUŽITÉ LICENCE"
 
 #: src/reuse/lint.py:169
 msgid "The following licenses are not used:"
-msgstr ""
+msgstr "Následující licence nejsou používány:"
 
 #: src/reuse/lint.py:185
 msgid "READ ERRORS"
-msgstr ""
+msgstr "CHYBY ČTENÍ"
 
 #: src/reuse/lint.py:187
 msgid "Could not read:"
-msgstr ""
+msgstr "Nelze načíst:"
 
 #: src/reuse/lint.py:210
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
-msgstr ""
+msgstr "CHYBĚJÍCÍ INFORMACE O AUTORSKÝCH PRÁVECH A LICENCÍCH"
 
 #: src/reuse/lint.py:215
 msgid "The following files have no copyright and licensing information:"
 msgstr ""
+"Následující soubory neobsahují žádné informace o autorských právech a "
+"licencích:"
 
 #: src/reuse/lint.py:224
 msgid "The following files have no copyright information:"
-msgstr ""
+msgstr "Následující soubory nemají žádné informace o autorských právech:"
 
 #: src/reuse/lint.py:230
 msgid "The following files have no licensing information:"
-msgstr ""
+msgstr "Následující soubory neobsahují žádné licenční informace:"
 
 #: src/reuse/lint.py:244
 msgid "SUMMARY"
-msgstr ""
+msgstr "SHRNUTÍ"
 
 #: src/reuse/lint.py:250
 msgid "Bad licenses:"
-msgstr ""
+msgstr "Neplatné licence:"
 
 #: src/reuse/lint.py:259
 msgid "Deprecated licenses:"
-msgstr ""
+msgstr "Zastaralé licence:"
 
 #: src/reuse/lint.py:268
 msgid "Licenses without file extension:"
-msgstr ""
+msgstr "Licence bez přípony souboru:"
 
 #: src/reuse/lint.py:277
 msgid "Missing licenses:"
-msgstr ""
+msgstr "Chybějící licence:"
 
 #: src/reuse/lint.py:286
 msgid "Unused licenses:"
-msgstr ""
+msgstr "Nepoužité licence:"
 
 #: src/reuse/lint.py:295
 msgid "Used licenses:"
-msgstr ""
+msgstr "Použité licence:"
 
 #: src/reuse/lint.py:304
 #, python-brace-format
 msgid "Read errors: {count}"
-msgstr ""
+msgstr "Chyby čtení: {count}"
 
 #: src/reuse/lint.py:309
 #, python-brace-format
 msgid "Files with copyright information: {count} / {total}"
-msgstr ""
+msgstr "Soubory s informacemi o autorských právech: {count} / {total}"
 
 #: src/reuse/lint.py:318
 #, python-brace-format
 msgid "Files with license information: {count} / {total}"
-msgstr ""
+msgstr "Soubory s licenčními informacemi: {count} / {total}"
 
 #: src/reuse/project.py:64
 msgid "could not find supported VCS"
-msgstr ""
+msgstr "nepodařilo se najít podporovaný VCS"
 
 #: src/reuse/project.py:155
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
-msgstr ""
+msgstr "'{path}' zahrnuto v .reuse/dep5"
 
 #: src/reuse/project.py:167
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
+"'{path}' obsahuje výraz SPDX, který nelze analyzovat a soubor se přeskočí"
 
 #: src/reuse/project.py:240
 msgid ".reuse/dep5 has syntax errors"
-msgstr ""
+msgstr ".reuse/dep5 obsahuje chyby syntaxe"
 
 #: src/reuse/project.py:242
 msgid ".reuse/dep5 could not be parsed as utf-8"
-msgstr ""
+msgstr ".reuse/dep5 nelze analyzovat jako utf-8"
 
 #: src/reuse/project.py:268
 #, python-brace-format
 msgid "determining identifier of '{path}'"
-msgstr ""
+msgstr "určující identifikátor '{path}'"
 
 #: src/reuse/project.py:276
 #, python-brace-format
 msgid "{path} does not have a file extension"
-msgstr ""
+msgstr "{path} nemá příponu souboru"
 
 #: src/reuse/project.py:286
 #, python-brace-format
@@ -683,22 +686,26 @@ msgid ""
 "spdx.org/licenses/> or that it starts with 'LicenseRef-', and that it has a "
 "file extension."
 msgstr ""
+"Nepodařilo se přeložit identifikátor licence SPDX {path}, přeloženo na "
+"{identifier}. Zkontrolujte, zda je licence v seznamu licencí nalezeném na "
+"adrese <https://spdx.org/licenses/> nebo zda začíná znakem 'LicenseRef-' a "
+"zda má příponu souboru."
 
 #: src/reuse/project.py:298
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
-msgstr ""
+msgstr "{identifier} je identifikátor licence SPDX jak {path}, tak {other_path}"
 
 #: src/reuse/report.py:202
 #, python-brace-format
 msgid "Could not read '{path}'"
-msgstr ""
+msgstr "Nepodařilo se načíst '{path}'"
 
 #: src/reuse/report.py:209
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
-msgstr ""
+msgstr "Při analýze souboru '{path}' došlo k neočekávané chybě"
 
 #: src/reuse/spdx.py:39
 #, python-brace-format
@@ -707,153 +714,158 @@ msgid ""
 "naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
 "standard-data-format-requirements"
 msgstr ""
+"'{path}' neodpovídá běžnému vzoru souboru SPDX. Navrhované konvence pro "
+"pojmenování najdete zde: https://spdx.github.io/spdx-spec/conformance/#44"
+"-standard-data-format-requirements"
 
 #: /usr/lib/python3.8/argparse.py:307
 msgid "usage: "
-msgstr ""
+msgstr "použití: "
 
 #: /usr/lib/python3.8/argparse.py:858
 msgid ".__call__() not defined"
-msgstr ""
+msgstr ".__call__() není definováno"
 
 #: /usr/lib/python3.8/argparse.py:1161
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
-msgstr ""
+msgstr "neznámý parser %(parser_name)r (volby: %(choices)s)"
 
 #: /usr/lib/python3.8/argparse.py:1221
 #, python-format
 msgid "argument \"-\" with mode %r"
-msgstr ""
+msgstr "argument \"-\" s režimem %r"
 
 #: /usr/lib/python3.8/argparse.py:1230
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
-msgstr ""
+msgstr "nelze otevřít '%(filename)s': %(error)s"
 
 #: /usr/lib/python3.8/argparse.py:1439
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
-msgstr ""
+msgstr "nelze sloučit akce - dvě skupiny se jmenují %r"
 
 #: /usr/lib/python3.8/argparse.py:1477
 msgid "'required' is an invalid argument for positionals"
-msgstr ""
+msgstr "'required' je neplatný argument pro pozicionály"
 
 #: /usr/lib/python3.8/argparse.py:1499
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
 "%(prefix_chars)r"
-msgstr ""
+msgstr "neplatný řetězec %(option)r: musí začínat znakem %(prefix_chars)r"
 
 #: /usr/lib/python3.8/argparse.py:1519
 #, python-format
 msgid "dest= is required for options like %r"
-msgstr ""
+msgstr "dest= je vyžadováno pro možnosti jako %r"
 
 #: /usr/lib/python3.8/argparse.py:1536
 #, python-format
 msgid "invalid conflict_resolution value: %r"
-msgstr ""
+msgstr "neplatná hodnota conflict_resolution: %r"
 
 #: /usr/lib/python3.8/argparse.py:1554
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "konfliktní volitelný řetězec: %s"
+msgstr[1] "konfliktní volitelné řetězce: %s"
+msgstr[2] "konfliktních volitelných řetězců: %s"
 
 #: /usr/lib/python3.8/argparse.py:1620
 msgid "mutually exclusive arguments must be optional"
-msgstr ""
+msgstr "vzájemně se vylučující argumenty musí být nepovinné"
 
 #: /usr/lib/python3.8/argparse.py:1683
 msgid "positional arguments"
-msgstr ""
+msgstr "poziční argumenty"
 
 #: /usr/lib/python3.8/argparse.py:1684
 msgid "optional arguments"
-msgstr ""
+msgstr "nepovinné argumenty"
 
 #: /usr/lib/python3.8/argparse.py:1699
 msgid "show this help message and exit"
-msgstr ""
+msgstr "zobrazit tuto nápovědu a ukončit"
 
 #: /usr/lib/python3.8/argparse.py:1730
 msgid "cannot have multiple subparser arguments"
-msgstr ""
+msgstr "nemůže mít více argumentů dílčího parseru"
 
 #: /usr/lib/python3.8/argparse.py:1782 /usr/lib/python3.8/argparse.py:2289
 #, python-format
 msgid "unrecognized arguments: %s"
-msgstr ""
+msgstr "neuznané argumenty: %s"
 
 #: /usr/lib/python3.8/argparse.py:1879
 #, python-format
 msgid "not allowed with argument %s"
-msgstr ""
+msgstr "není povoleno s argumentem %s"
 
 #: /usr/lib/python3.8/argparse.py:1925 /usr/lib/python3.8/argparse.py:1939
 #, python-format
 msgid "ignored explicit argument %r"
-msgstr ""
+msgstr "ignoroval explicitní argument %r"
 
 #: /usr/lib/python3.8/argparse.py:2046
 #, python-format
 msgid "the following arguments are required: %s"
-msgstr ""
+msgstr "jsou vyžadovány následující argumenty: %s"
 
 #: /usr/lib/python3.8/argparse.py:2061
 #, python-format
 msgid "one of the arguments %s is required"
-msgstr ""
+msgstr "jeden z argumentů %s je povinný"
 
 #: /usr/lib/python3.8/argparse.py:2104
 msgid "expected one argument"
-msgstr ""
+msgstr "očekávaný jeden argument"
 
 #: /usr/lib/python3.8/argparse.py:2105
 msgid "expected at most one argument"
-msgstr ""
+msgstr "očekává se nejvýše jeden argument"
 
 #: /usr/lib/python3.8/argparse.py:2106
 msgid "expected at least one argument"
-msgstr ""
+msgstr "očekává se alespoň jeden argument"
 
 #: /usr/lib/python3.8/argparse.py:2110
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "očekáván %s argument"
+msgstr[1] "očekávány %s argumenty"
+msgstr[2] "očekáváno %s argumentů"
 
 #: /usr/lib/python3.8/argparse.py:2168
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
-msgstr ""
+msgstr "nejednoznačná možnost: %(option)s by mohlo odpovídat %(matches)s"
 
 #: /usr/lib/python3.8/argparse.py:2232
 #, python-format
 msgid "unexpected option string: %s"
-msgstr ""
+msgstr "neočekávaný volitelný řetězec: %s"
 
 #: /usr/lib/python3.8/argparse.py:2429
 #, python-format
 msgid "%r is not callable"
-msgstr ""
+msgstr "%r nelze volat"
 
 #: /usr/lib/python3.8/argparse.py:2446
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
-msgstr ""
+msgstr "neplatná hodnota %(type)s: %(value)r"
 
 #: /usr/lib/python3.8/argparse.py:2457
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
-msgstr ""
+msgstr "neplatná volba: %(value)r (vyberte z %(choices)s)"
 
 #: /usr/lib/python3.8/argparse.py:2533
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
-msgstr ""
+msgstr "%(prog)s: chyba: %(message)s\n"
