@@ -52,7 +52,7 @@ reuse: dist ## check with self
 
 .PHONY: docs
 docs: ## generate Sphinx HTML documentation, including API docs
-	poetry export --with dev --without-hashes >docs/requirements.txt
+	poetry export --dev --without-hashes >docs/requirements.txt
 	$(MAKE) -C docs html
 
 .PHONY: docs-ci
