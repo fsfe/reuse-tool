@@ -1,6 +1,7 @@
 <!--
 SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+SPDX-FileCopyrightText: 2023 DB Systel GmbH
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
@@ -53,6 +54,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
   (#645).
 - `--add-license-concluded`, `--creator-person`, and `--creator-organization`
   added to `reuse spdx`. (#623)
+- Additional license metadata for the Python package has been added. The actual
+  SPDX license expression remains the same:
+  `Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later`. (#733)
 
 ### Changed
 
