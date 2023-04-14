@@ -48,6 +48,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - CommonJS (`.cjs`) (#632)
   - Qt .pro (`.pro`) (#632)
   - Textile (`.textile`) (#712)
+  - Svelte components (`.svelte`)
 - More files are recognised:
   - Clang format (`.clang-format`) (#632)
 - Added loglevel argument to pytest and skip one test if loglevel is too high

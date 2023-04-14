@@ -60,6 +60,8 @@ Contributors
 
 - Stefan Hynek <stefan.hynek@uni-goettingen.de>
 
+- roberto-red <roberto@redradix.com>
+
 Translators
 -----------
 

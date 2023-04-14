@@ -10,6 +10,7 @@
 # SPDX-FileCopyrightText: 2022 Stefan Hynek <stefan.hynek@uni-goettingen.de>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Sebastian Crane <seabass@fsfe.org>
+# SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -661,6 +662,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".sql": HaskellCommentStyle,
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
+    ".svelte": HtmlCommentStyle,
     ".swift": CCommentStyle,
     ".tex": TexCommentStyle,
     ".textile": HtmlCommentStyle,
