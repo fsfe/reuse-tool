@@ -701,6 +701,7 @@ EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
 
 FILENAME_COMMENT_STYLE_MAP = {
     ".bashrc": PythonCommentStyle,
+    ".browserslist": PythonCommentStyle,
     ".clang-format": PythonCommentStyle,
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
