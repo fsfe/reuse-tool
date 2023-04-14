@@ -714,6 +714,8 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".mailmap": PythonCommentStyle,
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
     ".npmignore": PythonCommentStyle,
+    ".prettierrc": UncommentableCommentStyle,  # could either be JSON or YAML
+    ".prettierignore": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,

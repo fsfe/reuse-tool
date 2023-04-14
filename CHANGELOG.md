@@ -52,6 +52,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - More files are recognised:
   - Clang format (`.clang-format`) (#632)
   - Browserslist config (`.browserslist`)
+  - Prettier config (`.prettierrc`) and ignored files (`.prettierignore`)
 - Added loglevel argument to pytest and skip one test if loglevel is too high
   (#645).
 - `--add-license-concluded`, `--creator-person`, and `--creator-organization`
