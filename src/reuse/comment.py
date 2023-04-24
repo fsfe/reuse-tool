@@ -10,6 +10,7 @@
 # SPDX-FileCopyrightText: 2022 Stefan Hynek <stefan.hynek@uni-goettingen.de>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Sebastian Crane <seabass@fsfe.org>
+# SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -661,6 +662,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".sql": HaskellCommentStyle,
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
+    ".svelte": HtmlCommentStyle,
     ".swift": CCommentStyle,
     ".tex": TexCommentStyle,
     ".textile": HtmlCommentStyle,
@@ -699,6 +701,7 @@ EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
 
 FILENAME_COMMENT_STYLE_MAP = {
     ".bashrc": PythonCommentStyle,
+    ".browserslist": PythonCommentStyle,
     ".clang-format": PythonCommentStyle,
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
@@ -711,6 +714,8 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".mailmap": PythonCommentStyle,
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
     ".npmignore": PythonCommentStyle,
+    ".prettierrc": UncommentableCommentStyle,  # could either be JSON or YAML
+    ".prettierignore": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
