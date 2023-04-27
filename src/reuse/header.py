@@ -680,8 +680,10 @@ def run(args, project: Project, out=sys.stdout) -> int:
             )
         )
 
-    if not any((args.copyright, args.license)):
-        args.parser.error(_("option --copyright or --license is required"))
+    if not any((args.contributor, args.copyright, args.license)):
+        args.parser.error(
+            _("option --contributor, --copyright or --license is required")
+        )
 
     if args.exclude_year and args.year:
         args.parser.error(

@@ -266,6 +266,40 @@ def test_annotate_shebang_wrong_comment_style(fake_repository, stringio):
     assert simple_file.read_text() == expected
 
 
+def test_annotate_contributors_only(
+    fake_repository, stringio, mock_date_today, contributors
+):
+    """Add a header with only contributor information."""
+
+    if not contributors:
+        pytest.skip("No contributors to add")
+
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    content = []
+
+    for contributor in sorted(contributors):
+        content.append(f"# SPDX-FileContributor: {contributor}")
+
+    content += ["", "pass"]
+    expected = cleandoc("\n".join(content))
+
+    args = [
+        "annotate",
+    ]
+    for contributor in contributors:
+        args += ["--contributor", contributor]
+    args += ["foo.py"]
+
+    result = main(
+        args,
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
 def test_annotate_contributors(
     fake_repository, stringio, mock_date_today, contributors
 ):
