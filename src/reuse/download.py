@@ -91,7 +91,7 @@ def put_license_in_file(
         if out is not None:
             out.write(_("Enter path to custom license file"))
             out.write("\n")
-            result = input()
+            result = input().strip()
             out.write("\n")
             if result:
                 source = Path(result) / "".join((spdx_identifier, ".txt"))
