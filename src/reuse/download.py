@@ -35,7 +35,7 @@ _SPDX_REPOSITORY_BASE_URL = (
     "https://raw.githubusercontent.com/spdx/license-list-data/master/text/"
 )
 
-REF_RE = re.compile("LicenseRef-.+")
+REF_RE = re.compile("LicenseRef-[a-zA-Z0-9-.]+$")
 
 
 def download_license(spdx_identifier: str) -> str:
