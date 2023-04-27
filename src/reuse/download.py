@@ -94,7 +94,9 @@ def put_license_in_file(
             result = input().strip()
             out.write("\n")
             if result:
-                source = Path(result) / "".join((spdx_identifier, ".txt"))
+                source = Path(result)
+                if source.is_dir():
+                    source = source / "".join((spdx_identifier, ".txt"))
                 shutil.copyfile(source, destination)
     else:
         text = download_license(spdx_identifier)
