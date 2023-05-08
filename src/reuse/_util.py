@@ -82,17 +82,17 @@ _IDENTIFIER_PATTERN = re.compile(
 _COPYRIGHT_PATTERNS = [
     re.compile(
         r"(?P<copyright>(?P<prefix>SPDX-(File|Snippet)CopyrightText:)\s+"
-        r"((?P<year>\d{4} *- *\d{4}|\d{4}),?\s+)?"
+        r"((?P<year>\d{4} ?- ?\d{4}|\d{4}),?\s+)?"
         r"(?P<statement>.*?))" + _END_PATTERN
     ),
     re.compile(
         r"(?P<copyright>(?P<prefix>Copyright(\s?\([cC]\))?)\s+"
-        r"((?P<year>\d{4} *- *\d{4}|\d{4}),?\s+)?"
+        r"((?P<year>\d{4} ?- ?\d{4}|\d{4}),?\s+)?"
         r"(?P<statement>.*?))" + _END_PATTERN
     ),
     re.compile(
         r"(?P<copyright>(?P<prefix>©)\s+"
-        r"((?P<year>\d{4} *- *\d{4}|\d{4}),?\s+)?"
+        r"((?P<year>\d{4} ?- ?\d{4}|\d{4}),?\s+)?"
         r"(?P<statement>.*?))" + _END_PATTERN
     ),
 ]
@@ -223,7 +223,7 @@ def _parse_copyright_year(year: str) -> list:
         ret = []
     if re.match(r"\d{4}$", year):
         ret = [int(year)]
-    if re.match(r"\d{4} *- *\d{4}$", year):
+    if re.match(r"\d{4} ?- ?\d{4}$", year):
         ret = [int(year[:4]), int(year[-4:])]
     return ret
 
