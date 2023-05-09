@@ -131,8 +131,13 @@ def run(
         except URLError:
             out.write(_("Could not download {}").format(lic))
             out.write("\n")
-        except FileNotFoundError:
-            out.write(_("Could not copy {}").format(lic))
+        except FileNotFoundError as err:
+            out.write(
+                _(
+                    "Error: Could not copy {path}, "
+                    "please add manually {lic}.txt in the LICENCES/ directory."
+                ).format(path=err.filename, lic=lic)
+            )
             out.write("\n")
 
     out.write("\n")

@@ -93,11 +93,10 @@ def put_license_in_file(
             out.write("\n")
             result = input().strip()
             out.write("\n")
-            if result:
-                source = Path(result)
-                if source.is_dir():
-                    source = source / "".join((spdx_identifier, ".txt"))
-                shutil.copyfile(source, destination)
+            source = Path(result)
+            if source.is_dir():
+                source = source / "".join((spdx_identifier, ".txt"))
+            shutil.copyfile(source, destination)
     else:
         text = download_license(spdx_identifier)
         with destination.open("w", encoding="utf-8") as fp:
