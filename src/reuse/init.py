@@ -135,7 +135,7 @@ def run(
             out.write(
                 _(
                     "Error: Could not copy {path}, "
-                    "please add manually {lic}.txt in the LICENCES/ directory."
+                    "please add {lic}.txt manually in the LICENCES/ directory."
                 ).format(path=err.filename, lic=lic)
             )
             out.write("\n")
