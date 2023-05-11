@@ -9,7 +9,7 @@ msgstr ""
 "#-#-#-#-#  reuse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 08:11+0000\n"
+"POT-Creation-Date: 2023-05-11 09:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "#-#-#-#-#  argparse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 08:11+0000\n"
+"POT-Creation-Date: 2023-05-11 09:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,6 +93,8 @@ msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files.\n"
 "\n"
+"By using --contributor, you can specify people or entity that contributed "
+"but are not copyright holder of the given files.\n"
 "The first comment is replaced with a new header containing the new copyright "
 "and licensing information and its former copyright and licensing. If you "
 "want to keep the first comment intact, use --no-replace.\n"
@@ -114,11 +116,11 @@ msgid ""
 "header is placed in a .license file."
 msgstr ""
 
-#: src/reuse/_main.py:158
+#: src/reuse/_main.py:161
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr ""
 
-#: src/reuse/_main.py:161
+#: src/reuse/_main.py:164
 msgid ""
 "Download a license and place it in the LICENSES/ directory.\n"
 "\n"
@@ -133,15 +135,15 @@ msgid ""
 "If the LICENSES/ directory cannot be found, one is simply created."
 msgstr ""
 
-#: src/reuse/_main.py:184
+#: src/reuse/_main.py:187
 msgid "initialize REUSE project"
 msgstr ""
 
-#: src/reuse/_main.py:192
+#: src/reuse/_main.py:195
 msgid "list all non-compliant files"
 msgstr ""
 
-#: src/reuse/_main.py:195
+#: src/reuse/_main.py:198
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -162,11 +164,11 @@ msgid ""
 "- Do all files have valid copyright and licensing information?"
 msgstr ""
 
-#: src/reuse/_main.py:222
+#: src/reuse/_main.py:225
 msgid "print the project's bill of materials in SPDX format"
 msgstr ""
 
-#: src/reuse/_main.py:230
+#: src/reuse/_main.py:233
 msgid "list all supported SPDX licenses"
 msgstr ""
 
@@ -191,7 +193,7 @@ msgstr ""
 msgid "can't write to directory '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:448 src/reuse/header.py:558
+#: src/reuse/_util.py:448 src/reuse/header.py:560
 msgid "can't write to '{}'"
 msgstr ""
 
@@ -255,45 +257,45 @@ msgstr ""
 msgid "cannot use --output with more than one license"
 msgstr ""
 
-#: src/reuse/header.py:121
+#: src/reuse/header.py:122
 msgid "generated comment is missing copyright lines or license expressions"
 msgstr ""
 
-#: src/reuse/header.py:401
+#: src/reuse/header.py:403
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use --single-"
 "line"
 msgstr ""
 
-#: src/reuse/header.py:408
+#: src/reuse/header.py:410
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use --multi-line"
 msgstr ""
 
-#: src/reuse/header.py:429
+#: src/reuse/header.py:431
 msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license or --skip-unrecognised:"
 msgstr ""
 
-#: src/reuse/header.py:482
+#: src/reuse/header.py:484
 #, python-brace-format
 msgid "Skipped unrecognised file {path}"
 msgstr ""
 
-#: src/reuse/header.py:494
+#: src/reuse/header.py:496
 #, python-brace-format
 msgid "Skipped file '{path}' already containing SPDX information"
 msgstr ""
 
-#: src/reuse/header.py:528
+#: src/reuse/header.py:530
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr ""
 
-#: src/reuse/header.py:535
+#: src/reuse/header.py:537
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -302,101 +304,105 @@ msgid ""
 msgstr ""
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/header.py:546
+#: src/reuse/header.py:548
 #, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr ""
 
-#: src/reuse/header.py:569
+#: src/reuse/header.py:571
 msgid "copyright statement, repeatable"
 msgstr ""
 
-#: src/reuse/header.py:576
+#: src/reuse/header.py:578
 msgid "SPDX Identifier, repeatable"
 msgstr ""
 
-#: src/reuse/header.py:583
-msgid "year of copyright statement, optional"
+#: src/reuse/header.py:584
+msgid "file contributor, repeatable"
 msgstr ""
 
 #: src/reuse/header.py:591
+msgid "year of copyright statement, optional"
+msgstr ""
+
+#: src/reuse/header.py:599
 msgid "comment style to use, optional"
 msgstr ""
 
-#: src/reuse/header.py:597
+#: src/reuse/header.py:605
 msgid "copyright style to use, optional"
 msgstr ""
 
-#: src/reuse/header.py:604
+#: src/reuse/header.py:612
 msgid "name of template to use, optional"
 msgstr ""
 
-#: src/reuse/header.py:609
+#: src/reuse/header.py:617
 msgid "do not include year in statement"
 msgstr ""
 
-#: src/reuse/header.py:614
+#: src/reuse/header.py:622
 msgid "merge copyright lines if copyright statements are identical"
 msgstr ""
 
-#: src/reuse/header.py:619
+#: src/reuse/header.py:627
 msgid "force single-line comment style, optional"
 msgstr ""
 
-#: src/reuse/header.py:624
+#: src/reuse/header.py:632
 msgid "force multi-line comment style, optional"
 msgstr ""
 
-#: src/reuse/header.py:634
+#: src/reuse/header.py:642
 msgid "write a .license file instead of a header inside the file"
 msgstr ""
 
-#: src/reuse/header.py:641
+#: src/reuse/header.py:649
 msgid "add headers to all files under specified directories recursively"
 msgstr ""
 
-#: src/reuse/header.py:648
+#: src/reuse/header.py:656
 msgid "do not replace the first header in the file; just add a new one"
 msgstr ""
 
-#: src/reuse/header.py:654
+#: src/reuse/header.py:662
 msgid "skip files with unrecognised comment styles"
 msgstr ""
 
-#: src/reuse/header.py:659
+#: src/reuse/header.py:667
 msgid "skip files that already contain SPDX information"
 msgstr ""
 
-#: src/reuse/header.py:670
+#: src/reuse/header.py:678
 msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
 msgstr ""
 
-#: src/reuse/header.py:676
-msgid "option --copyright or --license is required"
+#: src/reuse/header.py:685
+msgid "option --contributor, --copyright or --license is required"
 msgstr ""
 
-#: src/reuse/header.py:680
+#: src/reuse/header.py:690
 msgid "option --exclude-year and --year are mutually exclusive"
 msgstr ""
 
-#: src/reuse/header.py:685
+#: src/reuse/header.py:695
 msgid "option --single-line and --multi-line are mutually exclusive"
 msgstr ""
 
-#: src/reuse/header.py:691
+#: src/reuse/header.py:701
 msgid "--skip-unrecognised has no effect when used together with --style"
 msgstr ""
 
-#: src/reuse/header.py:698
+#: src/reuse/header.py:708
 msgid "--explicit-license has been deprecated in favour of --force-dot-license"
 msgstr ""
 
-#: src/reuse/header.py:742
+#: src/reuse/header.py:752
 #, python-brace-format
 msgid "template {template} could not be found"
 msgstr ""
 
-#: src/reuse/header.py:784
+#: src/reuse/header.py:797
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
