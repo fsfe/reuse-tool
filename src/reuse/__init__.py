@@ -88,8 +88,8 @@ _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 class SpdxInfo:
     """Simple class holding SPDX information"""
 
-    spdx_expressions: Set[Expression]
-    copyright_lines: Set[str]
+    spdx_expressions: Set[Expression] = field(default_factory=set)
+    copyright_lines: Set[str] = field(default_factory=set)
     contributor_lines: Set[str] = field(default_factory=set)
 
     def __bool__(self):
