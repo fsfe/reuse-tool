@@ -56,7 +56,7 @@ binaryornot = "^0.4.4"
 "boolean.py" = ">=3.8"
 license-expression = ">=1.0"
 python-debian = "^0.1.38,!=0.1.45,!=0.1.46,!=0.1.47"
-setuptools = "*"
+importlib-metadata = { version = ">=1.4", python = "<3.8" }
 
 [tool.poetry.dev-dependencies]
 Sphinx = ">=4.0.0"
@@ -80,7 +80,7 @@ generate-setup-file = false
 script = "_build.py"
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "setuptools"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]

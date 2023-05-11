@@ -22,7 +22,10 @@ import os
 import sys
 from shutil import copyfile
 
-from pkg_resources import DistributionNotFound, get_distribution
+try:
+    from importlib.metadata import PackageNotFoundError, version
+except ImportError:
+    from importlib_metadata import PackageNotFoundError, version
 
 sys.path.insert(0, os.path.abspath("../src/"))
 
@@ -74,9 +77,10 @@ author = "Free Software Foundation Europe"
 
 try:
     # The full version, including alpha/beta/rc tags.
-    release = get_distribution("reuse").version
-except DistributionNotFound:
+    release = version("reuse")
+except PackageNotFoundError:
     release = "1.1.2"
+
 # The short X.Y.Z version.
 version = ".".join(release.split(".")[:3])
 
