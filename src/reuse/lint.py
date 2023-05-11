@@ -341,4 +341,9 @@ def run(args, project: Project, out=sys.stdout):
             out = stack.enter_context(open(os.devnull, "w", encoding="utf-8"))
         result = lint(report, out=out)
 
-    return 0 if result else 1
+    try:
+        result = lint(report, out=out)
+        return 0 if result else 1
+    except BrokenPipeError:
+        print(_('(reuse lint output truncated)'), file = sys.stderr)
+        return 1
