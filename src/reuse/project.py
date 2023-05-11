@@ -157,7 +157,7 @@ class Project:
             dep5_result = _copyright_from_dep5(
                 self.relative_from_root(path), self._copyright
             )
-            if any(dep5_result):
+            if bool(dep5_result):
                 _LOGGER.info(
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )

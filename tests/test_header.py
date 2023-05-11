@@ -37,6 +37,23 @@ def test_create_header_simple():
     assert create_header(spdx_info).strip() == expected
 
 
+def test_create_header_simple_with_contributor():
+    """Create a super simple header."""
+    spdx_info = SpdxInfo(
+        {"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"}, {"John Doe"}
+    )
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: Jane Doe
+        # SPDX-FileContributor: John Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+        """
+    )
+
+    assert create_header(spdx_info).strip() == expected
+
+
 def test_create_header_template_simple(template_simple):
     """Create a header with a simple template."""
     spdx_info = SpdxInfo(

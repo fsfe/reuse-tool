@@ -20,6 +20,7 @@ from reuse._main import main
 
 # REUSE-IgnoreStart
 
+
 # TODO: Replace this test with a monkeypatched test
 def test_annotate_simple(fake_repository, stringio, mock_date_today):
     """Add a header to a file that does not have one."""
@@ -258,6 +259,75 @@ def test_annotate_shebang_wrong_comment_style(fake_repository, stringio):
             "GPL-3.0-or-later",
             "foo.html",
         ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
+def test_annotate_contributors_only(
+    fake_repository, stringio, mock_date_today, contributors
+):
+    """Add a header with only contributor information."""
+
+    if not contributors:
+        pytest.skip("No contributors to add")
+
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    content = []
+
+    for contributor in sorted(contributors):
+        content.append(f"# SPDX-FileContributor: {contributor}")
+
+    content += ["", "pass"]
+    expected = cleandoc("\n".join(content))
+
+    args = [
+        "annotate",
+    ]
+    for contributor in contributors:
+        args += ["--contributor", contributor]
+    args += ["foo.py"]
+
+    result = main(
+        args,
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
+def test_annotate_contributors(
+    fake_repository, stringio, mock_date_today, contributors
+):
+    """Add a header with contributor information."""
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    content = ["# SPDX-FileCopyrightText: 2018 Jane Doe"]
+
+    if contributors:
+        for contributor in sorted(contributors):
+            content.append(f"# SPDX-FileContributor: {contributor}")
+
+    content += ["#", "# SPDX-License-Identifier: GPL-3.0-or-later", "", "pass"]
+    expected = cleandoc("\n".join(content))
+
+    args = [
+        "annotate",
+        "--license",
+        "GPL-3.0-or-later",
+        "--copyright",
+        "Jane Doe",
+    ]
+    for contributor in contributors:
+        args += ["--contributor", contributor]
+    args += ["foo.py"]
+
+    result = main(
+        args,
         out=stringio,
     )
 

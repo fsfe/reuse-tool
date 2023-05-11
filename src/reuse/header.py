@@ -100,6 +100,7 @@ def _create_new_header(
 
     rendered = template.render(
         copyright_lines=sorted(spdx_info.copyright_lines),
+        contributor_lines=sorted(spdx_info.contributor_lines),
         spdx_expressions=sorted(map(str, spdx_info.spdx_expressions)),
     ).strip("\n")
 
@@ -176,6 +177,7 @@ def create_header(
         spdx_info = SpdxInfo(
             spdx_info.spdx_expressions.union(existing_spdx.spdx_expressions),
             spdx_copyrights,
+            spdx_info.contributor_lines.union(existing_spdx.contributor_lines),
         )
 
     new_header += _create_new_header(
@@ -576,6 +578,12 @@ def add_arguments(parser) -> None:
         help=_("SPDX Identifier, repeatable"),
     )
     parser.add_argument(
+        "--contributor",
+        action="append",
+        type=str,
+        help=_("file contributor, repeatable"),
+    )
+    parser.add_argument(
         "--year",
         "-y",
         action="append",
@@ -672,8 +680,10 @@ def run(args, project: Project, out=sys.stdout) -> int:
             )
         )
 
-    if not any((args.copyright, args.license)):
-        args.parser.error(_("option --copyright or --license is required"))
+    if not any((args.contributor, args.copyright, args.license)):
+        args.parser.error(
+            _("option --contributor, --copyright or --license is required")
+        )
 
     if args.exclude_year and args.year:
         args.parser.error(
@@ -770,8 +780,11 @@ def run(args, project: Project, out=sys.stdout) -> int:
         if args.copyright is not None
         else set()
     )
+    contributors = (
+        set(args.contributor) if args.contributor is not None else set()
+    )
 
-    spdx_info = SpdxInfo(expressions, copyright_lines)
+    spdx_info = SpdxInfo(expressions, copyright_lines, contributors)
 
     result = 0
     for path in paths:

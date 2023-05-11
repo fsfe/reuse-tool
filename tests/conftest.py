@@ -388,4 +388,13 @@ def mock_date_today(monkeypatch):
     monkeypatch.setattr(datetime, "date", date)
 
 
+@pytest.fixture(
+    params=[[], ["John Doe"], ["John Doe", "Alice Doe"]],
+    ids=["None", "John", "John and Alice"],
+)
+def contributors(request):
+    """Provide contributors for SPDX-FileContributor field generation"""
+    yield request.param
+
+
 # REUSE-IgnoreEnd

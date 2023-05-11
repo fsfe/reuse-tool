@@ -225,7 +225,7 @@ def test_spdx_info_of_unlicensed_file(fake_repository):
     """
     (fake_repository / "foo.py").write_text("foo")
     project = Project(fake_repository)
-    assert not any(project.spdx_info_of("foo.py"))
+    assert not bool(project.spdx_info_of("foo.py"))
 
 
 def test_spdx_info_of_only_copyright(fake_repository):
