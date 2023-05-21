@@ -164,11 +164,11 @@ class Project:
             dep5_result = _copyright_from_dep5(
                 self.relative_from_root(path), self._copyright
             )
-            if bool(dep5_result):
+            if dep5_result.contains_copyright_or_licensing():
                 _LOGGER.info(
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
-                license_path = ".reuse/dep5"
+                license_path = dep5_result.license_path
 
         # Search the file for SPDX information.
         with path.open("rb") as fp:

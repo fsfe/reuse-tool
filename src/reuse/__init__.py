@@ -97,6 +97,10 @@ class SpdxInfo:
     contributor_lines: Set[str] = field(default_factory=set)
     license_path: Optional[str] = None
 
+    def contains_copyright_or_licensing(self) -> bool:
+        """Either *spdx_expressions* or *copyright_lines* is non-empty."""
+        return bool(self.spdx_expressions or self.copyright_lines)
+
     def __bool__(self):
         return any(self.__dict__.values())
 
