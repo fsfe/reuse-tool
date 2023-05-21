@@ -185,7 +185,7 @@ class Project:
                 file_result = extract_spdx_info(
                     decoded_text_from_binary(fp, size=read_limit)
                 )
-                if any(file_result):
+                if file_result:
                     license_path = str(path)
             except (ExpressionError, ParseError):
                 _LOGGER.error(
