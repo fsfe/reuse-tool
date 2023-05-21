@@ -25,6 +25,7 @@ import pytest
 from reuse import download
 from reuse._main import main
 from reuse._util import GIT_EXE, HG_EXE
+from reuse.report import LINT_VERSION
 
 # REUSE-IgnoreStart
 
@@ -222,7 +223,7 @@ def test_lint_json(fake_repository, stringio):
     output = json.loads(stringio.getvalue())
 
     assert result == 0
-    assert output["lint_version"] == "1.0"
+    assert output["lint_version"] == LINT_VERSION
     assert len(output["files"]) == 8
 
 
@@ -233,7 +234,7 @@ def test_lint_json_fail(fake_repository, stringio):
     output = json.loads(stringio.getvalue())
 
     assert result > 0
-    assert output["lint_version"] == "1.0"
+    assert output["lint_version"] == LINT_VERSION
     assert len(output["non_compliant"]["missing_licensing_info"]) == 1
     assert len(output["non_compliant"]["missing_copyright_info"]) == 1
     assert len(output["files"]) == 9

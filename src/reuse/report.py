@@ -24,6 +24,8 @@ from .project import Project, SpdxInfo
 
 _LOGGER = logging.getLogger(__name__)
 
+LINT_VERSION = "1.0"
+
 
 class _MultiprocessingContainer:
     """Container that remembers some data in order to generate a FileReport."""
@@ -87,7 +89,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         """
         # Setup report data container
         data = {
-            "lint_version": "1.0",
+            "lint_version": LINT_VERSION,
             "reuse_version": __REUSE_version__,
             "non_compliant": {
                 "missing_licenses": self.missing_licenses,
