@@ -208,12 +208,12 @@ def _copyright_from_dep5(path: PathLike, dep5_copyright: Copyright) -> SpdxInfo:
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
-        return SpdxInfo(set(), set(), str(path))
+        return SpdxInfo(set(), set(), license_path=str(path))
 
     return SpdxInfo(
         set(map(_LICENSING.parse, [result.license.synopsis])),
         set(map(str.strip, result.copyright.splitlines())),
-        str(path),
+        license_path=str(path),
     )
 
 

@@ -201,7 +201,9 @@ class Project:
         copyright_lines = dep5_result.copyright_lines.union(
             file_result.copyright_lines
         )
-        return SpdxInfo(spdx_expressions, copyright_lines, license_path)
+        return SpdxInfo(
+            spdx_expressions, copyright_lines, license_path=license_path
+        )
 
     def relative_from_root(self, path: Path) -> Path:
         """If the project root is /tmp/project, and *path* is
