@@ -223,7 +223,7 @@ def test_lint_json(fake_repository, stringio):
 
     assert result == 0
     assert output["lint_version"] == "1.0"
-    assert len(output["files"]) == 7
+    assert len(output["files"]) == 8
 
 
 def test_lint_json_fail(fake_repository, stringio):
@@ -236,7 +236,7 @@ def test_lint_json_fail(fake_repository, stringio):
     assert output["lint_version"] == "1.0"
     assert len(output["non_compliant"]["missing_licensing_info"]) == 1
     assert len(output["non_compliant"]["missing_copyright_info"]) == 1
-    assert len(output["files"]) == 8
+    assert len(output["files"]) == 9
 
 
 def test_lint_no_file_extension(fake_repository, stringio):
