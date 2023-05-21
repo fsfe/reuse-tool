@@ -10,7 +10,6 @@ import sys
 
 import pytest
 
-# FIXME: Verify whether format_plain is the thing being tested.
 from reuse.lint import format_plain
 from reuse.project import Project
 from reuse.report import ProjectReport
@@ -60,7 +59,7 @@ def test_lint_submodule_included(submodule_repository):
     (submodule_repository / "submodule/foo.c").write_text("foo")
     report = ProjectReport.generate(project)
     result = format_plain(report)
-    assert not result
+    assert ":-(" in result
 
 
 def test_lint_empty_directory(empty_directory):
@@ -71,7 +70,7 @@ def test_lint_empty_directory(empty_directory):
     assert result
 
 
-def test_lint_deprecated(fake_repository, stringio):
+def test_lint_deprecated(fake_repository):
     """If a repo has a deprecated license, detect it."""
     shutil.copy(
         fake_repository / "LICENSES/GPL-3.0-or-later.txt",
@@ -83,77 +82,77 @@ def test_lint_deprecated(fake_repository, stringio):
 
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = format_plain(report, out=stringio)
+    result = format_plain(report)
 
-    assert not result
-    assert "GPL-3.0" in stringio.getvalue()
+    assert ":-(" in result
+    assert "GPL-3.0" in result
 
 
-def test_lint_bad_license(fake_repository, stringio):
+def test_lint_bad_license(fake_repository):
     """A bad license is detected."""
     (fake_repository / "foo.py").write_text(
         "SPDX-License-Identifier: bad-license"
     )
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = format_plain(report, out=stringio)
+    result = format_plain(report)
 
-    assert not result
-    assert "foo.py" in stringio.getvalue()
-    assert "bad-license" in stringio.getvalue()
+    assert ":-(" in result
+    assert "foo.py" in result
+    assert "bad-license" in result
 
 
-def test_lint_missing_licenses(fake_repository, stringio):
+def test_lint_missing_licenses(fake_repository):
     """A missing license is detected."""
     (fake_repository / "foo.py").write_text("SPDX-License-Identifier: MIT")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = format_plain(report, out=stringio)
+    result = format_plain(report)
 
-    assert not result
-    assert "foo.py" in stringio.getvalue()
-    assert "MIT" in stringio.getvalue()
+    assert ":-(" in result
+    assert "foo.py" in result
+    assert "MIT" in result
 
 
-def test_lint_unused_licenses(fake_repository, stringio):
+def test_lint_unused_licenses(fake_repository):
     """An unused license is detected."""
     (fake_repository / "LICENSES/MIT.txt").write_text("foo")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = format_plain(report, out=stringio)
+    result = format_plain(report)
 
-    assert not result
-    assert "Unused licenses: MIT" in stringio.getvalue()
+    assert ":-(" in result
+    assert "Unused licenses: MIT" in result
 
 
 @cpython
 @posix
-def test_lint_read_errors(fake_repository, stringio):
+def test_lint_read_errors(fake_repository):
     """A read error is detected."""
     (fake_repository / "foo.py").write_text("foo")
     (fake_repository / "foo.py").chmod(0o000)
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = format_plain(report, out=stringio)
+    result = format_plain(report)
 
-    assert not result
-    assert "Could not read:" in stringio.getvalue()
-    assert "foo.py" in stringio.getvalue()
+    assert ":-(" in result
+    assert "Could not read:" in result
+    assert "foo.py" in result
 
 
-def test_lint_files_without_copyright_and_licensing(fake_repository, stringio):
+def test_lint_files_without_copyright_and_licensing(fake_repository):
     """A file without copyright and licensing is detected."""
     (fake_repository / "foo.py").write_text("foo")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = format_plain(report, out=stringio)
+    result = format_plain(report)
 
-    assert not result
+    assert ":-(" in result
     assert (
         "The following files have no copyright and licensing information:"
-        in stringio.getvalue()
+        in result
     )
-    assert "foo.py" in stringio.getvalue()
+    assert "foo.py" in result
 
 
 # REUSE-IgnoreEnd
