@@ -156,8 +156,8 @@ class Project:
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in SpdxInfo
-        dep5_result = SpdxInfo(set(), set(), "")
-        file_result = SpdxInfo(set(), set(), "")
+        dep5_result = SpdxInfo(set(), set())
+        file_result = SpdxInfo(set(), set())
 
         # Search the .reuse/dep5 file for SPDX information.
         if self._copyright:
