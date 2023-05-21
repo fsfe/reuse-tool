@@ -206,12 +206,12 @@ def format_plain(report: ProjectReport) -> str:
         output += _(
             "Congratulations! Your project is compliant with version"
             " {} of the REUSE Specification :-)"
-        ).format(data["reuse_version"])
+        ).format(data["reuse_spec_version"])
     else:
         output += _(
             "Unfortunately, your project is not compliant with version "
             "{} of the REUSE Specification :-("
-        ).format(data["reuse_version"])
+        ).format(data["reuse_spec_version"])
     output += "\n"
 
     return output

@@ -90,7 +90,8 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         # Setup report data container
         data = {
             "lint_version": LINT_VERSION,
-            "reuse_version": __REUSE_version__,
+            "reuse_spec_version": __REUSE_version__,
+            "reuse_tool_version": __version__,
             "non_compliant": {
                 "missing_licenses": self.missing_licenses,
                 "unused_licenses": [str(file) for file in self.unused_licenses],
