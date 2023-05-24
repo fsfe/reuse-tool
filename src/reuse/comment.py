@@ -520,7 +520,6 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".cljc": LispCommentStyle,
     ".cljs": LispCommentStyle,
     ".cmake": PythonCommentStyle,  # TODO: Bracket comments not supported.
-    # Visual Studio Code workspace file (JSON with Comments based)
     ".code-workspace": CCommentStyle,
     ".coffee": PythonCommentStyle,
     ".cpp": CCommentStyle,
