@@ -12,7 +12,7 @@ import json
 import os
 import sys
 from gettext import gettext as _
-from pathlib import PosixPath
+from pathlib import Path
 
 from .project import Project
 from .report import ProjectReport
@@ -229,7 +229,7 @@ def format_json(report: ProjectReport) -> str:
 
         :param obj: Object to be serialized
         """
-        if isinstance(obj, PosixPath):
+        if isinstance(obj, Path):
             return str(obj)
         if isinstance(obj, set):
             return list(obj)
