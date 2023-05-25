@@ -497,6 +497,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ahkl": LispCommentStyle,
     ".aidl": CCommentStyle,
     ".applescript": AppleScriptCommentStyle,
+    ".arb": UncommentableCommentStyle,
     ".asax": AspxCommentStyle,
     ".asc": CCommentStyle,
     ".asciidoc": CCommentStyle,

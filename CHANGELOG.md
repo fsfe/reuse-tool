@@ -49,6 +49,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Qt .pro (`.pro`) (#632)
   - Textile (`.textile`) (#712)
   - Visual Studio Code workspace (`.code-workspace`) (#746)
+  - Application Resource Bundle (`.arb`) (#748)
   - Svelte components (`.svelte`)
 - More files are recognised:
   - Clang format (`.clang-format`) (#632)
