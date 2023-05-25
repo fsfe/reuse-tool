@@ -48,7 +48,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - CommonJS (`.cjs`) (#632)
   - Qt .pro (`.pro`) (#632)
   - Textile (`.textile`) (#712)
-  - Visual Studio Code workspace (`.code-workspace`) (#746)
+  - Visual Studio Code workspace (`.code-workspace`) (#747)
+  - Application Resource Bundle (`.arb`) (#749)
   - Svelte components (`.svelte`)
 - More files are recognised:
   - Clang format (`.clang-format`) (#632)
