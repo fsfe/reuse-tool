@@ -168,7 +168,7 @@ class Project:
                 _LOGGER.info(
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
-                license_path = dep5_result.license_path
+                license_path = str(self.root / ".reuse/dep5")
 
         # Search the file for SPDX information.
         with path.open("rb") as fp:
@@ -195,14 +195,25 @@ class Project:
                     ).format(path=path)
                 )
 
-        spdx_expressions = dep5_result.spdx_expressions.union(
-            file_result.spdx_expressions
-        )
-        copyright_lines = dep5_result.copyright_lines.union(
-            file_result.copyright_lines
-        )
+        # There is only a .dep5 file
+        if (
+            dep5_result.contains_copyright_or_licensing()
+            and not file_result.contains_copyright_or_licensing()
+        ):
+            # Information in the file header takes precendence over .dep5 file
+            return SpdxInfo(
+                spdx_expressions=dep5_result.spdx_expressions,
+                copyright_lines=dep5_result.copyright_lines,
+                license_path=license_path,
+            )
+            # TODO Emit warning that information in .dep5 file was ommitted
+
+        # There is both information in a .dep5 file and in the file header
+        # or there is only a file header
         return SpdxInfo(
-            spdx_expressions, copyright_lines, license_path=license_path
+            spdx_expressions=file_result.spdx_expressions,
+            copyright_lines=file_result.copyright_lines,
+            license_path=license_path,
         )
 
     def relative_from_root(self, path: Path) -> Path:
