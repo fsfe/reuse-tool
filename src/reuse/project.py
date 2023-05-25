@@ -195,21 +195,31 @@ class Project:
                     ).format(path=path)
                 )
 
-        # There is only a .dep5 file
+        # There is both information in a .dep5 file and in the file header
         if (
+            dep5_result.contains_copyright_or_licensing()
+            and file_result.contains_copyright_or_licensing()
+        ):
+            _LOGGER.warning(
+                _(
+                    "Copyright and licensing information for '{path}' have been"
+                    " found in both the file header or .license file and the"
+                    " DEP5 file located at '{dep5_path}'. The information in"
+                    " the DEP5 file has been overriden. Please ensure that this"
+                    " is correct."
+                ).format(path=path, dep5_path=".reuse/dep5")
+            )
+        # There is only a .dep5 file
+        elif (
             dep5_result.contains_copyright_or_licensing()
             and not file_result.contains_copyright_or_licensing()
         ):
-            # Information in the file header takes precendence over .dep5 file
             return SpdxInfo(
                 spdx_expressions=dep5_result.spdx_expressions,
                 copyright_lines=dep5_result.copyright_lines,
                 license_path=license_path,
             )
-            # TODO Emit warning that information in .dep5 file was ommitted
-
-        # There is both information in a .dep5 file and in the file header
-        # or there is only a file header
+        # There is only a file header
         return SpdxInfo(
             spdx_expressions=file_result.spdx_expressions,
             copyright_lines=file_result.copyright_lines,
