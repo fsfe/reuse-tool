@@ -247,22 +247,22 @@ def test_spdx_info_of_only_copyright(fake_repository):
 
 def test_spdx_info_of_only_copyright_also_covered_by_debian(fake_repository):
     """A file contains only a copyright line, but debian/copyright also has
-    information on this file. Use both.
+    information on this file. Use only the information from file header.
     """
     (fake_repository / "doc/foo.py").write_text(
         "SPDX-FileCopyrightText: in file"
     )
     project = Project(fake_repository)
     spdx_info = project.spdx_info_of("doc/foo.py")
-    assert any(spdx_info.spdx_expressions)
-    assert len(spdx_info.copyright_lines) == 2
+
+    assert len(spdx_info.copyright_lines) == 1
     assert "SPDX-FileCopyrightText: in file" in spdx_info.copyright_lines
-    assert "2017 Jane Doe" in spdx_info.copyright_lines
 
 
 def test_spdx_info_of_also_covered_by_dep5(fake_repository):
     """A file contains all SPDX information, but .reuse/dep5 also
-    provides information on this file. Use both.
+    provides information on this file. Use only the information
+    from the file header.
     """
     (fake_repository / "doc/foo.py").write_text(
         dedent(
@@ -274,9 +274,9 @@ def test_spdx_info_of_also_covered_by_dep5(fake_repository):
     project = Project(fake_repository)
     spdx_info = project.spdx_info_of("doc/foo.py")
     assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
-    assert LicenseSymbol("CC0-1.0") in spdx_info.spdx_expressions
+    assert LicenseSymbol("CC0-1.0") not in spdx_info.spdx_expressions
     assert "SPDX-FileCopyrightText: in file" in spdx_info.copyright_lines
-    assert "2017 Jane Doe" in spdx_info.copyright_lines
+    assert "2017 Jane Doe" not in spdx_info.copyright_lines
 
 
 def test_spdx_info_of_no_duplicates(empty_directory):
