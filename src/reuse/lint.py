@@ -164,53 +164,41 @@ def format_plain(report: ProjectReport) -> str:
     output.write("# " + _("SUMMARY"))
     output.write("\n\n")
 
-    summary_contents = [
-        (_("Bad licenses:"), ", ".join(data["non_compliant"]["bad_licenses"])),
-        (
-            _("Deprecated licenses:"),
-            ", ".join(data["non_compliant"]["deprecated_licenses"]),
+    summary_contents = {
+        _("Bad licenses:"): ", ".join(data["non_compliant"]["bad_licenses"]),
+        _("Deprecated licenses:"): ", ".join(
+            data["non_compliant"]["deprecated_licenses"]
         ),
-        (
-            _("Licenses without file extension:"),
-            ", ".join(data["non_compliant"]["licenses_without_extension"]),
+        _("Licenses without file extension:"): ", ".join(
+            data["non_compliant"]["licenses_without_extension"]
         ),
-        (
-            _("Missing licenses:"),
-            ", ".join(data["non_compliant"]["missing_licenses"]),
+        _("Missing licenses:"): ", ".join(
+            data["non_compliant"]["missing_licenses"]
         ),
-        (
-            _("Unused licenses:"),
-            ", ".join(data["non_compliant"]["unused_licenses"]),
+        _("Unused licenses:"): ", ".join(
+            data["non_compliant"]["unused_licenses"]
         ),
-        (_("Used licenses:"), ", ".join(data["summary"]["used_licenses"])),
-        (
-            _("Read errors: {count}").format(
-                count=len(data["non_compliant"]["read_errors"])
-            ),
-            "empty",
-        ),
-        (
-            _("files with copyright information: {count} / {total}").format(
-                count=data["summary"]["files_with_copyright_info"],
-                total=data["summary"]["files_total"],
-            ),
-            "empty",
-        ),
-        (
-            _("files with license information: {count} / {total}").format(
-                count=data["summary"]["files_with_licensing_info"],
-                total=data["summary"]["files_total"],
-            ),
-            "empty",
-        ),
-    ]
+        _("Used licenses:"): ", ".join(data["summary"]["used_licenses"]),
+        _("Read errors: {count}").format(
+            count=len(data["non_compliant"]["read_errors"])
+        ): "empty",
+        _("files with copyright information: {count} / {total}").format(
+            count=data["summary"]["files_with_copyright_info"],
+            total=data["summary"]["files_total"],
+        ): "empty",
+        _("files with license information: {count} / {total}").format(
+            count=data["summary"]["files_with_licensing_info"],
+            total=data["summary"]["files_total"],
+        ): "empty",
+    }
 
-    for key, value in summary_contents:
-        if not value:
-            value = "0"
-        if value == "empty":
-            value = ""
-        output.write("* " + key + " " + value + "\n")
+    filtered_summary_contents = {
+        key: (value if value not in ("", "empty") else "0" if not value else "")
+        for key, value in summary_contents.items()
+    }
+
+    for key, value in filtered_summary_contents.items():
+        output.write(f"* {key} {value}\n")
 
     output.write("\n")
     if data["summary"]["compliant"]:
