@@ -155,4 +155,68 @@ def test_lint_files_without_copyright_and_licensing(fake_repository):
     assert "foo.py" in result
 
 
+def test_lint_json_output(fake_repository):
+    """Test for lint with JSON output."""
+    (fake_repository / "foo.py").write_text("SPDX-License-Identifier: MIT")
+    project = Project(fake_repository)
+    report = ProjectReport.generate(project)
+
+    json_result = report.to_dict_lint()
+
+    assert json_result
+    # Test if all the keys are present
+    assert "lint_version" in json_result
+    assert "reuse_spec_version" in json_result
+    assert "reuse_tool_version" in json_result
+    assert "non_compliant" in json_result
+    assert "files" in json_result
+    assert "summary" in json_result
+    # Test length of resulting list values
+    assert len(json_result["files"]) == 9
+    assert len(json_result["summary"]) == 5
+    # Test result
+    assert json_result["summary"]["compliant"] is False
+    # Test license path
+    for test_file in json_result["files"]:
+        if test_file["path"] == str(fake_repository / "foo.py"):
+            assert test_file["licenses"][0]["value"] == "MIT"
+            assert test_file["licenses"][0]["source"] == str(
+                fake_repository / "foo.py"
+            )
+        if test_file["path"].startswith(str(fake_repository / "doc")):
+            assert test_file["licenses"][0]["value"] == "CC0-1.0"
+            assert test_file["licenses"][0]["source"] == str(
+                fake_repository / ".reuse/dep5"
+            )
+
+
+def test_lint_json_output_precedence(fake_repository):
+    """Test for lint with JSON output with focus on precedence."""
+    (fake_repository / "doc/differently_licensed_docs.rst").write_text(
+        "SPDX-License-Identifier: MIT"
+    )
+    project = Project(fake_repository)
+    report = ProjectReport.generate(project)
+
+    json_result = report.to_dict_lint()
+
+    assert json_result
+    # Test result
+    assert json_result["summary"]["compliant"] is False
+    # Test license path precedence
+    for test_file in json_result["files"]:
+        if test_file["path"].startswith(
+            str(fake_repository / "doc/differently_licensed_docs.rst")
+        ):
+            assert test_file["licenses"][0]["value"] == "MIT"
+            assert test_file["licenses"][0]["source"] == str(
+                fake_repository / "doc/differently_licensed_docs.rst"
+            )
+        if test_file["path"].startswith(str(fake_repository / "doc/index.rst")):
+            assert test_file["licenses"][0]["value"] == "CC0-1.0"
+            assert test_file["licenses"][0]["source"] == str(
+                fake_repository / ".reuse/dep5"
+            )
+
+
 # REUSE-IgnoreEnd
