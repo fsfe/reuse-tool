@@ -713,6 +713,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".gitignore": PythonCommentStyle,
     ".gitmodules": PythonCommentStyle,
     ".mailmap": PythonCommentStyle,
+    ".metadata": UncommentableCommentStyle,
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
     ".npmignore": PythonCommentStyle,
     ".prettierrc": UncommentableCommentStyle,  # could either be JSON or YAML
@@ -742,6 +743,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "manifest": PythonCommentStyle,  # used by cdist
     "meson.build": PythonCommentStyle,
     "meson_options.txt": PythonCommentStyle,
+    "pubspec.lock": UncommentableCommentStyle,
     "Rakefile": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
