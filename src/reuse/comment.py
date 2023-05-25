@@ -11,6 +11,7 @@
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Sebastian Crane <seabass@fsfe.org>
 # SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
+# SPDX-FileCopyrightText: 2023 Kevin Meagher
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -528,6 +529,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".csl": HtmlCommentStyle,  # Bibliography (XML based)
     ".css": CssCommentStyle,
     ".csv": UncommentableCommentStyle,
+    ".cxx": CCommentStyle,
     ".d": CCommentStyle,
     ".dart": CCommentStyle,
     ".di": CCommentStyle,
