@@ -20,7 +20,7 @@ from uuid import uuid4
 
 from . import __REUSE_version__, __version__
 from ._util import _LICENSING, _checksum
-from .project import Project, SpdxInfo
+from .project import Project, ReuseInfo
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -390,7 +390,7 @@ class _File:  # pylint: disable=too-few-public-methods
         self.licenses_in_file: List[str] = []
         self.license_concluded: str = None
         self.copyright: str = None
-        self.info: SpdxInfo = None
+        self.info: ReuseInfo = None
 
 
 class FileReport:

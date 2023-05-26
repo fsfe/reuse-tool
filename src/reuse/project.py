@@ -24,7 +24,7 @@ from . import (
     _IGNORE_FILE_PATTERNS,
     _IGNORE_MESON_PARENT_DIR_PATTERNS,
     IdentifierNotFound,
-    SpdxInfo,
+    ReuseInfo,
 )
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
@@ -140,7 +140,7 @@ class Project:
                 _LOGGER.debug("yielding '%s'", the_file)
                 yield the_file
 
-    def spdx_info_of(self, path: PathLike) -> SpdxInfo:
+    def spdx_info_of(self, path: PathLike) -> ReuseInfo:
         """Return SPDX info of *path*.
 
         This function will return any SPDX information that it can find, both
@@ -156,8 +156,8 @@ class Project:
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in SpdxInfo
-        dep5_result = SpdxInfo(set(), set())
-        file_result = SpdxInfo(set(), set())
+        dep5_result = ReuseInfo(set(), set())
+        file_result = ReuseInfo(set(), set())
 
         # Search the .reuse/dep5 file for SPDX information.
         if self._copyright:
@@ -214,13 +214,13 @@ class Project:
             dep5_result.contains_copyright_or_licensing()
             and not file_result.contains_copyright_or_licensing()
         ):
-            return SpdxInfo(
+            return ReuseInfo(
                 spdx_expressions=dep5_result.spdx_expressions,
                 copyright_lines=dep5_result.copyright_lines,
                 license_path=license_path,
             )
         # There is only a file header
-        return SpdxInfo(
+        return ReuseInfo(
             spdx_expressions=file_result.spdx_expressions,
             copyright_lines=file_result.copyright_lines,
             license_path=license_path,

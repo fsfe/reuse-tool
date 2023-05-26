@@ -31,7 +31,7 @@ from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
 
-from . import SpdxInfo
+from . import ReuseInfo
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from .comment import _all_style_classes
 
@@ -203,14 +203,16 @@ def _determine_license_suffix_path(path: PathLike) -> Path:
     return Path(f"{path}.license")
 
 
-def _copyright_from_dep5(path: PathLike, dep5_copyright: Copyright) -> SpdxInfo:
+def _copyright_from_dep5(
+    path: PathLike, dep5_copyright: Copyright
+) -> ReuseInfo:
     """Find the reuse information of *path* in the dep5 Copyright object."""
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
-        return SpdxInfo(set(), set(), license_path=str(path))
+        return ReuseInfo(set(), set(), license_path=str(path))
 
-    return SpdxInfo(
+    return ReuseInfo(
         set(map(_LICENSING.parse, [result.license.synopsis])),
         set(map(str.strip, result.copyright.splitlines())),
         license_path=str(path),
@@ -290,7 +292,7 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
     return copyright_out
 
 
-def extract_spdx_info(text: str) -> SpdxInfo:
+def extract_spdx_info(text: str) -> ReuseInfo:
     """Extract SPDX information from comments in a string.
 
     :raises ExpressionError: if an SPDX expression could not be parsed
@@ -317,7 +319,7 @@ def extract_spdx_info(text: str) -> SpdxInfo:
                 copyright_matches.add(match.groupdict()["copyright"].strip())
                 break
 
-    return SpdxInfo(expressions, copyright_matches, "")
+    return ReuseInfo(expressions, copyright_matches, "")
 
 
 def find_license_identifiers(text: str) -> Iterator[str]:

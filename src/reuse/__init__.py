@@ -89,8 +89,8 @@ _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
 
 @dataclass(frozen=True)
-class SpdxInfo:
-    """Simple class holding SPDX information"""
+class ReuseInfo:
+    """Simple dataclass holding licensing and copyright information"""
 
     spdx_expressions: Set[Expression] = field(default_factory=set)
     copyright_lines: Set[str] = field(default_factory=set)

@@ -4,7 +4,7 @@
 
 """Tests for some core components."""
 
-from reuse import SpdxInfo
+from reuse import ReuseInfo
 
 # REUSE-IgnoreStart
 
@@ -17,19 +17,19 @@ def test_spdx_info_contains_copyright_or_licensing():
         ({"GPL-3.0-or-later"}, "SPDX-FileCopyrightText: 2017 Jane Doe"),
     ]
     for args in arguments:
-        info = SpdxInfo(*args)
+        info = ReuseInfo(*args)
         assert info.contains_copyright_or_licensing()
 
 
 def test_spdx_info_contains_copyright_or_licensing_empty():
     """If the SpdxInfo object is completely empty, expect False."""
-    info = SpdxInfo()
+    info = ReuseInfo()
     assert not info.contains_copyright_or_licensing()
 
 
 def test_spdx_info_contains_copyright_or_licensing_other_truthy():
     """If another attribute is truthy, still expect False."""
-    info = SpdxInfo(contributor_lines={"SPDX-FileContributor: 2017 Jane Doe"})
+    info = ReuseInfo(contributor_lines={"SPDX-FileContributor: 2017 Jane Doe"})
     assert not info.contains_copyright_or_licensing()
 
 
