@@ -238,21 +238,8 @@ def format_json(report: ProjectReport) -> str:
             f"Object of type {obj.__class__.__name__} is not JSON serializable"
         )
 
-    def custom_sort_key(key):
-        order = {
-            "lint_version": 0,
-            "reuse_spec_version": 1,
-            "reuse_tool_version": 2,
-        }
-        return (order.get(key, 3), key)
-
-    report_dict = report.to_dict_lint()
-    sorted_report_dict = dict(
-        sorted(report_dict.items(), key=lambda item: custom_sort_key(item[0]))
-    )
-
     return json.dumps(
-        sorted_report_dict,
+        report.to_dict_lint(),
         indent=2,
         # Serialize sets to lists
         default=custom_serializer,

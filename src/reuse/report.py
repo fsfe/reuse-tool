@@ -89,9 +89,6 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         """
         # Setup report data container
         data = {
-            "lint_version": LINT_VERSION,
-            "reuse_spec_version": __REUSE_version__,
-            "reuse_tool_version": __version__,
             "non_compliant": {
                 "missing_licenses": self.missing_licenses,
                 "unused_licenses": [str(file) for file in self.unused_licenses],
@@ -129,7 +126,29 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             - len(self.files_without_licenses),
             "compliant": self.is_compliant,
         }
-        return data
+
+        # Add the top three keys
+        unsorted_data = {
+            "lint_version": LINT_VERSION,
+            "reuse_spec_version": __REUSE_version__,
+            "reuse_tool_version": __version__,
+            **data,
+        }
+
+        # Sort dictionary keys while keeping the top three keys at the beginning
+        sorted_keys = sorted(list(unsorted_data.keys()))
+        sorted_keys.remove("lint_version")
+        sorted_keys.remove("reuse_spec_version")
+        sorted_keys.remove("reuse_tool_version")
+        sorted_keys = [
+            "lint_version",
+            "reuse_spec_version",
+            "reuse_tool_version",
+        ] + sorted_keys
+
+        sorted_data = {key: unsorted_data[key] for key in sorted_keys}
+
+        return sorted_data
 
     def bill_of_materials(
         self,
