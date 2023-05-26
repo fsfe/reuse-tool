@@ -457,8 +457,8 @@ class FileReport:
         spdx_id.update(report.spdxfile.chk_sum.encode("utf-8"))
         report.spdxfile.spdx_id = f"SPDXRef-{spdx_id.hexdigest()}"
 
-        spdx_info = project.spdx_info_of(path)
-        for expression in spdx_info.spdx_expressions:
+        reuse_info = project.reuse_info_of(path)
+        for expression in reuse_info.spdx_expressions:
             for identifier in _LICENSING.license_keys(expression):
                 # A license expression akin to Apache-1.0+ should register
                 # correctly if LICENSES/Apache-1.0.txt exists.
@@ -477,7 +477,7 @@ class FileReport:
 
         if not add_license_concluded:
             report.spdxfile.license_concluded = "NOASSERTION"
-        elif not spdx_info.spdx_expressions:
+        elif not reuse_info.spdx_expressions:
             report.spdxfile.license_concluded = "NONE"
         else:
             # Merge all the license expressions together, wrapping them in
@@ -488,7 +488,7 @@ class FileReport:
                 _LICENSING.parse(
                     " AND ".join(
                         f"({expression})"
-                        for expression in spdx_info.spdx_expressions
+                        for expression in reuse_info.spdx_expressions
                     ),
                 )
                 .simplify()
@@ -496,9 +496,11 @@ class FileReport:
             )
 
         # Copyright text
-        report.spdxfile.copyright = "\n".join(sorted(spdx_info.copyright_lines))
+        report.spdxfile.copyright = "\n".join(
+            sorted(reuse_info.copyright_lines)
+        )
         # Source of licensing and copyright info
-        report.spdxfile.info = spdx_info
+        report.spdxfile.info = reuse_info
         return report
 
     def __hash__(self):

@@ -140,7 +140,7 @@ class Project:
                 _LOGGER.debug("yielding '%s'", the_file)
                 yield the_file
 
-    def spdx_info_of(self, path: PathLike) -> ReuseInfo:
+    def reuse_info_of(self, path: PathLike) -> ReuseInfo:
         """Return SPDX info of *path*.
 
         This function will return any SPDX information that it can find, both
