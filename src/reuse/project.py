@@ -152,7 +152,7 @@ class Project:
         path = _determine_license_path(path)
         _LOGGER.debug(f"searching '{path}' for SPDX information")
 
-        license_path = ""
+        source_path = ""
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in SpdxInfo
@@ -168,7 +168,7 @@ class Project:
                 _LOGGER.info(
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
-                license_path = str(self.root / ".reuse/dep5")
+                source_path = str(self.root / ".reuse/dep5")
 
         # Search the file for SPDX information.
         with path.open("rb") as fp:
@@ -186,7 +186,7 @@ class Project:
                     decoded_text_from_binary(fp, size=read_limit)
                 )
                 if file_result:
-                    license_path = str(path)
+                    source_path = str(path)
             except (ExpressionError, ParseError):
                 _LOGGER.error(
                     _(
@@ -217,13 +217,13 @@ class Project:
             return ReuseInfo(
                 spdx_expressions=dep5_result.spdx_expressions,
                 copyright_lines=dep5_result.copyright_lines,
-                license_path=license_path,
+                source_path=source_path,
             )
         # There is only a file header
         return ReuseInfo(
             spdx_expressions=file_result.spdx_expressions,
             copyright_lines=file_result.copyright_lines,
-            license_path=license_path,
+            source_path=source_path,
         )
 
     def relative_from_root(self, path: Path) -> Path:

@@ -416,13 +416,13 @@ class FileReport:
             "path": str(Path(self.path).resolve()),
             # TODO: Why does every copyright line have the same source?
             "copyrights": [
-                {"value": copyright_, "source": self.spdxfile.info.license_path}
+                {"value": copyright_, "source": self.spdxfile.info.source_path}
                 for copyright_ in self.spdxfile.copyright.split("\n")
                 if copyright_
             ],
             # TODO: Why does every license expression have the same source?
             "licenses": [
-                {"value": license_, "source": self.spdxfile.info.license_path}
+                {"value": license_, "source": self.spdxfile.info.source_path}
                 for license_ in self.spdxfile.licenses_in_file
                 if license_
             ],

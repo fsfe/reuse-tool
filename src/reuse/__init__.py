@@ -95,7 +95,7 @@ class ReuseInfo:
     spdx_expressions: Set[Expression] = field(default_factory=set)
     copyright_lines: Set[str] = field(default_factory=set)
     contributor_lines: Set[str] = field(default_factory=set)
-    license_path: Optional[str] = None
+    source_path: Optional[str] = None
 
     def contains_copyright_or_licensing(self) -> bool:
         """Either *spdx_expressions* or *copyright_lines* is non-empty."""

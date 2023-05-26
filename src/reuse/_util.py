@@ -210,12 +210,12 @@ def _copyright_from_dep5(
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
-        return ReuseInfo(set(), set(), license_path=str(path))
+        return ReuseInfo(set(), set(), source_path=str(path))
 
     return ReuseInfo(
         set(map(_LICENSING.parse, [result.license.synopsis])),
         set(map(str.strip, result.copyright.splitlines())),
-        license_path=str(path),
+        source_path=str(path),
     )
 
 
