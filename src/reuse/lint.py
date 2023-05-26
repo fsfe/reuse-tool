@@ -7,9 +7,7 @@
 the reports and printing some conclusions.
 """
 
-import contextlib
 import json
-import os
 import sys
 from gettext import gettext as _
 from io import StringIO
@@ -21,10 +19,10 @@ from .report import ProjectReport
 
 def add_arguments(parser):
     """Add arguments to parser."""
-    parser.add_argument(
+    mutex_group = parser.add_mutually_exclusive_group()
+    mutex_group.add_argument(
         "-q", "--quiet", action="store_true", help=_("prevents output")
     )
-    mutex_group = parser.add_mutually_exclusive_group()
     mutex_group.add_argument(
         "-j", "--json", action="store_true", help=_("formats output as JSON")
     )
@@ -37,7 +35,7 @@ def add_arguments(parser):
     mutex_group.add_argument(
         "--format",
         nargs="?",
-        choices=("json", "plain"),
+        choices=("json", "plain", "quiet"),
         help=_("formats output using the chosen formatter"),
     )
 
@@ -261,23 +259,17 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
-def run(args, project: Project, out=sys.stdout, formatter=format_plain):
+def run(args, project: Project, out=sys.stdout):
     """List all non-compliant files."""
     report = ProjectReport.generate(
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )
 
-    with contextlib.ExitStack() as stack:
-        if args.quiet:
-            out = stack.enter_context(open(os.devnull, "w", encoding="utf-8"))
-
-        if args.json or args.format == "json":
-            formatter = format_json
-        elif args.plain or args.format == "plain":
-            formatter = format_plain
-        else:
-            formatter = format_plain
-
-        out.write(formatter(report))
+    if args.quiet or args.format == "quiet":
+        pass
+    elif args.json or args.format == "json":
+        out.write(format_json(report))
+    else:
+        out.write(format_plain(report))
 
     return 0 if report.is_compliant else 1
