@@ -150,9 +150,10 @@ class Project:
         information, where 'primary' means '.license file' > 'header' > 'dep5'
         """
         path = _determine_license_path(path)
-        _LOGGER.debug(f"searching '{path}' for SPDX information")
-
         source_path = ""
+        source_type = ""
+
+        _LOGGER.debug(f"searching '{path}' for SPDX information")
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in SpdxInfo
@@ -187,6 +188,11 @@ class Project:
                 )
                 if file_result:
                     source_path = str(path)
+                    if path.suffix == ".license":
+                        source_type = ".license file"
+                    else:
+                        source_type = "file header"
+
             except (ExpressionError, ParseError):
                 _LOGGER.error(
                     _(
@@ -209,7 +215,7 @@ class Project:
                     " is correct."
                 ).format(path=path, dep5_path=".reuse/dep5")
             )
-        # There is only a .dep5 file
+        # Information is only found in a DEP5 file
         elif (
             dep5_result.contains_copyright_or_licensing()
             and not file_result.contains_copyright_or_licensing()
@@ -218,12 +224,14 @@ class Project:
                 spdx_expressions=dep5_result.spdx_expressions,
                 copyright_lines=dep5_result.copyright_lines,
                 source_path=source_path,
+                source_type="DEP5 file",
             )
-        # There is only a file header
+        # There is a file header or a .license file
         return ReuseInfo(
             spdx_expressions=file_result.spdx_expressions,
             copyright_lines=file_result.copyright_lines,
             source_path=source_path,
+            source_type=source_type,
         )
 
     def relative_from_root(self, path: Path) -> Path:
