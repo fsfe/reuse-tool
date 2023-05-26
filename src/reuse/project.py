@@ -12,6 +12,8 @@ import glob
 import logging
 import os
 import warnings
+import re
+
 from gettext import gettext as _
 from pathlib import Path
 from typing import Dict, Iterator, List, Optional, Union, cast
@@ -29,7 +31,7 @@ from . import (
     ReuseInfo,
     SourceType,
 )
-from ._licenses import EXCEPTION_MAP, LICENSE_MAP
+from ._licenses import EXCEPTION_MAP, LICENSE_MAP, REF_RE
 from ._util import (
     _HEADER_BYTES,
     GIT_EXE,
@@ -304,7 +306,7 @@ class Project:
             raise IdentifierNotFound(f"{path} has no file extension")
         if path.stem in self.license_map:
             return path.stem
-        if path.stem.startswith("LicenseRef-"):
+        if re.match(REF_RE, path.stem):
             return path.stem
 
         raise IdentifierNotFound(
@@ -395,10 +397,7 @@ class Project:
                 raise RuntimeError(f"Multiple licenses resolve to {identifier}")
             # Add the identifiers
             license_files[identifier] = path
-            if (
-                identifier.startswith("LicenseRef-")
-                and "Unknown" not in identifier
-            ):
+            if re.match(REF_RE, identifier) and "Unknown" not in identifier:
                 self.license_map[identifier] = {
                     "reference": str(path),
                     "isDeprecatedLicenseId": False,

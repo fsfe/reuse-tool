@@ -12,6 +12,7 @@
 import json
 import os
 from typing import Dict, List, Tuple
+import re
 
 _BASE_DIR = os.path.dirname(__file__)
 _RESOURCES_DIR = os.path.join(_BASE_DIR, "resources")
@@ -57,3 +58,5 @@ ALL_NON_DEPRECATED_MAP = {
     for identifier, contents in ALL_MAP.items()
     if not contents["isDeprecatedLicenseId"]
 }
+
+REF_RE = re.compile("LicenseRef-[a-zA-Z0-9-.]+$")

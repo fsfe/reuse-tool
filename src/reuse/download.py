@@ -18,7 +18,7 @@ from typing import IO
 from urllib.error import URLError
 from urllib.parse import urljoin
 
-from ._licenses import ALL_NON_DEPRECATED_MAP
+from ._licenses import ALL_NON_DEPRECATED_MAP, REF_RE
 from ._util import (
     PathType,
     StrPath,
@@ -34,8 +34,6 @@ _LOGGER = logging.getLogger(__name__)
 _SPDX_REPOSITORY_BASE_URL = (
     "https://raw.githubusercontent.com/spdx/license-list-data/master/text/"
 )
-
-REF_RE = re.compile("LicenseRef-[a-zA-Z0-9-.]+$")
 
 
 def download_license(spdx_identifier: str) -> str:
