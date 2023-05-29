@@ -15,8 +15,7 @@ from pathlib import Path
 from typing import Dict, Iterator, Optional
 
 from boolean.boolean import ParseError
-from debian.copyright import Copyright
-from debian.copyright import Error as DebianError
+from debian_inspector import copyright
 from license_expression import ExpressionError
 
 from . import (
@@ -245,19 +244,16 @@ class Project:
         return self._root
 
     @property
-    def _copyright(self) -> Optional[Copyright]:
+    def _copyright(self) -> Optional[copyright.DebianCopyright]:
         if self._copyright_val == 0:
             copyright_path = self.root / ".reuse/dep5"
             try:
-                with copyright_path.open(encoding="utf-8") as fp:
-                    # TODO: parse using a different library
-                    self._copyright_val = Copyright(fp)
+                self._copyright_val = copyright.DebianCopyright.from_file(copyright_path)
             except OSError:
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
-            except DebianError:
-                _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
-            except UnicodeError:
+            except UnicodeDecodeError:
                 _LOGGER.exception(_(".reuse/dep5 could not be parsed as utf-8"))
+            # TODO: handle general exception in field declaration Exception(f'Invalid field line: {line}')
 
             # This check is a bit redundant, but otherwise I'd have to repeat
             # this line under each exception.

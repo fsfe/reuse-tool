@@ -28,7 +28,7 @@ from pathlib import Path
 from typing import BinaryIO, Iterator, List, Optional, Set
 
 from boolean.boolean import Expression, ParseError
-from debian.copyright import Copyright
+from debian_inspector import copyright
 from license_expression import ExpressionError, Licensing
 
 from . import SpdxInfo
@@ -203,9 +203,9 @@ def _determine_license_suffix_path(path: PathLike) -> Path:
     return Path(f"{path}.license")
 
 
-def _copyright_from_dep5(path: PathLike, dep5_copyright: Copyright) -> SpdxInfo:
-    """Find the reuse information of *path* in the dep5 Copyright object."""
-    # TODO: perhaps rework this function
+def _copyright_from_dep5(path: PathLike, dep5_copyright: copyright.DebianCopyright) -> SpdxInfo:
+    """Find the reuse information of *path* in the dep5 Copyright data."""
+    # TODO: rework this function
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
