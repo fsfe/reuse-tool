@@ -154,6 +154,7 @@ class Project:
 
         # Search the .reuse/dep5 file for SPDX information.
         if self._copyright:
+            # TODO: perhaps rework for a changed interface
             dep5_result = _copyright_from_dep5(
                 self.relative_from_root(path), self._copyright
             )
@@ -249,6 +250,7 @@ class Project:
             copyright_path = self.root / ".reuse/dep5"
             try:
                 with copyright_path.open(encoding="utf-8") as fp:
+                    # TODO: parse using a different library
                     self._copyright_val = Copyright(fp)
             except OSError:
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
