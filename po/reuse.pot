@@ -9,7 +9,7 @@ msgstr ""
 "#-#-#-#-#  reuse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-01 15:23+0000\n"
+"POT-Creation-Date: 2023-06-01 15:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "#-#-#-#-#  argparse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-01 15:23+0000\n"
+"POT-Creation-Date: 2023-06-01 15:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,48 +172,48 @@ msgstr ""
 msgid "list all supported SPDX licenses"
 msgstr ""
 
-#: src/reuse/_util.py:310
+#: src/reuse/_util.py:311
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr ""
 
-#: src/reuse/_util.py:434
+#: src/reuse/_util.py:435
 msgid "'{}' is not a file"
 msgstr ""
 
-#: src/reuse/_util.py:437
+#: src/reuse/_util.py:438
 msgid "'{}' is not a directory"
 msgstr ""
 
-#: src/reuse/_util.py:440
+#: src/reuse/_util.py:441
 msgid "can't open '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:445
+#: src/reuse/_util.py:446
 msgid "can't write to directory '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:451 src/reuse/header.py:561
+#: src/reuse/_util.py:452 src/reuse/header.py:561
 msgid "can't write to '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:464
+#: src/reuse/_util.py:465
 msgid "can't read or write '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:474
+#: src/reuse/_util.py:475
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr ""
 
-#: src/reuse/_util.py:500
+#: src/reuse/_util.py:501
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr ""
 
-#: src/reuse/_util.py:507
+#: src/reuse/_util.py:508
 msgid "Did you mean:"
 msgstr ""
 
-#: src/reuse/_util.py:514
+#: src/reuse/_util.py:515
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
