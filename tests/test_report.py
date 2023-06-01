@@ -378,12 +378,21 @@ def test_generate_project_report_read_error(fake_repository, multiprocessing):
     assert (fake_repository / "bad") in result.read_errors
 
 
-def test_generate_project_report_to_dict(fake_repository, multiprocessing):
-    """Extremely simple test for ProjectReport.to_dict."""
+def test_generate_project_report_to_dict_lint(fake_repository, multiprocessing):
+    """Generate dictionary output and verify correct ordering."""
     project = Project(fake_repository)
     report = ProjectReport.generate(project, multiprocessing=multiprocessing)
-    # TODO: Actually do something
-    report.to_dict()
+    result = report.to_dict_lint()
+
+    # Check if the top three keys are at the beginning of the dictionary
+    assert list(result.keys())[:3] == [
+        "lint_version",
+        "reuse_spec_version",
+        "reuse_tool_version",
+    ]
+
+    # Check if the rest of the keys are sorted alphabetically
+    assert list(result.keys())[3:] == sorted(list(result.keys())[3:])
 
 
 def test_bill_of_materials(fake_repository, multiprocessing):

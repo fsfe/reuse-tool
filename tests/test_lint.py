@@ -5,20 +5,12 @@
 
 """All tests for reuse.lint"""
 
-
 import shutil
 import sys
 
 import pytest
 
-from reuse.lint import (
-    lint,
-    lint_bad_licenses,
-    lint_files_without_copyright_and_licensing,
-    lint_missing_licenses,
-    lint_read_errors,
-    lint_summary,
-)
+from reuse.lint import format_plain
 from reuse.project import Project
 from reuse.report import ProjectReport
 
@@ -40,7 +32,7 @@ def test_lint_simple(fake_repository):
     """Extremely simple test for lint."""
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = lint(report)
+    result = format_plain(report)
     assert result
 
 
@@ -48,7 +40,7 @@ def test_lint_git(git_repository):
     """Extremely simple test for lint with a git repository."""
     project = Project(git_repository)
     report = ProjectReport.generate(project)
-    result = lint(report)
+    result = format_plain(report)
     assert result
 
 
@@ -57,7 +49,7 @@ def test_lint_submodule(submodule_repository):
     project = Project(submodule_repository)
     (submodule_repository / "submodule/foo.c").write_text("foo")
     report = ProjectReport.generate(project)
-    result = lint(report)
+    result = format_plain(report)
     assert result
 
 
@@ -66,19 +58,19 @@ def test_lint_submodule_included(submodule_repository):
     project = Project(submodule_repository, include_submodules=True)
     (submodule_repository / "submodule/foo.c").write_text("foo")
     report = ProjectReport.generate(project)
-    result = lint(report)
-    assert not result
+    result = format_plain(report)
+    assert ":-(" in result
 
 
 def test_lint_empty_directory(empty_directory):
     """An empty directory is compliant."""
     project = Project(empty_directory)
     report = ProjectReport.generate(project)
-    result = lint(report)
+    result = format_plain(report)
     assert result
 
 
-def test_lint_deprecated(fake_repository, stringio):
+def test_lint_deprecated(fake_repository):
     """If a repo has a deprecated license, detect it."""
     shutil.copy(
         fake_repository / "LICENSES/GPL-3.0-or-later.txt",
@@ -90,71 +82,141 @@ def test_lint_deprecated(fake_repository, stringio):
 
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = lint(report, out=stringio)
+    result = format_plain(report)
 
-    assert not result
-    assert "GPL-3.0" in stringio.getvalue()
+    assert ":-(" in result
+    assert "GPL-3.0" in result
 
 
-def test_lint_bad_license(fake_repository, stringio):
+def test_lint_bad_license(fake_repository):
     """A bad license is detected."""
     (fake_repository / "foo.py").write_text(
         "SPDX-License-Identifier: bad-license"
     )
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = lint_bad_licenses(report, out=stringio)
+    result = format_plain(report)
 
-    assert "foo.py" in str(list(result)[0])
-    assert "foo.py" in stringio.getvalue()
-    assert "bad-license" in stringio.getvalue()
+    assert ":-(" in result
+    assert "foo.py" in result
+    assert "bad-license" in result
 
 
-def test_lint_missing_licenses(fake_repository, stringio):
+def test_lint_missing_licenses(fake_repository):
     """A missing license is detected."""
     (fake_repository / "foo.py").write_text("SPDX-License-Identifier: MIT")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = lint_missing_licenses(report, out=stringio)
+    result = format_plain(report)
 
-    assert "foo.py" in str(list(result)[0])
-    assert "foo.py" in stringio.getvalue()
-    assert "MIT" in stringio.getvalue()
+    assert ":-(" in result
+    assert "foo.py" in result
+    assert "MIT" in result
 
 
-def test_lint_unused_licenses(fake_repository, stringio):
+def test_lint_unused_licenses(fake_repository):
     """An unused license is detected."""
     (fake_repository / "LICENSES/MIT.txt").write_text("foo")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    lint_summary(report, out=stringio)
+    result = format_plain(report)
 
-    assert "MIT" in stringio.getvalue()
+    assert ":-(" in result
+    assert "Unused licenses: MIT" in result
 
 
 @cpython
 @posix
-def test_lint_read_errors(fake_repository, stringio):
+def test_lint_read_errors(fake_repository):
     """A read error is detected."""
     (fake_repository / "foo.py").write_text("foo")
     (fake_repository / "foo.py").chmod(0o000)
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = lint_read_errors(report, out=stringio)
+    result = format_plain(report)
 
-    assert "foo.py" in str(list(result)[0])
-    assert "foo.py" in stringio.getvalue()
+    assert ":-(" in result
+    assert "Could not read:" in result
+    assert "foo.py" in result
 
 
-def test_lint_files_without_copyright_and_licensing(fake_repository, stringio):
+def test_lint_files_without_copyright_and_licensing(fake_repository):
     """A file without copyright and licensing is detected."""
     (fake_repository / "foo.py").write_text("foo")
     project = Project(fake_repository)
     report = ProjectReport.generate(project)
-    result = lint_files_without_copyright_and_licensing(report, out=stringio)
+    result = format_plain(report)
 
-    assert "foo.py" in str(list(result)[0])
-    assert "foo.py" in stringio.getvalue()
+    assert ":-(" in result
+    assert (
+        "The following files have no copyright and licensing information:"
+        in result
+    )
+    assert "foo.py" in result
+
+
+def test_lint_json_output(fake_repository):
+    """Test for lint with JSON output."""
+    (fake_repository / "foo.py").write_text("SPDX-License-Identifier: MIT")
+    project = Project(fake_repository)
+    report = ProjectReport.generate(project)
+
+    json_result = report.to_dict_lint()
+
+    assert json_result
+    # Test if all the keys are present
+    assert "lint_version" in json_result
+    assert "reuse_spec_version" in json_result
+    assert "reuse_tool_version" in json_result
+    assert "non_compliant" in json_result
+    assert "files" in json_result
+    assert "summary" in json_result
+    # Test length of resulting list values
+    assert len(json_result["files"]) == 9
+    assert len(json_result["summary"]) == 5
+    # Test result
+    assert json_result["summary"]["compliant"] is False
+    # Test license path
+    for test_file in json_result["files"]:
+        if test_file["path"] == str(fake_repository / "foo.py"):
+            assert test_file["licenses"][0]["value"] == "MIT"
+            assert test_file["licenses"][0]["source"] == str(
+                fake_repository / "foo.py"
+            )
+        if test_file["path"].startswith(str(fake_repository / "doc")):
+            assert test_file["licenses"][0]["value"] == "CC0-1.0"
+            assert test_file["licenses"][0]["source"] == str(
+                fake_repository / ".reuse/dep5"
+            )
+
+
+def test_lint_json_output_precedence(fake_repository):
+    """Test for lint with JSON output with focus on precedence."""
+    (fake_repository / "doc/differently_licensed_docs.rst").write_text(
+        "SPDX-License-Identifier: MIT"
+    )
+    project = Project(fake_repository)
+    report = ProjectReport.generate(project)
+
+    json_result = report.to_dict_lint()
+
+    assert json_result
+    # Test result
+    assert json_result["summary"]["compliant"] is False
+    # Test license path precedence
+    for test_file in json_result["files"]:
+        if test_file["path"].startswith(
+            str(fake_repository / "doc/differently_licensed_docs.rst")
+        ):
+            assert test_file["licenses"][0]["value"] == "MIT"
+            assert test_file["licenses"][0]["source"] == str(
+                fake_repository / "doc/differently_licensed_docs.rst"
+            )
+        if test_file["path"].startswith(str(fake_repository / "doc/index.rst")):
+            assert test_file["licenses"][0]["value"] == "CC0-1.0"
+            assert test_file["licenses"][0]["source"] == str(
+                fake_repository / ".reuse/dep5"
+            )
 
 
 # REUSE-IgnoreEnd

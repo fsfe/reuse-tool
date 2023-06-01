@@ -201,34 +201,34 @@ def test_all_files_hg_ignored_contains_newline(hg_repository):
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 
-def test_spdx_info_of_file_does_not_exist(fake_repository):
+def test_reuse_info_of_file_does_not_exist(fake_repository):
     """Raise FileNotFoundError when asking for the SPDX info of a file that
     does not exist.
     """
     project = Project(fake_repository)
     with pytest.raises(FileNotFoundError):
-        project.spdx_info_of(fake_repository / "does_not_exist")
+        project.reuse_info_of(fake_repository / "does_not_exist")
 
 
-def test_spdx_info_of_directory(empty_directory):
-    """Raise IsADirectoryError when calling spdx_info_of on a directory."""
+def test_reuse_info_of_directory(empty_directory):
+    """Raise IsADirectoryError when calling reuse_info_of on a directory."""
     (empty_directory / "src").mkdir()
 
     project = Project(empty_directory)
     with pytest.raises((IsADirectoryError, PermissionError)):
-        project.spdx_info_of(empty_directory / "src")
+        project.reuse_info_of(empty_directory / "src")
 
 
-def test_spdx_info_of_unlicensed_file(fake_repository):
+def test_reuse_info_of_unlicensed_file(fake_repository):
     """Return an empty SpdxInfo object when asking for the SPDX information
     of a file that has no SPDX information.
     """
     (fake_repository / "foo.py").write_text("foo")
     project = Project(fake_repository)
-    assert not bool(project.spdx_info_of("foo.py"))
+    assert not bool(project.reuse_info_of("foo.py"))
 
 
-def test_spdx_info_of_only_copyright(fake_repository):
+def test_reuse_info_of_only_copyright(fake_repository):
     """A file contains only a copyright line. Test whether it correctly picks
     up on that.
     """
@@ -236,33 +236,33 @@ def test_spdx_info_of_only_copyright(fake_repository):
         "SPDX-FileCopyrightText: 2017 Jane Doe"
     )
     project = Project(fake_repository)
-    spdx_info = project.spdx_info_of("foo.py")
-    assert not any(spdx_info.spdx_expressions)
-    assert len(spdx_info.copyright_lines) == 1
+    reuse_info = project.reuse_info_of("foo.py")
+    assert not any(reuse_info.spdx_expressions)
+    assert len(reuse_info.copyright_lines) == 1
     assert (
-        spdx_info.copyright_lines.pop()
+        reuse_info.copyright_lines.pop()
         == "SPDX-FileCopyrightText: 2017 Jane Doe"
     )
 
 
-def test_spdx_info_of_only_copyright_also_covered_by_debian(fake_repository):
+def test_reuse_info_of_only_copyright_also_covered_by_debian(fake_repository):
     """A file contains only a copyright line, but debian/copyright also has
-    information on this file. Use both.
+    information on this file. Use only the information from file header.
     """
     (fake_repository / "doc/foo.py").write_text(
         "SPDX-FileCopyrightText: in file"
     )
     project = Project(fake_repository)
-    spdx_info = project.spdx_info_of("doc/foo.py")
-    assert any(spdx_info.spdx_expressions)
-    assert len(spdx_info.copyright_lines) == 2
-    assert "SPDX-FileCopyrightText: in file" in spdx_info.copyright_lines
-    assert "2017 Jane Doe" in spdx_info.copyright_lines
+    reuse_info = project.reuse_info_of("doc/foo.py")
+
+    assert len(reuse_info.copyright_lines) == 1
+    assert "SPDX-FileCopyrightText: in file" in reuse_info.copyright_lines
 
 
-def test_spdx_info_of_also_covered_by_dep5(fake_repository):
+def test_reuse_info_of_also_covered_by_dep5(fake_repository):
     """A file contains all SPDX information, but .reuse/dep5 also
-    provides information on this file. Use both.
+    provides information on this file. Use only the information
+    from the file header.
     """
     (fake_repository / "doc/foo.py").write_text(
         dedent(
@@ -272,14 +272,14 @@ def test_spdx_info_of_also_covered_by_dep5(fake_repository):
         )
     )
     project = Project(fake_repository)
-    spdx_info = project.spdx_info_of("doc/foo.py")
-    assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
-    assert LicenseSymbol("CC0-1.0") in spdx_info.spdx_expressions
-    assert "SPDX-FileCopyrightText: in file" in spdx_info.copyright_lines
-    assert "2017 Jane Doe" in spdx_info.copyright_lines
+    reuse_info = project.reuse_info_of("doc/foo.py")
+    assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
+    assert LicenseSymbol("CC0-1.0") not in reuse_info.spdx_expressions
+    assert "SPDX-FileCopyrightText: in file" in reuse_info.copyright_lines
+    assert "2017 Jane Doe" not in reuse_info.copyright_lines
 
 
-def test_spdx_info_of_no_duplicates(empty_directory):
+def test_reuse_info_of_no_duplicates(empty_directory):
     """A file contains the same lines twice. The SpdxInfo only contains those
     lines once.
     """
@@ -291,25 +291,25 @@ def test_spdx_info_of_no_duplicates(empty_directory):
 
     (empty_directory / "foo.py").write_text(text * 2)
     project = Project(empty_directory)
-    spdx_info = project.spdx_info_of("foo.py")
-    assert len(spdx_info.spdx_expressions) == 1
-    assert LicenseSymbol("GPL-3.0-or-later") in spdx_info.spdx_expressions
-    assert len(spdx_info.copyright_lines) == 1
+    reuse_info = project.reuse_info_of("foo.py")
+    assert len(reuse_info.spdx_expressions) == 1
+    assert LicenseSymbol("GPL-3.0-or-later") in reuse_info.spdx_expressions
+    assert len(reuse_info.copyright_lines) == 1
     assert (
         "SPDX-FileCopyrightText: 2017 Free Software Foundation Europe"
-        in spdx_info.copyright_lines
+        in reuse_info.copyright_lines
     )
 
 
-def test_spdx_info_of_binary_succeeds(fake_repository):
-    """spdx_info_of succeeds when the target is covered by dep5."""
+def test_reuse_info_of_binary_succeeds(fake_repository):
+    """reuse_info_of succeeds when the target is covered by dep5."""
     shutil.copy(
         RESOURCES_DIRECTORY / "fsfe.png", fake_repository / "doc/fsfe.png"
     )
 
     project = Project(fake_repository)
-    spdx_info = project.spdx_info_of("doc/fsfe.png")
-    assert LicenseSymbol("CC0-1.0") in spdx_info.spdx_expressions
+    reuse_info = project.reuse_info_of("doc/fsfe.png")
+    assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
 
 
 def test_license_file_detected(empty_directory):
@@ -322,10 +322,10 @@ def test_license_file_detected(empty_directory):
     )
 
     project = Project(empty_directory)
-    spdx_info = project.spdx_info_of("foo.py")
+    reuse_info = project.reuse_info_of("foo.py")
 
-    assert "SPDX-FileCopyrightText: 2017 Jane Doe" in spdx_info.copyright_lines
-    assert LicenseSymbol("MIT") in spdx_info.spdx_expressions
+    assert "SPDX-FileCopyrightText: 2017 Jane Doe" in reuse_info.copyright_lines
+    assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
 
 
 def test_licenses_filename(empty_directory):

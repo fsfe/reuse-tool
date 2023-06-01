@@ -33,7 +33,7 @@ from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
 from jinja2.exceptions import TemplateNotFound
 from license_expression import ExpressionError
 
-from . import SpdxInfo
+from . import ReuseInfo
 from ._util import (
     _COPYRIGHT_STYLES,
     PathType,
@@ -81,7 +81,7 @@ class MissingSpdxInfo(Exception):
 
 # TODO: Add a template here maybe.
 def _create_new_header(
-    spdx_info: SpdxInfo,
+    spdx_info: ReuseInfo,
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
@@ -131,7 +131,7 @@ def _create_new_header(
 
 # pylint: disable=too-many-arguments
 def create_header(
-    spdx_info: SpdxInfo,
+    spdx_info: ReuseInfo,
     header: str = None,
     template: Template = None,
     template_is_commented: bool = False,
@@ -174,10 +174,11 @@ def create_header(
             )
 
         # TODO: This behaviour does not match the docstring.
-        spdx_info = SpdxInfo(
+        spdx_info = ReuseInfo(
             spdx_info.spdx_expressions.union(existing_spdx.spdx_expressions),
             spdx_copyrights,
             spdx_info.contributor_lines.union(existing_spdx.contributor_lines),
+            "",
         )
 
     new_header += _create_new_header(
@@ -249,7 +250,7 @@ def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
 # pylint: disable=too-many-arguments
 def find_and_replace_header(
     text: str,
-    spdx_info: SpdxInfo,
+    spdx_info: ReuseInfo,
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
@@ -326,7 +327,7 @@ def find_and_replace_header(
 # pylint: disable=too-many-arguments
 def add_new_header(
     text: str,
-    spdx_info: SpdxInfo,
+    spdx_info: ReuseInfo,
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
@@ -463,7 +464,7 @@ def _find_template(project: Project, name: str) -> Template:
 
 def _add_header_to_file(
     path: PathLike,
-    spdx_info: SpdxInfo,
+    spdx_info: ReuseInfo,
     template: Template,
     template_is_commented: bool,
     style: Optional[str],
@@ -784,7 +785,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         set(args.contributor) if args.contributor is not None else set()
     )
 
-    spdx_info = SpdxInfo(expressions, copyright_lines, contributors)
+    spdx_info = ReuseInfo(expressions, copyright_lines, contributors, "")
 
     result = 0
     for path in paths:

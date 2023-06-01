@@ -18,11 +18,13 @@ from pathlib import Path
 from typing import Iterable, List, NamedTuple, Optional, Set
 from uuid import uuid4
 
-from . import __version__
+from . import __REUSE_version__, __version__
 from ._util import _LICENSING, _checksum
-from .project import Project
+from .project import Project, ReuseInfo
 
 _LOGGER = logging.getLogger(__name__)
+
+LINT_VERSION = "1.0"
 
 
 class _MultiprocessingContainer:
@@ -77,31 +79,76 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self._used_licenses = None
         self._files_without_licenses = None
         self._files_without_copyright = None
+        self._is_compliant = None
 
-    def to_dict(self):
-        """Turn the report into a json-like dictionary."""
-        return {
-            "path": str(Path(self.path).resolve()),
-            "licenses": {
-                identifier: str(path)
-                for identifier, path in self.licenses.items()
+    def to_dict_lint(self):
+        """Collects and formats data relevant to linting from report and returns
+        it as a dictionary.
+
+        :return: Dictionary containing data from the ProjectReport object
+        """
+        # Setup report data container
+        data = {
+            "non_compliant": {
+                "missing_licenses": self.missing_licenses,
+                "unused_licenses": [str(file) for file in self.unused_licenses],
+                "deprecated_licenses": [
+                    str(file) for file in self.deprecated_licenses
+                ],
+                "bad_licenses": self.bad_licenses,
+                "licenses_without_extension": self.licenses_without_extension,
+                "missing_copyright_info": [
+                    str(file) for file in self.files_without_copyright
+                ],
+                "missing_licensing_info": [
+                    str(file) for file in self.files_without_licenses
+                ],
+                "read_errors": [str(file) for file in self.read_errors],
             },
-            "bad_licenses": {
-                lic: [str(file_) for file_ in files]
-                for lic, files in self.bad_licenses.items()
+            "files": [],
+            "summary": {
+                "used_licenses": [],
             },
-            "deprecated_licenses": sorted(self.deprecated_licenses),
-            "licenses_without_extension": {
-                identifier: str(path)
-                for identifier, path in self.licenses_without_extension.items()
-            },
-            "missing_licenses": {
-                lic: [str(file_) for file_ in files]
-                for lic, files in self.missing_licenses.items()
-            },
-            "read_errors": list(map(str, self.read_errors)),
-            "file_reports": [report.to_dict() for report in self.file_reports],
         }
+
+        # Populate 'files'
+        for file_report in self.file_reports:
+            data["files"].append(file_report.to_dict_lint())
+
+        # Populate 'summary'
+        number_of_files = len(self.file_reports)
+        data["summary"] = {
+            "used_licenses": list(self.used_licenses),
+            "files_total": number_of_files,
+            "files_with_copyright_info": number_of_files
+            - len(self.files_without_copyright),
+            "files_with_licensing_info": number_of_files
+            - len(self.files_without_licenses),
+            "compliant": self.is_compliant,
+        }
+
+        # Add the top three keys
+        unsorted_data = {
+            "lint_version": LINT_VERSION,
+            "reuse_spec_version": __REUSE_version__,
+            "reuse_tool_version": __version__,
+            **data,
+        }
+
+        # Sort dictionary keys while keeping the top three keys at the beginning
+        sorted_keys = sorted(list(unsorted_data.keys()))
+        sorted_keys.remove("lint_version")
+        sorted_keys.remove("reuse_spec_version")
+        sorted_keys.remove("reuse_tool_version")
+        sorted_keys = [
+            "lint_version",
+            "reuse_spec_version",
+            "reuse_tool_version",
+        ] + sorted_keys
+
+        sorted_data = {key: unsorted_data[key] for key in sorted_keys}
+
+        return sorted_data
 
     def bill_of_materials(
         self,
@@ -122,8 +169,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         # TODO: Generate UUID from git revision maybe
         # TODO: Fix the URL
         out.write(
-            f"DocumentNamespace:"
-            f" http://spdx.org/spdxdocs/spdx-v2.1-{uuid4()}\n"
+            f"DocumentNamespace: http://spdx.org/spdxdocs/spdx-v2.1-{uuid4()}\n"
         )
 
         # Author
@@ -146,7 +192,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         for report in reports:
             out.write(
-                f"Relationship: SPDXRef-DOCUMENT describes"
+                "Relationship: SPDXRef-DOCUMENT describes"
                 f" {report.spdxfile.spdx_id}\n"
             )
 
@@ -163,7 +209,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 out.write(f"LicenseInfoInFile: {lic}\n")
             if report.spdxfile.copyright:
                 out.write(
-                    f"FileCopyrightText:"
+                    "FileCopyrightText:"
                     f" <text>{report.spdxfile.copyright}</text>\n"
                 )
             else:
@@ -230,11 +276,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             # File report.
             project_report.file_reports.add(file_report)
 
-            # Bad and missing licenses.
+            # Missing licenses.
             for missing_license in file_report.missing_licenses:
                 project_report.missing_licenses.setdefault(
                     missing_license, set()
                 ).add(file_report.path)
+
+            # Bad licenses
             for bad_license in file_report.bad_licenses:
                 project_report.bad_licenses.setdefault(bad_license, set()).add(
                     file_report.path
@@ -308,6 +356,27 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         return self._files_without_copyright
 
+    @property
+    def is_compliant(self) -> bool:
+        """Whether the report is compliant with the REUSE Spec."""
+        if self._is_compliant is not None:
+            return self._is_compliant
+
+        self._is_compliant = not any(
+            (
+                self.missing_licenses,
+                self.unused_licenses,
+                self.bad_licenses,
+                self.deprecated_licenses,
+                self.licenses_without_extension,
+                self.files_without_copyright,
+                self.files_without_licenses,
+                self.read_errors,
+            )
+        )
+
+        return self._is_compliant
+
 
 class _File:  # pylint: disable=too-few-public-methods
     """Represent an SPDX file. Sufficiently enough for our purposes, in any
@@ -321,6 +390,7 @@ class _File:  # pylint: disable=too-few-public-methods
         self.licenses_in_file: List[str] = []
         self.license_concluded: str = None
         self.copyright: str = None
+        self.info: ReuseInfo = None
 
 
 class FileReport:
@@ -338,15 +408,24 @@ class FileReport:
         self.bad_licenses = set()
         self.missing_licenses = set()
 
-    def to_dict(self):
-        """Turn the report into a json-like dictionary."""
+    def to_dict_lint(self):
+        """Turn the report into a json-like dictionary with exclusively
+        information relevant for linting.
+        """
         return {
             "path": str(Path(self.path).resolve()),
-            "name": self.spdxfile.name,
-            "spdx_id": self.spdxfile.spdx_id,
-            "chk_sum": self.spdxfile.chk_sum,
-            "licenses_in_file": sorted(self.spdxfile.licenses_in_file),
-            "copyright": self.spdxfile.copyright,
+            # TODO: Why does every copyright line have the same source?
+            "copyrights": [
+                {"value": copyright_, "source": self.spdxfile.info.source_path}
+                for copyright_ in self.spdxfile.copyright.split("\n")
+                if copyright_
+            ],
+            # TODO: Why does every license expression have the same source?
+            "licenses": [
+                {"value": license_, "source": self.spdxfile.info.source_path}
+                for license_ in self.spdxfile.licenses_in_file
+                if license_
+            ],
         }
 
     @classmethod
@@ -378,8 +457,8 @@ class FileReport:
         spdx_id.update(report.spdxfile.chk_sum.encode("utf-8"))
         report.spdxfile.spdx_id = f"SPDXRef-{spdx_id.hexdigest()}"
 
-        spdx_info = project.spdx_info_of(path)
-        for expression in spdx_info.spdx_expressions:
+        reuse_info = project.reuse_info_of(path)
+        for expression in reuse_info.spdx_expressions:
             for identifier in _LICENSING.license_keys(expression):
                 # A license expression akin to Apache-1.0+ should register
                 # correctly if LICENSES/Apache-1.0.txt exists.
@@ -398,7 +477,7 @@ class FileReport:
 
         if not add_license_concluded:
             report.spdxfile.license_concluded = "NOASSERTION"
-        elif not spdx_info.spdx_expressions:
+        elif not reuse_info.spdx_expressions:
             report.spdxfile.license_concluded = "NONE"
         else:
             # Merge all the license expressions together, wrapping them in
@@ -409,7 +488,7 @@ class FileReport:
                 _LICENSING.parse(
                     " AND ".join(
                         f"({expression})"
-                        for expression in spdx_info.spdx_expressions
+                        for expression in reuse_info.spdx_expressions
                     ),
                 )
                 .simplify()
@@ -417,8 +496,11 @@ class FileReport:
             )
 
         # Copyright text
-        report.spdxfile.copyright = "\n".join(sorted(spdx_info.copyright_lines))
-
+        report.spdxfile.copyright = "\n".join(
+            sorted(reuse_info.copyright_lines)
+        )
+        # Source of licensing and copyright info
+        report.spdxfile.info = reuse_info
         return report
 
     def __hash__(self):

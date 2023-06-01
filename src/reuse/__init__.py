@@ -20,7 +20,8 @@ import logging
 import os
 import re
 from dataclasses import dataclass, field
-from typing import NamedTuple, Set
+from enum import Enum, auto
+from typing import NamedTuple, Optional, Set
 
 try:
     from importlib.metadata import PackageNotFoundError, version
@@ -88,13 +89,34 @@ _IGNORE_SPDX_PATTERNS = [
 _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
 
+class SourceType(Enum):
+    """
+    An enumeration representing the types of sources for license information.
+
+    Potential values:
+        DOT_LICENSE_FILE: A .license file containing license information.
+        FILE_HEADER: A file header containing license information.
+        DEP5_FILE: A .reuse/dep5 file containing license information.
+    """
+
+    DOT_LICENSE_FILE = ".license file"
+    FILE_HEADER = "file header"
+    DEP5_FILE = ".reuse/dep5 file"
+
+
 @dataclass(frozen=True)
-class SpdxInfo:
-    """Simple class holding SPDX information"""
+class ReuseInfo:
+    """Simple dataclass holding licensing and copyright information"""
 
     spdx_expressions: Set[Expression] = field(default_factory=set)
     copyright_lines: Set[str] = field(default_factory=set)
     contributor_lines: Set[str] = field(default_factory=set)
+    source_path: Optional[str] = None
+    source_type: Optional[SourceType] = None
+
+    def contains_copyright_or_licensing(self) -> bool:
+        """Either *spdx_expressions* or *copyright_lines* is non-empty."""
+        return bool(self.spdx_expressions or self.copyright_lines)
 
     def __bool__(self):
         return any(self.__dict__.values())

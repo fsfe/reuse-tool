@@ -7,326 +7,242 @@
 the reports and printing some conclusions.
 """
 
-import contextlib
-import os
+import json
 import sys
 from gettext import gettext as _
-from typing import Iterable
+from io import StringIO
+from pathlib import Path
 
-from . import __REUSE_version__
 from .project import Project
 from .report import ProjectReport
 
 
-def _write_element(element, out=sys.stdout):
-    out.write("* ")
-    out.write(str(element))
-    out.write("\n")
-
-
-def lint(report: ProjectReport, out=sys.stdout) -> bool:
-    """Lint the entire project."""
-    bad_licenses_result = lint_bad_licenses(report, out)
-    deprecated_result = lint_deprecated_licenses(report, out)
-    extensionless = lint_licenses_without_extension(report, out)
-    missing_licenses_result = lint_missing_licenses(report, out)
-    unused_licenses_result = lint_unused_licenses(report, out)
-    read_errors_result = lint_read_errors(report, out)
-    files_without_cali = lint_files_without_copyright_and_licensing(report, out)
-
-    lint_summary(report, out=out)
-
-    success = not any(
-        any(result)
-        for result in (
-            bad_licenses_result,
-            deprecated_result,
-            extensionless,
-            missing_licenses_result,
-            unused_licenses_result,
-            read_errors_result,
-            files_without_cali,
-        )
+def add_arguments(parser):
+    """Add arguments to parser."""
+    mutex_group = parser.add_mutually_exclusive_group()
+    mutex_group.add_argument(
+        "-q", "--quiet", action="store_true", help=_("prevents output")
+    )
+    mutex_group.add_argument(
+        "-j", "--json", action="store_true", help=_("formats output as JSON")
+    )
+    mutex_group.add_argument(
+        "-p",
+        "--plain",
+        action="store_true",
+        help=_("formats output as plain text"),
+    )
+    mutex_group.add_argument(
+        "--format",
+        nargs="?",
+        choices=("json", "plain", "quiet"),
+        help=_("formats output using the chosen formatter"),
     )
 
-    out.write("\n")
-    if success:
-        out.write(
-            _(
-                "Congratulations! Your project is compliant with version"
-                " {} of the REUSE Specification :-)"
-            ).format(__REUSE_version__)
-        )
-    else:
-        out.write(
-            _(
-                "Unfortunately, your project is not compliant with version "
-                "{} of the REUSE Specification :-("
-            ).format(__REUSE_version__)
-        )
-    out.write("\n")
 
-    return success
+# pylint: disable=too-many-locals, too-many-branches, too-many-statements
+def format_plain(report: ProjectReport) -> str:
+    """Formats data dictionary as plaintext string to be printed to sys.stdout
 
-
-def lint_bad_licenses(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
-    """Lint for bad licenses. Bad licenses are licenses that are not in the
-    SPDX License List or do not start with LicenseRef-.
+    :param report: ProjectReport data
+    :return: String (in plaintext) that can be output to sys.stdout
     """
-    bad_files = []
+    output = StringIO()
+    data = report.to_dict_lint()
 
-    if report.bad_licenses:
-        out.write("# ")
-        out.write(_("BAD LICENSES"))
-        out.write("\n")
-        for lic, files in sorted(report.bad_licenses.items()):
-            out.write("\n")
-            out.write(_("'{}' found in:").format(lic))
-            out.write("\n")
-            for file_ in sorted(files):
-                bad_files.append(file_)
-                _write_element(file_, out=out)
-        out.write("\n\n")
+    # If the project is not compliant:
+    if not data["summary"]["compliant"]:
+        # Bad licenses
+        bad_licenses = data["non_compliant"]["bad_licenses"]
+        if bad_licenses:
+            output.write("# " + _("BAD LICENSES") + "\n\n")
+            for lic in sorted(bad_licenses.keys()):
+                output.write(_("'{}' found in:").format(lic) + "\n")
+                output.write(f"* {list(bad_licenses[lic])[0]}" + "\n\n")
+            output.write("\n")
 
-    return bad_files
+        # Deprecated licenses
+        deprecated_licenses = data["non_compliant"]["deprecated_licenses"]
+        if deprecated_licenses:
+            output.write("# " + _("DEPRECATED LICENSES") + "\n\n")
+            output.write(
+                _("The following licenses are deprecated by SPDX:") + "\n"
+            )
+            for lic in sorted(deprecated_licenses):
+                output.write(f"* {lic}\n")
+            output.write("\n\n")
 
+        # Licenses without extension
+        licenses_without_extension = data["non_compliant"][
+            "licenses_without_extension"
+        ]
+        if licenses_without_extension:
+            output.write("# " + _("LICENSES WITHOUT FILE EXTENSION") + "\n\n")
+            output.write(
+                _("The following licenses have no file extension:") + "\n"
+            )
+            for lic in sorted(licenses_without_extension):
+                output.write(f"* {str(licenses_without_extension[lic])}" + "\n")
+            output.write("\n\n")
 
-def lint_deprecated_licenses(
-    report: ProjectReport, out=sys.stdout
-) -> Iterable[str]:
-    """Lint for deprecated licenses."""
-    deprecated = []
+        # Missing licenses
+        missing_licenses = data["non_compliant"]["missing_licenses"]
+        if missing_licenses:
+            output.write("# " + _("MISSING LICENSES") + "\n\n")
+            for lic in sorted(missing_licenses.keys()):
+                output.write(_("'{}' found in:").format(lic) + "\n")
+                for file in sorted(missing_licenses[lic]):
+                    output.write(f"* {file}\n")
+            output.write("\n\n")
 
-    if report.deprecated_licenses:
-        out.write("# ")
-        out.write(_("DEPRECATED LICENSES"))
-        out.write("\n\n")
-        out.write(_("The following licenses are deprecated by SPDX:"))
-        out.write("\n")
-        for lic in sorted(report.deprecated_licenses):
-            deprecated.append(lic)
-            _write_element(lic, out=out)
-        out.write("\n\n")
+        # Unused licenses
+        unused_licenses = data["non_compliant"]["unused_licenses"]
+        if unused_licenses:
+            output.write("# " + _("UNUSED LICENSES") + "\n\n")
+            output.write(_("The following licenses are not used:") + "\n")
+            for lic in sorted(unused_licenses):
+                output.write(f"* {lic}\n")
+            output.write("\n\n")
 
-    return deprecated
+        # Read errors
+        read_errors = data["non_compliant"]["read_errors"]
+        if read_errors:
+            output.write("# " + _("READ ERRORS") + "\n\n")
+            output.write(_("Could not read:") + "\n")
+            for path in sorted(read_errors):
+                output.write(f"* {str(path)}" + "\n")
+            output.write("\n\n")
 
+        # Missing copyright and licensing information
+        files_without_copyright = set(
+            data["non_compliant"]["missing_copyright_info"]
+        )
+        files_without_license = set(
+            data["non_compliant"]["missing_licensing_info"]
+        )
+        files_without_both = files_without_license.intersection(
+            files_without_copyright
+        )
 
-def lint_licenses_without_extension(
-    report: ProjectReport, out=sys.stdout
-) -> Iterable[str]:
-    """Lint for licenses without extensions."""
-    extensionless = []
-
-    if report.licenses_without_extension:
-        out.write("# ")
-        out.write(_("LICENSES WITHOUT FILE EXTENSION"))
-        out.write("\n\n")
-        out.write(_("The following licenses have no file extension:"))
-        out.write("\n")
-        for __, path in sorted(report.licenses_without_extension.items()):
-            extensionless.append(path)
-            _write_element(path, out=out)
-        out.write("\n\n")
-
-    return extensionless
-
-
-def lint_missing_licenses(
-    report: ProjectReport, out=sys.stdout
-) -> Iterable[str]:
-    """Lint for missing licenses. A license is missing when it is referenced
-    in a file, but cannot be found.
-    """
-    bad_files = []
-
-    if report.missing_licenses:
-        out.write("# ")
-        out.write(_("MISSING LICENSES"))
-        out.write("\n")
-
-        for lic, files in sorted(report.missing_licenses.items()):
-            out.write("\n")
-            out.write(_("'{}' found in:").format(lic))
-            out.write("\n")
-            for file_ in sorted(files):
-                bad_files.append(file_)
-                _write_element(file_, out=out)
-        out.write("\n\n")
-
-    return bad_files
-
-
-def lint_unused_licenses(
-    report: ProjectReport, out=sys.stdout
-) -> Iterable[str]:
-    """Lint for unused licenses."""
-    unused_licenses = []
-
-    if report.unused_licenses:
-        out.write("# ")
-        out.write(_("UNUSED LICENSES"))
-        out.write("\n\n")
-        out.write(_("The following licenses are not used:"))
-        out.write("\n")
-        for lic in sorted(report.unused_licenses):
-            unused_licenses.append(lic)
-            _write_element(lic, out=out)
-        out.write("\n\n")
-
-    return unused_licenses
-
-
-def lint_read_errors(report: ProjectReport, out=sys.stdout) -> Iterable[str]:
-    """Lint for read errors."""
-    bad_files = []
-
-    if report.read_errors:
-        out.write("# ")
-        out.write(_("READ ERRORS"))
-        out.write("\n\n")
-        out.write(_("Could not read:"))
-        out.write("\n")
-        for file_ in report.read_errors:
-            bad_files.append(file_)
-            _write_element(file_, out=out)
-        out.write("\n\n")
-
-    return bad_files
-
-
-def lint_files_without_copyright_and_licensing(
-    report: ProjectReport, out=sys.stdout
-) -> Iterable[str]:
-    """Lint for files that do not have copyright or licensing information."""
-    # TODO: The below three operations can probably be optimised.
-    both = set(report.files_without_copyright) & set(
-        report.files_without_licenses
-    )
-    only_copyright = set(report.files_without_copyright) - both
-    only_licensing = set(report.files_without_licenses) - both
-
-    if any((both, only_copyright, only_licensing)):
-        out.write("# ")
-        out.write(_("MISSING COPYRIGHT AND LICENSING INFORMATION"))
-        out.write("\n\n")
-        if both:
-            out.write(
+        header = (
+            "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION") + "\n\n"
+        )
+        output.write(header)
+        if files_without_both:
+            output.write(
                 _(
                     "The following files have no copyright and licensing "
                     "information:"
                 )
             )
-            out.write("\n")
-            for file_ in sorted(both):
-                _write_element(file_, out=out)
-            out.write("\n")
-        if only_copyright:
-            out.write(_("The following files have no copyright information:"))
-            out.write("\n")
-            for file_ in sorted(only_copyright):
-                _write_element(file_, out=out)
-            out.write("\n")
-        if only_licensing:
-            out.write(_("The following files have no licensing information:"))
-            out.write("\n")
-            for file_ in sorted(only_licensing):
-                _write_element(file_, out=out)
-            out.write("\n")
-        out.write("\n")
+            output.write("\n")
+            for file in sorted(files_without_both):
+                output.write(f"* {file}\n")
+            output.write("\n")
 
-    return both | only_copyright | only_licensing
+        if files_without_copyright - files_without_both:
+            output.write(
+                _("The following files have no copyright information:")
+            )
+            output.write("\n")
+            for file in sorted(files_without_copyright - files_without_both):
+                output.write(f"* {file}\n")
+            output.write("\n")
 
+        if files_without_license - files_without_both:
+            output.write(
+                _("The following files have no licensing information:")
+            )
+            output.write("\n")
+            for file in sorted(files_without_license - files_without_both):
+                output.write(f"* {file}\n")
+            output.write("\n")
 
-def lint_summary(report: ProjectReport, out=sys.stdout) -> None:
-    """Print a summary for linting."""
-    # pylint: disable=too-many-statements
-    out.write("# ")
-    out.write(_("SUMMARY"))
-    out.write("\n\n")
+    output.write("\n")
+    output.write("# " + _("SUMMARY"))
+    output.write("\n\n")
 
-    file_total = len(report.file_reports)
+    summary_contents = {
+        _("Bad licenses:"): ", ".join(data["non_compliant"]["bad_licenses"]),
+        _("Deprecated licenses:"): ", ".join(
+            data["non_compliant"]["deprecated_licenses"]
+        ),
+        _("Licenses without file extension:"): ", ".join(
+            data["non_compliant"]["licenses_without_extension"]
+        ),
+        _("Missing licenses:"): ", ".join(
+            data["non_compliant"]["missing_licenses"]
+        ),
+        _("Unused licenses:"): ", ".join(
+            data["non_compliant"]["unused_licenses"]
+        ),
+        _("Used licenses:"): ", ".join(data["summary"]["used_licenses"]),
+        _("Read errors: {count}").format(
+            count=len(data["non_compliant"]["read_errors"])
+        ): "empty",
+        _("files with copyright information: {count} / {total}").format(
+            count=data["summary"]["files_with_copyright_info"],
+            total=data["summary"]["files_total"],
+        ): "empty",
+        _("files with license information: {count} / {total}").format(
+            count=data["summary"]["files_with_licensing_info"],
+            total=data["summary"]["files_total"],
+        ): "empty",
+    }
 
-    out.write("* ")
-    out.write(_("Bad licenses:"))
-    for i, lic in enumerate(sorted(report.bad_licenses)):
-        if i:
-            out.write(",")
-        out.write(" ")
-        out.write(lic)
-    out.write("\n")
+    filtered_summary_contents = {
+        key: (value if value not in ("", "empty") else "0" if not value else "")
+        for key, value in summary_contents.items()
+    }
 
-    out.write("* ")
-    out.write(_("Deprecated licenses:"))
-    for i, lic in enumerate(sorted(report.deprecated_licenses)):
-        if i:
-            out.write(",")
-        out.write(" ")
-        out.write(lic)
-    out.write("\n")
+    for key, value in filtered_summary_contents.items():
+        output.write(f"* {key} {value}\n")
 
-    out.write("* ")
-    out.write(_("Licenses without file extension:"))
-    for i, lic in enumerate(sorted(report.licenses_without_extension)):
-        if i:
-            out.write(",")
-        out.write(" ")
-        out.write(lic)
-    out.write("\n")
-
-    out.write("* ")
-    out.write(_("Missing licenses:"))
-    for i, lic in enumerate(sorted(report.missing_licenses)):
-        if i:
-            out.write(",")
-        out.write(" ")
-        out.write(lic)
-    out.write("\n")
-
-    out.write("* ")
-    out.write(_("Unused licenses:"))
-    for i, lic in enumerate(sorted(report.unused_licenses)):
-        if i:
-            out.write(",")
-        out.write(" ")
-        out.write(lic)
-    out.write("\n")
-
-    out.write("* ")
-    out.write(_("Used licenses:"))
-    for i, lic in enumerate(sorted(report.used_licenses)):
-        if i:
-            out.write(",")
-        out.write(" ")
-        out.write(lic)
-    out.write("\n")
-
-    out.write("* ")
-    out.write(_("Read errors: {count}").format(count=len(report.read_errors)))
-    out.write("\n")
-
-    out.write("* ")
-    out.write(
-        _("Files with copyright information: {count} / {total}").format(
-            count=file_total - len(report.files_without_copyright),
-            total=file_total,
+    output.write("\n")
+    if data["summary"]["compliant"]:
+        output.write(
+            _(
+                "Congratulations! Your project is compliant with version"
+                " {} of the REUSE Specification :-)"
+            ).format(data["reuse_spec_version"])
         )
-    )
-    out.write("\n")
-
-    out.write("* ")
-    out.write(
-        _("Files with license information: {count} / {total}").format(
-            count=file_total - len(report.files_without_licenses),
-            total=file_total,
+    else:
+        output.write(
+            _(
+                "Unfortunately, your project is not compliant with version "
+                "{} of the REUSE Specification :-("
+            ).format(data["reuse_spec_version"])
         )
-    )
-    out.write("\n")
+    output.write("\n")
+
+    return output.getvalue()
 
 
-def add_arguments(parser):
-    """Add arguments to parser."""
-    parser.add_argument(
-        "-q", "--quiet", action="store_true", help=_("prevents output")
+def format_json(report: ProjectReport) -> str:
+    """Formats data dictionary as JSON string ready to be printed to sys.stdout
+
+    :param report: Dictionary containing formatted ProjectReport data
+    :return: String (representing JSON) that can be output to sys.stdout
+    """
+
+    def custom_serializer(obj):
+        """Custom serializer for the dictionary output of ProjectReport
+
+        :param obj: Object to be serialized
+        """
+        if isinstance(obj, Path):
+            return str(obj)
+        if isinstance(obj, set):
+            return list(obj)
+        raise TypeError(
+            f"Object of type {obj.__class__.__name__} is not JSON serializable"
+        )
+
+    return json.dumps(
+        report.to_dict_lint(),
+        indent=2,
+        # Serialize sets to lists
+        default=custom_serializer,
     )
 
 
@@ -336,9 +252,11 @@ def run(args, project: Project, out=sys.stdout):
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )
 
-    with contextlib.ExitStack() as stack:
-        if args.quiet:
-            out = stack.enter_context(open(os.devnull, "w", encoding="utf-8"))
-        result = lint(report, out=out)
+    if args.quiet or args.format == "quiet":
+        pass
+    elif args.json or args.format == "json":
+        out.write(format_json(report))
+    else:
+        out.write(format_plain(report))
 
-    return 0 if result else 1
+    return 0 if report.is_compliant else 1

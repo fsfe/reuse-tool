@@ -24,7 +24,8 @@ from . import (
     _IGNORE_FILE_PATTERNS,
     _IGNORE_MESON_PARENT_DIR_PATTERNS,
     IdentifierNotFound,
-    SpdxInfo,
+    ReuseInfo,
+    SourceType,
 )
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
@@ -140,27 +141,36 @@ class Project:
                 _LOGGER.debug("yielding '%s'", the_file)
                 yield the_file
 
-    def spdx_info_of(self, path: PathLike) -> SpdxInfo:
+    def reuse_info_of(self, path: PathLike) -> ReuseInfo:
         """Return SPDX info of *path*.
 
         This function will return any SPDX information that it can find, both
-        from within the file and from the .reuse/dep5 file.
+        from within the file, the .license file and from the .reuse/dep5 file.
+
+        It also returns a single primary source path of the license/copyright
+        information, where 'primary' means '.license file' > 'header' > 'dep5'
         """
         path = _determine_license_path(path)
+        source_path = ""
+        source_type = None
+
         _LOGGER.debug(f"searching '{path}' for SPDX information")
 
-        dep5_result = SpdxInfo(set(), set())
-        file_result = SpdxInfo(set(), set())
+        # This means that only one 'source' of licensing/copyright information
+        # is captured in SpdxInfo
+        dep5_result = ReuseInfo(set(), set())
+        file_result = ReuseInfo(set(), set())
 
         # Search the .reuse/dep5 file for SPDX information.
         if self._copyright:
             dep5_result = _copyright_from_dep5(
                 self.relative_from_root(path), self._copyright
             )
-            if bool(dep5_result):
+            if dep5_result.contains_copyright_or_licensing():
                 _LOGGER.info(
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
+                source_path = str(self.root / ".reuse/dep5")
 
         # Search the file for SPDX information.
         with path.open("rb") as fp:
@@ -177,6 +187,13 @@ class Project:
                 file_result = extract_spdx_info(
                     decoded_text_from_binary(fp, size=read_limit)
                 )
+                if file_result:
+                    source_path = str(path)
+                    if path.suffix == ".license":
+                        source_type = SourceType.DOT_LICENSE_FILE
+                    else:
+                        source_type = SourceType.FILE_HEADER
+
             except (ExpressionError, ParseError):
                 _LOGGER.error(
                     _(
@@ -185,9 +202,37 @@ class Project:
                     ).format(path=path)
                 )
 
-        return SpdxInfo(
-            dep5_result.spdx_expressions.union(file_result.spdx_expressions),
-            dep5_result.copyright_lines.union(file_result.copyright_lines),
+        # There is both information in a .dep5 file and in the file header
+        if (
+            dep5_result.contains_copyright_or_licensing()
+            and file_result.contains_copyright_or_licensing()
+        ):
+            _LOGGER.warning(
+                _(
+                    "Copyright and licensing information for '{path}' have been"
+                    " found in both the file header or .license file and the"
+                    " DEP5 file located at '{dep5_path}'. The information in"
+                    " the DEP5 file has been overriden. Please ensure that this"
+                    " is correct."
+                ).format(path=path, dep5_path=".reuse/dep5")
+            )
+        # Information is only found in a DEP5 file
+        elif (
+            dep5_result.contains_copyright_or_licensing()
+            and not file_result.contains_copyright_or_licensing()
+        ):
+            return ReuseInfo(
+                spdx_expressions=dep5_result.spdx_expressions,
+                copyright_lines=dep5_result.copyright_lines,
+                source_path=source_path,
+                source_type=SourceType.DEP5_FILE,
+            )
+        # There is a file header or a .license file
+        return ReuseInfo(
+            spdx_expressions=file_result.spdx_expressions,
+            copyright_lines=file_result.copyright_lines,
+            source_path=source_path,
+            source_type=source_type,
         )
 
     def relative_from_root(self, path: Path) -> Path:
