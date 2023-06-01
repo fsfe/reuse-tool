@@ -25,6 +25,7 @@ from . import (
     _IGNORE_MESON_PARENT_DIR_PATTERNS,
     IdentifierNotFound,
     ReuseInfo,
+    SourceType,
 )
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
@@ -151,7 +152,7 @@ class Project:
         """
         path = _determine_license_path(path)
         source_path = ""
-        source_type = ""
+        source_type = None
 
         _LOGGER.debug(f"searching '{path}' for SPDX information")
 
@@ -189,9 +190,9 @@ class Project:
                 if file_result:
                     source_path = str(path)
                     if path.suffix == ".license":
-                        source_type = ".license file"
+                        source_type = SourceType.DOT_LICENSE_FILE
                     else:
-                        source_type = "file header"
+                        source_type = SourceType.FILE_HEADER
 
             except (ExpressionError, ParseError):
                 _LOGGER.error(
@@ -224,7 +225,7 @@ class Project:
                 spdx_expressions=dep5_result.spdx_expressions,
                 copyright_lines=dep5_result.copyright_lines,
                 source_path=source_path,
-                source_type="DEP5 file",
+                source_type=SourceType.DEP5_FILE,
             )
         # There is a file header or a .license file
         return ReuseInfo(
