@@ -626,6 +626,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pot": PythonCommentStyle,
     ".ppt": UncommentableCommentStyle,
     ".pptx": UncommentableCommentStyle,
+    ".pri": UncommentableCommentStyle,
     ".pro": PythonCommentStyle,
     ".proto": CCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
@@ -639,6 +640,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pyx": PythonCommentStyle,
     ".qbs": CCommentStyle,
     ".qml": CCommentStyle,
+    ".qrc": UncommentableCommentStyle,
+    ".qss": CssCommentStyle,
     ".R": PythonCommentStyle,
     ".rake": PythonCommentStyle,
     ".rb": PythonCommentStyle,
@@ -676,6 +679,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ts": CCommentStyle,
     ".tsx": CCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
+    ".ui": UncommentableCommentStyle,
     ".v": CCommentStyle,  # V-Lang source code
     ".vala": CCommentStyle,
     ".vim": VimCommentStyle,
