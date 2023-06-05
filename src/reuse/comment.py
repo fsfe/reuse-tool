@@ -626,7 +626,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pot": PythonCommentStyle,
     ".ppt": UncommentableCommentStyle,
     ".pptx": UncommentableCommentStyle,
-    ".pri": UncommentableCommentStyle,
+    ".pri": PythonCommentStyle,
     ".pro": PythonCommentStyle,
     ".proto": CCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
