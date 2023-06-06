@@ -578,6 +578,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".jinja2": JinjaCommentStyle,
     ".js": CCommentStyle,
     ".json": UncommentableCommentStyle,
+    ".jsp": AspxCommentStyle,
     ".jsx": CCommentStyle,
     ".jy": PythonCommentStyle,
     ".ksh": PythonCommentStyle,
