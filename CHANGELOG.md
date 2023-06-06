@@ -51,6 +51,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Visual Studio Code workspace (`.code-workspace`) (#747)
   - Application Resource Bundle (`.arb`) (#749)
   - Svelte components (`.svelte`)
+  - AES encrypted files (`.aes`) (#758)
   - Jakarte Server Page (`.jsp`) (#757)
 - More files are recognised:
   - Clang format (`.clang-format`) (#632)

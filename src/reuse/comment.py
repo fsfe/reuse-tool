@@ -494,6 +494,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
     ".adoc": CCommentStyle,
     ".ads": HaskellCommentStyle,
+    ".aes": UncommentableCommentStyle,
     ".ahk": LispCommentStyle,
     ".ahkl": LispCommentStyle,
     ".aidl": CCommentStyle,
