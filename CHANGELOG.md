@@ -63,6 +63,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Prettier config (`.prettierrc`) and ignored files (`.prettierignore`)
   - Flutter pubspec.lock (`pubspec.lock`) (#751)
   - Flutter .metadata (`.metadata`) (#751)
+  - Terraform (`.tf`, `tfvars`) and HCL (`.hcl`). (#756)
 - Added loglevel argument to pytest and skip one test if loglevel is too high
   (#645).
 - `--add-license-concluded`, `--creator-person`, and `--creator-organization`

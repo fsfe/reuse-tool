@@ -12,6 +12,7 @@
 # SPDX-FileCopyrightText: 2022 Sebastian Crane <seabass@fsfe.org>
 # SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
 # SPDX-FileCopyrightText: 2023 Kevin Meagher
+# SPDX-FileCopyrightText: 2023 Mathias Dannesbo <md@magenta.dk>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -563,6 +564,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".h": CCommentStyle,
     ".ha": CCommentStyle,
     ".hbs": HandlebarsCommentStyle,
+    ".hcl": PythonCommentStyle,
     ".hh": CCommentStyle,
     ".hpp": CCommentStyle,
     ".hrl": TexCommentStyle,
@@ -675,6 +677,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".swift": CCommentStyle,
     ".tex": TexCommentStyle,
     ".textile": HtmlCommentStyle,
+    ".tf": PythonCommentStyle,
+    ".tfvars": PythonCommentStyle,
     ".thy": MlCommentStyle,
     ".toc": TexCommentStyle,
     ".toml": PythonCommentStyle,
