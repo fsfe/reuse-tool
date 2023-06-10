@@ -207,6 +207,17 @@ def test_extract_special_endings():
         assert "] ::" not in item
 
 
+def test_extract_contributors():
+    """Correctly extract SPDX-FileContributor information from text."""
+    text = cleandoc(
+        """
+        # SPDX-FileContributor: Jane Doe
+        """
+    )
+    result = _util.extract_spdx_info(text)
+    assert result.contributor_lines == {"Jane Doe"}
+
+
 def test_filter_ignore_block_with_comment_style():
     """Test that the ignore block is properly removed if start and end markers
     are in comment style.

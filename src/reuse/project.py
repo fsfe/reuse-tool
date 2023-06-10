@@ -142,7 +142,7 @@ class Project:
                 yield the_file
 
     def reuse_info_of(self, path: PathLike) -> ReuseInfo:
-        """Return SPDX info of *path*.
+        """Return REUSE info of *path*.
 
         This function will return any SPDX information that it can find, both
         from within the file, the .license file and from the .reuse/dep5 file.

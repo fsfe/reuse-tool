@@ -26,7 +26,7 @@ from hashlib import sha1
 from itertools import chain
 from os import PathLike
 from pathlib import Path
-from typing import BinaryIO, Iterator, List, Optional, Set
+from typing import BinaryIO, Dict, Iterator, List, Optional, Set
 
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
@@ -76,9 +76,18 @@ _END_PATTERN = r"{}$".format(
         }
     )
 )
-_IDENTIFIER_PATTERN = re.compile(
+_LICENSE_IDENTIFIER_PATTERN = re.compile(
     r"^(.*?)SPDX-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
+_CONTRIBUTOR_PATTERN = re.compile(
+    r"^(.*?)SPDX-FileContributor:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
+)
+# The keys match the relevant attributes of ReuseInfo.
+_SPDX_TAGS: Dict[str, re.Pattern] = {
+    "spdx_expressions": _LICENSE_IDENTIFIER_PATTERN,
+    "contributor_lines": _CONTRIBUTOR_PATTERN,
+}
+
 _COPYRIGHT_PATTERNS = [
     re.compile(
         r"(?P<copyright>(?P<prefix>SPDX-(File|Snippet)CopyrightText:)\s+"
@@ -96,7 +105,6 @@ _COPYRIGHT_PATTERNS = [
         r"(?P<statement>.*?))" + _END_PATTERN
     ),
 ]
-
 _COPYRIGHT_STYLES = {
     "spdx": "SPDX-FileCopyrightText:",
     "spdx-c": "SPDX-FileCopyrightText: (C)",
@@ -300,10 +308,13 @@ def extract_spdx_info(text: str) -> ReuseInfo:
     :raises ParseError: if an SPDX expression could not be parsed
     """
     text = filter_ignore_block(text)
-    expression_matches = set(find_license_identifiers(text))
+    spdx_tags: Dict[str, str] = {}
+    for tag, pattern in _SPDX_TAGS.items():
+        spdx_tags[tag] = set(find_spdx_tag(text, pattern))
+    # License expressions and copyright matches are special cases.
     expressions = set()
     copyright_matches = set()
-    for expression in expression_matches:
+    for expression in spdx_tags.pop("spdx_expressions"):
         try:
             expressions.add(_LICENSING.parse(expression))
         except (ExpressionError, ParseError):
@@ -320,17 +331,19 @@ def extract_spdx_info(text: str) -> ReuseInfo:
                 copyright_matches.add(match.groupdict()["copyright"].strip())
                 break
 
-    # TODO: Where are the contributor lines?
     return ReuseInfo(
-        spdx_expressions=expressions, copyright_lines=copyright_matches
+        spdx_expressions=expressions,
+        copyright_lines=copyright_matches,
+        **spdx_tags,
     )
 
 
-def find_license_identifiers(text: str) -> Iterator[str]:
-    """Extract all the license identifiers matching the IDENTIFIER_PATTERN
-    regex, taking care of stripping extraneous whitespace of formatting."""
-    for prefix, identifier in _IDENTIFIER_PATTERN.findall(text):
-        prefix, identifier = prefix.strip(), identifier.strip()
+def find_spdx_tag(text: str, pattern: re.Pattern) -> Iterator[str]:
+    """Extract all the values in *text* matching *pattern*'s regex, taking care
+    of stripping extraneous whitespace of formatting.
+    """
+    for prefix, value in pattern.findall(text):
+        prefix, value = prefix.strip(), value.strip()
 
         # Some comment headers have ASCII art to "frame" the comment, like this:
         #
@@ -342,10 +355,10 @@ def find_license_identifiers(text: str) -> Iterator[str]:
         # of the comment prefix, we strip that suffix. See #343 for a real
         # world example of a project doing this (LLVM).
         suffix = prefix[::-1]
-        if suffix and identifier.endswith(suffix):
-            identifier = identifier[: -len(suffix)]
+        if suffix and value.endswith(suffix):
+            value = value[: -len(suffix)]
 
-        yield identifier.strip()
+        yield value.strip()
 
 
 def filter_ignore_block(text: str) -> str:
