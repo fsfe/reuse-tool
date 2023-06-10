@@ -59,30 +59,23 @@ def test_reuse_info_copy_nonexistent_attribute():
         info.copy(foo="bar")
 
 
-def test_reuse_info_copy_union_simple():
-    """Get a copy_union of ReuseInfo with one field merged and one replaced."""
-    info = ReuseInfo(
+def test_reuse_info_union_simple():
+    """
+    Get a union of ReuseInfo with one field merged and one remaining equal.
+    """
+    info1 = ReuseInfo(
         copyright_lines={"2017 Jane Doe"},
         source_path="foo",
     )
-    new_info = info.copy_union(
-        copyright_lines={"2017 John Doe"}, source_path="bar"
-    )
-    assert info != new_info
+    info2 = ReuseInfo(copyright_lines={"2017 John Doe"}, source_path="bar")
+    new_info = info1 | info2
+    # union and __or__ are equal
+    assert new_info == info1.union(info2)
     assert sorted(new_info.copyright_lines) == [
         "2017 Jane Doe",
         "2017 John Doe",
     ]
-    assert new_info.source_path == "bar"
-
-
-def test_reuse_info_copy_union_nonexistent_attribute():
-    """Expect a KeyError when trying to copy_union a nonexistent field into
-    ReuseInfo.
-    """
-    info = ReuseInfo()
-    with pytest.raises(KeyError):
-        info.copy_union(foo="bar")
+    assert new_info.source_path == "foo"
 
 
 # REUSE-IgnoreEnd

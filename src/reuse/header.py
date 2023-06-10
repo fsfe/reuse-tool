@@ -174,15 +174,8 @@ def create_header(
             )
 
         # TODO: This behaviour does not match the docstring.
-        spdx_info = ReuseInfo(
-            spdx_expressions=spdx_info.spdx_expressions.union(
-                existing_spdx.spdx_expressions
-            ),
-            copyright_lines=spdx_copyrights,
-            contributor_lines=spdx_info.contributor_lines.union(
-                existing_spdx.contributor_lines
-            ),
-        )
+        spdx_info = existing_spdx | spdx_info
+        spdx_info = spdx_info.copy(copyright_lines=spdx_copyrights)
 
     new_header += _create_new_header(
         spdx_info,

@@ -131,25 +131,26 @@ class ReuseInfo:
             new_kwargs[key] = kwargs.get(key, value)
         return self.__class__(**new_kwargs)
 
-    def copy_union(self, **kwargs) -> Type["ReuseInfo"]:
-        """Return a copy of ReuseInfo, replacing the values of Set attributes
-        with sets that are the union of the existing set and the set defined in
-        *kwargs*. Other attributes defined in *kwargs* are simply replaced.
+    def union(self, value) -> Type["ReuseInfo"]:
+        """Return a new instance of ReuseInfo where all Set attributes are equal
+        to the union of the set in *self* and the set in *value*.
 
-        >>> old = ReuseInfo(copyright_lines={"Jane Doe"}, source_path="foo.py")
-        >>> new = old.copy_union(copyright_lines={"Mr X"}, source_path="bar.py")
-        >>> print(sorted(new.copyright_lines))
-        ['Jane Doe', 'Mr X']
-        >>> print(new.source_path)
-        bar.py
+        All non-Set attributes are set to their values in *self*.
+
+        >>> one = ReuseInfo(copyright_lines={"Jane Doe"}, source_path="foo.py")
+        >>> two = ReuseInfo(copyright_lines={"John Doe"}, source_path="bar.py")
+        >>> result = one.union(two)
+        >>> print(sorted(result.copyright_lines))
+        ['Jane Doe', 'John Doe']
+        >>> print(result.source_path)
+        foo.py
         """
-        self._check_nonexistent(**kwargs)
         new_kwargs = {}
-        for key, value in self.__dict__.items():
-            if isinstance(value, set) and kwargs.get(key):
-                new_kwargs[key] = value.union(kwargs.get(key))
+        for key, attr_val in self.__dict__.items():
+            if isinstance(attr_val, set) and (other_val := getattr(value, key)):
+                new_kwargs[key] = attr_val.union(other_val)
             else:
-                new_kwargs[key] = kwargs.get(key, value)
+                new_kwargs[key] = attr_val
         return self.__class__(**new_kwargs)
 
     def contains_copyright_or_licensing(self) -> bool:
@@ -158,6 +159,9 @@ class ReuseInfo:
 
     def __bool__(self):
         return any(self.__dict__.values())
+
+    def __or__(self, value) -> Type["ReuseInfo"]:
+        return self.union(value)
 
 
 class ReuseException(Exception):
