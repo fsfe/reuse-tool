@@ -73,6 +73,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   `Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later`. (#733)
 - Added `--contributor` option to `annotate`. (#669)
 - Added `--json` flag to `lint` command (#654).
+- `reuse.ReuseInfo` now has `copy` and `union` methods. (#759)
 
 ### Changed
 
