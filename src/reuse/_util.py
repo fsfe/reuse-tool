@@ -211,12 +211,11 @@ def _copyright_from_dep5(
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
-        return ReuseInfo(source_path=str(path))
+        return ReuseInfo()
 
     return ReuseInfo(
         spdx_expressions=set(map(_LICENSING.parse, [result.license.synopsis])),
         copyright_lines=set(map(str.strip, result.copyright.splitlines())),
-        source_path=str(path),
         source_type=SourceType.DEP5_FILE,
     )
 

@@ -225,18 +225,10 @@ class Project:
             dep5_result.contains_copyright_or_licensing()
             and not file_result.contains_copyright_or_licensing()
         ):
-            return ReuseInfo(
-                spdx_expressions=dep5_result.spdx_expressions,
-                copyright_lines=dep5_result.copyright_lines,
-                source_path=source_path,
-                source_type=SourceType.DEP5_FILE,
-            )
+            return dep5_result.copy(source_path=source_path)
         # There is a file header or a .license file
-        return ReuseInfo(
-            spdx_expressions=file_result.spdx_expressions,
-            copyright_lines=file_result.copyright_lines,
-            source_path=source_path,
-            source_type=source_type,
+        return file_result.copy(
+            source_path=source_path, source_type=source_type
         )
 
     def relative_from_root(self, path: Path) -> Path:

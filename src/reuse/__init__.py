@@ -21,7 +21,7 @@ import os
 import re
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import NamedTuple, Optional, Set
+from typing import NamedTuple, Optional, Set, Type
 
 try:
     from importlib.metadata import PackageNotFoundError, version
@@ -112,6 +112,45 @@ class ReuseInfo:
     contributor_lines: Set[str] = field(default_factory=set)
     source_path: Optional[str] = None
     source_type: Optional[SourceType] = None
+
+    def _check_nonexistent(self, **kwargs) -> None:
+        nonexistent_attributes = set(kwargs) - set(self.__dict__)
+        if nonexistent_attributes:
+            raise KeyError(
+                f"The following attributes do not exist in"
+                f" {self.__class__}: {', '.join(nonexistent_attributes)}"
+            )
+
+    def copy(self, **kwargs) -> Type["ReuseInfo"]:
+        """Return a copy of ReuseInfo, replacing the values of attributes with
+        the values from *kwargs*.
+        """
+        self._check_nonexistent(**kwargs)
+        new_kwargs = {}
+        for key, value in self.__dict__.items():
+            new_kwargs[key] = kwargs.get(key, value)
+        return self.__class__(**new_kwargs)
+
+    def copy_union(self, **kwargs) -> Type["ReuseInfo"]:
+        """Return a copy of ReuseInfo, replacing the values of Set attributes
+        with sets that are the union of the existing set and the set defined in
+        *kwargs*. Other attributes defined in *kwargs* are simply replaced.
+
+        >>> old = ReuseInfo(copyright_lines={"Jane Doe"}, source_path="foo.py")
+        >>> new = old.copy_union(copyright_lines={"Mr X"}, source_path="bar.py")
+        >>> print(sorted(new.copyright_lines))
+        ['Jane Doe', 'Mr X']
+        >>> print(new.source_path)
+        bar.py
+        """
+        self._check_nonexistent(**kwargs)
+        new_kwargs = {}
+        for key, value in self.__dict__.items():
+            if isinstance(value, set) and kwargs.get(key):
+                new_kwargs[key] = value.union(kwargs.get(key))
+            else:
+                new_kwargs[key] = kwargs.get(key, value)
+        return self.__class__(**new_kwargs)
 
     def contains_copyright_or_licensing(self) -> bool:
         """Either *spdx_expressions* or *copyright_lines* is non-empty."""

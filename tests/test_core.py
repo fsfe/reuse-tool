@@ -4,6 +4,8 @@
 
 """Tests for some core components."""
 
+import pytest
+
 from reuse import ReuseInfo
 
 # REUSE-IgnoreStart
@@ -31,6 +33,56 @@ def test_spdx_info_contains_copyright_or_licensing_other_truthy():
     """If another attribute is truthy, still expect False."""
     info = ReuseInfo(contributor_lines={"SPDX-FileContributor: 2017 Jane Doe"})
     assert not info.contains_copyright_or_licensing()
+
+
+def test_reuse_info_copy_simple():
+    """Get a copy of ReuseInfo with one field replaced."""
+    info = ReuseInfo(
+        spdx_expressions={"GPL-3.0-or-later"},
+        copyright_lines={"2017 Jane Doe"},
+        source_path="foo",
+    )
+    new_info = info.copy(source_path="bar")
+    assert info != new_info
+    assert info.spdx_expressions == new_info.spdx_expressions
+    assert info.copyright_lines == new_info.copyright_lines
+    assert info.source_path != new_info.source_path
+    assert new_info.source_path == "bar"
+
+
+def test_reuse_info_copy_nonexistent_attribute():
+    """
+    Expect a KeyError when trying to copy a nonexistent field into ReuseInfo.
+    """
+    info = ReuseInfo()
+    with pytest.raises(KeyError):
+        info.copy(foo="bar")
+
+
+def test_reuse_info_copy_union_simple():
+    """Get a copy_union of ReuseInfo with one field merged and one replaced."""
+    info = ReuseInfo(
+        copyright_lines={"2017 Jane Doe"},
+        source_path="foo",
+    )
+    new_info = info.copy_union(
+        copyright_lines={"2017 John Doe"}, source_path="bar"
+    )
+    assert info != new_info
+    assert sorted(new_info.copyright_lines) == [
+        "2017 Jane Doe",
+        "2017 John Doe",
+    ]
+    assert new_info.source_path == "bar"
+
+
+def test_reuse_info_copy_union_nonexistent_attribute():
+    """Expect a KeyError when trying to copy_union a nonexistent field into
+    ReuseInfo.
+    """
+    info = ReuseInfo()
+    with pytest.raises(KeyError):
+        info.copy_union(foo="bar")
 
 
 # REUSE-IgnoreEnd
