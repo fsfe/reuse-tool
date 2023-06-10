@@ -74,11 +74,11 @@ def test_extract_erroneous_expression():
 
 
 def test_extract_no_info():
-    """Given a file without SPDX information, return an empty SpdxInfo
+    """Given a string without SPDX information, return an empty SpdxInfo
     object.
     """
     result = _util.extract_spdx_info("")
-    assert result == _util.ReuseInfo(set(), set(), "")
+    assert result == _util.ReuseInfo()
 
 
 def test_extract_tab():

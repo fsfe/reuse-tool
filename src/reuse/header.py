@@ -175,10 +175,13 @@ def create_header(
 
         # TODO: This behaviour does not match the docstring.
         spdx_info = ReuseInfo(
-            spdx_info.spdx_expressions.union(existing_spdx.spdx_expressions),
-            spdx_copyrights,
-            spdx_info.contributor_lines.union(existing_spdx.contributor_lines),
-            "",
+            spdx_expressions=spdx_info.spdx_expressions.union(
+                existing_spdx.spdx_expressions
+            ),
+            copyright_lines=spdx_copyrights,
+            contributor_lines=spdx_info.contributor_lines.union(
+                existing_spdx.contributor_lines
+            ),
         )
 
     new_header += _create_new_header(
@@ -785,7 +788,11 @@ def run(args, project: Project, out=sys.stdout) -> int:
         set(args.contributor) if args.contributor is not None else set()
     )
 
-    spdx_info = ReuseInfo(expressions, copyright_lines, contributors, "")
+    spdx_info = ReuseInfo(
+        spdx_expressions=expressions,
+        copyright_lines=copyright_lines,
+        contributor_lines=contributors,
+    )
 
     result = 0
     for path in paths:

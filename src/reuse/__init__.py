@@ -102,6 +102,7 @@ class SourceType(Enum):
     DEP5_FILE = ".reuse/dep5 file"
 
 
+# TODO: In Python 3.10+, add kw_only=True
 @dataclass(frozen=True)
 class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""

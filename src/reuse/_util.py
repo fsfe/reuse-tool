@@ -32,7 +32,7 @@ from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
 
-from . import ReuseInfo
+from . import ReuseInfo, SourceType
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from .comment import _all_style_classes
 
@@ -211,12 +211,13 @@ def _copyright_from_dep5(
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
     if result is None:
-        return ReuseInfo(set(), set(), source_path=str(path))
+        return ReuseInfo(source_path=str(path))
 
     return ReuseInfo(
-        set(map(_LICENSING.parse, [result.license.synopsis])),
-        set(map(str.strip, result.copyright.splitlines())),
+        spdx_expressions=set(map(_LICENSING.parse, [result.license.synopsis])),
+        copyright_lines=set(map(str.strip, result.copyright.splitlines())),
         source_path=str(path),
+        source_type=SourceType.DEP5_FILE,
     )
 
 
@@ -320,7 +321,10 @@ def extract_spdx_info(text: str) -> ReuseInfo:
                 copyright_matches.add(match.groupdict()["copyright"].strip())
                 break
 
-    return ReuseInfo(expressions, copyright_matches, "")
+    # TODO: Where are the contributor lines?
+    return ReuseInfo(
+        spdx_expressions=expressions, copyright_lines=copyright_matches
+    )
 
 
 def find_license_identifiers(text: str) -> Iterator[str]:
