@@ -32,12 +32,6 @@ def add_arguments(parser):
         action="store_true",
         help=_("formats output as plain text"),
     )
-    mutex_group.add_argument(
-        "--format",
-        nargs="?",
-        choices=("json", "plain", "quiet"),
-        help=_("formats output using the chosen formatter"),
-    )
 
 
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements
@@ -252,9 +246,9 @@ def run(args, project: Project, out=sys.stdout):
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )
 
-    if args.quiet or args.format == "quiet":
+    if args.quiet:
         pass
-    elif args.json or args.format == "json":
+    elif args.json:
         out.write(format_json(report))
     else:
         out.write(format_plain(report))
