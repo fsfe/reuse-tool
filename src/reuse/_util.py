@@ -301,8 +301,8 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
     return copyright_out
 
 
-def extract_spdx_info(text: str) -> ReuseInfo:
-    """Extract SPDX information from comments in a string.
+def extract_reuse_info(text: str) -> ReuseInfo:
+    """Extract REUSE information from comments in a string.
 
     :raises ExpressionError: if an SPDX expression could not be parsed
     :raises ParseError: if an SPDX expression could not be parsed
@@ -385,10 +385,10 @@ def filter_ignore_block(text: str) -> str:
     return text[:ignore_start]
 
 
-def contains_spdx_info(text: str) -> bool:
-    """The text contains SPDX info."""
+def contains_reuse_info(text: str) -> bool:
+    """The text contains REUSE info."""
     try:
-        return bool(extract_spdx_info(text))
+        return bool(extract_reuse_info(text))
     except (ExpressionError, ParseError):
         return False
 

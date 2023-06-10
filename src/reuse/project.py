@@ -37,7 +37,7 @@ from ._util import (
     _copyright_from_dep5,
     _determine_license_path,
     decoded_text_from_binary,
-    extract_spdx_info,
+    extract_reuse_info,
 )
 from .vcs import VCSStrategyGit, VCSStrategyHg, VCSStrategyNone, find_root
 
@@ -144,7 +144,7 @@ class Project:
     def reuse_info_of(self, path: PathLike) -> ReuseInfo:
         """Return REUSE info of *path*.
 
-        This function will return any SPDX information that it can find, both
+        This function will return any REUSE information that it can find, both
         from within the file, the .license file and from the .reuse/dep5 file.
 
         It also returns a single primary source path of the license/copyright
@@ -156,14 +156,14 @@ class Project:
         source_path = ""
         source_type = None
 
-        _LOGGER.debug(f"searching '{path}' for SPDX information")
+        _LOGGER.debug(f"searching '{path}' for REUSE information")
 
         # This means that only one 'source' of licensing/copyright information
-        # is captured in SpdxInfo
+        # is captured in ReuseInfo
         dep5_result = ReuseInfo()
         file_result = ReuseInfo()
 
-        # Search the .reuse/dep5 file for SPDX information.
+        # Search the .reuse/dep5 file for REUSE information.
         if self._copyright:
             dep5_result = _copyright_from_dep5(
                 self.relative_from_root(path), self._copyright
@@ -175,7 +175,7 @@ class Project:
                 source_path = str(self.root / ".reuse/dep5")
                 dep5_path = source_path
 
-        # Search the file for SPDX information.
+        # Search the file for REUSE information.
         with path.open("rb") as fp:
             try:
                 # Completely read the file once to search for possible snippets
@@ -186,8 +186,9 @@ class Project:
                     read_limit = _HEADER_BYTES
                 # Reset read position
                 fp.seek(0)
-                # Scan the file for SPDX info, possible limiting the read length
-                file_result = extract_spdx_info(
+                # Scan the file for REUSE info, possible limiting the read
+                # length
+                file_result = extract_reuse_info(
                     decoded_text_from_binary(fp, size=read_limit)
                 )
                 if file_result:

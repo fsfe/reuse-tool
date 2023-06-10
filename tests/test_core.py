@@ -11,7 +11,7 @@ from reuse import ReuseInfo
 # REUSE-IgnoreStart
 
 
-def test_spdx_info_contains_copyright_or_licensing():
+def test_reuse_info_contains_copyright_or_licensing():
     """If either spdx_expressions or copyright_lines is truthy, expect True."""
     arguments = [
         ({"GPL-3.0-or-later"}, set()),
@@ -23,13 +23,13 @@ def test_spdx_info_contains_copyright_or_licensing():
         assert info.contains_copyright_or_licensing()
 
 
-def test_spdx_info_contains_copyright_or_licensing_empty():
-    """If the SpdxInfo object is completely empty, expect False."""
+def test_reuse_info_contains_copyright_or_licensing_empty():
+    """If the ReuseInfo object is completely empty, expect False."""
     info = ReuseInfo()
     assert not info.contains_copyright_or_licensing()
 
 
-def test_spdx_info_contains_copyright_or_licensing_other_truthy():
+def test_reuse_info_contains_copyright_or_licensing_other_truthy():
     """If another attribute is truthy, still expect False."""
     info = ReuseInfo(contributor_lines={"SPDX-FileContributor: 2017 Jane Doe"})
     assert not info.contains_copyright_or_licensing()

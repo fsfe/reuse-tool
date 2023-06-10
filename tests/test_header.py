@@ -12,7 +12,7 @@ import pytest
 from reuse import ReuseInfo
 from reuse.comment import CCommentStyle, CommentCreateError
 from reuse.header import (
-    MissingSpdxInfo,
+    MissingReuseInfo,
     add_new_header,
     create_header,
     find_and_replace_header,
@@ -69,10 +69,10 @@ def test_create_header_template_simple(template_simple):
 
 
 def test_create_header_template_no_spdx(template_no_spdx):
-    """Create a header with a template that does not have all SPDX info."""
+    """Create a header with a template that does not have all REUSE info."""
     info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
 
-    with pytest.raises(MissingSpdxInfo):
+    with pytest.raises(MissingReuseInfo):
         create_header(info, template=template_no_spdx)
 
 
@@ -101,7 +101,7 @@ def test_create_header_template_commented(template_commented):
 
 
 def test_create_header_already_contains_spdx():
-    """Create a new header from a header that already contains SPDX info."""
+    """Create a new header from a header that already contains REUSE info."""
     info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
     existing = cleandoc(
         """
@@ -158,7 +158,7 @@ def test_create_header_old_syntax():
 
 
 def test_create_header_remove_fluff():
-    """Any stuff that isn't SPDX info is removed when using create_header."""
+    """Any stuff that isn't REUSE info is removed when using create_header."""
     info = ReuseInfo({"GPL-3.0-or-later"})
     existing = cleandoc(
         """

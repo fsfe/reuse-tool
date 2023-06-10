@@ -77,8 +77,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Changed
 
 - Bumped SPDX license list to v3.20. (#692)
-- `reuse.SpdxInfo` is now a (frozen) dataclass instead of a namedtuple. This is
-  only relevant if you're using reuse as a library in Python. (#669)
+- `reuse.SpdxInfo` was renamed to `reuse.ReuseInfo`. It is now a (frozen)
+  dataclass instead of a namedtuple. This is only relevant if you're using reuse
+  as a library in Python. (#669)
 - Sphinx documentation: Switched from RTD theme to Furo. (#673, #716)
 - Removed dependency on setuptools' `pkg_resources` to determine the installed
   version of reuse. For Python <3.8, a dependency on `importlib-metadata` is
