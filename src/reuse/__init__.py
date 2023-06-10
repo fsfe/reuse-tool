@@ -92,15 +92,13 @@ _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 class SourceType(Enum):
     """
     An enumeration representing the types of sources for license information.
-
-    Potential values:
-        DOT_LICENSE_FILE: A .license file containing license information.
-        FILE_HEADER: A file header containing license information.
-        DEP5_FILE: A .reuse/dep5 file containing license information.
     """
 
+    #: A .license file containing license information.
     DOT_LICENSE_FILE = ".license file"
+    #: A file header containing license information.
     FILE_HEADER = "file header"
+    #: A .reuse/dep5 file containing license information.
     DEP5_FILE = ".reuse/dep5 file"
 
 
