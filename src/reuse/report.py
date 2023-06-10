@@ -13,13 +13,13 @@ import random
 from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
-from os import PathLike, cpu_count
+from os import cpu_count
 from pathlib import Path
-from typing import Iterable, List, NamedTuple, Optional, Set
+from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
 from uuid import uuid4
 
 from . import __REUSE_version__, __version__
-from ._util import _LICENSING, _checksum
+from ._util import _LICENSING, StrPath, _checksum
 from .project import Project, ReuseInfo
 
 _LOGGER = logging.getLogger(__name__)
@@ -30,12 +30,14 @@ LINT_VERSION = "1.0"
 class _MultiprocessingContainer:
     """Container that remembers some data in order to generate a FileReport."""
 
-    def __init__(self, project, do_checksum, add_license_concluded):
+    def __init__(
+        self, project: Project, do_checksum: bool, add_license_concluded: bool
+    ):
         self.project = project
         self.do_checksum = do_checksum
         self.add_license_concluded = add_license_concluded
 
-    def __call__(self, file_):
+    def __call__(self, file_: StrPath) -> "_MultiprocessingResult":
         # pylint: disable=broad-except
         try:
             return _MultiprocessingResult(
@@ -55,7 +57,7 @@ class _MultiprocessingContainer:
 class _MultiprocessingResult(NamedTuple):
     """Result of :class:`MultiprocessingContainer`."""
 
-    path: PathLike
+    path: StrPath
     report: Optional["FileReport"]
     error: Optional[Exception]
 
@@ -64,31 +66,31 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
     """Object that holds linting report about the project."""
 
     def __init__(self, do_checksum: bool = True):
-        self.path = None
-        self.licenses = {}
-        self.missing_licenses = {}
-        self.bad_licenses = {}
-        self.deprecated_licenses = set()
-        self.read_errors = set()
-        self.file_reports = set()
-        self.licenses_without_extension = {}
+        self.path: StrPath = ""
+        self.licenses: Dict[str, Path] = {}
+        self.missing_licenses: Dict[str, Set[Path]] = {}
+        self.bad_licenses: Dict[str, Set[Path]] = {}
+        self.deprecated_licenses: Set[str] = set()
+        self.read_errors: Set[Path] = set()
+        self.file_reports: Set[FileReport] = set()
+        self.licenses_without_extension: Dict[str, Path] = {}
 
         self.do_checksum = do_checksum
 
-        self._unused_licenses = None
-        self._used_licenses = None
-        self._files_without_licenses = None
-        self._files_without_copyright = None
-        self._is_compliant = None
+        self._unused_licenses: Optional[Set[str]] = None
+        self._used_licenses: Optional[Set[str]] = None
+        self._files_without_licenses: Optional[Set[Path]] = None
+        self._files_without_copyright: Optional[Set[Path]] = None
+        self._is_compliant: Optional[bool] = None
 
-    def to_dict_lint(self):
+    def to_dict_lint(self) -> Dict[str, Any]:
         """Collects and formats data relevant to linting from report and returns
         it as a dictionary.
 
         :return: Dictionary containing data from the ProjectReport object
         """
         # Setup report data container
-        data = {
+        data: Dict[str, Any] = {
             "non_compliant": {
                 "missing_licenses": self.missing_licenses,
                 "unused_licenses": [str(file) for file in self.unused_licenses],
@@ -232,7 +234,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         cls,
         project: Project,
         do_checksum: bool = True,
-        multiprocessing: bool = cpu_count() > 1,
+        multiprocessing: bool = cpu_count() > 1,  # type: ignore
         add_license_concluded: bool = False,
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
@@ -249,7 +251,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         if multiprocessing:
             with mp.Pool() as pool:
-                results = pool.map(container, project.all_files())
+                results: Iterable[_MultiprocessingResult] = pool.map(
+                    container, project.all_files()
+                )
             pool.join()
         else:
             results = map(container, project.all_files())
@@ -261,7 +265,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                         _("Could not read '{path}'").format(path=result.path),
                         exc_info=result.error,
                     )
-                    project_report.read_errors.add(result.path)
+                    project_report.read_errors.add(Path(result.path))
                     continue
                 _LOGGER.error(
                     _(
@@ -269,9 +273,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                     ).format(path=result.path),
                     exc_info=result.error,
                 )
-                project_report.read_errors.add(result.path)
+                project_report.read_errors.add(Path(result.path))
                 continue
-            file_report = result.report
+            file_report = cast(FileReport, result.report)
 
             # File report.
             project_report.file_reports.add(file_report)
@@ -329,8 +333,8 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return self._unused_licenses
 
     @property
-    def files_without_licenses(self) -> Iterable[PathLike]:
-        """Iterable of paths that have no license information."""
+    def files_without_licenses(self) -> Set[Path]:
+        """Set of paths that have no license information."""
         if self._files_without_licenses is not None:
             return self._files_without_licenses
 
@@ -343,8 +347,8 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return self._files_without_licenses
 
     @property
-    def files_without_copyright(self) -> Iterable[PathLike]:
-        """Iterable of paths that have no copyright information."""
+    def files_without_copyright(self) -> Set[Path]:
+        """Set of paths that have no copyright information."""
         if self._files_without_copyright is not None:
             return self._files_without_copyright
 
@@ -383,14 +387,19 @@ class _File:  # pylint: disable=too-few-public-methods
     case.
     """
 
-    def __init__(self, name, spdx_id=None, chk_sum=None):
+    def __init__(
+        self,
+        name: str,
+        spdx_id: Optional[str] = None,
+        chk_sum: Optional[str] = None,
+    ):
         self.name: str = name
-        self.spdx_id: str = spdx_id
-        self.chk_sum: str = chk_sum
+        self.spdx_id: Optional[str] = spdx_id
+        self.chk_sum: Optional[str] = chk_sum
         self.licenses_in_file: List[str] = []
-        self.license_concluded: str = None
-        self.copyright: str = None
-        self.info: ReuseInfo = None
+        self.license_concluded: str = ""
+        self.copyright: str = ""
+        self.info: ReuseInfo = ReuseInfo()
 
 
 class FileReport:
@@ -398,17 +407,15 @@ class FileReport:
     it also contains SPDX File information in :attr:`spdxfile`.
     """
 
-    def __init__(
-        self, name: PathLike, path: PathLike, do_checksum: bool = True
-    ):
-        self.spdxfile = _File(name)
+    def __init__(self, name: StrPath, path: StrPath, do_checksum: bool = True):
+        self.spdxfile = _File(str(name))
         self.path = Path(path)
         self.do_checksum = do_checksum
 
-        self.bad_licenses = set()
-        self.missing_licenses = set()
+        self.bad_licenses: Set[str] = set()
+        self.missing_licenses: Set[str] = set()
 
-    def to_dict_lint(self):
+    def to_dict_lint(self) -> Dict[str, Any]:
         """Turn the report into a json-like dictionary with exclusively
         information relevant for linting.
         """
@@ -432,7 +439,7 @@ class FileReport:
     def generate(
         cls,
         project: Project,
-        path: PathLike,
+        path: StrPath,
         do_checksum: bool = True,
         add_license_concluded: bool = False,
     ) -> "FileReport":
@@ -503,13 +510,13 @@ class FileReport:
         report.spdxfile.info = reuse_info
         return report
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         if self.spdxfile.chk_sum is not None:
             return hash(self.spdxfile.name + self.spdxfile.chk_sum)
-        return super().__hash__(self)
+        return super().__hash__()
 
 
-def format_creator(creator: str) -> str:
+def format_creator(creator: Optional[str]) -> str:
     """Render the creator field based on the provided flag"""
     if creator is None:
         return "Anonymous ()"
