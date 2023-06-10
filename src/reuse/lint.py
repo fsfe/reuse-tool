@@ -9,16 +9,18 @@ the reports and printing some conclusions.
 
 import json
 import sys
+from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
+from typing import IO, Any
 
 from . import __REUSE_version__
 from .project import Project
 from .report import ProjectReport
 
 
-def add_arguments(parser):
+def add_arguments(parser: ArgumentParser) -> None:
     """Add arguments to parser."""
     mutex_group = parser.add_mutually_exclusive_group()
     mutex_group.add_argument(
@@ -208,7 +210,7 @@ def format_json(report: ProjectReport) -> str:
     :return: String (representing JSON) that can be output to sys.stdout
     """
 
-    def custom_serializer(obj):
+    def custom_serializer(obj: Any) -> Any:
         """Custom serializer for the dictionary output of ProjectReport
 
         :param obj: Object to be serialized
@@ -229,7 +231,7 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
-def run(args, project: Project, out=sys.stdout):
+def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """List all non-compliant files."""
     report = ProjectReport.generate(
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
