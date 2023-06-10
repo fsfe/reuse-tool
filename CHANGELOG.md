@@ -82,14 +82,13 @@ CLI command and its behaviour. There are no guarantees of stability for the
   as a library in Python. (#669)
 - Sphinx documentation: Switched from RTD theme to Furo. (#673, #716)
 - Removed dependency on setuptools' `pkg_resources` to determine the installed
-  version of reuse. For Python <3.8, a dependency on `importlib-metadata` is
-  added. (#724)
+  version of reuse. (#724)
 
 ### Deprecated
 
 ### Removed
 
-- Python 3.6 support has been dropped. (#673)
+- Python 3.6 and 3.7 support has been dropped. (#673, #759)
 - Removed runtime and build time dependency on `setuptools`. (#724)
 
 ### Fixed

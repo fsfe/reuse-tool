@@ -21,12 +21,8 @@ import os
 import re
 from dataclasses import dataclass, field
 from enum import Enum, auto
+from importlib.metadata import PackageNotFoundError, version
 from typing import NamedTuple, Optional, Set, Type
-
-try:
-    from importlib.metadata import PackageNotFoundError, version
-except ImportError:
-    from importlib_metadata import PackageNotFoundError, version
 
 from boolean.boolean import Expression
 

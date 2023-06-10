@@ -50,13 +50,12 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7.2"
+python = "^3.8"
 Jinja2 = "^3.0.0"
 binaryornot = "^0.4.4"
 "boolean.py" = ">=3.8"
 license-expression = ">=1.0"
 python-debian = "^0.1.38,!=0.1.45,!=0.1.46,!=0.1.47"
-importlib-metadata = { version = ">=1.4", python = "<3.8" }
 
 [tool.poetry.dev-dependencies]
 Sphinx = ">=4.0.0"
