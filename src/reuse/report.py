@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
+# SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -113,6 +114,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             "summary": {
                 "used_licenses": [],
             },
+            "recommendations": self.recommendations,
         }
 
         # Populate 'files'
@@ -140,15 +142,21 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         }
 
         # Sort dictionary keys while keeping the top three keys at the beginning
+        # and the recommendations on the bottom
         sorted_keys = sorted(list(unsorted_data.keys()))
         sorted_keys.remove("lint_version")
         sorted_keys.remove("reuse_spec_version")
         sorted_keys.remove("reuse_tool_version")
-        sorted_keys = [
-            "lint_version",
-            "reuse_spec_version",
-            "reuse_tool_version",
-        ] + sorted_keys
+        sorted_keys.remove("recommendations")
+        sorted_keys = (
+            [
+                "lint_version",
+                "reuse_spec_version",
+                "reuse_tool_version",
+            ]
+            + sorted_keys
+            + ["recommendations"]
+        )
 
         sorted_data = {key: unsorted_data[key] for key in sorted_keys}
 
@@ -333,7 +341,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     @property
     def files_without_licenses(self) -> Set[Path]:
-        """Set of paths that have no license information."""
+        """Set of paths that have no licensing information."""
         if self._files_without_licenses is not None:
             return self._files_without_licenses
 
@@ -379,6 +387,89 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         )
 
         return self._is_compliant
+
+    @property
+    def recommendations(self) -> List[str]:
+        """Generate help for next steps based on found REUSE issues"""
+        recommendations = []
+
+        # These items should be ordered in the same way as in the summary.
+        if self.bad_licenses:
+            recommendations.append(
+                _(
+                    "Fix bad licenses: At least one license in the LICENSES"
+                    " directory and/or provided by 'SPDX-License-Identifier'"
+                    " tags is invalid. They are either not valid SPDX License"
+                    " Identifiers or do not start with 'LicenseRef-'. FAQ about"
+                    " custom licenses:"
+                    " https://reuse.software/faq/#custom-license"
+                )
+            )
+        if self.deprecated_licenses:
+            recommendations.append(
+                _(
+                    "Fix deprecated licenses: At least one of the licenses in"
+                    " the LICENSES directory and/or provided by an"
+                    " 'SPDX-License-Identifier' tag or in '.reuse/dep5' has"
+                    " been deprecated by SPDX. The current list and their"
+                    " respective recommended  new identifiers can be found"
+                    " here: <https://spdx.org/licenses/#deprecated>"
+                )
+            )
+        if self.licenses_without_extension:
+            recommendations.append(
+                _(
+                    "Fix licenses without file extension: At least one license"
+                    " text file in the 'LICENSES' directory does not have a"
+                    " '.txt' file extension. Please rename the file(s)"
+                    " accordingly."
+                )
+            )
+        if self.missing_licenses:
+            recommendations.append(
+                _(
+                    "Fix missing licenses: For at least one of the license"
+                    " identifiers provided by the 'SPDX-License-Identifier'"
+                    " tags, there is no corresponding license text file in the"
+                    " 'LICENSES' directory. For SPDX license identifiers, you"
+                    " can simply run 'reuse download --all' to get any missing"
+                    " ones. For custom licenses (starting with 'LicenseRef-'),"
+                    " you need to add these files yourself."
+                )
+            )
+        if self.unused_licenses:
+            recommendations.append(
+                _(
+                    "Fix unused licenses: At least one of the license text"
+                    " files in 'LICENSES' is not referenced by any file, e.g."
+                    " by an 'SPDX-License-Identifier' tag. Please make sure"
+                    " that you either tag the accordingly licensed files"
+                    " properly, or delete the unused license text if you are"
+                    " sure that no file or code snippet is licensed as such."
+                )
+            )
+        if self.read_errors:
+            recommendations.append(
+                _(
+                    "Fix read errors: At least one of the files in your"
+                    " directory cannot be read by the tool. Please check the"
+                    " file permissions. You will find the affected files at the"
+                    " top of the output as part of the logged error messages."
+                )
+            )
+        if self.files_without_copyright or self.files_without_licenses:
+            recommendations.append(
+                _(
+                    "Fix missing copyright/licensing information: For one or"
+                    " more files, the tool cannot find copyright and/or"
+                    " licensing information. You typically do this by adding"
+                    " 'SPDX-FileCopyrightText' and 'SPDX-License-Identifer'"
+                    " tags to each file. The tutorial explains additional ways"
+                    " to do this: <https://reuse.software/tutorial/>"
+                )
+            )
+
+        return recommendations
 
 
 class FileReport:  # pylint: disable=too-many-instance-attributes
