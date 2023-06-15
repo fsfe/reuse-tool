@@ -150,7 +150,7 @@ def parser() -> argparse.ArgumentParser:
         "addheader",
         header.add_arguments,
         header.run,
-        help=argparse.SUPPRESS,
+        help=_("deprecated in favor of annotate"),
     )
 
     add_command(
