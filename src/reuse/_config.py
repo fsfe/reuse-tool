@@ -8,6 +8,8 @@ from dataclasses import dataclass, field
 from gettext import gettext as _
 from typing import Any, Dict, Optional
 
+import yaml
+
 
 @dataclass
 class AnnotateOptions:
@@ -48,6 +50,23 @@ class Config:
                     path
                 ] = _annotate_options_from_dict(override)
         return config
+
+    @classmethod
+    def from_yaml(cls, text: str) -> "Config":
+        """Parse yaml to generate a Config object.
+
+        An example of a yaml file::
+
+            annotate:
+              default_name: Jane Doe
+              default_contact: jane@example.com
+              default_license: GPL-3.0-or-later
+
+              overrides:
+                - path: ~/Projects/FSFE
+                  default_contact: jane@fsfe.example.com
+        """
+        return cls.from_dict(yaml.load(text, Loader=yaml.Loader))
 
 
 def _annotate_options_from_dict(value: Dict[str, str]) -> AnnotateOptions:

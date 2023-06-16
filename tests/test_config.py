@@ -4,6 +4,8 @@
 
 """Tests for some _config."""
 
+from inspect import cleandoc
+
 from reuse._config import Config
 
 # REUSE-IgnoreStart
@@ -59,6 +61,30 @@ def test_config_from_dict_override():
     assert result.override_annotate_options["foo"].name == "John Doe"
     assert result.override_annotate_options["bar"].name is None
     assert result.override_annotate_options["bar"].license == "MIT"
+
+
+def test_config_from_yaml_simple():
+    """Load Config from yaml."""
+    text = cleandoc(
+        """
+        annotate:
+          default_name: Jane Doe
+          default_contact: jane@example.com
+          default_license: GPL-3.0-or-later
+
+          overrides:
+            - path: ~/Projects/FSFE
+              default_contact: jane@fsfe.example.com
+        """
+    )
+    result = Config.from_yaml(text)
+    assert result.global_annotate_options.name == "Jane Doe"
+    assert result.global_annotate_options.contact == "jane@example.com"
+    assert result.global_annotate_options.license == "GPL-3.0-or-later"
+    assert (
+        result.override_annotate_options["~/Projects/FSFE"].contact
+        == "jane@fsfe.example.com"
+    )
 
 
 # REUSE-IgnoreEnd
