@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 John Mulligan <jmulligan@redhat.com>
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -99,11 +100,15 @@ class VCSStrategyGit(VCSStrategy):
         ]
         result = execute_command(command, _LOGGER, cwd=self.project.root)
         all_files = result.stdout.decode("utf-8").split("\0")
-        return {Path(file_) for file_ in all_files}
+        return {Path(file_) for file_ in all_files[:-1]}
 
     def is_ignored(self, path: StrPath) -> bool:
         path = self.project.relative_from_root(path)
-        return path in self._all_ignored_files
+        return path in self._all_ignored_files or any(
+            path.is_relative_to(ignored_dir)  # type: ignore
+            for ignored_dir in self._all_ignored_files
+            if ignored_dir.is_dir()
+        )
 
     @classmethod
     def in_repo(cls, directory: StrPath) -> bool:
@@ -163,11 +168,15 @@ class VCSStrategyHg(VCSStrategy):
         ]
         result = execute_command(command, _LOGGER, cwd=self.project.root)
         all_files = result.stdout.decode("utf-8").split("\0")
-        return {Path(file_) for file_ in all_files}
+        return {Path(file_) for file_ in all_files[:-1]}
 
     def is_ignored(self, path: StrPath) -> bool:
         path = self.project.relative_from_root(path)
-        return path in self._all_ignored_files
+        return path in self._all_ignored_files or any(
+            path.is_relative_to(ignored_dir)  # type: ignore
+            for ignored_dir in self._all_ignored_files
+            if ignored_dir.is_dir()
+        )
 
     @classmethod
     def in_repo(cls, directory: StrPath) -> bool:
