@@ -6,6 +6,8 @@
 
 from dataclasses import dataclass, field
 from gettext import gettext as _
+from os import PathLike
+from pathlib import Path, PurePath
 from typing import Any, Dict, Optional
 
 import yaml
@@ -18,6 +20,17 @@ class AnnotateOptions:
     name: Optional[str] = None
     contact: Optional[str] = None
     license: Optional[str] = None
+
+    def merge(self, other: "AnnotateOptions") -> "AnnotateOptions":
+        """Return a copy of *self*, but replace attributes with truthy
+        attributes of *other*.
+        """
+        new_kwargs = {}
+        for key, value in self.__dict__.items():
+            if other_value := getattr(other, key):
+                value = other_value
+            new_kwargs[key] = value
+        return self.__class__(**new_kwargs)
 
 
 @dataclass
@@ -67,6 +80,19 @@ class Config:
                   default_contact: jane@fsfe.example.com
         """
         return cls.from_dict(yaml.load(text, Loader=yaml.Loader))
+
+    # TODO: We could probably smartly cache the results somehow.
+    def annotations_for_path(self, path: PathLike) -> AnnotateOptions:
+        """TODO: Document the precise behaviour."""
+        path = PurePath(path)
+        result = self.global_annotate_options
+        # This assumes that the override options are ordered by reverse
+        # precedence.
+        for o_path, options in self.override_annotate_options.items():
+            o_path = Path(o_path).expanduser()
+            if path.is_relative_to(o_path):
+                result = result.merge(options)
+        return result
 
 
 def _annotate_options_from_dict(value: Dict[str, str]) -> AnnotateOptions:
