@@ -7,7 +7,7 @@
 from dataclasses import dataclass, field
 from gettext import gettext as _
 from os import PathLike
-from pathlib import Path, PurePath
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 import yaml
@@ -84,7 +84,7 @@ class Config:
     # TODO: We could probably smartly cache the results somehow.
     def annotations_for_path(self, path: PathLike) -> AnnotateOptions:
         """TODO: Document the precise behaviour."""
-        path = PurePath(path)
+        path = Path(path)
         result = self.global_annotate_options
         # This assumes that the override options are ordered by reverse
         # precedence.
