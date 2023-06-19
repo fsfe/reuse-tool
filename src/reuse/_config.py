@@ -6,11 +6,12 @@
 
 from dataclasses import dataclass, field
 from gettext import gettext as _
-from os import PathLike
 from pathlib import Path
 from typing import Any, Dict, Optional
 
 import yaml
+
+from ._util import StrPath
 
 
 @dataclass
@@ -82,15 +83,14 @@ class Config:
         return cls.from_dict(yaml.load(text, Loader=yaml.Loader))
 
     # TODO: We could probably smartly cache the results somehow.
-    def annotations_for_path(self, path: PathLike) -> AnnotateOptions:
+    def annotations_for_path(self, path: StrPath) -> AnnotateOptions:
         """TODO: Document the precise behaviour."""
         path = Path(path)
         result = self.global_annotate_options
         # This assumes that the override options are ordered by reverse
         # precedence.
         for o_path, options in self.override_annotate_options.items():
-            o_path = Path(o_path).expanduser()
-            if path.is_relative_to(o_path):
+            if path.is_relative_to(Path(o_path).expanduser()):
                 result = result.merge(options)
         return result
 
