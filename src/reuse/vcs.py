@@ -6,14 +6,18 @@
 
 """This module deals with version control systems."""
 
+from __future__ import annotations
+
 import logging
 import os
 from abc import ABC, abstractmethod
-from os import PathLike
 from pathlib import Path
-from typing import Optional, Set
+from typing import TYPE_CHECKING, Optional, Set
 
-from ._util import GIT_EXE, HG_EXE, execute_command
+from ._util import GIT_EXE, HG_EXE, StrPath, execute_command
+
+if TYPE_CHECKING:
+    from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -22,16 +26,16 @@ class VCSStrategy(ABC):
     """Strategy pattern for version control systems."""
 
     @abstractmethod
-    def __init__(self, project: "Project"):
+    def __init__(self, project: Project):
         self.project = project
 
     @abstractmethod
-    def is_ignored(self, path: PathLike) -> bool:
+    def is_ignored(self, path: StrPath) -> bool:
         """Is *path* ignored by the VCS?"""
 
     @classmethod
     @abstractmethod
-    def in_repo(cls, directory: PathLike) -> bool:
+    def in_repo(cls, directory: StrPath) -> bool:
         """Is *directory* inside of the VCS repository?
 
         :raises NotADirectoryError: if directory is not a directory.
@@ -39,7 +43,7 @@ class VCSStrategy(ABC):
 
     @classmethod
     @abstractmethod
-    def find_root(cls, cwd: PathLike = None) -> Optional[Path]:
+    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
         """Try to find the root of the project from *cwd*. If none is found,
         return None.
 
@@ -50,26 +54,26 @@ class VCSStrategy(ABC):
 class VCSStrategyNone(VCSStrategy):
     """Strategy that is used when there is no VCS."""
 
-    def __init__(self, project: "Project"):
+    def __init__(self, project: Project):
         # pylint: disable=useless-super-delegation
         super().__init__(project)
 
-    def is_ignored(self, path: PathLike) -> bool:
+    def is_ignored(self, path: StrPath) -> bool:
         return False
 
     @classmethod
-    def in_repo(cls, directory: PathLike) -> bool:
+    def in_repo(cls, directory: StrPath) -> bool:
         return False
 
     @classmethod
-    def find_root(cls, cwd: PathLike = None) -> Optional[Path]:
+    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
         return None
 
 
 class VCSStrategyGit(VCSStrategy):
     """Strategy that is used for Git."""
 
-    def __init__(self, project):
+    def __init__(self, project: Project):
         super().__init__(project)
         if not GIT_EXE:
             raise FileNotFoundError("Could not find binary for Git")
@@ -80,7 +84,7 @@ class VCSStrategyGit(VCSStrategy):
         ignored, don't return all files inside of it.
         """
         command = [
-            GIT_EXE,
+            str(GIT_EXE),
             "ls-files",
             "--exclude-standard",
             "--ignored",
@@ -97,32 +101,32 @@ class VCSStrategyGit(VCSStrategy):
         all_files = result.stdout.decode("utf-8").split("\0")
         return {Path(file_) for file_ in all_files}
 
-    def is_ignored(self, path: PathLike) -> bool:
+    def is_ignored(self, path: StrPath) -> bool:
         path = self.project.relative_from_root(path)
         return path in self._all_ignored_files
 
     @classmethod
-    def in_repo(cls, directory: PathLike) -> bool:
+    def in_repo(cls, directory: StrPath) -> bool:
         if directory is None:
             directory = Path.cwd()
 
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [GIT_EXE, "status"]
+        command = [str(GIT_EXE), "status"]
         result = execute_command(command, _LOGGER, cwd=directory)
 
         return not result.returncode
 
     @classmethod
-    def find_root(cls, cwd: PathLike = None) -> Optional[Path]:
+    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
         if cwd is None:
             cwd = Path.cwd()
 
         if not Path(cwd).is_dir():
             raise NotADirectoryError()
 
-        command = [GIT_EXE, "rev-parse", "--show-toplevel"]
+        command = [str(GIT_EXE), "rev-parse", "--show-toplevel"]
         result = execute_command(command, _LOGGER, cwd=cwd)
 
         if not result.returncode:
@@ -135,7 +139,7 @@ class VCSStrategyGit(VCSStrategy):
 class VCSStrategyHg(VCSStrategy):
     """Strategy that is used for Mercurial."""
 
-    def __init__(self, project: "Project"):
+    def __init__(self, project: Project):
         super().__init__(project)
         if not HG_EXE:
             raise FileNotFoundError("Could not find binary for Mercurial")
@@ -146,7 +150,7 @@ class VCSStrategyHg(VCSStrategy):
         is ignored, don't return all files inside of it.
         """
         command = [
-            HG_EXE,
+            str(HG_EXE),
             "status",
             "--ignored",
             # terse is marked 'experimental' in the hg help but is documented
@@ -161,32 +165,32 @@ class VCSStrategyHg(VCSStrategy):
         all_files = result.stdout.decode("utf-8").split("\0")
         return {Path(file_) for file_ in all_files}
 
-    def is_ignored(self, path: PathLike) -> bool:
+    def is_ignored(self, path: StrPath) -> bool:
         path = self.project.relative_from_root(path)
         return path in self._all_ignored_files
 
     @classmethod
-    def in_repo(cls, directory: PathLike) -> bool:
+    def in_repo(cls, directory: StrPath) -> bool:
         if directory is None:
             directory = Path.cwd()
 
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [HG_EXE, "root"]
+        command = [str(HG_EXE), "root"]
         result = execute_command(command, _LOGGER, cwd=directory)
 
         return not result.returncode
 
     @classmethod
-    def find_root(cls, cwd: PathLike = None) -> Optional[Path]:
+    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
         if cwd is None:
             cwd = Path.cwd()
 
         if not Path(cwd).is_dir():
             raise NotADirectoryError()
 
-        command = [HG_EXE, "root"]
+        command = [str(HG_EXE), "root"]
         result = execute_command(command, _LOGGER, cwd=cwd)
 
         if not result.returncode:
@@ -196,7 +200,7 @@ class VCSStrategyHg(VCSStrategy):
         return None
 
 
-def find_root(cwd: PathLike = None) -> Optional[Path]:
+def find_root(cwd: Optional[StrPath] = None) -> Optional[Path]:
     """Try to find the root of the project from *cwd*. If none is found,
     return None.
 

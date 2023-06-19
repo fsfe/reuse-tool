@@ -7,6 +7,7 @@
 
 import shutil
 import sys
+from importlib import import_module
 
 import pytest
 
@@ -15,14 +16,14 @@ from reuse.project import Project
 from reuse.report import ProjectReport
 
 try:
-    import posix as is_posix
+    IS_POSIX = bool(import_module("posix"))
 except ImportError:
-    is_posix = False
+    IS_POSIX = False
 
 cpython = pytest.mark.skipif(
     sys.implementation.name != "cpython", reason="only CPython supported"
 )
-posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
+posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
 
 
 # REUSE-IgnoreStart

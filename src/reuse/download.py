@@ -9,15 +9,17 @@ import errno
 import logging
 import sys
 import urllib.request
+from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
-from os import PathLike
 from pathlib import Path
+from typing import IO
 from urllib.error import URLError
 from urllib.parse import urljoin
 
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import (
     PathType,
+    StrPath,
     find_licenses_directory,
     print_incorrect_spdx_identifier,
 )
@@ -49,12 +51,12 @@ def download_license(spdx_identifier: str) -> str:
     raise URLError("Status code was not 200")
 
 
-def _path_to_license_file(spdx_identifier: str, root: PathLike) -> Path:
+def _path_to_license_file(spdx_identifier: str, root: StrPath) -> Path:
     licenses_path = find_licenses_directory(root=root)
     return licenses_path / "".join((spdx_identifier, ".txt"))
 
 
-def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
+def put_license_in_file(spdx_identifier: str, destination: StrPath) -> None:
     """Download a license and put it in the destination file.
 
     This function exists solely for convenience.
@@ -77,7 +79,7 @@ def put_license_in_file(spdx_identifier: str, destination: PathLike) -> None:
         fp.write(text)
 
 
-def add_arguments(parser) -> None:
+def add_arguments(parser: ArgumentParser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
         "license",
@@ -95,10 +97,10 @@ def add_arguments(parser) -> None:
     )
 
 
-def run(args, project: Project, out=sys.stdout) -> int:
+def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """Download license and place it in the LICENSES/ directory."""
 
-    def _already_exists(path: PathLike):
+    def _already_exists(path: StrPath) -> None:
         out.write(
             _("Error: {spdx_identifier} already exists.").format(
                 spdx_identifier=path
@@ -106,7 +108,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
         )
         out.write("\n")
 
-    def _could_not_download(identifier: str):
+    def _could_not_download(identifier: str) -> None:
         out.write(_("Error: Failed to download license."))
         out.write(" ")
         if identifier not in ALL_NON_DEPRECATED_MAP:
@@ -115,7 +117,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
             out.write(_("Is your internet connection working?"))
         out.write("\n")
 
-    def _successfully_downloaded(destination: PathLike):
+    def _successfully_downloaded(destination: StrPath) -> None:
         out.write(
             _("Successfully downloaded {spdx_identifier}.").format(
                 spdx_identifier=destination

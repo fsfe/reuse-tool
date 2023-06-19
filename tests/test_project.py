@@ -8,6 +8,7 @@
 
 import os
 import shutil
+from importlib import import_module
 from inspect import cleandoc
 from pathlib import Path
 from textwrap import dedent
@@ -18,11 +19,11 @@ from license_expression import LicenseSymbol
 from reuse.project import Project
 
 try:
-    import posix as is_posix
+    IS_POSIX = bool(import_module("posix"))
 except ImportError:
-    is_posix = False
+    IS_POSIX = False
 
-posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
+posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"

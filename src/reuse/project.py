@@ -12,7 +12,7 @@ import logging
 import os
 from gettext import gettext as _
 from pathlib import Path
-from typing import Dict, Iterator, Optional
+from typing import Dict, Iterator, Optional, Union, cast
 
 from boolean.boolean import ParseError
 from debian.copyright import Copyright
@@ -32,14 +32,20 @@ from ._util import (
     _HEADER_BYTES,
     GIT_EXE,
     HG_EXE,
-    PathLike,
+    StrPath,
     _contains_snippet,
     _copyright_from_dep5,
     _determine_license_path,
     decoded_text_from_binary,
     extract_reuse_info,
 )
-from .vcs import VCSStrategyGit, VCSStrategyHg, VCSStrategyNone, find_root
+from .vcs import (
+    VCSStrategy,
+    VCSStrategyGit,
+    VCSStrategyHg,
+    VCSStrategyNone,
+    find_root,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -51,7 +57,7 @@ class Project:
 
     def __init__(
         self,
-        root: PathLike,
+        root: StrPath,
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
     ):
@@ -60,7 +66,7 @@ class Project:
             raise NotADirectoryError(f"{self._root} is no valid path")
 
         if GIT_EXE and VCSStrategyGit.in_repo(self._root):
-            self.vcs_strategy = VCSStrategyGit(self)
+            self.vcs_strategy: VCSStrategy = VCSStrategyGit(self)
         elif HG_EXE and VCSStrategyHg.in_repo(self._root):
             self.vcs_strategy = VCSStrategyHg(self)
         else:
@@ -72,14 +78,14 @@ class Project:
             )
             self.vcs_strategy = VCSStrategyNone(self)
 
-        self.licenses_without_extension = {}
+        self.licenses_without_extension: Dict[str, Path] = {}
 
         self.license_map = LICENSE_MAP.copy()
         # TODO: Is this correct?
         self.license_map.update(EXCEPTION_MAP)
         self.licenses = self._licenses()
         # Use '0' as None, because None is a valid value...
-        self._copyright_val = 0
+        self._copyright_val: Optional[Union[int, Copyright]] = 0
         self.include_submodules = include_submodules
 
         meson_build_path = self._root / "meson.build"
@@ -88,7 +94,7 @@ class Project:
             include_meson_subprojects and uses_meson
         )
 
-    def all_files(self, directory: PathLike = None) -> Iterator[Path]:
+    def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
 
         The files that are not yielded are:
@@ -101,8 +107,8 @@ class Project:
             directory = self.root
         directory = Path(directory)
 
-        for root, dirs, files in os.walk(directory):
-            root = Path(root)
+        for root_str, dirs, files in os.walk(directory):
+            root = Path(root_str)
             _LOGGER.debug("currently walking in '%s'", root)
 
             # Don't walk ignored directories
@@ -141,7 +147,7 @@ class Project:
                 _LOGGER.debug("yielding '%s'", the_file)
                 yield the_file
 
-    def reuse_info_of(self, path: PathLike) -> ReuseInfo:
+    def reuse_info_of(self, path: StrPath) -> ReuseInfo:
         """Return REUSE info of *path*.
 
         This function will return any REUSE information that it can find, both
@@ -232,10 +238,11 @@ class Project:
             source_path=source_path, source_type=source_type
         )
 
-    def relative_from_root(self, path: Path) -> Path:
+    def relative_from_root(self, path: StrPath) -> Path:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
+        path = Path(path)
         try:
             return path.relative_to(self.root)
         except ValueError:
@@ -303,17 +310,17 @@ class Project:
             # this line under each exception.
             if not self._copyright_val:
                 self._copyright_val = None
-        return self._copyright_val
+        return cast(Optional[Copyright], self._copyright_val)
 
     def _licenses(self) -> Dict[str, Path]:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
         """
-        license_files = {}
+        license_files: Dict[str, Path] = {}
 
         directory = str(self.root / "LICENSES/**")
-        for path in glob.iglob(directory, recursive=True):
-            path = Path(path)
+        for path_str in glob.iglob(directory, recursive=True):
+            path = Path(path_str)
             # For some reason, LICENSES/** is resolved even though it
             # doesn't exist. I have no idea why. Deal with that here.
             if not Path(path).exists() or Path(path).is_dir():

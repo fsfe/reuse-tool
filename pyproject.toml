@@ -70,6 +70,7 @@ pre-commit = "^2.9.0"
 pylint = "^2.12.2"
 pytest = ">=6.0.0"
 pytest-cov = ">=2.10.0"
+mypy = "^1.0"
 
 [tool.poetry.scripts]
 reuse = 'reuse._main:main'
@@ -94,3 +95,27 @@ line_length = 80
 
 [tool.pytest.ini_options]
 addopts = "--doctest-modules"
+
+[tool.mypy]
+files = [
+    "src/reuse/**.py",
+    "tests/**.py",
+]
+exclude = [
+    '^_build\.py$',
+    '^conf\.py$',
+]
+
+[[tool.mypy.overrides]]
+module = "reuse.*"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "binaryornot.check",
+    "boolean.boolean",
+    "license_expression",
+    "pkg_resources",
+]
+ignore_missing_imports = true

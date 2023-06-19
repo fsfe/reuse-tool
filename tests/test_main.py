@@ -16,7 +16,7 @@ import os
 import re
 from inspect import cleandoc
 from pathlib import Path
-from typing import Optional
+from typing import Generator, Optional
 from unittest.mock import create_autospec
 from urllib.error import URLError
 
@@ -31,7 +31,9 @@ from reuse.report import LINT_VERSION
 
 
 @pytest.fixture(params=[True, False])
-def optional_git_exe(request, monkeypatch) -> Optional[str]:
+def optional_git_exe(
+    request, monkeypatch
+) -> Generator[Optional[str], None, None]:
     """Run the test with or without git."""
     exe = GIT_EXE if request.param else ""
     monkeypatch.setattr("reuse.project.GIT_EXE", exe)
@@ -40,7 +42,9 @@ def optional_git_exe(request, monkeypatch) -> Optional[str]:
 
 
 @pytest.fixture(params=[True, False])
-def optional_hg_exe(request, monkeypatch) -> Optional[str]:
+def optional_hg_exe(
+    request, monkeypatch
+) -> Generator[Optional[str], None, None]:
     """Run the test with or without mercurial."""
     exe = HG_EXE if request.param else ""
     monkeypatch.setattr("reuse.project.HG_EXE", exe)

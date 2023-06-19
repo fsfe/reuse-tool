@@ -5,10 +5,11 @@
 """Functions for REUSE-ifying a project."""
 
 import sys
+from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
 from inspect import cleandoc
 from pathlib import Path
-from typing import List
+from typing import IO, List
 from urllib.error import URLError
 
 from ._licenses import ALL_NON_DEPRECATED_MAP
@@ -18,7 +19,7 @@ from .project import Project
 from .vcs import find_root
 
 
-def prompt_licenses(out=sys.stdout) -> List[str]:
+def prompt_licenses(out: IO[str] = sys.stdout) -> List[str]:
     """Prompt the user for a list of licenses."""
     first = _(
         "What license is your project under? "
@@ -28,7 +29,7 @@ def prompt_licenses(out=sys.stdout) -> List[str]:
         "What other license is your project under? "
         "Provide the SPDX License Identifier."
     )
-    licenses = []
+    licenses: List[str] = []
 
     while True:
         if not licenses:
@@ -49,7 +50,7 @@ def prompt_licenses(out=sys.stdout) -> List[str]:
             licenses.append(result)
 
 
-def add_arguments(parser):
+def add_arguments(parser: ArgumentParser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
         "path",
@@ -59,7 +60,11 @@ def add_arguments(parser):
     )
 
 
-def run(args, project: Project, out=sys.stdout):
+def run(
+    args: Namespace,
+    project: Project,
+    out: IO[str] = sys.stdout,
+) -> int:
     """List all non-compliant files."""
     # pylint: disable=too-many-statements,unused-argument
     if args.path:

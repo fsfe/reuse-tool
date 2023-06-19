@@ -23,7 +23,7 @@ headers, in any case.
 import logging
 import operator
 from textwrap import dedent
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Type
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -49,6 +49,7 @@ class MultiLineSegments(NamedTuple):
 class CommentStyle:
     """Base class for comment style."""
 
+    SHORTHAND = ""
     SINGLE_LINE = ""
     INDENT_AFTER_SINGLE = ""
     # (start, middle, end)
@@ -57,7 +58,7 @@ class CommentStyle:
     INDENT_BEFORE_MIDDLE = ""
     INDENT_AFTER_MIDDLE = ""
     INDENT_BEFORE_END = ""
-    SHEBANGS = []
+    SHEBANGS: List[str] = []
 
     @classmethod
     def can_handle_single(cls) -> bool:
@@ -142,7 +143,7 @@ class CommentStyle:
         """
         if not cls.can_handle_single():
             raise CommentParseError(f"{cls} cannot parse single-line comments")
-        result = []
+        result_lines = []
 
         for line in text.splitlines():
             if not line.startswith(cls.SINGLE_LINE):
@@ -150,8 +151,8 @@ class CommentStyle:
                     f"'{line}' does not start with a comment marker"
                 )
             line = line.lstrip(cls.SINGLE_LINE)
-            result.append(line)
-        result = "\n".join(result)
+            result_lines.append(line)
+        result = "\n".join(result_lines)
         return dedent(result)
 
     @classmethod
@@ -181,14 +182,14 @@ class CommentStyle:
         if not cls.can_handle_multi():
             raise CommentParseError(f"{cls} cannot parse multi-line comments")
 
-        result = []
+        result_lines = []
         try:
             first, *lines, last = text.splitlines()
             last_is_first = False
         except ValueError:
             first = text
             lines = []
-            last = None  # Set this later.
+            last = ""  # Set this later.
             last_is_first = True
 
         if not first.startswith(cls.MULTI_LINE.start):
@@ -200,7 +201,7 @@ class CommentStyle:
 
         for line in lines:
             line = cls._remove_middle_marker(line)
-            result.append(line)
+            result_lines.append(line)
 
         if last_is_first:
             last = first
@@ -213,7 +214,7 @@ class CommentStyle:
         last = last.rstrip()
         last = cls._remove_middle_marker(last)
 
-        result = "\n".join(result)
+        result = "\n".join(result_lines)
         result = dedent(result)
 
         return "\n".join(item for item in (first, result, last) if item)
@@ -258,7 +259,7 @@ class CommentStyle:
 class AppleScriptCommentStyle(CommentStyle):
     """AppleScript comment style."""
 
-    _shorthand = "applescript"
+    SHORTHAND = "applescript"
 
     SINGLE_LINE = "--"
     INDENT_AFTER_SINGLE = " "
@@ -268,7 +269,7 @@ class AppleScriptCommentStyle(CommentStyle):
 class AspxCommentStyle(CommentStyle):
     """ASPX comment style."""
 
-    _shorthand = "aspx"
+    SHORTHAND = "aspx"
 
     MULTI_LINE = MultiLineSegments("<%--", "", "--%>")
 
@@ -276,7 +277,7 @@ class AspxCommentStyle(CommentStyle):
 class BatchFileCommentStyle(CommentStyle):
     """Windows batch file comment style."""
 
-    _shorthand = "bat"
+    SHORTHAND = "bat"
 
     SINGLE_LINE = "REM"
     INDENT_AFTER_SINGLE = " "
@@ -285,7 +286,7 @@ class BatchFileCommentStyle(CommentStyle):
 class BibTexCommentStyle(CommentStyle):
     """BibTex comment style."""
 
-    _shorthand = "bibtex"
+    SHORTHAND = "bibtex"
 
     MULTI_LINE = MultiLineSegments("@Comment{", "", "}")
 
@@ -293,7 +294,7 @@ class BibTexCommentStyle(CommentStyle):
 class CCommentStyle(CommentStyle):
     """C comment style."""
 
-    _shorthand = "c"
+    SHORTHAND = "c"
 
     SINGLE_LINE = "//"
     INDENT_AFTER_SINGLE = " "
@@ -310,7 +311,7 @@ class CCommentStyle(CommentStyle):
 class CssCommentStyle(CommentStyle):
     """CSS comment style."""
 
-    _shorthand = "css"
+    SHORTHAND = "css"
 
     MULTI_LINE = MultiLineSegments("/*", "*", "*/")
     INDENT_BEFORE_MIDDLE = " "
@@ -337,7 +338,7 @@ class EmptyCommentStyle(CommentStyle):
 class FortranCommentStyle(CommentStyle):
     """Fortran comment style."""
 
-    _shorthand = "f"
+    SHORTHAND = "f"
 
     SINGLE_LINE = "c"
     INDENT_AFTER_SINGLE = " "
@@ -346,7 +347,7 @@ class FortranCommentStyle(CommentStyle):
 class FtlCommentStyle(CommentStyle):
     """FreeMarker Template Language comment style."""
 
-    _shorthand = "ftl"
+    SHORTHAND = "ftl"
 
     MULTI_LINE = MultiLineSegments("<#--", "", "-->")
 
@@ -354,7 +355,7 @@ class FtlCommentStyle(CommentStyle):
 class HandlebarsCommentStyle(CommentStyle):
     """Handlebars comment style."""
 
-    _shorthand = "handlebars"
+    SHORTHAND = "handlebars"
 
     MULTI_LINE = MultiLineSegments("{{!--", "", "--}}")
 
@@ -362,7 +363,7 @@ class HandlebarsCommentStyle(CommentStyle):
 class HaskellCommentStyle(CommentStyle):
     """Haskell comment style."""
 
-    _shorthand = "haskell"
+    SHORTHAND = "haskell"
 
     SINGLE_LINE = "--"
     INDENT_AFTER_SINGLE = " "
@@ -371,7 +372,7 @@ class HaskellCommentStyle(CommentStyle):
 class HtmlCommentStyle(CommentStyle):
     """HTML comment style."""
 
-    _shorthand = "html"
+    SHORTHAND = "html"
 
     MULTI_LINE = MultiLineSegments("<!--", "", "-->")
     SHEBANGS = ["<?xml"]
@@ -380,7 +381,7 @@ class HtmlCommentStyle(CommentStyle):
 class JinjaCommentStyle(CommentStyle):
     """Jinja2 comment style."""
 
-    _shorthand = "jinja"
+    SHORTHAND = "jinja"
 
     MULTI_LINE = MultiLineSegments("{#", "", "#}")
 
@@ -388,7 +389,7 @@ class JinjaCommentStyle(CommentStyle):
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
 
-    _shorthand = "lisp"
+    SHORTHAND = "lisp"
 
     SINGLE_LINE = ";"
     INDENT_AFTER_SINGLE = " "
@@ -397,7 +398,7 @@ class LispCommentStyle(CommentStyle):
 class M4CommentStyle(CommentStyle):
     """M4 (autoconf) comment style."""
 
-    _shorthand = "m4"
+    SHORTHAND = "m4"
 
     SINGLE_LINE = "dnl"
     INDENT_AFTER_SINGLE = " "
@@ -406,7 +407,7 @@ class M4CommentStyle(CommentStyle):
 class MlCommentStyle(CommentStyle):
     """ML comment style."""
 
-    _shorthand = "ml"
+    SHORTHAND = "ml"
 
     MULTI_LINE = MultiLineSegments("(*", "*", "*)")
     INDENT_BEFORE_MIDDLE = " "
@@ -417,7 +418,7 @@ class MlCommentStyle(CommentStyle):
 class PlantUmlCommentStyle(CommentStyle):
     """PlantUML comment style."""
 
-    _shorthand = "plantuml"
+    SHORTHAND = "plantuml"
 
     SINGLE_LINE = "'"
     INDENT_AFTER_SINGLE = " "
@@ -430,7 +431,7 @@ class PlantUmlCommentStyle(CommentStyle):
 class PythonCommentStyle(CommentStyle):
     """Python comment style."""
 
-    _shorthand = "python"
+    SHORTHAND = "python"
 
     SINGLE_LINE = "#"
     INDENT_AFTER_SINGLE = " "
@@ -440,7 +441,7 @@ class PythonCommentStyle(CommentStyle):
 class ReStructedTextCommentStyle(CommentStyle):
     """reStructuredText comment style."""
 
-    _shorthand = "rst"
+    SHORTHAND = "rst"
 
     SINGLE_LINE = ".."
     INDENT_AFTER_SINGLE = " "
@@ -449,7 +450,7 @@ class ReStructedTextCommentStyle(CommentStyle):
 class TexCommentStyle(CommentStyle):
     """TeX comment style."""
 
-    _shorthand = "tex"
+    SHORTHAND = "tex"
 
     SINGLE_LINE = "%"
     INDENT_AFTER_SINGLE = " "
@@ -464,7 +465,7 @@ class UncommentableCommentStyle(EmptyCommentStyle):
 class VelocityCommentStyle(CommentStyle):
     """Apache Velocity Template Language comment style."""
 
-    _shorthand = "vst"
+    SHORTHAND = "vst"
 
     # TODO: SINGLE_LINE requires refactor to support trailing `**`.
     MULTI_LINE = MultiLineSegments("#*", "  ", "*#")
@@ -473,7 +474,7 @@ class VelocityCommentStyle(CommentStyle):
 class VimCommentStyle(CommentStyle):
     """Vim(Script|Config) style."""
 
-    _shorthand = "vim"
+    SHORTHAND = "vim"
 
     SINGLE_LINE = '"'
     INDENT_AFTER_SINGLE = " "
@@ -482,7 +483,7 @@ class VimCommentStyle(CommentStyle):
 class XQueryCommentStyle(CommentStyle):
     """XQuery comment style."""
 
-    _shorthand = "xquery"
+    SHORTHAND = "xquery"
 
     MULTI_LINE = MultiLineSegments("(:", ":", ":)")
     INDENT_BEFORE_MIDDLE = " "
@@ -770,7 +771,7 @@ FILENAME_COMMENT_STYLE_MAP_LOWERCASE = {
 }
 
 
-def _all_style_classes() -> List[CommentStyle]:
+def _all_style_classes() -> List[Type[CommentStyle]]:
     """Return a list of all defined style classes, excluding the base class."""
     result = []
     for key, value in globals().items():
@@ -779,11 +780,9 @@ def _all_style_classes() -> List[CommentStyle]:
     return sorted(result, key=operator.attrgetter("__name__"))
 
 
-# pylint: disable=protected-access
-
 _result = _all_style_classes()
 _result.remove(EmptyCommentStyle)
 _result.remove(UncommentableCommentStyle)
 
 #: A map of human-friendly names against style classes.
-NAME_STYLE_MAP = {style._shorthand: style for style in _result}
+NAME_STYLE_MAP = {style.SHORTHAND: style for style in _result}

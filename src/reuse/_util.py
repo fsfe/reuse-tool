@@ -20,13 +20,14 @@ import shutil
 import subprocess
 import sys
 from argparse import ArgumentTypeError
+from collections import Counter
 from difflib import SequenceMatcher
 from gettext import gettext as _
 from hashlib import sha1
 from itertools import chain
 from os import PathLike
 from pathlib import Path
-from typing import BinaryIO, Dict, Iterator, List, Optional, Set
+from typing import IO, Any, BinaryIO, Dict, Iterator, List, Optional, Set, Union
 
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
@@ -35,6 +36,9 @@ from license_expression import ExpressionError, Licensing
 from . import ReuseInfo, SourceType
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from .comment import _all_style_classes
+
+# TODO: When removing Python 3.8 support, use PathLike[str]
+StrPath = Union[str, PathLike]
 
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
@@ -139,18 +143,21 @@ def setup_logging(level: int = logging.WARNING) -> None:
 
 
 def execute_command(
-    command: List[str], logger: logging.Logger, cwd: PathLike = None, **kwargs
+    command: List[str],
+    logger: logging.Logger,
+    cwd: Optional[StrPath] = None,
+    **kwargs: Any,
 ) -> subprocess.CompletedProcess:
     """Run the given command with subprocess.run. Forward kwargs. Silence
     output into a pipe unless kwargs override it.
     """
     logger.debug("running '%s'", " ".join(command))
 
-    stdout = kwargs.get("stdout", subprocess.PIPE)
-    stderr = kwargs.get("stderr", subprocess.PIPE)
+    stdout: Union[None, int, IO[Any]] = kwargs.get("stdout", subprocess.PIPE)
+    stderr: Union[None, int, IO[Any]] = kwargs.get("stderr", subprocess.PIPE)
 
     return subprocess.run(
-        map(str, command),
+        list(map(str, command)),
         stdout=stdout,
         stderr=stderr,
         check=False,
@@ -159,7 +166,7 @@ def execute_command(
     )
 
 
-def find_licenses_directory(root: PathLike) -> Optional[Path]:
+def find_licenses_directory(root: StrPath) -> Path:
     """Find the licenses directory from CWD or *root*. In the following order:
 
     - LICENSES/ in *root*.
@@ -175,26 +182,30 @@ def find_licenses_directory(root: PathLike) -> Optional[Path]:
     licenses_path = cwd / "LICENSES"
 
     if root:
-        licenses_path = root / "LICENSES"
+        licenses_path = Path(root) / "LICENSES"
     elif cwd.name == "LICENSES":
         licenses_path = cwd
 
     return licenses_path
 
 
-def decoded_text_from_binary(binary_file: BinaryIO, size: int = None) -> str:
+def decoded_text_from_binary(
+    binary_file: BinaryIO, size: Optional[int] = None
+) -> str:
     """Given a binary file object, detect its encoding and return its contents
     as a decoded string. Do not throw any errors if the encoding contains
     errors:  Just replace the false characters.
 
     If *size* is specified, only read so many bytes.
     """
+    if size is None:
+        size = -1
     rawdata = binary_file.read(size)
     result = rawdata.decode("utf-8", errors="replace")
     return result.replace("\r\n", "\n")
 
 
-def _determine_license_path(path: PathLike) -> Path:
+def _determine_license_path(path: StrPath) -> Path:
     """Given a path FILE, return FILE.license if it exists, otherwise return
     FILE.
     """
@@ -204,7 +215,7 @@ def _determine_license_path(path: PathLike) -> Path:
     return license_path
 
 
-def _determine_license_suffix_path(path: PathLike) -> Path:
+def _determine_license_suffix_path(path: StrPath) -> Path:
     """Given a path FILE or FILE.license, return FILE.license."""
     path = Path(path)
     if path.suffix == ".license":
@@ -212,9 +223,7 @@ def _determine_license_suffix_path(path: PathLike) -> Path:
     return Path(f"{path}.license")
 
 
-def _copyright_from_dep5(
-    path: PathLike, dep5_copyright: Copyright
-) -> ReuseInfo:
+def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:
     """Find the reuse information of *path* in the dep5 Copyright object."""
     result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
 
@@ -222,8 +231,12 @@ def _copyright_from_dep5(
         return ReuseInfo()
 
     return ReuseInfo(
-        spdx_expressions=set(map(_LICENSING.parse, [result.license.synopsis])),
-        copyright_lines=set(map(str.strip, result.copyright.splitlines())),
+        spdx_expressions=set(
+            map(_LICENSING.parse, [result.license.synopsis])  # type: ignore
+        ),
+        copyright_lines=set(
+            map(str.strip, result.copyright.splitlines())  # type: ignore
+        ),
         source_type=SourceType.DEP5_FILE,
     )
 
@@ -254,6 +267,8 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
     into a range.
     If a same statement uses multiple prefixes, use only the most frequent one.
     """
+    # pylint: disable=too-many-locals
+    # TODO: Rewrite this function. It's a bit of a mess.
     copyright_in = []
     for line in copyright_lines:
         for pattern in _COPYRIGHT_PATTERNS:
@@ -269,35 +284,37 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
                     }
                 )
 
-    copyright_out = []
-    for statement in {item["statement"] for item in copyright_in}:
+    copyright_out = set()
+    for line_info in copyright_in:
+        statement = str(line_info["statement"])
         copyright_list = [
             item for item in copyright_in if item["statement"] == statement
         ]
-        prefixes = [item["prefix"] for item in copyright_list]
 
         # Get the style of the most common prefix
-        prefix = max(set(prefixes), key=prefixes.count)
+        prefix = str(
+            Counter([item["prefix"] for item in copyright_list]).most_common(1)[
+                0
+            ][0]
+        )
         style = "spdx"
-        # pylint: disable=consider-using-dict-items
-        for sty in _COPYRIGHT_STYLES:
-            if prefix == _COPYRIGHT_STYLES[sty]:
-                style = sty
+        for key, value in _COPYRIGHT_STYLES.items():
+            if prefix == value:
+                style = key
                 break
 
         # get year range if any
-        years = []
+        years: List[str] = []
         for copy in copyright_list:
             years += copy["year"]
 
-        if len(years) == 0:
-            year = None
-        elif min(years) == max(years):
+        year: Optional[str] = None
+        if min(years) == max(years):
             year = min(years)
         else:
             year = f"{min(years)} - {max(years)}"
 
-        copyright_out.append(make_copyright_line(statement, year, style))
+        copyright_out.add(make_copyright_line(statement, year, style))
     return copyright_out
 
 
@@ -308,7 +325,7 @@ def extract_reuse_info(text: str) -> ReuseInfo:
     :raises ParseError: if an SPDX expression could not be parsed
     """
     text = filter_ignore_block(text)
-    spdx_tags: Dict[str, str] = {}
+    spdx_tags: Dict[str, Set[str]] = {}
     for tag, pattern in _SPDX_TAGS.items():
         spdx_tags[tag] = set(find_spdx_tag(text, pattern))
     # License expressions and copyright matches are special cases.
@@ -334,7 +351,7 @@ def extract_reuse_info(text: str) -> ReuseInfo:
     return ReuseInfo(
         spdx_expressions=expressions,
         copyright_lines=copyright_matches,
-        **spdx_tags,
+        **spdx_tags,  # type: ignore
     )
 
 
@@ -419,7 +436,7 @@ def make_copyright_line(
     return f"{copyright_prefix} {statement}"
 
 
-def _checksum(path: PathLike) -> str:
+def _checksum(path: StrPath) -> str:
     path = Path(path)
 
     file_sha1 = sha1()
@@ -433,7 +450,12 @@ def _checksum(path: PathLike) -> str:
 class PathType:
     """Factory for creating Paths"""
 
-    def __init__(self, mode="r", force_file=False, force_directory=False):
+    def __init__(
+        self,
+        mode: str = "r",
+        force_file: bool = False,
+        force_directory: bool = False,
+    ):
         if mode in ("r", "r+", "w"):
             self._mode = mode
         else:
@@ -445,7 +467,7 @@ class PathType:
                 "'force_file' and 'force_directory' cannot both be True"
             )
 
-    def _check_read(self, path):
+    def _check_read(self, path: Path) -> None:
         if path.exists() and os.access(path, os.R_OK):
             if self._force_file and not path.is_file():
                 raise ArgumentTypeError(_("'{}' is not a file").format(path))
@@ -456,7 +478,7 @@ class PathType:
             return
         raise ArgumentTypeError(_("can't open '{}'").format(path))
 
-    def _check_write(self, path):
+    def _check_write(self, path: Path) -> None:
         if path.is_dir():
             raise ArgumentTypeError(
                 _("can't write to directory '{}'").format(path)
@@ -467,7 +489,7 @@ class PathType:
             return
         raise ArgumentTypeError(_("can't write to '{}'").format(path))
 
-    def __call__(self, string):
+    def __call__(self, string: str) -> Path:
         path = Path(string)
 
         try:
@@ -494,7 +516,7 @@ def spdx_identifier(text: str) -> Expression:
 
 def similar_spdx_identifiers(identifier: str) -> List[str]:
     """Given an incorrect SPDX identifier, return a list of similar ones."""
-    suggestions = []
+    suggestions: List[str] = []
     if identifier in ALL_NON_DEPRECATED_MAP:
         return suggestions
 
@@ -509,7 +531,9 @@ def similar_spdx_identifiers(identifier: str) -> List[str]:
     return suggestions
 
 
-def print_incorrect_spdx_identifier(identifier: str, out=sys.stdout) -> None:
+def print_incorrect_spdx_identifier(
+    identifier: str, out: IO[str] = sys.stdout
+) -> None:
     """Print out that *identifier* is not valid, and follow up with some
     suggestions.
     """
