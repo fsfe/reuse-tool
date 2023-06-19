@@ -37,7 +37,7 @@ from ._util import (
     _copyright_from_dep5,
     _determine_license_path,
     decoded_text_from_binary,
-    extract_spdx_info,
+    extract_reuse_info,
 )
 from .vcs import VCSStrategyGit, VCSStrategyHg, VCSStrategyNone, find_root
 
@@ -142,26 +142,28 @@ class Project:
                 yield the_file
 
     def reuse_info_of(self, path: PathLike) -> ReuseInfo:
-        """Return SPDX info of *path*.
+        """Return REUSE info of *path*.
 
-        This function will return any SPDX information that it can find, both
+        This function will return any REUSE information that it can find, both
         from within the file, the .license file and from the .reuse/dep5 file.
 
         It also returns a single primary source path of the license/copyright
         information, where 'primary' means '.license file' > 'header' > 'dep5'
         """
+        original_path = path
         path = _determine_license_path(path)
+        dep5_path: Optional[str] = None
         source_path = ""
         source_type = None
 
-        _LOGGER.debug(f"searching '{path}' for SPDX information")
+        _LOGGER.debug(f"searching '{path}' for REUSE information")
 
         # This means that only one 'source' of licensing/copyright information
-        # is captured in SpdxInfo
-        dep5_result = ReuseInfo(set(), set())
-        file_result = ReuseInfo(set(), set())
+        # is captured in ReuseInfo
+        dep5_result = ReuseInfo()
+        file_result = ReuseInfo()
 
-        # Search the .reuse/dep5 file for SPDX information.
+        # Search the .reuse/dep5 file for REUSE information.
         if self._copyright:
             dep5_result = _copyright_from_dep5(
                 self.relative_from_root(path), self._copyright
@@ -171,8 +173,9 @@ class Project:
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
                 source_path = str(self.root / ".reuse/dep5")
+                dep5_path = source_path
 
-        # Search the file for SPDX information.
+        # Search the file for REUSE information.
         with path.open("rb") as fp:
             try:
                 # Completely read the file once to search for possible snippets
@@ -183,8 +186,9 @@ class Project:
                     read_limit = _HEADER_BYTES
                 # Reset read position
                 fp.seek(0)
-                # Scan the file for SPDX info, possible limiting the read length
-                file_result = extract_spdx_info(
+                # Scan the file for REUSE info, possible limiting the read
+                # length
+                file_result = extract_reuse_info(
                     decoded_text_from_binary(fp, size=read_limit)
                 )
                 if file_result:
@@ -209,30 +213,23 @@ class Project:
         ):
             _LOGGER.warning(
                 _(
-                    "Copyright and licensing information for '{path}' have been"
-                    " found in both the file header or .license file and the"
-                    " DEP5 file located at '{dep5_path}'. The information in"
-                    " the DEP5 file has been overriden. Please ensure that this"
-                    " is correct."
-                ).format(path=path, dep5_path=".reuse/dep5")
+                    "Copyright and licensing information for '{original_path}'"
+                    " have been found in '{path}' and the DEP5 file located at"
+                    " '{dep5_path}'. The information in the DEP5 file has been"
+                    " overridden. Please ensure that this is correct."
+                ).format(
+                    original_path=original_path, path=path, dep5_path=dep5_path
+                )
             )
         # Information is only found in a DEP5 file
         elif (
             dep5_result.contains_copyright_or_licensing()
             and not file_result.contains_copyright_or_licensing()
         ):
-            return ReuseInfo(
-                spdx_expressions=dep5_result.spdx_expressions,
-                copyright_lines=dep5_result.copyright_lines,
-                source_path=source_path,
-                source_type=SourceType.DEP5_FILE,
-            )
+            return dep5_result.copy(source_path=source_path)
         # There is a file header or a .license file
-        return ReuseInfo(
-            spdx_expressions=file_result.spdx_expressions,
-            copyright_lines=file_result.copyright_lines,
-            source_path=source_path,
-            source_type=source_type,
+        return file_result.copy(
+            source_path=source_path, source_type=source_type
         )
 
     def relative_from_root(self, path: Path) -> Path:

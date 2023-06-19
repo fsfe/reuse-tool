@@ -39,9 +39,9 @@ from ._util import (
     PathType,
     _determine_license_path,
     _determine_license_suffix_path,
-    contains_spdx_info,
+    contains_reuse_info,
     detect_line_endings,
-    extract_spdx_info,
+    extract_reuse_info,
     make_copyright_line,
     merge_copyright_lines,
     spdx_identifier,
@@ -75,13 +75,13 @@ class _TextSections(NamedTuple):
     after: str
 
 
-class MissingSpdxInfo(Exception):
-    """Some SPDX information is missing from the result."""
+class MissingReuseInfo(Exception):
+    """Some REUSE information is missing from the result."""
 
 
 # TODO: Add a template here maybe.
 def _create_new_header(
-    spdx_info: ReuseInfo,
+    reuse_info: ReuseInfo,
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
@@ -90,7 +90,7 @@ def _create_new_header(
     """Format a new header from scratch.
 
     :raises CommentCreateError: if a comment could not be created.
-    :raises MissingSpdxInfo: if the generated comment is missing SPDX
+    :raises MissingReuseInfo: if the generated comment is missing SPDX
         information.
     """
     if template is None:
@@ -99,9 +99,9 @@ def _create_new_header(
         style = PythonCommentStyle
 
     rendered = template.render(
-        copyright_lines=sorted(spdx_info.copyright_lines),
-        contributor_lines=sorted(spdx_info.contributor_lines),
-        spdx_expressions=sorted(map(str, spdx_info.spdx_expressions)),
+        copyright_lines=sorted(reuse_info.copyright_lines),
+        contributor_lines=sorted(reuse_info.contributor_lines),
+        spdx_expressions=sorted(map(str, reuse_info.spdx_expressions)),
     ).strip("\n")
 
     if template_is_commented:
@@ -111,11 +111,11 @@ def _create_new_header(
             "\n"
         )
 
-    # Verify that the result contains all SpdxInfo.
-    new_spdx_info = extract_spdx_info(result)
+    # Verify that the result contains all ReuseInfo.
+    new_reuse_info = extract_reuse_info(result)
     if (
-        spdx_info.copyright_lines != new_spdx_info.copyright_lines
-        and spdx_info.spdx_expressions != new_spdx_info.spdx_expressions
+        reuse_info.copyright_lines != new_reuse_info.copyright_lines
+        and reuse_info.spdx_expressions != new_reuse_info.spdx_expressions
     ):
         _LOGGER.debug(
             _(
@@ -124,14 +124,14 @@ def _create_new_header(
             )
         )
         _LOGGER.debug(result)
-        raise MissingSpdxInfo()
+        raise MissingReuseInfo()
 
     return result
 
 
 # pylint: disable=too-many-arguments
 def create_header(
-    spdx_info: ReuseInfo,
+    reuse_info: ReuseInfo,
     header: str = None,
     template: Template = None,
     template_is_commented: bool = False,
@@ -139,15 +139,15 @@ def create_header(
     force_multi: bool = False,
     merge_copyrights: bool = False,
 ) -> str:
-    """Create a header containing *spdx_info*. *header* is an optional argument
-    containing a header which should be modified to include *spdx_info*. If
+    """Create a header containing *reuse_info*. *header* is an optional argument
+    containing a header which should be modified to include *reuse_info*. If
     *header* is not given, a brand new header is created.
 
     *template*, *template_is_commented*, and *style* determine what the header
     will look like, and whether it will be commented or not.
 
     :raises CommentCreateError: if a comment could not be created.
-    :raises MissingSpdxInfo: if the generated comment is missing SPDX
+    :raises MissingReuseInfo: if the generated comment is missing SPDX
         information.
     """
     if template is None:
@@ -158,7 +158,7 @@ def create_header(
     new_header = ""
     if header:
         try:
-            existing_spdx = extract_spdx_info(header)
+            existing_spdx = extract_reuse_info(header)
         except (ExpressionError, ParseError) as err:
             raise CommentCreateError(
                 "existing header contains an erroneous SPDX expression"
@@ -166,23 +166,19 @@ def create_header(
 
         if merge_copyrights:
             spdx_copyrights = merge_copyright_lines(
-                spdx_info.copyright_lines.union(existing_spdx.copyright_lines),
+                reuse_info.copyright_lines.union(existing_spdx.copyright_lines),
             )
         else:
-            spdx_copyrights = spdx_info.copyright_lines.union(
+            spdx_copyrights = reuse_info.copyright_lines.union(
                 existing_spdx.copyright_lines
             )
 
         # TODO: This behaviour does not match the docstring.
-        spdx_info = ReuseInfo(
-            spdx_info.spdx_expressions.union(existing_spdx.spdx_expressions),
-            spdx_copyrights,
-            spdx_info.contributor_lines.union(existing_spdx.contributor_lines),
-            "",
-        )
+        reuse_info = existing_spdx | reuse_info
+        reuse_info = reuse_info.copy(copyright_lines=spdx_copyrights)
 
     new_header += _create_new_header(
-        spdx_info,
+        reuse_info,
         template=template,
         template_is_commented=template_is_commented,
         style=style,
@@ -212,7 +208,7 @@ def _find_first_spdx_comment(
     """Find the first SPDX comment in the file. Return a tuple with everything
     preceding the comment, the comment itself, and everything following it.
 
-    :raises MissingSpdxInfo: if no SPDX info can be found in any comment
+    :raises MissingReuseInfo: if no REUSE info can be found in any comment
     """
     if style is None:
         style = PythonCommentStyle
@@ -224,12 +220,12 @@ def _find_first_spdx_comment(
             comment = style.comment_at_first_character(text[index:])
         except CommentParseError:
             continue
-        if contains_spdx_info(comment):
+        if contains_reuse_info(comment):
             return _TextSections(
                 text[:index], comment + "\n", text[index + len(comment) + 1 :]
             )
 
-    raise MissingSpdxInfo()
+    raise MissingReuseInfo()
 
 
 def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
@@ -250,7 +246,7 @@ def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
 # pylint: disable=too-many-arguments
 def find_and_replace_header(
     text: str,
-    spdx_info: ReuseInfo,
+    reuse_info: ReuseInfo,
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
@@ -258,22 +254,22 @@ def find_and_replace_header(
     merge_copyrights: bool = False,
 ) -> str:
     """Find the first SPDX comment block in *text*. That comment block is
-    replaced by a new comment block containing *spdx_info*. It is formatted as
+    replaced by a new comment block containing *reuse_info*. It is formatted as
     according to *template*. The template is normally uncommented, but if it is
     already commented, *template_is_commented* should be :const:`True`.
 
     If both *style* and *template_is_commented* are provided, *style* is only
     used to find the header comment.
 
-    If the comment block already contained some SPDX information, that
-    information is merged into *spdx_info*.
+    If the comment block already contained some REUSE information, that
+    information is merged into *reuse_info*.
 
     If no header exists, one is simply created.
 
     *text* is returned with a new header.
 
     :raises CommentCreateError: if a comment could not be created.
-    :raises MissingSpdxInfo: if the generated comment is missing SPDX
+    :raises MissingReuseInfo: if the generated comment is missing SPDX
         information.
     """
     if style is None:
@@ -281,7 +277,7 @@ def find_and_replace_header(
 
     try:
         before, header, after = _find_first_spdx_comment(text, style=style)
-    except MissingSpdxInfo:
+    except MissingReuseInfo:
         before, header, after = "", "", text
 
     # Workaround. EmptyCommentStyle should always be completely replaced.
@@ -307,7 +303,7 @@ def find_and_replace_header(
             break
 
     header = create_header(
-        spdx_info,
+        reuse_info,
         header,
         template=template,
         template_is_commented=template_is_commented,
@@ -327,7 +323,7 @@ def find_and_replace_header(
 # pylint: disable=too-many-arguments
 def add_new_header(
     text: str,
-    spdx_info: ReuseInfo,
+    reuse_info: ReuseInfo,
     template: Template = None,
     template_is_commented: bool = False,
     style: CommentStyle = None,
@@ -336,7 +332,7 @@ def add_new_header(
 ) -> str:
     """Add a new header at the very top of *text*, similar to
     find_and_replace_header. But in this function, do not replace any headers or
-    search for any existing SPDX information.
+    search for any existing REUSE information.
 
     :raises CommentCreateError: if a comment could not be created.
     """
@@ -352,7 +348,7 @@ def add_new_header(
                 break
 
     header = create_header(
-        spdx_info,
+        reuse_info,
         None,
         template=template,
         template_is_commented=template_is_commented,
@@ -464,7 +460,7 @@ def _find_template(project: Project, name: str) -> Template:
 
 def _add_header_to_file(
     path: PathLike,
-    spdx_info: ReuseInfo,
+    reuse_info: ReuseInfo,
     template: Template,
     template_is_commented: bool,
     style: Optional[str],
@@ -491,10 +487,10 @@ def _add_header_to_file(
 
     # Ideally, this check is done elsewhere. But that would necessitate reading
     # the file contents before this function is called.
-    if skip_existing and contains_spdx_info(text):
+    if skip_existing and contains_reuse_info(text):
         out.write(
             _(
-                "Skipped file '{path}' already containing SPDX information"
+                "Skipped file '{path}' already containing REUSE information"
             ).format(path=path)
         )
         out.write("\n")
@@ -509,7 +505,7 @@ def _add_header_to_file(
         if replace:
             output = find_and_replace_header(
                 text,
-                spdx_info,
+                reuse_info,
                 template=template,
                 template_is_commented=template_is_commented,
                 style=style,
@@ -519,7 +515,7 @@ def _add_header_to_file(
         else:
             output = add_new_header(
                 text,
-                spdx_info,
+                reuse_info,
                 template=template,
                 template_is_commented=template_is_commented,
                 style=style,
@@ -532,7 +528,7 @@ def _add_header_to_file(
         )
         out.write("\n")
         result = 1
-    except MissingSpdxInfo:
+    except MissingReuseInfo:
         out.write(
             _(
                 "Error: Generated comment header for '{path}' is missing"
@@ -665,7 +661,7 @@ def add_arguments(parser) -> None:
     parser.add_argument(
         "--skip-existing",
         action="store_true",
-        help=_("skip files that already contain SPDX information"),
+        help=_("skip files that already contain REUSE information"),
     )
     parser.add_argument("path", action="store", nargs="+", type=PathType("r"))
 
@@ -785,7 +781,11 @@ def run(args, project: Project, out=sys.stdout) -> int:
         set(args.contributor) if args.contributor is not None else set()
     )
 
-    spdx_info = ReuseInfo(expressions, copyright_lines, contributors, "")
+    reuse_info = ReuseInfo(
+        spdx_expressions=expressions,
+        copyright_lines=copyright_lines,
+        contributor_lines=contributors,
+    )
 
     result = 0
     for path in paths:
@@ -803,7 +803,7 @@ def run(args, project: Project, out=sys.stdout) -> int:
             path.touch()
         result += _add_header_to_file(
             path=path,
-            spdx_info=spdx_info,
+            reuse_info=reuse_info,
             template=template,
             template_is_commented=commented,
             style=args.style,

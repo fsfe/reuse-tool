@@ -12,7 +12,7 @@ import pytest
 from reuse import ReuseInfo
 from reuse.comment import CCommentStyle, CommentCreateError
 from reuse.header import (
-    MissingSpdxInfo,
+    MissingReuseInfo,
     add_new_header,
     create_header,
     find_and_replace_header,
@@ -69,10 +69,10 @@ def test_create_header_template_simple(template_simple):
 
 
 def test_create_header_template_no_spdx(template_no_spdx):
-    """Create a header with a template that does not have all SPDX info."""
+    """Create a header with a template that does not have all REUSE info."""
     info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
 
-    with pytest.raises(MissingSpdxInfo):
+    with pytest.raises(MissingReuseInfo):
         create_header(info, template=template_no_spdx)
 
 
@@ -101,7 +101,7 @@ def test_create_header_template_commented(template_commented):
 
 
 def test_create_header_already_contains_spdx():
-    """Create a new header from a header that already contains SPDX info."""
+    """Create a new header from a header that already contains REUSE info."""
     info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
     existing = cleandoc(
         """
@@ -140,7 +140,7 @@ def test_create_header_existing_is_wrong():
 
 def test_create_header_old_syntax():
     """Old copyright syntax is preserved when creating a new header."""
-    info = ReuseInfo({"GPL-3.0-or-later"}, set())
+    info = ReuseInfo({"GPL-3.0-or-later"})
     existing = cleandoc(
         """
         # Copyright John Doe
@@ -158,8 +158,8 @@ def test_create_header_old_syntax():
 
 
 def test_create_header_remove_fluff():
-    """Any stuff that isn't SPDX info is removed when using create_header."""
-    info = ReuseInfo({"GPL-3.0-or-later"}, set())
+    """Any stuff that isn't REUSE info is removed when using create_header."""
+    info = ReuseInfo({"GPL-3.0-or-later"})
     existing = cleandoc(
         """
         # SPDX-FileCopyrightText: John Doe
@@ -233,7 +233,7 @@ def test_find_and_replace_no_header():
 
 def test_find_and_replace_verbatim():
     """Replace a header with itself."""
-    info = ReuseInfo(set(), set())
+    info = ReuseInfo()
     text = cleandoc(
         """
         # SPDX-FileCopyrightText: Jane Doe
@@ -342,7 +342,7 @@ def test_find_and_replace_separate_shebang():
     """When the shebang is part of the same comment as the SPDX comment,
     separate the two.
     """
-    info = ReuseInfo({"GPL-3.0-or-later"}, set())
+    info = ReuseInfo({"GPL-3.0-or-later"})
     text = cleandoc(
         """
         #!/usr/bin/env python3
@@ -370,7 +370,7 @@ def test_find_and_replace_separate_shebang():
 
 def test_find_and_replace_only_shebang():
     """When the file only contains a shebang, keep it at the top of the file."""
-    info = ReuseInfo({"GPL-3.0-or-later"}, set())
+    info = ReuseInfo({"GPL-3.0-or-later"})
     text = cleandoc(
         """
         #!/usr/bin/env python3
@@ -425,7 +425,7 @@ def test_find_and_replace_keep_old_comment():
 def test_find_and_replace_preserve_newline():
     """If the file content ends with a newline, don't remove it."""
 
-    info = ReuseInfo(set(), set())
+    info = ReuseInfo()
     text = (
         cleandoc(
             """

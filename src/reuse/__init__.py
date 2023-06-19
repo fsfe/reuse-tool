@@ -21,12 +21,8 @@ import os
 import re
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import NamedTuple, Optional, Set
-
-try:
-    from importlib.metadata import PackageNotFoundError, version
-except ImportError:
-    from importlib_metadata import PackageNotFoundError, version
+from importlib.metadata import PackageNotFoundError, version
+from typing import NamedTuple, Optional, Set, Type
 
 from boolean.boolean import Expression
 
@@ -92,18 +88,17 @@ _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 class SourceType(Enum):
     """
     An enumeration representing the types of sources for license information.
-
-    Potential values:
-        DOT_LICENSE_FILE: A .license file containing license information.
-        FILE_HEADER: A file header containing license information.
-        DEP5_FILE: A .reuse/dep5 file containing license information.
     """
 
+    #: A .license file containing license information.
     DOT_LICENSE_FILE = ".license file"
+    #: A file header containing license information.
     FILE_HEADER = "file header"
+    #: A .reuse/dep5 file containing license information.
     DEP5_FILE = ".reuse/dep5 file"
 
 
+# TODO: In Python 3.10+, add kw_only=True
 @dataclass(frozen=True)
 class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""
@@ -114,12 +109,55 @@ class ReuseInfo:
     source_path: Optional[str] = None
     source_type: Optional[SourceType] = None
 
+    def _check_nonexistent(self, **kwargs) -> None:
+        nonexistent_attributes = set(kwargs) - set(self.__dict__)
+        if nonexistent_attributes:
+            raise KeyError(
+                f"The following attributes do not exist in"
+                f" {self.__class__}: {', '.join(nonexistent_attributes)}"
+            )
+
+    def copy(self, **kwargs) -> Type["ReuseInfo"]:
+        """Return a copy of ReuseInfo, replacing the values of attributes with
+        the values from *kwargs*.
+        """
+        self._check_nonexistent(**kwargs)
+        new_kwargs = {}
+        for key, value in self.__dict__.items():
+            new_kwargs[key] = kwargs.get(key, value)
+        return self.__class__(**new_kwargs)
+
+    def union(self, value) -> Type["ReuseInfo"]:
+        """Return a new instance of ReuseInfo where all Set attributes are equal
+        to the union of the set in *self* and the set in *value*.
+
+        All non-Set attributes are set to their values in *self*.
+
+        >>> one = ReuseInfo(copyright_lines={"Jane Doe"}, source_path="foo.py")
+        >>> two = ReuseInfo(copyright_lines={"John Doe"}, source_path="bar.py")
+        >>> result = one.union(two)
+        >>> print(sorted(result.copyright_lines))
+        ['Jane Doe', 'John Doe']
+        >>> print(result.source_path)
+        foo.py
+        """
+        new_kwargs = {}
+        for key, attr_val in self.__dict__.items():
+            if isinstance(attr_val, set) and (other_val := getattr(value, key)):
+                new_kwargs[key] = attr_val.union(other_val)
+            else:
+                new_kwargs[key] = attr_val
+        return self.__class__(**new_kwargs)
+
     def contains_copyright_or_licensing(self) -> bool:
         """Either *spdx_expressions* or *copyright_lines* is non-empty."""
         return bool(self.spdx_expressions or self.copyright_lines)
 
     def __bool__(self):
         return any(self.__dict__.values())
+
+    def __or__(self, value) -> Type["ReuseInfo"]:
+        return self.union(value)
 
 
 class ReuseException(Exception):

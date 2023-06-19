@@ -592,7 +592,7 @@ def test_annotate_template_simple_multiple(
 def test_annotate_template_no_spdx(
     fake_repository, stringio, template_no_spdx_source
 ):
-    """Add a header with a template that lacks SPDX info."""
+    """Add a header with a template that lacks REUSE info."""
     simple_file = fake_repository / "foo.py"
     simple_file.write_text("pass")
     template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
@@ -1232,7 +1232,7 @@ def test_annotate_line_endings(
 
 
 def test_annotate_skip_existing(fake_repository, stringio, mock_date_today):
-    """When annotate --skip-existing on a file that already contains SPDX info,
+    """When annotate --skip-existing on a file that already contains REUSE info,
     don't write additional information to it.
     """
     for path in ("foo.py", "bar.py"):

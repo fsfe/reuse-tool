@@ -46,7 +46,7 @@ def test_extract_expression():
     """Parse various expressions."""
     expressions = ["GPL-3.0+", "GPL-3.0 AND CC0-1.0", "nonsense"]
     for expression in expressions:
-        result = _util.extract_spdx_info(
+        result = _util.extract_reuse_info(
             f"SPDX-License-Identifier: {expression}"
         )
         assert result.spdx_expressions == {_LICENSING.parse(expression)}
@@ -54,7 +54,7 @@ def test_extract_expression():
 
 def test_extract_expression_from_ascii_art_frame():
     """Parse an expression from an ASCII art frame"""
-    result = _util.extract_spdx_info(
+    result = _util.extract_reuse_info(
         cleandoc(
             """
              /**********************************\\
@@ -70,20 +70,20 @@ def test_extract_erroneous_expression():
     """Parse an incorrect expression."""
     expression = "SPDX-License-Identifier: GPL-3.0-or-later AND (MIT OR)"
     with pytest.raises(ParseError):
-        _util.extract_spdx_info(expression)
+        _util.extract_reuse_info(expression)
 
 
 def test_extract_no_info():
-    """Given a file without SPDX information, return an empty SpdxInfo
+    """Given a string without REUSE information, return an empty ReuseInfo
     object.
     """
-    result = _util.extract_spdx_info("")
-    assert result == _util.ReuseInfo(set(), set(), "")
+    result = _util.extract_reuse_info("")
+    assert result == _util.ReuseInfo()
 
 
 def test_extract_tab():
     """A tag followed by a tab is also valid."""
-    result = _util.extract_spdx_info("SPDX-License-Identifier:\tMIT")
+    result = _util.extract_reuse_info("SPDX-License-Identifier:\tMIT")
     assert result.spdx_expressions == {_LICENSING.parse("MIT")}
 
 
@@ -91,14 +91,14 @@ def test_extract_many_whitespace():
     """When a tag is followed by a lot of whitespace, the whitespace should be
     filtered out.
     """
-    result = _util.extract_spdx_info("SPDX-License-Identifier:    MIT")
+    result = _util.extract_reuse_info("SPDX-License-Identifier:    MIT")
     assert result.spdx_expressions == {_LICENSING.parse("MIT")}
 
 
 def test_extract_bibtex_comment():
     """A special case for BibTex comments."""
     expression = "@Comment{SPDX-License-Identifier: GPL-3.0-or-later}"
-    result = _util.extract_spdx_info(expression)
+    result = _util.extract_reuse_info(expression)
     assert str(list(result.spdx_expressions)[0]) == "GPL-3.0-or-later"
 
 
@@ -107,14 +107,14 @@ def test_extract_copyright():
     information.
     """
     copyright_line = "SPDX-FileCopyrightText: 2019 Jane Doe"
-    result = _util.extract_spdx_info(copyright_line)
+    result = _util.extract_reuse_info(copyright_line)
     assert result.copyright_lines == {copyright_line}
 
 
 def test_extract_copyright_duplicate():
     """When a copyright line is duplicated, only yield one."""
     copyright_line = "SPDX-FileCopyrightText: 2019 Jane Doe"
-    result = _util.extract_spdx_info(
+    result = _util.extract_reuse_info(
         "\n".join((copyright_line, copyright_line))
     )
     assert result.copyright_lines == {copyright_line}
@@ -123,7 +123,7 @@ def test_extract_copyright_duplicate():
 def test_extract_copyright_tab():
     """A tag followed by a tab is also valid."""
     copyright_line = "SPDX-FileCopyrightText:\t2019 Jane Doe"
-    result = _util.extract_spdx_info(copyright_line)
+    result = _util.extract_reuse_info(copyright_line)
     assert result.copyright_lines == {copyright_line}
 
 
@@ -132,7 +132,7 @@ def test_extract_copyright_many_whitespace():
     whitespace is not filtered out.
     """
     copyright_line = "SPDX-FileCopyrightText:    2019 Jane Doe"
-    result = _util.extract_spdx_info(copyright_line)
+    result = _util.extract_reuse_info(copyright_line)
     assert result.copyright_lines == {copyright_line}
 
 
@@ -149,7 +149,7 @@ def test_extract_copyright_variations():
         """
     )
 
-    result = _util.extract_spdx_info(text)
+    result = _util.extract_reuse_info(text)
     lines = text.splitlines()
     for line in lines:
         assert line in result.copyright_lines
@@ -171,7 +171,7 @@ def test_extract_with_ignore_block():
         SPDX-FileCopyrightText: 2019 Eve
         """
     )
-    result = _util.extract_spdx_info(text)
+    result = _util.extract_reuse_info(text)
     assert len(result.copyright_lines) == 2
     assert len(result.spdx_expressions) == 1
 
@@ -181,7 +181,7 @@ def test_extract_sameline_multiline():
     do not include the comment end pattern as part of the copyright.
     """
     text = "<!-- SPDX-FileCopyrightText: Jane Doe -->"
-    result = _util.extract_spdx_info(text)
+    result = _util.extract_reuse_info(text)
     assert len(result.copyright_lines) == 1
     assert result.copyright_lines == {"SPDX-FileCopyrightText: Jane Doe"}
 
@@ -201,10 +201,21 @@ def test_extract_special_endings():
         [Copyright 2019 Ajnulo] ::
         """
     )
-    result = _util.extract_spdx_info(text)
+    result = _util.extract_reuse_info(text)
     for item in result.copyright_lines:
         assert ">" not in item
         assert "] ::" not in item
+
+
+def test_extract_contributors():
+    """Correctly extract SPDX-FileContributor information from text."""
+    text = cleandoc(
+        """
+        # SPDX-FileContributor: Jane Doe
+        """
+    )
+    result = _util.extract_reuse_info(text)
+    assert result.contributor_lines == {"Jane Doe"}
 
 
 def test_filter_ignore_block_with_comment_style():
