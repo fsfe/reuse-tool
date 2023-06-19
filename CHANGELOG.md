@@ -84,7 +84,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Sphinx documentation: Switched from RTD theme to Furo. (#673, #716)
 - Removed dependency on setuptools' `pkg_resources` to determine the installed
   version of reuse. (#724)
-- Bumped SPDX license list to v3.19. (#763)
+- Bumped SPDX license list to v3.21. (#763)
 
 ### Deprecated
 
