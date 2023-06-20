@@ -3,12 +3,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """This module adds compatibility code like backports."""
+import os
 import sys
+from pathlib import Path
 
 # Introduce an implementation of pathlib.Path's is_relative_to in python
 # versions before 3.9
 if sys.version_info < (3, 9):
-    from pathlib import Path
 
     def _is_relative_to(self: Path, path: Path) -> bool:
         try:
@@ -18,3 +19,12 @@ if sys.version_info < (3, 9):
             return False
 
     setattr(Path, "is_relative_to", _is_relative_to)
+
+# Introduce an implementation of pathlib.Path's readlink in python versions
+# before 3.9
+if sys.version_info < (3, 9):
+
+    def _readlink(self: Path) -> Path:
+        return Path(os.readlink(self))
+
+    setattr(Path, "readlink", _readlink)
