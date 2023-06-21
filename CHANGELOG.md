@@ -40,6 +40,25 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ## 2.0.0 - 2023-06-21
 
+As you can see, this major release is packed with a lot of changes, and some of
+them have been requested by a lot of people. Probably most notably is the
+`--json` flag for the linter, easing the parsing of its output.
+
+**Possibly breaking change**: In some cases, the linting of some projects now
+fails even though they didn't in version `1.x`. This is because we finally
+defined a strict order of precedence of the different source for licensing and
+copyright information. In the old version, of a file was described by more than
+one source, the information has been merged. This often lead to unexpected
+results. Therefore, in line with the newly released REUSE specification version
+3.1, the [order of precedence](https://reuse.software/spec/#order-of-precedence)
+has been defined and the merging has been disabled.
+
+We are aware that this will break the REUSE compliance of some projects, but we
+are confident that it's better this way to really make licensing and copyright
+transparent and understandable. Please take the time to fix the uncertainties in
+your projects in the best interest of yourself and your users. Thank you for
+your understanding!
+
 ### Added
 
 - Detect SPDX snippet tags in files. (#699)
@@ -49,7 +68,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Qt .pro (`.pro`) (#632)
   - Qt .pri (`.pri`) (#755)
   - Qt .qrc (`.qrc`) (#755)
-  - Qt .qss(`.qss`) (#755)
+  - Qt .qss (`.qss`) (#755)
   - Qt .ui (`.ui`) (#755)
   - Textile (`.textile`) (#712)
   - Visual Studio Code workspace (`.code-workspace`) (#747)
