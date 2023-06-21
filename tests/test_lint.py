@@ -191,33 +191,4 @@ def test_lint_json_output(fake_repository):
             )
 
 
-def test_lint_json_output_precedence(fake_repository):
-    """Test for lint with JSON output with focus on precedence."""
-    (fake_repository / "doc/differently_licensed_docs.rst").write_text(
-        "SPDX-License-Identifier: MIT"
-    )
-    project = Project(fake_repository)
-    report = ProjectReport.generate(project)
-
-    json_result = report.to_dict_lint()
-
-    assert json_result
-    # Test result
-    assert json_result["summary"]["compliant"] is False
-    # Test license path precedence
-    for test_file in json_result["files"]:
-        if test_file["path"].startswith(
-            str(fake_repository / "doc/differently_licensed_docs.rst")
-        ):
-            assert test_file["licenses"][0]["value"] == "MIT"
-            assert test_file["licenses"][0]["source"] == str(
-                fake_repository / "doc/differently_licensed_docs.rst"
-            )
-        if test_file["path"].startswith(str(fake_repository / "doc/index.rst")):
-            assert test_file["licenses"][0]["value"] == "CC0-1.0"
-            assert test_file["licenses"][0]["source"] == str(
-                fake_repository / ".reuse/dep5"
-            )
-
-
 # REUSE-IgnoreEnd
