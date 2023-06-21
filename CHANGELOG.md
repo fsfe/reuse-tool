@@ -38,7 +38,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 2.0.0 - 2023-06-21
 
 ### Added
 
@@ -74,6 +74,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Added `--contributor` option to `annotate`. (#669)
 - Added `--json` flag to `lint` command (#654).
 - `reuse.ReuseInfo` now has `copy` and `union` methods. (#759)
+- Added Ukrainian and Czech translations (#767)
 
 ### Changed
 
@@ -85,8 +86,10 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Removed dependency on setuptools' `pkg_resources` to determine the installed
   version of reuse. (#724)
 - Bumped SPDX license list to v3.21. (#763)
-
-### Deprecated
+- Bumped REUSE Spec version to 3.1. (#768)
+- Introduce an order of precedence. The copyright and licensing information from
+  different sources (e.g. `.license` or `.reuse/dep5` file) is no longer merged.
+  (#654)
 
 ### Removed
 
@@ -103,8 +106,6 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Marked the `/data` directory in Docker containers as safe in Git, preventing
   errors related to linting Git repositories. (#720)
 - Repaired error when using Galician translations. (#719)
-
-### Security
 
 ## 1.1.2 - 2023-02-09
 
