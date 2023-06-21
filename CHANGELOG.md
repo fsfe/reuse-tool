@@ -77,7 +77,6 @@ users. Thank you for your understanding!
   - Svelte components (`.svelte`)
   - AES encrypted files (`.aes`) (#758)
   - Jakarte Server Page (`.jsp`) (#757)
-- More files are recognised:
   - Clang format (`.clang-format`) (#632)
   - Browserslist config (`.browserslist`)
   - Prettier config (`.prettierrc`) and ignored files (`.prettierignore`)
