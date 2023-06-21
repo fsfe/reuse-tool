@@ -30,7 +30,7 @@ try:
     __version__ = version("reuse")
 except PackageNotFoundError:
     # package is not installed
-    __version__ = "1.1.2"
+    __version__ = "2.0.0"
 
 __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
