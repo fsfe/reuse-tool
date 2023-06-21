@@ -56,7 +56,7 @@ lint-third-party: ## Lint selected third-party repositories to compare with expe
 	poetry run python3 .github/workflows/third_party_lint.py --defaults --json
 
 .PHONY: docs
-docs: ## generate Sphinx HTML documentation, including API docs
+docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 	poetry export --with docs --without-hashes >docs/requirements.txt
 	$(MAKE) -C docs html
 
