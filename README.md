@@ -19,7 +19,7 @@ recommendations.
 - Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
 - Source code: <https://github.com/fsfe/reuse-tool>
 - PyPI: <https://pypi.python.org/pypi/reuse>
-- REUSE: 3.0
+- REUSE: 3.1
 - Python: 3.8+
 
 ## Table of contents
