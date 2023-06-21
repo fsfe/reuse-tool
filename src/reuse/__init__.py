@@ -30,12 +30,12 @@ try:
     __version__ = version("reuse")
 except PackageNotFoundError:
     # package is not installed
-    __version__ = "1.1.2"
+    __version__ = "2.0.0"
 
 __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
 __license__ = "Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
-__REUSE_version__ = "3.0"
+__REUSE_version__ = "3.1"
 
 _LOGGER = logging.getLogger(__name__)
 
