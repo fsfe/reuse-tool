@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-09 15:07+0100\n"
-"PO-Revision-Date: 2023-02-16 14:56+0000\n"
+"PO-Revision-Date: 2023-06-21 09:53+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.18.1\n"
 
 #: src/reuse/_main.py:30
 msgid ""
@@ -195,8 +195,7 @@ msgstr ""
 "- ¿Existe alguna licencia, de las incluidas en el directorio LICENSES/, que "
 "no esté en uso en el proyecto?\n"
 "\n"
-"- ¿Tienen todos los ficheros información válida sobre copyright y "
-"licencia?"
+"- ¿Tienen todos los ficheros información válida sobre copyright y licencia?"
 
 #: src/reuse/_main.py:199
 msgid "print the project's bill of materials in SPDX format"
@@ -500,9 +499,7 @@ msgstr "FALTA INFORMACIÓN SOBRE COPYRIGHT Y LICENCIA"
 
 #: src/reuse/lint.py:214
 msgid "The following files have no copyright and licensing information:"
-msgstr ""
-"Los siguientes archivos carecen de información de copyright y "
-"licencia:"
+msgstr "Los siguientes archivos carecen de información de copyright y licencia:"
 
 #: src/reuse/lint.py:223
 msgid "The following files have no copyright information:"

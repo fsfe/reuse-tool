@@ -6,15 +6,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-09 13:51+0100\n"
-"PO-Revision-Date: 2020-01-20 14:55+0100\n"
+"PO-Revision-Date: 2023-06-21 09:53+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Last-Translator: Carmen Bianca BAKKER <carmen@carmenbianca.eu>\n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.2.4\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.18.1\n"
 
 #: src/reuse/_main.py:30
 msgid ""
@@ -257,8 +258,8 @@ msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
 msgstr ""
-"Consultar uma lista de Identificadores de Licença SPDX válidos em <https://"
-"spdx.org/licenses/>."
+"Consultar uma lista de Identificadores de Licença SPDX válidos em "
+"<https://spdx.org/licenses/>."
 
 #: src/reuse/download.py:120
 msgid "Is your internet connection working?"
@@ -289,8 +290,8 @@ msgid ""
 "'{path}' does not have a recognised file extension, please use --style or --"
 "explicit-license"
 msgstr ""
-"'{path}' não têm uma extensão de ficheiro reconhecida; usar --style ou --"
-"explicit-license"
+"'{path}' não têm uma extensão de ficheiro reconhecida; usar --style ou "
+"--explicit-license"
 
 #: src/reuse/header.py:352
 #, python-brace-format
@@ -594,8 +595,7 @@ msgstr ""
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
-msgstr ""
-"{identifier} é o Identificador de Licença SPDX de {path} e {other_path}"
+msgstr "{identifier} é o Identificador de Licença SPDX de {path} e {other_path}"
 
 #: src/reuse/report.py:206
 #, python-brace-format
