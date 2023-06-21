@@ -3,17 +3,26 @@
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for reuse._main: annotate"""
 import logging
 import stat
+from importlib import import_module
 from inspect import cleandoc
 
 import pytest
 
 from reuse._main import main
+
+try:
+    IS_POSIX = bool(import_module("posix"))
+except ImportError:
+    IS_POSIX = False
+
+posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
 
 # pylint: disable=too-many-lines,unused-argument
 
@@ -969,6 +978,55 @@ def test_annotate_force_dot_license_doesnt_write_to_file(
         == expected
     )
     assert simple_file.read_text() == "Preserve this"
+
+
+@posix
+@pytest.mark.parametrize(
+    "create_target",
+    [True, False],
+    ids=map(lambda x: f"create_target={x}", [True, False]),
+)
+def test_annotate_force_dot_license_for_symlinks(
+    fake_repository, stringio, mock_date_today, create_target
+):
+    """Annotating a symlink, broken or not, with --force-dot-license should
+    result in a .license file next to the symlink.
+    """
+    target_file = fake_repository / "target-file"
+    if create_target:
+        target_file.write_text("Preserve this")
+    symlink = fake_repository / "symlink"
+    symlink.symlink_to(target_file.relative_to(fake_repository))
+    expected = cleandoc(
+        """
+        SPDX-FileCopyrightText: 2018 Jane Doe
+
+        SPDX-License-Identifier: GPL-3.0-or-later
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "--force-dot-license",
+            "symlink",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        symlink.with_name(f"{symlink.name}.license").read_text().strip()
+        == expected
+    )
+    if create_target:
+        assert target_file.read_text() == "Preserve this"
+    else:
+        assert not symlink.exists()
 
 
 def test_annotate_to_read_only_file_does_not_traceback(
