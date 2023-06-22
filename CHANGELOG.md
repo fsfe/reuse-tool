@@ -74,6 +74,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Added `--json` flag to `lint` command (#654).
 - `reuse.ReuseInfo` now has `copy` and `union` methods. (#759)
 - Added Ukrainian and Czech translations (#767)
+- Added `--suppress-deprecation` to hide (verbose) deprecation warnings. (#778)
 
 ### Changed
 
@@ -86,11 +87,16 @@ CLI command and its behaviour. There are no guarantees of stability for the
   version of reuse. (#724)
 - Bumped SPDX license list to v3.21. (#763)
 - Bumped REUSE Spec version to 3.1. (#768)
-- Introduce an order of precedence. The copyright and licensing information from
-  different sources (e.g. `.license` or `.reuse/dep5` file) is no longer merged.
-  (#654)
 
 ### Deprecated
+
+- Pending deprecation of aggregation of file sources. Presently, when copyright
+  and licensing information is defined both within e.g. the file itself and in
+  the DEP5 file, then the information is merged or aggregated for the purposes
+  of linting and BOM generation. In the future, this will no longer be the case
+  unless explicitly defined. The exact mechanism for this is not yet concrete,
+  but a `PendingDeprecationWarning` will be shown to the user to make them aware
+  of this. (#778)
 
 ### Removed
 

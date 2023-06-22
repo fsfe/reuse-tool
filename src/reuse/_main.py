@@ -9,6 +9,7 @@
 import argparse
 import logging
 import sys
+import warnings
 from gettext import gettext as _
 from typing import IO, Callable, List, Optional, Type, cast
 
@@ -67,6 +68,11 @@ def parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--debug", action="store_true", help=_("enable debug statements")
+    )
+    parser.add_argument(
+        "--suppress-deprecation",
+        action="store_true",
+        help=_("hide deprecation warnings"),
     )
     parser.add_argument(
         "--include-submodules",
@@ -271,6 +277,9 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
     parsed_args = main_parser.parse_args(args)
 
     setup_logging(level=logging.DEBUG if parsed_args.debug else logging.WARNING)
+    # Show all warnings raised by ourselves.
+    if not parsed_args.suppress_deprecation:
+        warnings.filterwarnings("default", module="reuse")
 
     if parsed_args.version:
         out.write(f"reuse {__version__}\n")

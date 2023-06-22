@@ -10,6 +10,7 @@ import contextlib
 import glob
 import logging
 import os
+import warnings
 from gettext import gettext as _
 from pathlib import Path
 from typing import Dict, Iterator, Optional, Union, cast
@@ -168,6 +169,7 @@ class Project:
         # is captured in ReuseInfo
         dep5_result = ReuseInfo()
         file_result = ReuseInfo()
+        final_result = ReuseInfo()
 
         # Search the .reuse/dep5 file for REUSE information.
         if self._copyright:
@@ -217,26 +219,36 @@ class Project:
             dep5_result.contains_copyright_or_licensing()
             and file_result.contains_copyright_or_licensing()
         ):
-            _LOGGER.warning(
+            final_result = file_result.union(dep5_result)
+            warnings.warn(
                 _(
-                    "Copyright and licensing information for '{original_path}'"
-                    " have been found in '{path}' and the DEP5 file located at"
-                    " '{dep5_path}'. The information in the DEP5 file has been"
-                    " overridden. Please ensure that this is correct."
+                    "Copyright and licensing information for"
+                    " '{original_path}' has been found in both '{path}' and"
+                    " in the DEP5 file located at '{dep5_path}'. The"
+                    " information for these two sources has been"
+                    " aggregated. In the future this behaviour will change,"
+                    " and you will need to explicitly enable aggregation."
+                    " See"
+                    " <https://github.com/fsfe/reuse-tool/issues/779>. You"
+                    " need do nothing yet. Run with"
+                    " `--suppress-deprecation` to hide this warning."
                 ).format(
                     original_path=original_path, path=path, dep5_path=dep5_path
-                )
+                ),
+                PendingDeprecationWarning,
             )
         # Information is only found in a DEP5 file
         elif (
             dep5_result.contains_copyright_or_licensing()
             and not file_result.contains_copyright_or_licensing()
         ):
-            return dep5_result.copy(source_path=source_path)
+            final_result = dep5_result.copy(source_path=source_path)
         # There is a file header or a .license file
-        return file_result.copy(
-            source_path=source_path, source_type=source_type
-        )
+        else:
+            final_result = file_result.copy(
+                source_path=source_path, source_type=source_type
+            )
+        return final_result
 
     def relative_from_root(self, path: StrPath) -> Path:
         """If the project root is /tmp/project, and *path* is
