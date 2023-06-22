@@ -54,13 +54,18 @@ def main(args_):
         # Clone repo
         if not os.path.isdir(repo_dir):
             print(f"[INFO] Cloning {repo} to {repo_dir}")
-            Repo.clone_from(
-                f"https://github.com/{repo}", f"{repo_dir}", filter=["tree:0"]
+            repo_git = Repo.clone_from(
+                f"https://github.com/{repo}", repo_dir, filter=["tree:0"]
             )
         else:
             print(f"[INFO] Not cloning {repo} as it exists locally.")
+            repo_git = Repo(repo_dir)
+
+        # Get last commit of repo
+        repo_sha = repo_git.head.object.hexsha
 
         # Lint repo
+        print(f"[INFO] Start linting of {repo} (commit {repo_sha})")
         lint_ret = subprocess.run(
             ["reuse", "--root", repo_dir, "lint", "--json"],
             capture_output=True,
