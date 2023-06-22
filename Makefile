@@ -1,4 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -52,7 +54,7 @@ reuse: dist ## check with self
 
 .PHONY: lint-third-party
 lint-third-party: ## Lint selected third-party repositories to compare with expected output
-	poetry run python3 .github/workflows/third_party_lint.py --debug
+	poetry run python3 .github/workflows/third_party_lint.py --defaults --json
 
 .PHONY: docs
 docs: ## generate Sphinx HTML documentation, including API docs
