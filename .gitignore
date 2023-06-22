@@ -159,3 +159,6 @@ prof/
 .direnv/
 result
 .envrc
+
+# Third-party repo testing (.github/workflows/third_party_lint.py)
+third-party/
