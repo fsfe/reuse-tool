@@ -13,7 +13,7 @@ build:
 python:
   install:
     # This file is generated with poetry as follows:
-    # poetry export --only=dev >docs/requirements-docs.txt
+    # poetry export --with docs --without-hashes >docs/requirements-docs.txt
     - requirements: docs/requirements.txt
 
 sphinx:

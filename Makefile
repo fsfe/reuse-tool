@@ -58,7 +58,7 @@ lint-third-party: ## Lint selected third-party repositories to compare with expe
 
 .PHONY: docs
 docs: ## generate Sphinx HTML documentation, including API docs
-	poetry export --dev --without-hashes >docs/requirements.txt
+	poetry export --with docs --without-hashes >docs/requirements.txt
 	$(MAKE) -C docs html
 
 .PHONY: docs-ci
