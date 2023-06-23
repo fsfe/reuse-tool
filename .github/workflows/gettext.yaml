@@ -15,9 +15,10 @@ jobs:
   create-pot:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
+          token: ${{ secrets.FSFE_SYSTEM_TOKEN }}
       - name: Install gettext
         run: sudo apt-get install -y gettext
       - name: Create .pot file
@@ -32,7 +33,7 @@ jobs:
       - name: Commit and push updated reuse.pot
         if: ${{ steps.diff.outputs.changed != '0' }}
         run: |
-          git config --global user.name "GitHub Actions"
+          git config --global user.name "fsfe-system"
           git config --global user.email "<>"
           git add po/reuse.pot
           git commit -m "Update reuse.pot"
