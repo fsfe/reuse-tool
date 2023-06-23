@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - pot-action
     paths:
       - "src/reuse/**.py"
 
@@ -37,4 +38,4 @@ jobs:
           git config --global user.email "<>"
           git add po/reuse.pot
           git commit -m "Update reuse.pot"
-          git push origin main
+          git push origin pot-action
