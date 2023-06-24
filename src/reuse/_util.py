@@ -268,6 +268,7 @@ def _contains_snippet(binary_file: BinaryIO) -> bool:
 def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
     """Parse all copyright lines and merge identical statements making years
     into a range.
+
     If a same statement uses multiple prefixes, use only the most frequent one.
     """
     # pylint: disable=too-many-locals
@@ -324,8 +325,9 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
 def extract_reuse_info(text: str) -> ReuseInfo:
     """Extract REUSE information from comments in a string.
 
-    :raises ExpressionError: if an SPDX expression could not be parsed
-    :raises ParseError: if an SPDX expression could not be parsed
+    Raises:
+        ExpressionError: if an SPDX expression could not be parsed.
+        ParseError: if an SPDX expression could not be parsed.
     """
     text = filter_ignore_block(text)
     spdx_tags: Dict[str, Set[str]] = {}

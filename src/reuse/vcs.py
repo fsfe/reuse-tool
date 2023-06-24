@@ -38,7 +38,8 @@ class VCSStrategy(ABC):
     def in_repo(cls, directory: StrPath) -> bool:
         """Is *directory* inside of the VCS repository?
 
-        :raises NotADirectoryError: if directory is not a directory.
+        Raises:
+            NotADirectoryError: if directory is not a directory.
         """
 
     @classmethod
@@ -47,7 +48,8 @@ class VCSStrategy(ABC):
         """Try to find the root of the project from *cwd*. If none is found,
         return None.
 
-        :raises NotADirectoryError: if directory is not a directory.
+        Raises:
+            NotADirectoryError: if directory is not a directory.
         """
 
 
@@ -204,7 +206,8 @@ def find_root(cwd: Optional[StrPath] = None) -> Optional[Path]:
     """Try to find the root of the project from *cwd*. If none is found,
     return None.
 
-    :raises NotADirectoryError: if directory is not a directory.
+    Raises:
+        NotADirectoryError: if directory is not a directory.
     """
     if GIT_EXE:
         root = VCSStrategyGit.find_root(cwd=cwd)

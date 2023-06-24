@@ -40,9 +40,8 @@ extensions = [
     "recommonmark",
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.coverage",
     "sphinx.ext.viewcode",
-    "sphinx_autodoc_typehints",
+    "sphinx.ext.napoleon",
     "sphinxcontrib.apidoc",
 ]
 
