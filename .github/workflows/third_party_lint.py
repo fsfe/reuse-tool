@@ -19,6 +19,7 @@ CLONE_DIR = Path(tempfile.gettempdir()) / "reuse-third-party"
 DEFAULT_REPOS = {
     "https://github.com/fsfe/reuse-example": {},
     "https://github.com/curl/curl": {},
+    "https://invent.kde.org/pim/kalendar": {},
     "https://github.com/spdx/license-list-XML": {"expect-failure": True},
 }
 

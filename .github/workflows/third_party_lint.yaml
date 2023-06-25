@@ -27,6 +27,7 @@ jobs:
           [
             "https://github.com/fsfe/reuse-example",
             "https://github.com/curl/curl",
+            "https://invent.kde.org/pim/kalendar",
           ]
     steps:
       - uses: actions/checkout@v3
