@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2021 Alliander N.V.
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -25,6 +26,8 @@ from importlib.metadata import PackageNotFoundError, version
 from typing import Any, Dict, NamedTuple, Optional, Set, Type
 
 from boolean.boolean import Expression
+
+import reuse.compat
 
 try:
     __version__ = version("reuse")

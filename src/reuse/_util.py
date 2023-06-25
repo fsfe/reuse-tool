@@ -7,6 +7,7 @@
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Johannes Zarl-Zierl <johannes@zarl-zierl.at>
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -475,6 +476,10 @@ class PathType:
                 raise ArgumentTypeError(
                     _("'{}' is not a directory").format(path)
                 )
+            return
+        if not path.exists() and path.is_symlink():
+            # If the path is a broken symlink we can continue, allowing usage of
+            # --force-dot-license even if the link target is not readable.
             return
         raise ArgumentTypeError(_("can't open '{}'").format(path))
 

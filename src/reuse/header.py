@@ -9,6 +9,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -392,7 +393,7 @@ def _is_uncommentable(path: Path) -> bool:
     registered as an UncommentableCommentStyle.
     """
     is_uncommentable = _get_comment_style(path) == UncommentableCommentStyle
-    return is_uncommentable or is_binary(str(path))
+    return is_uncommentable or path.is_symlink() or is_binary(str(path))
 
 
 def _verify_paths_line_handling(

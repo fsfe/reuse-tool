@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -134,6 +135,15 @@ def fake_repository(tmpdir_factory) -> Path:
         "SPDX-License-Identifier: GPL-3.0-or-later\n"
         "SPDX-License-Identifier: Apache-2.0 OR CC0-1.0"
         " WITH Autoconf-exception-3.0\n",
+        encoding="utf-8",
+    )
+
+    (directory / "symlink-to-covered").symlink_to(directory / "doc/index.rst")
+    (directory / "symlink-to-not-covered").symlink_to(directory)
+    (directory / "symlink-to-not-covered.license").write_text(
+        "# SPDX-FileCopyrightText: 2017 Jane Doe\n"
+        "#\n"
+        "# SPDX-License-Identifier: GPL-3.0-or-later",
         encoding="utf-8",
     )
 

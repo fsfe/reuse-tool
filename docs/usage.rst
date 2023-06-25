@@ -39,7 +39,18 @@ passed as optional argument.
 Meson subprojects are automatically ignored if ``meson.build`` exists in the
 project root. ``--include-meson-subprojects`` overrides this behaviour.
 
-Symbolic links and files that are zero-sized are automatically ignored.
+Files that are zero-sized are automatically ignored.
+
+Symbolic links are handled differently depending on the target of the link:
+
+#. a symlink pointing to a covered file is considered to be the same file as
+   the covered file and is therefore ignored.
+#. a symlink pointing to a file that is not a covered file is itself considered
+   to be a covered file and is not skipped, unless the symlink is ignored by
+   other means.
+
+A "covered file" is the term used in the REUSE Specification to name a file
+that needs copyright and licensing information.
 
 annotate
 ========

@@ -1,11 +1,13 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for reuse.project."""
 
+import itertools
 import os
 import shutil
 import warnings
@@ -99,8 +101,8 @@ def test_all_files_ignore_hg(empty_directory):
 
 
 @posix
-def test_all_files_symlinks(empty_directory):
-    """All symlinks must be ignored."""
+def test_all_files_ignore_symlinks_to_covered_files(empty_directory):
+    """All symlinks to covered files must be ignored."""
     (empty_directory / "blob").write_text("foo")
     (empty_directory / "blob.license").write_text(
         cleandoc(
@@ -111,9 +113,75 @@ def test_all_files_symlinks(empty_directory):
             """
         )
     )
-    (empty_directory / "symlink").symlink_to("blob")
+    (empty_directory / "symlink0").symlink_to("blob")
+    for i in range(5):
+        (empty_directory / f"symlink{i + 1}").symlink_to(f"symlink{i}")
     project = Project(empty_directory)
-    assert Path("symlink").absolute() not in project.all_files()
+    for i in range(6):
+        assert Path(f"symlink{i}").absolute() not in project.all_files()
+
+
+no_vcs_params = list(
+    filter(
+        lambda x: not (x[0] == "non_existent_file" and x[1] is True),
+        itertools.product(
+            [
+                "../outside_file",
+                "non_existent_file",
+            ],
+            [False, True],
+        ),
+    )
+)
+
+
+@posix
+@pytest.mark.parametrize(
+    "target,create_target",
+    no_vcs_params,
+    ids=map(lambda x: f"target={x[0]},create_target={x[1]}", no_vcs_params),
+)
+def test_all_files_cover_symlinks_to_uncovered_files(
+    empty_directory, target, create_target
+):
+    """All symlinks to files not covered must be included."""
+    project_dir = empty_directory / "project_dir"
+    project_dir.mkdir()
+    (project_dir / "symlink").symlink_to(target)
+    if create_target:
+        (project_dir / target).parent.mkdir(parents=True, exist_ok=True)
+        (project_dir / target).write_text("some content")
+    project = Project(project_dir)
+    assert (project_dir / "symlink").absolute() in project.all_files()
+
+
+@posix
+@pytest.mark.parametrize(
+    "target,create_target",
+    no_vcs_params,
+    ids=map(lambda x: f"target={x[0]},create_target={x[1]}", no_vcs_params),
+)
+def test_all_files_ignore_symlinks_to_covered_symlinks(
+    empty_directory, target, create_target
+):
+    """All symlinks to symlinks that are considered to be covered files must be
+    ignored.
+    """
+    project_dir = empty_directory / "project_dir"
+    project_dir.mkdir()
+    (project_dir / "symlink0").symlink_to(target)
+    for i in range(5):
+        (project_dir / f"symlink{i + 1}").symlink_to(
+            project_dir / f"symlink{i}"
+        )
+    if create_target:
+        (project_dir / target).parent.mkdir(parents=True, exist_ok=True)
+        (project_dir / target).write_text("some content")
+    project = Project(project_dir)
+    for i in range(1, 6):
+        assert (
+            project_dir / f"symlink{i}"
+        ).absolute() not in project.all_files()
 
 
 def test_all_files_ignore_zero_sized(empty_directory):
@@ -156,6 +224,81 @@ def test_all_files_git_ignored_contains_newline(git_repository):
     (git_repository / "hello\nworld.pyc").write_text("foo")
     project = Project(git_repository)
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
+
+
+@posix
+def test_all_files_git_ignore_symlinks_to_covered_files(git_repository):
+    """All symlinks to covered files must be ignored."""
+    (git_repository / "symlink0").symlink_to("doc/index.rst")
+    for i in range(5):
+        (git_repository / f"symlink{i + 1}").symlink_to(f"symlink{i}")
+    project = Project(git_repository)
+    for i in range(6):
+        assert Path(f"symlink{i}").absolute() not in project.all_files()
+
+
+git_params = list(
+    filter(
+        lambda x: not (x[0] == "non_existent_file" and x[1] is True),
+        itertools.product(
+            [
+                ".git/file_in_dotgit",
+                ".git/annex/objects/file_in_annex",
+                "../outside_file",
+                "build/somefile.py",
+                "non_existent_file",
+            ],
+            [False, True],
+        ),
+    )
+)
+
+
+@posix
+@pytest.mark.parametrize(
+    "target,create_target",
+    git_params,
+    ids=map(lambda x: f"target={x[0]},create_target={x[1]}", git_params),
+)
+def test_all_files_git_cover_symlinks_to_uncovered_files(
+    empty_directory, git_repository, target, create_target
+):
+    """All symlinks to files not covered must be included."""
+    git_repository_target_path = empty_directory / "repository"
+    shutil.move(git_repository, git_repository_target_path)
+    git_repository = git_repository_target_path
+    if create_target:
+        (git_repository / target).parent.mkdir(parents=True, exist_ok=True)
+        (git_repository / target).write_text("some content")
+    (git_repository / "symlink").symlink_to(target)
+    project = Project(git_repository)
+    assert Path("symlink").absolute() in project.all_files()
+
+
+@posix
+@pytest.mark.parametrize(
+    "target,create_target",
+    git_params,
+    ids=map(lambda x: f"target={x[0]},create_target={x[1]}", git_params),
+)
+def test_all_files_git_ignore_symlinks_to_covered_symlinks(
+    empty_directory, git_repository, target, create_target
+):
+    """All symlinks to symlinks that are considered to be covered files must be
+    ignored.
+    """
+    git_repository_target_path = empty_directory / "repository"
+    shutil.move(git_repository, git_repository_target_path)
+    git_repository = git_repository_target_path
+    if create_target:
+        (git_repository / target).parent.mkdir(parents=True, exist_ok=True)
+        (git_repository / target).write_text("some content")
+    (git_repository / "symlink0").symlink_to(target)
+    for i in range(5):
+        (git_repository / f"symlink{i + 1}").symlink_to(f"symlink{i}")
+    project = Project(git_repository)
+    for i in range(1, 6):
+        assert Path(f"symlink{i}").absolute() not in project.all_files()
 
 
 def test_all_files_submodule_is_ignored(submodule_repository):
@@ -201,6 +344,80 @@ def test_all_files_hg_ignored_contains_newline(hg_repository):
     (hg_repository / "hello\nworld.pyc").touch()
     project = Project(hg_repository)
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
+
+
+@posix
+def test_all_files_hg_ignore_symlinks_to_covered_files(hg_repository):
+    """All symlinks to covered files must be ignored."""
+    (hg_repository / "symlink0").symlink_to("doc/index.rst")
+    for i in range(5):
+        (hg_repository / f"symlink{i + 1}").symlink_to(f"symlink{i}")
+    project = Project(hg_repository)
+    for i in range(6):
+        assert Path(f"symlink{i}").absolute() not in project.all_files()
+
+
+hg_params = list(
+    filter(
+        lambda x: not (x[0] == "non_existent_file" and x[1] is True),
+        itertools.product(
+            [
+                ".hg/file_in_dothg",
+                "../outside_file",
+                "build/somefile.py",
+                "non_existent_file",
+            ],
+            [False, True],
+        ),
+    )
+)
+
+
+@posix
+@pytest.mark.parametrize(
+    "target,create_target",
+    hg_params,
+    ids=map(lambda x: f"target={x[0]},create_target={x[1]}", hg_params),
+)
+def test_all_files_hg_cover_symlinks_to_uncovered_files(
+    empty_directory, hg_repository, target, create_target
+):
+    """All symlinks to files not covered must be included."""
+    hg_repository_target_path = empty_directory / "repository"
+    shutil.move(hg_repository, hg_repository_target_path)
+    hg_repository = hg_repository_target_path
+    if create_target:
+        (hg_repository / target).parent.mkdir(parents=True, exist_ok=True)
+        (hg_repository / target).write_text("some content")
+    (hg_repository / "symlink").symlink_to(target)
+    project = Project(hg_repository)
+    assert Path("symlink").absolute() in project.all_files()
+
+
+@posix
+@pytest.mark.parametrize(
+    "target,create_target",
+    hg_params,
+    ids=map(lambda x: f"target={x[0]},create_target={x[1]}", hg_params),
+)
+def test_all_files_hg_ignore_symlinks_to_covered_symlinks(
+    empty_directory, hg_repository, target, create_target
+):
+    """All symlinks to symlinks that are considered to be covered files must be
+    ignored.
+    """
+    hg_repository_target_path = empty_directory / "repository"
+    shutil.move(hg_repository, hg_repository_target_path)
+    hg_repository = hg_repository_target_path
+    if create_target:
+        (hg_repository / target).parent.mkdir(parents=True, exist_ok=True)
+        (hg_repository / target).write_text("some content")
+    (hg_repository / "symlink0").symlink_to(target)
+    for i in range(5):
+        (hg_repository / f"symlink{i + 1}").symlink_to(f"symlink{i}")
+    project = Project(hg_repository)
+    for i in range(1, 6):
+        assert Path(f"symlink{i}").absolute() not in project.all_files()
 
 
 def test_reuse_info_of_file_does_not_exist(fake_repository):

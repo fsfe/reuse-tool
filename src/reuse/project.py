@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -136,8 +137,27 @@ class Project:
                     _LOGGER.debug("ignoring '%s'", the_file)
                     continue
                 if the_file.is_symlink():
-                    _LOGGER.debug("skipping symlink '%s'", the_file)
-                    continue
+                    # Needs to use os.path.absolute instead of Path.absolute
+                    # since the former normalizes the path, i.e. resolves "..".
+                    # There is no method in pathlib for this which doesn't also
+                    # resolve symlinks recursively, like Path.resolve.
+                    target_file = Path(
+                        os.path.abspath(the_file.readlink())  # type: ignore
+                    )
+                    _LOGGER.debug(
+                        "'%s' is a symlink pointing to '%s'",
+                        the_file,
+                        target_file,
+                    )
+                    if (
+                        target_file.is_relative_to(  # type: ignore # pylint: disable=E1101
+                            self.root.resolve()
+                        )
+                        and (target_file.exists() or target_file.is_symlink())
+                        and not self._is_path_ignored(target_file)
+                    ):
+                        _LOGGER.debug("skipping symlink '%s'", the_file)
+                        continue
                 # Suppressing this error because I simply don't want to deal
                 # with that here.
                 with contextlib.suppress(OSError):
@@ -184,35 +204,39 @@ class Project:
                 dep5_path = source_path
 
         # Search the file for REUSE information.
-        with path.open("rb") as fp:
-            try:
-                # Completely read the file once to search for possible snippets
-                if _contains_snippet(fp):
-                    _LOGGER.debug(f"'{path}' seems to contain a SPDX Snippet")
-                    read_limit = None
-                else:
-                    read_limit = _HEADER_BYTES
-                # Reset read position
-                fp.seek(0)
-                # Scan the file for REUSE info, possible limiting the read
-                # length
-                file_result = extract_reuse_info(
-                    decoded_text_from_binary(fp, size=read_limit)
-                )
-                if file_result:
-                    source_path = str(path)
-                    if path.suffix == ".license":
-                        source_type = SourceType.DOT_LICENSE_FILE
+        if not path.is_symlink():
+            with path.open("rb") as fp:
+                try:
+                    # Completely read the file once to search for possible
+                    # snippets
+                    if _contains_snippet(fp):
+                        _LOGGER.debug(
+                            f"'{path}' seems to contain a SPDX Snippet"
+                        )
+                        read_limit = None
                     else:
-                        source_type = SourceType.FILE_HEADER
+                        read_limit = _HEADER_BYTES
+                    # Reset read position
+                    fp.seek(0)
+                    # Scan the file for REUSE info, possible limiting the read
+                    # length
+                    file_result = extract_reuse_info(
+                        decoded_text_from_binary(fp, size=read_limit)
+                    )
+                    if file_result:
+                        source_path = str(path)
+                        if path.suffix == ".license":
+                            source_type = SourceType.DOT_LICENSE_FILE
+                        else:
+                            source_type = SourceType.FILE_HEADER
 
-            except (ExpressionError, ParseError):
-                _LOGGER.error(
-                    _(
-                        "'{path}' holds an SPDX expression that cannot be"
-                        " parsed, skipping the file"
-                    ).format(path=path)
-                )
+                except (ExpressionError, ParseError):
+                    _LOGGER.error(
+                        _(
+                            "'{path}' holds an SPDX expression that cannot be"
+                            " parsed, skipping the file"
+                        ).format(path=path)
+                    )
 
         # There is both information in a .dep5 file and in the file header
         if (
