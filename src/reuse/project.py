@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -182,9 +183,6 @@ class Project:
                 _LOGGER.info(
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
-                dep5_result = dep5_result.copy(
-                    source_path=str(self.root / ".reuse/dep5")
-                )
 
         # Search the file for REUSE information.
         with path.open("rb") as fp:
@@ -204,11 +202,13 @@ class Project:
                 )
                 if file_result.contains_copyright_or_licensing():
                     if path.suffix == ".license":
-                        source_type = SourceType.DOT_LICENSE_FILE
+                        source_type = SourceType.DOT_LICENSE
                     else:
                         source_type = SourceType.FILE_HEADER
                     file_result = file_result.copy(
-                        source_path=str(path), source_type=source_type
+                        path=str(self.relative_from_root(original_path)),
+                        source_path=str(self.relative_from_root(path)),
+                        source_type=source_type,
                     )
 
             except (ExpressionError, ParseError):
@@ -240,9 +240,9 @@ class Project:
                 ),
                 PendingDeprecationWarning,
             )
-        elif dep5_result.contains_info():
+        if dep5_result.contains_info():
             result.append(dep5_result)
-        elif file_result.contains_info():
+        if file_result.contains_info():
             result.append(file_result)
         return result
 

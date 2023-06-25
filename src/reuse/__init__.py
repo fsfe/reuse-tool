@@ -92,11 +92,11 @@ class SourceType(Enum):
     """
 
     #: A .license file containing license information.
-    DOT_LICENSE_FILE = ".license file"
+    DOT_LICENSE = ".license file"
     #: A file header containing license information.
     FILE_HEADER = "file header"
     #: A .reuse/dep5 file containing license information.
-    DEP5_FILE = ".reuse/dep5 file"
+    DEP5 = ".reuse/dep5 file"
 
 
 # TODO: In Python 3.10+, add kw_only=True
@@ -107,6 +107,7 @@ class ReuseInfo:
     spdx_expressions: Set[Expression] = field(default_factory=set)
     copyright_lines: Set[str] = field(default_factory=set)
     contributor_lines: Set[str] = field(default_factory=set)
+    path: Optional[str] = None
     source_path: Optional[str] = None
     source_type: Optional[SourceType] = None
 
@@ -155,11 +156,13 @@ class ReuseInfo:
         return bool(self.spdx_expressions or self.copyright_lines)
 
     def contains_info(self) -> bool:
-        """Any field except *source_path* and *source_type* is non-empty."""
+        """Any field except *path*, *source_path* and *source_type* is
+        non-empty.
+        """
         keys = {
             key
             for key in self.__dict__
-            if key not in ("source_path", "source_type")
+            if key not in ("path", "source_path", "source_type")
         }
         return any(self.__dict__[key] for key in keys)
 

@@ -237,7 +237,9 @@ def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:
         copyright_lines=set(
             map(str.strip, result.copyright.splitlines())  # type: ignore
         ),
-        source_type=SourceType.DEP5_FILE,
+        path=str(path),
+        source_type=SourceType.DEP5,
+        source_path=".reuse/dep5",
     )
 
 
