@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2021 Alliander N.V.
+# SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -152,6 +153,15 @@ class ReuseInfo:
     def contains_copyright_or_licensing(self) -> bool:
         """Either *spdx_expressions* or *copyright_lines* is non-empty."""
         return bool(self.spdx_expressions or self.copyright_lines)
+
+    def contains_info(self) -> bool:
+        """Any field except *source_path* and *source_type* is non-empty."""
+        keys = {
+            key
+            for key in self.__dict__
+            if key not in ("source_path", "source_type")
+        }
+        return any(self.__dict__[key] for key in keys)
 
     def __bool__(self) -> bool:
         return any(self.__dict__.values())

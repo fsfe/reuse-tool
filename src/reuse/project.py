@@ -13,7 +13,7 @@ import os
 import warnings
 from gettext import gettext as _
 from pathlib import Path
-from typing import Dict, Iterator, Optional, Union, cast
+from typing import Dict, Iterator, List, Optional, Union, cast
 
 from boolean.boolean import ParseError
 from debian.copyright import Copyright
@@ -148,20 +148,22 @@ class Project:
                 _LOGGER.debug("yielding '%s'", the_file)
                 yield the_file
 
-    def reuse_info_of(self, path: StrPath) -> ReuseInfo:
+    def reuse_info_of(self, path: StrPath) -> List[ReuseInfo]:
         """Return REUSE info of *path*.
 
-        This function will return any REUSE information that it can find, both
-        from within the file, the .license file and from the .reuse/dep5 file.
+        This function will return any REUSE information that it can find: from
+        within the file, the .license file and/or from the .reuse/dep5 file.
 
-        It also returns a single primary source path of the license/copyright
-        information, where 'primary' means '.license file' > 'header' > 'dep5'
+        The presence of a .license file always means that the file itself will
+        not be parsed for REUSE information.
+
+        When the .reuse/dep5 file covers a file and there is also REUSE
+        information within that file (or within its .license file), then two
+        :class:`ReuseInfo` objects are returned in the set, each with respective
+        discovered REUSE information and information about the source.
         """
         original_path = path
         path = _determine_license_path(path)
-        dep5_path: Optional[str] = None
-        source_path = ""
-        source_type = None
 
         _LOGGER.debug(f"searching '{path}' for REUSE information")
 
@@ -169,7 +171,7 @@ class Project:
         # is captured in ReuseInfo
         dep5_result = ReuseInfo()
         file_result = ReuseInfo()
-        final_result = ReuseInfo()
+        result = []
 
         # Search the .reuse/dep5 file for REUSE information.
         if self._copyright:
@@ -180,8 +182,9 @@ class Project:
                 _LOGGER.info(
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
-                source_path = str(self.root / ".reuse/dep5")
-                dep5_path = source_path
+                dep5_result = dep5_result.copy(
+                    source_path=str(self.root / ".reuse/dep5")
+                )
 
         # Search the file for REUSE information.
         with path.open("rb") as fp:
@@ -199,12 +202,14 @@ class Project:
                 file_result = extract_reuse_info(
                     decoded_text_from_binary(fp, size=read_limit)
                 )
-                if file_result:
-                    source_path = str(path)
+                if file_result.contains_copyright_or_licensing():
                     if path.suffix == ".license":
                         source_type = SourceType.DOT_LICENSE_FILE
                     else:
                         source_type = SourceType.FILE_HEADER
+                    file_result = file_result.copy(
+                        source_path=str(path), source_type=source_type
+                    )
 
             except (ExpressionError, ParseError):
                 _LOGGER.error(
@@ -215,11 +220,7 @@ class Project:
                 )
 
         # There is both information in a .dep5 file and in the file header
-        if (
-            dep5_result.contains_copyright_or_licensing()
-            and file_result.contains_copyright_or_licensing()
-        ):
-            final_result = file_result.union(dep5_result)
+        if dep5_result.contains_info() and file_result.contains_info():
             warnings.warn(
                 _(
                     "Copyright and licensing information for"
@@ -233,22 +234,17 @@ class Project:
                     " need do nothing yet. Run with"
                     " `--suppress-deprecation` to hide this warning."
                 ).format(
-                    original_path=original_path, path=path, dep5_path=dep5_path
+                    original_path=original_path,
+                    path=path,
+                    dep5_path=dep5_result.source_path,
                 ),
                 PendingDeprecationWarning,
             )
-        # Information is only found in a DEP5 file
-        elif (
-            dep5_result.contains_copyright_or_licensing()
-            and not file_result.contains_copyright_or_licensing()
-        ):
-            final_result = dep5_result.copy(source_path=source_path)
-        # There is a file header or a .license file
-        else:
-            final_result = file_result.copy(
-                source_path=source_path, source_type=source_type
-            )
-        return final_result
+        elif dep5_result.contains_info():
+            result.append(dep5_result)
+        elif file_result.contains_info():
+            result.append(file_result)
+        return result
 
     def relative_from_root(self, path: StrPath) -> Path:
         """If the project root is /tmp/project, and *path* is
