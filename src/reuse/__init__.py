@@ -92,11 +92,11 @@ class SourceType(Enum):
     """
 
     #: A .license file containing license information.
-    DOT_LICENSE = ".license file"
+    DOT_LICENSE = "dot-license"
     #: A file header containing license information.
-    FILE_HEADER = "file header"
+    FILE_HEADER = "file-header"
     #: A .reuse/dep5 file containing license information.
-    DEP5 = ".reuse/dep5 file"
+    DEP5 = "dep5"
 
 
 # TODO: In Python 3.10+, add kw_only=True
