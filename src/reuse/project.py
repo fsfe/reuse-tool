@@ -206,8 +206,8 @@ class Project:
                     else:
                         source_type = SourceType.FILE_HEADER
                     file_result = file_result.copy(
-                        path=str(self.relative_from_root(original_path)),
-                        source_path=str(self.relative_from_root(path)),
+                        path=self.relative_from_root(original_path).as_posix(),
+                        source_path=self.relative_from_root(path).as_posix(),
                         source_type=source_type,
                     )
 

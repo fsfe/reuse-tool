@@ -15,7 +15,7 @@ from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
 from os import cpu_count
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
 from uuid import uuid4
 
@@ -406,7 +406,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
         return {
             # This gets rid of the './' prefix. In Python 3.9, use
             # str.removeprefix.
-            "path": str(Path(self.name)),
+            "path": PurePath(self.name).as_posix(),
             "copyrights": [
                 {
                     "value": line,
