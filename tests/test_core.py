@@ -6,7 +6,7 @@
 
 import pytest
 
-from reuse import ReuseInfo
+from reuse import ReuseInfo, SourceType
 
 # REUSE-IgnoreStart
 
@@ -33,6 +33,29 @@ def test_reuse_info_contains_copyright_or_licensing_other_truthy():
     """If another attribute is truthy, still expect False."""
     info = ReuseInfo(contributor_lines={"SPDX-FileContributor: 2017 Jane Doe"})
     assert not info.contains_copyright_or_licensing()
+
+
+def test_reuse_info_contains_info_simple():
+    """If any of the non-source files are truthy, expect True."""
+    assert ReuseInfo(spdx_expressions={"MIT"}).contains_info()
+    assert ReuseInfo(
+        copyright_lines={"SPDX-FileCopyrightText: 2017 Jane Doe"}
+    ).contains_info()
+    assert ReuseInfo(
+        contributor_lines={"SPDX-FileContributor: 2017 John Doe"}
+    ).contains_info()
+
+
+def test_reuse_info_contains_info_empty():
+    """If the ReuseInfo object is empty, expect False."""
+    info = ReuseInfo()
+    assert not info.contains_info()
+
+
+def test_reuse_info_contains_info_source_truthy():
+    """If any of the source information is truthy, still expect False."""
+    assert not ReuseInfo(source_path="foo.py").contains_info()
+    assert not ReuseInfo(source_type=SourceType.FILE_HEADER).contains_info()
 
 
 def test_reuse_info_copy_simple():

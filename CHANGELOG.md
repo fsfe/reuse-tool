@@ -73,6 +73,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Added `--contributor` option to `annotate`. (#669)
 - Added `--json` flag to `lint` command (#654).
 - `reuse.ReuseInfo` now has `copy` and `union` methods. (#759)
+- `reuse.ReuseInfo` now stores information about the source from which the
+  information was gathered. (#654, #787)
 - Added Ukrainian and Czech translations (#767)
 - Added `--suppress-deprecation` to hide (verbose) deprecation warnings. (#778)
 
@@ -81,12 +83,16 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Bumped SPDX license list to v3.20. (#692)
 - `reuse.SpdxInfo` was renamed to `reuse.ReuseInfo`. It is now a (frozen)
   dataclass instead of a namedtuple. This is only relevant if you're using reuse
-  as a library in Python. (#669)
+  as a library in Python. Other functions and methods were similarly renamed.
+  (#669)
 - Sphinx documentation: Switched from RTD theme to Furo. (#673, #716)
 - Removed dependency on setuptools' `pkg_resources` to determine the installed
   version of reuse. (#724)
 - Bumped SPDX license list to v3.21. (#763)
 - Bumped REUSE Spec version to 3.1. (#768)
+- `Project.reuse_info_of` now returns a list of `ReuseInfo` objects instead of a
+  single one. This is because the source information is now stored alongside the
+  REUSE information. (#787)
 
 ### Deprecated
 

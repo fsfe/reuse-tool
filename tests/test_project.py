@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,6 +18,7 @@ from textwrap import dedent
 import pytest
 from license_expression import LicenseSymbol
 
+from reuse import SourceType
 from reuse.project import Project
 
 try:
@@ -222,8 +224,9 @@ def test_reuse_info_of_directory(empty_directory):
 
 
 def test_reuse_info_of_unlicensed_file(fake_repository):
-    """Return an empty ReuseInfo object when asking for the REUSE information
-    of a file that has no REUSE information.
+    """Return an empty set when asking for the REUSE information of a file that
+    has no REUSE information.
+
     """
     (fake_repository / "foo.py").write_text("foo")
     project = Project(fake_repository)
@@ -238,13 +241,16 @@ def test_reuse_info_of_only_copyright(fake_repository):
         "SPDX-FileCopyrightText: 2017 Jane Doe"
     )
     project = Project(fake_repository)
-    reuse_info = project.reuse_info_of("foo.py")
+    reuse_info = project.reuse_info_of("foo.py")[0]
     assert not any(reuse_info.spdx_expressions)
     assert len(reuse_info.copyright_lines) == 1
     assert (
         reuse_info.copyright_lines.pop()
         == "SPDX-FileCopyrightText: 2017 Jane Doe"
     )
+    assert reuse_info.source_type == SourceType.FILE_HEADER
+    assert reuse_info.source_path == "foo.py"
+    assert reuse_info.path == "foo.py"
 
 
 def test_reuse_info_of_also_covered_by_dep5(fake_repository):
@@ -261,11 +267,23 @@ def test_reuse_info_of_also_covered_by_dep5(fake_repository):
     )
     project = Project(fake_repository)
     with warnings.catch_warnings(record=True) as caught_warnings:
-        reuse_info = project.reuse_info_of("doc/foo.py")
-        assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
-        assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
-        assert "SPDX-FileCopyrightText: in file" in reuse_info.copyright_lines
-        assert "2017 Jane Doe" in reuse_info.copyright_lines
+        reuse_infos = project.reuse_info_of("doc/foo.py")
+        assert len(reuse_infos) == 2
+        assert reuse_infos[0].source_type != reuse_infos[1].source_type
+        for reuse_info in reuse_infos:
+            if reuse_info.source_type == SourceType.DEP5:
+                assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
+                assert "2017 Jane Doe" in reuse_info.copyright_lines
+                assert reuse_info.path == "doc/foo.py"
+                assert reuse_info.source_path == ".reuse/dep5"
+            elif reuse_info.source_type == SourceType.FILE_HEADER:
+                assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
+                assert (
+                    "SPDX-FileCopyrightText: in file"
+                    in reuse_info.copyright_lines
+                )
+                assert reuse_info.path == "doc/foo.py"
+                assert reuse_info.source_path == "doc/foo.py"
 
         assert len(caught_warnings) == 1
         assert issubclass(
@@ -285,7 +303,7 @@ def test_reuse_info_of_no_duplicates(empty_directory):
 
     (empty_directory / "foo.py").write_text(text * 2)
     project = Project(empty_directory)
-    reuse_info = project.reuse_info_of("foo.py")
+    reuse_info = project.reuse_info_of("foo.py")[0]
     assert len(reuse_info.spdx_expressions) == 1
     assert LicenseSymbol("GPL-3.0-or-later") in reuse_info.spdx_expressions
     assert len(reuse_info.copyright_lines) == 1
@@ -302,8 +320,10 @@ def test_reuse_info_of_binary_succeeds(fake_repository):
     )
 
     project = Project(fake_repository)
-    reuse_info = project.reuse_info_of("doc/fsfe.png")
+    reuse_info = project.reuse_info_of("doc/fsfe.png")[0]
     assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
+    assert reuse_info.source_type == SourceType.DEP5
+    assert reuse_info.path == "doc/fsfe.png"
 
 
 def test_license_file_detected(empty_directory):
@@ -316,10 +336,13 @@ def test_license_file_detected(empty_directory):
     )
 
     project = Project(empty_directory)
-    reuse_info = project.reuse_info_of("foo.py")
+    reuse_info = project.reuse_info_of("foo.py")[0]
 
     assert "SPDX-FileCopyrightText: 2017 Jane Doe" in reuse_info.copyright_lines
     assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
+    assert reuse_info.source_type == SourceType.DOT_LICENSE
+    assert reuse_info.path == "foo.py"
+    assert reuse_info.source_path == "foo.py.license"
 
 
 def test_licenses_filename(empty_directory):

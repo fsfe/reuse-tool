@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2021 Alliander N.V.
+# SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -91,11 +92,11 @@ class SourceType(Enum):
     """
 
     #: A .license file containing license information.
-    DOT_LICENSE_FILE = ".license file"
+    DOT_LICENSE = "dot-license"
     #: A file header containing license information.
-    FILE_HEADER = "file header"
+    FILE_HEADER = "file-header"
     #: A .reuse/dep5 file containing license information.
-    DEP5_FILE = ".reuse/dep5 file"
+    DEP5 = "dep5"
 
 
 # TODO: In Python 3.10+, add kw_only=True
@@ -106,6 +107,7 @@ class ReuseInfo:
     spdx_expressions: Set[Expression] = field(default_factory=set)
     copyright_lines: Set[str] = field(default_factory=set)
     contributor_lines: Set[str] = field(default_factory=set)
+    path: Optional[str] = None
     source_path: Optional[str] = None
     source_type: Optional[SourceType] = None
 
@@ -152,6 +154,17 @@ class ReuseInfo:
     def contains_copyright_or_licensing(self) -> bool:
         """Either *spdx_expressions* or *copyright_lines* is non-empty."""
         return bool(self.spdx_expressions or self.copyright_lines)
+
+    def contains_info(self) -> bool:
+        """Any field except *path*, *source_path* and *source_type* is
+        non-empty.
+        """
+        keys = {
+            key
+            for key in self.__dict__
+            if key not in ("path", "source_path", "source_type")
+        }
+        return any(self.__dict__[key] for key in keys)
 
     def __bool__(self) -> bool:
         return any(self.__dict__.values())

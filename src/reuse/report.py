@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
+# SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -14,7 +15,7 @@ from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
 from os import cpu_count
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
 from uuid import uuid4
 
@@ -190,29 +191,26 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             " REUSE.</text>\n"
         )
 
-        reports = sorted(self.file_reports, key=lambda x: x.spdxfile.name)
+        reports = sorted(self.file_reports, key=lambda x: x.name)
 
         for report in reports:
             out.write(
                 "Relationship: SPDXRef-DOCUMENT describes"
-                f" {report.spdxfile.spdx_id}\n"
+                f" {report.spdx_id}\n"
             )
 
         for report in reports:
             out.write("\n")
-            out.write(f"FileName: {report.spdxfile.name}\n")
-            out.write(f"SPDXID: {report.spdxfile.spdx_id}\n")
-            out.write(f"FileChecksum: SHA1: {report.spdxfile.chk_sum}\n")
-            out.write(
-                f"LicenseConcluded: {report.spdxfile.license_concluded}\n"
-            )
+            out.write(f"FileName: {report.name}\n")
+            out.write(f"SPDXID: {report.spdx_id}\n")
+            out.write(f"FileChecksum: SHA1: {report.chk_sum}\n")
+            out.write(f"LicenseConcluded: {report.license_concluded}\n")
 
-            for lic in sorted(report.spdxfile.licenses_in_file):
+            for lic in sorted(report.licenses_in_file):
                 out.write(f"LicenseInfoInFile: {lic}\n")
-            if report.spdxfile.copyright:
+            if report.copyright:
                 out.write(
-                    "FileCopyrightText:"
-                    f" <text>{report.spdxfile.copyright}</text>\n"
+                    "FileCopyrightText:" f" <text>{report.copyright}</text>\n"
                 )
             else:
                 out.write("FileCopyrightText: NONE\n")
@@ -310,7 +308,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self._used_licenses = {
             lic
             for file_report in self.file_reports
-            for lic in file_report.spdxfile.licenses_in_file
+            for lic in file_report.licenses_in_file
         }
         return self._used_licenses
 
@@ -341,7 +339,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self._files_without_licenses = {
             file_report.path
             for file_report in self.file_reports
-            if not file_report.spdxfile.licenses_in_file
+            if not file_report.licenses_in_file
         }
 
         return self._files_without_licenses
@@ -355,7 +353,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self._files_without_copyright = {
             file_report.path
             for file_report in self.file_reports
-            if not file_report.spdxfile.copyright
+            if not file_report.copyright
         }
 
         return self._files_without_copyright
@@ -382,35 +380,21 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return self._is_compliant
 
 
-class _File:  # pylint: disable=too-few-public-methods
-    """Represent an SPDX file. Sufficiently enough for our purposes, in any
-    case.
-    """
+class FileReport:  # pylint: disable=too-many-instance-attributes
+    """Object that holds a linting report about a single file."""
 
-    def __init__(
-        self,
-        name: str,
-        spdx_id: Optional[str] = None,
-        chk_sum: Optional[str] = None,
-    ):
-        self.name: str = name
-        self.spdx_id: Optional[str] = spdx_id
-        self.chk_sum: Optional[str] = chk_sum
+    def __init__(self, name: str, path: StrPath, do_checksum: bool = True):
+        self.name = name
+        self.path = Path(path)
+        self.do_checksum = do_checksum
+
+        self.reuse_infos: List[ReuseInfo] = []
+
+        self.spdx_id: Optional[str] = None
+        self.chk_sum: Optional[str] = None
         self.licenses_in_file: List[str] = []
         self.license_concluded: str = ""
         self.copyright: str = ""
-        self.info: ReuseInfo = ReuseInfo()
-
-
-class FileReport:
-    """Object that holds a linting report about a single file. Importantly,
-    it also contains SPDX File information in :attr:`spdxfile`.
-    """
-
-    def __init__(self, name: StrPath, path: StrPath, do_checksum: bool = True):
-        self.spdxfile = _File(str(name))
-        self.path = Path(path)
-        self.do_checksum = do_checksum
 
         self.bad_licenses: Set[str] = set()
         self.missing_licenses: Set[str] = set()
@@ -420,18 +404,30 @@ class FileReport:
         information relevant for linting.
         """
         return {
-            "path": str(Path(self.path).resolve()),
-            # TODO: Why does every copyright line have the same source?
+            # This gets rid of the './' prefix. In Python 3.9, use
+            # str.removeprefix.
+            "path": PurePath(self.name).as_posix(),
             "copyrights": [
-                {"value": copyright_, "source": self.spdxfile.info.source_path}
-                for copyright_ in self.spdxfile.copyright.split("\n")
-                if copyright_
+                {
+                    "value": line,
+                    "source": reuse_info.source_path,
+                    "source_type": reuse_info.source_type.value
+                    if reuse_info.source_type
+                    else None,
+                }
+                for reuse_info in self.reuse_infos
+                for line in reuse_info.copyright_lines
             ],
-            # TODO: Why does every license expression have the same source?
-            "licenses": [
-                {"value": license_, "source": self.spdxfile.info.source_path}
-                for license_ in self.spdxfile.licenses_in_file
-                if license_
+            "spdx_expressions": [
+                {
+                    "value": str(expression),
+                    "source": reuse_info.source_path,
+                    "source_type": reuse_info.source_type.value
+                    if reuse_info.source_type
+                    else None,
+                }
+                for reuse_info in self.reuse_infos
+                for expression in reuse_info.spdx_expressions
             ],
         }
 
@@ -449,52 +445,54 @@ class FileReport:
             raise OSError(f"{path} is not a file")
 
         relative = project.relative_from_root(path)
-        report = cls("./" + str(relative), path, do_checksum=do_checksum)
+        report = cls(f"./{relative}", path, do_checksum=do_checksum)
 
         # Checksum and ID
         if report.do_checksum:
-            report.spdxfile.chk_sum = _checksum(path)
+            report.chk_sum = _checksum(path)
         else:
             # This path avoids a lot of heavy computation, which is handy for
             # scenarios where you only need a unique hash, not a consistent
             # hash.
-            report.spdxfile.chk_sum = f"{random.getrandbits(160):040x}"
+            report.chk_sum = f"{random.getrandbits(160):040x}"
         spdx_id = md5()
-        spdx_id.update(str(relative).encode("utf-8"))
-        spdx_id.update(report.spdxfile.chk_sum.encode("utf-8"))
-        report.spdxfile.spdx_id = f"SPDXRef-{spdx_id.hexdigest()}"
+        spdx_id.update(report.name.encode("utf-8"))
+        spdx_id.update(report.chk_sum.encode("utf-8"))
+        report.spdx_id = f"SPDXRef-{spdx_id.hexdigest()}"
 
-        reuse_info = project.reuse_info_of(path)
-        for expression in reuse_info.spdx_expressions:
-            for identifier in _LICENSING.license_keys(expression):
-                # A license expression akin to Apache-1.0+ should register
-                # correctly if LICENSES/Apache-1.0.txt exists.
-                identifiers = {identifier}
-                if identifier.endswith("+"):
-                    identifiers.add(identifier[:-1])
-                # Bad license
-                if not identifiers.intersection(project.license_map):
-                    report.bad_licenses.add(identifier)
-                # Missing license
-                if not identifiers.intersection(project.licenses):
-                    report.missing_licenses.add(identifier)
+        reuse_infos = project.reuse_info_of(path)
+        for reuse_info in reuse_infos:
+            for expression in reuse_info.spdx_expressions:
+                for identifier in _LICENSING.license_keys(expression):
+                    # A license expression akin to Apache-1.0+ should register
+                    # correctly if LICENSES/Apache-1.0.txt exists.
+                    identifiers = {identifier}
+                    if identifier.endswith("+"):
+                        identifiers.add(identifier[:-1])
+                    # Bad license
+                    if not identifiers.intersection(project.license_map):
+                        report.bad_licenses.add(identifier)
+                    # Missing license
+                    if not identifiers.intersection(project.licenses):
+                        report.missing_licenses.add(identifier)
 
-                # Add license to report.
-                report.spdxfile.licenses_in_file.append(identifier)
+                    # Add license to report.
+                    report.licenses_in_file.append(identifier)
 
         if not add_license_concluded:
-            report.spdxfile.license_concluded = "NOASSERTION"
-        elif not reuse_info.spdx_expressions:
-            report.spdxfile.license_concluded = "NONE"
+            report.license_concluded = "NOASSERTION"
+        elif not any(reuse_info.spdx_expressions for reuse_info in reuse_infos):
+            report.license_concluded = "NONE"
         else:
             # Merge all the license expressions together, wrapping them in
             # parentheses to make sure an expression doesn't spill into another
             # one. The extra parentheses will be removed by the roundtrip
             # through parse() -> simplify() -> render().
-            report.spdxfile.license_concluded = (
+            report.license_concluded = (
                 _LICENSING.parse(
                     " AND ".join(
                         f"({expression})"
+                        for reuse_info in reuse_infos
                         for expression in reuse_info.spdx_expressions
                     ),
                 )
@@ -503,16 +501,20 @@ class FileReport:
             )
 
         # Copyright text
-        report.spdxfile.copyright = "\n".join(
-            sorted(reuse_info.copyright_lines)
+        report.copyright = "\n".join(
+            sorted(
+                line
+                for reuse_info in reuse_infos
+                for line in reuse_info.copyright_lines
+            )
         )
         # Source of licensing and copyright info
-        report.spdxfile.info = reuse_info
+        report.reuse_infos = reuse_infos
         return report
 
     def __hash__(self) -> int:
-        if self.spdxfile.chk_sum is not None:
-            return hash(self.spdxfile.name + self.spdxfile.chk_sum)
+        if self.chk_sum is not None:
+            return hash(self.name + self.chk_sum)
         return super().__hash__()
 
 

@@ -10,9 +10,11 @@
 import os
 import sys
 from importlib import import_module
+from textwrap import dedent
 
 import pytest
 
+from reuse import SourceType
 from reuse.project import Project
 from reuse.report import FileReport, ProjectReport
 
@@ -43,13 +45,13 @@ def test_generate_file_report_file_simple(
         add_license_concluded=add_license_concluded,
     )
 
-    assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
+    assert result.licenses_in_file == ["GPL-3.0-or-later"]
     assert (
-        result.spdxfile.license_concluded == "GPL-3.0-or-later"
+        result.license_concluded == "GPL-3.0-or-later"
         if add_license_concluded
         else "NOASSERTION"
     )
-    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
+    assert result.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -65,13 +67,13 @@ def test_generate_file_report_file_from_different_cwd(
         fake_repository / "src/source_code.py",
         add_license_concluded=add_license_concluded,
     )
-    assert result.spdxfile.licenses_in_file == ["GPL-3.0-or-later"]
+    assert result.licenses_in_file == ["GPL-3.0-or-later"]
     assert (
-        result.spdxfile.license_concluded == "GPL-3.0-or-later"
+        result.license_concluded == "GPL-3.0-or-later"
         if add_license_concluded
         else "NOASSERTION"
     )
-    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
+    assert result.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -88,10 +90,10 @@ def test_generate_file_report_file_missing_license(
         project, "foo.py", add_license_concluded=add_license_concluded
     )
 
-    assert result.spdxfile.copyright == ""
-    assert result.spdxfile.licenses_in_file == ["BSD-3-Clause"]
+    assert result.copyright == ""
+    assert result.licenses_in_file == ["BSD-3-Clause"]
     assert (
-        result.spdxfile.license_concluded == "BSD-3-Clause"
+        result.license_concluded == "BSD-3-Clause"
         if add_license_concluded
         else "NOASSERTION"
     )
@@ -111,10 +113,10 @@ def test_generate_file_report_file_bad_license(
         project, "foo.py", add_license_concluded=add_license_concluded
     )
 
-    assert result.spdxfile.copyright == ""
-    assert result.spdxfile.licenses_in_file == ["fakelicense"]
+    assert result.copyright == ""
+    assert result.licenses_in_file == ["fakelicense"]
     assert (
-        result.spdxfile.license_concluded == "fakelicense"
+        result.license_concluded == "fakelicense"
         if add_license_concluded
         else "NOASSERTION"
     )
@@ -137,10 +139,10 @@ def test_generate_file_report_license_contains_plus(
         project, "foo.py", add_license_concluded=add_license_concluded
     )
 
-    assert result.spdxfile.copyright == ""
-    assert result.spdxfile.licenses_in_file == ["Apache-1.0+"]
+    assert result.copyright == ""
+    assert result.licenses_in_file == ["Apache-1.0+"]
     assert (
-        result.spdxfile.license_concluded == "Apache-1.0+"
+        result.license_concluded == "Apache-1.0+"
         if add_license_concluded
         else "NOASSERTION"
     )
@@ -155,17 +157,17 @@ def test_generate_file_report_exception(fake_repository, add_license_concluded):
         project, "src/exception.py", add_license_concluded=add_license_concluded
     )
 
-    assert set(result.spdxfile.licenses_in_file) == {
+    assert set(result.licenses_in_file) == {
         "GPL-3.0-or-later",
         "Autoconf-exception-3.0",
     }
     assert (
-        result.spdxfile.license_concluded
+        result.license_concluded
         == "GPL-3.0-or-later WITH Autoconf-exception-3.0"
         if add_license_concluded
         else "NOASSERTION"
     )
-    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
+    assert result.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
     assert not result.bad_licenses
     assert not result.missing_licenses
 
@@ -180,10 +182,10 @@ def test_generate_file_report_no_licenses(
         project, "foo.py", add_license_concluded=add_license_concluded
     )
 
-    assert result.spdxfile.copyright == ""
-    assert not result.spdxfile.licenses_in_file
+    assert result.copyright == ""
+    assert not result.licenses_in_file
     assert (
-        result.spdxfile.license_concluded == "NONE"
+        result.license_concluded == "NONE"
         if add_license_concluded
         else "NOASSERTION"
     )
@@ -202,15 +204,15 @@ def test_generate_file_report_multiple_licenses(
         add_license_concluded=add_license_concluded,
     )
 
-    assert result.spdxfile.copyright == "SPDX-FileCopyrightText: 2022 Jane Doe"
-    assert set(result.spdxfile.licenses_in_file) == {
+    assert result.copyright == "SPDX-FileCopyrightText: 2022 Jane Doe"
+    assert set(result.licenses_in_file) == {
         "GPL-3.0-or-later",
         "Apache-2.0",
         "CC0-1.0",
         "Autoconf-exception-3.0",
     }
     assert (
-        result.spdxfile.license_concluded
+        result.license_concluded
         == "GPL-3.0-or-later AND (Apache-2.0 OR CC0-1.0"
         " WITH Autoconf-exception-3.0)"
         if add_license_concluded
@@ -218,6 +220,51 @@ def test_generate_file_report_multiple_licenses(
     )
     assert not result.bad_licenses
     assert not result.missing_licenses
+
+
+def test_generate_file_report_to_dict_lint_source_information(fake_repository):
+    """When a file is covered both by DEP5 and its file header, the lint dict
+    should correctly convey the source information.
+    """
+    (fake_repository / "doc/foo.py").write_text(
+        dedent(
+            """
+            SPDX-License-Identifier: MIT OR 0BSD
+            SPDX-FileCopyrightText: in file"""
+        )
+    )
+    project = Project(fake_repository)
+    report = FileReport.generate(
+        project,
+        "doc/foo.py",
+    )
+    result = report.to_dict_lint()
+    assert result["path"] == "doc/foo.py"
+    assert len(result["copyrights"]) == 2
+    assert (
+        result["copyrights"][0]["source_type"]
+        != result["copyrights"][1]["source_type"]
+    )
+    for copyright_ in result["copyrights"]:
+        if copyright_["source_type"] == SourceType.DEP5.value:
+            assert copyright_["source"] == ".reuse/dep5"
+            assert copyright_["value"] == "2017 Jane Doe"
+        elif copyright_["source_type"] == SourceType.FILE_HEADER.value:
+            assert copyright_["source"] == "doc/foo.py"
+            assert copyright_["value"] == "SPDX-FileCopyrightText: in file"
+
+    assert len(result["spdx_expressions"]) == 2
+    assert (
+        result["spdx_expressions"][0]["source_type"]
+        != result["spdx_expressions"][1]["source_type"]
+    )
+    for expression in result["spdx_expressions"]:
+        if expression["source_type"] == SourceType.DEP5.value:
+            assert expression["source"] == ".reuse/dep5"
+            assert expression["value"] == "CC0-1.0"
+        elif expression["source_type"] == SourceType.FILE_HEADER.value:
+            assert expression["source"] == "doc/foo.py"
+            assert expression["value"] == "MIT OR 0BSD"
 
 
 def test_generate_project_report_simple(fake_repository, multiprocessing):

@@ -26,7 +26,7 @@ from gettext import gettext as _
 from hashlib import sha1
 from itertools import chain
 from os import PathLike
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import IO, Any, BinaryIO, Dict, Iterator, List, Optional, Set, Union
 
 from boolean.boolean import Expression, ParseError
@@ -225,7 +225,8 @@ def _determine_license_suffix_path(path: StrPath) -> Path:
 
 def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:
     """Find the reuse information of *path* in the dep5 Copyright object."""
-    result = dep5_copyright.find_files_paragraph(Path(path).as_posix())
+    path = PurePath(path).as_posix()
+    result = dep5_copyright.find_files_paragraph(path)
 
     if result is None:
         return ReuseInfo()
@@ -237,7 +238,9 @@ def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:
         copyright_lines=set(
             map(str.strip, result.copyright.splitlines())  # type: ignore
         ),
-        source_type=SourceType.DEP5_FILE,
+        path=path,
+        source_type=SourceType.DEP5,
+        source_path=".reuse/dep5",
     )
 
 
