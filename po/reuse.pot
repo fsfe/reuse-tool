@@ -9,7 +9,7 @@ msgstr ""
 "#-#-#-#-#  reuse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-19 08:20+0000\n"
+"POT-Creation-Date: 2023-06-27 15:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "#-#-#-#-#  argparse.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-19 08:20+0000\n"
+"POT-Creation-Date: 2023-06-27 15:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,63 +30,67 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/reuse/_main.py:33
+#: src/reuse/_main.py:34
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
 "for the online documentation."
 msgstr ""
 
-#: src/reuse/_main.py:39
+#: src/reuse/_main.py:40
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr ""
 
-#: src/reuse/_main.py:42
+#: src/reuse/_main.py:43
 msgid "Support the FSFE's work:"
 msgstr ""
 
-#: src/reuse/_main.py:46
+#: src/reuse/_main.py:47
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
 "making a donation at <https://fsfe.org/donate/>."
 msgstr ""
 
-#: src/reuse/_main.py:69
+#: src/reuse/_main.py:70
 msgid "enable debug statements"
 msgstr ""
 
-#: src/reuse/_main.py:74
+#: src/reuse/_main.py:75
+msgid "hide deprecation warnings"
+msgstr ""
+
+#: src/reuse/_main.py:80
 msgid "do not skip over Git submodules"
 msgstr ""
 
-#: src/reuse/_main.py:79
+#: src/reuse/_main.py:85
 msgid "do not skip over Meson subprojects"
 msgstr ""
 
-#: src/reuse/_main.py:84
+#: src/reuse/_main.py:90
 msgid "do not use multiprocessing"
 msgstr ""
 
-#: src/reuse/_main.py:91
+#: src/reuse/_main.py:97
 msgid "define root of project"
 msgstr ""
 
-#: src/reuse/_main.py:96
+#: src/reuse/_main.py:102
 msgid "show program's version number and exit"
 msgstr ""
 
-#: src/reuse/_main.py:100
+#: src/reuse/_main.py:106
 msgid "subcommands"
 msgstr ""
 
-#: src/reuse/_main.py:107
+#: src/reuse/_main.py:113
 msgid "add copyright and licensing into the header of files"
 msgstr ""
 
-#: src/reuse/_main.py:110
+#: src/reuse/_main.py:116
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -116,15 +120,15 @@ msgid ""
 "header is placed in a .license file."
 msgstr ""
 
-#: src/reuse/_main.py:153
+#: src/reuse/_main.py:159
 msgid "deprecated in favor of annotate"
 msgstr ""
 
-#: src/reuse/_main.py:161
+#: src/reuse/_main.py:167
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr ""
 
-#: src/reuse/_main.py:164
+#: src/reuse/_main.py:170
 msgid ""
 "Download a license and place it in the LICENSES/ directory.\n"
 "\n"
@@ -139,15 +143,15 @@ msgid ""
 "If the LICENSES/ directory cannot be found, one is simply created."
 msgstr ""
 
-#: src/reuse/_main.py:187
+#: src/reuse/_main.py:193
 msgid "initialize REUSE project"
 msgstr ""
 
-#: src/reuse/_main.py:195
+#: src/reuse/_main.py:201
 msgid "list all non-compliant files"
 msgstr ""
 
-#: src/reuse/_main.py:198
+#: src/reuse/_main.py:204
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -168,56 +172,56 @@ msgid ""
 "- Do all files have valid copyright and licensing information?"
 msgstr ""
 
-#: src/reuse/_main.py:225
+#: src/reuse/_main.py:231
 msgid "print the project's bill of materials in SPDX format"
 msgstr ""
 
-#: src/reuse/_main.py:233
+#: src/reuse/_main.py:239
 msgid "list all supported SPDX licenses"
 msgstr ""
 
-#: src/reuse/_util.py:339
+#: src/reuse/_util.py:342
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr ""
 
-#: src/reuse/_util.py:473
+#: src/reuse/_util.py:476
 msgid "'{}' is not a file"
 msgstr ""
 
-#: src/reuse/_util.py:476
+#: src/reuse/_util.py:479
 msgid "'{}' is not a directory"
 msgstr ""
 
-#: src/reuse/_util.py:479
+#: src/reuse/_util.py:482
 msgid "can't open '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:484
+#: src/reuse/_util.py:487
 msgid "can't write to directory '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:490 src/reuse/header.py:575
+#: src/reuse/_util.py:493 src/reuse/header.py:575
 msgid "can't write to '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:503
+#: src/reuse/_util.py:506
 msgid "can't read or write '{}'"
 msgstr ""
 
-#: src/reuse/_util.py:513
+#: src/reuse/_util.py:516
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr ""
 
-#: src/reuse/_util.py:541
+#: src/reuse/_util.py:544
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr ""
 
-#: src/reuse/_util.py:548
+#: src/reuse/_util.py:551
 msgid "Did you mean:"
 msgstr ""
 
-#: src/reuse/_util.py:555
+#: src/reuse/_util.py:558
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -598,49 +602,52 @@ msgid ""
 "Specification :-("
 msgstr ""
 
-#: src/reuse/project.py:75
+#: src/reuse/project.py:77
 msgid ""
 "project is not a VCS repository or required VCS software is not installed"
 msgstr ""
 
-#: src/reuse/project.py:179
+#: src/reuse/project.py:184
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr ""
 
-#: src/reuse/project.py:210
+#: src/reuse/project.py:217
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 
-#: src/reuse/project.py:222
+#: src/reuse/project.py:226
 #, python-brace-format
 msgid ""
-"Copyright and licensing information for '{original_path}' have been found in "
-"'{path}' and the DEP5 file located at '{dep5_path}'. The information in the "
-"DEP5 file has been overridden. Please ensure that this is correct."
+"Copyright and licensing information for '{original_path}' has been found in "
+"both '{path}' and in the DEP5 file located at '{dep5_path}'. The information "
+"for these two sources has been aggregated. In the future this behaviour will "
+"change, and you will need to explicitly enable aggregation. See <https://"
+"github.com/fsfe/reuse-tool/issues/779>. You need do nothing yet. Run with `--"
+"suppress-deprecation` to hide this warning."
 msgstr ""
 
-#: src/reuse/project.py:305
+#: src/reuse/project.py:313
 msgid ".reuse/dep5 has syntax errors"
 msgstr ""
 
-#: src/reuse/project.py:307
+#: src/reuse/project.py:315
 msgid ".reuse/dep5 could not be parsed as utf-8"
-msgstr ""
-
-#: src/reuse/project.py:333
-#, python-brace-format
-msgid "determining identifier of '{path}'"
 msgstr ""
 
 #: src/reuse/project.py:341
 #, python-brace-format
+msgid "determining identifier of '{path}'"
+msgstr ""
+
+#: src/reuse/project.py:349
+#, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr ""
 
-#: src/reuse/project.py:351
+#: src/reuse/project.py:359
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -649,18 +656,18 @@ msgid ""
 "file extension."
 msgstr ""
 
-#: src/reuse/project.py:363
+#: src/reuse/project.py:371
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 
-#: src/reuse/report.py:265
+#: src/reuse/report.py:263
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr ""
 
-#: src/reuse/report.py:272
+#: src/reuse/report.py:270
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr ""
