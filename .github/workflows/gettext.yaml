@@ -38,6 +38,6 @@ jobs:
         run: |
           git config --global user.name "fsfe-system"
           git config --global user.email "<>"
-          git add po/reuse.pot
+          git add po/reuse.pot po/*.po
           git commit -m "Update reuse.pot"
           git push origin main
