@@ -20,7 +20,7 @@
 #
 import os
 import sys
-from importlib.metadata import PackageNotFoundError, version
+from importlib.metadata import PackageNotFoundError, version as get_version
 from shutil import copyfile
 
 sys.path.insert(0, os.path.abspath("../src/"))
@@ -73,7 +73,7 @@ author = "Free Software Foundation Europe"
 
 try:
     # The full version, including alpha/beta/rc tags.
-    release = version("reuse")
+    release = get_version("reuse")
 except PackageNotFoundError:
     release = "2.0.0"
 
