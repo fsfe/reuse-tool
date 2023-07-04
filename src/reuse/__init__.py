@@ -63,6 +63,7 @@ _IGNORE_MESON_PARENT_DIR_PATTERNS = [
 ]
 
 _IGNORE_FILE_PATTERNS = [
+    re.compile(r"^LICENCE"),
     re.compile(r"^LICENSE"),
     re.compile(r"^COPYING"),
     # ".git" as file happens in submodules
