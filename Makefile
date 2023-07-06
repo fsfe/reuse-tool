@@ -19,7 +19,6 @@ clean-build: ## remove build artifacts
 	rm -fr .eggs/
 	rm -fr pip-wheel-metadata/
 	find . -name '*.mo' -exec rm -f {} +
-	find ./po -name '*.pot' -exec rm -f {} +
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -fr {} +
 
