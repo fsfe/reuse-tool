@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-16 14:06+0100\n"
+"POT-Creation-Date: 2023-06-28 00:34+0200\n"
 "PO-Revision-Date: 2023-06-22 19:42+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
-"reuse-tool/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
+"tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.18.1\n"
 
-#: src/reuse/_main.py:33
+#: src/reuse/_main.py:34
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
@@ -31,17 +31,17 @@ msgstr ""
 "software/> для отримання додаткових відомостей і <https://reuse.readthedocs."
 "io/> перегляду онлайн-документації."
 
-#: src/reuse/_main.py:39
+#: src/reuse/_main.py:40
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr "Ця версія reuse сумісна з версією {} специфікації REUSE."
 
-#: src/reuse/_main.py:42
+#: src/reuse/_main.py:43
 msgid "Support the FSFE's work:"
 msgstr "Підтримати роботу FSFE:"
 
-#: src/reuse/_main.py:46
+#: src/reuse/_main.py:47
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
@@ -52,45 +52,52 @@ msgstr ""
 "де це необхідно. Будь ласка, розгляньте можливість підтримати нас на "
 "<https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:69
+#: src/reuse/_main.py:70
 msgid "enable debug statements"
 msgstr "увімкнути інструкції налагодження"
 
-#: src/reuse/_main.py:74
+#: src/reuse/_main.py:75
+msgid "hide deprecation warnings"
+msgstr ""
+
+#: src/reuse/_main.py:80
 msgid "do not skip over Git submodules"
 msgstr "не пропускати підмодулі Git"
 
-#: src/reuse/_main.py:79
+#: src/reuse/_main.py:85
 msgid "do not skip over Meson subprojects"
 msgstr "не пропускати підпроєкти Meson"
 
-#: src/reuse/_main.py:84
+#: src/reuse/_main.py:90
 msgid "do not use multiprocessing"
 msgstr "не використовувати багатопроцесорність"
 
-#: src/reuse/_main.py:91
+#: src/reuse/_main.py:97
 msgid "define root of project"
 msgstr "визначити кореневий каталог проєкту"
 
-#: src/reuse/_main.py:96
+#: src/reuse/_main.py:102
 msgid "show program's version number and exit"
 msgstr "показати номер версії програми та вийти"
 
-#: src/reuse/_main.py:100
+#: src/reuse/_main.py:106
 msgid "subcommands"
 msgstr "підкоманди"
 
-#: src/reuse/_main.py:107
+#: src/reuse/_main.py:113
 msgid "add copyright and licensing into the header of files"
 msgstr "додати авторські права та ліцензії в заголовок файлів"
 
-#: src/reuse/_main.py:110
+#: src/reuse/_main.py:116
+#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files.\n"
 "\n"
+"By using --contributor, you can specify people or entity that contributed "
+"but are not copyright holder of the given files.\n"
 "The first comment is replaced with a new header containing the new copyright "
 "and licensing information and its former copyright and licensing. If you "
 "want to keep the first comment intact, use --no-replace.\n"
@@ -140,11 +147,16 @@ msgstr ""
 "Якщо виявлено двійковий файл або якщо вказано --explicit-license, заголовок "
 "буде розміщено у файлі .license."
 
-#: src/reuse/_main.py:158
+#: src/reuse/_main.py:159
+#, fuzzy
+msgid "deprecated in favor of annotate"
+msgstr "'reuse addheader' застаріло й замінено на 'reuse annotate'"
+
+#: src/reuse/_main.py:167
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "завантажити ліцензію та розмістити її в каталозі LICENSES/"
 
-#: src/reuse/_main.py:161
+#: src/reuse/_main.py:170
 msgid ""
 "Download a license and place it in the LICENSES/ directory.\n"
 "\n"
@@ -170,15 +182,15 @@ msgstr ""
 "\n"
 "Якщо каталог LICENSES/ не вдається знайти, він просто створюється."
 
-#: src/reuse/_main.py:184
+#: src/reuse/_main.py:193
 msgid "initialize REUSE project"
 msgstr "ініціалізувати проєкт REUSE"
 
-#: src/reuse/_main.py:192
+#: src/reuse/_main.py:201
 msgid "list all non-compliant files"
 msgstr "список усіх несумісних файлів"
 
-#: src/reuse/_main.py:195
+#: src/reuse/_main.py:204
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -214,56 +226,56 @@ msgstr ""
 "\n"
 "- Чи всі файли мають дійсні відомості про авторські права та ліцензії?"
 
-#: src/reuse/_main.py:222
+#: src/reuse/_main.py:231
 msgid "print the project's bill of materials in SPDX format"
 msgstr "друкувати опис матеріалів проєкту у форматі SPDX"
 
-#: src/reuse/_main.py:230
+#: src/reuse/_main.py:239
 msgid "list all supported SPDX licenses"
 msgstr "список всіх підтримуваних ліцензій SPDX"
 
-#: src/reuse/_util.py:293
+#: src/reuse/_util.py:342
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Не вдалося проаналізувати '{expression}'"
 
-#: src/reuse/_util.py:416
+#: src/reuse/_util.py:476
 msgid "'{}' is not a file"
 msgstr "'{}' не є файлом"
 
-#: src/reuse/_util.py:419
+#: src/reuse/_util.py:479
 msgid "'{}' is not a directory"
 msgstr "'{}' не є каталогом"
 
-#: src/reuse/_util.py:422
+#: src/reuse/_util.py:482
 msgid "can't open '{}'"
 msgstr "не вдалося відкрити '{}'"
 
-#: src/reuse/_util.py:428
+#: src/reuse/_util.py:487
 msgid "can't write to directory '{}'"
 msgstr "неможливо записати в каталог '{}'"
 
-#: src/reuse/_util.py:434 src/reuse/header.py:558
+#: src/reuse/_util.py:493 src/reuse/header.py:575
 msgid "can't write to '{}'"
 msgstr "неможливо записати в '{}'"
 
-#: src/reuse/_util.py:447
+#: src/reuse/_util.py:506
 msgid "can't read or write '{}'"
 msgstr "неможливо прочитати чи записати '{}'"
 
-#: src/reuse/_util.py:457
+#: src/reuse/_util.py:516
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' не є дійсним виразом SPDX, переривання"
 
-#: src/reuse/_util.py:483
+#: src/reuse/_util.py:544
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' не є дійсним ідентифікатором ліцензії SPDX."
 
-#: src/reuse/_util.py:490
+#: src/reuse/_util.py:551
 msgid "Did you mean:"
 msgstr "Ви мали на увазі:"
 
-#: src/reuse/_util.py:497
+#: src/reuse/_util.py:558
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -271,51 +283,51 @@ msgstr ""
 "Перегляньте <https://spdx.org/licenses/> список дійсних ідентифікаторів "
 "ліцензії SPDX."
 
-#: src/reuse/download.py:84
+#: src/reuse/download.py:88
 msgid "SPDX License Identifier of license"
 msgstr "Ідентифікатор ліцензії SPDX"
 
-#: src/reuse/download.py:89
+#: src/reuse/download.py:93
 msgid "download all missing licenses detected in the project"
 msgstr "завантажити всі відсутні ліцензії, виявлені в проєкті"
 
-#: src/reuse/download.py:101
+#: src/reuse/download.py:105
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr "Помилка: {spdx_identifier} вже існує."
 
-#: src/reuse/download.py:108
+#: src/reuse/download.py:112
 msgid "Error: Failed to download license."
 msgstr "Помилка: не вдалося завантажити ліцензію."
 
-#: src/reuse/download.py:113
+#: src/reuse/download.py:117
 msgid "Is your internet connection working?"
 msgstr "Чи працює ваше інтернет-з'єднання?"
 
-#: src/reuse/download.py:118
+#: src/reuse/download.py:122
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Успішно завантажено {spdx_identifier}."
 
-#: src/reuse/download.py:130
+#: src/reuse/download.py:134
 msgid "--output has no effect when used together with --all"
 msgstr "--output не працює разом з --all"
 
-#: src/reuse/download.py:134
+#: src/reuse/download.py:138
 msgid "the following arguments are required: license"
 msgstr "необхідні такі аргументи: license"
 
-#: src/reuse/download.py:136
+#: src/reuse/download.py:140
 msgid "cannot use --output with more than one license"
 msgstr "не можна використовувати --output з кількома ліцензіями"
 
-#: src/reuse/header.py:121
+#: src/reuse/header.py:132
 msgid "generated comment is missing copyright lines or license expressions"
 msgstr ""
 "у згенерованому коментарі відсутні рядки про авторські права або вирази "
 "ліцензії"
 
-#: src/reuse/header.py:401
+#: src/reuse/header.py:414
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use --single-"
@@ -323,37 +335,37 @@ msgid ""
 msgstr ""
 "'{path}' не підтримує однорядкові коментарі, не використовуйте --single-line"
 
-#: src/reuse/header.py:408
+#: src/reuse/header.py:421
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use --multi-line"
 msgstr ""
 "'{path}' не підтримує багаторядкові коментарі, не використовуйте --multi-line"
 
-#: src/reuse/header.py:429
+#: src/reuse/header.py:444
 msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license or --skip-unrecognised:"
 msgstr ""
-"Ці файли не мають розпізнаного розширення файлу. Використовуйте --style, "
-"--force-dot-license або --skip-unrecognised:"
+"Ці файли не мають розпізнаного розширення файлу. Використовуйте --style, --"
+"force-dot-license або --skip-unrecognised:"
 
-#: src/reuse/header.py:482
+#: src/reuse/header.py:497
 #, python-brace-format
 msgid "Skipped unrecognised file {path}"
 msgstr "Пропущений нерозпізнаний файл {path}"
 
-#: src/reuse/header.py:494
-#, python-brace-format
-msgid "Skipped file '{path}' already containing SPDX information"
+#: src/reuse/header.py:509
+#, fuzzy, python-brace-format
+msgid "Skipped file '{path}' already containing REUSE information"
 msgstr "Пропущений файл '{path}', що вже містить інформацію SPDX"
 
-#: src/reuse/header.py:528
+#: src/reuse/header.py:543
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr "Помилка: не вдалося створити коментар для '{path}'"
 
-#: src/reuse/header.py:535
+#: src/reuse/header.py:550
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -365,323 +377,354 @@ msgstr ""
 "записано новий заголовок."
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/header.py:546
+#: src/reuse/header.py:561
 #, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr "Успішно змінено заголовок {path}"
 
-#: src/reuse/header.py:569
+#: src/reuse/header.py:586
 msgid "copyright statement, repeatable"
 msgstr "оголошення авторського права, повторюване"
 
-#: src/reuse/header.py:576
+#: src/reuse/header.py:593
 msgid "SPDX Identifier, repeatable"
 msgstr "Ідентифікатор SPDX, повторюваний"
 
-#: src/reuse/header.py:583
+#: src/reuse/header.py:599
+#, fuzzy
+msgid "file contributor, repeatable"
+msgstr "Ідентифікатор SPDX, повторюваний"
+
+#: src/reuse/header.py:606
 msgid "year of copyright statement, optional"
 msgstr "рік оголошення авторського права, необов'язково"
 
-#: src/reuse/header.py:591
+#: src/reuse/header.py:614
 msgid "comment style to use, optional"
 msgstr "використовуваний стиль коментарів, необов'язковий"
 
-#: src/reuse/header.py:597
+#: src/reuse/header.py:620
 msgid "copyright style to use, optional"
 msgstr "використовуваний стиль авторського права, необов'язковий"
 
-#: src/reuse/header.py:604
+#: src/reuse/header.py:627
 msgid "name of template to use, optional"
 msgstr "використовувана назва шаблону, необов'язково"
 
-#: src/reuse/header.py:609
+#: src/reuse/header.py:632
 msgid "do not include year in statement"
 msgstr "не включати рік в оголошення"
 
-#: src/reuse/header.py:614
+#: src/reuse/header.py:637
 msgid "merge copyright lines if copyright statements are identical"
 msgstr ""
 "об’єднувати рядки авторських прав, якщо оголошення авторських прав ідентичні"
 
-#: src/reuse/header.py:619
+#: src/reuse/header.py:642
 msgid "force single-line comment style, optional"
 msgstr "примусовий однорядковий стиль коментаря, необов'язково"
 
-#: src/reuse/header.py:624
+#: src/reuse/header.py:647
 msgid "force multi-line comment style, optional"
 msgstr "примусовий багаторядковий стиль коментарів, необов'язково"
 
-#: src/reuse/header.py:634
+#: src/reuse/header.py:657
 msgid "write a .license file instead of a header inside the file"
 msgstr "записувати файл .license замість заголовка всередині файлу"
 
-#: src/reuse/header.py:641
+#: src/reuse/header.py:664
 msgid "add headers to all files under specified directories recursively"
 msgstr "рекурсивно додавати заголовки до всіх файлів у вказаних каталогах"
 
-#: src/reuse/header.py:648
+#: src/reuse/header.py:671
 msgid "do not replace the first header in the file; just add a new one"
 msgstr "не замінювати перший заголовок у файлі; просто додавати новий"
 
-#: src/reuse/header.py:654
+#: src/reuse/header.py:677
 msgid "skip files with unrecognised comment styles"
 msgstr "пропускати файли з нерозпізнаними стилями коментарів"
 
-#: src/reuse/header.py:659
-msgid "skip files that already contain SPDX information"
+#: src/reuse/header.py:682
+#, fuzzy
+msgid "skip files that already contain REUSE information"
 msgstr "пропускати файли, які вже містять інформацію SPDX"
 
-#: src/reuse/header.py:670
+#: src/reuse/header.py:693
 msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
 msgstr "'reuse addheader' застаріло й замінено на 'reuse annotate'"
 
-#: src/reuse/header.py:676
-msgid "option --copyright or --license is required"
+#: src/reuse/header.py:700
+#, fuzzy
+msgid "option --contributor, --copyright or --license is required"
 msgstr "необхідний параметр --copyright або --license"
 
-#: src/reuse/header.py:680
+#: src/reuse/header.py:705
 msgid "option --exclude-year and --year are mutually exclusive"
 msgstr "параметр --exclude-year і --year взаємосуперечливі"
 
-#: src/reuse/header.py:685
+#: src/reuse/header.py:710
 msgid "option --single-line and --multi-line are mutually exclusive"
 msgstr "параметр --single-line і --multi-line взаємосуперечливі"
 
-#: src/reuse/header.py:691
+#: src/reuse/header.py:716
 msgid "--skip-unrecognised has no effect when used together with --style"
 msgstr "--skip-unrecognised не працює разом із --style"
 
-#: src/reuse/header.py:698
+#: src/reuse/header.py:723
 msgid "--explicit-license has been deprecated in favour of --force-dot-license"
 msgstr "--explicit-license замінено на --force-dot-license"
 
-#: src/reuse/header.py:742
+#: src/reuse/header.py:767
 #, python-brace-format
 msgid "template {template} could not be found"
 msgstr "не вдалося знайти шаблон {template}"
 
-#: src/reuse/header.py:782
+#: src/reuse/header.py:819
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
 "'{path}' — це двійковий файл, тому для заголовка використовується "
 "'{new_path}'"
 
-#: src/reuse/init.py:24
+#: src/reuse/init.py:25
 msgid ""
 "What license is your project under? Provide the SPDX License Identifier."
 msgstr ""
 "Якою ліцензією захищено ваш проєкт? Надайте ідентифікатор ліцензії SPDX."
 
-#: src/reuse/init.py:28
+#: src/reuse/init.py:29
 msgid ""
 "What other license is your project under? Provide the SPDX License "
 "Identifier."
 msgstr ""
 "Якою ліцензією захищено ваш проєкт? Надайте ідентифікатор ліцензії SPDX."
 
-#: src/reuse/init.py:39
+#: src/reuse/init.py:40
 msgid "To stop adding licenses, hit RETURN."
 msgstr "Щоб припинити додавання ліцензій, натисніть RETURN."
 
-#: src/reuse/init.py:73
+#: src/reuse/init.py:78
 msgid "Project already initialized"
 msgstr "Проєкт уже ініціалізовано"
 
-#: src/reuse/init.py:77
+#: src/reuse/init.py:82
 msgid "Initializing project for REUSE."
 msgstr "Ініціалізація проєкту для REUSE."
 
-#: src/reuse/init.py:82
+#: src/reuse/init.py:87
 msgid "What is the name of the project?"
 msgstr "Як називається проєкт?"
 
-#: src/reuse/init.py:88
+#: src/reuse/init.py:93
 msgid "What is the internet address of the project?"
 msgstr "Яка інтернет-адреса проєкту?"
 
-#: src/reuse/init.py:94
+#: src/reuse/init.py:99
 msgid "What is the name of the maintainer?"
 msgstr "Як звуть супроводжувача?"
 
-#: src/reuse/init.py:100
+#: src/reuse/init.py:105
 msgid "What is the e-mail address of the maintainer?"
 msgstr "Яка адреса електронної пошти супровідника?"
 
-#: src/reuse/init.py:106
+#: src/reuse/init.py:111
 msgid "All done! Initializing now."
 msgstr "Усе готово! Відбувається ініціалізація."
 
-#: src/reuse/init.py:114
+#: src/reuse/init.py:119
 msgid "Downloading {}"
 msgstr "Завантаження {}"
 
-#: src/reuse/init.py:119
+#: src/reuse/init.py:124
 msgid "{} already exists"
 msgstr "{} вже існує"
 
-#: src/reuse/init.py:122
+#: src/reuse/init.py:127
 msgid "Could not download {}"
 msgstr "Не вдалося завантажити {}"
 
-#: src/reuse/init.py:127
+#: src/reuse/init.py:132
 msgid "Creating .reuse/dep5"
 msgstr "Створення .reuse/dep5"
 
-#: src/reuse/init.py:150
+#: src/reuse/init.py:155
 msgid "Initialization complete."
 msgstr "Ініціалізація завершена."
 
-#: src/reuse/lint.py:56
+#: src/reuse/lint.py:27
+msgid "prevents output"
+msgstr ""
+
+#: src/reuse/lint.py:30
+msgid "formats output as JSON"
+msgstr ""
+
+#: src/reuse/lint.py:36
+msgid "formats output as plain text"
+msgstr ""
+
+#: src/reuse/lint.py:52
+msgid "BAD LICENSES"
+msgstr "ПОГАНІ ЛІЦЕНЗІЇ"
+
+#: src/reuse/lint.py:54 src/reuse/lint.py:83
+msgid "'{}' found in:"
+msgstr "'{}' знайдено в:"
+
+#: src/reuse/lint.py:61
+msgid "DEPRECATED LICENSES"
+msgstr "ЗАСТАРІЛІ ЛІЦЕНЗІЇ"
+
+#: src/reuse/lint.py:63
+msgid "The following licenses are deprecated by SPDX:"
+msgstr "У SPDX застаріли такі ліцензії:"
+
+#: src/reuse/lint.py:71
+msgid "LICENSES WITHOUT FILE EXTENSION"
+msgstr "ЛІЦЕНЗІЇ БЕЗ РОЗШИРЕННЯ ФАЙЛУ"
+
+#: src/reuse/lint.py:73
+msgid "The following licenses have no file extension:"
+msgstr "Ці ліцензії не мають розширення файлу:"
+
+#: src/reuse/lint.py:81
+msgid "MISSING LICENSES"
+msgstr "ВІДСУТНІ ЛІЦЕНЗІЇ"
+
+#: src/reuse/lint.py:90
+msgid "UNUSED LICENSES"
+msgstr "НЕВИКОРИСТАНІ ЛІЦЕНЗІЇ"
+
+#: src/reuse/lint.py:91
+msgid "The following licenses are not used:"
+msgstr "Не використовуються такі ліцензії:"
+
+#: src/reuse/lint.py:98
+msgid "READ ERRORS"
+msgstr "ПОМИЛКИ ЧИТАННЯ"
+
+#: src/reuse/lint.py:99
+msgid "Could not read:"
+msgstr "Не вдалося прочитати:"
+
+#: src/reuse/lint.py:120
+msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
+msgstr "ВІДСУТНІ ВІДОМОСТІ ПРО АВТОРСЬКІ ПРАВА ТА ЛІЦЕНЗУВАННЯ"
+
+#: src/reuse/lint.py:126
+msgid "The following files have no copyright and licensing information:"
+msgstr "Ці файли не містять відомостей про авторські права та ліцензії:"
+
+#: src/reuse/lint.py:137
+msgid "The following files have no copyright information:"
+msgstr "Такі файли не містять відомостей про авторські права:"
+
+#: src/reuse/lint.py:146
+msgid "The following files have no licensing information:"
+msgstr "Такі файли не мають відомостей про ліцензування:"
+
+#: src/reuse/lint.py:154
+msgid "SUMMARY"
+msgstr "ПІДСУМОК"
+
+#: src/reuse/lint.py:159
+msgid "Bad licenses:"
+msgstr "Погані ліцензії:"
+
+#: src/reuse/lint.py:160
+msgid "Deprecated licenses:"
+msgstr "Застарілі ліцензії:"
+
+#: src/reuse/lint.py:161
+msgid "Licenses without file extension:"
+msgstr "Ліцензії без розширення файлу:"
+
+#: src/reuse/lint.py:164
+msgid "Missing licenses:"
+msgstr "Відсутні ліцензії:"
+
+#: src/reuse/lint.py:165
+msgid "Unused licenses:"
+msgstr "Невикористані ліцензії:"
+
+#: src/reuse/lint.py:166
+msgid "Used licenses:"
+msgstr "Використані ліцензії:"
+
+#: src/reuse/lint.py:167
+#, fuzzy
+msgid "Read errors:"
+msgstr "Помилки читання: {count}"
+
+#: src/reuse/lint.py:169
+#, fuzzy
+msgid "files with copyright information:"
+msgstr "Файли з відомостями про авторські права: {count} / {total}"
+
+#: src/reuse/lint.py:173
+#, fuzzy
+msgid "files with license information:"
+msgstr "Файли з відомостями про ліцензію: {count} / {total}"
+
+#: src/reuse/lint.py:190
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr "Вітаємо! Ваш проєкт відповідає версії {} специфікації REUSE :-)"
 
-#: src/reuse/lint.py:63
+#: src/reuse/lint.py:197
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr "На жаль, ваш проєкт не сумісний із версією {} специфікації REUSE :-("
 
-#: src/reuse/lint.py:80
-msgid "BAD LICENSES"
-msgstr "ПОГАНІ ЛІЦЕНЗІЇ"
+#: src/reuse/project.py:77
+msgid ""
+"project is not a VCS repository or required VCS software is not installed"
+msgstr ""
 
-#: src/reuse/lint.py:84 src/reuse/lint.py:149
-msgid "'{}' found in:"
-msgstr "'{}' знайдено в:"
-
-#: src/reuse/lint.py:102
-msgid "DEPRECATED LICENSES"
-msgstr "ЗАСТАРІЛІ ЛІЦЕНЗІЇ"
-
-#: src/reuse/lint.py:104
-msgid "The following licenses are deprecated by SPDX:"
-msgstr "У SPDX застаріли такі ліцензії:"
-
-#: src/reuse/lint.py:122
-msgid "LICENSES WITHOUT FILE EXTENSION"
-msgstr "ЛІЦЕНЗІЇ БЕЗ РОЗШИРЕННЯ ФАЙЛУ"
-
-#: src/reuse/lint.py:124
-msgid "The following licenses have no file extension:"
-msgstr "Ці ліцензії не мають розширення файлу:"
-
-#: src/reuse/lint.py:144
-msgid "MISSING LICENSES"
-msgstr "ВІДСУТНІ ЛІЦЕНЗІЇ"
-
-#: src/reuse/lint.py:167
-msgid "UNUSED LICENSES"
-msgstr "НЕВИКОРИСТАНІ ЛІЦЕНЗІЇ"
-
-#: src/reuse/lint.py:169
-msgid "The following licenses are not used:"
-msgstr "Не використовуються такі ліцензії:"
-
-#: src/reuse/lint.py:185
-msgid "READ ERRORS"
-msgstr "ПОМИЛКИ ЧИТАННЯ"
-
-#: src/reuse/lint.py:187
-msgid "Could not read:"
-msgstr "Не вдалося прочитати:"
-
-#: src/reuse/lint.py:210
-msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
-msgstr "ВІДСУТНІ ВІДОМОСТІ ПРО АВТОРСЬКІ ПРАВА ТА ЛІЦЕНЗУВАННЯ"
-
-#: src/reuse/lint.py:215
-msgid "The following files have no copyright and licensing information:"
-msgstr "Ці файли не містять відомостей про авторські права та ліцензії:"
-
-#: src/reuse/lint.py:224
-msgid "The following files have no copyright information:"
-msgstr "Такі файли не містять відомостей про авторські права:"
-
-#: src/reuse/lint.py:230
-msgid "The following files have no licensing information:"
-msgstr "Такі файли не мають відомостей про ліцензування:"
-
-#: src/reuse/lint.py:244
-msgid "SUMMARY"
-msgstr "ПІДСУМОК"
-
-#: src/reuse/lint.py:250
-msgid "Bad licenses:"
-msgstr "Погані ліцензії:"
-
-#: src/reuse/lint.py:259
-msgid "Deprecated licenses:"
-msgstr "Застарілі ліцензії:"
-
-#: src/reuse/lint.py:268
-msgid "Licenses without file extension:"
-msgstr "Ліцензії без розширення файлу:"
-
-#: src/reuse/lint.py:277
-msgid "Missing licenses:"
-msgstr "Відсутні ліцензії:"
-
-#: src/reuse/lint.py:286
-msgid "Unused licenses:"
-msgstr "Невикористані ліцензії:"
-
-#: src/reuse/lint.py:295
-msgid "Used licenses:"
-msgstr "Використані ліцензії:"
-
-#: src/reuse/lint.py:304
-#, python-brace-format
-msgid "Read errors: {count}"
-msgstr "Помилки читання: {count}"
-
-#: src/reuse/lint.py:309
-#, python-brace-format
-msgid "Files with copyright information: {count} / {total}"
-msgstr "Файли з відомостями про авторські права: {count} / {total}"
-
-#: src/reuse/lint.py:318
-#, python-brace-format
-msgid "Files with license information: {count} / {total}"
-msgstr "Файли з відомостями про ліцензію: {count} / {total}"
-
-#: src/reuse/project.py:64
-msgid "could not find supported VCS"
-msgstr "не вдалося знайти підтримуваний VCS"
-
-#: src/reuse/project.py:155
+#: src/reuse/project.py:184
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' охоплюється .reuse/dep5"
 
-#: src/reuse/project.py:167
+#: src/reuse/project.py:217
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 "'{path}' містить вираз SPDX, який неможливо проаналізувати, пропуск файлу"
 
-#: src/reuse/project.py:240
+#: src/reuse/project.py:226
+#, python-brace-format
+msgid ""
+"Copyright and licensing information for '{original_path}' has been found in "
+"both '{path}' and in the DEP5 file located at '{dep5_path}'. The information "
+"for these two sources has been aggregated. In the future this behaviour will "
+"change, and you will need to explicitly enable aggregation. See <https://"
+"github.com/fsfe/reuse-tool/issues/779>. You need do nothing yet. Run with `--"
+"suppress-deprecation` to hide this warning."
+msgstr ""
+
+#: src/reuse/project.py:313
 msgid ".reuse/dep5 has syntax errors"
 msgstr ".reuse/dep5 має синтаксичні помилки"
 
-#: src/reuse/project.py:242
+#: src/reuse/project.py:315
 msgid ".reuse/dep5 could not be parsed as utf-8"
 msgstr "Не вдалося .reuse/dep5 було проаналізувати як utf-8"
 
-#: src/reuse/project.py:268
+#: src/reuse/project.py:341
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "визначення ідентифікатора '{path}'"
 
-#: src/reuse/project.py:276
+#: src/reuse/project.py:349
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} не має розширення файлу"
 
-#: src/reuse/project.py:286
+#: src/reuse/project.py:359
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -690,27 +733,48 @@ msgid ""
 "file extension."
 msgstr ""
 "Не вдалося розпізнати ідентифікатор ліцензії SPDX {path}. Його розв'язано як "
-"{identifier}. Переконайтеся, що ліцензія є у списку ліцензій на <https://spdx"
-".org/licenses/> або що вона починається з 'LicenseRef-' і має розширення "
+"{identifier}. Переконайтеся, що ліцензія є у списку ліцензій на <https://"
+"spdx.org/licenses/> або що вона починається з 'LicenseRef-' і має розширення "
 "файлу."
 
-#: src/reuse/project.py:298
+#: src/reuse/project.py:371
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
-msgstr "{identifier} — це ідентифікатор ліцензії SPDX для {path} і {other_path}"
+msgstr ""
+"{identifier} — це ідентифікатор ліцензії SPDX для {path} і {other_path}"
 
-#: src/reuse/report.py:202
+#: src/reuse/report.py:263
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Не вдалося прочитати '{path}'"
 
-#: src/reuse/report.py:209
+#: src/reuse/report.py:270
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Під час аналізу '{path}' сталася неочікувана помилка"
 
+#: src/reuse/spdx.py:32
+msgid ""
+"populate the LicenseConcluded field; note that reuse cannot guarantee the "
+"field is accurate"
+msgstr ""
+
 #: src/reuse/spdx.py:39
+msgid "name of the person signing off on the SPDX report"
+msgstr ""
+
+#: src/reuse/spdx.py:44
+msgid "name of the organization signing off on the SPDX report"
+msgstr ""
+
+#: src/reuse/spdx.py:60
+msgid ""
+"error: --creator-person=NAME or --creator-organization=NAME required when --"
+"add-license-concluded is provided"
+msgstr ""
+
+#: src/reuse/spdx.py:75
 #, python-brace-format
 msgid ""
 "'{path}' does not match a common SPDX file pattern. Find the suggested "
@@ -718,8 +782,8 @@ msgid ""
 "standard-data-format-requirements"
 msgstr ""
 "'{path}' не відповідає загальному шаблону файлу SPDX. Знайдіть запропоновані "
-"правила іменування тут: https://spdx.github.io/spdx-spec/conformance/#44"
-"-standard-data-format-requirements"
+"правила іменування тут: https://spdx.github.io/spdx-spec/conformance/#44-"
+"standard-data-format-requirements"
 
 #: /usr/lib64/python3.10/argparse.py:296 /usr/lib64/python3.11/argparse.py:299
 #: /usr/lib64/python3.6/argparse.py:295 /usr/lib64/python3.7/argparse.py:297
@@ -727,52 +791,52 @@ msgstr ""
 msgid "usage: "
 msgstr "використання: "
 
-#: /usr/lib64/python3.10/argparse.py:861 /usr/lib64/python3.11/argparse.py:875
+#: /usr/lib64/python3.10/argparse.py:868 /usr/lib64/python3.11/argparse.py:882
 #: /usr/lib64/python3.6/argparse.py:830 /usr/lib64/python3.7/argparse.py:845
 #: /usr/lib64/python3.8/argparse.py:846 /usr/lib64/python3.9/argparse.py:861
 msgid ".__call__() not defined"
 msgstr ".__call__() не визначено"
 
-#: /usr/lib64/python3.10/argparse.py:1204
-#: /usr/lib64/python3.11/argparse.py:1224 /usr/lib64/python3.6/argparse.py:1127
+#: /usr/lib64/python3.10/argparse.py:1211
+#: /usr/lib64/python3.11/argparse.py:1231 /usr/lib64/python3.6/argparse.py:1127
 #: /usr/lib64/python3.7/argparse.py:1148 /usr/lib64/python3.8/argparse.py:1149
 #: /usr/lib64/python3.9/argparse.py:1204
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr "невідомий парсер %(parser_name)r (варто вибрати: %(choices)s)"
 
-#: /usr/lib64/python3.10/argparse.py:1264
-#: /usr/lib64/python3.11/argparse.py:1284 /usr/lib64/python3.6/argparse.py:1181
+#: /usr/lib64/python3.10/argparse.py:1271
+#: /usr/lib64/python3.11/argparse.py:1291 /usr/lib64/python3.6/argparse.py:1181
 #: /usr/lib64/python3.7/argparse.py:1202 /usr/lib64/python3.8/argparse.py:1209
 #: /usr/lib64/python3.9/argparse.py:1264
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr "аргумент \"-\" з режимом %r"
 
-#: /usr/lib64/python3.10/argparse.py:1273
-#: /usr/lib64/python3.11/argparse.py:1293 /usr/lib64/python3.8/argparse.py:1218
+#: /usr/lib64/python3.10/argparse.py:1280
+#: /usr/lib64/python3.11/argparse.py:1300 /usr/lib64/python3.8/argparse.py:1218
 #: /usr/lib64/python3.9/argparse.py:1273
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
 msgstr "не вдалося відкрити '%(filename)s': %(error)s"
 
-#: /usr/lib64/python3.10/argparse.py:1482
-#: /usr/lib64/python3.11/argparse.py:1502 /usr/lib64/python3.6/argparse.py:1393
+#: /usr/lib64/python3.10/argparse.py:1489
+#: /usr/lib64/python3.11/argparse.py:1509 /usr/lib64/python3.6/argparse.py:1393
 #: /usr/lib64/python3.7/argparse.py:1414 /usr/lib64/python3.8/argparse.py:1427
 #: /usr/lib64/python3.9/argparse.py:1482
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr "не вдалося об'єднати дії - дві групи називаються %r"
 
-#: /usr/lib64/python3.10/argparse.py:1520
-#: /usr/lib64/python3.11/argparse.py:1540 /usr/lib64/python3.6/argparse.py:1431
+#: /usr/lib64/python3.10/argparse.py:1527
+#: /usr/lib64/python3.11/argparse.py:1547 /usr/lib64/python3.6/argparse.py:1431
 #: /usr/lib64/python3.7/argparse.py:1452 /usr/lib64/python3.8/argparse.py:1465
 #: /usr/lib64/python3.9/argparse.py:1520
 msgid "'required' is an invalid argument for positionals"
 msgstr "'required' — неприпустимий аргумент для позиційних значень"
 
-#: /usr/lib64/python3.10/argparse.py:1542
-#: /usr/lib64/python3.11/argparse.py:1562 /usr/lib64/python3.6/argparse.py:1453
+#: /usr/lib64/python3.10/argparse.py:1549
+#: /usr/lib64/python3.11/argparse.py:1569 /usr/lib64/python3.6/argparse.py:1453
 #: /usr/lib64/python3.7/argparse.py:1474 /usr/lib64/python3.8/argparse.py:1487
 #: /usr/lib64/python3.9/argparse.py:1542
 #, python-format
@@ -782,24 +846,24 @@ msgid ""
 msgstr ""
 "недійсний рядок опцій %(option)r: має починатися з символу %(prefix_chars)r"
 
-#: /usr/lib64/python3.10/argparse.py:1560
-#: /usr/lib64/python3.11/argparse.py:1580 /usr/lib64/python3.6/argparse.py:1473
+#: /usr/lib64/python3.10/argparse.py:1567
+#: /usr/lib64/python3.11/argparse.py:1587 /usr/lib64/python3.6/argparse.py:1473
 #: /usr/lib64/python3.7/argparse.py:1494 /usr/lib64/python3.8/argparse.py:1507
 #: /usr/lib64/python3.9/argparse.py:1560
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr "dest= потрібен для таких опцій, як %r"
 
-#: /usr/lib64/python3.10/argparse.py:1577
-#: /usr/lib64/python3.11/argparse.py:1597 /usr/lib64/python3.6/argparse.py:1490
+#: /usr/lib64/python3.10/argparse.py:1584
+#: /usr/lib64/python3.11/argparse.py:1604 /usr/lib64/python3.6/argparse.py:1490
 #: /usr/lib64/python3.7/argparse.py:1511 /usr/lib64/python3.8/argparse.py:1524
 #: /usr/lib64/python3.9/argparse.py:1577
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr "недійсне значення conflict_resolution: %r"
 
-#: /usr/lib64/python3.10/argparse.py:1595
-#: /usr/lib64/python3.11/argparse.py:1615 /usr/lib64/python3.6/argparse.py:1508
+#: /usr/lib64/python3.10/argparse.py:1602
+#: /usr/lib64/python3.11/argparse.py:1622 /usr/lib64/python3.6/argparse.py:1508
 #: /usr/lib64/python3.7/argparse.py:1529 /usr/lib64/python3.8/argparse.py:1542
 #: /usr/lib64/python3.9/argparse.py:1595
 #, python-format
@@ -809,43 +873,43 @@ msgstr[0] "конфліктний рядок опцій: %s"
 msgstr[1] "конфліктні рядки опцій: %s"
 msgstr[2] "конфліктні рядки опцій: %s"
 
-#: /usr/lib64/python3.10/argparse.py:1661
-#: /usr/lib64/python3.11/argparse.py:1689 /usr/lib64/python3.6/argparse.py:1574
+#: /usr/lib64/python3.10/argparse.py:1668
+#: /usr/lib64/python3.11/argparse.py:1696 /usr/lib64/python3.6/argparse.py:1574
 #: /usr/lib64/python3.7/argparse.py:1595 /usr/lib64/python3.8/argparse.py:1608
 #: /usr/lib64/python3.9/argparse.py:1661
 msgid "mutually exclusive arguments must be optional"
 msgstr "взаємозаперечні аргументи повинні бути необов'язковими"
 
-#: /usr/lib64/python3.10/argparse.py:1729
-#: /usr/lib64/python3.11/argparse.py:1765 /usr/lib64/python3.6/argparse.py:1637
+#: /usr/lib64/python3.10/argparse.py:1736
+#: /usr/lib64/python3.11/argparse.py:1772 /usr/lib64/python3.6/argparse.py:1637
 #: /usr/lib64/python3.7/argparse.py:1658 /usr/lib64/python3.8/argparse.py:1671
 #: /usr/lib64/python3.9/argparse.py:1728
 msgid "positional arguments"
 msgstr "позиційні аргументи"
 
-#: /usr/lib64/python3.10/argparse.py:1730
-#: /usr/lib64/python3.11/argparse.py:1766
+#: /usr/lib64/python3.10/argparse.py:1737
+#: /usr/lib64/python3.11/argparse.py:1773
 msgid "options"
 msgstr "параметри"
 
-#: /usr/lib64/python3.10/argparse.py:1745
-#: /usr/lib64/python3.11/argparse.py:1781 /usr/lib64/python3.6/argparse.py:1653
+#: /usr/lib64/python3.10/argparse.py:1752
+#: /usr/lib64/python3.11/argparse.py:1788 /usr/lib64/python3.6/argparse.py:1653
 #: /usr/lib64/python3.7/argparse.py:1674 /usr/lib64/python3.8/argparse.py:1687
 #: /usr/lib64/python3.9/argparse.py:1744
 msgid "show this help message and exit"
 msgstr "показати це повідомлення та вийти"
 
-#: /usr/lib64/python3.10/argparse.py:1776
-#: /usr/lib64/python3.11/argparse.py:1812 /usr/lib64/python3.6/argparse.py:1684
+#: /usr/lib64/python3.10/argparse.py:1783
+#: /usr/lib64/python3.11/argparse.py:1819 /usr/lib64/python3.6/argparse.py:1684
 #: /usr/lib64/python3.7/argparse.py:1705 /usr/lib64/python3.8/argparse.py:1718
 #: /usr/lib64/python3.9/argparse.py:1775
 msgid "cannot have multiple subparser arguments"
 msgstr "не може мати кілька аргументів підпарсера"
 
-#: /usr/lib64/python3.10/argparse.py:1828
-#: /usr/lib64/python3.10/argparse.py:2343
-#: /usr/lib64/python3.11/argparse.py:1864
-#: /usr/lib64/python3.11/argparse.py:2377 /usr/lib64/python3.6/argparse.py:1736
+#: /usr/lib64/python3.10/argparse.py:1835
+#: /usr/lib64/python3.10/argparse.py:2350
+#: /usr/lib64/python3.11/argparse.py:1871
+#: /usr/lib64/python3.11/argparse.py:2384 /usr/lib64/python3.6/argparse.py:1736
 #: /usr/lib64/python3.7/argparse.py:1757 /usr/lib64/python3.7/argparse.py:2264
 #: /usr/lib64/python3.8/argparse.py:1770 /usr/lib64/python3.8/argparse.py:2277
 #: /usr/lib64/python3.9/argparse.py:1827 /usr/lib64/python3.9/argparse.py:2338
@@ -853,18 +917,18 @@ msgstr "не може мати кілька аргументів підпарс�
 msgid "unrecognized arguments: %s"
 msgstr "нерозпізнані аргументи: %s"
 
-#: /usr/lib64/python3.10/argparse.py:1929
-#: /usr/lib64/python3.11/argparse.py:1964 /usr/lib64/python3.6/argparse.py:1833
+#: /usr/lib64/python3.10/argparse.py:1936
+#: /usr/lib64/python3.11/argparse.py:1971 /usr/lib64/python3.6/argparse.py:1833
 #: /usr/lib64/python3.7/argparse.py:1854 /usr/lib64/python3.8/argparse.py:1867
 #: /usr/lib64/python3.9/argparse.py:1928
 #, python-format
 msgid "not allowed with argument %s"
 msgstr "не дозволено з аргументом %s"
 
-#: /usr/lib64/python3.10/argparse.py:1979
-#: /usr/lib64/python3.10/argparse.py:1993
-#: /usr/lib64/python3.11/argparse.py:2014
-#: /usr/lib64/python3.11/argparse.py:2028 /usr/lib64/python3.6/argparse.py:1879
+#: /usr/lib64/python3.10/argparse.py:1986
+#: /usr/lib64/python3.10/argparse.py:2000
+#: /usr/lib64/python3.11/argparse.py:2021
+#: /usr/lib64/python3.11/argparse.py:2035 /usr/lib64/python3.6/argparse.py:1879
 #: /usr/lib64/python3.6/argparse.py:1893 /usr/lib64/python3.7/argparse.py:1900
 #: /usr/lib64/python3.7/argparse.py:1914 /usr/lib64/python3.8/argparse.py:1913
 #: /usr/lib64/python3.8/argparse.py:1927 /usr/lib64/python3.9/argparse.py:1974
@@ -873,45 +937,45 @@ msgstr "не дозволено з аргументом %s"
 msgid "ignored explicit argument %r"
 msgstr "нехтується явний аргумент %r"
 
-#: /usr/lib64/python3.10/argparse.py:2100
-#: /usr/lib64/python3.11/argparse.py:2135 /usr/lib64/python3.6/argparse.py:2000
+#: /usr/lib64/python3.10/argparse.py:2107
+#: /usr/lib64/python3.11/argparse.py:2142 /usr/lib64/python3.6/argparse.py:2000
 #: /usr/lib64/python3.7/argparse.py:2021 /usr/lib64/python3.8/argparse.py:2034
 #: /usr/lib64/python3.9/argparse.py:2095
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr "такі аргументи обов'язкові: %s"
 
-#: /usr/lib64/python3.10/argparse.py:2115
-#: /usr/lib64/python3.11/argparse.py:2150 /usr/lib64/python3.6/argparse.py:2015
+#: /usr/lib64/python3.10/argparse.py:2122
+#: /usr/lib64/python3.11/argparse.py:2157 /usr/lib64/python3.6/argparse.py:2015
 #: /usr/lib64/python3.7/argparse.py:2036 /usr/lib64/python3.8/argparse.py:2049
 #: /usr/lib64/python3.9/argparse.py:2110
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr "один з аргументів %s обов'язковий"
 
-#: /usr/lib64/python3.10/argparse.py:2158
-#: /usr/lib64/python3.11/argparse.py:2192 /usr/lib64/python3.6/argparse.py:2058
+#: /usr/lib64/python3.10/argparse.py:2165
+#: /usr/lib64/python3.11/argparse.py:2199 /usr/lib64/python3.6/argparse.py:2058
 #: /usr/lib64/python3.7/argparse.py:2079 /usr/lib64/python3.8/argparse.py:2092
 #: /usr/lib64/python3.9/argparse.py:2153
 msgid "expected one argument"
 msgstr "очікується один аргумент"
 
-#: /usr/lib64/python3.10/argparse.py:2159
-#: /usr/lib64/python3.11/argparse.py:2193 /usr/lib64/python3.6/argparse.py:2059
+#: /usr/lib64/python3.10/argparse.py:2166
+#: /usr/lib64/python3.11/argparse.py:2200 /usr/lib64/python3.6/argparse.py:2059
 #: /usr/lib64/python3.7/argparse.py:2080 /usr/lib64/python3.8/argparse.py:2093
 #: /usr/lib64/python3.9/argparse.py:2154
 msgid "expected at most one argument"
 msgstr "очікується щонайбільше один аргумент"
 
-#: /usr/lib64/python3.10/argparse.py:2160
-#: /usr/lib64/python3.11/argparse.py:2194 /usr/lib64/python3.6/argparse.py:2060
+#: /usr/lib64/python3.10/argparse.py:2167
+#: /usr/lib64/python3.11/argparse.py:2201 /usr/lib64/python3.6/argparse.py:2060
 #: /usr/lib64/python3.7/argparse.py:2081 /usr/lib64/python3.8/argparse.py:2094
 #: /usr/lib64/python3.9/argparse.py:2155
 msgid "expected at least one argument"
 msgstr "очікується хоча б один аргумент"
 
-#: /usr/lib64/python3.10/argparse.py:2164
-#: /usr/lib64/python3.11/argparse.py:2198 /usr/lib64/python3.6/argparse.py:2062
+#: /usr/lib64/python3.10/argparse.py:2171
+#: /usr/lib64/python3.11/argparse.py:2205 /usr/lib64/python3.6/argparse.py:2062
 #: /usr/lib64/python3.7/argparse.py:2085 /usr/lib64/python3.8/argparse.py:2098
 #: /usr/lib64/python3.9/argparse.py:2159
 #, python-format
@@ -921,65 +985,65 @@ msgstr[0] "очікується %s аргумент"
 msgstr[1] "очікується %s аргументи"
 msgstr[2] "очікується %s аргументів"
 
-#: /usr/lib64/python3.10/argparse.py:2222
-#: /usr/lib64/python3.11/argparse.py:2256 /usr/lib64/python3.6/argparse.py:2122
+#: /usr/lib64/python3.10/argparse.py:2229
+#: /usr/lib64/python3.11/argparse.py:2263 /usr/lib64/python3.6/argparse.py:2122
 #: /usr/lib64/python3.7/argparse.py:2144 /usr/lib64/python3.8/argparse.py:2156
 #: /usr/lib64/python3.9/argparse.py:2217
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr "неоднозначний параметр: %(option)s може відповідати %(matches)s"
 
-#: /usr/lib64/python3.10/argparse.py:2286
-#: /usr/lib64/python3.11/argparse.py:2320 /usr/lib64/python3.6/argparse.py:2185
+#: /usr/lib64/python3.10/argparse.py:2293
+#: /usr/lib64/python3.11/argparse.py:2327 /usr/lib64/python3.6/argparse.py:2185
 #: /usr/lib64/python3.7/argparse.py:2207 /usr/lib64/python3.8/argparse.py:2220
 #: /usr/lib64/python3.9/argparse.py:2281
 #, python-format
 msgid "unexpected option string: %s"
 msgstr "неочікуваний рядок параметрів: %s"
 
-#: /usr/lib64/python3.10/argparse.py:2483
-#: /usr/lib64/python3.11/argparse.py:2517 /usr/lib64/python3.6/argparse.py:2289
+#: /usr/lib64/python3.10/argparse.py:2490
+#: /usr/lib64/python3.11/argparse.py:2524 /usr/lib64/python3.6/argparse.py:2289
 #: /usr/lib64/python3.7/argparse.py:2404 /usr/lib64/python3.8/argparse.py:2417
 #: /usr/lib64/python3.9/argparse.py:2478
 #, python-format
 msgid "%r is not callable"
 msgstr "%r не можна викликати"
 
-#: /usr/lib64/python3.10/argparse.py:2500
-#: /usr/lib64/python3.11/argparse.py:2534 /usr/lib64/python3.6/argparse.py:2306
+#: /usr/lib64/python3.10/argparse.py:2507
+#: /usr/lib64/python3.11/argparse.py:2541 /usr/lib64/python3.6/argparse.py:2306
 #: /usr/lib64/python3.7/argparse.py:2421 /usr/lib64/python3.8/argparse.py:2434
 #: /usr/lib64/python3.9/argparse.py:2495
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr "недійсне значення %(type)s: %(value)r"
 
-#: /usr/lib64/python3.10/argparse.py:2511
-#: /usr/lib64/python3.11/argparse.py:2545 /usr/lib64/python3.6/argparse.py:2317
+#: /usr/lib64/python3.10/argparse.py:2518
+#: /usr/lib64/python3.11/argparse.py:2552 /usr/lib64/python3.6/argparse.py:2317
 #: /usr/lib64/python3.7/argparse.py:2432 /usr/lib64/python3.8/argparse.py:2445
 #: /usr/lib64/python3.9/argparse.py:2506
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr "неприпустимий вибір: %(value)r (варто обрати з %(choices)s)"
 
-#: /usr/lib64/python3.10/argparse.py:2587
-#: /usr/lib64/python3.11/argparse.py:2621 /usr/lib64/python3.6/argparse.py:2393
+#: /usr/lib64/python3.10/argparse.py:2594
+#: /usr/lib64/python3.11/argparse.py:2628 /usr/lib64/python3.6/argparse.py:2393
 #: /usr/lib64/python3.7/argparse.py:2508 /usr/lib64/python3.8/argparse.py:2521
 #: /usr/lib64/python3.9/argparse.py:2582
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: помилка: %(message)s\n"
 
-#: /usr/lib64/python3.11/argparse.py:769
+#: /usr/lib64/python3.11/argparse.py:776
 #, python-format
 msgid "argument %(argument_name)s: %(message)s"
 msgstr "аргумент %(argument_name)s: %(message)s"
 
-#: /usr/lib64/python3.11/argparse.py:1185
+#: /usr/lib64/python3.11/argparse.py:1192
 #, python-format
 msgid "conflicting subparser: %s"
 msgstr "конфліктний субпарсер: %s"
 
-#: /usr/lib64/python3.11/argparse.py:1189
+#: /usr/lib64/python3.11/argparse.py:1196
 #, python-format
 msgid "conflicting subparser alias: %s"
 msgstr "конфліктний псевдонім субпарсера: %s"
@@ -993,3 +1057,6 @@ msgstr "не вдалося відкрити '%s': %s"
 #: /usr/lib64/python3.8/argparse.py:1672 /usr/lib64/python3.9/argparse.py:1729
 msgid "optional arguments"
 msgstr "необов'язкові аргументи"
+
+#~ msgid "could not find supported VCS"
+#~ msgstr "не вдалося знайти підтримуваний VCS"

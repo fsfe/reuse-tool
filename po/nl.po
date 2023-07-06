@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-20 12:18+0100\n"
+"POT-Creation-Date: 2023-06-28 00:34+0200\n"
 "PO-Revision-Date: 2023-02-18 10:24+0000\n"
 "Last-Translator: \"J. Lavoie\" <j.lavoie@net-c.ca>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/fsfe/reuse-tool/nl/"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.18.1\n"
 
-#: src/reuse/_main.py:30
+#: src/reuse/_main.py:34
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
@@ -28,18 +28,18 @@ msgstr ""
 "<https://reuse.software/> voor meer informatie en <https://reuse.readthedocs."
 "io/> voor de online documentatie."
 
-#: src/reuse/_main.py:36
+#: src/reuse/_main.py:40
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr ""
 "Deze versie van reuse is compatibel met versie {} van de REUSE Specificatie."
 
-#: src/reuse/_main.py:39
+#: src/reuse/_main.py:43
 msgid "Support the FSFE's work:"
 msgstr "Ondersteun het werk van de FSFE:"
 
-#: src/reuse/_main.py:43
+#: src/reuse/_main.py:47
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
@@ -49,45 +49,65 @@ msgstr ""
 "verder te werken voor vrije software waar nodig. Overweeg alstublieft om een "
 "donatie te maken bij <https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:66
+#: src/reuse/_main.py:70
 msgid "enable debug statements"
 msgstr "zet debug statements aan"
 
-#: src/reuse/_main.py:71
+#: src/reuse/_main.py:75
+msgid "hide deprecation warnings"
+msgstr ""
+
+#: src/reuse/_main.py:80
 msgid "do not skip over Git submodules"
 msgstr "sla Git-submodules niet over"
 
-#: src/reuse/_main.py:76
+#: src/reuse/_main.py:85
+#, fuzzy
+msgid "do not skip over Meson subprojects"
+msgstr "sla Git-submodules niet over"
+
+#: src/reuse/_main.py:90
 msgid "do not use multiprocessing"
 msgstr "gebruik geen multiprocessing"
 
-#: src/reuse/_main.py:83
+#: src/reuse/_main.py:97
 msgid "define root of project"
 msgstr "bepaal de root van het project"
 
-#: src/reuse/_main.py:88
+#: src/reuse/_main.py:102
 msgid "show program's version number and exit"
 msgstr "versienummer van het programma laten zien en verlaten"
 
-#: src/reuse/_main.py:92
+#: src/reuse/_main.py:106
 msgid "subcommands"
 msgstr "subcommando's"
 
-#: src/reuse/_main.py:99
+#: src/reuse/_main.py:113
 msgid "add copyright and licensing into the header of files"
 msgstr ""
 "voeg auteursrechts- en licentie-informatie toe aan de headers van bestanden"
 
-#: src/reuse/_main.py:102
+#: src/reuse/_main.py:116
+#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files.\n"
 "\n"
+"By using --contributor, you can specify people or entity that contributed "
+"but are not copyright holder of the given files.\n"
+"The first comment is replaced with a new header containing the new copyright "
+"and licensing information and its former copyright and licensing. If you "
+"want to keep the first comment intact, use --no-replace.\n"
+"\n"
 "The comment style should be auto-detected for your files. If a comment style "
-"could not be detected, the process aborts. Use --style to specify or "
-"override the comment style to use.\n"
+"could not be detected and --skip-unrecognised is not specified, the process "
+"aborts. Use --style to specify or override the comment style to use.\n"
+"\n"
+"A single-line comment style is used when it is available. If no single-line "
+"comment style is available, a multi-line comment style is used. You can "
+"force a certain comment style using --single-line or --multi-line.\n"
 "\n"
 "You can change the template of the header comment by using --template. Place "
 "a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can use the "
@@ -95,9 +115,7 @@ msgid ""
 "documentation on how to use this feature.\n"
 "\n"
 "If a binary file is detected, or if --explicit-license is specified, the "
-"header is placed in a .license file.\n"
-"\n"
-"IMPORTANT: This is currently EXPERIMENTAL!"
+"header is placed in a .license file."
 msgstr ""
 "Voeg auteursrechts- en licentie-informatie toe aan de headers van een of "
 "meer bestanden.\n"
@@ -119,11 +137,15 @@ msgstr ""
 "\n"
 "BELANGRIJK: Dit is momenteel EXPERIMENTEEL!"
 
-#: src/reuse/_main.py:135
+#: src/reuse/_main.py:159
+msgid "deprecated in favor of annotate"
+msgstr ""
+
+#: src/reuse/_main.py:167
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "download een licentie en plaats het in de LICENSES/-map"
 
-#: src/reuse/_main.py:138
+#: src/reuse/_main.py:170
 msgid ""
 "Download a license and place it in the LICENSES/ directory.\n"
 "\n"
@@ -149,15 +171,15 @@ msgstr ""
 "\n"
 "Als de LICENSES/-map niet gevonden kan worden, dan wordt er een gemaakt."
 
-#: src/reuse/_main.py:161
+#: src/reuse/_main.py:193
 msgid "initialize REUSE project"
 msgstr "initialiseer REUSE-project"
 
-#: src/reuse/_main.py:169
+#: src/reuse/_main.py:201
 msgid "list all non-compliant files"
 msgstr "lijst maken van alle bestanden die tekortschieten"
 
-#: src/reuse/_main.py:172
+#: src/reuse/_main.py:204
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -194,66 +216,56 @@ msgstr ""
 "\n"
 "- Bevatten alle bestanden geldige informatie over auteursricht en licenties?"
 
-#: src/reuse/_main.py:199
+#: src/reuse/_main.py:231
 msgid "print the project's bill of materials in SPDX format"
 msgstr "print de materiaallijst van het project in SPDX-formaat"
 
-#: src/reuse/_util.py:216
+#: src/reuse/_main.py:239
+msgid "list all supported SPDX licenses"
+msgstr ""
+
+#: src/reuse/_util.py:342
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Kon '{expression}' niet parsen"
 
-#: src/reuse/_util.py:289
+#: src/reuse/_util.py:476
 msgid "'{}' is not a file"
 msgstr "'{}' is geen bestand"
 
-#: src/reuse/_util.py:293
+#: src/reuse/_util.py:479
 msgid "'{}' is not a directory"
 msgstr "'{}' is geen map"
 
-#: src/reuse/_util.py:296
+#: src/reuse/_util.py:482
 msgid "can't open '{}'"
 msgstr "kan '{}' niet openen"
 
-#: src/reuse/_util.py:300
+#: src/reuse/_util.py:487
 msgid "can't write to directory '{}'"
 msgstr "kan niet schrijven naar map '{}'"
 
-#: src/reuse/_util.py:306
+#: src/reuse/_util.py:493 src/reuse/header.py:575
 msgid "can't write to '{}'"
 msgstr "kan niet schrijven naar '{}'"
 
-#: src/reuse/_util.py:308
+#: src/reuse/_util.py:506
 msgid "can't read or write '{}'"
 msgstr "kan '{}' niet lezen of schrijven"
 
-#: src/reuse/_util.py:317
+#: src/reuse/_util.py:516
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' is geen geldige SPDX-uitdrukking, aan het afbreken"
 
-#: src/reuse/download.py:80
-msgid "SPDX License Identifier of license"
-msgstr "SPDX Licentie Identificatie of licentie"
-
-#: src/reuse/download.py:85
-msgid "download all missing licenses detected in the project"
-msgstr ""
-"download alle ontbrekende licenties die in het project zijn gedetecteerd"
-
-#: src/reuse/download.py:97
-#, python-brace-format
-msgid "Error: {spdx_identifier} already exists."
-msgstr "Fout: {spdx_identifier} bestaat al."
-
-#: src/reuse/download.py:104
-msgid "Error: Failed to download license."
-msgstr "Fout: downloaden van licentie mislukt."
-
-#: src/reuse/download.py:108 src/reuse/init.py:48
+#: src/reuse/_util.py:544
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' is geen geldige SPDX Licentie Identificatie."
 
-#: src/reuse/download.py:115 src/reuse/init.py:55
+#: src/reuse/_util.py:551
+msgid "Did you mean:"
+msgstr ""
+
+#: src/reuse/_util.py:558
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -261,43 +273,88 @@ msgstr ""
 "Zie <https://spdx.org/licenses/> voor een lijst met geldige SPDX Licentie "
 "Identificaties."
 
-#: src/reuse/download.py:120
+#: src/reuse/download.py:88
+msgid "SPDX License Identifier of license"
+msgstr "SPDX Licentie Identificatie of licentie"
+
+#: src/reuse/download.py:93
+msgid "download all missing licenses detected in the project"
+msgstr ""
+"download alle ontbrekende licenties die in het project zijn gedetecteerd"
+
+#: src/reuse/download.py:105
+#, python-brace-format
+msgid "Error: {spdx_identifier} already exists."
+msgstr "Fout: {spdx_identifier} bestaat al."
+
+#: src/reuse/download.py:112
+msgid "Error: Failed to download license."
+msgstr "Fout: downloaden van licentie mislukt."
+
+#: src/reuse/download.py:117
 msgid "Is your internet connection working?"
 msgstr "Werkt uw internetverbinding?"
 
-#: src/reuse/download.py:125
+#: src/reuse/download.py:122
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "{spdx_identifier} met succes gedowload."
 
-#: src/reuse/download.py:136
+#: src/reuse/download.py:134
+msgid "--output has no effect when used together with --all"
+msgstr ""
+
+#: src/reuse/download.py:138
 msgid "the following arguments are required: license"
 msgstr "de volgende argumenten zijn verplicht: licentie"
 
-#: src/reuse/download.py:138
+#: src/reuse/download.py:140
 msgid "cannot use --output with more than one license"
 msgstr "kan --output niet met meer dan een licentie gebruiken"
 
-#: src/reuse/header.py:101
+#: src/reuse/header.py:132
 msgid "generated comment is missing copyright lines or license expressions"
 msgstr ""
 "gegenereerd commentaar mist auteursrechtregels of licentie-uitdrukkingen"
 
-#: src/reuse/header.py:280
+#: src/reuse/header.py:414
 #, python-brace-format
 msgid ""
-"'{path}' does not have a recognised file extension, please use --style or --"
-"explicit-license"
+"'{path}' does not support single-line comments, please do not use --single-"
+"line"
+msgstr ""
+
+#: src/reuse/header.py:421
+#, python-brace-format
+msgid ""
+"'{path}' does not support multi-line comments, please do not use --multi-line"
+msgstr ""
+
+#: src/reuse/header.py:444
+#, fuzzy
+msgid ""
+"The following files do not have a recognised file extension. Please use --"
+"style, --force-dot-license or --skip-unrecognised:"
 msgstr ""
 "'{path}' heeft geen erkende bestandsextensie; gebruik alstublieft --style of "
 "--explicit-license"
 
-#: src/reuse/header.py:339
+#: src/reuse/header.py:497
+#, python-brace-format
+msgid "Skipped unrecognised file {path}"
+msgstr ""
+
+#: src/reuse/header.py:509
+#, python-brace-format
+msgid "Skipped file '{path}' already containing REUSE information"
+msgstr ""
+
+#: src/reuse/header.py:543
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr "Fout: Kon geen commentaar voor '{path}' creëren"
 
-#: src/reuse/header.py:346
+#: src/reuse/header.py:550
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -309,53 +366,112 @@ msgstr ""
 "Schreef geen nieuwe header."
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/header.py:357
+#: src/reuse/header.py:561
 #, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr "Succesvolle verandering van de header van {path}"
 
-#: src/reuse/header.py:370
+#: src/reuse/header.py:586
 msgid "copyright statement, repeatable"
 msgstr "auteursrechtverklaring (herhaalbaar)"
 
-#: src/reuse/header.py:377
+#: src/reuse/header.py:593
 msgid "SPDX Identifier, repeatable"
 msgstr "SPDX Identificatie (herhaalbaar)"
 
-#: src/reuse/header.py:384
+#: src/reuse/header.py:599
+#, fuzzy
+msgid "file contributor, repeatable"
+msgstr "SPDX Identificatie (herhaalbaar)"
+
+#: src/reuse/header.py:606
 msgid "year of copyright statement, optional"
 msgstr "jaar van auteursrechtverklaring (optie)"
 
-#: src/reuse/header.py:392
+#: src/reuse/header.py:614
 msgid "comment style to use, optional"
 msgstr "te gebruiken commentaarstijl (optie)"
 
-#: src/reuse/header.py:399
+#: src/reuse/header.py:620
+#, fuzzy
+msgid "copyright style to use, optional"
+msgstr "te gebruiken commentaarstijl (optie)"
+
+#: src/reuse/header.py:627
 msgid "name of template to use, optional"
 msgstr "naam van het te gebruiken sjabloon (optie)"
 
-#: src/reuse/header.py:404
+#: src/reuse/header.py:632
 msgid "do not include year in statement"
 msgstr "voeg geen jaar toe aan verklaring"
 
-#: src/reuse/header.py:409
-msgid "place header in path.license instead of path"
-msgstr "plaats header in path.license in plaats van path"
+#: src/reuse/header.py:637
+#, fuzzy
+msgid "merge copyright lines if copyright statements are identical"
+msgstr "jaar van auteursrechtverklaring (optie)"
 
-#: src/reuse/header.py:417
-msgid "option --copyright or --license is required"
+#: src/reuse/header.py:642
+#, fuzzy
+msgid "force single-line comment style, optional"
+msgstr "te gebruiken commentaarstijl (optie)"
+
+#: src/reuse/header.py:647
+#, fuzzy
+msgid "force multi-line comment style, optional"
+msgstr "te gebruiken commentaarstijl (optie)"
+
+#: src/reuse/header.py:657
+msgid "write a .license file instead of a header inside the file"
+msgstr ""
+
+#: src/reuse/header.py:664
+msgid "add headers to all files under specified directories recursively"
+msgstr ""
+
+#: src/reuse/header.py:671
+msgid "do not replace the first header in the file; just add a new one"
+msgstr ""
+
+#: src/reuse/header.py:677
+msgid "skip files with unrecognised comment styles"
+msgstr ""
+
+#: src/reuse/header.py:682
+msgid "skip files that already contain REUSE information"
+msgstr ""
+
+#: src/reuse/header.py:693
+msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
+msgstr ""
+
+#: src/reuse/header.py:700
+#, fuzzy
+msgid "option --contributor, --copyright or --license is required"
 msgstr "de optie --copyright of --license is vereist"
 
-#: src/reuse/header.py:421
+#: src/reuse/header.py:705
 msgid "option --exclude-year and --year are mutually exclusive"
 msgstr "de opties --exclude-year en --year sluiten elkaar uit"
 
-#: src/reuse/header.py:437
+#: src/reuse/header.py:710
+#, fuzzy
+msgid "option --single-line and --multi-line are mutually exclusive"
+msgstr "de opties --exclude-year en --year sluiten elkaar uit"
+
+#: src/reuse/header.py:716
+msgid "--skip-unrecognised has no effect when used together with --style"
+msgstr ""
+
+#: src/reuse/header.py:723
+msgid "--explicit-license has been deprecated in favour of --force-dot-license"
+msgstr ""
+
+#: src/reuse/header.py:767
 #, python-brace-format
 msgid "template {template} could not be found"
 msgstr "sjabloon {template} kon niet worden gevonden"
 
-#: src/reuse/header.py:469
+#: src/reuse/header.py:819
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
@@ -380,181 +496,195 @@ msgstr ""
 msgid "To stop adding licenses, hit RETURN."
 msgstr "Typ RETURN om te stoppen met het toevoegen van licenties."
 
-#: src/reuse/init.py:85
+#: src/reuse/init.py:78
 msgid "Project already initialized"
 msgstr "Project al geïnitialiseerd"
 
-#: src/reuse/init.py:89
+#: src/reuse/init.py:82
 msgid "Initializing project for REUSE."
 msgstr "Project voor REUSE initialiseren."
 
-#: src/reuse/init.py:94
+#: src/reuse/init.py:87
 msgid "What is the name of the project?"
 msgstr "Wat is de naam van het project?"
 
-#: src/reuse/init.py:100
+#: src/reuse/init.py:93
 msgid "What is the internet address of the project?"
 msgstr "Wat is het internetadres van het project?"
 
-#: src/reuse/init.py:106
+#: src/reuse/init.py:99
 msgid "What is the name of the maintainer?"
 msgstr "Wat is de naam van de beheerder?"
 
-#: src/reuse/init.py:112
+#: src/reuse/init.py:105
 msgid "What is the e-mail address of the maintainer?"
 msgstr "Wat is het e-mailadres van de beheerder?"
 
-#: src/reuse/init.py:118
+#: src/reuse/init.py:111
 msgid "All done! Initializing now."
 msgstr "Klaar! Nu aan het initialiseren."
 
-#: src/reuse/init.py:126
+#: src/reuse/init.py:119
 msgid "Downloading {}"
 msgstr "{} aan het downloaden"
 
-#: src/reuse/init.py:131
+#: src/reuse/init.py:124
 msgid "{} already exists"
 msgstr "{} bestaat al"
 
-#: src/reuse/init.py:134
+#: src/reuse/init.py:127
 msgid "Could not download {}"
 msgstr "Kon {} niet downloaden"
 
-#: src/reuse/init.py:139
+#: src/reuse/init.py:132
 msgid "Creating .reuse/dep5"
 msgstr ".reuse/dep5 aan het creëren"
 
-#: src/reuse/init.py:162
+#: src/reuse/init.py:155
 msgid "Initialization complete."
 msgstr "Initialisatie voltooid."
 
-#: src/reuse/lint.py:55
+#: src/reuse/lint.py:27
+msgid "prevents output"
+msgstr ""
+
+#: src/reuse/lint.py:30
+msgid "formats output as JSON"
+msgstr ""
+
+#: src/reuse/lint.py:36
+msgid "formats output as plain text"
+msgstr ""
+
+#: src/reuse/lint.py:52
+msgid "BAD LICENSES"
+msgstr "SLECHTE LICENTIES"
+
+#: src/reuse/lint.py:54 src/reuse/lint.py:83
+msgid "'{}' found in:"
+msgstr "'{}' gevonden in:"
+
+#: src/reuse/lint.py:61
+msgid "DEPRECATED LICENSES"
+msgstr "VEROUDERDE LICENTIES"
+
+#: src/reuse/lint.py:63
+msgid "The following licenses are deprecated by SPDX:"
+msgstr "De volgende licenties zijn verouderd door SPDX:"
+
+#: src/reuse/lint.py:71
+msgid "LICENSES WITHOUT FILE EXTENSION"
+msgstr "LICENTIES ZONDER BESTANDSEXTENSIE"
+
+#: src/reuse/lint.py:73
+msgid "The following licenses have no file extension:"
+msgstr "De volgende licenties hebben geen bestandsextensie:"
+
+#: src/reuse/lint.py:81
+msgid "MISSING LICENSES"
+msgstr "ONTBREKENDE LICENTIES"
+
+#: src/reuse/lint.py:90
+msgid "UNUSED LICENSES"
+msgstr "ONGEBRUIKTE LICENTIES"
+
+#: src/reuse/lint.py:91
+msgid "The following licenses are not used:"
+msgstr "De volgende licenties zijn niet gebruikt:"
+
+#: src/reuse/lint.py:98
+msgid "READ ERRORS"
+msgstr "LEES FOUTEN"
+
+#: src/reuse/lint.py:99
+msgid "Could not read:"
+msgstr "Kon niet lezen:"
+
+#: src/reuse/lint.py:120
+msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
+msgstr "AUTEURSRECHT- EN LICENTIE-INFORMATIE ONTBREEKT"
+
+#: src/reuse/lint.py:126
+msgid "The following files have no copyright and licensing information:"
+msgstr ""
+"De volgende bestanden bevatten geen auteursrecht- en licentie-informatie:"
+
+#: src/reuse/lint.py:137
+msgid "The following files have no copyright information:"
+msgstr "De volgende bestanden hebben geen auteursrechtinformatie:"
+
+#: src/reuse/lint.py:146
+msgid "The following files have no licensing information:"
+msgstr "De volgende bestanden bevatten geen licentie-informatie:"
+
+#: src/reuse/lint.py:154
+msgid "SUMMARY"
+msgstr "SAMENVATTING"
+
+#: src/reuse/lint.py:159
+msgid "Bad licenses:"
+msgstr "Slechte licenties:"
+
+#: src/reuse/lint.py:160
+msgid "Deprecated licenses:"
+msgstr "Verouderde licenties:"
+
+#: src/reuse/lint.py:161
+msgid "Licenses without file extension:"
+msgstr "Licenties zonder bestandsextensie:"
+
+#: src/reuse/lint.py:164
+msgid "Missing licenses:"
+msgstr "Ontbrekende licenties:"
+
+#: src/reuse/lint.py:165
+msgid "Unused licenses:"
+msgstr "Ongebruikte licenties:"
+
+#: src/reuse/lint.py:166
+msgid "Used licenses:"
+msgstr "Gebruikte licenties:"
+
+#: src/reuse/lint.py:167
+#, fuzzy
+msgid "Read errors:"
+msgstr "Lees fouten: {count}"
+
+#: src/reuse/lint.py:169
+#, fuzzy
+msgid "files with copyright information:"
+msgstr "Bestanden met auteursrechtinformatie: {count} / {total}"
+
+#: src/reuse/lint.py:173
+#, fuzzy
+msgid "files with license information:"
+msgstr "Bestanden met licentie-informatie: {count} / {total}"
+
+#: src/reuse/lint.py:190
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr ""
 "Gefeliciteerd! Uw project leeft nu versie {} van de REUSE-specificatie na :-)"
 
-#: src/reuse/lint.py:62
+#: src/reuse/lint.py:197
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
-msgstr "Helaas leeft uw project versie {} van de REUSE-specificatie niet na :-("
-
-#: src/reuse/lint.py:79
-msgid "BAD LICENSES"
-msgstr "SLECHTE LICENTIES"
-
-#: src/reuse/lint.py:83 src/reuse/lint.py:148
-msgid "'{}' found in:"
-msgstr "'{}' gevonden in:"
-
-#: src/reuse/lint.py:101
-msgid "DEPRECATED LICENSES"
-msgstr "VEROUDERDE LICENTIES"
-
-#: src/reuse/lint.py:103
-msgid "The following licenses are deprecated by SPDX:"
-msgstr "De volgende licenties zijn verouderd door SPDX:"
-
-#: src/reuse/lint.py:121
-msgid "LICENSES WITHOUT FILE EXTENSION"
-msgstr "LICENTIES ZONDER BESTANDSEXTENSIE"
-
-#: src/reuse/lint.py:123
-msgid "The following licenses have no file extension:"
-msgstr "De volgende licenties hebben geen bestandsextensie:"
-
-#: src/reuse/lint.py:143
-msgid "MISSING LICENSES"
-msgstr "ONTBREKENDE LICENTIES"
-
-#: src/reuse/lint.py:166
-msgid "UNUSED LICENSES"
-msgstr "ONGEBRUIKTE LICENTIES"
-
-#: src/reuse/lint.py:168
-msgid "The following licenses are not used:"
-msgstr "De volgende licenties zijn niet gebruikt:"
-
-#: src/reuse/lint.py:184
-msgid "READ ERRORS"
-msgstr "LEES FOUTEN"
-
-#: src/reuse/lint.py:186
-msgid "Could not read:"
-msgstr "Kon niet lezen:"
-
-#: src/reuse/lint.py:209
-msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
-msgstr "AUTEURSRECHT- EN LICENTIE-INFORMATIE ONTBREEKT"
-
-#: src/reuse/lint.py:214
-msgid "The following files have no copyright and licensing information:"
 msgstr ""
-"De volgende bestanden bevatten geen auteursrecht- en licentie-informatie:"
+"Helaas leeft uw project versie {} van de REUSE-specificatie niet na :-("
 
-#: src/reuse/lint.py:223
-msgid "The following files have no copyright information:"
-msgstr "De volgende bestanden hebben geen auteursrechtinformatie:"
+#: src/reuse/project.py:77
+msgid ""
+"project is not a VCS repository or required VCS software is not installed"
+msgstr ""
 
-#: src/reuse/lint.py:229
-msgid "The following files have no licensing information:"
-msgstr "De volgende bestanden bevatten geen licentie-informatie:"
-
-#: src/reuse/lint.py:243
-msgid "SUMMARY"
-msgstr "SAMENVATTING"
-
-#: src/reuse/lint.py:249
-msgid "Bad licenses:"
-msgstr "Slechte licenties:"
-
-#: src/reuse/lint.py:258
-msgid "Deprecated licenses:"
-msgstr "Verouderde licenties:"
-
-#: src/reuse/lint.py:267
-msgid "Licenses without file extension:"
-msgstr "Licenties zonder bestandsextensie:"
-
-#: src/reuse/lint.py:276
-msgid "Missing licenses:"
-msgstr "Ontbrekende licenties:"
-
-#: src/reuse/lint.py:285
-msgid "Unused licenses:"
-msgstr "Ongebruikte licenties:"
-
-#: src/reuse/lint.py:294
-msgid "Used licenses:"
-msgstr "Gebruikte licenties:"
-
-#: src/reuse/lint.py:303
-#, python-brace-format
-msgid "Read errors: {count}"
-msgstr "Lees fouten: {count}"
-
-#: src/reuse/lint.py:308
-#, python-brace-format
-msgid "Files with copyright information: {count} / {total}"
-msgstr "Bestanden met auteursrechtinformatie: {count} / {total}"
-
-#: src/reuse/lint.py:317
-#, python-brace-format
-msgid "Files with license information: {count} / {total}"
-msgstr "Bestanden met licentie-informatie: {count} / {total}"
-
-#: src/reuse/project.py:59
-msgid "could not find Git"
-msgstr "kon Git niet vinden"
-
-#: src/reuse/project.py:133
+#: src/reuse/project.py:184
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' valt onder .reuse/dep5"
 
-#: src/reuse/project.py:145
+#: src/reuse/project.py:217
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -562,22 +692,37 @@ msgstr ""
 "'{path}' bevat een SPDX-uitdrukking die niet geparsed kan worden; sla het "
 "bestand over"
 
-#: src/reuse/project.py:231
+#: src/reuse/project.py:226
+#, python-brace-format
+msgid ""
+"Copyright and licensing information for '{original_path}' has been found in "
+"both '{path}' and in the DEP5 file located at '{dep5_path}'. The information "
+"for these two sources has been aggregated. In the future this behaviour will "
+"change, and you will need to explicitly enable aggregation. See <https://"
+"github.com/fsfe/reuse-tool/issues/779>. You need do nothing yet. Run with `--"
+"suppress-deprecation` to hide this warning."
+msgstr ""
+
+#: src/reuse/project.py:313
 msgid ".reuse/dep5 has syntax errors"
 msgstr ".reuse/dep5 kent syntaxfouten"
 
-#: src/reuse/project.py:257
+#: src/reuse/project.py:315
+msgid ".reuse/dep5 could not be parsed as utf-8"
+msgstr ""
+
+#: src/reuse/project.py:341
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "identificatie van '{path}' bepalen"
 
-#: src/reuse/project.py:265
+#: src/reuse/project.py:349
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} heeft geen bestandsextensie"
 
 # Niet helemaal duidelijk hoe resolving hier wordt bedoeld.
-#: src/reuse/project.py:275
+#: src/reuse/project.py:359
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -590,7 +735,7 @@ msgstr ""
 "die gevonden kan worden op <https://spdx.org/licenses/> of dat deze begint "
 "met 'LicenseRef-' en dat deze een bestandsextensie heeft."
 
-#: src/reuse/project.py:287
+#: src/reuse/project.py:371
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -598,62 +743,98 @@ msgstr ""
 "{identifier} is de SPDX Licentie Identificatie van zowel {path} als "
 "{other_path}"
 
-#: src/reuse/report.py:206
+#: src/reuse/report.py:263
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Kon '{path}' niet lezen"
 
-#: src/reuse/report.py:213
+#: src/reuse/report.py:270
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Onverwachte fout vond plaats tijdens het parsen van '{path}'"
 
 #: src/reuse/spdx.py:32
-#, python-brace-format
-msgid "'{path}' does not end with .spdx"
-msgstr "'{path}' eindigt niet met .spdx"
+msgid ""
+"populate the LicenseConcluded field; note that reuse cannot guarantee the "
+"field is accurate"
+msgstr ""
 
-#: /usr/lib64/python3.5/argparse.py:291 /usr/lib64/python3.6/argparse.py:295
-#: /usr/lib64/python3.7/argparse.py:297 /usr/lib64/python3.8/argparse.py:295
+#: src/reuse/spdx.py:39
+msgid "name of the person signing off on the SPDX report"
+msgstr ""
+
+#: src/reuse/spdx.py:44
+msgid "name of the organization signing off on the SPDX report"
+msgstr ""
+
+#: src/reuse/spdx.py:60
+msgid ""
+"error: --creator-person=NAME or --creator-organization=NAME required when --"
+"add-license-concluded is provided"
+msgstr ""
+
+#: src/reuse/spdx.py:75
+#, python-brace-format
+msgid ""
+"'{path}' does not match a common SPDX file pattern. Find the suggested "
+"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
+"standard-data-format-requirements"
+msgstr ""
+
+#: /usr/lib64/python3.10/argparse.py:296 /usr/lib64/python3.11/argparse.py:299
+#: /usr/lib64/python3.6/argparse.py:295 /usr/lib64/python3.7/argparse.py:297
+#: /usr/lib64/python3.8/argparse.py:295 /usr/lib64/python3.9/argparse.py:296
 msgid "usage: "
 msgstr "gebruik: "
 
-#: /usr/lib64/python3.5/argparse.py:822 /usr/lib64/python3.6/argparse.py:830
-#: /usr/lib64/python3.7/argparse.py:845 /usr/lib64/python3.8/argparse.py:846
+#: /usr/lib64/python3.10/argparse.py:868 /usr/lib64/python3.11/argparse.py:882
+#: /usr/lib64/python3.6/argparse.py:830 /usr/lib64/python3.7/argparse.py:845
+#: /usr/lib64/python3.8/argparse.py:846 /usr/lib64/python3.9/argparse.py:861
 msgid ".__call__() not defined"
 msgstr ".__call__() is niet gedefinieerd"
 
-#: /usr/lib64/python3.5/argparse.py:1119 /usr/lib64/python3.6/argparse.py:1127
+#: /usr/lib64/python3.10/argparse.py:1211
+#: /usr/lib64/python3.11/argparse.py:1231 /usr/lib64/python3.6/argparse.py:1127
 #: /usr/lib64/python3.7/argparse.py:1148 /usr/lib64/python3.8/argparse.py:1149
+#: /usr/lib64/python3.9/argparse.py:1204
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr "onbekende parser %(parser_name)r (keuzes: %(choices)s)"
 
-#: /usr/lib64/python3.5/argparse.py:1173 /usr/lib64/python3.6/argparse.py:1181
+#: /usr/lib64/python3.10/argparse.py:1271
+#: /usr/lib64/python3.11/argparse.py:1291 /usr/lib64/python3.6/argparse.py:1181
 #: /usr/lib64/python3.7/argparse.py:1202 /usr/lib64/python3.8/argparse.py:1209
+#: /usr/lib64/python3.9/argparse.py:1264
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr "argument \"-\" met mode %r"
 
-#: /usr/lib64/python3.5/argparse.py:1181 /usr/lib64/python3.6/argparse.py:1189
-#: /usr/lib64/python3.7/argparse.py:1210
+#: /usr/lib64/python3.10/argparse.py:1280
+#: /usr/lib64/python3.11/argparse.py:1300 /usr/lib64/python3.8/argparse.py:1218
+#: /usr/lib64/python3.9/argparse.py:1273
 #, python-format
-msgid "can't open '%s': %s"
-msgstr "kan '%s' niet openen: %s"
+msgid "can't open '%(filename)s': %(error)s"
+msgstr "kan '%(filename)s' niet openen: %(error)s"
 
-#: /usr/lib64/python3.5/argparse.py:1385 /usr/lib64/python3.6/argparse.py:1393
+#: /usr/lib64/python3.10/argparse.py:1489
+#: /usr/lib64/python3.11/argparse.py:1509 /usr/lib64/python3.6/argparse.py:1393
 #: /usr/lib64/python3.7/argparse.py:1414 /usr/lib64/python3.8/argparse.py:1427
+#: /usr/lib64/python3.9/argparse.py:1482
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr "kan acties niet samenvoegen - twee groepen delen de naam %r"
 
-#: /usr/lib64/python3.5/argparse.py:1423 /usr/lib64/python3.6/argparse.py:1431
+#: /usr/lib64/python3.10/argparse.py:1527
+#: /usr/lib64/python3.11/argparse.py:1547 /usr/lib64/python3.6/argparse.py:1431
 #: /usr/lib64/python3.7/argparse.py:1452 /usr/lib64/python3.8/argparse.py:1465
+#: /usr/lib64/python3.9/argparse.py:1520
 msgid "'required' is an invalid argument for positionals"
 msgstr "'required' is een ongeldig argument voor positionele argumenten"
 
-#: /usr/lib64/python3.5/argparse.py:1445 /usr/lib64/python3.6/argparse.py:1453
+#: /usr/lib64/python3.10/argparse.py:1549
+#: /usr/lib64/python3.11/argparse.py:1569 /usr/lib64/python3.6/argparse.py:1453
 #: /usr/lib64/python3.7/argparse.py:1474 /usr/lib64/python3.8/argparse.py:1487
+#: /usr/lib64/python3.9/argparse.py:1542
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
@@ -662,148 +843,226 @@ msgstr ""
 "ongeldige optiestring %(option)r: moet beginnen met een karakter "
 "%(prefix_chars)r"
 
-#: /usr/lib64/python3.5/argparse.py:1465 /usr/lib64/python3.6/argparse.py:1473
+#: /usr/lib64/python3.10/argparse.py:1567
+#: /usr/lib64/python3.11/argparse.py:1587 /usr/lib64/python3.6/argparse.py:1473
 #: /usr/lib64/python3.7/argparse.py:1494 /usr/lib64/python3.8/argparse.py:1507
+#: /usr/lib64/python3.9/argparse.py:1560
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr "dest= is benodigd voor opties zoals %r"
 
-#: /usr/lib64/python3.5/argparse.py:1482 /usr/lib64/python3.6/argparse.py:1490
+#: /usr/lib64/python3.10/argparse.py:1584
+#: /usr/lib64/python3.11/argparse.py:1604 /usr/lib64/python3.6/argparse.py:1490
 #: /usr/lib64/python3.7/argparse.py:1511 /usr/lib64/python3.8/argparse.py:1524
+#: /usr/lib64/python3.9/argparse.py:1577
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr "ongeldige conflictresolutiewaarde: %r"
 
-#: /usr/lib64/python3.5/argparse.py:1500 /usr/lib64/python3.6/argparse.py:1508
+#: /usr/lib64/python3.10/argparse.py:1602
+#: /usr/lib64/python3.11/argparse.py:1622 /usr/lib64/python3.6/argparse.py:1508
 #: /usr/lib64/python3.7/argparse.py:1529 /usr/lib64/python3.8/argparse.py:1542
+#: /usr/lib64/python3.9/argparse.py:1595
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] "tegenstrijdige optiestring: %s"
 msgstr[1] "tegenstrijdige optiestrings: %s"
 
-#: /usr/lib64/python3.5/argparse.py:1566 /usr/lib64/python3.6/argparse.py:1574
+#: /usr/lib64/python3.10/argparse.py:1668
+#: /usr/lib64/python3.11/argparse.py:1696 /usr/lib64/python3.6/argparse.py:1574
 #: /usr/lib64/python3.7/argparse.py:1595 /usr/lib64/python3.8/argparse.py:1608
+#: /usr/lib64/python3.9/argparse.py:1661
 msgid "mutually exclusive arguments must be optional"
 msgstr "argumenten die elkaar uitsluiten moeten optioneel zijn"
 
-#: /usr/lib64/python3.5/argparse.py:1629 /usr/lib64/python3.6/argparse.py:1637
+#: /usr/lib64/python3.10/argparse.py:1736
+#: /usr/lib64/python3.11/argparse.py:1772 /usr/lib64/python3.6/argparse.py:1637
 #: /usr/lib64/python3.7/argparse.py:1658 /usr/lib64/python3.8/argparse.py:1671
+#: /usr/lib64/python3.9/argparse.py:1728
 msgid "positional arguments"
 msgstr "positionele argumenten"
 
-#: /usr/lib64/python3.5/argparse.py:1630 /usr/lib64/python3.6/argparse.py:1638
-#: /usr/lib64/python3.7/argparse.py:1659 /usr/lib64/python3.8/argparse.py:1672
-msgid "optional arguments"
-msgstr "optionele argumenten"
+#: /usr/lib64/python3.10/argparse.py:1737
+#: /usr/lib64/python3.11/argparse.py:1773
+msgid "options"
+msgstr ""
 
-#: /usr/lib64/python3.5/argparse.py:1645 /usr/lib64/python3.6/argparse.py:1653
+#: /usr/lib64/python3.10/argparse.py:1752
+#: /usr/lib64/python3.11/argparse.py:1788 /usr/lib64/python3.6/argparse.py:1653
 #: /usr/lib64/python3.7/argparse.py:1674 /usr/lib64/python3.8/argparse.py:1687
+#: /usr/lib64/python3.9/argparse.py:1744
 msgid "show this help message and exit"
 msgstr "dit helpbericht laten zien en verlaten"
 
-#: /usr/lib64/python3.5/argparse.py:1676 /usr/lib64/python3.6/argparse.py:1684
+#: /usr/lib64/python3.10/argparse.py:1783
+#: /usr/lib64/python3.11/argparse.py:1819 /usr/lib64/python3.6/argparse.py:1684
 #: /usr/lib64/python3.7/argparse.py:1705 /usr/lib64/python3.8/argparse.py:1718
+#: /usr/lib64/python3.9/argparse.py:1775
 msgid "cannot have multiple subparser arguments"
 msgstr "kan niet meerdere subparser-argumenten hebben"
 
-#: /usr/lib64/python3.5/argparse.py:1728 /usr/lib64/python3.6/argparse.py:1736
-#: /usr/lib64/python3.7/argparse.py:1757 /usr/lib64/python3.7/argparse.py:2263
-#: /usr/lib64/python3.8/argparse.py:1770 /usr/lib64/python3.8/argparse.py:2276
+#: /usr/lib64/python3.10/argparse.py:1835
+#: /usr/lib64/python3.10/argparse.py:2350
+#: /usr/lib64/python3.11/argparse.py:1871
+#: /usr/lib64/python3.11/argparse.py:2384 /usr/lib64/python3.6/argparse.py:1736
+#: /usr/lib64/python3.7/argparse.py:1757 /usr/lib64/python3.7/argparse.py:2264
+#: /usr/lib64/python3.8/argparse.py:1770 /usr/lib64/python3.8/argparse.py:2277
+#: /usr/lib64/python3.9/argparse.py:1827 /usr/lib64/python3.9/argparse.py:2338
 #, python-format
 msgid "unrecognized arguments: %s"
 msgstr "niet erkende argumenten: %s"
 
-#: /usr/lib64/python3.5/argparse.py:1825 /usr/lib64/python3.6/argparse.py:1833
+#: /usr/lib64/python3.10/argparse.py:1936
+#: /usr/lib64/python3.11/argparse.py:1971 /usr/lib64/python3.6/argparse.py:1833
 #: /usr/lib64/python3.7/argparse.py:1854 /usr/lib64/python3.8/argparse.py:1867
+#: /usr/lib64/python3.9/argparse.py:1928
 #, python-format
 msgid "not allowed with argument %s"
 msgstr "niet toegestaan met argument %s"
 
-#: /usr/lib64/python3.5/argparse.py:1871 /usr/lib64/python3.5/argparse.py:1885
-#: /usr/lib64/python3.6/argparse.py:1879 /usr/lib64/python3.6/argparse.py:1893
-#: /usr/lib64/python3.7/argparse.py:1900 /usr/lib64/python3.7/argparse.py:1914
-#: /usr/lib64/python3.8/argparse.py:1913 /usr/lib64/python3.8/argparse.py:1927
+#: /usr/lib64/python3.10/argparse.py:1986
+#: /usr/lib64/python3.10/argparse.py:2000
+#: /usr/lib64/python3.11/argparse.py:2021
+#: /usr/lib64/python3.11/argparse.py:2035 /usr/lib64/python3.6/argparse.py:1879
+#: /usr/lib64/python3.6/argparse.py:1893 /usr/lib64/python3.7/argparse.py:1900
+#: /usr/lib64/python3.7/argparse.py:1914 /usr/lib64/python3.8/argparse.py:1913
+#: /usr/lib64/python3.8/argparse.py:1927 /usr/lib64/python3.9/argparse.py:1974
+#: /usr/lib64/python3.9/argparse.py:1988
 #, python-format
 msgid "ignored explicit argument %r"
 msgstr "expliciet argument %r genegeerd"
 
-#: /usr/lib64/python3.5/argparse.py:1992 /usr/lib64/python3.6/argparse.py:2000
+#: /usr/lib64/python3.10/argparse.py:2107
+#: /usr/lib64/python3.11/argparse.py:2142 /usr/lib64/python3.6/argparse.py:2000
 #: /usr/lib64/python3.7/argparse.py:2021 /usr/lib64/python3.8/argparse.py:2034
+#: /usr/lib64/python3.9/argparse.py:2095
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr "de volgende argumenten zijn verplicht: %s"
 
-#: /usr/lib64/python3.5/argparse.py:2007 /usr/lib64/python3.6/argparse.py:2015
+#: /usr/lib64/python3.10/argparse.py:2122
+#: /usr/lib64/python3.11/argparse.py:2157 /usr/lib64/python3.6/argparse.py:2015
 #: /usr/lib64/python3.7/argparse.py:2036 /usr/lib64/python3.8/argparse.py:2049
+#: /usr/lib64/python3.9/argparse.py:2110
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr "één van de argumenten %s is benodigd"
 
-#: /usr/lib64/python3.5/argparse.py:2050 /usr/lib64/python3.6/argparse.py:2058
+#: /usr/lib64/python3.10/argparse.py:2165
+#: /usr/lib64/python3.11/argparse.py:2199 /usr/lib64/python3.6/argparse.py:2058
 #: /usr/lib64/python3.7/argparse.py:2079 /usr/lib64/python3.8/argparse.py:2092
+#: /usr/lib64/python3.9/argparse.py:2153
 msgid "expected one argument"
 msgstr "verwachtte één argument"
 
-#: /usr/lib64/python3.5/argparse.py:2051 /usr/lib64/python3.6/argparse.py:2059
+#: /usr/lib64/python3.10/argparse.py:2166
+#: /usr/lib64/python3.11/argparse.py:2200 /usr/lib64/python3.6/argparse.py:2059
 #: /usr/lib64/python3.7/argparse.py:2080 /usr/lib64/python3.8/argparse.py:2093
+#: /usr/lib64/python3.9/argparse.py:2154
 msgid "expected at most one argument"
 msgstr "verwachtte maximaal één argument"
 
-#: /usr/lib64/python3.5/argparse.py:2052 /usr/lib64/python3.6/argparse.py:2060
+#: /usr/lib64/python3.10/argparse.py:2167
+#: /usr/lib64/python3.11/argparse.py:2201 /usr/lib64/python3.6/argparse.py:2060
 #: /usr/lib64/python3.7/argparse.py:2081 /usr/lib64/python3.8/argparse.py:2094
+#: /usr/lib64/python3.9/argparse.py:2155
 msgid "expected at least one argument"
 msgstr "verwachtte minimaal één argument"
 
-#: /usr/lib64/python3.5/argparse.py:2054 /usr/lib64/python3.6/argparse.py:2062
-#: /usr/lib64/python3.7/argparse.py:2083 /usr/lib64/python3.8/argparse.py:2096
+#: /usr/lib64/python3.10/argparse.py:2171
+#: /usr/lib64/python3.11/argparse.py:2205 /usr/lib64/python3.6/argparse.py:2062
+#: /usr/lib64/python3.7/argparse.py:2085 /usr/lib64/python3.8/argparse.py:2098
+#: /usr/lib64/python3.9/argparse.py:2159
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] "verwachtte %s argument"
 msgstr[1] "verwachtte %s argumenten"
 
-#: /usr/lib64/python3.5/argparse.py:2114 /usr/lib64/python3.6/argparse.py:2122
-#: /usr/lib64/python3.7/argparse.py:2143 /usr/lib64/python3.8/argparse.py:2156
+#: /usr/lib64/python3.10/argparse.py:2229
+#: /usr/lib64/python3.11/argparse.py:2263 /usr/lib64/python3.6/argparse.py:2122
+#: /usr/lib64/python3.7/argparse.py:2144 /usr/lib64/python3.8/argparse.py:2156
+#: /usr/lib64/python3.9/argparse.py:2217
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr ""
 "dubbelzinnige optie: %(option)s zou ook gelijk kunnen zijn aan %(matches)s"
 
-#: /usr/lib64/python3.5/argparse.py:2177 /usr/lib64/python3.6/argparse.py:2185
-#: /usr/lib64/python3.7/argparse.py:2206 /usr/lib64/python3.8/argparse.py:2219
+#: /usr/lib64/python3.10/argparse.py:2293
+#: /usr/lib64/python3.11/argparse.py:2327 /usr/lib64/python3.6/argparse.py:2185
+#: /usr/lib64/python3.7/argparse.py:2207 /usr/lib64/python3.8/argparse.py:2220
+#: /usr/lib64/python3.9/argparse.py:2281
 #, python-format
 msgid "unexpected option string: %s"
 msgstr "onverwachtte optiestring: %s"
 
-#: /usr/lib64/python3.5/argparse.py:2281 /usr/lib64/python3.6/argparse.py:2289
-#: /usr/lib64/python3.7/argparse.py:2403 /usr/lib64/python3.8/argparse.py:2416
+#: /usr/lib64/python3.10/argparse.py:2490
+#: /usr/lib64/python3.11/argparse.py:2524 /usr/lib64/python3.6/argparse.py:2289
+#: /usr/lib64/python3.7/argparse.py:2404 /usr/lib64/python3.8/argparse.py:2417
+#: /usr/lib64/python3.9/argparse.py:2478
 #, python-format
 msgid "%r is not callable"
 msgstr "%r is niet callable"
 
-#: /usr/lib64/python3.5/argparse.py:2298 /usr/lib64/python3.6/argparse.py:2306
-#: /usr/lib64/python3.7/argparse.py:2420 /usr/lib64/python3.8/argparse.py:2433
+#: /usr/lib64/python3.10/argparse.py:2507
+#: /usr/lib64/python3.11/argparse.py:2541 /usr/lib64/python3.6/argparse.py:2306
+#: /usr/lib64/python3.7/argparse.py:2421 /usr/lib64/python3.8/argparse.py:2434
+#: /usr/lib64/python3.9/argparse.py:2495
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr "ongeldige %(type)s waarde: %(value)r"
 
-#: /usr/lib64/python3.5/argparse.py:2309 /usr/lib64/python3.6/argparse.py:2317
-#: /usr/lib64/python3.7/argparse.py:2431 /usr/lib64/python3.8/argparse.py:2444
+#: /usr/lib64/python3.10/argparse.py:2518
+#: /usr/lib64/python3.11/argparse.py:2552 /usr/lib64/python3.6/argparse.py:2317
+#: /usr/lib64/python3.7/argparse.py:2432 /usr/lib64/python3.8/argparse.py:2445
+#: /usr/lib64/python3.9/argparse.py:2506
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr "ongeldige keuze: %(value)r (kiezen uit %(choices)s)"
 
-#: /usr/lib64/python3.5/argparse.py:2385 /usr/lib64/python3.6/argparse.py:2393
-#: /usr/lib64/python3.7/argparse.py:2507 /usr/lib64/python3.8/argparse.py:2520
+#: /usr/lib64/python3.10/argparse.py:2594
+#: /usr/lib64/python3.11/argparse.py:2628 /usr/lib64/python3.6/argparse.py:2393
+#: /usr/lib64/python3.7/argparse.py:2508 /usr/lib64/python3.8/argparse.py:2521
+#: /usr/lib64/python3.9/argparse.py:2582
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: fout: %(message)s\n"
 
-#: /usr/lib64/python3.8/argparse.py:1218
+#: /usr/lib64/python3.11/argparse.py:776
 #, python-format
-msgid "can't open '%(filename)s': %(error)s"
-msgstr "kan '%(filename)s' niet openen: %(error)s"
+msgid "argument %(argument_name)s: %(message)s"
+msgstr ""
+
+#: /usr/lib64/python3.11/argparse.py:1192
+#, fuzzy, python-format
+msgid "conflicting subparser: %s"
+msgstr "tegenstrijdige optiestring: %s"
+
+#: /usr/lib64/python3.11/argparse.py:1196
+#, fuzzy, python-format
+msgid "conflicting subparser alias: %s"
+msgstr "tegenstrijdige optiestring: %s"
+
+#: /usr/lib64/python3.6/argparse.py:1189 /usr/lib64/python3.7/argparse.py:1210
+#, python-format
+msgid "can't open '%s': %s"
+msgstr "kan '%s' niet openen: %s"
+
+#: /usr/lib64/python3.6/argparse.py:1638 /usr/lib64/python3.7/argparse.py:1659
+#: /usr/lib64/python3.8/argparse.py:1672 /usr/lib64/python3.9/argparse.py:1729
+msgid "optional arguments"
+msgstr "optionele argumenten"
+
+#~ msgid "place header in path.license instead of path"
+#~ msgstr "plaats header in path.license in plaats van path"
+
+#~ msgid "could not find Git"
+#~ msgstr "kon Git niet vinden"
+
+#, python-brace-format
+#~ msgid "'{path}' does not end with .spdx"
+#~ msgstr "'{path}' eindigt niet met .spdx"
 
 #~ msgid "yielding %s"
 #~ msgstr "%s aan het verwerken"
