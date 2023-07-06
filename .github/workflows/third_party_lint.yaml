@@ -1,0 +1,68 @@
+# SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Build reuse-tool and lint 3rd party repositories for which we know that they
+# are reliably REUSE compliant, rather complex, use several annotation
+# strategies, and are quite popular. This shall prevent that we introduce
+# unforeseen and unintended breaking changes.
+
+name: Lint 3rd party repositories
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  third-party-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      # do not abort the whole test job if one combination in the matrix fails
+      fail-fast: false
+      matrix:
+        repo:
+          [
+            "https://github.com/fsfe/reuse-example",
+            "https://github.com/curl/curl",
+          ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install --no-interaction
+      # Clone and lint repositories
+      - name: Clone and lint repositories
+        run:
+          poetry run python .github/workflows/third_party_lint.py --json ${{
+          matrix.repo }}
+
+  third-party-lint-expect-failure:
+    runs-on: ubuntu-latest
+    strategy:
+      # do not abort the whole test job if one combination in the matrix fails
+      fail-fast: false
+      matrix:
+        repo: ["https://github.com/spdx/license-list-XML"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install --no-interaction
+      # Clone and lint repositories
+      - name: Clone and lint repositories
+        run:
+          poetry run python .github/workflows/third_party_lint.py --json
+          --expect-failure ${{ matrix.repo }}

@@ -296,4 +296,4 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

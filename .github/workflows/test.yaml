@@ -99,6 +99,8 @@ jobs:
     container: node:latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install prettier
+        run: npm install prettier@2.7.1
       - name: Run prettier
         run: npx prettier --check .
 

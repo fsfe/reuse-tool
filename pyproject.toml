@@ -57,20 +57,25 @@ binaryornot = "^0.4.4"
 license-expression = ">=1.0"
 python-debian = "^0.1.38,!=0.1.45,!=0.1.46,!=0.1.47"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.test.dependencies]
+pytest = ">=6.0.0"
+pytest-cov = ">=2.10.0"
+
+[tool.poetry.group.docs.dependencies]
 Sphinx = ">=4.0.0"
 recommonmark = "^0.7.1"
 sphinx-autodoc-typehints = "^1.12.0"
 sphinxcontrib-apidoc = "^0.3.0"
 furo = "^2023.3.27"
+
+[tool.poetry.group.dev.dependencies]
 black = ">=20"
 isort = "^5.6.0"
-bump2version = "^1.0.0"
 pre-commit = "^2.9.0"
+bump2version = "^1.0.0"
 pylint = "^2.12.2"
-pytest = ">=6.0.0"
-pytest-cov = ">=2.10.0"
 mypy = "^1.0"
+GitPython = "^3.0"
 
 [tool.poetry.scripts]
 reuse = 'reuse._main:main'
@@ -80,7 +85,7 @@ generate-setup-file = false
 script = "_build.py"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.1.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
