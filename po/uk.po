@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-07-06 08:47+0000\n"
-"PO-Revision-Date: 2023-06-22 19:42+0000\n"
+"PO-Revision-Date: 2023-07-07 18:47+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.18.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: src/reuse/_main.py:34
 msgid ""
@@ -58,7 +58,7 @@ msgstr "увімкнути інструкції налагодження"
 
 #: src/reuse/_main.py:75
 msgid "hide deprecation warnings"
-msgstr ""
+msgstr "сховати попередження про застарілість"
 
 #: src/reuse/_main.py:80
 msgid "do not skip over Git submodules"
@@ -89,7 +89,6 @@ msgid "add copyright and licensing into the header of files"
 msgstr "додати авторські права та ліцензії в заголовок файлів"
 
 #: src/reuse/_main.py:116
-#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -121,13 +120,15 @@ msgstr ""
 "Додайте відомості про авторські права та ліцензування в заголовок одного або "
 "кількох файлів.\n"
 "\n"
-"За допомогою -copyright and --license ви можете вказати, яких власників "
+"За допомогою --copyright і --license ви можете вказати, яких власників "
 "авторських прав і ліцензій слід додати до заголовків цих файлів.\n"
 "\n"
-"Перший коментар буде замінено новим заголовком, який міститиме нові "
-"відомості про авторські права та ліцензії, а також колишні авторські права "
-"та ліцензії. Якщо ви хочете залишити перший коментар без змін, скористайтеся "
-"параметром --no-replace.\n"
+"Використовуючи --contributor, ви можете вказати людей або організацію, які "
+"зробили внесок, але не є власниками авторських прав на дані файли.\n"
+"Перший коментар замінено новим заголовком, що містить нову інформацію про "
+"авторське право та ліцензування, а також попередні авторські права та "
+"ліцензування. Якщо ви хочете залишити перший коментар недоторканим, "
+"використовуйте --no-replace --no-replace.\n"
 "\n"
 "Стиль коментарів має бути визначено автоматично для ваших файлів. Якщо стиль "
 "коментаря не вдалося визначити й не вказано --skip-unrecognised, процес буде "
@@ -148,9 +149,8 @@ msgstr ""
 "буде розміщено у файлі .license."
 
 #: src/reuse/_main.py:159
-#, fuzzy
 msgid "deprecated in favor of annotate"
-msgstr "'reuse addheader' застаріло й замінено на 'reuse annotate'"
+msgstr "вилучено на користь анотації"
 
 #: src/reuse/_main.py:167
 msgid "download a license and place it in the LICENSES/ directory"
@@ -356,9 +356,9 @@ msgid "Skipped unrecognised file {path}"
 msgstr "Пропущений нерозпізнаний файл {path}"
 
 #: src/reuse/header.py:509
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Пропущений файл '{path}', що вже містить інформацію SPDX"
+msgstr "Пропущений файл '{path}' вже містить інформацію REUSE"
 
 #: src/reuse/header.py:543
 #, python-brace-format
@@ -391,9 +391,8 @@ msgid "SPDX Identifier, repeatable"
 msgstr "Ідентифікатор SPDX, повторюваний"
 
 #: src/reuse/header.py:599
-#, fuzzy
 msgid "file contributor, repeatable"
-msgstr "Ідентифікатор SPDX, повторюваний"
+msgstr "співавтор файлу, повторюваний"
 
 #: src/reuse/header.py:606
 msgid "year of copyright statement, optional"
@@ -445,18 +444,16 @@ msgid "skip files with unrecognised comment styles"
 msgstr "пропускати файли з нерозпізнаними стилями коментарів"
 
 #: src/reuse/header.py:682
-#, fuzzy
 msgid "skip files that already contain REUSE information"
-msgstr "пропускати файли, які вже містять інформацію SPDX"
+msgstr "пропускати файли, які вже містять інформацію REUSE"
 
 #: src/reuse/header.py:693
 msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
 msgstr "'reuse addheader' застаріло й замінено на 'reuse annotate'"
 
 #: src/reuse/header.py:700
-#, fuzzy
 msgid "option --contributor, --copyright or --license is required"
-msgstr "необхідний параметр --copyright або --license"
+msgstr "потрібен параметр --contributor, --copyright або --license"
 
 #: src/reuse/header.py:705
 msgid "option --exclude-year and --year are mutually exclusive"
@@ -553,15 +550,15 @@ msgstr "Ініціалізація завершена."
 
 #: src/reuse/lint.py:27
 msgid "prevents output"
-msgstr ""
+msgstr "запобігає виводу"
 
 #: src/reuse/lint.py:30
 msgid "formats output as JSON"
-msgstr ""
+msgstr "форматує вивід як JSON"
 
 #: src/reuse/lint.py:36
 msgid "formats output as plain text"
-msgstr ""
+msgstr "форматує вивід як звичайний текст"
 
 #: src/reuse/lint.py:52
 msgid "BAD LICENSES"
@@ -652,19 +649,16 @@ msgid "Used licenses:"
 msgstr "Використані ліцензії:"
 
 #: src/reuse/lint.py:167
-#, fuzzy
 msgid "Read errors:"
-msgstr "Помилки читання: {count}"
+msgstr "Помилки читання:"
 
 #: src/reuse/lint.py:169
-#, fuzzy
 msgid "files with copyright information:"
-msgstr "Файли з відомостями про авторські права: {count} / {total}"
+msgstr "файли з відомостями про авторські права:"
 
 #: src/reuse/lint.py:173
-#, fuzzy
 msgid "files with license information:"
-msgstr "Файли з відомостями про ліцензію: {count} / {total}"
+msgstr "файли з відомостями про ліцензію:"
 
 #: src/reuse/lint.py:190
 msgid ""
@@ -682,6 +676,8 @@ msgstr "На жаль, ваш проєкт не сумісний із версі
 msgid ""
 "project is not a VCS repository or required VCS software is not installed"
 msgstr ""
+"проект не є репозиторієм VCS або потрібне програмне забезпечення VCS не "
+"встановлено"
 
 #: src/reuse/project.py:184
 #, python-brace-format
@@ -705,6 +701,13 @@ msgid ""
 "github.com/fsfe/reuse-tool/issues/779>. You need do nothing yet. Run with `--"
 "suppress-deprecation` to hide this warning."
 msgstr ""
+"Інформацію про авторське право та ліцензування для '{original_path}' можна "
+"знайти як у '{path}', так і у файлі DEP5, розташованому за адресою "
+"'{dep5_path}'. Інформація для цих двох джерел була агрегована. У майбутньому "
+"ця поведінка зміниться, і вам потрібно буде явно увімкнути агрегування. "
+"Перегляньте <https://github.com/fsfe/reuse-tool/issues/779>. Наразі вам не "
+"потрібно нічого робити. Запустіть програму з `--suppress-deprecation`, щоб "
+"сховати це попередження."
 
 #: src/reuse/project.py:313
 msgid ".reuse/dep5 has syntax errors"
@@ -759,20 +762,24 @@ msgid ""
 "populate the LicenseConcluded field; note that reuse cannot guarantee the "
 "field is accurate"
 msgstr ""
+"заповніть поле LicenseConcluded; зауважте, що повторне використання не може "
+"гарантувати точність поля"
 
 #: src/reuse/spdx.py:39
 msgid "name of the person signing off on the SPDX report"
-msgstr ""
+msgstr "ім'я особи, яка підписує звіт SPDX"
 
 #: src/reuse/spdx.py:44
 msgid "name of the organization signing off on the SPDX report"
-msgstr ""
+msgstr "назва організації, яка підписує звіт SPDX"
 
 #: src/reuse/spdx.py:60
 msgid ""
 "error: --creator-person=NAME or --creator-organization=NAME required when --"
 "add-license-concluded is provided"
 msgstr ""
+"помилка: --creator-person=NAME або --creator-organization=NAME вимагається, "
+"якщо надається --add-license-concluded"
 
 #: src/reuse/spdx.py:75
 #, python-brace-format
