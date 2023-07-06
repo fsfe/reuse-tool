@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-28 00:34+0200\n"
+"POT-Creation-Date: 2023-07-06 08:47+0000\n"
 "PO-Revision-Date: 2023-06-21 09:53+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -785,60 +785,39 @@ msgid ""
 "standard-data-format-requirements"
 msgstr ""
 
-#: /usr/lib64/python3.10/argparse.py:296 /usr/lib64/python3.11/argparse.py:299
-#: /usr/lib64/python3.6/argparse.py:295 /usr/lib64/python3.7/argparse.py:297
-#: /usr/lib64/python3.8/argparse.py:295 /usr/lib64/python3.9/argparse.py:296
+#: /usr/lib/python3.8/argparse.py:307
 msgid "usage: "
 msgstr "Benutzung: "
 
-#: /usr/lib64/python3.10/argparse.py:868 /usr/lib64/python3.11/argparse.py:882
-#: /usr/lib64/python3.6/argparse.py:830 /usr/lib64/python3.7/argparse.py:845
-#: /usr/lib64/python3.8/argparse.py:846 /usr/lib64/python3.9/argparse.py:861
+#: /usr/lib/python3.8/argparse.py:858
 msgid ".__call__() not defined"
 msgstr ".__call__() nicht definiert"
 
-#: /usr/lib64/python3.10/argparse.py:1211
-#: /usr/lib64/python3.11/argparse.py:1231 /usr/lib64/python3.6/argparse.py:1127
-#: /usr/lib64/python3.7/argparse.py:1148 /usr/lib64/python3.8/argparse.py:1149
-#: /usr/lib64/python3.9/argparse.py:1204
+#: /usr/lib/python3.8/argparse.py:1161
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr "unbekannter Parser %(parser_name)r (Auswahl: %(choices)s)"
 
-#: /usr/lib64/python3.10/argparse.py:1271
-#: /usr/lib64/python3.11/argparse.py:1291 /usr/lib64/python3.6/argparse.py:1181
-#: /usr/lib64/python3.7/argparse.py:1202 /usr/lib64/python3.8/argparse.py:1209
-#: /usr/lib64/python3.9/argparse.py:1264
+#: /usr/lib/python3.8/argparse.py:1221
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr "Argument \"-\" mit Modus %r"
 
-#: /usr/lib64/python3.10/argparse.py:1280
-#: /usr/lib64/python3.11/argparse.py:1300 /usr/lib64/python3.8/argparse.py:1218
-#: /usr/lib64/python3.9/argparse.py:1273
+#: /usr/lib/python3.8/argparse.py:1230
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
 msgstr "Kann '%(filename)s' nicht öffnen: %(error)s"
 
-#: /usr/lib64/python3.10/argparse.py:1489
-#: /usr/lib64/python3.11/argparse.py:1509 /usr/lib64/python3.6/argparse.py:1393
-#: /usr/lib64/python3.7/argparse.py:1414 /usr/lib64/python3.8/argparse.py:1427
-#: /usr/lib64/python3.9/argparse.py:1482
+#: /usr/lib/python3.8/argparse.py:1439
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr "Kann Aktionen nicht zusammenführen - zwei Gruppen heißen %r"
 
-#: /usr/lib64/python3.10/argparse.py:1527
-#: /usr/lib64/python3.11/argparse.py:1547 /usr/lib64/python3.6/argparse.py:1431
-#: /usr/lib64/python3.7/argparse.py:1452 /usr/lib64/python3.8/argparse.py:1465
-#: /usr/lib64/python3.9/argparse.py:1520
+#: /usr/lib/python3.8/argparse.py:1477
 msgid "'required' is an invalid argument for positionals"
 msgstr "'required' ist ein ungültiges Argument für Positionsangaben"
 
-#: /usr/lib64/python3.10/argparse.py:1549
-#: /usr/lib64/python3.11/argparse.py:1569 /usr/lib64/python3.6/argparse.py:1453
-#: /usr/lib64/python3.7/argparse.py:1474 /usr/lib64/python3.8/argparse.py:1487
-#: /usr/lib64/python3.9/argparse.py:1542
+#: /usr/lib/python3.8/argparse.py:1499
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
@@ -847,215 +826,127 @@ msgstr ""
 "Ungültige Option %(option)r: Muss mit einem Buchstaben %(prefix_chars)r "
 "beginnen"
 
-#: /usr/lib64/python3.10/argparse.py:1567
-#: /usr/lib64/python3.11/argparse.py:1587 /usr/lib64/python3.6/argparse.py:1473
-#: /usr/lib64/python3.7/argparse.py:1494 /usr/lib64/python3.8/argparse.py:1507
-#: /usr/lib64/python3.9/argparse.py:1560
+#: /usr/lib/python3.8/argparse.py:1519
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr "dest= ist erforderlich für Optionen wie %r"
 
-#: /usr/lib64/python3.10/argparse.py:1584
-#: /usr/lib64/python3.11/argparse.py:1604 /usr/lib64/python3.6/argparse.py:1490
-#: /usr/lib64/python3.7/argparse.py:1511 /usr/lib64/python3.8/argparse.py:1524
-#: /usr/lib64/python3.9/argparse.py:1577
+#: /usr/lib/python3.8/argparse.py:1536
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr "Ungültiger Wert für conflict_resolution: %r"
 
-#: /usr/lib64/python3.10/argparse.py:1602
-#: /usr/lib64/python3.11/argparse.py:1622 /usr/lib64/python3.6/argparse.py:1508
-#: /usr/lib64/python3.7/argparse.py:1529 /usr/lib64/python3.8/argparse.py:1542
-#: /usr/lib64/python3.9/argparse.py:1595
+#: /usr/lib/python3.8/argparse.py:1554
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] "Widersprüchliche Option: %s"
 msgstr[1] "Widersprüchliche Optionen: %s"
 
-#: /usr/lib64/python3.10/argparse.py:1668
-#: /usr/lib64/python3.11/argparse.py:1696 /usr/lib64/python3.6/argparse.py:1574
-#: /usr/lib64/python3.7/argparse.py:1595 /usr/lib64/python3.8/argparse.py:1608
-#: /usr/lib64/python3.9/argparse.py:1661
+#: /usr/lib/python3.8/argparse.py:1620
 msgid "mutually exclusive arguments must be optional"
 msgstr "Sich gegenseitig ausschließende Argumente müssen optional sein"
 
-#: /usr/lib64/python3.10/argparse.py:1736
-#: /usr/lib64/python3.11/argparse.py:1772 /usr/lib64/python3.6/argparse.py:1637
-#: /usr/lib64/python3.7/argparse.py:1658 /usr/lib64/python3.8/argparse.py:1671
-#: /usr/lib64/python3.9/argparse.py:1728
+#: /usr/lib/python3.8/argparse.py:1683
 msgid "positional arguments"
 msgstr "Positions-Argumente"
 
-#: /usr/lib64/python3.10/argparse.py:1737
-#: /usr/lib64/python3.11/argparse.py:1773
-msgid "options"
-msgstr ""
+#: /usr/lib/python3.8/argparse.py:1684
+msgid "optional arguments"
+msgstr "Optionale Argumente"
 
-#: /usr/lib64/python3.10/argparse.py:1752
-#: /usr/lib64/python3.11/argparse.py:1788 /usr/lib64/python3.6/argparse.py:1653
-#: /usr/lib64/python3.7/argparse.py:1674 /usr/lib64/python3.8/argparse.py:1687
-#: /usr/lib64/python3.9/argparse.py:1744
+#: /usr/lib/python3.8/argparse.py:1699
 msgid "show this help message and exit"
 msgstr "zeige diese Hilfsnachricht und beende"
 
-#: /usr/lib64/python3.10/argparse.py:1783
-#: /usr/lib64/python3.11/argparse.py:1819 /usr/lib64/python3.6/argparse.py:1684
-#: /usr/lib64/python3.7/argparse.py:1705 /usr/lib64/python3.8/argparse.py:1718
-#: /usr/lib64/python3.9/argparse.py:1775
+#: /usr/lib/python3.8/argparse.py:1730
 msgid "cannot have multiple subparser arguments"
 msgstr "mehrere Subparser-Argumente sind nicht möglich"
 
-#: /usr/lib64/python3.10/argparse.py:1835
-#: /usr/lib64/python3.10/argparse.py:2350
-#: /usr/lib64/python3.11/argparse.py:1871
-#: /usr/lib64/python3.11/argparse.py:2384 /usr/lib64/python3.6/argparse.py:1736
-#: /usr/lib64/python3.7/argparse.py:1757 /usr/lib64/python3.7/argparse.py:2264
-#: /usr/lib64/python3.8/argparse.py:1770 /usr/lib64/python3.8/argparse.py:2277
-#: /usr/lib64/python3.9/argparse.py:1827 /usr/lib64/python3.9/argparse.py:2338
+#: /usr/lib/python3.8/argparse.py:1782 /usr/lib/python3.8/argparse.py:2289
 #, python-format
 msgid "unrecognized arguments: %s"
 msgstr "unbekannte Argumente: %s"
 
-#: /usr/lib64/python3.10/argparse.py:1936
-#: /usr/lib64/python3.11/argparse.py:1971 /usr/lib64/python3.6/argparse.py:1833
-#: /usr/lib64/python3.7/argparse.py:1854 /usr/lib64/python3.8/argparse.py:1867
-#: /usr/lib64/python3.9/argparse.py:1928
+#: /usr/lib/python3.8/argparse.py:1879
 #, python-format
 msgid "not allowed with argument %s"
 msgstr "nicht erlaubt mit Argument %s"
 
-#: /usr/lib64/python3.10/argparse.py:1986
-#: /usr/lib64/python3.10/argparse.py:2000
-#: /usr/lib64/python3.11/argparse.py:2021
-#: /usr/lib64/python3.11/argparse.py:2035 /usr/lib64/python3.6/argparse.py:1879
-#: /usr/lib64/python3.6/argparse.py:1893 /usr/lib64/python3.7/argparse.py:1900
-#: /usr/lib64/python3.7/argparse.py:1914 /usr/lib64/python3.8/argparse.py:1913
-#: /usr/lib64/python3.8/argparse.py:1927 /usr/lib64/python3.9/argparse.py:1974
-#: /usr/lib64/python3.9/argparse.py:1988
+#: /usr/lib/python3.8/argparse.py:1925 /usr/lib/python3.8/argparse.py:1939
 #, python-format
 msgid "ignored explicit argument %r"
 msgstr "explizites Argument %r ignoriert"
 
-#: /usr/lib64/python3.10/argparse.py:2107
-#: /usr/lib64/python3.11/argparse.py:2142 /usr/lib64/python3.6/argparse.py:2000
-#: /usr/lib64/python3.7/argparse.py:2021 /usr/lib64/python3.8/argparse.py:2034
-#: /usr/lib64/python3.9/argparse.py:2095
+#: /usr/lib/python3.8/argparse.py:2046
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr "die folgenden Argumente sind erforderlich: %s"
 
-#: /usr/lib64/python3.10/argparse.py:2122
-#: /usr/lib64/python3.11/argparse.py:2157 /usr/lib64/python3.6/argparse.py:2015
-#: /usr/lib64/python3.7/argparse.py:2036 /usr/lib64/python3.8/argparse.py:2049
-#: /usr/lib64/python3.9/argparse.py:2110
+#: /usr/lib/python3.8/argparse.py:2061
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr "eines der Argumente %s ist erforderlich"
 
-#: /usr/lib64/python3.10/argparse.py:2165
-#: /usr/lib64/python3.11/argparse.py:2199 /usr/lib64/python3.6/argparse.py:2058
-#: /usr/lib64/python3.7/argparse.py:2079 /usr/lib64/python3.8/argparse.py:2092
-#: /usr/lib64/python3.9/argparse.py:2153
+#: /usr/lib/python3.8/argparse.py:2104
 msgid "expected one argument"
 msgstr "erwartete ein Argument"
 
-#: /usr/lib64/python3.10/argparse.py:2166
-#: /usr/lib64/python3.11/argparse.py:2200 /usr/lib64/python3.6/argparse.py:2059
-#: /usr/lib64/python3.7/argparse.py:2080 /usr/lib64/python3.8/argparse.py:2093
-#: /usr/lib64/python3.9/argparse.py:2154
+#: /usr/lib/python3.8/argparse.py:2105
 msgid "expected at most one argument"
 msgstr "erwartete höchstens ein Argument"
 
-#: /usr/lib64/python3.10/argparse.py:2167
-#: /usr/lib64/python3.11/argparse.py:2201 /usr/lib64/python3.6/argparse.py:2060
-#: /usr/lib64/python3.7/argparse.py:2081 /usr/lib64/python3.8/argparse.py:2094
-#: /usr/lib64/python3.9/argparse.py:2155
+#: /usr/lib/python3.8/argparse.py:2106
 msgid "expected at least one argument"
 msgstr "erwartete mindestens ein Argument"
 
-#: /usr/lib64/python3.10/argparse.py:2171
-#: /usr/lib64/python3.11/argparse.py:2205 /usr/lib64/python3.6/argparse.py:2062
-#: /usr/lib64/python3.7/argparse.py:2085 /usr/lib64/python3.8/argparse.py:2098
-#: /usr/lib64/python3.9/argparse.py:2159
+#: /usr/lib/python3.8/argparse.py:2110
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] "erwartete %s Argument"
 msgstr[1] "erwartete %s Argumente"
 
-#: /usr/lib64/python3.10/argparse.py:2229
-#: /usr/lib64/python3.11/argparse.py:2263 /usr/lib64/python3.6/argparse.py:2122
-#: /usr/lib64/python3.7/argparse.py:2144 /usr/lib64/python3.8/argparse.py:2156
-#: /usr/lib64/python3.9/argparse.py:2217
+#: /usr/lib/python3.8/argparse.py:2168
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr "mehrdeutige Option: %(option)s könnte %(matches)s bedeuten"
 
-#: /usr/lib64/python3.10/argparse.py:2293
-#: /usr/lib64/python3.11/argparse.py:2327 /usr/lib64/python3.6/argparse.py:2185
-#: /usr/lib64/python3.7/argparse.py:2207 /usr/lib64/python3.8/argparse.py:2220
-#: /usr/lib64/python3.9/argparse.py:2281
+#: /usr/lib/python3.8/argparse.py:2232
 #, python-format
 msgid "unexpected option string: %s"
 msgstr "unerwarteter Options-String: %s"
 
-#: /usr/lib64/python3.10/argparse.py:2490
-#: /usr/lib64/python3.11/argparse.py:2524 /usr/lib64/python3.6/argparse.py:2289
-#: /usr/lib64/python3.7/argparse.py:2404 /usr/lib64/python3.8/argparse.py:2417
-#: /usr/lib64/python3.9/argparse.py:2478
+#: /usr/lib/python3.8/argparse.py:2429
 #, python-format
 msgid "%r is not callable"
 msgstr "%r ist nicht aufrufbar"
 
-#: /usr/lib64/python3.10/argparse.py:2507
-#: /usr/lib64/python3.11/argparse.py:2541 /usr/lib64/python3.6/argparse.py:2306
-#: /usr/lib64/python3.7/argparse.py:2421 /usr/lib64/python3.8/argparse.py:2434
-#: /usr/lib64/python3.9/argparse.py:2495
+#: /usr/lib/python3.8/argparse.py:2446
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr "ungültiger %(type)s Wert: %(value)r"
 
-#: /usr/lib64/python3.10/argparse.py:2518
-#: /usr/lib64/python3.11/argparse.py:2552 /usr/lib64/python3.6/argparse.py:2317
-#: /usr/lib64/python3.7/argparse.py:2432 /usr/lib64/python3.8/argparse.py:2445
-#: /usr/lib64/python3.9/argparse.py:2506
+#: /usr/lib/python3.8/argparse.py:2457
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr "ungültige Auswahl: %(value)r (wähle von %(choices)s)"
 
-#: /usr/lib64/python3.10/argparse.py:2594
-#: /usr/lib64/python3.11/argparse.py:2628 /usr/lib64/python3.6/argparse.py:2393
-#: /usr/lib64/python3.7/argparse.py:2508 /usr/lib64/python3.8/argparse.py:2521
-#: /usr/lib64/python3.9/argparse.py:2582
+#: /usr/lib/python3.8/argparse.py:2533
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: Fehler: %(message)s\n"
 
-#: /usr/lib64/python3.11/argparse.py:776
-#, python-format
-msgid "argument %(argument_name)s: %(message)s"
-msgstr ""
+#, fuzzy
+#~ msgid "conflicting subparser: %s"
+#~ msgstr "Widersprüchliche Option: %s"
 
-#: /usr/lib64/python3.11/argparse.py:1192
-#, fuzzy, python-format
-msgid "conflicting subparser: %s"
-msgstr "Widersprüchliche Option: %s"
+#, fuzzy
+#~ msgid "conflicting subparser alias: %s"
+#~ msgstr "Widersprüchliche Option: %s"
 
-#: /usr/lib64/python3.11/argparse.py:1196
-#, fuzzy, python-format
-msgid "conflicting subparser alias: %s"
-msgstr "Widersprüchliche Option: %s"
-
-#: /usr/lib64/python3.6/argparse.py:1189 /usr/lib64/python3.7/argparse.py:1210
-#, python-format
-msgid "can't open '%s': %s"
-msgstr "Kann '%s' nicht öffnen: %s"
-
-#: /usr/lib64/python3.6/argparse.py:1638 /usr/lib64/python3.7/argparse.py:1659
-#: /usr/lib64/python3.8/argparse.py:1672 /usr/lib64/python3.9/argparse.py:1729
-msgid "optional arguments"
-msgstr "Optionale Argumente"
+#~ msgid "can't open '%s': %s"
+#~ msgstr "Kann '%s' nicht öffnen: %s"
 
 #~ msgid "place header in path.license instead of path"
 #~ msgstr "Speichere Kopfzeilen in path.license anstatt path"
@@ -1063,6 +954,5 @@ msgstr "Optionale Argumente"
 #~ msgid "could not find Git"
 #~ msgstr "konnte Git nicht finden"
 
-#, python-brace-format
 #~ msgid "'{path}' does not end with .spdx"
 #~ msgstr "'{path}' endet nicht mit .spdx"
