@@ -686,6 +686,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ts": CCommentStyle,
     ".tsx": CCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
+    ".typ": CCommentStyle,  # typst files
     ".ui": UncommentableCommentStyle,
     ".v": CCommentStyle,  # V-Lang source code
     ".vala": CCommentStyle,
