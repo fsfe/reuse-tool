@@ -67,9 +67,6 @@ additional license metadata for the Python package. A new `--json` flag has been
 added to the `lint` command, marking the first step towards better integration
 of REUSE output with other tools.
 
-Notably, `reuse.ReuseInfo` has been enhanced with `copy` and `union` methods and
-now stores information about the source from which the information was gathered.
-
 On the changes front, we've bumped the SPDX license list to v3.21 and made
 significant updates to our Sphinx documentation. Please note that Python 3.6 and
 3.7 support has been dropped in this release.
