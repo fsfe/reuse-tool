@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-06 08:47+0000\n"
+"POT-Creation-Date: 2023-07-18 08:51+0000\n"
 "PO-Revision-Date: 2023-07-10 21:48+0000\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
-"Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/"
-"reuse-tool/eo/>\n"
+"Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
+"tool/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -323,7 +323,8 @@ msgstr ""
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use --multi-line"
-msgstr "'{path}' ne subtenas plurliniajn komentojn, bonvolu ne uzi --multi-line"
+msgstr ""
+"'{path}' ne subtenas plurliniajn komentojn, bonvolu ne uzi --multi-line"
 
 #: src/reuse/header.py:444
 #, fuzzy
@@ -331,8 +332,8 @@ msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license or --skip-unrecognised:"
 msgstr ""
-"La sekvaj dosieroj ne havas konatan dosiersufikson. Bonvolu uzi --style, "
-"--force-dot-license aŭ --skip-unrecognised:"
+"La sekvaj dosieroj ne havas konatan dosiersufikson. Bonvolu uzi --style, --"
+"force-dot-license aŭ --skip-unrecognised:"
 
 #: src/reuse/header.py:497
 #, python-brace-format
