@@ -42,6 +42,47 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## 2.1.0 - 2023-07-18
+
+After the yanked 2.0.0 release, we're excited to announce our latest major
+version packed with new features and improvements! We've expanded our file type
+recognition, now including Fennel, CommonJS, Qt .pro, .pri, .qrc, .qss, .ui,
+Textile, Visual Studio Code workspace, Application Resource Bundle, Svelte
+components, AES encrypted files, Jakarta Server Page, Clang format, Browserslist
+config, Prettier config and ignored files, Flutter pubspec.lock, .metadata,
+Terraform and HCL, Typst and more.
+
+We've also added the ability to detect SPDX snippet tags in files and introduced
+additional license metadata for the Python package. A new `--json` flag has been
+added to the `lint` command, marking the first step towards better integration
+of REUSE output with other tools.
+
+Notably, `reuse.ReuseInfo` has been enhanced with `copy` and `union` methods and
+now stores information about the source from which the information was gathered.
+
+On the changes front, we've bumped the SPDX license list to v3.21 and made
+significant updates to our Sphinx documentation. Please note that Python 3.6 and
+3.7 support has been dropped in this release.
+
+We've fixed several issues including automatic generation of Sphinx
+documentation via readthedocs.io and a compatibility issue where reuse could not
+be installed if gettext is not installed.
+
+This update is all about making your experience better. Enjoy adding copyright
+and licensing information to your code!
+
+### Added
+
 - Detect SPDX snippet tags in files. (#699)
 - More file types are recognised:
   - Fennel (`.fnl`) (#638)
@@ -90,7 +131,6 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Removed dependency on setuptools' `pkg_resources` to determine the installed
   version of reuse. (#724)
 - Bumped SPDX license list to v3.21. (#763)
-- Bumped REUSE Spec version to 3.1. (#768)
 - `Project.reuse_info_of` now returns a list of `ReuseInfo` objects instead of a
   single one. This is because the source information is now stored alongside the
   REUSE information. (#787)
