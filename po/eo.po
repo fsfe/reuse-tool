@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-07-06 08:47+0000\n"
-"PO-Revision-Date: 2023-02-16 16:01+0000\n"
-"Last-Translator: Carmen Bianca Bakker <account@carmenbianca.eu>\n"
-"Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/eo/>\n"
+"PO-Revision-Date: 2023-07-10 21:48+0000\n"
+"Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
+"Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: src/reuse/_main.py:34
 msgid ""
@@ -54,7 +54,7 @@ msgstr "ŝalti sencimigajn ordonojn"
 
 #: src/reuse/_main.py:75
 msgid "hide deprecation warnings"
-msgstr ""
+msgstr "kaŝi avertojn de evitindaĵoj"
 
 #: src/reuse/_main.py:80
 msgid "do not skip over Git submodules"
@@ -63,7 +63,7 @@ msgstr "ne preterpasi Git-submodulojn"
 #: src/reuse/_main.py:85
 #, fuzzy
 msgid "do not skip over Meson subprojects"
-msgstr "ne preterpasi Git-submodulojn"
+msgstr "ne preterpasi Meson-subprojektojn"
 
 #: src/reuse/_main.py:90
 msgid "do not use multiprocessing"
@@ -137,7 +137,7 @@ msgstr ""
 
 #: src/reuse/_main.py:159
 msgid "deprecated in favor of annotate"
-msgstr ""
+msgstr "evitindigita favore al annotate"
 
 #: src/reuse/_main.py:167
 msgid "download a license and place it in the LICENSES/ directory"
@@ -218,7 +218,7 @@ msgstr "presi la pecoliston de la projekto en SPDX-formo"
 
 #: src/reuse/_main.py:239
 msgid "list all supported SPDX licenses"
-msgstr ""
+msgstr "listigi ĉiujn subtenitajn SPDX-permesilojn"
 
 #: src/reuse/_util.py:342
 #, python-brace-format
@@ -259,7 +259,7 @@ msgstr "'{}' ne estas valida SPDX Permesila Identigilo."
 
 #: src/reuse/_util.py:551
 msgid "Did you mean:"
-msgstr ""
+msgstr "Ĉu vi intencis:"
 
 #: src/reuse/_util.py:558
 msgid ""
@@ -297,7 +297,7 @@ msgstr "Sukceses elŝutis {spdx_identifier}."
 
 #: src/reuse/download.py:134
 msgid "--output has no effect when used together with --all"
-msgstr ""
+msgstr "--output faras nenion kiam --all ankaŭ uziĝas"
 
 #: src/reuse/download.py:138
 msgid "the following arguments are required: license"
@@ -317,12 +317,13 @@ msgid ""
 "'{path}' does not support single-line comments, please do not use --single-"
 "line"
 msgstr ""
+"'{path}' ne subtenas unuopliniajn komentojn, bonvolu ne uzi --single-line"
 
 #: src/reuse/header.py:421
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use --multi-line"
-msgstr ""
+msgstr "'{path}' ne subtenas plurliniajn komentojn, bonvolu ne uzi --multi-line"
 
 #: src/reuse/header.py:444
 #, fuzzy
@@ -330,18 +331,18 @@ msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license or --skip-unrecognised:"
 msgstr ""
-"'{path}' ne havas konatan dosiersufikson, bonvolu uzi --style aŭ --explicit-"
-"license"
+"La sekvaj dosieroj ne havas konatan dosiersufikson. Bonvolu uzi --style, "
+"--force-dot-license aŭ --skip-unrecognised:"
 
 #: src/reuse/header.py:497
 #, python-brace-format
 msgid "Skipped unrecognised file {path}"
-msgstr ""
+msgstr "Preterpasis nekonatan dosieron {path}"
 
 #: src/reuse/header.py:509
 #, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr ""
+msgstr "Preterpasis dosieron '{path}' kiu jam enhavas REUSE-informojn"
 
 #: src/reuse/header.py:543
 #, python-brace-format
