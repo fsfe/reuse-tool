@@ -76,7 +76,7 @@ try:
     # The full version, including alpha/beta/rc tags.
     release = get_version("reuse")
 except PackageNotFoundError:
-    release = "2.0.0"
+    release = "2.1.0"
 
 # The short X.Y.Z version.
 version = ".".join(release.split(".")[:3])
