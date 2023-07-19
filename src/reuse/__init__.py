@@ -58,6 +58,8 @@ _IGNORE_DIR_PATTERNS = [
     re.compile(r"^\.reuse$"),
 ]
 
+_IGNORE_HIDDEN_PATTERN = re.compile(r"^\..+$")
+
 _IGNORE_MESON_PARENT_DIR_PATTERNS = [
     re.compile(r"^subprojects$"),
 ]

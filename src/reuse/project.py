@@ -24,6 +24,7 @@ from license_expression import ExpressionError
 from . import (
     _IGNORE_DIR_PATTERNS,
     _IGNORE_FILE_PATTERNS,
+    _IGNORE_HIDDEN_PATTERN,
     _IGNORE_MESON_PARENT_DIR_PATTERNS,
     IdentifierNotFound,
     ReuseInfo,
@@ -62,6 +63,8 @@ class Project:
         root: StrPath,
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
+        exclude_hidden_files: bool = False,
+        exclude_hidden_dirs: bool = False,
     ):
         self._root = Path(root)
         if not self._root.is_dir():
@@ -265,9 +268,15 @@ class Project:
             for pattern in _IGNORE_FILE_PATTERNS:
                 if pattern.match(name):
                     return True
+            if self.exclude_hidden_files:
+                if _IGNORE_HIDDEN_PATTERN.match(name):
+                    return True
         elif path.is_dir():
             for pattern in _IGNORE_DIR_PATTERNS:
                 if pattern.match(name):
+                    return True
+            if self.exclude_hidden_dirs:
+                if _IGNORE_HIDDEN_PATTERN.match(name):
                     return True
             if not self.include_meson_subprojects:
                 for pattern in _IGNORE_MESON_PARENT_DIR_PATTERNS:

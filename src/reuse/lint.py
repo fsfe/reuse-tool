@@ -30,6 +30,9 @@ def add_arguments(parser: ArgumentParser) -> None:
         "-j", "--json", action="store_true", help=_("formats output as JSON")
     )
     mutex_group.add_argument(
+        "--ignore-hidden-files", action="store_true", help=_("ignore hidden files")
+    )
+    mutex_group.add_argument(
         "-p",
         "--plain",
         action="store_true",

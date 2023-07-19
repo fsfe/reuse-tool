@@ -85,6 +85,16 @@ def parser() -> argparse.ArgumentParser:
         help=_("do not skip over Meson subprojects"),
     )
     parser.add_argument(
+        "--exclude-hidden-dirs",
+        action="store_true",
+        help=_("skip hidden directories"),
+    )
+    parser.add_argument(
+        "--exclude-hidden-files",
+        action="store_true",
+        help=_("skip hidden files"),
+    )
+    parser.add_argument(
         "--no-multiprocessing",
         action="store_true",
         help=_("do not use multiprocessing"),
@@ -291,6 +301,8 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
         project = create_project()
     project.include_submodules = parsed_args.include_submodules
     project.include_meson_subprojects = parsed_args.include_meson_subprojects
+    project.exclude_hidden_dirs = parsed_args.exclude_hidden_dirs
+    project.exclude_hidden_files = parsed_args.exclude_hidden_files
 
     return parsed_args.func(parsed_args, project, out)
 
