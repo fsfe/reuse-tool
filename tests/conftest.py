@@ -298,7 +298,7 @@ def dep5_copyright():
     with (RESOURCES_DIRECTORY / "fake_repository/.reuse/dep5").open(
         encoding="utf-8"
     ) as fp:
-        return Copyright(fp)
+        return Copyright(fp, strict=False)
 
 
 @pytest.fixture()

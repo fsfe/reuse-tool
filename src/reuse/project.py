@@ -306,7 +306,7 @@ class Project:
             copyright_path = self.root / ".reuse/dep5"
             try:
                 with copyright_path.open(encoding="utf-8") as fp:
-                    self._copyright_val = Copyright(fp)
+                    self._copyright_val = Copyright(fp, strict=False)
             except OSError:
                 _LOGGER.debug("no .reuse/dep5 file, or could not read it")
             except DebianError:
