@@ -10,6 +10,7 @@
 import os
 import sys
 from importlib import import_module
+from operator import itemgetter
 from textwrap import dedent
 
 import pytest
@@ -265,6 +266,100 @@ def test_generate_file_report_to_dict_lint_source_information(fake_repository):
         elif expression["source_type"] == SourceType.FILE_HEADER.value:
             assert expression["source"] == "doc/foo.py"
             assert expression["value"] == "MIT OR 0BSD"
+
+
+def test_strict_dep5_in_file_report(fake_repository):
+    """All copyright information of a strictly formatted dep5 file should be taken
+    into account in the file report. Strictly formatted meaning that there is a
+    single Copyright entry with indentend values.
+    """
+    (fake_repository / ".reuse/dep5").write_text(
+        dedent(
+            """
+            Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+            Upstream-Name: Some project
+            Upstream-Contact: Jane Doe
+            Source: https://example.com/
+
+            Files: doc/*
+            Copyright: 2017 Jane Doe
+                       2018 John Doe
+                       2019 Joey Doe
+            License: CC0-1.0
+            """
+        )
+    )
+    project = Project(fake_repository)
+    report = FileReport.generate(
+        project,
+        "doc/index.rst",
+    )
+    result = report.to_dict_lint()
+    sorted_copyrights = sorted(result["copyrights"], key=itemgetter("value"))
+    assert sorted_copyrights == [
+        {
+            "source": ".reuse/dep5",
+            "source_type": "dep5",
+            "value": "2017 Jane Doe",
+        },
+        {
+            "source": ".reuse/dep5",
+            "source_type": "dep5",
+            "value": "2018 John Doe",
+        },
+        {
+            "source": ".reuse/dep5",
+            "source_type": "dep5",
+            "value": "2019 Joey Doe",
+        },
+    ]
+
+
+def test_non_strict_dep5_in_file_report(fake_repository):
+    """All copyright information of a non-strictly formatted dep5 file should be
+    taken into account in the file report. Non-strictly formatted meaning that
+    there are multiple Copyright entries.
+    """
+    (fake_repository / ".reuse/dep5").write_text(
+        dedent(
+            """
+            Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+            Upstream-Name: Some project
+            Upstream-Contact: Jane Doe
+            Source: https://example.com/
+
+            Files: doc/*
+            Copyright: 2017 Jane Doe
+            Copyright: 2018 John Doe
+            Copyright: 2019 Joey Doe
+            License: CC0-1.0
+            """
+        )
+    )
+    project = Project(fake_repository)
+    report = FileReport.generate(
+        project,
+        "doc/index.rst",
+    )
+    result = report.to_dict_lint()
+    sorted_copyrights = sorted(result["copyrights"], key=itemgetter("value"))
+    assert sorted_copyrights == [
+        {
+            "source": ".reuse/dep5",
+            "source_type": "dep5",
+            "value": "2017 Jane Doe",
+        },
+        {
+            "source": ".reuse/dep5",
+            "source_type": "dep5",
+            "value": "2018 John Doe",
+        },
+        {
+            "source": ".reuse/dep5",
+            "source_type": "dep5",
+            "value": "2019 Joey Doe",
+        },
+    ]
 
 
 def test_generate_project_report_simple(fake_repository, multiprocessing):
