@@ -98,6 +98,8 @@ class Project:
         self.include_meson_subprojects = (
             include_meson_subprojects and uses_meson
         )
+        self.exclude_hidden_files = exclude_hidden_files
+        self.exclude_hidden_dirs = exclude_hidden_dirs
 
     def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
@@ -264,24 +266,24 @@ class Project:
         name = path.name
         parent_parts = path.parent.parts
         parent_dir = parent_parts[-1] if len(parent_parts) > 0 else ""
+        ignored_file_patterns = _IGNORE_FILE_PATTERNS
+        ignored_dir_patterns = _IGNORE_DIR_PATTERNS
+
+        if self.exclude_hidden_files:
+            ignored_file_patterns.append(_IGNORE_HIDDEN_PATTERN)
+        if self.exclude_hidden_dirs:
+            ignored_dir_patterns.append(_IGNORE_HIDDEN_PATTERN)
+        if not self.include_meson_subprojects:
+            ignored_dir_patterns += _IGNORE_MESON_PARENT_DIR_PATTERNS
+
         if path.is_file():
-            for pattern in _IGNORE_FILE_PATTERNS:
+            for pattern in ignored_file_patterns:
                 if pattern.match(name):
-                    return True
-            if self.exclude_hidden_files:
-                if _IGNORE_HIDDEN_PATTERN.match(name):
                     return True
         elif path.is_dir():
-            for pattern in _IGNORE_DIR_PATTERNS:
+            for pattern in ignored_dir_patterns:
                 if pattern.match(name):
                     return True
-            if self.exclude_hidden_dirs:
-                if _IGNORE_HIDDEN_PATTERN.match(name):
-                    return True
-            if not self.include_meson_subprojects:
-                for pattern in _IGNORE_MESON_PARENT_DIR_PATTERNS:
-                    if pattern.match(parent_dir):
-                        return True
 
         if self.vcs_strategy.is_ignored(path):
             return True
