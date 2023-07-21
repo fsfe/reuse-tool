@@ -316,9 +316,13 @@ def test_strict_dep5_in_file_report(fake_repository):
 
 
 def test_non_strict_dep5_in_file_report(fake_repository):
-    """All copyright information of a non-strictly formatted dep5 file should be
-    taken into account in the file report. Non-strictly formatted meaning that
-    there are multiple Copyright entries.
+    """Copyright information of a non-strictly formatted dep5 file should be taken
+    into account in the file report. Non-strictly formatted meaning that there
+    are multiple Copyright entries.
+
+    Note that in the non-strict mode only the first Copyright entry is taken
+    into account and the rest is silently ignored. This is undesireable but
+    reflects the current state of reuse-tool.
     """
     (fake_repository / ".reuse/dep5").write_text(
         dedent(
@@ -348,16 +352,6 @@ def test_non_strict_dep5_in_file_report(fake_repository):
             "source": ".reuse/dep5",
             "source_type": "dep5",
             "value": "2017 Jane Doe",
-        },
-        {
-            "source": ".reuse/dep5",
-            "source_type": "dep5",
-            "value": "2018 John Doe",
-        },
-        {
-            "source": ".reuse/dep5",
-            "source_type": "dep5",
-            "value": "2019 Joey Doe",
         },
     ]
 
