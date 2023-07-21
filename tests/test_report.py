@@ -269,10 +269,11 @@ def test_generate_file_report_to_dict_lint_source_information(fake_repository):
 
 
 def test_strict_dep5_in_file_report(fake_repository):
-    """All copyright information of a strictly formatted dep5 file should be taken
-    into account in the file report. Strictly formatted meaning that there is a
-    single Copyright entry with indentend values.
+    """All copyright information of a strictly formatted dep5 file should be
+    taken into account in the file report. Strictly formatted meaning that there
+    is a single Copyright entry with indentend values.
     """
+    # pylint: disable=line-too-long
     (fake_repository / ".reuse/dep5").write_text(
         dedent(
             """
@@ -316,14 +317,15 @@ def test_strict_dep5_in_file_report(fake_repository):
 
 
 def test_non_strict_dep5_in_file_report(fake_repository):
-    """Copyright information of a non-strictly formatted dep5 file should be taken
-    into account in the file report. Non-strictly formatted meaning that there
-    are multiple Copyright entries.
+    """Copyright information of a non-strictly formatted dep5 file should be
+    taken into account in the file report. Non-strictly formatted meaning that
+    there are multiple Copyright entries.
 
     Note that in the non-strict mode only the first Copyright entry is taken
     into account and the rest is silently ignored. This is undesireable but
     reflects the current state of reuse-tool.
     """
+    # pylint: disable=line-too-long
     (fake_repository / ".reuse/dep5").write_text(
         dedent(
             """
