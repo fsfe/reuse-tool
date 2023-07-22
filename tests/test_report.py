@@ -10,12 +10,12 @@
 import os
 import sys
 from importlib import import_module
-from operator import itemgetter
 from textwrap import dedent
 
 import pytest
 
 from reuse import SourceType
+from reuse._util import _LICENSING
 from reuse.project import Project
 from reuse.report import FileReport, ProjectReport
 
@@ -270,8 +270,9 @@ def test_generate_file_report_to_dict_lint_source_information(fake_repository):
 
 def test_strict_dep5_in_file_report(fake_repository):
     """All copyright information of a strictly formatted dep5 file should be
-    taken into account in the file report. Strictly formatted meaning that there
-    is a single Copyright entry with indentend values.
+    taken into account in the file report. 'Strictly formatted' here means no
+    syntax errors. Specifically, there shouldn't be any duplicate Copyright
+    tags/fields.
     """
     # pylint: disable=line-too-long
     (fake_repository / ".reuse/dep5").write_text(
@@ -295,35 +296,33 @@ def test_strict_dep5_in_file_report(fake_repository):
         project,
         "doc/index.rst",
     )
-    result = report.to_dict_lint()
-    sorted_copyrights = sorted(result["copyrights"], key=itemgetter("value"))
-    assert sorted_copyrights == [
-        {
-            "source": ".reuse/dep5",
-            "source_type": "dep5",
-            "value": "2017 Jane Doe",
-        },
-        {
-            "source": ".reuse/dep5",
-            "source_type": "dep5",
-            "value": "2018 John Doe",
-        },
-        {
-            "source": ".reuse/dep5",
-            "source_type": "dep5",
-            "value": "2019 Joey Doe",
-        },
-    ]
+    assert len(report.reuse_infos) == 1
+    reuse_info = report.reuse_infos[0]
+    assert reuse_info.spdx_expressions == {_LICENSING.parse("CC0-1.0")}
+    assert reuse_info.copyright_lines == {
+        "2017 Jane Doe",
+        "2018 John Doe",
+        "2019 Joey Doe",
+    }
+    assert reuse_info.source_path == ".reuse/dep5"
+    assert reuse_info.source_type == SourceType.DEP5
 
 
-def test_non_strict_dep5_in_file_report(fake_repository):
-    """Copyright information of a non-strictly formatted dep5 file should be
-    taken into account in the file report. Non-strictly formatted meaning that
-    there are multiple Copyright entries.
+def test_dep5_duplicate_copyright_in_file_report(fake_repository):
+    """Duplicate 'Copyright:' fields (tags) in a DEP5 file is a syntax error.
+    Since python-debian 0.1.47, the parser raises an error on this class of
+    syntax error.
 
-    Note that in the non-strict mode only the first Copyright entry is taken
-    into account and the rest is silently ignored. This is undesireable but
-    reflects the current state of reuse-tool.
+    We suppress that error (by parsing the file 'non-strictly'), because this
+    error is undocumented breaking behaviour.
+
+    Towards that end, verify that no error is raised. As a side effect of
+    parsing non-strictly, only the first Copyright tag is parsed. This is
+    undesireable, but reflects pre-0.1.47 behaviour.
+
+    See also <https://github.com/fsfe/reuse-tool/issues/803>.
+
+    TODO: Expect at least a user-facing warning when this happens.
     """
     # pylint: disable=line-too-long
     (fake_repository / ".reuse/dep5").write_text(
@@ -347,15 +346,12 @@ def test_non_strict_dep5_in_file_report(fake_repository):
         project,
         "doc/index.rst",
     )
-    result = report.to_dict_lint()
-    sorted_copyrights = sorted(result["copyrights"], key=itemgetter("value"))
-    assert sorted_copyrights == [
-        {
-            "source": ".reuse/dep5",
-            "source_type": "dep5",
-            "value": "2017 Jane Doe",
-        },
-    ]
+    assert len(report.reuse_infos) == 1
+    reuse_info = report.reuse_infos[0]
+    assert reuse_info.spdx_expressions == {_LICENSING.parse("CC0-1.0")}
+    assert reuse_info.copyright_lines == {"2017 Jane Doe"}
+    assert reuse_info.source_path == ".reuse/dep5"
+    assert reuse_info.source_type == SourceType.DEP5
 
 
 def test_generate_project_report_simple(fake_repository, multiprocessing):
