@@ -19,9 +19,9 @@ from pathlib import Path, PurePath
 from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
 from uuid import uuid4
 
-from . import __REUSE_version__, __version__
+from . import ReuseInfo, __REUSE_version__, __version__
 from ._util import _LICENSING, StrPath, _checksum
-from .project import Project, ReuseInfo
+from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
 
