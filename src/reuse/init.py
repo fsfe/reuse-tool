@@ -23,7 +23,8 @@ def prompt_licenses(out: IO[str] = sys.stdout) -> List[str]:
     """Prompt the user for a list of licenses."""
     first = _(
         "What license is your project under? "
-        "Provide the SPDX License Identifier."
+        "Provide the SPDX License Identifier. "
+        "See <https://spdx.org/licenses/> for the list."
     )
     multi = _(
         "What other license is your project under? "
