@@ -78,7 +78,13 @@ def format_plain(report: ProjectReport) -> str:
 
         # Missing licenses
         if report.missing_licenses:
-            output.write("# " + _("MISSING LICENSES") + "\n\n")
+            output.write("# " + _("MISSING LICENSES") + "\n")
+            output.write(
+               _(
+                    "The corresponding license txt files "
+                    "were not found in the directory LICENSES"
+               ) + "\n\n"
+            )
             for lic, files in sorted(report.missing_licenses.items()):
                 output.write(_("'{}' found in:").format(lic) + "\n")
                 for file in sorted(files):
