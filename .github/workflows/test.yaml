@@ -138,3 +138,31 @@ jobs:
       - name: Create docs with Sphinx
         run: |
           make docs-ci
+
+  reproducible:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install poetry
+        run: |
+          pip install poetry
+      - name: Build package
+        id: build_1
+        run: |
+          SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) poetry build --format sdist
+          echo "md5sum=$(md5sum dist/reuse*.tar.gz)" >> $GITHUB_OUTPUT
+      - name: Clear dist directory
+        run: |
+          rm -fr dist
+      - name: Build package again
+        id: build_2
+        run: |
+          SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) poetry build --format sdist
+          echo "md5sum=$(md5sum dist/reuse*.tar.gz)" >> $GITHUB_OUTPUT
+      - name: Check that the md5sums are identical
+        run: |
+          [[ "${{ steps.build_1.outputs.md5sum }}" == "${{ steps.build_2.outputs.md5sum }}" ]] && exit 0 || exit 1
