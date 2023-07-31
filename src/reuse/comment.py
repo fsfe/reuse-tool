@@ -13,6 +13,7 @@
 # SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
 # SPDX-FileCopyrightText: 2023 Kevin Meagher
 # SPDX-FileCopyrightText: 2023 Mathias Dannesbo <md@magenta.dk>
+# SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -386,6 +387,24 @@ class JinjaCommentStyle(CommentStyle):
     MULTI_LINE = MultiLineSegments("{#", "", "#}")
 
 
+class JuliaCommentStyle(CommentStyle):
+    """Julia comment style."""
+
+    SHORTHAND = "julia"
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+    MULTI_LINE = MultiLineSegments("#=", "", "=#")
+    SHEBANGS = ["#!"]
+
+    @classmethod
+    def parse_comment(cls, text: str) -> str:
+        try:
+            return cls._parse_comment_multi(text)
+        except CommentParseError:
+            return cls._parse_comment_single(text)
+
+
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
 
@@ -580,6 +599,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".java": CCommentStyle,
     ".jinja": JinjaCommentStyle,
     ".jinja2": JinjaCommentStyle,
+    ".jl": JuliaCommentStyle,
     ".js": CCommentStyle,
     ".json": UncommentableCommentStyle,
     ".jsp": AspxCommentStyle,
