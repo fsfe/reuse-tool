@@ -156,6 +156,7 @@ def parser() -> argparse.ArgumentParser:
         "addheader",
         header.add_arguments,
         header.run,
+        # TRANSLATORS: Do not translate annotate.
         help=_("deprecated in favor of annotate"),
     )
 
