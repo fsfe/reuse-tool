@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Functions for downloading license files from spdx/license-data-list."""
+"""Functions for downloading license files from spdx/license-list-data."""
 
 import errno
 import logging
