@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-18 08:51+0000\n"
+"POT-Creation-Date: 2023-08-14 08:53+0000\n"
 "PO-Revision-Date: 2023-02-18 10:24+0000\n"
 "Last-Translator: \"J. Lavoie\" <j.lavoie@net-c.ca>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -139,15 +139,16 @@ msgstr ""
 "\n"
 "IMPORTANTE: Questo è ancora SPERIMENTALE!"
 
-#: src/reuse/_main.py:159
+#. TRANSLATORS: Do not translate annotate.
+#: src/reuse/_main.py:160
 msgid "deprecated in favor of annotate"
 msgstr ""
 
-#: src/reuse/_main.py:167
+#: src/reuse/_main.py:168
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "scarica una licenza e salvala nella directory LICENSES/"
 
-#: src/reuse/_main.py:170
+#: src/reuse/_main.py:171
 msgid ""
 "Download a license and place it in the LICENSES/ directory.\n"
 "\n"
@@ -173,15 +174,15 @@ msgstr ""
 "\n"
 "Se la directory LICENSES/ non viene trovata, verrà semplicemente creata."
 
-#: src/reuse/_main.py:193
+#: src/reuse/_main.py:194
 msgid "initialize REUSE project"
 msgstr "inizializza il progetto REUSE"
 
-#: src/reuse/_main.py:201
+#: src/reuse/_main.py:202
 msgid "list all non-compliant files"
 msgstr "lista dei file non conformi"
 
-#: src/reuse/_main.py:204
+#: src/reuse/_main.py:205
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -218,11 +219,11 @@ msgstr ""
 "\n"
 "- Tutti i file hanno informazioni valide sul copyright e sulla licenza?"
 
-#: src/reuse/_main.py:231
+#: src/reuse/_main.py:232
 msgid "print the project's bill of materials in SPDX format"
 msgstr "stampa l'elenco dei componenti del progetto in formato SPDX"
 
-#: src/reuse/_main.py:239
+#: src/reuse/_main.py:240
 msgid "list all supported SPDX licenses"
 msgstr ""
 
@@ -480,13 +481,15 @@ msgstr ""
 "l'intestazione"
 
 #: src/reuse/init.py:25
+#, fuzzy
 msgid ""
-"What license is your project under? Provide the SPDX License Identifier."
+"What license is your project under? Provide the SPDX License Identifier. See "
+"<https://spdx.org/licenses/> for the list."
 msgstr ""
 "Sotto quale licenza viene rilasciato il tuo progetto? Indica "
 "l'Identificativo di Licenza SPDX."
 
-#: src/reuse/init.py:29
+#: src/reuse/init.py:30
 msgid ""
 "What other license is your project under? Provide the SPDX License "
 "Identifier."
@@ -494,55 +497,55 @@ msgstr ""
 "Quali altre licenze utilizza il tuo progetto? Indica l'Identificativo di "
 "Licenza SPDX."
 
-#: src/reuse/init.py:40
+#: src/reuse/init.py:41
 msgid "To stop adding licenses, hit RETURN."
 msgstr "Per terminare l'aggiunta di licenze, premi INVIO."
 
-#: src/reuse/init.py:78
+#: src/reuse/init.py:79
 msgid "Project already initialized"
 msgstr "Progetto già inizializzato"
 
-#: src/reuse/init.py:82
+#: src/reuse/init.py:83
 msgid "Initializing project for REUSE."
 msgstr "Inizializzazione del progetto per REUSE."
 
-#: src/reuse/init.py:87
+#: src/reuse/init.py:88
 msgid "What is the name of the project?"
 msgstr "Qual è il nome del progetto?"
 
-#: src/reuse/init.py:93
+#: src/reuse/init.py:94
 msgid "What is the internet address of the project?"
 msgstr "Qual è l'indirizzo Internet del progetto?"
 
-#: src/reuse/init.py:99
+#: src/reuse/init.py:100
 msgid "What is the name of the maintainer?"
 msgstr "Qual è il nome del responsabile del progetto?"
 
-#: src/reuse/init.py:105
+#: src/reuse/init.py:106
 msgid "What is the e-mail address of the maintainer?"
 msgstr "Qual è l'indirizzo e-mail del responsabile del progetto?"
 
-#: src/reuse/init.py:111
+#: src/reuse/init.py:112
 msgid "All done! Initializing now."
 msgstr "Tutto OK! Sto inizializzando."
 
-#: src/reuse/init.py:119
+#: src/reuse/init.py:120
 msgid "Downloading {}"
 msgstr "Scaricamento {}"
 
-#: src/reuse/init.py:124
+#: src/reuse/init.py:125
 msgid "{} already exists"
 msgstr "{} esiste già"
 
-#: src/reuse/init.py:127
+#: src/reuse/init.py:128
 msgid "Could not download {}"
 msgstr "Non è stato possibile scaricare {}"
 
-#: src/reuse/init.py:132
+#: src/reuse/init.py:133
 msgid "Creating .reuse/dep5"
 msgstr "Creazione di .reuse/dep5"
 
-#: src/reuse/init.py:155
+#: src/reuse/init.py:156
 msgid "Initialization complete."
 msgstr "Inizializzazione completa."
 
