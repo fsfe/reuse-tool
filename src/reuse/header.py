@@ -387,11 +387,14 @@ def _get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
     return style
 
 
-def _is_uncommentable(path: Path) -> bool:
+def _is_uncommentable(path: Path, fallback_dot_license: bool) -> bool:
     """Determines if *path* is uncommentable, e.g., the file is a binary or
     registered as an UncommentableCommentStyle.
     """
-    is_uncommentable = _get_comment_style(path) == UncommentableCommentStyle
+    style = _get_comment_style(path)
+    is_uncommentable = style == UncommentableCommentStyle
+    if style is None and fallback_dot_license:
+        is_uncommentable = True
     return is_uncommentable or is_binary(str(path))
 
 
@@ -425,13 +428,16 @@ def _verify_paths_line_handling(
 
 
 def _verify_paths_comment_style(
-    paths: Iterable[Path], parser: ArgumentParser
+        paths: Iterable[Path],
+        parser: ArgumentParser,
+        fallback_dot_license: bool,
 ) -> None:
     unrecognised_files = []
 
     for path in paths:
         style = _get_comment_style(path)
-        not_uncommentable = not _is_uncommentable(path)
+        not_uncommentable = not _is_uncommentable(path,
+                                                  fallback_dot_license)
 
         # TODO: This check is duplicated.
         if style is None and not_uncommentable:
@@ -442,8 +448,8 @@ def _verify_paths_comment_style(
             "{}\n{}".format(
                 _(
                     "The following files do not have a recognised file"
-                    " extension. Please use --style, --force-dot-license or"
-                    " --skip-unrecognised:"
+                    " extension. Please use --style, --force-dot-license,"
+                    " --fallback-dot-license or --skip-unrecognised:"
                 ),
                 "\n".join(str(path) for path in unrecognised_files),
             )
@@ -614,6 +620,11 @@ def add_arguments(parser: ArgumentParser) -> None:
         help=_("comment style to use, optional"),
     )
     parser.add_argument(
+        "--fallback-dot-license",
+        action="store_true",
+        help=_("Write a .license file for unrecognised files"),
+    )
+    parser.add_argument(
         "--copyright-style",
         action="store",
         choices=list(_COPYRIGHT_STYLES.keys()),
@@ -717,6 +728,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
                 " --style"
             )
         )
+
     if args.explicit_license:
         _LOGGER.warning(
             _(
@@ -755,7 +767,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
             force_multi=args.multi_line,
         )
         if not args.skip_unrecognised:
-            _verify_paths_comment_style(paths, args.parser)
+            _verify_paths_comment_style(paths, args.parser, args.fallback_dot_license)
 
     template: Optional[Template] = None
     commented = False
@@ -810,7 +822,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
 
     result = 0
     for path in paths:
-        uncommentable = _is_uncommentable(path)
+        uncommentable = _is_uncommentable(path, args.fallback_dot_license)
         if uncommentable or args.force_dot_license:
             new_path = _determine_license_suffix_path(path)
             if uncommentable:
