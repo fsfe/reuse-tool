@@ -42,7 +42,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
-- `--fallback-dot-license` option added to `annotate` command. (#)
+- `--fallback-dot-license` option added to `annotate` command. (#823)
 
 ### Changed
 
