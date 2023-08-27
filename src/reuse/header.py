@@ -36,7 +36,6 @@ from typing import (
     cast,
 )
 
-from binaryornot.check import is_binary
 from boolean.boolean import ParseError
 from jinja2 import Environment, FileSystemLoader, PackageLoader, Template
 from jinja2.exceptions import TemplateNotFound
@@ -49,6 +48,8 @@ from ._util import (
     StrPath,
     _determine_license_path,
     _determine_license_suffix_path,
+    _get_comment_style,
+    _is_commentable,
     contains_reuse_info,
     detect_line_endings,
     extract_reuse_info,
@@ -57,15 +58,12 @@ from ._util import (
     spdx_identifier,
 )
 from .comment import (
-    EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
-    FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
     NAME_STYLE_MAP,
     CommentCreateError,
     CommentParseError,
     CommentStyle,
     EmptyCommentStyle,
     PythonCommentStyle,
-    UncommentableCommentStyle,
 )
 from .project import Project
 
@@ -377,26 +375,6 @@ def add_new_header(
     return new_text
 
 
-def _get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
-    """Return value of CommentStyle detected for *path* or None."""
-    path = Path(path)
-    style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
-    if style is None:
-        style = cast(
-            Optional[Type[CommentStyle]],
-            EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower()),
-        )
-    return style
-
-
-def _is_uncommentable(path: Path) -> bool:
-    """Determines if *path* is uncommentable, e.g., the file is a binary or
-    registered as an UncommentableCommentStyle.
-    """
-    is_uncommentable = _get_comment_style(path) == UncommentableCommentStyle
-    return is_uncommentable or is_binary(str(path))
-
-
 def _verify_paths_line_handling(
     paths: Iterable[Path],
     parser: ArgumentParser,
@@ -433,10 +411,10 @@ def _verify_paths_comment_style(
 
     for path in paths:
         style = _get_comment_style(path)
-        not_uncommentable = not _is_uncommentable(path)
+        commentable = _is_commentable(path)
 
         # TODO: This check is duplicated.
-        if style is None and not_uncommentable:
+        if style is None and commentable:
             unrecognised_files.append(path)
 
     if unrecognised_files:
@@ -813,7 +791,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
 
     result = 0
     for path in paths:
-        uncommentable = _is_uncommentable(path)
+        uncommentable = not _is_commentable(path)
         if uncommentable or args.force_dot_license:
             new_path = _determine_license_suffix_path(path)
             if uncommentable:

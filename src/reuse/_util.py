@@ -27,15 +27,34 @@ from hashlib import sha1
 from itertools import chain
 from os import PathLike
 from pathlib import Path, PurePath
-from typing import IO, Any, BinaryIO, Dict, Iterator, List, Optional, Set, Union
+from typing import (
+    IO,
+    Any,
+    BinaryIO,
+    Dict,
+    Iterator,
+    List,
+    Optional,
+    Set,
+    Type,
+    Union,
+    cast,
+)
 
+from binaryornot.check import is_binary
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
 from license_expression import ExpressionError, Licensing
 
 from . import ReuseInfo, SourceType
 from ._licenses import ALL_NON_DEPRECATED_MAP
-from .comment import _all_style_classes
+from .comment import (
+    EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
+    FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
+    CommentStyle,
+    UncommentableCommentStyle,
+    _all_style_classes,
+)
 
 # TODO: When removing Python 3.8 support, use PathLike[str]
 StrPath = Union[str, PathLike]
@@ -263,6 +282,26 @@ def _contains_snippet(binary_file: BinaryIO) -> bool:
     if SPDX_SNIPPET_INDICATOR in content:
         return True
     return False
+
+
+def _get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
+    """Return value of CommentStyle detected for *path* or None."""
+    path = Path(path)
+    style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
+    if style is None:
+        style = cast(
+            Optional[Type[CommentStyle]],
+            EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower()),
+        )
+    return style
+
+
+def _is_commentable(path: Path) -> bool:
+    """Determines if *path* is commentable, e.g., the file is a not a binary nor
+    registered as an UncommentableCommentStyle.
+    """
+    is_uncommentable = _get_comment_style(path) == UncommentableCommentStyle
+    return not (is_uncommentable or is_binary(str(path)))
 
 
 def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
