@@ -38,6 +38,7 @@ from ._util import (
     _contains_snippet,
     _copyright_from_dep5,
     _determine_license_path,
+    _is_commentable,
     decoded_text_from_binary,
     extract_reuse_info,
 )
@@ -184,40 +185,48 @@ class Project:
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
 
-        # Search the file for REUSE information.
-        with path.open("rb") as fp:
-            try:
-                # Completely read the file once to search for possible snippets
-                if _contains_snippet(fp):
-                    _LOGGER.debug(f"'{path}' seems to contain a SPDX Snippet")
-                    read_limit = None
-                else:
-                    read_limit = _HEADER_BYTES
-                # Reset read position
-                fp.seek(0)
-                # Scan the file for REUSE info, possible limiting the read
-                # length
-                file_result = extract_reuse_info(
-                    decoded_text_from_binary(fp, size=read_limit)
-                )
-                if file_result.contains_copyright_or_licensing():
-                    if path.suffix == ".license":
-                        source_type = SourceType.DOT_LICENSE
+        if path != Path(original_path) or _is_commentable(path):
+            # Search the file for REUSE information.
+            with path.open("rb") as fp:
+                try:
+                    # Completely read the file once
+                    # to search for possible snippets
+                    if _contains_snippet(fp):
+                        _LOGGER.debug(
+                            f"'{path}' seems to contain an SPDX Snippet"
+                        )
+                        read_limit = None
                     else:
-                        source_type = SourceType.FILE_HEADER
-                    file_result = file_result.copy(
-                        path=self.relative_from_root(original_path).as_posix(),
-                        source_path=self.relative_from_root(path).as_posix(),
-                        source_type=source_type,
+                        read_limit = _HEADER_BYTES
+                    # Reset read position
+                    fp.seek(0)
+                    # Scan the file for REUSE info, possibly limiting the read
+                    # length
+                    file_result = extract_reuse_info(
+                        decoded_text_from_binary(fp, size=read_limit)
                     )
+                    if file_result.contains_copyright_or_licensing():
+                        if path.suffix == ".license":
+                            source_type = SourceType.DOT_LICENSE
+                        else:
+                            source_type = SourceType.FILE_HEADER
+                        file_result = file_result.copy(
+                            path=self.relative_from_root(
+                                original_path
+                            ).as_posix(),
+                            source_path=self.relative_from_root(
+                                path
+                            ).as_posix(),
+                            source_type=source_type,
+                        )
 
-            except (ExpressionError, ParseError):
-                _LOGGER.error(
-                    _(
-                        "'{path}' holds an SPDX expression that cannot be"
-                        " parsed, skipping the file"
-                    ).format(path=path)
-                )
+                except (ExpressionError, ParseError):
+                    _LOGGER.error(
+                        _(
+                            "'{path}' holds an SPDX expression that cannot be"
+                            " parsed, skipping the file"
+                        ).format(path=path)
+                    )
 
         # There is both information in a .dep5 file and in the file header
         if dep5_result.contains_info() and file_result.contains_info():
