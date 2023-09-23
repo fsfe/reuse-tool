@@ -55,7 +55,7 @@ Jinja2 = "^3.0.0"
 binaryornot = "^0.4.4"
 "boolean.py" = ">=3.8"
 license-expression = ">=1.0"
-python-debian = "^0.1.38,!=0.1.45,!=0.1.46,!=0.1.47"
+python-debian = "^0.1.34,!=0.1.45,!=0.1.46,!=0.1.47"
 
 [tool.poetry.group.test.dependencies]
 pytest = ">=6.0.0"

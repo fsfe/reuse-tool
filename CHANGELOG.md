@@ -53,6 +53,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Fixed
 
+- Reduced python-debian minimum version to 0.1.34. (#808)
+
 ### Security
 
 ## 2.1.0 - 2023-07-18
