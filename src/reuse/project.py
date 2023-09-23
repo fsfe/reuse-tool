@@ -185,7 +185,15 @@ class Project:
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
 
-        if path != Path(original_path) or _is_commentable(path):
+        if not _is_commentable(path):
+            _LOGGER.info(
+                _(
+                    "'{path}' was detected as a binary file or its extension is"
+                    " marked as uncommentable; not searching its contents for"
+                    " REUSE information."
+                ).format(path=path)
+            )
+        else:
             # Search the file for REUSE information.
             with path.open("rb") as fp:
                 try:
