@@ -197,6 +197,7 @@ class Project:
             # Search the file for REUSE information.
             with path.open("rb") as fp:
                 try:
+                    read_limit: Optional[int] = _HEADER_BYTES
                     # Completely read the file once
                     # to search for possible snippets
                     if _contains_snippet(fp):
@@ -204,8 +205,6 @@ class Project:
                             f"'{path}' seems to contain an SPDX Snippet"
                         )
                         read_limit = None
-                    else:
-                        read_limit = _HEADER_BYTES
                     # Reset read position
                     fp.seek(0)
                     # Scan the file for REUSE info, possibly limiting the read
@@ -214,10 +213,9 @@ class Project:
                         decoded_text_from_binary(fp, size=read_limit)
                     )
                     if file_result.contains_copyright_or_licensing():
+                        source_type = SourceType.FILE_HEADER
                         if path.suffix == ".license":
                             source_type = SourceType.DOT_LICENSE
-                        else:
-                            source_type = SourceType.FILE_HEADER
                         file_result = file_result.copy(
                             path=self.relative_from_root(
                                 original_path
