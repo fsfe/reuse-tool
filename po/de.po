@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-14 08:53+0000\n"
-"PO-Revision-Date: 2023-06-21 09:53+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"POT-Creation-Date: 2023-07-18 08:51+0000\n"
+"PO-Revision-Date: 2023-07-20 11:05+0000\n"
+"Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "de/>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: src/reuse/_main.py:34
 msgid ""
@@ -63,9 +63,8 @@ msgid "do not skip over Git submodules"
 msgstr "Git-Submodules nicht überspringen"
 
 #: src/reuse/_main.py:85
-#, fuzzy
 msgid "do not skip over Meson subprojects"
-msgstr "Git-Submodules nicht überspringen"
+msgstr "Meson-Teilprojekte nicht überspringen"
 
 #: src/reuse/_main.py:90
 msgid "do not use multiprocessing"
@@ -228,7 +227,7 @@ msgstr "Komponentenliste im SPDX-Format ausgeben"
 
 #: src/reuse/_main.py:240
 msgid "list all supported SPDX licenses"
-msgstr ""
+msgstr "Listet alle unterstützten SPDX-Lizenzen auf"
 
 #: src/reuse/_util.py:342
 #, python-brace-format
@@ -385,9 +384,8 @@ msgid "SPDX Identifier, repeatable"
 msgstr "SPDX-Lizenz-Identifikator, wiederholbar"
 
 #: src/reuse/header.py:599
-#, fuzzy
 msgid "file contributor, repeatable"
-msgstr "SPDX-Lizenz-Identifikator, wiederholbar"
+msgstr "Dateimitwirkender, wiederholbar"
 
 #: src/reuse/header.py:606
 msgid "year of copyright statement, optional"
@@ -450,18 +448,17 @@ msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
 msgstr ""
 
 #: src/reuse/header.py:700
-#, fuzzy
 msgid "option --contributor, --copyright or --license is required"
-msgstr "Option --copyright oder --license ist erforderlich"
+msgstr "Die Option --contributor, --copyright oder --license ist erforderlich"
 
 #: src/reuse/header.py:705
 msgid "option --exclude-year and --year are mutually exclusive"
 msgstr "Die Optionen --exclude-year und --year schließen sich gegenseitig aus"
 
 #: src/reuse/header.py:710
-#, fuzzy
 msgid "option --single-line and --multi-line are mutually exclusive"
-msgstr "Die Optionen --exclude-year und --year schließen sich gegenseitig aus"
+msgstr ""
+"Die Optionen --single-line und --multi-line schließen sich gegenseitig aus"
 
 #: src/reuse/header.py:716
 msgid "--skip-unrecognised has no effect when used together with --style"
