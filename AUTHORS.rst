@@ -66,7 +66,9 @@ Contributors
 
 - Shun Sakai
 
--  Dirk Brömmel
+- Dirk Brömmel
+
+- Robin Vobruba
 
 Translators
 -----------
