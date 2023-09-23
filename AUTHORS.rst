@@ -62,6 +62,8 @@ Contributors
 
 - roberto-red <roberto@redradix.com>
 
+- Shun Sakai
+
 Translators
 -----------
 
