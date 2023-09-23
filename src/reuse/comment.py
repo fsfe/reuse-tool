@@ -13,6 +13,7 @@
 # SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
 # SPDX-FileCopyrightText: 2023 Kevin Meagher
 # SPDX-FileCopyrightText: 2023 Mathias Dannesbo <md@magenta.dk>
+# SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -130,9 +131,13 @@ class CommentStyle:
         :raises CommentParseError: if *text* could not be parsed.
         """
         try:
-            return cls._parse_comment_single(text)
-        except CommentParseError:
+            # Attempt to parse multi-line comments first, in case of comment
+            # styles like Julia, where '#=' starts a multi-line comment, and '#'
+            # starts a single-line comment. If we parsed single-line comments
+            # first, '#=' would be a valid single-line comment.
             return cls._parse_comment_multi(text)
+        except CommentParseError:
+            return cls._parse_comment_single(text)
 
     @classmethod
     def _parse_comment_single(cls, text: str) -> str:
@@ -386,6 +391,17 @@ class JinjaCommentStyle(CommentStyle):
     MULTI_LINE = MultiLineSegments("{#", "", "#}")
 
 
+class JuliaCommentStyle(CommentStyle):
+    """Julia comment style."""
+
+    SHORTHAND = "julia"
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+    MULTI_LINE = MultiLineSegments("#=", "", "=#")
+    SHEBANGS = ["#!"]
+
+
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
 
@@ -580,6 +596,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".java": CCommentStyle,
     ".jinja": JinjaCommentStyle,
     ".jinja2": JinjaCommentStyle,
+    ".jl": JuliaCommentStyle,
     ".js": CCommentStyle,
     ".json": UncommentableCommentStyle,
     ".jsp": AspxCommentStyle,

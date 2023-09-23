@@ -60,7 +60,11 @@ Contributors
 
 - Stefan Hynek <stefan.hynek@uni-goettingen.de>
 
+- rajivsunar07
+
 - roberto-red <roberto@redradix.com>
+
+- Shun Sakai
 
 Translators
 -----------

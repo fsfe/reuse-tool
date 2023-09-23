@@ -42,6 +42,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
+- More file types are recognised:
+  - Julia (`.jl`) (#815)
+
 ### Changed
 
 ### Deprecated
@@ -49,6 +52,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Removed
 
 ### Fixed
+
+- Reduced python-debian minimum version to 0.1.34. (#808)
 
 ### Security
 
