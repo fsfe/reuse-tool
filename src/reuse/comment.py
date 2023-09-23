@@ -131,9 +131,13 @@ class CommentStyle:
         :raises CommentParseError: if *text* could not be parsed.
         """
         try:
-            return cls._parse_comment_single(text)
-        except CommentParseError:
+            # Attempt to parse multi-line comments first, in case of comment
+            # styles like Julia, where '#=' starts a multi-line comment, and '#'
+            # starts a single-line comment. If we parsed single-line comments
+            # first, '#=' would be a valid single-line comment.
             return cls._parse_comment_multi(text)
+        except CommentParseError:
+            return cls._parse_comment_single(text)
 
     @classmethod
     def _parse_comment_single(cls, text: str) -> str:
@@ -396,13 +400,6 @@ class JuliaCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
     MULTI_LINE = MultiLineSegments("#=", "", "=#")
     SHEBANGS = ["#!"]
-
-    @classmethod
-    def parse_comment(cls, text: str) -> str:
-        try:
-            return cls._parse_comment_multi(text)
-        except CommentParseError:
-            return cls._parse_comment_single(text)
 
 
 class LispCommentStyle(CommentStyle):
