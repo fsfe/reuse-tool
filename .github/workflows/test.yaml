@@ -36,7 +36,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          pip install poetry
+          pip install poetry~=1.2.0
           poetry install --no-interaction
       - name: Run tests with pytest
         run: |
@@ -55,7 +55,7 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: |
-          pip install poetry
+          pip install poetry~=1.2.0
           poetry install --no-interaction
       - name: Lint with Pylint
         run: |
@@ -71,7 +71,7 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: |
-          pip install poetry
+          pip install poetry~=1.2.0
           poetry install --no-interaction
       - name: Test formatting with black
         run: |
@@ -88,7 +88,7 @@ jobs:
           python-version: 3.7
       - name: Install dependencies
         run: |
-          pip install poetry
+          pip install poetry~=1.2.0
           poetry install --no-interaction
       - name: Test typing with mypy
         run: |
@@ -117,7 +117,7 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: |
-          pip install poetry
+          pip install poetry~=1.2.0
           poetry install --no-interaction --no-dev
       - name: Test REUSE compliance
         run: |
@@ -133,7 +133,7 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: |
-          pip install poetry
+          pip install poetry~=1.2.0
           pip install -r docs/requirements.txt
       - name: Create docs with Sphinx
         run: |
