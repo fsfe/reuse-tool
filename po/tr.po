@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-14 08:53+0000\n"
-"PO-Revision-Date: 2023-06-21 09:53+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-09-28 07:03+0000\n"
+"Last-Translator: \"T. E. Kalaycı\" <tekrei@tutanota.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "tr/>\n"
 "Language: tr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: src/reuse/_main.py:34
 msgid ""
@@ -53,16 +53,15 @@ msgstr "hata ayıklama cümlelerini etkinleştirir"
 
 #: src/reuse/_main.py:75
 msgid "hide deprecation warnings"
-msgstr ""
+msgstr "kullanımdan kaldırma uyarılarını gizle"
 
 #: src/reuse/_main.py:80
 msgid "do not skip over Git submodules"
 msgstr "Git alt modüllerini atlamaz"
 
 #: src/reuse/_main.py:85
-#, fuzzy
 msgid "do not skip over Meson subprojects"
-msgstr "Git alt modüllerini atlamaz"
+msgstr "Meson alt projelerini atlamaz"
 
 #: src/reuse/_main.py:90
 msgid "do not use multiprocessing"
@@ -85,7 +84,6 @@ msgid "add copyright and licensing into the header of files"
 msgstr "dosya başlıklarına telif hakkı ve lisans bilgilerini ekler"
 
 #: src/reuse/_main.py:116
-#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -116,29 +114,37 @@ msgid ""
 msgstr ""
 "Bir veya daha fazla dosya başlığına telif hakkı ve lisans bilgisini ekle.\n"
 "\n"
-"ilgili dosyaların başlığına hangi telif hakkı sahiplerinin ve lisansların "
+"İlgili dosyaların başlığına hangi telif hakkı sahiplerinin ve lisansların "
 "ekleneceğini --copyright ve --license değişkenlerini kullanarak "
 "belirtebilirsiniz.\n"
+"\n"
+"Katkıda bulunan ama ilgili dosyaların telif hakkı sahibi olmayan kişiler "
+"veya oluşumlar için --contributor kullanabilirsiniz.\n"
+"İlk yorum, yeni telif hakkı ve lisans bilgisiyle önceki telif hakkı ve "
+"lisans bilgisini içeren yeni bir başlık ile değiştiriliyor. Eğer ilk yorumu "
+"değiştirmemek istiyorsanız --no-replace kullanın.\n"
 "\n"
 "Yorum biçimi dosyalarınız için otomatik olarak belirlenecektir. Eğer bir "
 "yorum biçimi belirlenemezse, süreç iptal edilecektir. Kullanılacak yorum "
 "biçimini belirtmek için --style değişkenini kullanın.\n"
 "\n"
+"Mevcut olduğunda tek satırlı yorum biçimi kullanılacaktır. Eğer tek satır "
+"yorum biçimi mevcut değilse, çok satırlı yorum biçimi kullanılır. Belirli "
+"bir yorum biçimini --single-line veya --multi-line ile belirleyebilirsiniz.\n"
+"\n"
 "Başlık yorumu şablonunu --template değişkenini kullanarak "
 "değiştirebilirsiniz. Bir Jinja2 şablonunu .reuse/templates/mytemplate.jinja2 "
 "içerisine koyun. Şablonu '--template mytemplate' şeklinde kullanabilirsiniz. "
-"Bu özelliği nasıl kullanabileceğinizi çevrimiçi belgelerden "
-"öğrenebilirsiniz.\n"
+"Bu özelliği nasıl kullanabileceğinizi çevrimiçi belgelerden öğrenebilirsiniz."
+"\n"
 "\n"
 "Eğer ikili bir dosya tespit edilirse veya eğer --explicit-license "
-"tanımlıysa, başlık .license dosyasına koyulacaktır.\n"
-"\n"
-"ÖNEMLİ: Bu şu anda DENEYSELDİR!"
+"tanımlıysa, başlık .license dosyasına koyulacaktır."
 
 #. TRANSLATORS: Do not translate annotate.
 #: src/reuse/_main.py:160
 msgid "deprecated in favor of annotate"
-msgstr ""
+msgstr "annotate için kullanımdan kaldırıldı"
 
 #: src/reuse/_main.py:168
 msgid "download a license and place it in the LICENSES/ directory"
@@ -219,7 +225,7 @@ msgstr "projenin malzeme listesini SPDX biçiminde yazdırır"
 
 #: src/reuse/_main.py:240
 msgid "list all supported SPDX licenses"
-msgstr ""
+msgstr "tüm desteklenen SPDK lisanslarını listeler"
 
 #: src/reuse/_util.py:342
 #, python-brace-format
@@ -260,7 +266,7 @@ msgstr "'{}' geçerli bir SPDX Lisans Kimliği değil."
 
 #: src/reuse/_util.py:551
 msgid "Did you mean:"
-msgstr ""
+msgstr "Şunu mu kastettiniz:"
 
 #: src/reuse/_util.py:558
 msgid ""
@@ -298,7 +304,7 @@ msgstr "{spdx_identifier} başarılı bir şekilde indirildi."
 
 #: src/reuse/download.py:134
 msgid "--output has no effect when used together with --all"
-msgstr ""
+msgstr "--all ile birlikte kullanıldığında --output'un bir etkisi yok"
 
 #: src/reuse/download.py:138
 msgid "the following arguments are required: license"
@@ -318,31 +324,33 @@ msgid ""
 "'{path}' does not support single-line comments, please do not use --single-"
 "line"
 msgstr ""
+"'{path}' tek satırlık yorumları desteklemiyor, lütfen --single-line "
+"kullanmayın"
 
 #: src/reuse/header.py:421
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use --multi-line"
 msgstr ""
+"'{path}' çok satırlı yorumları desteklemiyor, lütfen --multi-line kullanmayın"
 
 #: src/reuse/header.py:444
-#, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license or --skip-unrecognised:"
 msgstr ""
-"'{path}' tanınan bir dosya uzantısına sahip değil, lütfen --style veya --"
-"explicit-license değişkenlerini kullanın"
+"Aşağıdaki dosya bilinen bir dosya uzantısına sahip değil. Lütfen --style, "
+"--force-dot-license veya --skip-unrecognised kullanın:"
 
 #: src/reuse/header.py:497
 #, python-brace-format
 msgid "Skipped unrecognised file {path}"
-msgstr ""
+msgstr "Tanınmayan {path} dosyası atlandı"
 
 #: src/reuse/header.py:509
 #, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr ""
+msgstr "Halihazırda REUSE bilgisi içeren '{path}' dosyası atlanıyor"
 
 #: src/reuse/header.py:543
 #, python-brace-format
@@ -374,9 +382,8 @@ msgid "SPDX Identifier, repeatable"
 msgstr "SPDX Kimliği, tekrarlanabilir"
 
 #: src/reuse/header.py:599
-#, fuzzy
 msgid "file contributor, repeatable"
-msgstr "SPDX Kimliği, tekrarlanabilir"
+msgstr "dosyaya katkı veren, tekrarlanabilir"
 
 #: src/reuse/header.py:606
 msgid "year of copyright statement, optional"
@@ -387,9 +394,8 @@ msgid "comment style to use, optional"
 msgstr "kullanılacak yorum biçimi, isteğe bağlı"
 
 #: src/reuse/header.py:620
-#, fuzzy
 msgid "copyright style to use, optional"
-msgstr "kullanılacak yorum biçimi, isteğe bağlı"
+msgstr "kullanılacak telif hakkı biçimi, isteğe bağlı"
 
 #: src/reuse/header.py:627
 msgid "name of template to use, optional"
@@ -400,65 +406,62 @@ msgid "do not include year in statement"
 msgstr "ifadede yıl içerme"
 
 #: src/reuse/header.py:637
-#, fuzzy
 msgid "merge copyright lines if copyright statements are identical"
-msgstr "telif hakkı ifadesi, isteğe bağlı"
+msgstr "eğer telif hakkı ifadeleri aynıysa telif hakkı satırlarını birleştir"
 
 #: src/reuse/header.py:642
-#, fuzzy
 msgid "force single-line comment style, optional"
-msgstr "kullanılacak yorum biçimi, isteğe bağlı"
+msgstr "tek satırlı yorum biçimi kullan, isteğe bağlı"
 
 #: src/reuse/header.py:647
-#, fuzzy
 msgid "force multi-line comment style, optional"
-msgstr "kullanılacak yorum biçimi, isteğe bağlı"
+msgstr "çok satırlı yorum biçimi kullan, isteğe bağlı"
 
 #: src/reuse/header.py:657
 msgid "write a .license file instead of a header inside the file"
-msgstr ""
+msgstr "dosyanın başlığına yazmak yerine bir .license yazar"
 
 #: src/reuse/header.py:664
 msgid "add headers to all files under specified directories recursively"
 msgstr ""
+"başlıkları belirlenen dizinlerin altındaki tüm dosyalara yinelemeli olarak "
+"ekle"
 
 #: src/reuse/header.py:671
 msgid "do not replace the first header in the file; just add a new one"
-msgstr ""
+msgstr "dosyadaki ilk başlığı değiştirme; sadece yeni bir tane ekle"
 
 #: src/reuse/header.py:677
 msgid "skip files with unrecognised comment styles"
-msgstr ""
+msgstr "tanımlanamayan yorum biçimleri içeren dosyaları atla"
 
 #: src/reuse/header.py:682
 msgid "skip files that already contain REUSE information"
-msgstr ""
+msgstr "halihazırda REUSE bilgisi içeren dosyaları atla"
 
 #: src/reuse/header.py:693
 msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
-msgstr ""
+msgstr "'reuse addheader', 'reuse annotate' adına kullanımdan kaldırıldı"
 
 #: src/reuse/header.py:700
-#, fuzzy
 msgid "option --contributor, --copyright or --license is required"
-msgstr "--copyright veya --license seçenekleri gereklidir"
+msgstr "--contributor, --copyright veya --license seçenekleri gereklidir"
 
 #: src/reuse/header.py:705
 msgid "option --exclude-year and --year are mutually exclusive"
 msgstr "--exclude-year ve --year seçeneklerinden biri olmalıdır"
 
 #: src/reuse/header.py:710
-#, fuzzy
 msgid "option --single-line and --multi-line are mutually exclusive"
-msgstr "--exclude-year ve --year seçeneklerinden biri olmalıdır"
+msgstr "--single-line ve --multi-line seçeneklerinden biri olmalıdır"
 
 #: src/reuse/header.py:716
 msgid "--skip-unrecognised has no effect when used together with --style"
-msgstr ""
+msgstr "--skip-unrecognised, --style ile kullanıldığında etkisizdir"
 
 #: src/reuse/header.py:723
 msgid "--explicit-license has been deprecated in favour of --force-dot-license"
-msgstr ""
+msgstr "--explicit-license, --force-dot-license adına kullanımdan kaldırıldı"
 
 #: src/reuse/header.py:767
 #, python-brace-format
@@ -472,11 +475,12 @@ msgstr ""
 "'{path}' ikili bir dosya, bu nedenle başlık için '{new_path}' kullanılacak"
 
 #: src/reuse/init.py:25
-#, fuzzy
 msgid ""
 "What license is your project under? Provide the SPDX License Identifier. See "
 "<https://spdx.org/licenses/> for the list."
-msgstr "Projeniz hangi lisansa sahip? SPDX Lisans Kimliğini belirtin."
+msgstr ""
+"Projeniz hangi lisansa sahip? SPDX Lisans Kimliğini belirtin. Liste için "
+"<https://spdx.org/licenses/> adresine bakabilirsiniz."
 
 #: src/reuse/init.py:30
 msgid ""
@@ -538,15 +542,15 @@ msgstr "İlkleme tamamlandı."
 
 #: src/reuse/lint.py:27
 msgid "prevents output"
-msgstr ""
+msgstr "çıktıyı önler"
 
 #: src/reuse/lint.py:30
 msgid "formats output as JSON"
-msgstr ""
+msgstr "çıktıyı JSON olarak biçimlendirir"
 
 #: src/reuse/lint.py:36
 msgid "formats output as plain text"
-msgstr ""
+msgstr "çıktıyı düz metin olarak biçimlendirir"
 
 #: src/reuse/lint.py:52
 msgid "BAD LICENSES"
@@ -637,19 +641,16 @@ msgid "Used licenses:"
 msgstr "Kullanılan lisanslar:"
 
 #: src/reuse/lint.py:167
-#, fuzzy
 msgid "Read errors:"
-msgstr "Okuma hataları: {count}"
+msgstr "Okuma hataları:"
 
 #: src/reuse/lint.py:169
-#, fuzzy
 msgid "files with copyright information:"
-msgstr "Telif hakkı içeren dosyalar: {count}/{total}"
+msgstr "Telif hakkı içeren dosyalar:"
 
 #: src/reuse/lint.py:173
-#, fuzzy
 msgid "files with license information:"
-msgstr "Lisans bilgisi içeren dosyalar: {count} / {total}"
+msgstr "Lisans bilgisi içeren dosyalar:"
 
 #: src/reuse/lint.py:190
 msgid ""
@@ -666,7 +667,7 @@ msgstr "Maalesef, projeniz REUSE Belirtiminin {} sürümüyle uyumlu değil :-("
 #: src/reuse/project.py:77
 msgid ""
 "project is not a VCS repository or required VCS software is not installed"
-msgstr ""
+msgstr "proje bir VCS deposu değil veya gerekli VCS yazılımı kurulu değil"
 
 #: src/reuse/project.py:184
 #, python-brace-format
@@ -689,6 +690,13 @@ msgid ""
 "github.com/fsfe/reuse-tool/issues/779>. You need do nothing yet. Run with `--"
 "suppress-deprecation` to hide this warning."
 msgstr ""
+"'{original_path}' için telif hakkı ve lisans bilgisi hem '{path}' yolunda "
+"hem de '{dep5_path}' yolunda yer alan DEP5 dosyasında bulundu. Bu iki "
+"kaynaktaki bilgileri birleştirildi. Gelecekte bu davranış değişecek ve "
+"açıkça birleştirmeyi etkinleştirmeniz gerekecek. Daha fazla bilgi için "
+"<https://github.com/fsfe/reuse-tool/issues/779> adresine bakabilirsiniz. "
+"Henüz bir şey yapmanız gerek yok. Bu uyarıyı gizlemek için `--suppress-"
+"deprecation` seçeneğiyle çalıştırabilirsiniz."
 
 #: src/reuse/project.py:313
 msgid ".reuse/dep5 has syntax errors"
@@ -696,7 +704,7 @@ msgstr ".reuse/dep5 sözdizim hataları içeriyor"
 
 #: src/reuse/project.py:315
 msgid ".reuse/dep5 could not be parsed as utf-8"
-msgstr ""
+msgstr ".reuse/dep5 utf-8 olarak çözümlenemiyor"
 
 #: src/reuse/project.py:341
 #, python-brace-format
@@ -725,7 +733,7 @@ msgstr ""
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
-msgstr "{identifier} hem {path} hem de {other_path} için SPDX Lisans Kimliği"
+msgstr "{identifier} hem {path} hem de {other_path} için SPDX Lisans Kimliğidir"
 
 #: src/reuse/report.py:263
 #, python-brace-format
@@ -742,20 +750,24 @@ msgid ""
 "populate the LicenseConcluded field; note that reuse cannot guarantee the "
 "field is accurate"
 msgstr ""
+"LicenseConcluded sahasını doldur; lütfen reuse bu sahanın doğru olduğunu "
+"güvence edemeyeceğini dikkate alın"
 
 #: src/reuse/spdx.py:39
 msgid "name of the person signing off on the SPDX report"
-msgstr ""
+msgstr "SPDX raporunu imzalayan kişinin ismi"
 
 #: src/reuse/spdx.py:44
 msgid "name of the organization signing off on the SPDX report"
-msgstr ""
+msgstr "SPDX raporunu imzalayan kuruluşun ismi"
 
 #: src/reuse/spdx.py:60
 msgid ""
 "error: --creator-person=NAME or --creator-organization=NAME required when --"
 "add-license-concluded is provided"
 msgstr ""
+"hata: --add-license-concluded verildiğinde --creator-person=İSİM veya "
+"--creator-organization=İSİM gereklidir"
 
 #: src/reuse/spdx.py:75
 #, python-brace-format
@@ -764,6 +776,9 @@ msgid ""
 "naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
 "standard-data-format-requirements"
 msgstr ""
+"'{path}' yaygın SPDX dosya deseniyle eşleşmiyor. Önerilen adlandırma "
+"kurallarına şuradan bakabilirsiniz: https://spdx.github.io/spdx-spec/"
+"conformance/#44-standard-data-format-requirements"
 
 #: /usr/lib/python3.8/argparse.py:307
 msgid "usage: "
