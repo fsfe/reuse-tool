@@ -10,4 +10,3 @@
   pass_filenames: false
   description:
     "Lint the project directory for compliance with the REUSE Specification"
-  language_version: python3
