@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -278,7 +278,7 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
         return 0
 
     if parsed_args.root:
-        project = Project(parsed_args.root)
+        project = Project.from_directory(parsed_args.root)
     else:
         project = create_project()
     project.include_submodules = parsed_args.include_submodules

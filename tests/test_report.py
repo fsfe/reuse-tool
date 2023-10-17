@@ -38,7 +38,7 @@ def test_generate_file_report_file_simple(
     """An extremely simple generate test, just to see if the function doesn't
     crash.
     """
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = FileReport.generate(
         project,
         "src/source_code.py",
@@ -61,7 +61,7 @@ def test_generate_file_report_file_from_different_cwd(
 ):
     """Another simple generate test, but from a different CWD."""
     os.chdir("/")
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = FileReport.generate(
         project,
         fake_repository / "src/source_code.py",
@@ -85,7 +85,7 @@ def test_generate_file_report_file_missing_license(
     (fake_repository / "foo.py").write_text(
         "SPDX-License-Identifier: BSD-3-Clause"
     )
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = FileReport.generate(
         project, "foo.py", add_license_concluded=add_license_concluded
     )
@@ -108,7 +108,7 @@ def test_generate_file_report_file_bad_license(
     (fake_repository / "foo.py").write_text(
         "SPDX-License-Identifier: fakelicense"
     )
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = FileReport.generate(
         project, "foo.py", add_license_concluded=add_license_concluded
     )
@@ -134,7 +134,7 @@ def test_generate_file_report_license_contains_plus(
         "SPDX-License-Identifier: Apache-1.0+"
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = FileReport.generate(
         project, "foo.py", add_license_concluded=add_license_concluded
     )
@@ -152,7 +152,7 @@ def test_generate_file_report_license_contains_plus(
 
 def test_generate_file_report_exception(fake_repository, add_license_concluded):
     """Simple generate test to test if the exception is detected."""
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = FileReport.generate(
         project, "src/exception.py", add_license_concluded=add_license_concluded
     )
@@ -177,7 +177,7 @@ def test_generate_file_report_no_licenses(
 ):
     """Test behavior when no license information is present in the file"""
     (fake_repository / "foo.py").write_text("")
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = FileReport.generate(
         project, "foo.py", add_license_concluded=add_license_concluded
     )
@@ -197,7 +197,7 @@ def test_generate_file_report_multiple_licenses(
     fake_repository, add_license_concluded
 ):
     """Test that all licenses are included in LicenseConcluded"""
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = FileReport.generate(
         project,
         "src/multiple_licenses.rs",
@@ -233,7 +233,7 @@ def test_generate_file_report_to_dict_lint_source_information(fake_repository):
             SPDX-FileCopyrightText: in file"""
         )
     )
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = FileReport.generate(
         project,
         "doc/foo.py",
@@ -269,7 +269,7 @@ def test_generate_file_report_to_dict_lint_source_information(fake_repository):
 
 def test_generate_project_report_simple(fake_repository, multiprocessing):
     """Simple generate test, just to see if it sort of works."""
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert not result.bad_licenses
@@ -289,7 +289,7 @@ def test_generate_project_report_licenses_without_extension(
         fake_repository / "LICENSES/CC0-1.0"
     )
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert "CC0-1.0" in result.licenses_without_extension
@@ -301,7 +301,7 @@ def test_generate_project_report_missing_license(
     """Missing licenses are detected."""
     (fake_repository / "LICENSES/GPL-3.0-or-later.txt").unlink()
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert "GPL-3.0-or-later" in result.missing_licenses
@@ -312,7 +312,7 @@ def test_generate_project_report_bad_license(fake_repository, multiprocessing):
     """Bad licenses are detected."""
     (fake_repository / "LICENSES/bad.txt").write_text("foo")
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert result.bad_licenses
@@ -325,7 +325,7 @@ def test_generate_project_report_unused_license(
     """Unused licenses are detected."""
     (fake_repository / "LICENSES/MIT.txt").write_text("foo")
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert result.unused_licenses == {"MIT"}
@@ -347,7 +347,7 @@ def test_generate_project_report_unused_license_plus(
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert not result.unused_licenses
@@ -365,7 +365,7 @@ def test_generate_project_report_unused_license_plus_only_plus(
     )
     (fake_repository / "LICENSES/Apache-1.0.txt").touch()
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert not result.unused_licenses
@@ -379,7 +379,7 @@ def test_generate_project_report_bad_license_in_file(
     """Bad licenses in files are detected."""
     (fake_repository / "foo.py").write_text("SPDX-License-Identifier: bad")
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert "bad" in result.bad_licenses
@@ -391,7 +391,7 @@ def test_generate_project_report_bad_license_can_also_be_missing(
     """Bad licenses can also be missing licenses."""
     (fake_repository / "foo.py").write_text("SPDX-License-Identifier: bad")
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert "bad" in result.bad_licenses
@@ -406,7 +406,7 @@ def test_generate_project_report_deprecated_license(
         fake_repository / "LICENSES/GPL-3.0.txt"
     )
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     assert "GPL-3.0" in result.deprecated_licenses
@@ -419,7 +419,7 @@ def test_generate_project_report_read_error(fake_repository, multiprocessing):
     (fake_repository / "bad").write_text("foo")
     (fake_repository / "bad").chmod(0o000)
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     result = ProjectReport.generate(project, multiprocessing=multiprocessing)
 
     # pylint: disable=superfluous-parens
@@ -428,7 +428,7 @@ def test_generate_project_report_read_error(fake_repository, multiprocessing):
 
 def test_generate_project_report_to_dict_lint(fake_repository, multiprocessing):
     """Generate dictionary output and verify correct ordering."""
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project, multiprocessing=multiprocessing)
     result = report.to_dict_lint()
 
@@ -448,7 +448,7 @@ def test_generate_project_report_to_dict_lint(fake_repository, multiprocessing):
 
 def test_bill_of_materials(fake_repository, multiprocessing):
     """Generate a bill of materials."""
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project, multiprocessing=multiprocessing)
     # TODO: Actually do something
     report.bill_of_materials()

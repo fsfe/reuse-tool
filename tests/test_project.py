@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -39,7 +39,7 @@ def test_project_not_a_directory(empty_directory):
     """Cannot create a Project without a valid directory."""
     (empty_directory / "foo.py").write_text("foo")
     with pytest.raises(NotADirectoryError):
-        Project(empty_directory / "foo.py")
+        Project.from_directory(empty_directory / "foo.py")
 
 
 def test_all_files(empty_directory):
@@ -47,7 +47,7 @@ def test_all_files(empty_directory):
     (empty_directory / "foo").write_text("foo")
     (empty_directory / "bar").write_text("foo")
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert {file_.name for file_ in project.all_files()} == {"foo", "bar"}
 
 
@@ -56,7 +56,7 @@ def test_all_files_ignore_dot_license(empty_directory):
     (empty_directory / "foo").write_text("foo")
     (empty_directory / "foo.license").write_text("foo")
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert {file_.name for file_ in project.all_files()} == {"foo"}
 
 
@@ -69,7 +69,7 @@ def test_all_files_ignore_cal_license(empty_directory):
     (empty_directory / "CAL-1.0-Combined-Work-Exception").write_text("foo")
     (empty_directory / "CAL-1.0-Combined-Work-Exception.txt").write_text("foo")
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert not list(project.all_files())
 
 
@@ -78,7 +78,7 @@ def test_all_files_ignore_shl_license(empty_directory):
     (empty_directory / "SHL-2.1").write_text("foo")
     (empty_directory / "SHL-2.1.txt").write_text("foo")
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert not list(project.all_files())
 
 
@@ -87,7 +87,7 @@ def test_all_files_ignore_git(empty_directory):
     (empty_directory / ".git").mkdir()
     (empty_directory / ".git/config").write_text("foo")
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert not list(project.all_files())
 
 
@@ -96,7 +96,7 @@ def test_all_files_ignore_hg(empty_directory):
     (empty_directory / ".hg").mkdir()
     (empty_directory / ".hg/config").touch()
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert not list(project.all_files())
 
 
@@ -114,7 +114,7 @@ def test_all_files_symlinks(empty_directory):
         )
     )
     (empty_directory / "symlink").symlink_to("blob")
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert Path("symlink").absolute() not in project.all_files()
 
 
@@ -122,7 +122,7 @@ def test_all_files_ignore_zero_sized(empty_directory):
     """Empty files should be skipped."""
     (empty_directory / "foo").touch()
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert Path("foo").absolute() not in project.all_files()
 
 
@@ -130,7 +130,7 @@ def test_all_files_git_ignored(git_repository):
     """Given a Git repository where some files are ignored, do not yield those
     files.
     """
-    project = Project(git_repository)
+    project = Project.from_directory(git_repository)
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
@@ -141,14 +141,14 @@ def test_all_files_git_ignored_different_cwd(git_repository):
     Be in a different CWD during the above.
     """
     os.chdir(git_repository / "LICENSES")
-    project = Project(git_repository)
+    project = Project.from_directory(git_repository)
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
 def test_all_files_git_ignored_contains_space(git_repository):
     """Files that contain spaces are also ignored."""
     (git_repository / "I contain spaces.pyc").write_text("foo")
-    project = Project(git_repository)
+    project = Project.from_directory(git_repository)
     assert Path("I contain spaces.pyc").absolute() not in project.all_files()
 
 
@@ -156,7 +156,7 @@ def test_all_files_git_ignored_contains_space(git_repository):
 def test_all_files_git_ignored_contains_newline(git_repository):
     """Files that contain newlines are also ignored."""
     (git_repository / "hello\nworld.pyc").write_text("foo")
-    project = Project(git_repository)
+    project = Project.from_directory(git_repository)
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 
@@ -167,7 +167,7 @@ def test_all_files_submodule_is_ignored(submodule_repository):
     contents = gitignore.read_text()
     contents += "\nsubmodule/\n"
     gitignore.write_text(contents)
-    project = Project(submodule_repository)
+    project = Project.from_directory(submodule_repository)
     assert Path("submodule/foo.py").absolute() not in project.all_files()
 
 
@@ -175,7 +175,7 @@ def test_all_files_hg_ignored(hg_repository):
     """Given a mercurial repository where some files are ignored, do not yield
     those files.
     """
-    project = Project(hg_repository)
+    project = Project.from_directory(hg_repository)
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
@@ -186,14 +186,14 @@ def test_all_files_hg_ignored_different_cwd(hg_repository):
     Be in a different CWD during the above.
     """
     os.chdir(hg_repository / "LICENSES")
-    project = Project(hg_repository)
+    project = Project.from_directory(hg_repository)
     assert Path("build/hello.py").absolute() not in project.all_files()
 
 
 def test_all_files_hg_ignored_contains_space(hg_repository):
     """File names that contain spaces are also ignored."""
     (hg_repository / "I contain spaces.pyc").touch()
-    project = Project(hg_repository)
+    project = Project.from_directory(hg_repository)
     assert Path("I contain spaces.pyc").absolute() not in project.all_files()
 
 
@@ -201,7 +201,7 @@ def test_all_files_hg_ignored_contains_space(hg_repository):
 def test_all_files_hg_ignored_contains_newline(hg_repository):
     """File names that contain newlines are also ignored."""
     (hg_repository / "hello\nworld.pyc").touch()
-    project = Project(hg_repository)
+    project = Project.from_directory(hg_repository)
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 
@@ -209,7 +209,7 @@ def test_reuse_info_of_file_does_not_exist(fake_repository):
     """Raise FileNotFoundError when asking for the REUSE info of a file that
     does not exist.
     """
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     with pytest.raises(FileNotFoundError):
         project.reuse_info_of(fake_repository / "does_not_exist")
 
@@ -218,7 +218,7 @@ def test_reuse_info_of_directory(empty_directory):
     """Raise IsADirectoryError when calling reuse_info_of on a directory."""
     (empty_directory / "src").mkdir()
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     with pytest.raises((IsADirectoryError, PermissionError)):
         project.reuse_info_of(empty_directory / "src")
 
@@ -229,7 +229,7 @@ def test_reuse_info_of_unlicensed_file(fake_repository):
 
     """
     (fake_repository / "foo.py").write_text("foo")
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     assert not bool(project.reuse_info_of("foo.py"))
 
 
@@ -240,7 +240,7 @@ def test_reuse_info_of_only_copyright(fake_repository):
     (fake_repository / "foo.py").write_text(
         "SPDX-FileCopyrightText: 2017 Jane Doe"
     )
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     reuse_info = project.reuse_info_of("foo.py")[0]
     assert not any(reuse_info.spdx_expressions)
     assert len(reuse_info.copyright_lines) == 1
@@ -265,7 +265,7 @@ def test_reuse_info_of_also_covered_by_dep5(fake_repository):
             SPDX-FileCopyrightText: in file"""
         )
     )
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     with warnings.catch_warnings(record=True) as caught_warnings:
         reuse_infos = project.reuse_info_of("doc/foo.py")
         assert len(reuse_infos) == 2
@@ -302,7 +302,7 @@ def test_reuse_info_of_no_duplicates(empty_directory):
     text = spdx_line + copyright_line
 
     (empty_directory / "foo.py").write_text(text * 2)
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     reuse_info = project.reuse_info_of("foo.py")[0]
     assert len(reuse_info.spdx_expressions) == 1
     assert LicenseSymbol("GPL-3.0-or-later") in reuse_info.spdx_expressions
@@ -319,7 +319,7 @@ def test_reuse_info_of_binary_succeeds(fake_repository):
         RESOURCES_DIRECTORY / "fsfe.png", fake_repository / "doc/fsfe.png"
     )
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     reuse_info = project.reuse_info_of("doc/fsfe.png")[0]
     assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
     assert reuse_info.source_type == SourceType.DEP5
@@ -335,7 +335,7 @@ def test_license_file_detected(empty_directory):
         "SPDX-FileCopyrightText: 2017 Jane Doe\nSPDX-License-Identifier: MIT\n"
     )
 
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     reuse_info = project.reuse_info_of("foo.py")[0]
 
     assert "SPDX-FileCopyrightText: 2017 Jane Doe" in reuse_info.copyright_lines
@@ -349,7 +349,7 @@ def test_licenses_filename(empty_directory):
     """Detect the license identifier of a license from its stem."""
     (empty_directory / "LICENSES").mkdir()
     (empty_directory / "LICENSES/foo.txt").write_text("foo")
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert "foo" in project.licenses
 
 
@@ -360,7 +360,7 @@ def test_licenses_no_extension(empty_directory):
     (empty_directory / "LICENSES").mkdir()
     (empty_directory / "LICENSES/GPL-3.0-or-later").write_text("foo")
     (empty_directory / "LICENSES/MIT-3.0-or-later").write_text("foo")
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert "GPL-3.0-or-later" in project.licenses
     assert "MIT-3" in project.licenses
 
@@ -369,13 +369,13 @@ def test_licenses_subdirectory(empty_directory):
     """Find a license in a subdirectory of LICENSES/."""
     (empty_directory / "LICENSES/sub").mkdir(parents=True)
     (empty_directory / "LICENSES/sub/MIT.txt").write_text("foo")
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert "MIT" in project.licenses
 
 
 def test_relative_from_root(empty_directory):
     """A simple test. Given /path/to/root/src/hello.py, return src/hello.py."""
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     assert project.relative_from_root(project.root / "src/hello.py") == Path(
         "src/hello.py"
     )
@@ -389,7 +389,7 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     directory /path/to, return src/hello.py. This is a bit involved, but works
     out.
     """
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     parent = empty_directory.parent
     os.chdir(parent)
     assert project.relative_from_root(
