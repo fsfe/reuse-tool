@@ -397,4 +397,28 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     ) == Path("src/hello.py")
 
 
+def test_duplicate_field_dep5(empty_directory, caplog):
+    """When a duplicate field is in a dep5 file, correctly handle errors."""
+    dep5_text = cleandoc(
+        """
+        Format: https://example.com/format/1.0
+        Upstream-Name: Some project
+        Upstream-Contact: Jane Doe
+        Source: https://example.com/
+
+        Files: foo.py
+        Copyright: 2017 Jane Doe
+        Copyright: 2017 John Doe
+        License: GPL-3.0-or-later
+        """
+    )
+    (empty_directory / ".reuse").mkdir()
+    (empty_directory / ".reuse/dep5").write_text(dep5_text)
+
+    project = Project.from_directory(empty_directory)
+    assert project.dep5_copyright is None
+    assert "syntax errors" in caplog.text
+    assert 'Duplicate field "Copyright"' in caplog.text
+
+
 # REUSE-IgnoreEnd

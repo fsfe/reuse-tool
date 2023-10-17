@@ -120,8 +120,11 @@ class Project:
             dep5_copyright: Optional[Copyright] = _parse_dep5(
                 root / ".reuse/dep5"
             )
-        except (OSError, DebianError, UnicodeError, ValueError):
+        except OSError:
             dep5_copyright = None
+        except (DebianError, UnicodeError, ValueError):
+            dep5_copyright = None
+            _LOGGER.warning(_("Proceeding as if no DEP5 file existed."))
 
         meson_build_path = root / "meson.build"
         uses_meson = meson_build_path.is_file()

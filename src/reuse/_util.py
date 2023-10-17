@@ -262,15 +262,19 @@ def _parse_dep5(path: StrPath) -> Copyright:
         _LOGGER.debug(_("no '{}' file, or could not read it").format(path))
         raise
     except UnicodeError:
-        _LOGGER.exception(_("'{}' could not be parsed as utf-8").format(path))
+        _LOGGER.error(_("'{}' could not be parsed as utf-8").format(path))
         raise
-    # FIXME: I don't really expect the ValueError as a parsing error here. Let's
-    # make an upstream fix.
-    except (DebianError, ValueError):
-        _LOGGER.exception(
+    # TODO: Remove ValueError once
+    # <https://salsa.debian.org/python-debian-team/python-debian/-/merge_requests/123>
+    # is closed
+    except (DebianError, ValueError) as error:
+        _LOGGER.error(
             _(
-                "'{}' has syntax errors and could not be parsed as dep5 file"
-            ).format(path)
+                "'{path}' has syntax errors and could not be parsed as dep5"
+                " file. We received the following error message:\n"
+                "\n"
+                "{message}"
+            ).format(path=path, message=str(error))
         )
         raise
 
