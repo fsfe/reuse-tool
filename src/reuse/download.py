@@ -37,9 +37,14 @@ _SPDX_REPOSITORY_BASE_URL = (
 def download_license(spdx_identifier: str) -> str:
     """Download the license text from the SPDX repository.
 
-    :param spdx_identifier: SPDX identifier of the license.
-    :raises URLError: if the license could not be downloaded.
-    :return: The license text.
+    Args:
+        spdx_identifier: SPDX identifier of the license.
+
+    Raises:
+        URLError: if the license could not be downloaded.
+
+    Returns:
+        The license text.
     """
     # This is fairly naive, but I can't see anything wrong with it.
     url = urljoin(_SPDX_REPOSITORY_BASE_URL, "".join((spdx_identifier, ".txt")))
@@ -61,10 +66,13 @@ def put_license_in_file(spdx_identifier: str, destination: StrPath) -> None:
 
     This function exists solely for convenience.
 
-    :param spdx_identifier: SPDX License Identifier of the license.
-    :param destination: Where to put the license.
-    :raises URLError: if the license could not be downloaded.
-    :raises FileExistsError: if the license file already exists.
+    Args:
+        spdx_identifier: SPDX License Identifier of the license.
+        destination: Where to put the license.
+
+    Raises:
+        URLError: if the license could not be downloaded.
+        FileExistsError: if the license file already exists.
     """
     header = ""
     destination = Path(destination)

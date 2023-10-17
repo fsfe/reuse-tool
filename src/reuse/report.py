@@ -88,7 +88,8 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         """Collects and formats data relevant to linting from report and returns
         it as a dictionary.
 
-        :return: Dictionary containing data from the ProjectReport object
+        Returns:
+            Dictionary containing data from the ProjectReport object.
         """
         # Setup report data container
         data: Dict[str, Any] = {

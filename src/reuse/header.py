@@ -99,9 +99,9 @@ def _create_new_header(
 ) -> str:
     """Format a new header from scratch.
 
-    :raises CommentCreateError: if a comment could not be created.
-    :raises MissingReuseInfo: if the generated comment is missing SPDX
-        information.
+    Raises:
+        CommentCreateError: if a comment could not be created.
+        MissingReuseInfo: if the generated comment is missing SPDX information.
     """
     if template is None:
         template = DEFAULT_TEMPLATE
@@ -156,9 +156,9 @@ def create_header(
     *template*, *template_is_commented*, and *style* determine what the header
     will look like, and whether it will be commented or not.
 
-    :raises CommentCreateError: if a comment could not be created.
-    :raises MissingReuseInfo: if the generated comment is missing SPDX
-        information.
+    Raises:
+        CommentCreateError: if a comment could not be created.
+        MissingReuseInfo: if the generated comment is missing SPDX information.
     """
     if template is None:
         template = DEFAULT_TEMPLATE
@@ -218,7 +218,8 @@ def _find_first_spdx_comment(
     """Find the first SPDX comment in the file. Return a tuple with everything
     preceding the comment, the comment itself, and everything following it.
 
-    :raises MissingReuseInfo: if no REUSE info can be found in any comment
+    Raises:
+        MissingReuseInfo: if no REUSE info can be found in any comment
     """
     if style is None:
         style = PythonCommentStyle
@@ -278,9 +279,9 @@ def find_and_replace_header(
 
     *text* is returned with a new header.
 
-    :raises CommentCreateError: if a comment could not be created.
-    :raises MissingReuseInfo: if the generated comment is missing SPDX
-        information.
+    Raises:
+        CommentCreateError: if a comment could not be created.
+        MissingReuseInfo: if the generated comment is missing SPDX information.
     """
     if style is None:
         style = PythonCommentStyle
@@ -344,7 +345,8 @@ def add_new_header(
     find_and_replace_header. But in this function, do not replace any headers or
     search for any existing REUSE information.
 
-    :raises CommentCreateError: if a comment could not be created.
+    Raises:
+        CommentCreateError: if a comment could not be created.
     """
     if style is None:
         style = PythonCommentStyle
@@ -453,7 +455,8 @@ def _verify_paths_comment_style(
 def _find_template(project: Project, name: str) -> Template:
     """Find a template given a name.
 
-    :raises TemplateNotFound: if template could not be found.
+    Raises:
+        TemplateNotFound: if template could not be found.
     """
     template_dir = project.root / ".reuse/templates"
     env = Environment(

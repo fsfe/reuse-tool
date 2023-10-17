@@ -76,7 +76,8 @@ class CommentStyle:
         """Comment all lines in *text*. Single-line comments are preferred over
         multi-line comments, unless *force_multi* is provided.
 
-        :raises CommentCreateError: if *text* could not be commented.
+        Raises:
+            CommentCreateError: if *text* could not be commented.
         """
         if force_multi or not cls.can_handle_single():
             return cls._create_comment_multi(text)
@@ -86,7 +87,8 @@ class CommentStyle:
     def _create_comment_single(cls, text: str) -> str:
         """Comment all lines in *text*, using single-line comments.
 
-        :raises CommentCreateError: if *text* could not be commented.
+        Raises:
+            CommentCreateError: if *text* could not be commented.
         """
         if not cls.can_handle_single():
             raise CommentCreateError(
@@ -104,7 +106,8 @@ class CommentStyle:
     def _create_comment_multi(cls, text: str) -> str:
         """Comment all lines in *text*, using multi-line comments.
 
-        :raises CommentCreateError: if *text* could not be commented.
+        Raises:
+            CommentCreateError: if *text* could not be commented.
         """
         if not cls.can_handle_multi():
             raise CommentCreateError(f"{cls} cannot create multi-line comments")
@@ -128,7 +131,8 @@ class CommentStyle:
     def parse_comment(cls, text: str) -> str:
         """Uncomment all lines in *text*.
 
-        :raises CommentParseError: if *text* could not be parsed.
+        Raises:
+            CommentParseError: if *text* could not be parsed.
         """
         try:
             # Attempt to parse multi-line comments first, in case of comment
@@ -144,7 +148,8 @@ class CommentStyle:
         """Uncomment all lines in *text*, assuming they are commented by
         single-line comments.
 
-        :raises CommentParseError: if *text* could not be parsed.
+        Raises:
+            CommentParseError: if *text* could not be parsed.
         """
         if not cls.can_handle_single():
             raise CommentParseError(f"{cls} cannot parse single-line comments")
@@ -182,7 +187,8 @@ class CommentStyle:
         """Uncomment all lines in *text*, assuming they are commented by
         multi-line comments.
 
-        :raises CommentParseError: if *text* could not be parsed.
+        Raises:
+            CommentParseError: if *text* could not be parsed.
         """
         if not cls.can_handle_multi():
             raise CommentParseError(f"{cls} cannot parse multi-line comments")
@@ -231,8 +237,9 @@ class CommentStyle:
         assuming that the header comment starts at the first character in the
         file.
 
-        :raises CommentParseError: if *text* does not start with a parseable
-            comment block.
+        Raises:
+            CommentParseError: if *text* does not start with a parseable
+                comment block.
         """
         if not any((cls.can_handle_single(), cls.can_handle_multi())):
             raise CommentParseError(f"{cls} cannot parse comments")
