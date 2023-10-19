@@ -20,7 +20,7 @@ jobs:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         os: [ubuntu-20.04]
         include:
           - python-version: "3.8"
@@ -40,10 +40,7 @@ jobs:
           poetry install --no-interaction
       - name: Run tests with pytest
         run: |
-          # Re-enable this once
-          # https://github.com/pytest-dev/pytest-cov/issues/564 is resolved.
-          # poetry run pytest --cov=reuse
-          poetry run pytest
+          poetry run pytest --cov=reuse
 
   pylint:
     runs-on: ubuntu-20.04

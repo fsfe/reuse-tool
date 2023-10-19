@@ -42,10 +42,13 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
+- Declared support for Python 3.12. (#846)
 - More file types are recognised:
   - Julia (`.jl`) (#815)
 
 ### Changed
+
+- Alpine Docker image now uses 3.18 as base. (#846)
 
 ### Deprecated
 

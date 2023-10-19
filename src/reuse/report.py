@@ -183,7 +183,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         )
         out.write(f"Creator: Tool: reuse-{__version__}\n")
 
-        now = datetime.datetime.utcnow()
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
         now = now.replace(microsecond=0)
         out.write(f"Created: {now.isoformat()}Z\n")
         out.write(
