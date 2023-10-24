@@ -102,10 +102,7 @@ jobs:
         run: npx prettier --check .
 
   reuse:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-20.04, macos-latest, windows-latest]
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
