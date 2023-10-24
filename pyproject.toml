@@ -76,6 +76,12 @@ pylint = "^2.12.2"
 mypy = "^1.0"
 GitPython = "^3.0"
 
+[tool.poetry.group.lsp.dependencies]
+python-lsp-server = "*"
+pylsp-mypy = "*"
+pyls-isort = "*"
+python-lsp-black = "*"
+
 [tool.poetry.scripts]
 reuse = 'reuse._main:main'
 
