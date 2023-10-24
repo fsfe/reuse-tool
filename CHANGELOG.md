@@ -767,8 +767,8 @@ Specification.
 - `reuse lint` now provides a helpful summary instead of merely spitting out
   non-compliant files.
 - `reuse compile` is now `reuse spdx`.
-- In addition to `Copyright` and `©`, copyright lines can be marked with the tag
-  `SPDX-FileCopyrightText:`. This is the new recommended default.
+- In addition to `Copyright` and `©`, copyright lines can be marked with the
+  tag `SPDX-FileCopyrightText:`. This is the new recommended default.
 - Project no longer depends on pygit2.
 - The list of SPDX licenses has been updated.
 - `Valid-License-Identifier` is no longer used, and licenses and exceptions can
