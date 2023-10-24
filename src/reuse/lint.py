@@ -120,7 +120,7 @@ def format_plain(report: ProjectReport) -> str:
             files_without_licenses_excl
         )
 
-        if files_without_either:
+        if files_without_either or files_without_both:
             header = (
                 "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION") + "\n\n"
             )
