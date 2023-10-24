@@ -64,6 +64,10 @@ CLI command and its behaviour. There are no guarantees of stability for the
   REUSE information. (#825)
 - `--force-dot-license` and `--skip-unrecognised` are now mutually exclusive on
   `annotate`. (#852)
+- No longer create and publish `-extra` Docker images. (#849)
+- No longer create and publish `dev` Docker images. (#849)
+- The `-debian` Docker image is now based off debian:12-slim. It used to be
+  based on the python:slim image, which used debian:slim under the hood. (#849)
 
 ### Deprecated
 
