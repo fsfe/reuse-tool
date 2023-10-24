@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 09:46+0000\n"
+"POT-Creation-Date: 2023-10-24 11:02+0000\n"
 "PO-Revision-Date: 2023-09-24 13:02+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -551,129 +551,133 @@ msgstr "Створення .reuse/dep5"
 msgid "Initialization complete."
 msgstr "Ініціалізація завершена."
 
-#: src/reuse/lint.py:27
+#: src/reuse/lint.py:29
 msgid "prevents output"
 msgstr "запобігає виводу"
 
-#: src/reuse/lint.py:30
+#: src/reuse/lint.py:32
 msgid "formats output as JSON"
 msgstr "форматує вивід як JSON"
 
-#: src/reuse/lint.py:36
+#: src/reuse/lint.py:38
 msgid "formats output as plain text"
 msgstr "форматує вивід як звичайний текст"
 
-#: src/reuse/lint.py:55
+#: src/reuse/lint.py:57
 msgid "BAD LICENSES"
 msgstr "ПОГАНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:57 src/reuse/lint.py:86
+#: src/reuse/lint.py:59 src/reuse/lint.py:88
 msgid "'{}' found in:"
 msgstr "'{}' знайдено в:"
 
-#: src/reuse/lint.py:64
+#: src/reuse/lint.py:66
 msgid "DEPRECATED LICENSES"
 msgstr "ЗАСТАРІЛІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:66
+#: src/reuse/lint.py:68
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "У SPDX застаріли такі ліцензії:"
 
-#: src/reuse/lint.py:74
+#: src/reuse/lint.py:76
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "ЛІЦЕНЗІЇ БЕЗ РОЗШИРЕННЯ ФАЙЛУ"
 
-#: src/reuse/lint.py:76
+#: src/reuse/lint.py:78
 msgid "The following licenses have no file extension:"
 msgstr "Ці ліцензії не мають розширення файлу:"
 
-#: src/reuse/lint.py:84
+#: src/reuse/lint.py:86
 msgid "MISSING LICENSES"
 msgstr "ВІДСУТНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:93
+#: src/reuse/lint.py:95
 msgid "UNUSED LICENSES"
 msgstr "НЕВИКОРИСТАНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:94
+#: src/reuse/lint.py:96
 msgid "The following licenses are not used:"
 msgstr "Не використовуються такі ліцензії:"
 
-#: src/reuse/lint.py:101
+#: src/reuse/lint.py:103
 msgid "READ ERRORS"
 msgstr "ПОМИЛКИ ЧИТАННЯ"
 
-#: src/reuse/lint.py:102
+#: src/reuse/lint.py:104
 msgid "Could not read:"
 msgstr "Не вдалося прочитати:"
 
-#: src/reuse/lint.py:123
+#: src/reuse/lint.py:125
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "ВІДСУТНІ ВІДОМОСТІ ПРО АВТОРСЬКІ ПРАВА ТА ЛІЦЕНЗУВАННЯ"
 
-#: src/reuse/lint.py:129
+#: src/reuse/lint.py:131
 msgid "The following files have no copyright and licensing information:"
 msgstr "Ці файли не містять відомостей про авторські права та ліцензії:"
 
-#: src/reuse/lint.py:140
+#: src/reuse/lint.py:142
 msgid "The following files have no copyright information:"
 msgstr "Такі файли не містять відомостей про авторські права:"
 
-#: src/reuse/lint.py:149
+#: src/reuse/lint.py:151
 msgid "The following files have no licensing information:"
 msgstr "Такі файли не мають відомостей про ліцензування:"
 
-#: src/reuse/lint.py:157
+#: src/reuse/lint.py:159
 msgid "SUMMARY"
 msgstr "ПІДСУМОК"
 
-#: src/reuse/lint.py:162
+#: src/reuse/lint.py:164
 msgid "Bad licenses:"
 msgstr "Погані ліцензії:"
 
-#: src/reuse/lint.py:163
+#: src/reuse/lint.py:165
 msgid "Deprecated licenses:"
 msgstr "Застарілі ліцензії:"
 
-#: src/reuse/lint.py:164
+#: src/reuse/lint.py:166
 msgid "Licenses without file extension:"
 msgstr "Ліцензії без розширення файлу:"
 
-#: src/reuse/lint.py:167
+#: src/reuse/lint.py:169
 msgid "Missing licenses:"
 msgstr "Відсутні ліцензії:"
 
-#: src/reuse/lint.py:168
+#: src/reuse/lint.py:170
 msgid "Unused licenses:"
 msgstr "Невикористані ліцензії:"
 
-#: src/reuse/lint.py:169
+#: src/reuse/lint.py:171
 msgid "Used licenses:"
 msgstr "Використані ліцензії:"
 
-#: src/reuse/lint.py:170
+#: src/reuse/lint.py:172
 msgid "Read errors:"
 msgstr "Помилки читання:"
 
-#: src/reuse/lint.py:172
+#: src/reuse/lint.py:174
 msgid "files with copyright information:"
 msgstr "файли з відомостями про авторські права:"
 
-#: src/reuse/lint.py:176
+#: src/reuse/lint.py:178
 msgid "files with license information:"
 msgstr "файли з відомостями про ліцензію:"
 
-#: src/reuse/lint.py:193
+#: src/reuse/lint.py:195
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr "Вітаємо! Ваш проєкт відповідає версії {} специфікації REUSE :-)"
 
-#: src/reuse/lint.py:200
+#: src/reuse/lint.py:202
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr "На жаль, ваш проєкт не сумісний із версією {} специфікації REUSE :-("
+
+#: src/reuse/lint.py:209
+msgid "RECOMMENDATIONS"
+msgstr ""
 
 #: src/reuse/project.py:78
 msgid ""
@@ -757,15 +761,73 @@ msgid ""
 msgstr ""
 "{identifier} — це ідентифікатор ліцензії SPDX для {path} і {other_path}"
 
-#: src/reuse/report.py:264
+#: src/reuse/report.py:272
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Не вдалося прочитати '{path}'"
 
-#: src/reuse/report.py:271
+#: src/reuse/report.py:279
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Під час аналізу '{path}' сталася неочікувана помилка"
+
+#: src/reuse/report.py:400
+msgid ""
+"Fix bad licenses: At least one license in the LICENSES directory and/or "
+"provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
+"valid SPDX License Identifiers or do not start with 'LicenseRef-'. FAQ about "
+"custom licenses: https://reuse.software/faq/#custom-license"
+msgstr ""
+
+#: src/reuse/report.py:411
+msgid ""
+"Fix deprecated licenses: At least one of the licenses in the LICENSES "
+"directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
+"dep5' has been deprecated by SPDX. The current list and their respective "
+"recommended  new identifiers can be found here: <https://spdx.org/licenses/"
+"#deprecated>"
+msgstr ""
+
+#: src/reuse/report.py:422
+msgid ""
+"Fix licenses without file extension: At least one license text file in the "
+"'LICENSES' directory does not have a '.txt' file extension. Please rename "
+"the file(s) accordingly."
+msgstr ""
+
+#: src/reuse/report.py:431
+msgid ""
+"Fix missing licenses: For at least one of the license identifiers provided "
+"by the 'SPDX-License-Identifier' tags, there is no corresponding license "
+"text file in the 'LICENSES' directory. For SPDX license identifiers, you can "
+"simply run 'reuse download --all' to get any missing ones. For custom "
+"licenses (starting with 'LicenseRef-'), you need to add these files yourself."
+msgstr ""
+
+#: src/reuse/report.py:443
+msgid ""
+"Fix unused licenses: At least one of the license text files in 'LICENSES' is "
+"not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
+"make sure that you either tag the accordingly licensed files properly, or "
+"delete the unused license text if you are sure that no file or code snippet "
+"is licensed as such."
+msgstr ""
+
+#: src/reuse/report.py:454
+msgid ""
+"Fix read errors: At least one of the files in your directory cannot be read "
+"by the tool. Please check the file permissions. You will find the affected "
+"files at the top of the output as part of the logged error messages."
+msgstr ""
+
+#: src/reuse/report.py:463
+msgid ""
+"Fix missing copyright/licensing information: For one or more files, the tool "
+"cannot find copyright and/or licensing information. You typically do this by "
+"adding 'SPDX-FileCopyrightText' and 'SPDX-License-Identifer' tags to each "
+"file. The tutorial explains additional ways to do this: <https://reuse."
+"software/tutorial/>"
+msgstr ""
 
 #: src/reuse/spdx.py:32
 msgid ""
