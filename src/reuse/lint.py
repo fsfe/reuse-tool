@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2023 DB Systel GmbH
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -13,6 +14,7 @@ from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
+from textwrap import TextWrapper
 from typing import IO, Any
 
 from . import __REUSE_version__
@@ -37,7 +39,7 @@ def add_arguments(parser: ArgumentParser) -> None:
     )
 
 
-# pylint: disable=too-many-branches, too-many-statements
+# pylint: disable=too-many-branches,too-many-statements,too-many-locals
 def format_plain(report: ProjectReport) -> str:
     """Formats data dictionary as plaintext string to be printed to sys.stdout
 
@@ -118,7 +120,7 @@ def format_plain(report: ProjectReport) -> str:
             files_without_licenses_excl
         )
 
-        if files_without_either:
+        if files_without_either or files_without_both:
             header = (
                 "# " + _("MISSING COPYRIGHT AND LICENSING INFORMATION") + "\n\n"
             )
@@ -201,6 +203,23 @@ def format_plain(report: ProjectReport) -> str:
                 "{} of the REUSE Specification :-("
             ).format(__REUSE_version__)
         )
+
+        # Write recommendations in a nicely wrapped format
+        output.write("\n\n\n# ")
+        output.write(_("RECOMMENDATIONS"))
+        output.write("\n\n")
+
+        wrapper = TextWrapper(
+            width=80,
+            drop_whitespace=True,
+            break_long_words=False,
+            initial_indent="* ",
+            subsequent_indent="  ",
+        )
+        for help_text in report.recommendations:
+            output.write("\n".join(wrapper.wrap(help_text)))
+            output.write("\n")
+
     output.write("\n")
 
     return output.getvalue()

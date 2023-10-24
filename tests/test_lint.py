@@ -86,7 +86,10 @@ def test_lint_deprecated(fake_repository):
     result = format_plain(report)
 
     assert ":-(" in result
+    assert "# DEPRECATED LICENSES" in result
     assert "GPL-3.0" in result
+    assert "Fix deprecated licenses:" in result
+    assert "spdx.org/licenses/#deprecated" in result
 
 
 def test_lint_bad_license(fake_repository):
@@ -99,8 +102,26 @@ def test_lint_bad_license(fake_repository):
     result = format_plain(report)
 
     assert ":-(" in result
+    assert "# BAD LICENSES" in result
     assert "foo.py" in result
     assert "bad-license" in result
+    assert "Fix bad licenses:" in result
+    assert "reuse.software/faq/#custom-license" in result
+
+
+def test_lint_licenses_without_extension(fake_repository):
+    """A license without file extension is detected."""
+    (fake_repository / "LICENSES/GPL-3.0-or-later.txt").rename(
+        fake_repository / "LICENSES/GPL-3.0-or-later"
+    )
+    project = Project(fake_repository)
+    report = ProjectReport.generate(project)
+    result = format_plain(report)
+
+    assert ":-(" in result
+    assert "# LICENSES WITHOUT FILE EXTENSION" in result
+    assert "GPL-3.0-or-later" in result
+    assert "Fix licenses without file extension:" in result
 
 
 def test_lint_missing_licenses(fake_repository):
@@ -111,8 +132,10 @@ def test_lint_missing_licenses(fake_repository):
     result = format_plain(report)
 
     assert ":-(" in result
+    assert "# MISSING LICENSES" in result
     assert "foo.py" in result
     assert "MIT" in result
+    assert "Fix missing licenses:" in result
 
 
 def test_lint_unused_licenses(fake_repository):
@@ -123,7 +146,9 @@ def test_lint_unused_licenses(fake_repository):
     result = format_plain(report)
 
     assert ":-(" in result
+    assert "# UNUSED LICENSES" in result
     assert "Unused licenses: MIT" in result
+    assert "Fix unused licenses:" in result
 
 
 @cpython
@@ -137,8 +162,10 @@ def test_lint_read_errors(fake_repository):
     result = format_plain(report)
 
     assert ":-(" in result
+    assert "# READ ERRORS" in result
     assert "Could not read:" in result
     assert "foo.py" in result
+    assert "Fix read errors:" in result
 
 
 def test_lint_files_without_copyright_and_licensing(fake_repository):
@@ -149,11 +176,14 @@ def test_lint_files_without_copyright_and_licensing(fake_repository):
     result = format_plain(report)
 
     assert ":-(" in result
+    assert "# MISSING COPYRIGHT AND LICENSING INFORMATION" in result
     assert (
         "The following files have no copyright and licensing information:"
         in result
     )
     assert "foo.py" in result
+    assert "Fix missing copyright/licensing information:" in result
+    assert "reuse.software/tutorial" in result
 
 
 def test_lint_json_output(fake_repository):
@@ -172,9 +202,11 @@ def test_lint_json_output(fake_repository):
     assert "non_compliant" in json_result
     assert "files" in json_result
     assert "summary" in json_result
+    assert "recommendations" in json_result
     # Test length of resulting list values
     assert len(json_result["files"]) == 9
     assert len(json_result["summary"]) == 5
+    assert len(json_result["recommendations"]) == 2
     # Test result
     assert json_result["summary"]["compliant"] is False
     # Test license path

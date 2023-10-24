@@ -439,8 +439,11 @@ def test_generate_project_report_to_dict_lint(fake_repository, multiprocessing):
         "reuse_tool_version",
     ]
 
+    # Check if the recommendation key is at the bottom of the dictionary
+    assert list(result.keys())[-1] == "recommendations"
+
     # Check if the rest of the keys are sorted alphabetically
-    assert list(result.keys())[3:] == sorted(list(result.keys())[3:])
+    assert list(result.keys())[3:-1] == sorted(list(result.keys())[3:-1])
 
 
 def test_bill_of_materials(fake_repository, multiprocessing):
