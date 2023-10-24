@@ -58,7 +58,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
   "[repositories] that were cloned independently and later added as a submodule
   or old setups", which "have the submodule's git directory inside the submodule
   instead of embedded into the superproject's git directory". (#687)
-
+- When running `annotate` on a file with an unrecognised file path,
+  automatically create a `.license` file. (#851)
 - No longer scan binary or uncommentable files for their contents in search of
   REUSE information. (#825)
 
@@ -66,8 +67,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Removed
 
-- Removed deprecated `--explicit-license`. (#TODO)
-- Removed deprecated `addheader`. (#TODO)
+- Removed deprecated `--explicit-license`. (#851)
+- Removed deprecated `addheader`. (#851)
 
 ### Fixed
 

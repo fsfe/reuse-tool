@@ -41,7 +41,12 @@ from ._util import (
     make_copyright_line,
     spdx_identifier,
 )
-from .comment import NAME_STYLE_MAP, CommentCreateError, CommentStyle
+from .comment import (
+    NAME_STYLE_MAP,
+    CommentCreateError,
+    CommentStyle,
+    EmptyCommentStyle,
+)
 from .header import MissingReuseInfo, add_new_header, find_and_replace_header
 from .project import Project
 
@@ -77,29 +82,6 @@ def verify_paths_line_handling(
             )
 
 
-def verify_paths_comment_style(
-    paths: Iterable[Path], parser: ArgumentParser
-) -> None:
-    """Raise parser.error if a style could not be found for one of the paths."""
-    unrecognised_files = []
-
-    for path in paths:
-        if not _has_style(path):
-            unrecognised_files.append(path)
-
-    if unrecognised_files:
-        parser.error(
-            "{}\n{}".format(
-                _(
-                    "The following files do not have a recognised file"
-                    " extension. Please use --style, --force-dot-license or"
-                    " --skip-unrecognised:"
-                ),
-                "\n".join(str(path) for path in unrecognised_files),
-            )
-        )
-
-
 def find_template(project: Project, name: str) -> Template:
     """Find a template given a name.
 
@@ -133,6 +115,7 @@ def add_header_to_file(
     style: Optional[str],
     force_multi: bool = False,
     skip_existing: bool = False,
+    skip_unrecognised: bool = False,
     merge_copyrights: bool = False,
     replace: bool = True,
     out: IO[str] = sys.stdout,
@@ -145,9 +128,18 @@ def add_header_to_file(
     else:
         comment_style = _get_comment_style(path)
     if comment_style is None:
-        out.write(_("Skipped unrecognised file {path}").format(path=path))
+        if skip_unrecognised:
+            out.write(_("Skipped unrecognised file {path}").format(path=path))
+            out.write("\n")
+            return result
+        out.write(
+            _("{path} is not recognised; creating {path}.license").format(
+                path=path
+            )
+        )
         out.write("\n")
-        return result
+        path = _determine_license_path(path)
+        comment_style = EmptyCommentStyle
 
     with open(path, "r", encoding="utf-8", newline="") as fp:
         text = fp.read()
@@ -468,8 +460,6 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
             force_single=args.single_line,
             force_multi=args.multi_line,
         )
-        if not args.skip_unrecognised:
-            verify_paths_comment_style(paths, args.parser)
 
     template, commented = get_template(args, project)
 
@@ -504,6 +494,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
             style=args.style,
             force_multi=args.multi_line,
             skip_existing=args.skip_existing,
+            skip_unrecognised=args.skip_unrecognised,
             merge_copyrights=args.merge_copyrights,
             replace=not args.no_replace,
             out=out,
