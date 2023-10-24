@@ -66,6 +66,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Removed
 
+- Removed deprecated `--explicit-license`. (#TODO)
+
 ### Fixed
 
 - Reduced python-debian minimum version to 0.1.34. (#808)

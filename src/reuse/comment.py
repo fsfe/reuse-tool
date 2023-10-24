@@ -491,7 +491,7 @@ class TexCommentStyle(CommentStyle):
 
 class UncommentableCommentStyle(EmptyCommentStyle):
     """A pseudo comment style to indicate that this file is uncommentable. This
-    results in an external .license file as for binaries or --explicit-license.
+    results in an external .license file for binaries and --force-dot-license.
     """
 
 

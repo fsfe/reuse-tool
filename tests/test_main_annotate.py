@@ -818,48 +818,6 @@ def test_annotate_force_dot_license(fake_repository, stringio, mock_date_today):
     assert simple_file.read_text() == "pass"
 
 
-def test_annotate_force_dot_license_identical_to_explicit_license(
-    fake_repository, stringio, mock_date_today
-):
-    """For backwards compatibility, --force-dot-license should have identical
-    results as --explicit-license.
-    """
-    files = [
-        fake_repository / "foo.py",
-        fake_repository / "bar.py",
-    ]
-    for path in files:
-        path.write_text("pass")
-    expected = cleandoc(
-        """
-        SPDX-FileCopyrightText: 2018 Jane Doe
-
-        SPDX-License-Identifier: GPL-3.0-or-later
-        """
-    )
-
-    for arg, path in zip(("--force-dot-license", "--explicit-license"), files):
-        main(
-            [
-                "annotate",
-                "--license",
-                "GPL-3.0-or-later",
-                "--copyright",
-                "Jane Doe",
-                arg,
-                str(path),
-            ],
-            out=stringio,
-        )
-
-    for path in files:
-        assert (
-            path.with_name(f"{path.name}.license").read_text().strip()
-            == expected
-        )
-        assert path.read_text() == "pass"
-
-
 def test_annotate_force_dot_license_double(
     fake_repository, stringio, mock_date_today
 ):

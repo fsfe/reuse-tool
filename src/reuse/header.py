@@ -15,7 +15,6 @@
 """Functions for manipulating the comment headers of files."""
 
 
-import argparse
 import datetime
 import logging
 import os
@@ -542,6 +541,112 @@ def _add_header_to_file(
     return result
 
 
+def _addheader_deprecation_warning(args: Namespace) -> None:
+    if "addheader" in args.parser.prog.split():
+        _LOGGER.warning(
+            _(
+                "'reuse addheader' has been deprecated in favour of"
+                " 'reuse annotate'"
+            )
+        )
+
+
+def _style_and_unrecognised_warning(args: Namespace) -> None:
+    if args.style is not None and args.skip_unrecognised:
+        _LOGGER.warning(
+            _(
+                "--skip-unrecognised has no effect when used together with"
+                " --style"
+            )
+        )
+
+
+def _test_args(args: Namespace) -> None:
+    def _test_new_value_required() -> None:
+        if not any((args.contributor, args.copyright, args.license)):
+            args.parser.error(
+                _("option --contributor, --copyright or --license is required")
+            )
+
+    _test_new_value_required()
+
+
+def _all_paths(args: Namespace, project: Project) -> Set[Path]:
+    if args.recursive:
+        paths: Set[Path] = set()
+        all_files = [path.resolve() for path in project.all_files()]
+        for path in args.path:
+            if path.is_file():
+                paths.add(path)
+            else:
+                paths |= {
+                    child
+                    for child in all_files
+                    if path.resolve() in child.parents
+                }
+    else:
+        paths = args.path
+    paths = {_determine_license_path(path) for path in paths}
+    return paths
+
+
+def _get_template(args: Namespace, project: Project) -> Tuple[Template, bool]:
+    commented = False
+    try:
+        template = cast(Template, _find_template(project, args.template))
+    except TemplateNotFound:
+        args.parser.error(
+            _("template {template} could not be found").format(
+                template=args.template
+            )
+        )
+        # This code is never reached, but mypy is not aware that
+        # parser.error quits the program.
+        raise
+
+    if ".commented" in Path(cast(str, template.name)).suffixes:
+        commented = True
+    return template, commented
+
+
+def _get_year(args: Namespace) -> Optional[str]:
+    year = None
+    if not args.exclude_year:
+        if args.year and len(args.year) > 1:
+            year = f"{min(args.year)} - {max(args.year)}"
+        elif args.year:
+            year = args.year.pop()
+        else:
+            year = str(datetime.date.today().year)
+    return year
+
+
+def _get_reuse_info(args: Namespace, year: Optional[str]) -> ReuseInfo:
+    expressions = set(args.license) if args.license is not None else set()
+    copyright_style = (
+        args.copyright_style if args.copyright_style is not None else "spdx"
+    )
+    copyright_lines = (
+        {
+            make_copyright_line(
+                item, year=year, copyright_style=copyright_style
+            )
+            for item in args.copyright
+        }
+        if args.copyright is not None
+        else set()
+    )
+    contributors = (
+        set(args.contributor) if args.contributor is not None else set()
+    )
+
+    return ReuseInfo(
+        spdx_expressions=expressions,
+        copyright_lines=copyright_lines,
+        contributor_lines=contributors,
+    )
+
+
 def _verify_write_access(
     paths: Iterable[StrPath], parser: ArgumentParser
 ) -> None:
@@ -576,7 +681,8 @@ def add_arguments(parser: ArgumentParser) -> None:
         type=str,
         help=_("file contributor, repeatable"),
     )
-    parser.add_argument(
+    year_mutex_group = parser.add_mutually_exclusive_group()
+    year_mutex_group.add_argument(
         "--year",
         "-y",
         action="append",
@@ -604,7 +710,7 @@ def add_arguments(parser: ArgumentParser) -> None:
         type=str,
         help=_("name of template to use, optional"),
     )
-    parser.add_argument(
+    year_mutex_group.add_argument(
         "--exclude-year",
         action="store_true",
         help=_("do not include year in statement"),
@@ -614,20 +720,16 @@ def add_arguments(parser: ArgumentParser) -> None:
         action="store_true",
         help=_("merge copyright lines if copyright statements are identical"),
     )
-    parser.add_argument(
+    line_mutex_group = parser.add_mutually_exclusive_group()
+    line_mutex_group.add_argument(
         "--single-line",
         action="store_true",
         help=_("force single-line comment style, optional"),
     )
-    parser.add_argument(
+    line_mutex_group.add_argument(
         "--multi-line",
         action="store_true",
         help=_("force multi-line comment style, optional"),
-    )
-    parser.add_argument(
-        "--explicit-license",
-        action="store_true",
-        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         "--force-dot-license",
@@ -664,62 +766,13 @@ def add_arguments(parser: ArgumentParser) -> None:
 
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """Add headers to files."""
-    # pylint: disable=too-many-branches,too-many-locals,too-many-statements
-    if "addheader" in args.parser.prog.split():
-        _LOGGER.warning(
-            _(
-                "'reuse addheader' has been deprecated in favour of"
-                " 'reuse annotate'"
-            )
-        )
+    _addheader_deprecation_warning(args)
 
-    if not any((args.contributor, args.copyright, args.license)):
-        args.parser.error(
-            _("option --contributor, --copyright or --license is required")
-        )
+    _test_args(args)
 
-    if args.exclude_year and args.year:
-        args.parser.error(
-            _("option --exclude-year and --year are mutually exclusive")
-        )
+    _style_and_unrecognised_warning(args)
 
-    if args.single_line and args.multi_line:
-        args.parser.error(
-            _("option --single-line and --multi-line are mutually exclusive")
-        )
-
-    if args.style is not None and args.skip_unrecognised:
-        _LOGGER.warning(
-            _(
-                "--skip-unrecognised has no effect when used together with"
-                " --style"
-            )
-        )
-    if args.explicit_license:
-        _LOGGER.warning(
-            _(
-                "--explicit-license has been deprecated in favour of"
-                " --force-dot-license"
-            )
-        )
-        args.force_dot_license = True
-
-    if args.recursive:
-        paths: Set[Path] = set()
-        all_files = [path.resolve() for path in project.all_files()]
-        for path in args.path:
-            if path.is_file():
-                paths.add(path)
-            else:
-                paths |= {
-                    child
-                    for child in all_files
-                    if path.resolve() in child.parents
-                }
-    else:
-        paths = args.path
-
-    paths = {_determine_license_path(path) for path in paths}
+    paths = _all_paths(args, project)
 
     if not args.force_dot_license:
         _verify_write_access(paths, args.parser)
@@ -738,53 +791,11 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     template: Optional[Template] = None
     commented = False
     if args.template:
-        try:
-            template = cast(Template, _find_template(project, args.template))
-        except TemplateNotFound:
-            args.parser.error(
-                _("template {template} could not be found").format(
-                    template=args.template
-                )
-            )
-            # This code is never reached, but mypy is not aware that
-            # parser.error quits the program.
-            raise
+        template, commented = _get_template(args, project)
 
-        if ".commented" in Path(cast(str, template.name)).suffixes:
-            commented = True
+    year = _get_year(args)
 
-    year = None
-    if not args.exclude_year:
-        if args.year and len(args.year) > 1:
-            year = f"{min(args.year)} - {max(args.year)}"
-        elif args.year:
-            year = args.year.pop()
-        else:
-            year = str(datetime.date.today().year)
-
-    expressions = set(args.license) if args.license is not None else set()
-    copyright_style = (
-        args.copyright_style if args.copyright_style is not None else "spdx"
-    )
-    copyright_lines = (
-        {
-            make_copyright_line(
-                item, year=year, copyright_style=copyright_style
-            )
-            for item in args.copyright
-        }
-        if args.copyright is not None
-        else set()
-    )
-    contributors = (
-        set(args.contributor) if args.contributor is not None else set()
-    )
-
-    reuse_info = ReuseInfo(
-        spdx_expressions=expressions,
-        copyright_lines=copyright_lines,
-        contributor_lines=contributors,
-    )
+    reuse_info = _get_reuse_info(args, year)
 
     result = 0
     for path in paths:

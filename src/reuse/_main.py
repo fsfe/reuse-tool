@@ -145,7 +145,7 @@ def parser() -> argparse.ArgumentParser:
                 " '--template mytemplate'. Read the online documentation on"
                 " how to use this feature.\n"
                 "\n"
-                "If a binary file is detected, or if --explicit-license is"
+                "If a binary file is detected, or if --force-dot-license is"
                 " specified, the header is placed in a .license file."
             )
         ),
