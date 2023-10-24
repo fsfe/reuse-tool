@@ -16,8 +16,8 @@ from typing import IO, Callable, List, Optional, Type, cast
 from . import (
     __REUSE_version__,
     __version__,
+    annotate,
     download,
-    header,
     init,
     lint,
     spdx,
@@ -108,8 +108,8 @@ def parser() -> argparse.ArgumentParser:
     add_command(
         subparsers,
         "annotate",
-        header.add_arguments,
-        header.run,
+        annotate.add_arguments,
+        annotate.run,
         help=_("add copyright and licensing into the header of files"),
         description=fill_all(
             _(
@@ -154,8 +154,8 @@ def parser() -> argparse.ArgumentParser:
     add_command(
         subparsers,
         "addheader",
-        header.add_arguments,
-        header.run,
+        annotate.add_arguments,
+        annotate.run,
         # TRANSLATORS: Do not translate annotate.
         help=_("deprecated in favor of annotate"),
     )
