@@ -90,7 +90,6 @@ msgid "add copyright and licensing into the header of files"
 msgstr "agrega el copyright y la licencia a la cabecera de los ficheros"
 
 #: src/reuse/_main.py:116
-#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -119,36 +118,34 @@ msgid ""
 "If a binary file is detected, or if --force-dot-license is specified, the "
 "header is placed in a .license file."
 msgstr ""
-"Añade un copyright y unas licencias en la cabecera de uno o más archivos.\n"
+"Agregue derechos de autor y licencias al encabezado de uno o más archivos.\n"
 "\n"
-"Usando --copyright y --license, puedes especificar qué titulares con "
-"derechos de autor y licencias añadir a las cabeceras de los archivos.\n"
+"Usando --copyright y --license, puede especificar qué titulares de derechos "
+"de autor y licencias agregar a las cabeceras de los archivos dados.\n"
 "\n"
-"Usando --contributor, puedes especificar las personas o las entidades que "
-"han contribuido pero no son titulares de los derechos de autor de los "
-"archivos.\n"
-"El primer comentario es reemplazado por una nueva cabecera que contiene la "
-"nueva información del copyright y las licencias y tu anterior copyright y "
-"licencias. Si deseas mantener intacto el primer comentario, utiliza --no-"
+"Usando --contributor, puede especificar personas o entidades que "
+"contribuyeron, pero no tienen el copyright de los archivos dados.\n"
+"El primer comentario se sustituye por un nuevo encabezado que contiene la "
+"nueva información sobre los derechos de autor y licencias y su antigua "
+"información. Si desea mantener intacto el primer comentario, use --no-"
 "replace.\n"
 "\n"
-"El estilo del comentario debería ser autodetectado para tus archivos. Si no "
-"se puedes detectar un estilo de un comentario o no se especifica --skip-"
-"unrecognised, el proceso se aborta. Utiliza --style para especificar o "
-"anular el estilo del comentario a utilizar.\n"
+"El estilo del comentario debe ser auto-detectado para sus archivos. Si no se "
+"pudo detectar un estilo de comentario y no se especifica --skip-"
+"unrecognised, el proceso se aborta. Use --style para especificar o "
+"sobreescribir el estilo de comentario a usar.\n"
 "\n"
-"Se utiliza un estilo para el comentario de una sola línea cuando está "
-"disponible. Si no hay disponible ningún estilo para el comentario de una "
-"sola línea, se utiliza un estilo para el comentario de varias líneas. Puedes "
-"forzar un determinado estilo para el comentario utilizando --single-line o --"
-"multi-line.\n"
+"Se utiliza un estilo de comentario de una sola línea cuando está disponible. "
+"Si no hay un estilo de comentario de una sola línea, se utiliza un estilo de "
+"comentario de varias líneas. Puede forzar un cierto estilo de comentario "
+"usando --single-line o --multi-line.\n"
 "\n"
-"Puedes cambiar la plantilla del comentario de la cabecera utilizando --"
-"template. Coloca una plantilla Jinja2 en .reuse/templates/mytemplate.jinja2. "
-"Puedes usar la plantilla especificando '--template mytemplate'. Lee la "
+"Puede cambiar la plantilla del comentario de la cabecera usando --template. "
+"Coloque una plantilla Jinja2 en .reuse/templates/mytemplate.jinja2. Puede "
+"usar la plantilla especificando '--template mytemplate'. Lea la "
 "documentación en línea sobre cómo utilizar esta función.\n"
 "\n"
-"Si se detectas un archivo binario, o si se especifica --explicit-license, la "
+"Si se detecta un archivo binario, o si se especifica --force-dot-license, la "
 "cabecera se coloca en un archivo .license."
 
 #: src/reuse/_main.py:159
@@ -296,6 +293,8 @@ msgid ""
 "source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself"
 msgstr ""
+"fuente desde la que copiar las licencias LicenseRef- personalizadas, ya sea "
+"un directorio que contenga el archivo o el propio archivo"
 
 #: src/reuse/download.py:148
 #, python-brace-format
@@ -303,9 +302,9 @@ msgid "Error: {spdx_identifier} already exists."
 msgstr "Error: {spdx_identifier} ya existe."
 
 #: src/reuse/download.py:155
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error: {path} does not exist."
-msgstr "'{path}' no acaba en .spdx"
+msgstr "Error: {path} no existe."
 
 #: src/reuse/download.py:158
 msgid "Error: Failed to download license."
@@ -388,7 +387,7 @@ msgstr "¡Ya hemos terminado! Iniciando."
 
 #: src/reuse/init.py:128
 msgid "Retrieving {}"
-msgstr ""
+msgstr "Recuperando {}"
 
 #: src/reuse/init.py:133
 msgid "{} already exists"
@@ -404,6 +403,8 @@ msgid ""
 "Error: Could not copy {path}, please add {lic}.txt manually in the LICENCES/ "
 "directory."
 msgstr ""
+"Error: No se pudo copiar {path}, por favor añada {lic}.txt manualmente en el "
+"directorio LICENCIAS/."
 
 #: src/reuse/init.py:149
 msgid "Creating .reuse/dep5"
@@ -544,7 +545,7 @@ msgstr ""
 
 #: src/reuse/lint.py:209
 msgid "RECOMMENDATIONS"
-msgstr ""
+msgstr "RECOMENDACIONES"
 
 #: src/reuse/project.py:80
 msgid ""
@@ -649,6 +650,11 @@ msgid ""
 "valid SPDX License Identifiers or do not start with 'LicenseRef-'. FAQ about "
 "custom licenses: https://reuse.software/faq/#custom-license"
 msgstr ""
+"Corregir licencias defectuosas: Al menos una licencia en el directorio "
+"LICENCIAS y/o proporcionada por etiquetas 'SPDX-License-Identifier' no es "
+"válida. No son identificadores de licencia SPDX válidos o no empiezan por "
+"'LicenseRef-'. Preguntas frecuentes sobre las licencias personalizadas: "
+"https://reuse.software/faq/#custom-license"
 
 #: src/reuse/report.py:411
 msgid ""
@@ -658,6 +664,11 @@ msgid ""
 "recommended  new identifiers can be found here: <https://spdx.org/licenses/"
 "#deprecated>"
 msgstr ""
+"Corrección de licencias obsoletas: Al menos una de las licencias en el "
+"directorio LICENCIAS y/o proporcionada por una etiqueta 'SPDX-License-"
+"Identifier' o en '.reuse/dep5' ha sido obsoleta por SPDX. La lista actual y "
+"los nuevos identificadores recomendados se encuentran aquí: <https://spdx."
+"org/licenses/#deprecated>"
 
 #: src/reuse/report.py:422
 msgid ""
@@ -665,6 +676,9 @@ msgid ""
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
 "the file(s) accordingly."
 msgstr ""
+"Corregir licencias sin extensión de archivo: al menos un archivo de texto "
+"con la licencia en el directorio 'LICENCIAS' no tiene una extensión '.txt'. "
+"Cambie el nombre de los archivos en consecuencia."
 
 #: src/reuse/report.py:431
 msgid ""
@@ -674,6 +688,13 @@ msgid ""
 "simply run 'reuse download --all' to get any missing ones. For custom "
 "licenses (starting with 'LicenseRef-'), you need to add these files yourself."
 msgstr ""
+"Corrección de las licencias que faltan: Para al menos uno de los "
+"identificadores de la licencia proporcionados por las etiquetas 'SPDX-"
+"License-Identifier', no existe el correspondiente archivo de texto de "
+"licencia en el directorio 'LICENCIAS'. Para los identificadores de licencia "
+"SPDX, basta con ejecutar 'reuse download --all' para obtener los que falten. "
+"En el caso de las licencias personalizadas (que empiezan por 'LicenseRef-'), "
+"deberá añadir estos archivos usted mismo."
 
 #: src/reuse/report.py:443
 msgid ""
@@ -683,6 +704,12 @@ msgid ""
 "delete the unused license text if you are sure that no file or code snippet "
 "is licensed as such."
 msgstr ""
+"Corregir licencias no utilizadas: Al menos uno de los archivos de texto de "
+"la licencia en 'LICENCIAS' no está referenciado por ningún archivo, por "
+"ejemplo, por una etiqueta 'SPDX-License-Identifier'. Por favor, asegúrese de "
+"etiquetar correctamente los archivos con la licencia correspondiente, o "
+"elimine el texto de la licencia no utilizado si está seguro de que ningún "
+"archivo o fragmento de código tiene una licencia como tal."
 
 #: src/reuse/report.py:454
 msgid ""
@@ -690,6 +717,10 @@ msgid ""
 "by the tool. Please check the file permissions. You will find the affected "
 "files at the top of the output as part of the logged error messages."
 msgstr ""
+"Corregir errores de lectura: Al menos uno de los archivos de su directorio "
+"no puede ser leído por la herramienta. Compruebe los permisos de los "
+"archivos. Encontrará los archivos afectados en la parte superior como parte "
+"de los mensajes de los errores registrados."
 
 #: src/reuse/report.py:463
 msgid ""
@@ -699,6 +730,11 @@ msgid ""
 "file. The tutorial explains additional ways to do this: <https://reuse."
 "software/tutorial/>"
 msgstr ""
+"Corregir la falta de información del copyright/licencia: Para uno o más "
+"archivos, la herramienta no puede encontrar la información del copyright y/o "
+"licencia. Para ello, añada las etiquetas 'SPDX-FileCopyrightText' y 'SPDX-"
+"License-Identifer' a cada archivo. El tutorial explica otras formas de "
+"hacerlo: <https://reuse.software/tutorial/>"
 
 #: src/reuse/spdx.py:32
 msgid ""
@@ -735,41 +771,41 @@ msgstr ""
 "convenciones de la nomenclatura sugeridas aquí: https://spdx.github.io/spdx-"
 "spec/conformance/#44-standard-data-format-requirements"
 
-#: /usr/lib/python3.10/argparse.py:308
+#: /usr/lib/python3.10/argparse.py:308 /usr/lib/python3.8/argparse.py:307
 msgid "usage: "
 msgstr "uso: "
 
-#: /usr/lib/python3.10/argparse.py:880
+#: /usr/lib/python3.10/argparse.py:880 /usr/lib/python3.8/argparse.py:858
 msgid ".__call__() not defined"
 msgstr ".__call__() no definido"
 
-#: /usr/lib/python3.10/argparse.py:1223
+#: /usr/lib/python3.10/argparse.py:1223 /usr/lib/python3.8/argparse.py:1161
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr ""
 "analizador sintáctico desconocido: %(parser_name)r (alternativas: "
 "%(choices)s)"
 
-#: /usr/lib/python3.10/argparse.py:1283
+#: /usr/lib/python3.10/argparse.py:1283 /usr/lib/python3.8/argparse.py:1221
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr "parámetro \"-\" con modo %r"
 
-#: /usr/lib/python3.10/argparse.py:1292
+#: /usr/lib/python3.10/argparse.py:1292 /usr/lib/python3.8/argparse.py:1230
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
 msgstr "no se puede abrir '%(filename)s': %(error)s"
 
-#: /usr/lib/python3.10/argparse.py:1501
+#: /usr/lib/python3.10/argparse.py:1501 /usr/lib/python3.8/argparse.py:1439
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr "no se pueden fusionar las acciones: dos grupos se llaman %r"
 
-#: /usr/lib/python3.10/argparse.py:1539
+#: /usr/lib/python3.10/argparse.py:1539 /usr/lib/python3.8/argparse.py:1477
 msgid "'required' is an invalid argument for positionals"
 msgstr "'required' es un argumento posicional inválido"
 
-#: /usr/lib/python3.10/argparse.py:1561
+#: /usr/lib/python3.10/argparse.py:1561 /usr/lib/python3.8/argparse.py:1499
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
@@ -777,28 +813,28 @@ msgid ""
 msgstr ""
 "Opción no válida %(option)r: Debe comenzar con una letra %(prefix_chars)r"
 
-#: /usr/lib/python3.10/argparse.py:1579
+#: /usr/lib/python3.10/argparse.py:1579 /usr/lib/python3.8/argparse.py:1519
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr "se requiere dest= para opciones como %r"
 
-#: /usr/lib/python3.10/argparse.py:1596
+#: /usr/lib/python3.10/argparse.py:1596 /usr/lib/python3.8/argparse.py:1536
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr "valor no válido de conflict_resolution: %r"
 
-#: /usr/lib/python3.10/argparse.py:1614
+#: /usr/lib/python3.10/argparse.py:1614 /usr/lib/python3.8/argparse.py:1554
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] "cadena de opción conflictiva: %s"
 msgstr[1] "cadenas de opción conflictivas: %s"
 
-#: /usr/lib/python3.10/argparse.py:1680
+#: /usr/lib/python3.10/argparse.py:1680 /usr/lib/python3.8/argparse.py:1620
 msgid "mutually exclusive arguments must be optional"
 msgstr "los parámetros mutuamente excluyentes deben ser opcionales"
 
-#: /usr/lib/python3.10/argparse.py:1748
+#: /usr/lib/python3.10/argparse.py:1748 /usr/lib/python3.8/argparse.py:1683
 msgid "positional arguments"
 msgstr "parámetros posicionales"
 
@@ -806,90 +842,93 @@ msgstr "parámetros posicionales"
 msgid "options"
 msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:1764
+#: /usr/lib/python3.10/argparse.py:1764 /usr/lib/python3.8/argparse.py:1699
 msgid "show this help message and exit"
 msgstr "mostrar este mensaje de ayuda y salir"
 
-#: /usr/lib/python3.10/argparse.py:1795
+#: /usr/lib/python3.10/argparse.py:1795 /usr/lib/python3.8/argparse.py:1730
 msgid "cannot have multiple subparser arguments"
 msgstr "no puede contener múltiples parámetros del subanalizador sintáctico"
 
 #: /usr/lib/python3.10/argparse.py:1847 /usr/lib/python3.10/argparse.py:2362
+#: /usr/lib/python3.8/argparse.py:1782 /usr/lib/python3.8/argparse.py:2289
 #, python-format
 msgid "unrecognized arguments: %s"
 msgstr "parámetros no reconocidos: %s"
 
-#: /usr/lib/python3.10/argparse.py:1948
+#: /usr/lib/python3.10/argparse.py:1948 /usr/lib/python3.8/argparse.py:1879
 #, python-format
 msgid "not allowed with argument %s"
 msgstr "no permitido con el parámetro %s"
 
 #: /usr/lib/python3.10/argparse.py:1998 /usr/lib/python3.10/argparse.py:2012
+#: /usr/lib/python3.8/argparse.py:1925 /usr/lib/python3.8/argparse.py:1939
 #, python-format
 msgid "ignored explicit argument %r"
 msgstr "parámetro explícito ignorado: %r"
 
-#: /usr/lib/python3.10/argparse.py:2119
+#: /usr/lib/python3.10/argparse.py:2119 /usr/lib/python3.8/argparse.py:2046
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr "los siguientes parámetros son obligatorios: %s"
 
-#: /usr/lib/python3.10/argparse.py:2134
+#: /usr/lib/python3.10/argparse.py:2134 /usr/lib/python3.8/argparse.py:2061
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr "se requiere uno de los parámetros %s"
 
-#: /usr/lib/python3.10/argparse.py:2177
+#: /usr/lib/python3.10/argparse.py:2177 /usr/lib/python3.8/argparse.py:2104
 msgid "expected one argument"
 msgstr "se espera un parámetro"
 
-#: /usr/lib/python3.10/argparse.py:2178
+#: /usr/lib/python3.10/argparse.py:2178 /usr/lib/python3.8/argparse.py:2105
 msgid "expected at most one argument"
 msgstr "se espera un parámetro, como máximo"
 
-#: /usr/lib/python3.10/argparse.py:2179
+#: /usr/lib/python3.10/argparse.py:2179 /usr/lib/python3.8/argparse.py:2106
 msgid "expected at least one argument"
 msgstr "se espera un parámetro, como mínimo"
 
-#: /usr/lib/python3.10/argparse.py:2183
+#: /usr/lib/python3.10/argparse.py:2183 /usr/lib/python3.8/argparse.py:2110
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] "se espera el parámetro %s"
 msgstr[1] "se esperan los parámetros %s"
 
-#: /usr/lib/python3.10/argparse.py:2241
+#: /usr/lib/python3.10/argparse.py:2241 /usr/lib/python3.8/argparse.py:2168
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr "opción ambigua: %(option)s podría coincidir con %(matches)s"
 
-#: /usr/lib/python3.10/argparse.py:2305
+#: /usr/lib/python3.10/argparse.py:2305 /usr/lib/python3.8/argparse.py:2232
 #, python-format
 msgid "unexpected option string: %s"
 msgstr "cadena de opción inesperada: %s"
 
-#: /usr/lib/python3.10/argparse.py:2502
+#: /usr/lib/python3.10/argparse.py:2502 /usr/lib/python3.8/argparse.py:2429
 #, python-format
 msgid "%r is not callable"
 msgstr "%r no se puede invocar"
 
-#: /usr/lib/python3.10/argparse.py:2519
+#: /usr/lib/python3.10/argparse.py:2519 /usr/lib/python3.8/argparse.py:2446
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr "valor no válido de %(type)s: %(value)r"
 
-#: /usr/lib/python3.10/argparse.py:2530
+#: /usr/lib/python3.10/argparse.py:2530 /usr/lib/python3.8/argparse.py:2457
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr "opción inválida: %(value)r (opciones: %(choices)s)"
 
-#: /usr/lib/python3.10/argparse.py:2606
+#: /usr/lib/python3.10/argparse.py:2606 /usr/lib/python3.8/argparse.py:2533
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: error: %(message)s\n"
 
-#~ msgid "optional arguments"
-#~ msgstr "parámetros opcionales"
+#: /usr/lib/python3.8/argparse.py:1684
+msgid "optional arguments"
+msgstr "parámetros opcionales"
 
 #~ msgid "deprecated in favor of annotate"
 #~ msgstr "obsoleto en favor de annotate"
