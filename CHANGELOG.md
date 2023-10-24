@@ -58,13 +58,17 @@ CLI command and its behaviour. There are no guarantees of stability for the
   "[repositories] that were cloned independently and later added as a submodule
   or old setups", which "have the submodule's git directory inside the submodule
   instead of embedded into the superproject's git directory". (#687)
-
+- When running `annotate` on a file with an unrecognised file path,
+  automatically create a `.license` file. (#851)
 - No longer scan binary or uncommentable files for their contents in search of
   REUSE information. (#825)
 
 ### Deprecated
 
 ### Removed
+
+- Removed deprecated `--explicit-license`. (#851)
+- Removed deprecated `addheader`. (#851)
 
 ### Fixed
 
@@ -763,8 +767,8 @@ Specification.
 - `reuse lint` now provides a helpful summary instead of merely spitting out
   non-compliant files.
 - `reuse compile` is now `reuse spdx`.
-- In addition to `Copyright` and `©`, copyright lines can be marked with the tag
-  `SPDX-FileCopyrightText:`. This is the new recommended default.
+- In addition to `Copyright` and `©`, copyright lines can be marked with the
+  tag `SPDX-FileCopyrightText:`. This is the new recommended default.
 - Project no longer depends on pygit2.
 - The list of SPDX licenses has been updated.
 - `Valid-License-Identifier` is no longer used, and licenses and exceptions can

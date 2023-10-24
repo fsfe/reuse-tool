@@ -52,36 +52,6 @@ def test_annotate_simple(fake_repository, stringio, mock_date_today):
     assert simple_file.read_text() == expected
 
 
-def test_addheader_simple(fake_repository, stringio, mock_date_today):
-    """Add a header to a file that does not have one."""
-    simple_file = fake_repository / "foo.py"
-    simple_file.write_text("pass")
-    expected = cleandoc(
-        """
-        # SPDX-FileCopyrightText: 2018 Jane Doe
-        #
-        # SPDX-License-Identifier: GPL-3.0-or-later
-
-        pass
-        """
-    )
-
-    result = main(
-        [
-            "addheader",
-            "--license",
-            "GPL-3.0-or-later",
-            "--copyright",
-            "Jane Doe",
-            "foo.py",
-        ],
-        out=stringio,
-    )
-
-    assert result == 0
-    assert simple_file.read_text() == expected
-
-
 def test_annotate_simple_no_replace(fake_repository, stringio, mock_date_today):
     """Add a header to a file without replacing the existing header."""
     simple_file = fake_repository / "foo.py"
@@ -429,22 +399,28 @@ def test_annotate_implicit_style_filename(
     assert simple_file.read_text() == expected
 
 
-def test_annotate_unrecognised_style(fake_repository):
+def test_annotate_unrecognised_style(fake_repository, stringio):
     """Add a header to a file that has an unrecognised extension."""
     simple_file = fake_repository / "foo.foo"
     simple_file.write_text("pass")
 
-    with pytest.raises(SystemExit):
-        main(
-            [
-                "annotate",
-                "--license",
-                "GPL-3.0-or-later",
-                "--copyright",
-                "Jane Doe",
-                "foo.foo",
-            ]
-        )
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "foo.foo",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert (
+        "foo.foo is not recognised; creating foo.foo.license"
+        in stringio.getvalue()
+    )
 
 
 def test_annotate_skip_unrecognised(fake_repository, stringio):
@@ -816,48 +792,6 @@ def test_annotate_force_dot_license(fake_repository, stringio, mock_date_today):
         == expected
     )
     assert simple_file.read_text() == "pass"
-
-
-def test_annotate_force_dot_license_identical_to_explicit_license(
-    fake_repository, stringio, mock_date_today
-):
-    """For backwards compatibility, --force-dot-license should have identical
-    results as --explicit-license.
-    """
-    files = [
-        fake_repository / "foo.py",
-        fake_repository / "bar.py",
-    ]
-    for path in files:
-        path.write_text("pass")
-    expected = cleandoc(
-        """
-        SPDX-FileCopyrightText: 2018 Jane Doe
-
-        SPDX-License-Identifier: GPL-3.0-or-later
-        """
-    )
-
-    for arg, path in zip(("--force-dot-license", "--explicit-license"), files):
-        main(
-            [
-                "annotate",
-                "--license",
-                "GPL-3.0-or-later",
-                "--copyright",
-                "Jane Doe",
-                arg,
-                str(path),
-            ],
-            out=stringio,
-        )
-
-    for path in files:
-        assert (
-            path.with_name(f"{path.name}.license").read_text().strip()
-            == expected
-        )
-        assert path.read_text() == "pass"
 
 
 def test_annotate_force_dot_license_double(
@@ -1337,32 +1271,6 @@ def test_annotate_recursive_on_file(fake_repository, stringio, mock_date_today):
         "Joe Somebody" in (fake_repository / "src/source_code.py").read_text()
     )
     assert result == 0
-
-
-def test_annotate_recursive_contains_unrecognised(
-    fake_repository, stringio, mock_date_today
-):
-    """Expect error and no edited files if at least one file has not been
-    recognised."""
-    (fake_repository / "baz").mkdir(parents=True)
-    (fake_repository / "baz/foo.py").write_text("foo")
-    (fake_repository / "baz/bar.unknown").write_text("bar")
-    (fake_repository / "baz/baz.sh").write_text("baz")
-
-    with pytest.raises(SystemExit):
-        main(
-            [
-                "annotate",
-                "--license",
-                "Apache-2.0",
-                "--copyright",
-                "Jane Doe",
-                "--recursive",
-                "baz/",
-            ]
-        )
-
-    assert "Jane Doe" not in (fake_repository / "baz/foo.py").read_text()
 
 
 # REUSE-IgnoreEnd

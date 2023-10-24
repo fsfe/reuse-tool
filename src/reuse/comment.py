@@ -491,7 +491,7 @@ class TexCommentStyle(CommentStyle):
 
 class UncommentableCommentStyle(EmptyCommentStyle):
     """A pseudo comment style to indicate that this file is uncommentable. This
-    results in an external .license file as for binaries or --explicit-license.
+    results in an external .license file for binaries and --force-dot-license.
     """
 
 
@@ -617,6 +617,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".jinja": JinjaCommentStyle,
     ".jinja2": JinjaCommentStyle,
     ".jl": JuliaCommentStyle,
+    ".jpg": UncommentableCommentStyle,
+    ".jpeg": UncommentableCommentStyle,
     ".js": CCommentStyle,
     ".json": UncommentableCommentStyle,
     ".jsp": AspxCommentStyle,
@@ -663,6 +665,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".php5": CCommentStyle,
     ".pl": PythonCommentStyle,
     ".plantuml": PlantUmlCommentStyle,
+    ".png": UncommentableCommentStyle,
     ".po": PythonCommentStyle,
     ".pod": PythonCommentStyle,
     ".pot": PythonCommentStyle,
@@ -732,6 +735,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".vsh": CCommentStyle,  # V-Lang script
     ".vtl": VelocityCommentStyle,
     ".vue": HtmlCommentStyle,
+    ".webp": UncommentableCommentStyle,
     ".xls": UncommentableCommentStyle,
     ".xlsx": UncommentableCommentStyle,
     ".xml": HtmlCommentStyle,

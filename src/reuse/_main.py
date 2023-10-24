@@ -16,8 +16,8 @@ from typing import IO, Callable, List, Optional, Type, cast
 from . import (
     __REUSE_version__,
     __version__,
+    _annotate,
     download,
-    header,
     init,
     lint,
     spdx,
@@ -108,8 +108,8 @@ def parser() -> argparse.ArgumentParser:
     add_command(
         subparsers,
         "annotate",
-        header.add_arguments,
-        header.run,
+        _annotate.add_arguments,
+        _annotate.run,
         help=_("add copyright and licensing into the header of files"),
         description=fill_all(
             _(
@@ -145,19 +145,10 @@ def parser() -> argparse.ArgumentParser:
                 " '--template mytemplate'. Read the online documentation on"
                 " how to use this feature.\n"
                 "\n"
-                "If a binary file is detected, or if --explicit-license is"
+                "If a binary file is detected, or if --force-dot-license is"
                 " specified, the header is placed in a .license file."
             )
         ),
-    )
-
-    add_command(
-        subparsers,
-        "addheader",
-        header.add_arguments,
-        header.run,
-        # TRANSLATORS: Do not translate annotate.
-        help=_("deprecated in favor of annotate"),
     )
 
     add_command(
