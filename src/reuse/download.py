@@ -8,7 +8,6 @@
 import errno
 import logging
 import os
-import re
 import shutil
 import sys
 import urllib.request
@@ -19,8 +18,9 @@ from typing import IO, Optional
 from urllib.error import URLError
 from urllib.parse import urljoin
 
-from ._licenses import ALL_NON_DEPRECATED_MAP, REF_RE
+from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import (
+    _LICENSEREF_PATTERN,
     PathType,
     StrPath,
     find_licenses_directory,
@@ -94,7 +94,7 @@ def put_license_in_file(
         )
 
     # LicenseRef- license; don't download anything.
-    if re.match(REF_RE, spdx_identifier):
+    if _LICENSEREF_PATTERN.match(spdx_identifier):
         if source:
             source = Path(source)
             if source.is_dir():

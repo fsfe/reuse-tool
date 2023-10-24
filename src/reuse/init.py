@@ -14,8 +14,12 @@ from typing import IO, List
 from urllib.error import URLError
 
 from ._licenses import ALL_NON_DEPRECATED_MAP
-from ._util import PathType, print_incorrect_spdx_identifier
-from .download import REF_RE, _path_to_license_file, put_license_in_file
+from ._util import (
+    _LICENSEREF_PATTERN,
+    PathType,
+    print_incorrect_spdx_identifier,
+)
+from .download import _path_to_license_file, put_license_in_file
 from .project import Project
 from .vcs import find_root
 
@@ -46,7 +50,7 @@ def prompt_licenses(out: IO[str] = sys.stdout) -> List[str]:
         if not result:
             return licenses
         if result not in ALL_NON_DEPRECATED_MAP and not re.match(
-            REF_RE, result
+            _LICENSEREF_PATTERN, result
         ):
             print_incorrect_spdx_identifier(result, out=out)
             out.write("\n\n")
