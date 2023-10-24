@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-24 19:58+0000\n"
-"PO-Revision-Date: 2023-10-01 21:02+0000\n"
+"PO-Revision-Date: 2023-10-25 21:05+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.1.1\n"
 
 #: src/reuse/_main.py:34
 msgid ""
@@ -840,7 +840,7 @@ msgstr "parámetros posicionales"
 
 #: /usr/lib/python3.10/argparse.py:1749
 msgid "options"
-msgstr ""
+msgstr "opciones"
 
 #: /usr/lib/python3.10/argparse.py:1764 /usr/lib/python3.8/argparse.py:1699
 msgid "show this help message and exit"
@@ -928,7 +928,7 @@ msgstr "%(prog)s: error: %(message)s\n"
 
 #: /usr/lib/python3.8/argparse.py:1684
 msgid "optional arguments"
-msgstr "parámetros opcionales"
+msgstr "argumentos opcionales"
 
 #~ msgid "deprecated in favor of annotate"
 #~ msgstr "obsoleto en favor de annotate"
