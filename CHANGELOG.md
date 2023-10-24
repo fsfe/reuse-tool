@@ -51,6 +51,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 - Alpine Docker image now uses 3.18 as base. (#846)
 
+- No longer scan binary or uncommentable files for their contents in search of
+  REUSE information. (#825)
+
 ### Deprecated
 
 ### Removed
