@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 13:12+0000\n"
+"POT-Creation-Date: 2023-10-24 18:17+0000\n"
 "PO-Revision-Date: 2023-10-04 13:12+0000\n"
 "Last-Translator: Walter Paulo <polo@tictips.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -89,6 +89,7 @@ msgstr ""
 "(header) des fichiers"
 
 #: src/reuse/_main.py:116
+#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -114,7 +115,7 @@ msgid ""
 "template by specifying '--template mytemplate'. Read the online "
 "documentation on how to use this feature.\n"
 "\n"
-"If a binary file is detected, or if --explicit-license is specified, the "
+"If a binary file is detected, or if --force-dot-license is specified, the "
 "header is placed in a .license file."
 msgstr ""
 "Ajout des informations de droits d'auteur et de licence dans les en-têtes "
@@ -151,16 +152,11 @@ msgstr ""
 "Si un fichier binaire est détecté ou si --explicit-license est utilisé, l'en-"
 "tête est placé dans un fichier .license."
 
-#. TRANSLATORS: Do not translate annotate.
-#: src/reuse/_main.py:160
-msgid "deprecated in favor of annotate"
-msgstr "obsolète et remplacé par annotate"
-
-#: src/reuse/_main.py:168
+#: src/reuse/_main.py:159
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "télécharger une licence et la placer dans le répertoire LICENSES/"
 
-#: src/reuse/_main.py:171
+#: src/reuse/_main.py:162
 msgid ""
 "Download a license and place it in the LICENSES/ directory.\n"
 "\n"
@@ -187,15 +183,15 @@ msgstr ""
 "\n"
 "Si le répertoire LICENSES/ n'est pas trouvé, il sera simplement créé."
 
-#: src/reuse/_main.py:194
+#: src/reuse/_main.py:185
 msgid "initialize REUSE project"
 msgstr "initialiser le projet REUSE"
 
-#: src/reuse/_main.py:202
+#: src/reuse/_main.py:193
 msgid "list all non-compliant files"
 msgstr "lister tous les fichiers non-conformes"
 
-#: src/reuse/_main.py:205
+#: src/reuse/_main.py:196
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -233,56 +229,56 @@ msgstr ""
 "- Tous les fichiers disposent-ils de données de droits d'auteur et de "
 "licence valides ?"
 
-#: src/reuse/_main.py:232
+#: src/reuse/_main.py:223
 msgid "print the project's bill of materials in SPDX format"
 msgstr "imprimer la nomenclature du projet au format SPDX"
 
-#: src/reuse/_main.py:240
+#: src/reuse/_main.py:231
 msgid "list all supported SPDX licenses"
 msgstr "lister toutes les licences SPDX acceptées"
 
-#: src/reuse/_util.py:385
+#: src/reuse/_util.py:398
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Analyse de la syntaxe de '{expression}' impossible"
 
-#: src/reuse/_util.py:519
+#: src/reuse/_util.py:532
 msgid "'{}' is not a file"
 msgstr "'{}' n'est pas un fichier"
 
-#: src/reuse/_util.py:522
+#: src/reuse/_util.py:535
 msgid "'{}' is not a directory"
 msgstr "'{}' n'est pas un répertoire"
 
-#: src/reuse/_util.py:525
+#: src/reuse/_util.py:538
 msgid "can't open '{}'"
 msgstr "'{}' ne peut être ouvert"
 
-#: src/reuse/_util.py:530
+#: src/reuse/_util.py:543
 msgid "can't write to directory '{}'"
 msgstr "écriture impossible dans le répertoire '{}'"
 
-#: src/reuse/_util.py:536 src/reuse/header.py:556
+#: src/reuse/_util.py:549
 msgid "can't write to '{}'"
 msgstr "écriture impossible dans '{}'"
 
-#: src/reuse/_util.py:549
+#: src/reuse/_util.py:562
 msgid "can't read or write '{}'"
 msgstr "lecture ou écriture impossible pour '{}'"
 
-#: src/reuse/_util.py:559
+#: src/reuse/_util.py:572
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' n'est pas une expression SPDX valide, abandon"
 
-#: src/reuse/_util.py:587
+#: src/reuse/_util.py:600
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' n'est pas un identifiant de licence SPDX valide."
 
-#: src/reuse/_util.py:594
+#: src/reuse/_util.py:607
 msgid "Did you mean:"
 msgstr "Vous vouliez dire :"
 
-#: src/reuse/_util.py:601
+#: src/reuse/_util.py:614
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -339,177 +335,11 @@ msgstr "les arguments suivants sont nécessaires : license"
 msgid "cannot use --output with more than one license"
 msgstr "--output ne peut pas être utilisé avec plus d'une licence"
 
-#: src/reuse/header.py:130
+#: src/reuse/header.py:99
 msgid "generated comment is missing copyright lines or license expressions"
 msgstr ""
 "les commentaires générés ne contiennent pas de ligne ou d'expression de "
 "droits d'auteur ou de licence"
-
-#: src/reuse/header.py:394
-#, python-brace-format
-msgid ""
-"'{path}' does not support single-line comments, please do not use --single-"
-"line"
-msgstr ""
-"{path} n'accepte pas les commentaires monolignes. Merci de ne pas utiliser --"
-"single-line"
-
-#: src/reuse/header.py:401
-#, python-brace-format
-msgid ""
-"'{path}' does not support multi-line comments, please do not use --multi-line"
-msgstr ""
-"{path} n'accepte pas les commentaires multilinges. Merci de ne pas utiliser "
-"--multi-line"
-
-#: src/reuse/header.py:424
-msgid ""
-"The following files do not have a recognised file extension. Please use --"
-"style, --force-dot-license or --skip-unrecognised:"
-msgstr ""
-"'{path}' n'est pas une extension de fichier reconnue. Merci d'utiliser --"
-"style, --force-dot-license ou --skip-unrecognised :"
-
-#: src/reuse/header.py:478
-#, python-brace-format
-msgid "Skipped unrecognised file {path}"
-msgstr "Le fichier {path} non reconnu a été ignoré"
-
-#: src/reuse/header.py:490
-#, python-brace-format
-msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Le fichier ignoré {path} contenait déjà les données REUSE"
-
-#: src/reuse/header.py:524
-#, python-brace-format
-msgid "Error: Could not create comment for '{path}'"
-msgstr "Erreur : les commentaires ne peuvent être créés dans '{path}'"
-
-#: src/reuse/header.py:531
-#, python-brace-format
-msgid ""
-"Error: Generated comment header for '{path}' is missing copyright lines or "
-"license expressions. The template is probably incorrect. Did not write new "
-"header."
-msgstr ""
-"Erreur : l'en-tête de commentaire généré dans '{path}' ne contient pas de "
-"ligne ou d'expression de droits d'auteur ou de licence. Le modèle est "
-"probablement incorrect. Nouvel en-tête non écrit."
-
-#. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/header.py:542
-#, python-brace-format
-msgid "Successfully changed header of {path}"
-msgstr "En-tête de {path} modifié avec succès"
-
-#: src/reuse/header.py:567
-msgid "copyright statement, repeatable"
-msgstr "déclaration de droits d'auteur, répétable"
-
-#: src/reuse/header.py:574
-msgid "SPDX Identifier, repeatable"
-msgstr "Identifiant SPDX, répétable"
-
-#: src/reuse/header.py:580
-msgid "file contributor, repeatable"
-msgstr "contributeur au fichier, répétable"
-
-#: src/reuse/header.py:587
-msgid "year of copyright statement, optional"
-msgstr "année de déclaration de droits d'auteur, facultatif"
-
-#: src/reuse/header.py:595
-msgid "comment style to use, optional"
-msgstr "style de commentaire à utiliser, facultatif"
-
-#: src/reuse/header.py:601
-msgid "copyright style to use, optional"
-msgstr "style de droits d'auteur à utiliser, facultatif"
-
-#: src/reuse/header.py:608
-msgid "name of template to use, optional"
-msgstr "nom de modèle à utiliser, facultatif"
-
-#: src/reuse/header.py:613
-msgid "do not include year in statement"
-msgstr "ne pas inclure d'année dans la déclaration"
-
-#: src/reuse/header.py:618
-msgid "merge copyright lines if copyright statements are identical"
-msgstr ""
-"fusionner les lignes de droits d'auteur si les déclarations de droits "
-"d'auteur sont identiques"
-
-#: src/reuse/header.py:623
-msgid "force single-line comment style, optional"
-msgstr "forcer le style de commentaire monoligne, facultatif"
-
-#: src/reuse/header.py:628
-msgid "force multi-line comment style, optional"
-msgstr "forcer le style de commentaire multiligne, facultatif"
-
-#: src/reuse/header.py:638
-msgid "write a .license file instead of a header inside the file"
-msgstr "écrire un fichier .licence plutôt qu'un en-tête dans le fichier"
-
-#: src/reuse/header.py:645
-msgid "add headers to all files under specified directories recursively"
-msgstr ""
-"ajouter récursivement les en-têtes dans tous les fichiers des répertoires "
-"spécifiés"
-
-#: src/reuse/header.py:652
-msgid "do not replace the first header in the file; just add a new one"
-msgstr ""
-"ne pas remplacer le premier en-tête dans le fichier, mais simplement en "
-"ajouter un"
-
-#: src/reuse/header.py:658
-msgid "skip files with unrecognised comment styles"
-msgstr ""
-"ignorer les fichiers comportant des styles de commentaires non reconnus"
-
-#: src/reuse/header.py:663
-msgid "skip files that already contain REUSE information"
-msgstr "ignorer les fichiers qui contiennent déjà les données REUSE"
-
-#: src/reuse/header.py:674
-msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
-msgstr "\"reuse addheader\" est obsolète et remplacé par \"reuse annotate\""
-
-#: src/reuse/header.py:681
-msgid "option --contributor, --copyright or --license is required"
-msgstr "une des options --contributor, --copyright ou --license est nécessaire"
-
-#: src/reuse/header.py:686
-msgid "option --exclude-year and --year are mutually exclusive"
-msgstr "les options --exclude-year et --year sont mutuellement exclusives"
-
-#: src/reuse/header.py:691
-msgid "option --single-line and --multi-line are mutually exclusive"
-msgstr "les options --single-line et --multi-line sont mutuellement exclusives"
-
-#: src/reuse/header.py:697
-msgid "--skip-unrecognised has no effect when used together with --style"
-msgstr ""
-"--skip-unrecognised est sans effet quand il est utilisé en même temps que --"
-"style"
-
-#: src/reuse/header.py:704
-msgid "--explicit-license has been deprecated in favour of --force-dot-license"
-msgstr "--explicit-license est obsolète et remplacé par --force-dot-license"
-
-#: src/reuse/header.py:748
-#, python-brace-format
-msgid "template {template} could not be found"
-msgstr "le modèle {template} est introuvable"
-
-#: src/reuse/header.py:800
-#, python-brace-format
-msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
-msgstr ""
-"'{path}' est un fichier binaire ; par conséquent, le fichier '{new_path}' "
-"est utilisé pour l'en-tête"
 
 #: src/reuse/init.py:30
 msgid ""
@@ -723,26 +553,26 @@ msgstr ""
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:79
+#: src/reuse/project.py:80
 msgid ""
 "project is not a VCS repository or required VCS software is not installed"
 msgstr ""
 "le projet n'est pas un répertoire VCS ou le logiciel VCS nécessaire n'est "
 "pas installé"
 
-#: src/reuse/project.py:187
+#: src/reuse/project.py:188
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' est couvert par .reuse/dep5"
 
-#: src/reuse/project.py:193
+#: src/reuse/project.py:194
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
 
-#: src/reuse/project.py:234
+#: src/reuse/project.py:235
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -750,7 +580,7 @@ msgstr ""
 "'{path}' contient une expression SPDX qui ne peut pas être analysée : le "
 "fichier est ignoré"
 
-#: src/reuse/project.py:243
+#: src/reuse/project.py:244
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -768,25 +598,25 @@ msgstr ""
 "n'est actuellement nécessaire. Pour masquer cet avertissement à l'avenir, "
 "exécutez la commande avec l'argument `--suppress-deprecation`."
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:331
 msgid ".reuse/dep5 has syntax errors"
 msgstr ".reuse/dep5 contient des erreurs de syntaxe"
 
-#: src/reuse/project.py:332
+#: src/reuse/project.py:333
 msgid ".reuse/dep5 could not be parsed as utf-8"
 msgstr ".reuse/dep5 n'a pas pu être analysé comme fichier utf-8"
 
-#: src/reuse/project.py:358
+#: src/reuse/project.py:359
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "résolution de l'identifiant de '{path}'"
 
-#: src/reuse/project.py:366
+#: src/reuse/project.py:367
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} n'a pas d'extension de fichier"
 
-#: src/reuse/project.py:376
+#: src/reuse/project.py:377
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -799,7 +629,7 @@ msgstr ""
 "fournie à<https://spdx.org/licenses/>, soit qu'elle débute par 'LicenseRef-' "
 "et qu'elle contient une extension de fichier."
 
-#: src/reuse/project.py:388
+#: src/reuse/project.py:389
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -1059,6 +889,137 @@ msgstr "choix non valide : %(value)r (choisir parmi %(choices)s)"
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s : erreur : %(message)s\n"
+
+#~ msgid "deprecated in favor of annotate"
+#~ msgstr "obsolète et remplacé par annotate"
+
+#~ msgid ""
+#~ "'{path}' does not support single-line comments, please do not use --"
+#~ "single-line"
+#~ msgstr ""
+#~ "{path} n'accepte pas les commentaires monolignes. Merci de ne pas "
+#~ "utiliser --single-line"
+
+#~ msgid ""
+#~ "'{path}' does not support multi-line comments, please do not use --multi-"
+#~ "line"
+#~ msgstr ""
+#~ "{path} n'accepte pas les commentaires multilinges. Merci de ne pas "
+#~ "utiliser --multi-line"
+
+#~ msgid ""
+#~ "The following files do not have a recognised file extension. Please use --"
+#~ "style, --force-dot-license or --skip-unrecognised:"
+#~ msgstr ""
+#~ "'{path}' n'est pas une extension de fichier reconnue. Merci d'utiliser --"
+#~ "style, --force-dot-license ou --skip-unrecognised :"
+
+#~ msgid "Skipped unrecognised file {path}"
+#~ msgstr "Le fichier {path} non reconnu a été ignoré"
+
+#~ msgid "Skipped file '{path}' already containing REUSE information"
+#~ msgstr "Le fichier ignoré {path} contenait déjà les données REUSE"
+
+#~ msgid "Error: Could not create comment for '{path}'"
+#~ msgstr "Erreur : les commentaires ne peuvent être créés dans '{path}'"
+
+#~ msgid ""
+#~ "Error: Generated comment header for '{path}' is missing copyright lines "
+#~ "or license expressions. The template is probably incorrect. Did not write "
+#~ "new header."
+#~ msgstr ""
+#~ "Erreur : l'en-tête de commentaire généré dans '{path}' ne contient pas de "
+#~ "ligne ou d'expression de droits d'auteur ou de licence. Le modèle est "
+#~ "probablement incorrect. Nouvel en-tête non écrit."
+
+#~ msgid "Successfully changed header of {path}"
+#~ msgstr "En-tête de {path} modifié avec succès"
+
+#~ msgid "copyright statement, repeatable"
+#~ msgstr "déclaration de droits d'auteur, répétable"
+
+#~ msgid "SPDX Identifier, repeatable"
+#~ msgstr "Identifiant SPDX, répétable"
+
+#~ msgid "file contributor, repeatable"
+#~ msgstr "contributeur au fichier, répétable"
+
+#~ msgid "year of copyright statement, optional"
+#~ msgstr "année de déclaration de droits d'auteur, facultatif"
+
+#~ msgid "comment style to use, optional"
+#~ msgstr "style de commentaire à utiliser, facultatif"
+
+#~ msgid "copyright style to use, optional"
+#~ msgstr "style de droits d'auteur à utiliser, facultatif"
+
+#~ msgid "name of template to use, optional"
+#~ msgstr "nom de modèle à utiliser, facultatif"
+
+#~ msgid "do not include year in statement"
+#~ msgstr "ne pas inclure d'année dans la déclaration"
+
+#~ msgid "merge copyright lines if copyright statements are identical"
+#~ msgstr ""
+#~ "fusionner les lignes de droits d'auteur si les déclarations de droits "
+#~ "d'auteur sont identiques"
+
+#~ msgid "force single-line comment style, optional"
+#~ msgstr "forcer le style de commentaire monoligne, facultatif"
+
+#~ msgid "force multi-line comment style, optional"
+#~ msgstr "forcer le style de commentaire multiligne, facultatif"
+
+#~ msgid "write a .license file instead of a header inside the file"
+#~ msgstr "écrire un fichier .licence plutôt qu'un en-tête dans le fichier"
+
+#~ msgid "add headers to all files under specified directories recursively"
+#~ msgstr ""
+#~ "ajouter récursivement les en-têtes dans tous les fichiers des répertoires "
+#~ "spécifiés"
+
+#~ msgid "do not replace the first header in the file; just add a new one"
+#~ msgstr ""
+#~ "ne pas remplacer le premier en-tête dans le fichier, mais simplement en "
+#~ "ajouter un"
+
+#~ msgid "skip files with unrecognised comment styles"
+#~ msgstr ""
+#~ "ignorer les fichiers comportant des styles de commentaires non reconnus"
+
+#~ msgid "skip files that already contain REUSE information"
+#~ msgstr "ignorer les fichiers qui contiennent déjà les données REUSE"
+
+#~ msgid "'reuse addheader' has been deprecated in favour of 'reuse annotate'"
+#~ msgstr "\"reuse addheader\" est obsolète et remplacé par \"reuse annotate\""
+
+#~ msgid "option --contributor, --copyright or --license is required"
+#~ msgstr ""
+#~ "une des options --contributor, --copyright ou --license est nécessaire"
+
+#~ msgid "option --exclude-year and --year are mutually exclusive"
+#~ msgstr "les options --exclude-year et --year sont mutuellement exclusives"
+
+#~ msgid "option --single-line and --multi-line are mutually exclusive"
+#~ msgstr ""
+#~ "les options --single-line et --multi-line sont mutuellement exclusives"
+
+#~ msgid "--skip-unrecognised has no effect when used together with --style"
+#~ msgstr ""
+#~ "--skip-unrecognised est sans effet quand il est utilisé en même temps que "
+#~ "--style"
+
+#~ msgid ""
+#~ "--explicit-license has been deprecated in favour of --force-dot-license"
+#~ msgstr "--explicit-license est obsolète et remplacé par --force-dot-license"
+
+#~ msgid "template {template} could not be found"
+#~ msgstr "le modèle {template} est introuvable"
+
+#~ msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
+#~ msgstr ""
+#~ "'{path}' est un fichier binaire ; par conséquent, le fichier '{new_path}' "
+#~ "est utilisé pour l'en-tête"
 
 #~ msgid "Downloading {}"
 #~ msgstr "Téléchargement de {}"
