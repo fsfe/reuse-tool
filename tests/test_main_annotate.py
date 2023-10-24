@@ -1055,6 +1055,23 @@ def test_annotate_single_multi_line_mutually_exclusive(fake_repository):
         )
 
 
+def test_annotate_skip_force_mutually_exclusive(fake_repository):
+    """--skip-unrecognised and --force-dot-license are mutually exclusive."""
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "annotate",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Jane Doe",
+                "--force-dot-license",
+                "--skip-unrecognised",
+                "src/source_code.py",
+            ]
+        )
+
+
 @pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
 def test_annotate_multi_line_not_supported(fake_repository, skip_option):
     """Expect a fail if --multi-line is not supported for a file type."""
