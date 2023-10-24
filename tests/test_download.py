@@ -104,3 +104,65 @@ def test_put_empty_dir(empty_directory, monkeypatch):
 
     assert (empty_directory / "LICENSES").exists()
     assert (empty_directory / "LICENSES/0BSD.txt").read_text() == "hello\n"
+
+
+def test_put_custom_without_source(fake_repository):
+    """When 'downloading' a LicenseRef license without source, create an empty
+    file.
+    """
+    put_license_in_file("LicenseRef-hello", "LICENSES/LicenseRef-hello.txt")
+
+    assert (fake_repository / "LICENSES/LicenseRef-hello.txt").exists()
+    assert (fake_repository / "LICENSES/LicenseRef-hello.txt").read_text() == ""
+
+
+def test_put_custom_with_source(fake_repository):
+    """When 'downloading' a LicenseRef license with source file, copy the source
+    text.
+    """
+    (fake_repository / "foo.txt").write_text("foo")
+
+    put_license_in_file(
+        "LicenseRef-hello",
+        "LICENSES/LicenseRef-hello.txt",
+        source=fake_repository / "foo.txt",
+    )
+
+    assert (fake_repository / "LICENSES/LicenseRef-hello.txt").exists()
+    assert (
+        fake_repository / "LICENSES/LicenseRef-hello.txt"
+    ).read_text() == "foo"
+
+
+def test_put_custom_with_source_dir(fake_repository):
+    """When 'downloading' a LicenseRef license with source directory, copy the
+    source text from a matching file in the directory.
+    """
+    (fake_repository / "lics").mkdir()
+    (fake_repository / "lics/LicenseRef-hello.txt").write_text("foo")
+
+    put_license_in_file(
+        "LicenseRef-hello",
+        "LICENSES/LicenseRef-hello.txt",
+        source=fake_repository / "lics",
+    )
+
+    assert (fake_repository / "LICENSES/LicenseRef-hello.txt").exists()
+    assert (
+        fake_repository / "LICENSES/LicenseRef-hello.txt"
+    ).read_text() == "foo"
+
+
+def test_put_custom_with_false_source_dir(fake_repository):
+    """When 'downloading' a LicenseRef license with source directory, but the
+    source directory does not contain the license, expect a FileNotFoundError.
+    """
+    (fake_repository / "lics").mkdir()
+
+    with pytest.raises(FileNotFoundError) as exc_info:
+        put_license_in_file(
+            "LicenseRef-hello",
+            "LICENSES/LicenseRef-hello.txt",
+            source=fake_repository / "lics",
+        )
+    assert exc_info.value.filename.endswith("lics/LicenseRef-hello.txt")

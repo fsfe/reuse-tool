@@ -11,9 +11,8 @@ import contextlib
 import glob
 import logging
 import os
-import warnings
 import re
-
+import warnings
 from gettext import gettext as _
 from pathlib import Path
 from typing import Dict, Iterator, List, Optional, Union, cast

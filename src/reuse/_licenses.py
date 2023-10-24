@@ -11,8 +11,8 @@
 
 import json
 import os
-from typing import Dict, List, Tuple
 import re
+from typing import Dict, List, Tuple
 
 _BASE_DIR = os.path.dirname(__file__)
 _RESOURCES_DIR = os.path.join(_BASE_DIR, "resources")

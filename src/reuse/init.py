@@ -123,7 +123,7 @@ def run(
         try:
             out.write(_("Retrieving {}").format(lic))
             out.write("\n")
-            put_license_in_file(lic, destination=destination, out=out)
+            put_license_in_file(lic, destination=destination)
         # TODO: exceptions
         except FileExistsError:
             out.write(_("{} already exists").format(destination))
