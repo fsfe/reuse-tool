@@ -26,7 +26,7 @@ jobs:
   # ===========================================================================
   docker_test:
     name: Test the docker images
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
       # Dockerfile
@@ -56,7 +56,7 @@ jobs:
   # ===========================================================================
   docker_push_tag:
     name: Push Docker image for tags to Docker Hub
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # Depends on successful Docker build/test
     needs:
       - docker_test

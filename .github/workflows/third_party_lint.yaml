@@ -18,7 +18,7 @@ on:
 
 jobs:
   third-party-lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
@@ -45,7 +45,7 @@ jobs:
           matrix.repo }}
 
   third-party-lint-expect-failure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
