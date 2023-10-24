@@ -165,4 +165,6 @@ def test_put_custom_with_false_source_dir(fake_repository):
             "LICENSES/LicenseRef-hello.txt",
             source=fake_repository / "lics",
         )
-    assert exc_info.value.filename.endswith("lics/LicenseRef-hello.txt")
+    assert exc_info.value.filename.endswith(
+        str(Path("lics") / "LicenseRef-hello.txt")
+    )
