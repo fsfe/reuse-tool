@@ -49,6 +49,7 @@ from ._util import (
     _determine_license_path,
     _determine_license_suffix_path,
     _get_comment_style,
+    _has_style,
     _is_commentable,
     contains_reuse_info,
     detect_line_endings,
@@ -410,11 +411,7 @@ def _verify_paths_comment_style(
     unrecognised_files = []
 
     for path in paths:
-        style = _get_comment_style(path)
-        commentable = _is_commentable(path)
-
-        # TODO: This check is duplicated.
-        if style is None and commentable:
+        if not _has_style(path):
             unrecognised_files.append(path)
 
     if unrecognised_files:
@@ -791,10 +788,15 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
 
     result = 0
     for path in paths:
-        uncommentable = not _is_commentable(path)
-        if uncommentable or args.force_dot_license:
+        commentable = _is_commentable(path)
+        if not _has_style(path) and not args.force_dot_license:
+            # TODO: This is an awful check.
+            _LOGGER.debug(
+                _("{path} has no style, skipping it.").format(path=path)
+            )
+        elif not commentable or args.force_dot_license:
             new_path = _determine_license_suffix_path(path)
-            if uncommentable:
+            if not commentable:
                 _LOGGER.info(
                     _(
                         "'{path}' is a binary, therefore using '{new_path}'"

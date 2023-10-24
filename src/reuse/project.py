@@ -16,6 +16,7 @@ from gettext import gettext as _
 from pathlib import Path
 from typing import Dict, Iterator, List, Optional, Union, cast
 
+from binaryornot.check import is_binary
 from boolean.boolean import ParseError
 from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
@@ -39,7 +40,7 @@ from ._util import (
     _contains_snippet,
     _copyright_from_dep5,
     _determine_license_path,
-    _is_commentable,
+    _is_uncommentable,
     decoded_text_from_binary,
     extract_reuse_info,
 )
@@ -187,7 +188,7 @@ class Project:
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
 
-        if not _is_commentable(path):
+        if _is_uncommentable(path) or is_binary(str(path)):
             _LOGGER.info(
                 _(
                     "'{path}' was detected as a binary file or its extension is"

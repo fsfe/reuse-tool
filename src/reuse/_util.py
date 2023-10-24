@@ -298,12 +298,25 @@ def _get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
     return style
 
 
+def _is_uncommentable(path: Path) -> bool:
+    """*path*'s extension has the UncommentableCommentStyle."""
+    return _get_comment_style(path) == UncommentableCommentStyle
+
+
+def _has_style(path: Path) -> bool:
+    """*path*'s extension has a CommentStyle."""
+    return _get_comment_style(path) is not None
+
+
 def _is_commentable(path: Path) -> bool:
-    """Determines if *path* is commentable, e.g., the file is a not a binary nor
-    registered as an UncommentableCommentStyle.
+    """Determines if *path* is commentable. Commentable files:
+
+    - have a CommentStyle that isn't UncommentableCommentStyle;
+    - are not binary.
     """
-    is_uncommentable = _get_comment_style(path) == UncommentableCommentStyle
-    return not (is_uncommentable or is_binary(str(path)))
+    return not (
+        _is_uncommentable(path) or not _has_style(path) or is_binary(str(path))
+    )
 
 
 def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
