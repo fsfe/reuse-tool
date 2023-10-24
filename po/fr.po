@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 12:02+0000\n"
+"POT-Creation-Date: 2023-10-24 13:12+0000\n"
 "PO-Revision-Date: 2023-10-04 13:12+0000\n"
 "Last-Translator: Walter Paulo <polo@tictips.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -241,48 +241,48 @@ msgstr "imprimer la nomenclature du projet au format SPDX"
 msgid "list all supported SPDX licenses"
 msgstr "lister toutes les licences SPDX acceptées"
 
-#: src/reuse/_util.py:383
+#: src/reuse/_util.py:385
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Analyse de la syntaxe de '{expression}' impossible"
 
-#: src/reuse/_util.py:517
+#: src/reuse/_util.py:519
 msgid "'{}' is not a file"
 msgstr "'{}' n'est pas un fichier"
 
-#: src/reuse/_util.py:520
+#: src/reuse/_util.py:522
 msgid "'{}' is not a directory"
 msgstr "'{}' n'est pas un répertoire"
 
-#: src/reuse/_util.py:523
+#: src/reuse/_util.py:525
 msgid "can't open '{}'"
 msgstr "'{}' ne peut être ouvert"
 
-#: src/reuse/_util.py:528
+#: src/reuse/_util.py:530
 msgid "can't write to directory '{}'"
 msgstr "écriture impossible dans le répertoire '{}'"
 
-#: src/reuse/_util.py:534 src/reuse/header.py:556
+#: src/reuse/_util.py:536 src/reuse/header.py:556
 msgid "can't write to '{}'"
 msgstr "écriture impossible dans '{}'"
 
-#: src/reuse/_util.py:547
+#: src/reuse/_util.py:549
 msgid "can't read or write '{}'"
 msgstr "lecture ou écriture impossible pour '{}'"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:559
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' n'est pas une expression SPDX valide, abandon"
 
-#: src/reuse/_util.py:585
+#: src/reuse/_util.py:587
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' n'est pas un identifiant de licence SPDX valide."
 
-#: src/reuse/_util.py:592
+#: src/reuse/_util.py:594
 msgid "Did you mean:"
 msgstr "Vous vouliez dire :"
 
-#: src/reuse/_util.py:599
+#: src/reuse/_util.py:601
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -290,41 +290,52 @@ msgstr ""
 "Consultez <https://spdx.org/licenses/> pour une liste des identifiants de "
 "licence SPDX valides."
 
-#: src/reuse/download.py:96
+#: src/reuse/download.py:122
 msgid "SPDX License Identifier of license"
 msgstr "Identification de la licence SPDX"
 
-#: src/reuse/download.py:101
+#: src/reuse/download.py:127
 msgid "download all missing licenses detected in the project"
 msgstr "télécharger toutes les licences manquantes détectées dans le projet"
 
-#: src/reuse/download.py:113
+#: src/reuse/download.py:137
+msgid ""
+"source from which to copy custom LicenseRef- licenses, either a directory "
+"that contains the file or the file itself"
+msgstr ""
+
+#: src/reuse/download.py:148
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr "Erreur : {spdx_identifier} existe déjà."
 
-#: src/reuse/download.py:120
+#: src/reuse/download.py:155
+#, fuzzy, python-brace-format
+msgid "Error: {path} does not exist."
+msgstr "'{path}' ne se termine pas en .spdx"
+
+#: src/reuse/download.py:158
 msgid "Error: Failed to download license."
 msgstr "Erreur : échec du téléchargement de licence."
 
-#: src/reuse/download.py:125
+#: src/reuse/download.py:163
 msgid "Is your internet connection working?"
 msgstr "Votre connexion internet fonctionne-t-elle ?"
 
-#: src/reuse/download.py:130
+#: src/reuse/download.py:168
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Téléchargement de {spdx_identifier} terminé."
 
-#: src/reuse/download.py:142
+#: src/reuse/download.py:180
 msgid "--output has no effect when used together with --all"
 msgstr "--output n'a pas d'effet s'il est utilisé en même temps que --all"
 
-#: src/reuse/download.py:146
+#: src/reuse/download.py:184
 msgid "the following arguments are required: license"
 msgstr "les arguments suivants sont nécessaires : license"
 
-#: src/reuse/download.py:148
+#: src/reuse/download.py:186
 msgid "cannot use --output with more than one license"
 msgstr "--output ne peut pas être utilisé avec plus d'une licence"
 
@@ -500,7 +511,7 @@ msgstr ""
 "'{path}' est un fichier binaire ; par conséquent, le fichier '{new_path}' "
 "est utilisé pour l'en-tête"
 
-#: src/reuse/init.py:25
+#: src/reuse/init.py:30
 msgid ""
 "What license is your project under? Provide the SPDX License Identifier. See "
 "<https://spdx.org/licenses/> for the list."
@@ -509,7 +520,7 @@ msgstr ""
 "identifiant de licence SPDX. Consultez <https://spdx.org/licenses/> pour la "
 "liste des licences."
 
-#: src/reuse/init.py:30
+#: src/reuse/init.py:35
 msgid ""
 "What other license is your project under? Provide the SPDX License "
 "Identifier."
@@ -517,56 +528,63 @@ msgstr ""
 "Sous quelle autre licence est enregistré votre projet ? Merci de fournir un "
 "identifiant de licence SPDX."
 
-#: src/reuse/init.py:41
+#: src/reuse/init.py:46
 msgid "To stop adding licenses, hit RETURN."
 msgstr "Pour finir l'ajout de licences, presser ENTRÉE."
 
-#: src/reuse/init.py:79
+#: src/reuse/init.py:86
 msgid "Project already initialized"
 msgstr "Le projet est déjà initialisé"
 
-#: src/reuse/init.py:83
+#: src/reuse/init.py:90
 msgid "Initializing project for REUSE."
 msgstr "Initialisation du projet pour REUSE."
 
-#: src/reuse/init.py:88
+#: src/reuse/init.py:95
 msgid "What is the name of the project?"
 msgstr "Quel est le nom du projet ?"
 
-#: src/reuse/init.py:94
+#: src/reuse/init.py:101
 msgid "What is the internet address of the project?"
 msgstr "Quelle est l'adresse internet du projet ?"
 
-#: src/reuse/init.py:100
+#: src/reuse/init.py:107
 msgid "What is the name of the maintainer?"
 msgstr "Quel est le nom de la personne chargée de la maintenance ?"
 
-#: src/reuse/init.py:106
+#: src/reuse/init.py:113
 msgid "What is the e-mail address of the maintainer?"
 msgstr ""
 "Quelle est l'adresse électronique de la personne chargée de la maintenance ?"
 
-#: src/reuse/init.py:112
+#: src/reuse/init.py:119
 msgid "All done! Initializing now."
 msgstr "Tout est prêt ! Maintenant, on initialise."
 
-#: src/reuse/init.py:120
-msgid "Downloading {}"
-msgstr "Téléchargement de {}"
+#: src/reuse/init.py:128
+msgid "Retrieving {}"
+msgstr ""
 
-#: src/reuse/init.py:125
+#: src/reuse/init.py:133
 msgid "{} already exists"
 msgstr "{} existe déjà"
 
-#: src/reuse/init.py:128
+#: src/reuse/init.py:136
 msgid "Could not download {}"
 msgstr "{} n'a pas pu être téléchargé"
 
-#: src/reuse/init.py:133
+#: src/reuse/init.py:141
+#, python-brace-format
+msgid ""
+"Error: Could not copy {path}, please add {lic}.txt manually in the LICENCES/ "
+"directory."
+msgstr ""
+
+#: src/reuse/init.py:149
 msgid "Creating .reuse/dep5"
 msgstr "Création de .reuse/dep5"
 
-#: src/reuse/init.py:156
+#: src/reuse/init.py:172
 msgid "Initialization complete."
 msgstr "Initialisation terminée."
 
@@ -705,26 +723,26 @@ msgstr ""
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:78
+#: src/reuse/project.py:79
 msgid ""
 "project is not a VCS repository or required VCS software is not installed"
 msgstr ""
 "le projet n'est pas un répertoire VCS ou le logiciel VCS nécessaire n'est "
 "pas installé"
 
-#: src/reuse/project.py:186
+#: src/reuse/project.py:187
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' est couvert par .reuse/dep5"
 
-#: src/reuse/project.py:192
+#: src/reuse/project.py:193
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
 
-#: src/reuse/project.py:233
+#: src/reuse/project.py:234
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -732,7 +750,7 @@ msgstr ""
 "'{path}' contient une expression SPDX qui ne peut pas être analysée : le "
 "fichier est ignoré"
 
-#: src/reuse/project.py:242
+#: src/reuse/project.py:243
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -750,25 +768,25 @@ msgstr ""
 "n'est actuellement nécessaire. Pour masquer cet avertissement à l'avenir, "
 "exécutez la commande avec l'argument `--suppress-deprecation`."
 
-#: src/reuse/project.py:329
+#: src/reuse/project.py:330
 msgid ".reuse/dep5 has syntax errors"
 msgstr ".reuse/dep5 contient des erreurs de syntaxe"
 
-#: src/reuse/project.py:331
+#: src/reuse/project.py:332
 msgid ".reuse/dep5 could not be parsed as utf-8"
 msgstr ".reuse/dep5 n'a pas pu être analysé comme fichier utf-8"
 
-#: src/reuse/project.py:357
+#: src/reuse/project.py:358
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "résolution de l'identifiant de '{path}'"
 
-#: src/reuse/project.py:365
+#: src/reuse/project.py:366
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} n'a pas d'extension de fichier"
 
-#: src/reuse/project.py:375
+#: src/reuse/project.py:376
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -781,7 +799,7 @@ msgstr ""
 "fournie à<https://spdx.org/licenses/>, soit qu'elle débute par 'LicenseRef-' "
 "et qu'elle contient une extension de fichier."
 
-#: src/reuse/project.py:387
+#: src/reuse/project.py:388
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -1042,6 +1060,9 @@ msgstr "choix non valide : %(value)r (choisir parmi %(choices)s)"
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s : erreur : %(message)s\n"
 
+#~ msgid "Downloading {}"
+#~ msgstr "Téléchargement de {}"
+
 #, fuzzy
 #~ msgid "conflicting subparser: %s"
 #~ msgstr "chane d'options contradictoire : %s"
@@ -1058,6 +1079,3 @@ msgstr "%(prog)s : erreur : %(message)s\n"
 
 #~ msgid "could not find Git"
 #~ msgstr "Git ne peut pas être trouvé"
-
-#~ msgid "'{path}' does not end with .spdx"
-#~ msgstr "'{path}' ne se termine pas en .spdx"

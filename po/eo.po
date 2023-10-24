@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 12:02+0000\n"
+"POT-Creation-Date: 2023-10-24 13:12+0000\n"
 "PO-Revision-Date: 2023-07-10 21:48+0000\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -221,48 +221,48 @@ msgstr "presi la pecoliston de la projekto en SPDX-formo"
 msgid "list all supported SPDX licenses"
 msgstr "listigi ĉiujn subtenitajn SPDX-permesilojn"
 
-#: src/reuse/_util.py:383
+#: src/reuse/_util.py:385
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Ne povis analizi '{expression}'"
 
-#: src/reuse/_util.py:517
+#: src/reuse/_util.py:519
 msgid "'{}' is not a file"
 msgstr "'{}' ne estas dosiero"
 
-#: src/reuse/_util.py:520
+#: src/reuse/_util.py:522
 msgid "'{}' is not a directory"
 msgstr "'{}' ne estas dosierujo"
 
-#: src/reuse/_util.py:523
+#: src/reuse/_util.py:525
 msgid "can't open '{}'"
 msgstr "ne povas malfermi '{}'"
 
-#: src/reuse/_util.py:528
+#: src/reuse/_util.py:530
 msgid "can't write to directory '{}'"
 msgstr "ne povas skribi al dosierujo '{}'"
 
-#: src/reuse/_util.py:534 src/reuse/header.py:556
+#: src/reuse/_util.py:536 src/reuse/header.py:556
 msgid "can't write to '{}'"
 msgstr "ne povas skribi al '{}'"
 
-#: src/reuse/_util.py:547
+#: src/reuse/_util.py:549
 msgid "can't read or write '{}'"
 msgstr "ne povas legi aŭ skribi '{}'"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:559
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' ne estas valida SPDX-esprimo. Ĉesigante"
 
-#: src/reuse/_util.py:585
+#: src/reuse/_util.py:587
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' ne estas valida SPDX Permesila Identigilo."
 
-#: src/reuse/_util.py:592
+#: src/reuse/_util.py:594
 msgid "Did you mean:"
 msgstr "Ĉu vi intencis:"
 
-#: src/reuse/_util.py:599
+#: src/reuse/_util.py:601
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -270,41 +270,52 @@ msgstr ""
 "Vidu <https://spdx.org/licenses/> por listo de validaj SPDX Permesilaj "
 "Identigiloj."
 
-#: src/reuse/download.py:96
+#: src/reuse/download.py:122
 msgid "SPDX License Identifier of license"
 msgstr "SPDX Permesila Identigilo de permesilo"
 
-#: src/reuse/download.py:101
+#: src/reuse/download.py:127
 msgid "download all missing licenses detected in the project"
 msgstr "elŝuti ĉiujn mankantajn permesilojn kiujn oni eltrovis en la projekto"
 
-#: src/reuse/download.py:113
+#: src/reuse/download.py:137
+msgid ""
+"source from which to copy custom LicenseRef- licenses, either a directory "
+"that contains the file or the file itself"
+msgstr ""
+
+#: src/reuse/download.py:148
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr "Eraro: {spdx_identifier} jam ekzistas."
 
-#: src/reuse/download.py:120
+#: src/reuse/download.py:155
+#, fuzzy, python-brace-format
+msgid "Error: {path} does not exist."
+msgstr "'{path}' ne finiĝas per .spdx"
+
+#: src/reuse/download.py:158
 msgid "Error: Failed to download license."
 msgstr "Eraro: Malsukcesis elŝuti permesilon."
 
-#: src/reuse/download.py:125
+#: src/reuse/download.py:163
 msgid "Is your internet connection working?"
 msgstr "Ĉu via retkonekto funkcias?"
 
-#: src/reuse/download.py:130
+#: src/reuse/download.py:168
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Sukceses elŝutis {spdx_identifier}."
 
-#: src/reuse/download.py:142
+#: src/reuse/download.py:180
 msgid "--output has no effect when used together with --all"
 msgstr "--output faras nenion kiam --all ankaŭ uziĝas"
 
-#: src/reuse/download.py:146
+#: src/reuse/download.py:184
 msgid "the following arguments are required: license"
 msgstr "la sekvaj argumentoj nepras: license"
 
-#: src/reuse/download.py:148
+#: src/reuse/download.py:186
 msgid "cannot use --output with more than one license"
 msgstr "ne povas uzi --output kun pli ol unu permesilo"
 
@@ -472,7 +483,7 @@ msgstr "ŝablono {template} netroveblas"
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr "'{path}' estas duuma, tiel uzante '{new_path}' por la kapo"
 
-#: src/reuse/init.py:25
+#: src/reuse/init.py:30
 #, fuzzy
 msgid ""
 "What license is your project under? Provide the SPDX License Identifier. See "
@@ -480,7 +491,7 @@ msgid ""
 msgstr ""
 "Sub kiu permesilo estas via projekto? Provizu la SPDX Permesilan Identigilon."
 
-#: src/reuse/init.py:30
+#: src/reuse/init.py:35
 msgid ""
 "What other license is your project under? Provide the SPDX License "
 "Identifier."
@@ -488,55 +499,62 @@ msgstr ""
 "Sub kiuj aliaj permesiloj estas via projekto? Provizu la SPDX Permesilan "
 "Identigilon."
 
-#: src/reuse/init.py:41
+#: src/reuse/init.py:46
 msgid "To stop adding licenses, hit RETURN."
 msgstr "Por ĉesigi aldonadon de permesiloj, premu la enigan klavon."
 
-#: src/reuse/init.py:79
+#: src/reuse/init.py:86
 msgid "Project already initialized"
 msgstr "Projekto jam pravalorizita"
 
-#: src/reuse/init.py:83
+#: src/reuse/init.py:90
 msgid "Initializing project for REUSE."
 msgstr "Pravalorizante projekton por REUSE."
 
-#: src/reuse/init.py:88
+#: src/reuse/init.py:95
 msgid "What is the name of the project?"
 msgstr "Kiu estas la nomo de la projekto?"
 
-#: src/reuse/init.py:94
+#: src/reuse/init.py:101
 msgid "What is the internet address of the project?"
 msgstr "Kiu estas la reta adreso de la projekto?"
 
-#: src/reuse/init.py:100
+#: src/reuse/init.py:107
 msgid "What is the name of the maintainer?"
 msgstr "Kiu estas la nomo de la daŭriganto?"
 
-#: src/reuse/init.py:106
+#: src/reuse/init.py:113
 msgid "What is the e-mail address of the maintainer?"
 msgstr "Kiu estas la retpoŝtadreso de la daŭriganto?"
 
-#: src/reuse/init.py:112
+#: src/reuse/init.py:119
 msgid "All done! Initializing now."
 msgstr "Tute farita! Pravalorizante nun."
 
-#: src/reuse/init.py:120
-msgid "Downloading {}"
-msgstr "Elŝutante {}"
+#: src/reuse/init.py:128
+msgid "Retrieving {}"
+msgstr ""
 
-#: src/reuse/init.py:125
+#: src/reuse/init.py:133
 msgid "{} already exists"
 msgstr "{} jam ekzistas"
 
-#: src/reuse/init.py:128
+#: src/reuse/init.py:136
 msgid "Could not download {}"
 msgstr "Ne povis elŝuti {}"
 
-#: src/reuse/init.py:133
+#: src/reuse/init.py:141
+#, python-brace-format
+msgid ""
+"Error: Could not copy {path}, please add {lic}.txt manually in the LICENCES/ "
+"directory."
+msgstr ""
+
+#: src/reuse/init.py:149
 msgid "Creating .reuse/dep5"
 msgstr "Krante .reuse/dep5"
 
-#: src/reuse/init.py:156
+#: src/reuse/init.py:172
 msgid "Initialization complete."
 msgstr "Finfaris pravalorizadon."
 
@@ -672,24 +690,24 @@ msgstr ""
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:78
+#: src/reuse/project.py:79
 msgid ""
 "project is not a VCS repository or required VCS software is not installed"
 msgstr ""
 
-#: src/reuse/project.py:186
+#: src/reuse/project.py:187
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' sub .reuse/dep5"
 
-#: src/reuse/project.py:192
+#: src/reuse/project.py:193
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
 
-#: src/reuse/project.py:233
+#: src/reuse/project.py:234
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -697,7 +715,7 @@ msgstr ""
 "'{path}' entenas SPDX-esprimon, kiun oni ne povas analizi; preterpasante la "
 "dosieron"
 
-#: src/reuse/project.py:242
+#: src/reuse/project.py:243
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -708,25 +726,25 @@ msgid ""
 "suppress-deprecation` to hide this warning."
 msgstr ""
 
-#: src/reuse/project.py:329
+#: src/reuse/project.py:330
 msgid ".reuse/dep5 has syntax errors"
 msgstr ".reuse/dep5 havas sintaksajn erarojn"
 
-#: src/reuse/project.py:331
+#: src/reuse/project.py:332
 msgid ".reuse/dep5 could not be parsed as utf-8"
 msgstr ""
 
-#: src/reuse/project.py:357
+#: src/reuse/project.py:358
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "precizigante identigilon de '{path}'"
 
-#: src/reuse/project.py:365
+#: src/reuse/project.py:366
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} ne havas dosiersufikson"
 
-#: src/reuse/project.py:375
+#: src/reuse/project.py:376
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -738,7 +756,7 @@ msgstr ""
 "Certigu ke la permesilo estas en la listo ĉe <https://spdx.org/licenses/> aŭ "
 "ke ĝi komencas per 'LicenseRef-' kaj havas dosiersufikson."
 
-#: src/reuse/project.py:387
+#: src/reuse/project.py:388
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -994,6 +1012,9 @@ msgstr "nevalida elekto: %(value)r (elektu el %(choices)s)"
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: eraro: %(message)s\n"
 
+#~ msgid "Downloading {}"
+#~ msgstr "Elŝutante {}"
+
 #, fuzzy
 #~ msgid "conflicting subparser: %s"
 #~ msgstr "konfliktanta elektebla ĉeno: %s"
@@ -1010,9 +1031,6 @@ msgstr "%(prog)s: eraro: %(message)s\n"
 
 #~ msgid "could not find Git"
 #~ msgstr "ne povis trovi programaron Git"
-
-#~ msgid "'{path}' does not end with .spdx"
-#~ msgstr "'{path}' ne finiĝas per .spdx"
 
 #~ msgid "yielding %s"
 #~ msgstr "traktante %s"
