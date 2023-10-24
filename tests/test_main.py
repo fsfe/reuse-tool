@@ -385,7 +385,7 @@ def test_download(fake_repository, stringio, mock_put_license_in_file):
 
     assert result == 0
     mock_put_license_in_file.assert_called_with(
-        "0BSD", Path("LICENSES/0BSD.txt").resolve()
+        "0BSD", Path("LICENSES/0BSD.txt").resolve(), source=None
     )
 
 
@@ -434,7 +434,9 @@ def test_download_custom_output(
     result = main(["download", "-o", "foo", "0BSD"], out=stringio)
 
     assert result == 0
-    mock_put_license_in_file.assert_called_with("0BSD", destination=Path("foo"))
+    mock_put_license_in_file.assert_called_with(
+        "0BSD", destination=Path("foo"), source=None
+    )
 
 
 def test_download_custom_output_too_many(
@@ -447,6 +449,49 @@ def test_download_custom_output_too_many(
         main(
             ["download", "-o", "foo", "0BSD", "GPL-3.0-or-later"], out=stringio
         )
+
+
+def test_download_licenseref_no_source(empty_directory, stringio):
+    """Downloading a LicenseRef license creates an empty file."""
+    main(["download", "LicenseRef-hello"], out=stringio)
+    assert (empty_directory / "LICENSES/LicenseRef-hello.txt").read_text() == ""
+
+
+def test_download_licenseref_source_file(empty_directory, stringio):
+    """Downloading a LicenseRef license with a source file copies that file's
+    contents.
+    """
+    (empty_directory / "foo.txt").write_text("foo")
+    main(["download", "--source", "foo.txt", "LicenseRef-hello"], out=stringio)
+    assert (
+        empty_directory / "LICENSES/LicenseRef-hello.txt"
+    ).read_text() == "foo"
+
+
+def test_download_licenseref_source_dir(empty_directory, stringio):
+    """Downloading a LicenseRef license with a source dir copies the text from
+    the corresponding file in the directory.
+    """
+    (empty_directory / "lics").mkdir()
+    (empty_directory / "lics/LicenseRef-hello.txt").write_text("foo")
+
+    main(["download", "--source", "lics", "LicenseRef-hello"], out=stringio)
+    assert (
+        empty_directory / "LICENSES/LicenseRef-hello.txt"
+    ).read_text() == "foo"
+
+
+def test_download_licenseref_false_source_dir(empty_directory, stringio):
+    """Downloading a LicenseRef license with a source that does not contain the
+    license results in an error.
+    """
+    (empty_directory / "lics").mkdir()
+
+    result = main(
+        ["download", "--source", "lics", "LicenseRef-hello"], out=stringio
+    )
+    assert result != 0
+    assert "lics/LicenseRef-hello.txt does not exist" in stringio.getvalue()
 
 
 def test_supported_licenses(stringio):

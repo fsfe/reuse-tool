@@ -138,6 +138,8 @@ _COPYRIGHT_STYLES = {
     "symbol": "©",
 }
 
+_LICENSEREF_PATTERN = re.compile("LicenseRef-[a-zA-Z0-9-.]+$")
+
 # Amount of bytes that we assume will be big enough to contain the entire
 # comment header (including SPDX tags), so that we don't need to read the
 # entire file.

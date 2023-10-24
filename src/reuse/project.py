@@ -32,6 +32,7 @@ from . import (
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _HEADER_BYTES,
+    _LICENSEREF_PATTERN,
     GIT_EXE,
     HG_EXE,
     StrPath,
@@ -304,7 +305,7 @@ class Project:
             raise IdentifierNotFound(f"{path} has no file extension")
         if path.stem in self.license_map:
             return path.stem
-        if path.stem.startswith("LicenseRef-"):
+        if _LICENSEREF_PATTERN.match(path.stem):
             return path.stem
 
         raise IdentifierNotFound(
@@ -396,7 +397,7 @@ class Project:
             # Add the identifiers
             license_files[identifier] = path
             if (
-                identifier.startswith("LicenseRef-")
+                _LICENSEREF_PATTERN.match(identifier)
                 and "Unknown" not in identifier
             ):
                 self.license_map[identifier] = {

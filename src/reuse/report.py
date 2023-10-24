@@ -21,7 +21,7 @@ from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
 from uuid import uuid4
 
 from . import __REUSE_version__, __version__
-from ._util import _LICENSING, StrPath, _checksum
+from ._util import _LICENSEREF_PATTERN, _LICENSING, StrPath, _checksum
 from .project import Project, ReuseInfo
 
 _LOGGER = logging.getLogger(__name__)
@@ -226,7 +226,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         # Licenses
         for lic, path in sorted(self.licenses.items()):
-            if lic.startswith("LicenseRef-"):
+            if _LICENSEREF_PATTERN.match(lic):
                 out.write("\n")
                 out.write(f"LicenseID: {lic}\n")
                 out.write("LicenseName: NOASSERTION\n")

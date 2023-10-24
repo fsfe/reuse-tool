@@ -42,6 +42,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
+- Implement handling LicenseRef in `download` and `init`. (#697)
 - Declared support for Python 3.12. (#846)
 - More file types are recognised:
   - Julia (`.jl`) (#815)

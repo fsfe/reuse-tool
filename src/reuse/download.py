@@ -7,17 +7,20 @@
 
 import errno
 import logging
+import os
+import shutil
 import sys
 import urllib.request
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
 from pathlib import Path
-from typing import IO
+from typing import IO, Optional
 from urllib.error import URLError
 from urllib.parse import urljoin
 
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from ._util import (
+    _LICENSEREF_PATTERN,
     PathType,
     StrPath,
     find_licenses_directory,
@@ -61,7 +64,11 @@ def _path_to_license_file(spdx_identifier: str, root: StrPath) -> Path:
     return licenses_path / "".join((spdx_identifier, ".txt"))
 
 
-def put_license_in_file(spdx_identifier: str, destination: StrPath) -> None:
+def put_license_in_file(
+    spdx_identifier: str,
+    destination: StrPath,
+    source: Optional[StrPath] = None,
+) -> None:
     """Download a license and put it in the destination file.
 
     This function exists solely for convenience.
@@ -69,22 +76,41 @@ def put_license_in_file(spdx_identifier: str, destination: StrPath) -> None:
     Args:
         spdx_identifier: SPDX License Identifier of the license.
         destination: Where to put the license.
+        source: Path to file or directory containing the text for LicenseRef
+            licenses.
 
     Raises:
         URLError: if the license could not be downloaded.
         FileExistsError: if the license file already exists.
+        FileNotFoundError: if the source could not be found in the directory.
     """
     header = ""
     destination = Path(destination)
     destination.parent.mkdir(exist_ok=True)
 
     if destination.exists():
-        raise FileExistsError(errno.EEXIST, "File exists", str(destination))
+        raise FileExistsError(
+            errno.EEXIST, os.strerror(errno.EEXIST), str(destination)
+        )
 
-    text = download_license(spdx_identifier)
-    with destination.open("w", encoding="utf-8") as fp:
-        fp.write(header)
-        fp.write(text)
+    # LicenseRef- license; don't download anything.
+    if _LICENSEREF_PATTERN.match(spdx_identifier):
+        if source:
+            source = Path(source)
+            if source.is_dir():
+                source = source / f"{spdx_identifier}.txt"
+            if not source.exists():
+                raise FileNotFoundError(
+                    errno.ENOENT, os.strerror(errno.ENOENT), str(source)
+                )
+            shutil.copyfile(source, destination)
+        else:
+            destination.touch()
+    else:
+        text = download_license(spdx_identifier)
+        with destination.open("w", encoding="utf-8") as fp:
+            fp.write(header)
+            fp.write(text)
 
 
 def add_arguments(parser: ArgumentParser) -> None:
@@ -103,6 +129,15 @@ def add_arguments(parser: ArgumentParser) -> None:
     parser.add_argument(
         "--output", "-o", dest="file", action="store", type=PathType("w")
     )
+    parser.add_argument(
+        "--source",
+        action="store",
+        type=PathType("r"),
+        help=_(
+            "source from which to copy custom LicenseRef- licenses, either"
+            " a directory that contains the file or the file itself"
+        ),
+    )
 
 
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
@@ -115,6 +150,9 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
             )
         )
         out.write("\n")
+
+    def _not_found(path: StrPath) -> None:
+        out.write(_("Error: {path} does not exist.").format(path=path))
 
     def _could_not_download(identifier: str) -> None:
         out.write(_("Error: Failed to download license."))
@@ -156,12 +194,17 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         else:
             destination = _path_to_license_file(lic, project.root)
         try:
-            put_license_in_file(lic, destination=destination)
+            put_license_in_file(
+                lic, destination=destination, source=args.source
+            )
         except URLError:
             _could_not_download(lic)
             return_code = 1
         except FileExistsError as err:
             _already_exists(err.filename)
+            return_code = 1
+        except FileNotFoundError as err:
+            _not_found(err.filename)
             return_code = 1
         else:
             _successfully_downloaded(destination)
