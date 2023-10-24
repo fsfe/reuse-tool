@@ -559,120 +559,121 @@ msgstr "Creando .reuse/dep5"
 msgid "Initialization complete."
 msgstr "Inicialización completa."
 
-#: src/reuse/lint.py:29
+#: src/reuse/lint.py:29 src/reuse/lint.py:27
 msgid "prevents output"
 msgstr "impide la producción"
 
-#: src/reuse/lint.py:32
+#: src/reuse/lint.py:32 src/reuse/lint.py:30
 msgid "formats output as JSON"
 msgstr "formato de salida JSON"
 
-#: src/reuse/lint.py:38
+#: src/reuse/lint.py:38 src/reuse/lint.py:36
 msgid "formats output as plain text"
 msgstr "formatea la salida como un texto plano"
 
-#: src/reuse/lint.py:57
+#: src/reuse/lint.py:57 src/reuse/lint.py:55
 msgid "BAD LICENSES"
 msgstr "LICENCIAS MALAS"
 
-#: src/reuse/lint.py:59 src/reuse/lint.py:88
+#: src/reuse/lint.py:59 src/reuse/lint.py:88 src/reuse/lint.py:57
+#: src/reuse/lint.py:86
 msgid "'{}' found in:"
 msgstr "'{}' encontrado en:"
 
-#: src/reuse/lint.py:66
+#: src/reuse/lint.py:66 src/reuse/lint.py:64
 msgid "DEPRECATED LICENSES"
 msgstr "LICENCIAS OBSOLETAS"
 
-#: src/reuse/lint.py:68
+#: src/reuse/lint.py:68 src/reuse/lint.py:66
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "Las siguientes licencias han quedado obsoletas según SPDX:"
 
-#: src/reuse/lint.py:76
+#: src/reuse/lint.py:76 src/reuse/lint.py:74
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "LICENCIAS SIN EXTENSIÓN DE FICHERO"
 
-#: src/reuse/lint.py:78
+#: src/reuse/lint.py:78 src/reuse/lint.py:76
 msgid "The following licenses have no file extension:"
 msgstr "Las siguientes licencias no tienen extensión de fichero:"
 
-#: src/reuse/lint.py:86
+#: src/reuse/lint.py:86 src/reuse/lint.py:84
 msgid "MISSING LICENSES"
 msgstr "LICENCIAS NO ENCONTRADAS"
 
-#: src/reuse/lint.py:95
+#: src/reuse/lint.py:95 src/reuse/lint.py:93
 msgid "UNUSED LICENSES"
 msgstr "LICENCIAS NO UTILIZADAS"
 
-#: src/reuse/lint.py:96
+#: src/reuse/lint.py:96 src/reuse/lint.py:94
 msgid "The following licenses are not used:"
 msgstr "Las siguientes licencias no son utilizadas:"
 
-#: src/reuse/lint.py:103
+#: src/reuse/lint.py:103 src/reuse/lint.py:101
 msgid "READ ERRORS"
 msgstr "ERRORES DE LECTURA"
 
-#: src/reuse/lint.py:104
+#: src/reuse/lint.py:104 src/reuse/lint.py:102
 msgid "Could not read:"
 msgstr "No se pudo leer:"
 
-#: src/reuse/lint.py:125
+#: src/reuse/lint.py:125 src/reuse/lint.py:123
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "FALTA INFORMACIÓN SOBRE COPYRIGHT Y LICENCIA"
 
-#: src/reuse/lint.py:131
+#: src/reuse/lint.py:131 src/reuse/lint.py:129
 msgid "The following files have no copyright and licensing information:"
 msgstr ""
 "Los siguientes archivos carecen de información de copyright y licencia:"
 
-#: src/reuse/lint.py:142
+#: src/reuse/lint.py:142 src/reuse/lint.py:140
 msgid "The following files have no copyright information:"
 msgstr "Los siguientes ficheros carecen de información de copyright:"
 
-#: src/reuse/lint.py:151
+#: src/reuse/lint.py:151 src/reuse/lint.py:149
 msgid "The following files have no licensing information:"
 msgstr "Los siguientes ficheros carecen de información de licencia:"
 
-#: src/reuse/lint.py:159
+#: src/reuse/lint.py:159 src/reuse/lint.py:157
 msgid "SUMMARY"
 msgstr "RESUMEN"
 
-#: src/reuse/lint.py:164
+#: src/reuse/lint.py:164 src/reuse/lint.py:162
 msgid "Bad licenses:"
 msgstr "Licencias malas:"
 
-#: src/reuse/lint.py:165
+#: src/reuse/lint.py:165 src/reuse/lint.py:163
 msgid "Deprecated licenses:"
 msgstr "Licencias obsoletas:"
 
-#: src/reuse/lint.py:166
+#: src/reuse/lint.py:166 src/reuse/lint.py:164
 msgid "Licenses without file extension:"
 msgstr "Licencias sin extensión de fichero:"
 
-#: src/reuse/lint.py:169
+#: src/reuse/lint.py:169 src/reuse/lint.py:167
 msgid "Missing licenses:"
 msgstr "Licencias no encontradas:"
 
-#: src/reuse/lint.py:170
+#: src/reuse/lint.py:170 src/reuse/lint.py:168
 msgid "Unused licenses:"
 msgstr "Licencias no utilizadas:"
 
-#: src/reuse/lint.py:171
+#: src/reuse/lint.py:171 src/reuse/lint.py:169
 msgid "Used licenses:"
 msgstr "Licencias utilizadas:"
 
-#: src/reuse/lint.py:172
+#: src/reuse/lint.py:172 src/reuse/lint.py:170
 msgid "Read errors:"
 msgstr "Errores de lectura:"
 
-#: src/reuse/lint.py:174
+#: src/reuse/lint.py:174 src/reuse/lint.py:172
 msgid "files with copyright information:"
 msgstr "archivos con información sobre los derechos de autor:"
 
-#: src/reuse/lint.py:178
+#: src/reuse/lint.py:178 src/reuse/lint.py:176
 msgid "files with license information:"
 msgstr "con información sobre las licencias:"
 
-#: src/reuse/lint.py:195
+#: src/reuse/lint.py:195 src/reuse/lint.py:193
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
@@ -680,7 +681,7 @@ msgstr ""
 "¡Enhorabuena! Tu proyecto es compatible con la versión {} de la "
 "Especificación REUSE :-)"
 
-#: src/reuse/lint.py:202
+#: src/reuse/lint.py:202 src/reuse/lint.py:200
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
@@ -710,6 +711,8 @@ msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
+"Se ha detectado que la '{path}' es un archivo binario o su extensión está "
+"marcada como no comentable; no se busca información REUSE en su contenido."
 
 #: src/reuse/project.py:232
 #, python-brace-format
@@ -776,12 +779,12 @@ msgstr ""
 "{identifier} es el Identificador SPDX de Licencia, tanto de {path}, como de "
 "{other_path}"
 
-#: src/reuse/report.py:272
+#: src/reuse/report.py:272 src/reuse/report.py:264
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "No se pudo leer '{path}'"
 
-#: src/reuse/report.py:279
+#: src/reuse/report.py:279 src/reuse/report.py:271
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Se produjo un error inesperado al procesar '{path}'"
