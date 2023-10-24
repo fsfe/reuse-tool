@@ -16,6 +16,7 @@ from pathlib import Path
 from textwrap import dedent
 
 import pytest
+from debian.copyright import Error as DebianError
 from license_expression import LicenseSymbol
 
 from reuse import SourceType
@@ -40,6 +41,12 @@ def test_project_not_a_directory(empty_directory):
     (empty_directory / "foo.py").write_text("foo")
     with pytest.raises(NotADirectoryError):
         Project.from_directory(empty_directory / "foo.py")
+
+
+def test_project_not_exists(empty_directory):
+    """Cannot create a Project with a directory that doesn't exist."""
+    with pytest.raises(FileNotFoundError):
+        Project.from_directory(empty_directory / "foo")
 
 
 def test_all_files(empty_directory):
@@ -397,7 +404,7 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     ) == Path("src/hello.py")
 
 
-def test_duplicate_field_dep5(empty_directory, caplog):
+def test_duplicate_field_dep5(empty_directory):
     """When a duplicate field is in a dep5 file, correctly handle errors."""
     dep5_text = cleandoc(
         """
@@ -415,10 +422,8 @@ def test_duplicate_field_dep5(empty_directory, caplog):
     (empty_directory / ".reuse").mkdir()
     (empty_directory / ".reuse/dep5").write_text(dep5_text)
 
-    project = Project.from_directory(empty_directory)
-    assert project.dep5_copyright is None
-    assert "syntax errors" in caplog.text
-    assert 'Duplicate field "Copyright"' in caplog.text
+    with pytest.raises(DebianError):
+        Project.from_directory(empty_directory)
 
 
 # REUSE-IgnoreEnd

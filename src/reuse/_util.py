@@ -249,33 +249,23 @@ def _parse_dep5(path: StrPath) -> Copyright:
     """Parse the dep5 file and create a dep5 Copyright object.
 
     Raises:
-        OSError: file doesn't exist or could not read it.
+        FileNotFoundError: file doesn't exist.
         DebianError: file could not be parsed.
-        UnicodeError: could not decode file as UTF-8.
-        ValueError: file could not be parsed.
+        UnicodeDecodeError: could not decode file as UTF-8.
     """
     path = Path(path)
     try:
         with path.open(encoding="utf-8") as fp:
             return Copyright(fp)
-    except OSError:
+    except FileNotFoundError:
         _LOGGER.debug(_("no '{}' file, or could not read it").format(path))
-        raise
-    except UnicodeError:
-        _LOGGER.error(_("'{}' could not be parsed as utf-8").format(path))
         raise
     # TODO: Remove ValueError once
     # <https://salsa.debian.org/python-debian-team/python-debian/-/merge_requests/123>
     # is closed
     except (DebianError, ValueError) as error:
-        _LOGGER.error(
-            _(
-                "'{path}' has syntax errors and could not be parsed as dep5"
-                " file. We received the following error message:\n"
-                "\n"
-                "{message}"
-            ).format(path=path, message=str(error))
-        )
+        if error.__class__ == ValueError:
+            raise DebianError(str(error)) from error
         raise
 
 

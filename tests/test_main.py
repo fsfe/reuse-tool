@@ -14,6 +14,7 @@ import errno
 import json
 import os
 import re
+import shutil
 from inspect import cleandoc
 from pathlib import Path
 from typing import Generator, Optional
@@ -26,6 +27,9 @@ from reuse import download
 from reuse._main import main
 from reuse._util import GIT_EXE, HG_EXE
 from reuse.report import LINT_VERSION
+
+TESTS_DIRECTORY = Path(__file__).parent.resolve()
+RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
 # REUSE-IgnoreStart
 
@@ -219,6 +223,24 @@ def test_lint_fail_quiet(fake_repository, stringio):
 
     assert result > 0
     assert stringio.getvalue() == ""
+
+
+def test_lint_dep5_decode_error(fake_repository, capsys):
+    """Display an error if dep5 cannot be decoded."""
+    shutil.copy(
+        RESOURCES_DIRECTORY / "fsfe.png", fake_repository / ".reuse/dep5"
+    )
+    with pytest.raises(SystemExit):
+        main(["lint"])
+    assert "could not be decoded" in capsys.readouterr().err
+
+
+def test_lint_dep5_parse_error(fake_repository, capsys):
+    """Display an error if there's a dep5 parse error."""
+    (fake_repository / ".reuse/dep5").write_text("foo")
+    with pytest.raises(SystemExit):
+        main(["lint"])
+    assert "could not be parsed" in capsys.readouterr().err
 
 
 def test_lint_json(fake_repository, stringio):

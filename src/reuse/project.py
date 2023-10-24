@@ -9,6 +9,7 @@
 """Module that contains the central Project class."""
 
 import contextlib
+import errno
 import glob
 import logging
 import os
@@ -20,7 +21,6 @@ from typing import Dict, Iterator, List, Optional, Type
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
 from debian.copyright import Copyright
-from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
 from . import (
@@ -46,13 +46,7 @@ from ._util import (
     decoded_text_from_binary,
     extract_reuse_info,
 )
-from .vcs import (
-    VCSStrategy,
-    VCSStrategyGit,
-    VCSStrategyHg,
-    VCSStrategyNone,
-    find_root,
-)
+from .vcs import VCSStrategy, VCSStrategyGit, VCSStrategyHg, VCSStrategyNone
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -110,21 +104,34 @@ class Project:
             include_meson_subprojects: Whether to also lint Meson subprojects.
                 If the provided value is True, but 'meson.build' does not exist,
                 then it is set as False on the created object.
+
+        Raises:
+            FileNotFoundError: if root does not exist.
+            NotADirectoryError: if root is not a directory.
+            UnicodeDecodeError: if .reuse/dep5 could not be decoded.
+            DebianError: if .reuse/dep5 could not be parsed.
         """
         root = Path(root)
+        if not root.exists():
+            raise FileNotFoundError(
+                errno.ENOENT,
+                os.strerror(errno.ENOENT),
+                str(root),
+            )
         if not root.is_dir():
-            raise NotADirectoryError(_("'{}' is not a directory").format(root))
+            raise NotADirectoryError(
+                errno.ENOTDIR,
+                os.strerror(errno.ENOTDIR),
+                str(root),
+            )
 
         vcs_strategy = cls._detect_vcs_strategy(root)
         try:
             dep5_copyright: Optional[Copyright] = _parse_dep5(
                 root / ".reuse/dep5"
             )
-        except OSError:
+        except FileNotFoundError:
             dep5_copyright = None
-        except (DebianError, UnicodeError, ValueError):
-            dep5_copyright = None
-            _LOGGER.warning(_("Proceeding as if no DEP5 file existed."))
 
         meson_build_path = root / "meson.build"
         uses_meson = meson_build_path.is_file()
@@ -141,7 +148,7 @@ class Project:
         # TODO: Because the `_find_licenses()` method is so broad and depends on
         # some object attributes, we set the attribute after creating the
         # object. Ideally we do this before creating the object, but that would
-        # require refactoring the met
+        # require refactoring the method.
         project.licenses = project._find_licenses()
 
         return project
@@ -458,13 +465,3 @@ class Project:
             ).format(root)
         )
         return VCSStrategyNone
-
-
-def create_project() -> Project:
-    """Create a project object. Try to find the project root from CWD,
-    otherwise treat CWD as root.
-    """
-    root = find_root()
-    if root is None:
-        root = Path.cwd()
-    return Project.from_directory(root)

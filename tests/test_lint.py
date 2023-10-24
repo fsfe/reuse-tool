@@ -116,7 +116,7 @@ def test_lint_licenses_without_extension(fake_repository):
     (fake_repository / "LICENSES/GPL-3.0-or-later.txt").rename(
         fake_repository / "LICENSES/GPL-3.0-or-later"
     )
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
