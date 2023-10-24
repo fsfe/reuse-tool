@@ -16,7 +16,7 @@ from typing import IO, Callable, List, Optional, Type, cast
 from . import (
     __REUSE_version__,
     __version__,
-    annotate,
+    _annotate,
     download,
     init,
     lint,
@@ -108,8 +108,8 @@ def parser() -> argparse.ArgumentParser:
     add_command(
         subparsers,
         "annotate",
-        annotate.add_arguments,
-        annotate.run,
+        _annotate.add_arguments,
+        _annotate.run,
         help=_("add copyright and licensing into the header of files"),
         description=fill_all(
             _(
