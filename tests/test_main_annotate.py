@@ -1290,4 +1290,31 @@ def test_annotate_recursive_on_file(fake_repository, stringio, mock_date_today):
     assert result == 0
 
 
+def test_annotate_exit_if_unrecognised(
+    fake_repository, stringio, mock_date_today
+):
+    """Expect error and no edited files if at least one file has not been
+    recognised, with --exit-if-unrecognised enabled."""
+    (fake_repository / "baz").mkdir(parents=True)
+    (fake_repository / "baz/foo.py").write_text("foo")
+    (fake_repository / "baz/bar.unknown").write_text("bar")
+    (fake_repository / "baz/baz.sh").write_text("baz")
+
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "annotate",
+                "--license",
+                "Apache-2.0",
+                "--copyright",
+                "Jane Doe",
+                "--recursive",
+                "--exit-if-unrecognised",
+                "baz/",
+            ]
+        )
+
+    assert "Jane Doe" not in (fake_repository / "baz/foo.py").read_text()
+
+
 # REUSE-IgnoreEnd

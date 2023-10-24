@@ -336,6 +336,30 @@ def verify_write_access(
         )
 
 
+def verify_paths_comment_style(args: Namespace, paths: Iterable[Path]) -> None:
+    """Exit if --exit-if-unrecognised is enabled and one of the paths has an
+    unrecognised style.
+    """
+    if args.exit_if_unrecognised:
+        unrecognised_files = []
+
+        for path in paths:
+            if not _has_style(path):
+                unrecognised_files.append(path)
+
+        if unrecognised_files:
+            args.parser.error(
+                "{}\n\n{}".format(
+                    _(
+                        "The following files do not have a recognised file"
+                        " extension. Please use --style, --force-dot-license or"
+                        " --skip-unrecognised:"
+                    ),
+                    "\n".join(str(path) for path in unrecognised_files),
+                )
+            )
+
+
 def add_arguments(parser: ArgumentParser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -408,8 +432,8 @@ def add_arguments(parser: ArgumentParser) -> None:
         action="store_true",
         help=_("force multi-line comment style, optional"),
     )
-    skip_force_mutex_group = parser.add_mutually_exclusive_group()
-    skip_force_mutex_group.add_argument(
+    style_mutex_group = parser.add_mutually_exclusive_group()
+    style_mutex_group.add_argument(
         "--force-dot-license",
         action="store_true",
         help=_("write a .license file instead of a header inside the file"),
@@ -429,7 +453,14 @@ def add_arguments(parser: ArgumentParser) -> None:
             "do not replace the first header in the file; just add a new one"
         ),
     )
-    skip_force_mutex_group.add_argument(
+    style_mutex_group.add_argument(
+        "--exit-if-unrecognised",
+        action="store_true",
+        help=_(
+            "exit prematurely if one of the files has no defined comment style"
+        ),
+    )
+    style_mutex_group.add_argument(
         "--skip-unrecognised",
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
@@ -449,6 +480,8 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     style_and_unrecognised_warning(args)
 
     paths = all_paths(args, project)
+
+    verify_paths_comment_style(args, paths)
 
     if not args.force_dot_license:
         verify_write_access(paths, args.parser)
