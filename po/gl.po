@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 18:17+0000\n"
+"POT-Creation-Date: 2023-10-24 19:58+0000\n"
 "PO-Revision-Date: 2023-06-21 09:53+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -703,39 +703,39 @@ msgid ""
 "standard-data-format-requirements"
 msgstr ""
 
-#: /usr/lib/python3.8/argparse.py:307
+#: /usr/lib/python3.10/argparse.py:308
 msgid "usage: "
 msgstr "uso: "
 
-#: /usr/lib/python3.8/argparse.py:858
+#: /usr/lib/python3.10/argparse.py:880
 msgid ".__call__() not defined"
 msgstr ".__call__() non definido"
 
-#: /usr/lib/python3.8/argparse.py:1161
+#: /usr/lib/python3.10/argparse.py:1223
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr "analizador descoñecido %(parser_name)r (alternativas: %(choices)s)"
 
-#: /usr/lib/python3.8/argparse.py:1221
+#: /usr/lib/python3.10/argparse.py:1283
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr "argumento \"-\" con modo %r"
 
-#: /usr/lib/python3.8/argparse.py:1230
+#: /usr/lib/python3.10/argparse.py:1292
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
 msgstr "non se pode abrir '%(filename)s': %(error)s"
 
-#: /usr/lib/python3.8/argparse.py:1439
+#: /usr/lib/python3.10/argparse.py:1501
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr "non se poden misturar as accións - dous grupos teñen o nome %r"
 
-#: /usr/lib/python3.8/argparse.py:1477
+#: /usr/lib/python3.10/argparse.py:1539
 msgid "'required' is an invalid argument for positionals"
 msgstr "'required' non é un argumento valido para os posicionais"
 
-#: /usr/lib/python3.8/argparse.py:1499
+#: /usr/lib/python3.10/argparse.py:1561
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
@@ -744,116 +744,119 @@ msgstr ""
 "cadea de opción non válida %(option)r: precisa comenzar cun carácter "
 "%(prefix_chars)r"
 
-#: /usr/lib/python3.8/argparse.py:1519
+#: /usr/lib/python3.10/argparse.py:1579
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr "requírese dest= para opcións do tipo %r"
 
-#: /usr/lib/python3.8/argparse.py:1536
+#: /usr/lib/python3.10/argparse.py:1596
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr "valor non válido para conflict_resolution: %r"
 
-#: /usr/lib/python3.8/argparse.py:1554
+#: /usr/lib/python3.10/argparse.py:1614
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] "cadea de opción conflictiva: %s"
 msgstr[1] "cadeas de opción conflictivas: %s"
 
-#: /usr/lib/python3.8/argparse.py:1620
+#: /usr/lib/python3.10/argparse.py:1680
 msgid "mutually exclusive arguments must be optional"
 msgstr "os argumentos mutuamente exclusivos deben ser opcionais"
 
-#: /usr/lib/python3.8/argparse.py:1683
+#: /usr/lib/python3.10/argparse.py:1748
 msgid "positional arguments"
 msgstr "argumentos posicionais"
 
-#: /usr/lib/python3.8/argparse.py:1684
-msgid "optional arguments"
-msgstr "argumentos opcionais"
+#: /usr/lib/python3.10/argparse.py:1749
+msgid "options"
+msgstr ""
 
-#: /usr/lib/python3.8/argparse.py:1699
+#: /usr/lib/python3.10/argparse.py:1764
 msgid "show this help message and exit"
 msgstr "mostrar esta mensaxe de axuda e sair"
 
-#: /usr/lib/python3.8/argparse.py:1730
+#: /usr/lib/python3.10/argparse.py:1795
 msgid "cannot have multiple subparser arguments"
 msgstr "non pode haber múltiples argumentos para o subanalizador"
 
-#: /usr/lib/python3.8/argparse.py:1782 /usr/lib/python3.8/argparse.py:2289
+#: /usr/lib/python3.10/argparse.py:1847 /usr/lib/python3.10/argparse.py:2362
 #, python-format
 msgid "unrecognized arguments: %s"
 msgstr "argumentos non recoñecidos: %s"
 
-#: /usr/lib/python3.8/argparse.py:1879
+#: /usr/lib/python3.10/argparse.py:1948
 #, python-format
 msgid "not allowed with argument %s"
 msgstr "non se permite co argumento %s"
 
-#: /usr/lib/python3.8/argparse.py:1925 /usr/lib/python3.8/argparse.py:1939
+#: /usr/lib/python3.10/argparse.py:1998 /usr/lib/python3.10/argparse.py:2012
 #, python-format
 msgid "ignored explicit argument %r"
 msgstr "argumento explicito %r ignorado"
 
-#: /usr/lib/python3.8/argparse.py:2046
+#: /usr/lib/python3.10/argparse.py:2119
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr "precísanse os seguintes argumentos: %s"
 
-#: /usr/lib/python3.8/argparse.py:2061
+#: /usr/lib/python3.10/argparse.py:2134
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr "precísase un dos argumentos %s"
 
-#: /usr/lib/python3.8/argparse.py:2104
+#: /usr/lib/python3.10/argparse.py:2177
 msgid "expected one argument"
 msgstr "espérase un argumento"
 
-#: /usr/lib/python3.8/argparse.py:2105
+#: /usr/lib/python3.10/argparse.py:2178
 msgid "expected at most one argument"
 msgstr "espérase un argumento como máximo"
 
-#: /usr/lib/python3.8/argparse.py:2106
+#: /usr/lib/python3.10/argparse.py:2179
 msgid "expected at least one argument"
 msgstr "espérase un argumento como mínimo"
 
-#: /usr/lib/python3.8/argparse.py:2110
+#: /usr/lib/python3.10/argparse.py:2183
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] "espérase %s argumento"
 msgstr[1] "espéranse %s argumentos"
 
-#: /usr/lib/python3.8/argparse.py:2168
+#: /usr/lib/python3.10/argparse.py:2241
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr "opción ambigua: %(option)s pode encaixar con %(matches)s"
 
-#: /usr/lib/python3.8/argparse.py:2232
+#: /usr/lib/python3.10/argparse.py:2305
 #, python-format
 msgid "unexpected option string: %s"
 msgstr "opción de cadea non esperada: %s"
 
-#: /usr/lib/python3.8/argparse.py:2429
+#: /usr/lib/python3.10/argparse.py:2502
 #, python-format
 msgid "%r is not callable"
 msgstr "%r non se pode chamar"
 
-#: /usr/lib/python3.8/argparse.py:2446
+#: /usr/lib/python3.10/argparse.py:2519
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr "valor non válido %(type)s: %(value)r"
 
-#: /usr/lib/python3.8/argparse.py:2457
+#: /usr/lib/python3.10/argparse.py:2530
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr "alternativa non válida: %(value)r (elixir entre %(choices)s)"
 
-#: /usr/lib/python3.8/argparse.py:2533
+#: /usr/lib/python3.10/argparse.py:2606
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: erro: %(message)s\n"
+
+#~ msgid "optional arguments"
+#~ msgstr "argumentos opcionais"
 
 #, fuzzy
 #~ msgid ""

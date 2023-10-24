@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 18:17+0000\n"
+"POT-Creation-Date: 2023-10-24 19:58+0000\n"
 "PO-Revision-Date: 2023-09-28 07:03+0000\n"
 "Last-Translator: \"T. E. Kalaycı\" <tekrei@tutanota.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -708,155 +708,158 @@ msgstr ""
 "kurallarına şuradan bakabilirsiniz: https://spdx.github.io/spdx-spec/"
 "conformance/#44-standard-data-format-requirements"
 
-#: /usr/lib/python3.8/argparse.py:307
+#: /usr/lib/python3.10/argparse.py:308
 msgid "usage: "
 msgstr "kullanım: "
 
-#: /usr/lib/python3.8/argparse.py:858
+#: /usr/lib/python3.10/argparse.py:880
 msgid ".__call__() not defined"
 msgstr ".__call__() tanımlı değil"
 
-#: /usr/lib/python3.8/argparse.py:1161
+#: /usr/lib/python3.10/argparse.py:1223
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr "bilinmeyen ayrıştıcı %(parser_name)r (choices: %(choices)s)"
 
-#: /usr/lib/python3.8/argparse.py:1221
+#: /usr/lib/python3.10/argparse.py:1283
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr "%r kipine sahip \"-\" argümanı"
 
-#: /usr/lib/python3.8/argparse.py:1230
+#: /usr/lib/python3.10/argparse.py:1292
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
 msgstr "'%(filename)s' açılamıyor: %(error)s"
 
-#: /usr/lib/python3.8/argparse.py:1439
+#: /usr/lib/python3.10/argparse.py:1501
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr "eylemler birleştirilemiyor - iki grup %r olarak adlandırılmış"
 
-#: /usr/lib/python3.8/argparse.py:1477
+#: /usr/lib/python3.10/argparse.py:1539
 msgid "'required' is an invalid argument for positionals"
 msgstr "'required' konumsal parametre için hatalı bir değişkendir"
 
-#: /usr/lib/python3.8/argparse.py:1499
+#: /usr/lib/python3.10/argparse.py:1561
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
 "%(prefix_chars)r"
 msgstr "hatalı %(option)r seçeneği: %(prefix_chars)r karakteriye başlamalı"
 
-#: /usr/lib/python3.8/argparse.py:1519
+#: /usr/lib/python3.10/argparse.py:1579
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr "%r gibi seçenekler için dest= gerekli"
 
-#: /usr/lib/python3.8/argparse.py:1536
+#: /usr/lib/python3.10/argparse.py:1596
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr "hatalı conflict_resolution değeri: %r"
 
-#: /usr/lib/python3.8/argparse.py:1554
+#: /usr/lib/python3.10/argparse.py:1614
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] "çelişkili seçenek karakter dizisi: %s"
 msgstr[1] "çelişkili seçenek karakter dizisi: %s"
 
-#: /usr/lib/python3.8/argparse.py:1620
+#: /usr/lib/python3.10/argparse.py:1680
 msgid "mutually exclusive arguments must be optional"
 msgstr "ayrık seçenekler isteğe bağlı olmalı"
 
-#: /usr/lib/python3.8/argparse.py:1683
+#: /usr/lib/python3.10/argparse.py:1748
 msgid "positional arguments"
 msgstr "konumsal değişkenler"
 
-#: /usr/lib/python3.8/argparse.py:1684
-msgid "optional arguments"
-msgstr "isteğe bağlı değişkenler"
+#: /usr/lib/python3.10/argparse.py:1749
+msgid "options"
+msgstr ""
 
-#: /usr/lib/python3.8/argparse.py:1699
+#: /usr/lib/python3.10/argparse.py:1764
 msgid "show this help message and exit"
 msgstr "bu yardım mesajını gösterip çık"
 
-#: /usr/lib/python3.8/argparse.py:1730
+#: /usr/lib/python3.10/argparse.py:1795
 msgid "cannot have multiple subparser arguments"
 msgstr "birden fazla altayrıştırıcı değişkeni içeremez"
 
-#: /usr/lib/python3.8/argparse.py:1782 /usr/lib/python3.8/argparse.py:2289
+#: /usr/lib/python3.10/argparse.py:1847 /usr/lib/python3.10/argparse.py:2362
 #, python-format
 msgid "unrecognized arguments: %s"
 msgstr "tanımlanamayan değişkenler: %s"
 
-#: /usr/lib/python3.8/argparse.py:1879
+#: /usr/lib/python3.10/argparse.py:1948
 #, python-format
 msgid "not allowed with argument %s"
 msgstr "%s değişkeniyle izin yok"
 
-#: /usr/lib/python3.8/argparse.py:1925 /usr/lib/python3.8/argparse.py:1939
+#: /usr/lib/python3.10/argparse.py:1998 /usr/lib/python3.10/argparse.py:2012
 #, python-format
 msgid "ignored explicit argument %r"
 msgstr "açık %r değişkeni yok sayıldı"
 
-#: /usr/lib/python3.8/argparse.py:2046
+#: /usr/lib/python3.10/argparse.py:2119
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr "şu değişkenler gereklidir: %s"
 
-#: /usr/lib/python3.8/argparse.py:2061
+#: /usr/lib/python3.10/argparse.py:2134
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr "%s değişkenlerinden biri gereklidir"
 
-#: /usr/lib/python3.8/argparse.py:2104
+#: /usr/lib/python3.10/argparse.py:2177
 msgid "expected one argument"
 msgstr "bir değişken bekleniyor"
 
-#: /usr/lib/python3.8/argparse.py:2105
+#: /usr/lib/python3.10/argparse.py:2178
 msgid "expected at most one argument"
 msgstr "en fazla bir değişken bekleniyor"
 
-#: /usr/lib/python3.8/argparse.py:2106
+#: /usr/lib/python3.10/argparse.py:2179
 msgid "expected at least one argument"
 msgstr "en azından bir değişken bekleniyor"
 
-#: /usr/lib/python3.8/argparse.py:2110
+#: /usr/lib/python3.10/argparse.py:2183
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] "%s değişkeni bekleniyor"
 msgstr[1] "%s değişkenleri bekleniyor"
 
-#: /usr/lib/python3.8/argparse.py:2168
+#: /usr/lib/python3.10/argparse.py:2241
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr "belirsiz seçenek: %(option)s, %(matches)s ile eşleşebilir"
 
-#: /usr/lib/python3.8/argparse.py:2232
+#: /usr/lib/python3.10/argparse.py:2305
 #, python-format
 msgid "unexpected option string: %s"
 msgstr "beklenmedik seçenek karakter dizisi: %s"
 
-#: /usr/lib/python3.8/argparse.py:2429
+#: /usr/lib/python3.10/argparse.py:2502
 #, python-format
 msgid "%r is not callable"
 msgstr "%r çağrılabilir değil"
 
-#: /usr/lib/python3.8/argparse.py:2446
+#: /usr/lib/python3.10/argparse.py:2519
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr "hatalı %(type)s değeri: %(value)r"
 
-#: /usr/lib/python3.8/argparse.py:2457
+#: /usr/lib/python3.10/argparse.py:2530
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr "hatalı tercih: %(value)r (%(choices)s seçilmelidir)"
 
-#: /usr/lib/python3.8/argparse.py:2533
+#: /usr/lib/python3.10/argparse.py:2606
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: hata: %(message)s\n"
+
+#~ msgid "optional arguments"
+#~ msgstr "isteğe bağlı değişkenler"
 
 #~ msgid "deprecated in favor of annotate"
 #~ msgstr "annotate için kullanımdan kaldırıldı"
