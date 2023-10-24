@@ -153,15 +153,6 @@ def parser() -> argparse.ArgumentParser:
 
     add_command(
         subparsers,
-        "addheader",
-        annotate.add_arguments,
-        annotate.run,
-        # TRANSLATORS: Do not translate annotate.
-        help=_("deprecated in favor of annotate"),
-    )
-
-    add_command(
-        subparsers,
         "download",
         download.add_arguments,
         download.run,

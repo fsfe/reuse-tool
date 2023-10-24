@@ -67,6 +67,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Removed
 
 - Removed deprecated `--explicit-license`. (#TODO)
+- Removed deprecated `addheader`. (#TODO)
 
 ### Fixed
 

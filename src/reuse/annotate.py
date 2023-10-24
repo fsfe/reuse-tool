@@ -48,7 +48,7 @@ from .project import Project
 _LOGGER = logging.getLogger(__name__)
 
 
-def _verify_paths_line_handling(
+def verify_paths_line_handling(
     paths: Iterable[Path],
     parser: ArgumentParser,
     force_single: bool,
@@ -77,9 +77,10 @@ def _verify_paths_line_handling(
             )
 
 
-def _verify_paths_comment_style(
+def verify_paths_comment_style(
     paths: Iterable[Path], parser: ArgumentParser
 ) -> None:
+    """Raise parser.error if a style could not be found for one of the paths."""
     unrecognised_files = []
 
     for path in paths:
@@ -99,7 +100,7 @@ def _verify_paths_comment_style(
         )
 
 
-def _find_template(project: Project, name: str) -> Template:
+def find_template(project: Project, name: str) -> Template:
     """Find a template given a name.
 
     Raises:
@@ -124,7 +125,7 @@ def _find_template(project: Project, name: str) -> Template:
     raise TemplateNotFound(name)
 
 
-def _add_header_to_file(
+def add_header_to_file(
     path: StrPath,
     reuse_info: ReuseInfo,
     template: Optional[Template],
@@ -214,17 +215,8 @@ def _add_header_to_file(
     return result
 
 
-def _addheader_deprecation_warning(args: Namespace) -> None:
-    if "addheader" in args.parser.prog.split():
-        _LOGGER.warning(
-            _(
-                "'reuse addheader' has been deprecated in favour of"
-                " 'reuse annotate'"
-            )
-        )
-
-
-def _style_and_unrecognised_warning(args: Namespace) -> None:
+def style_and_unrecognised_warning(args: Namespace) -> None:
+    """Log a warning if --style is used together with --skip-unrecognised."""
     if args.style is not None and args.skip_unrecognised:
         _LOGGER.warning(
             _(
@@ -234,17 +226,19 @@ def _style_and_unrecognised_warning(args: Namespace) -> None:
         )
 
 
-def _test_args(args: Namespace) -> None:
-    def _test_new_value_required() -> None:
-        if not any((args.contributor, args.copyright, args.license)):
-            args.parser.error(
-                _("option --contributor, --copyright or --license is required")
-            )
-
-    _test_new_value_required()
+def test_mandatory_option_required(args: Namespace) -> None:
+    """Raise a parser error if one of the mandatory options is not provided."""
+    if not any((args.contributor, args.copyright, args.license)):
+        args.parser.error(
+            _("option --contributor, --copyright or --license is required")
+        )
 
 
-def _all_paths(args: Namespace, project: Project) -> Set[Path]:
+def all_paths(args: Namespace, project: Project) -> Set[Path]:
+    """Return a set of all provided paths, converted into .license paths if they
+    exist. If recursive is enabled, all files belonging to *project* are also
+    added.
+    """
     if args.recursive:
         paths: Set[Path] = set()
         all_files = [path.resolve() for path in project.all_files()]
@@ -259,42 +253,59 @@ def _all_paths(args: Namespace, project: Project) -> Set[Path]:
                 }
     else:
         paths = args.path
-    paths = {_determine_license_path(path) for path in paths}
-    return paths
+    return {_determine_license_path(path) for path in paths}
 
 
-def _get_template(args: Namespace, project: Project) -> Tuple[Template, bool]:
+def get_template(
+    args: Namespace, project: Project
+) -> Tuple[Optional[Template], bool]:
+    """If a template is specified on the CLI, find and return it, including
+    whether it is a 'commented' template.
+
+    If no template is specified, just return None.
+    """
+    template: Optional[Template] = None
     commented = False
-    try:
-        template = cast(Template, _find_template(project, args.template))
-    except TemplateNotFound:
-        args.parser.error(
-            _("template {template} could not be found").format(
-                template=args.template
+    if args.template:
+        try:
+            template = cast(Template, find_template(project, args.template))
+        except TemplateNotFound:
+            args.parser.error(
+                _("template {template} could not be found").format(
+                    template=args.template
+                )
             )
-        )
-        # This code is never reached, but mypy is not aware that
-        # parser.error quits the program.
-        raise
+            # This code is never reached, but mypy is not aware that
+            # parser.error quits the program.
+            raise
 
-    if ".commented" in Path(cast(str, template.name)).suffixes:
-        commented = True
+        if ".commented" in Path(cast(str, template.name)).suffixes:
+            commented = True
     return template, commented
 
 
-def _get_year(args: Namespace) -> Optional[str]:
+def get_year(args: Namespace) -> Optional[str]:
+    """Get the year. Normally it is today's year. If --year is specified once,
+    get that one. If it is specified twice (or more), return the range between
+    the two.
+
+    If --exclude-year is specified, return None.
+    """
     year = None
     if not args.exclude_year:
         if args.year and len(args.year) > 1:
             year = f"{min(args.year)} - {max(args.year)}"
         elif args.year:
-            year = args.year.pop()
+            year = args.year[0]
         else:
             year = str(datetime.date.today().year)
     return year
 
 
-def _get_reuse_info(args: Namespace, year: Optional[str]) -> ReuseInfo:
+def get_reuse_info(args: Namespace, year: Optional[str]) -> ReuseInfo:
+    """Create a ReuseInfo object from --license, --copyright, and
+    --contributor.
+    """
     expressions = set(args.license) if args.license is not None else set()
     copyright_style = (
         args.copyright_style if args.copyright_style is not None else "spdx"
@@ -320,9 +331,10 @@ def _get_reuse_info(args: Namespace, year: Optional[str]) -> ReuseInfo:
     )
 
 
-def _verify_write_access(
+def verify_write_access(
     paths: Iterable[StrPath], parser: ArgumentParser
 ) -> None:
+    """Raise a parser.error if one of the paths is not writable."""
     not_writeable = [
         str(path) for path in paths if not os.access(path, os.W_OK)
     ]
@@ -439,36 +451,31 @@ def add_arguments(parser: ArgumentParser) -> None:
 
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """Add headers to files."""
-    _addheader_deprecation_warning(args)
+    test_mandatory_option_required(args)
 
-    _test_args(args)
+    style_and_unrecognised_warning(args)
 
-    _style_and_unrecognised_warning(args)
-
-    paths = _all_paths(args, project)
+    paths = all_paths(args, project)
 
     if not args.force_dot_license:
-        _verify_write_access(paths, args.parser)
+        verify_write_access(paths, args.parser)
 
     # Verify line handling and comment styles before proceeding
     if args.style is None and not args.force_dot_license:
-        _verify_paths_line_handling(
+        verify_paths_line_handling(
             paths,
             args.parser,
             force_single=args.single_line,
             force_multi=args.multi_line,
         )
         if not args.skip_unrecognised:
-            _verify_paths_comment_style(paths, args.parser)
+            verify_paths_comment_style(paths, args.parser)
 
-    template: Optional[Template] = None
-    commented = False
-    if args.template:
-        template, commented = _get_template(args, project)
+    template, commented = get_template(args, project)
 
-    year = _get_year(args)
+    year = get_year(args)
 
-    reuse_info = _get_reuse_info(args, year)
+    reuse_info = get_reuse_info(args, year)
 
     result = 0
     for path in paths:
@@ -489,7 +496,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
                 )
             path = Path(new_path)
             path.touch()
-        result += _add_header_to_file(
+        result += add_header_to_file(
             path=path,
             reuse_info=reuse_info,
             template=template,
