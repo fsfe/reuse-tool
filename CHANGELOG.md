@@ -62,6 +62,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
   automatically create a `.license` file. (#851)
 - No longer scan binary or uncommentable files for their contents in search of
   REUSE information. (#825)
+- `--force-dot-license` and `--skip-unrecognised` are now mutually exclusive on
+  `annotate`. (#852)
 
 ### Deprecated
 

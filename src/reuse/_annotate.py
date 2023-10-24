@@ -408,7 +408,8 @@ def add_arguments(parser: ArgumentParser) -> None:
         action="store_true",
         help=_("force multi-line comment style, optional"),
     )
-    parser.add_argument(
+    skip_force_mutex_group = parser.add_mutually_exclusive_group()
+    skip_force_mutex_group.add_argument(
         "--force-dot-license",
         action="store_true",
         help=_("write a .license file instead of a header inside the file"),
@@ -428,7 +429,7 @@ def add_arguments(parser: ArgumentParser) -> None:
             "do not replace the first header in the file; just add a new one"
         ),
     )
-    parser.add_argument(
+    skip_force_mutex_group.add_argument(
         "--skip-unrecognised",
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
