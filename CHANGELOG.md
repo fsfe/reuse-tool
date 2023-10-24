@@ -59,7 +59,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
   or old setups", which "have the submodule's git directory inside the submodule
   instead of embedded into the superproject's git directory". (#687)
 - When running `annotate` on a file with an unrecognised file path,
-  automatically create a `.license` file. (#851)
+  automatically create a `.license` file. The old behaviour of exiting on
+  unrecognised paths is now behind `--exit-if-unrecognised`. (#851, #853)
 - No longer scan binary or uncommentable files for their contents in search of
   REUSE information. (#825)
 - `--force-dot-license` and `--skip-unrecognised` are now mutually exclusive on
@@ -80,6 +81,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Fixed
 
 - Reduced python-debian minimum version to 0.1.34. (#808)
+- Fix issue in `annotate` where `--single-line` and `--multi-line` would not
+  correctly raise an error with an incompatible comment style. (#853)
 
 ### Security
 

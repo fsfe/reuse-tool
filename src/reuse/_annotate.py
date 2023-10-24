@@ -54,27 +54,27 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def verify_paths_line_handling(
+    args: Namespace,
     paths: Iterable[Path],
-    parser: ArgumentParser,
-    force_single: bool,
-    force_multi: bool,
 ) -> None:
-    """This function aborts the parser when *force_single* or *force_multi* is
+    """This function aborts the parser when --single-line or --multi-line is
     used, but the file type does not support that type of comment style.
     """
     for path in paths:
-        style = _get_comment_style(path)
+        style = NAME_STYLE_MAP.get(args.style)
+        if style is None:
+            style = _get_comment_style(path)
         if style is None:
             continue
-        if force_single and not style.can_handle_single():
-            parser.error(
+        if args.single_line and not style.can_handle_single():
+            args.parser.error(
                 _(
                     "'{path}' does not support single-line comments, please"
                     " do not use --single-line"
                 ).format(path=path)
             )
-        if force_multi and not style.can_handle_multi():
-            parser.error(
+        if args.multi_line and not style.can_handle_multi():
+            args.parser.error(
                 _(
                     "'{path}' does not support multi-line comments, please"
                     " do not use --multi-line"
@@ -123,9 +123,10 @@ def add_header_to_file(
     """Helper function."""
     # pylint: disable=too-many-arguments,too-many-locals
     result = 0
-    if style is not None:
-        comment_style: Optional[Type[CommentStyle]] = NAME_STYLE_MAP.get(style)
-    else:
+    comment_style: Optional[Type[CommentStyle]] = NAME_STYLE_MAP.get(
+        cast(str, style)
+    )
+    if comment_style is None:
         comment_style = _get_comment_style(path)
     if comment_style is None:
         if skip_unrecognised:
@@ -336,6 +337,30 @@ def verify_write_access(
         )
 
 
+def verify_paths_comment_style(args: Namespace, paths: Iterable[Path]) -> None:
+    """Exit if --exit-if-unrecognised is enabled and one of the paths has an
+    unrecognised style.
+    """
+    if args.exit_if_unrecognised:
+        unrecognised_files = []
+
+        for path in paths:
+            if not _has_style(path):
+                unrecognised_files.append(path)
+
+        if unrecognised_files:
+            args.parser.error(
+                "{}\n\n{}".format(
+                    _(
+                        "The following files do not have a recognised file"
+                        " extension. Please use --style, --force-dot-license or"
+                        " --skip-unrecognised:"
+                    ),
+                    "\n".join(str(path) for path in unrecognised_files),
+                )
+            )
+
+
 def add_arguments(parser: ArgumentParser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -408,8 +433,8 @@ def add_arguments(parser: ArgumentParser) -> None:
         action="store_true",
         help=_("force multi-line comment style, optional"),
     )
-    skip_force_mutex_group = parser.add_mutually_exclusive_group()
-    skip_force_mutex_group.add_argument(
+    style_mutex_group = parser.add_mutually_exclusive_group()
+    style_mutex_group.add_argument(
         "--force-dot-license",
         action="store_true",
         help=_("write a .license file instead of a header inside the file"),
@@ -429,7 +454,14 @@ def add_arguments(parser: ArgumentParser) -> None:
             "do not replace the first header in the file; just add a new one"
         ),
     )
-    skip_force_mutex_group.add_argument(
+    style_mutex_group.add_argument(
+        "--exit-if-unrecognised",
+        action="store_true",
+        help=_(
+            "exit prematurely if one of the files has no defined comment style"
+        ),
+    )
+    style_mutex_group.add_argument(
         "--skip-unrecognised",
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
@@ -450,17 +482,13 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
 
     paths = all_paths(args, project)
 
+    verify_paths_comment_style(args, paths)
+
     if not args.force_dot_license:
         verify_write_access(paths, args.parser)
 
     # Verify line handling and comment styles before proceeding
-    if args.style is None and not args.force_dot_license:
-        verify_paths_line_handling(
-            paths,
-            args.parser,
-            force_single=args.single_line,
-            force_multi=args.multi_line,
-        )
+    verify_paths_line_handling(args, paths)
 
     template, commented = get_template(args, project)
 

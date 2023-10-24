@@ -1072,8 +1072,7 @@ def test_annotate_skip_force_mutually_exclusive(fake_repository):
         )
 
 
-@pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
-def test_annotate_multi_line_not_supported(fake_repository, skip_option):
+def test_annotate_multi_line_not_supported(fake_repository):
     """Expect a fail if --multi-line is not supported for a file type."""
     with pytest.raises(SystemExit):
         main(
@@ -1084,14 +1083,37 @@ def test_annotate_multi_line_not_supported(fake_repository, skip_option):
                 "--copyright",
                 "Jane Doe",
                 "--multi-line",
-                skip_option,
                 "src/source_code.py",
             ]
         )
 
 
-@pytest.mark.parametrize("skip_option", [("--skip-unrecognised"), ("")])
-def test_annotate_single_line_not_supported(fake_repository, skip_option):
+def test_annotate_multi_line_not_supported_custom_style(
+    fake_repository, capsys
+):
+    """--multi-line also fails when used with a style that doesn't support it
+    through --style.
+    """
+    (fake_repository / "foo.foo").write_text("foo")
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "annotate",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Jane Doe",
+                "--multi-line",
+                "--style",
+                "python",
+                "foo.foo",
+            ],
+        )
+
+    assert "'foo.foo' does not support multi-line" in capsys.readouterr().err
+
+
+def test_annotate_single_line_not_supported(fake_repository):
     """Expect a fail if --single-line is not supported for a file type."""
     with pytest.raises(SystemExit):
         main(
@@ -1102,7 +1124,6 @@ def test_annotate_single_line_not_supported(fake_repository, skip_option):
                 "--copyright",
                 "Jane Doe",
                 "--single-line",
-                skip_option,
                 "src/source_code.html",
             ]
         )
@@ -1288,6 +1309,33 @@ def test_annotate_recursive_on_file(fake_repository, stringio, mock_date_today):
         "Joe Somebody" in (fake_repository / "src/source_code.py").read_text()
     )
     assert result == 0
+
+
+def test_annotate_exit_if_unrecognised(
+    fake_repository, stringio, mock_date_today
+):
+    """Expect error and no edited files if at least one file has not been
+    recognised, with --exit-if-unrecognised enabled."""
+    (fake_repository / "baz").mkdir(parents=True)
+    (fake_repository / "baz/foo.py").write_text("foo")
+    (fake_repository / "baz/bar.unknown").write_text("bar")
+    (fake_repository / "baz/baz.sh").write_text("baz")
+
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "annotate",
+                "--license",
+                "Apache-2.0",
+                "--copyright",
+                "Jane Doe",
+                "--recursive",
+                "--exit-if-unrecognised",
+                "baz/",
+            ]
+        )
+
+    assert "Jane Doe" not in (fake_repository / "baz/foo.py").read_text()
 
 
 # REUSE-IgnoreEnd
