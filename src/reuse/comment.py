@@ -14,6 +14,7 @@
 # SPDX-FileCopyrightText: 2023 Kevin Meagher
 # SPDX-FileCopyrightText: 2023 Mathias Dannesbo <md@magenta.dk>
 # SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
+# SPDX-FileCopyrightText: 2023 Juelich Supercomputing Centre, Forschungszentrum Juelich GmbH
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -348,11 +349,20 @@ class EmptyCommentStyle(CommentStyle):
 
 
 class FortranCommentStyle(CommentStyle):
-    """Fortran comment style."""
+    """Fortran (fixed form) comment style."""
 
     SHORTHAND = "f"
 
     SINGLE_LINE = "c"
+    INDENT_AFTER_SINGLE = " "
+
+
+class ModernFortranCommentStyle(CommentStyle):
+    """Fortran (free form) comment style."""
+
+    SHORTHAND = "f90"
+
+    SINGLE_LINE = "!"
     INDENT_AFTER_SINGLE = " "
 
 
@@ -569,15 +579,18 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ex": PythonCommentStyle,
     ".exs": PythonCommentStyle,
     ".f": FortranCommentStyle,
-    ".f03": FortranCommentStyle,
-    ".f90": FortranCommentStyle,
-    ".f95": FortranCommentStyle,
+    ".f03": ModernFortranCommentStyle,
+    ".f08": ModernFortranCommentStyle,
+    ".f90": ModernFortranCommentStyle,
+    ".f95": ModernFortranCommentStyle,
     ".fish": PythonCommentStyle,
     ".fnl": LispCommentStyle,
     ".fodp": UncommentableCommentStyle,
     ".fods": UncommentableCommentStyle,
     ".fodt": UncommentableCommentStyle,
     ".for": FortranCommentStyle,
+    ".ftn": FortranCommentStyle,
+    ".fpp": FortranCommentStyle,
     ".fs": CCommentStyle,
     ".ftl": FtlCommentStyle,
     ".gemspec": PythonCommentStyle,

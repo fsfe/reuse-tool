@@ -45,6 +45,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Declared support for Python 3.12. (#846)
 - More file types are recognised:
   - Julia (`.jl`) (#815)
+  - Modern Fortran (`.f90`) (#836)
 
 ### Changed
 
