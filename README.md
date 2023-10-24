@@ -224,14 +224,16 @@ You can also provide additional arguments, like so:
 docker run --rm --volume $(pwd):/data fsfe/reuse --include-submodules spdx -o out.spdx
 ```
 
-There are a number of tags available:
+The available tags are:
 
-- `latest` is the most recent stable release.
-- `dev` follows the `main` branch of this repository. Up-to-date, but
-  potentially unstable.
-- `latest-extra` has a few extra packages installed, currently `openssh-client`.
-- `latest-debian` is based on `python:slim`. It is larger, but may be better
-  suited for license compliance.
+- `latest` --- the most recent release of reuse.
+- `{major}` --- the latest major release.
+- `{major}.{minor}` --- the latest minor release.
+- `{major}.{minor}.{patch}` --- a precise release.
+
+You can add `-debian` to any of the tags to get a Debian-based instead of an
+Alpine-based image, which is larger, but may be better suited for license
+compliance.
 
 ### Run as pre-commit hook
 
