@@ -491,7 +491,10 @@ def test_download_licenseref_false_source_dir(empty_directory, stringio):
         ["download", "--source", "lics", "LicenseRef-hello"], out=stringio
     )
     assert result != 0
-    assert "lics/LicenseRef-hello.txt does not exist" in stringio.getvalue()
+    assert (
+        f"{Path('lics') / 'LicenseRef-hello.txt'} does not exist"
+        in stringio.getvalue()
+    )
 
 
 def test_supported_licenses(stringio):
