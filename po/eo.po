@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 11:02+0000\n"
+"POT-Creation-Date: 2023-10-24 12:02+0000\n"
 "PO-Revision-Date: 2023-07-10 21:48+0000\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -677,19 +677,19 @@ msgid ""
 "project is not a VCS repository or required VCS software is not installed"
 msgstr ""
 
-#: src/reuse/project.py:185
+#: src/reuse/project.py:186
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' sub .reuse/dep5"
 
-#: src/reuse/project.py:191
+#: src/reuse/project.py:192
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
 
-#: src/reuse/project.py:232
+#: src/reuse/project.py:233
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -697,7 +697,7 @@ msgstr ""
 "'{path}' entenas SPDX-esprimon, kiun oni ne povas analizi; preterpasante la "
 "dosieron"
 
-#: src/reuse/project.py:241
+#: src/reuse/project.py:242
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -708,25 +708,25 @@ msgid ""
 "suppress-deprecation` to hide this warning."
 msgstr ""
 
-#: src/reuse/project.py:328
+#: src/reuse/project.py:329
 msgid ".reuse/dep5 has syntax errors"
 msgstr ".reuse/dep5 havas sintaksajn erarojn"
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:331
 msgid ".reuse/dep5 could not be parsed as utf-8"
 msgstr ""
 
-#: src/reuse/project.py:356
+#: src/reuse/project.py:357
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "precizigante identigilon de '{path}'"
 
-#: src/reuse/project.py:364
+#: src/reuse/project.py:365
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} ne havas dosiersufikson"
 
-#: src/reuse/project.py:374
+#: src/reuse/project.py:375
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -738,7 +738,7 @@ msgstr ""
 "Certigu ke la permesilo estas en la listo ĉe <https://spdx.org/licenses/> aŭ "
 "ke ĝi komencas per 'LicenseRef-' kaj havas dosiersufikson."
 
-#: src/reuse/project.py:386
+#: src/reuse/project.py:387
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"

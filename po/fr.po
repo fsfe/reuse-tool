@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 11:02+0000\n"
+"POT-Creation-Date: 2023-10-24 12:02+0000\n"
 "PO-Revision-Date: 2023-10-04 13:12+0000\n"
 "Last-Translator: Walter Paulo <polo@tictips.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -712,19 +712,19 @@ msgstr ""
 "le projet n'est pas un répertoire VCS ou le logiciel VCS nécessaire n'est "
 "pas installé"
 
-#: src/reuse/project.py:185
+#: src/reuse/project.py:186
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' est couvert par .reuse/dep5"
 
-#: src/reuse/project.py:191
+#: src/reuse/project.py:192
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
 
-#: src/reuse/project.py:232
+#: src/reuse/project.py:233
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -732,7 +732,7 @@ msgstr ""
 "'{path}' contient une expression SPDX qui ne peut pas être analysée : le "
 "fichier est ignoré"
 
-#: src/reuse/project.py:241
+#: src/reuse/project.py:242
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -750,25 +750,25 @@ msgstr ""
 "n'est actuellement nécessaire. Pour masquer cet avertissement à l'avenir, "
 "exécutez la commande avec l'argument `--suppress-deprecation`."
 
-#: src/reuse/project.py:328
+#: src/reuse/project.py:329
 msgid ".reuse/dep5 has syntax errors"
 msgstr ".reuse/dep5 contient des erreurs de syntaxe"
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:331
 msgid ".reuse/dep5 could not be parsed as utf-8"
 msgstr ".reuse/dep5 n'a pas pu être analysé comme fichier utf-8"
 
-#: src/reuse/project.py:356
+#: src/reuse/project.py:357
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "résolution de l'identifiant de '{path}'"
 
-#: src/reuse/project.py:364
+#: src/reuse/project.py:365
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} n'a pas d'extension de fichier"
 
-#: src/reuse/project.py:374
+#: src/reuse/project.py:375
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -781,7 +781,7 @@ msgstr ""
 "fournie à<https://spdx.org/licenses/>, soit qu'elle débute par 'LicenseRef-' "
 "et qu'elle contient une extension de fichier."
 
-#: src/reuse/project.py:386
+#: src/reuse/project.py:387
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
