@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
-#
+# SPDX-FileCopyrightText: 2023 Matthias Riße
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Module that contains the central Project class."""
@@ -124,8 +124,9 @@ class Project:
                     _LOGGER.debug("skipping symlink '%s'", the_dir)
                     dirs.remove(dir_)
                 elif (
-                    the_dir / ".git"
-                ).is_file() and not self.include_submodules:
+                    not self.include_submodules
+                    and self.vcs_strategy.is_submodule(the_dir)
+                ):
                     _LOGGER.info(
                         "ignoring '%s' because it is a submodule", the_dir
                     )
