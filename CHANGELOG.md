@@ -48,6 +48,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Julia (`.jl`) (#815)
   - Modern Fortran (`.f90`) (#836)
 - Display recommendations for steps to fix found issues during a lint. (#698)
+- Add support for Pijul VCS (#858)
 
 ### Changed
 
