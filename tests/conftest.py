@@ -232,6 +232,31 @@ def hg_repository(fake_repository: Path, hg_exe: str) -> Path:
     return fake_repository
 
 
+@pytest.fixture()
+def pijul_repository(fake_repository: Path, pijul_exe: str) -> Path:
+    """Create a pijul repository with ignored files."""
+    os.chdir(fake_repository)
+    _repo_contents(
+        fake_repository,
+        ignore_filename=".ignore",
+    )
+
+    subprocess.run([pijul_exe, "init", "."], check=True)
+    subprocess.run([pijul_exe, "add", "--recursive", "."], check=True)
+    subprocess.run(
+        [
+            pijul_exe,
+            "record",
+            "--all",
+            "--message",
+            "initial",
+        ],
+        check=True,
+    )
+
+    return fake_repository
+
+
 @pytest.fixture(params=["submodule-add", "manual"])
 def submodule_repository(
     git_repository: Path, git_exe: str, tmpdir_factory, request

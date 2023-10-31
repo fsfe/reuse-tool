@@ -31,3 +31,13 @@ def test_find_root_in_hg_repo(hg_repository):
     result = vcs.find_root()
 
     assert Path(result).absolute().resolve() == hg_repository
+
+
+def test_find_root_in_pijul_repo(pijul_repository):
+    """When using reuse from a child directory in a Pijul repo, always find
+    the root directory.
+    """
+    os.chdir("src")
+    result = vcs.find_root()
+
+    assert Path(result).absolute().resolve() == pijul_repository
