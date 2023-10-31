@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 19:58+0000\n"
+"POT-Creation-Date: 2023-10-31 14:39+0000\n"
 "PO-Revision-Date: 2023-09-24 13:02+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -21,7 +21,7 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.1-dev\n"
 
-#: src/reuse/_main.py:34
+#: src/reuse/_main.py:38
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
@@ -31,17 +31,17 @@ msgstr ""
 "software/> для отримання додаткових відомостей і <https://reuse.readthedocs."
 "io/> перегляду онлайн-документації."
 
-#: src/reuse/_main.py:40
+#: src/reuse/_main.py:44
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr "Ця версія reuse сумісна з версією {} специфікації REUSE."
 
-#: src/reuse/_main.py:43
+#: src/reuse/_main.py:47
 msgid "Support the FSFE's work:"
 msgstr "Підтримати роботу FSFE:"
 
-#: src/reuse/_main.py:47
+#: src/reuse/_main.py:51
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
@@ -52,43 +52,43 @@ msgstr ""
 "де це необхідно. Будь ласка, розгляньте можливість підтримати нас на "
 "<https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:70
+#: src/reuse/_main.py:74
 msgid "enable debug statements"
 msgstr "увімкнути інструкції налагодження"
 
-#: src/reuse/_main.py:75
+#: src/reuse/_main.py:79
 msgid "hide deprecation warnings"
 msgstr "сховати попередження про застарілість"
 
-#: src/reuse/_main.py:80
+#: src/reuse/_main.py:84
 msgid "do not skip over Git submodules"
 msgstr "не пропускати підмодулі Git"
 
-#: src/reuse/_main.py:85
+#: src/reuse/_main.py:89
 msgid "do not skip over Meson subprojects"
 msgstr "не пропускати підпроєкти Meson"
 
-#: src/reuse/_main.py:90
+#: src/reuse/_main.py:94
 msgid "do not use multiprocessing"
 msgstr "не використовувати багатопроцесорність"
 
-#: src/reuse/_main.py:97
+#: src/reuse/_main.py:101
 msgid "define root of project"
 msgstr "визначити кореневий каталог проєкту"
 
-#: src/reuse/_main.py:102
+#: src/reuse/_main.py:106
 msgid "show program's version number and exit"
 msgstr "показати номер версії програми та вийти"
 
-#: src/reuse/_main.py:106
+#: src/reuse/_main.py:110
 msgid "subcommands"
 msgstr "підкоманди"
 
-#: src/reuse/_main.py:113
+#: src/reuse/_main.py:117
 msgid "add copyright and licensing into the header of files"
 msgstr "додати авторські права та ліцензії в заголовок файлів"
 
-#: src/reuse/_main.py:116
+#: src/reuse/_main.py:120
 #, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
@@ -149,11 +149,11 @@ msgstr ""
 "Якщо виявлено двійковий файл або якщо вказано --explicit-license, заголовок "
 "буде розміщено у файлі .license."
 
-#: src/reuse/_main.py:159
+#: src/reuse/_main.py:163
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "завантажити ліцензію та розмістити її в каталозі LICENSES/"
 
-#: src/reuse/_main.py:162
+#: src/reuse/_main.py:166
 msgid ""
 "Download a license and place it in the LICENSES/ directory.\n"
 "\n"
@@ -179,15 +179,15 @@ msgstr ""
 "\n"
 "Якщо каталог LICENSES/ не вдається знайти, він просто створюється."
 
-#: src/reuse/_main.py:185
+#: src/reuse/_main.py:189
 msgid "initialize REUSE project"
 msgstr "ініціалізувати проєкт REUSE"
 
-#: src/reuse/_main.py:193
+#: src/reuse/_main.py:197
 msgid "list all non-compliant files"
 msgstr "список усіх несумісних файлів"
 
-#: src/reuse/_main.py:196
+#: src/reuse/_main.py:200
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -223,56 +223,72 @@ msgstr ""
 "\n"
 "- Чи всі файли мають дійсні відомості про авторські права та ліцензії?"
 
-#: src/reuse/_main.py:223
+#: src/reuse/_main.py:227
 msgid "print the project's bill of materials in SPDX format"
 msgstr "друкувати опис матеріалів проєкту у форматі SPDX"
 
-#: src/reuse/_main.py:231
+#: src/reuse/_main.py:235
 msgid "list all supported SPDX licenses"
 msgstr "список всіх підтримуваних ліцензій SPDX"
 
-#: src/reuse/_util.py:398
+#: src/reuse/_main.py:295
+#, fuzzy, python-brace-format
+msgid "'{dep5}' could not be decoded as UTF-8."
+msgstr "Не вдалося .reuse/dep5 було проаналізувати як utf-8"
+
+#: src/reuse/_main.py:302
+#, python-brace-format
+msgid ""
+"'{dep5}' could not be parsed. We received the following error message: "
+"{message}"
+msgstr ""
+
+#: src/reuse/_util.py:261
+msgid "no '{}' file, or could not read it"
+msgstr ""
+
+#: src/reuse/_util.py:423
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Не вдалося проаналізувати '{expression}'"
 
-#: src/reuse/_util.py:532
+#: src/reuse/_util.py:557
 msgid "'{}' is not a file"
 msgstr "'{}' не є файлом"
 
-#: src/reuse/_util.py:535
+#: src/reuse/_util.py:560
 msgid "'{}' is not a directory"
 msgstr "'{}' не є каталогом"
 
-#: src/reuse/_util.py:538
+#: src/reuse/_util.py:563
 msgid "can't open '{}'"
 msgstr "не вдалося відкрити '{}'"
 
-#: src/reuse/_util.py:543
+#: src/reuse/_util.py:568
 msgid "can't write to directory '{}'"
 msgstr "неможливо записати в каталог '{}'"
 
-#: src/reuse/_util.py:549
+#: src/reuse/_util.py:574
 msgid "can't write to '{}'"
 msgstr "неможливо записати в '{}'"
 
-#: src/reuse/_util.py:562
+#: src/reuse/_util.py:587
 msgid "can't read or write '{}'"
 msgstr "неможливо прочитати чи записати '{}'"
 
-#: src/reuse/_util.py:572
+#: src/reuse/_util.py:597
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' не є дійсним виразом SPDX, переривання"
 
-#: src/reuse/_util.py:600
+#: src/reuse/_util.py:625
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' не є дійсним ідентифікатором ліцензії SPDX."
 
-#: src/reuse/_util.py:607
+#: src/reuse/_util.py:632
 msgid "Did you mean:"
 msgstr "Ви мали на увазі:"
 
-#: src/reuse/_util.py:614
+#: src/reuse/_util.py:639
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -537,33 +553,26 @@ msgstr "На жаль, ваш проєкт не сумісний із версі
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:80
-msgid ""
-"project is not a VCS repository or required VCS software is not installed"
-msgstr ""
-"проект не є репозиторієм VCS або потрібне програмне забезпечення VCS не "
-"встановлено"
-
-#: src/reuse/project.py:188
+#: src/reuse/project.py:236
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' охоплюється .reuse/dep5"
 
-#: src/reuse/project.py:194
+#: src/reuse/project.py:242
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
 
-#: src/reuse/project.py:235
+#: src/reuse/project.py:283
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 "'{path}' містить вираз SPDX, який неможливо проаналізувати, пропуск файлу"
 
-#: src/reuse/project.py:244
+#: src/reuse/project.py:292
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -581,25 +590,17 @@ msgstr ""
 "потрібно нічого робити. Запустіть програму з `--suppress-deprecation`, щоб "
 "сховати це попередження."
 
-#: src/reuse/project.py:331
-msgid ".reuse/dep5 has syntax errors"
-msgstr ".reuse/dep5 має синтаксичні помилки"
-
-#: src/reuse/project.py:333
-msgid ".reuse/dep5 could not be parsed as utf-8"
-msgstr "Не вдалося .reuse/dep5 було проаналізувати як utf-8"
-
-#: src/reuse/project.py:359
+#: src/reuse/project.py:388
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "визначення ідентифікатора '{path}'"
 
-#: src/reuse/project.py:367
+#: src/reuse/project.py:396
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} не має розширення файлу"
 
-#: src/reuse/project.py:377
+#: src/reuse/project.py:406
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -612,24 +613,33 @@ msgstr ""
 "spdx.org/licenses/> або що вона починається з 'LicenseRef-' і має розширення "
 "файлу."
 
-#: src/reuse/project.py:389
+#: src/reuse/project.py:418
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} — це ідентифікатор ліцензії SPDX для {path} і {other_path}"
 
-#: src/reuse/report.py:272
+#: src/reuse/project.py:457
+#, fuzzy
+msgid ""
+"project '{}' is not a VCS repository or required VCS software is not "
+"installed"
+msgstr ""
+"проект не є репозиторієм VCS або потрібне програмне забезпечення VCS не "
+"встановлено"
+
+#: src/reuse/report.py:308
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Не вдалося прочитати '{path}'"
 
-#: src/reuse/report.py:279
+#: src/reuse/report.py:315
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Під час аналізу '{path}' сталася неочікувана помилка"
 
-#: src/reuse/report.py:400
+#: src/reuse/report.py:436
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -637,7 +647,7 @@ msgid ""
 "custom licenses: https://reuse.software/faq/#custom-license"
 msgstr ""
 
-#: src/reuse/report.py:411
+#: src/reuse/report.py:447
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -646,14 +656,14 @@ msgid ""
 "#deprecated>"
 msgstr ""
 
-#: src/reuse/report.py:422
+#: src/reuse/report.py:458
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
 "the file(s) accordingly."
 msgstr ""
 
-#: src/reuse/report.py:431
+#: src/reuse/report.py:467
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -662,7 +672,7 @@ msgid ""
 "licenses (starting with 'LicenseRef-'), you need to add these files yourself."
 msgstr ""
 
-#: src/reuse/report.py:443
+#: src/reuse/report.py:479
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -671,14 +681,14 @@ msgid ""
 "is licensed as such."
 msgstr ""
 
-#: src/reuse/report.py:454
+#: src/reuse/report.py:490
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
 "files at the top of the output as part of the logged error messages."
 msgstr ""
 
-#: src/reuse/report.py:463
+#: src/reuse/report.py:499
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
@@ -874,6 +884,9 @@ msgstr "неприпустимий вибір: %(value)r (варто обрат�
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: помилка: %(message)s\n"
+
+#~ msgid ".reuse/dep5 has syntax errors"
+#~ msgstr ".reuse/dep5 має синтаксичні помилки"
 
 #~ msgid "optional arguments"
 #~ msgstr "необов'язкові аргументи"
