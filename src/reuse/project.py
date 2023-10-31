@@ -102,8 +102,6 @@ class Project:
             root: The root of the project.
             include_submodules: Whether to also lint VCS submodules.
             include_meson_subprojects: Whether to also lint Meson subprojects.
-                If the provided value is True, but 'meson.build' does not exist,
-                then it is set as False on the created object.
 
         Raises:
             FileNotFoundError: if root does not exist.
@@ -132,10 +130,6 @@ class Project:
             )
         except FileNotFoundError:
             dep5_copyright = None
-
-        meson_build_path = root / "meson.build"
-        uses_meson = meson_build_path.is_file()
-        include_meson_subprojects = include_meson_subprojects and uses_meson
 
         project = cls(
             root,
