@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry~=1.2.0
-          poetry install --no-interaction
+          poetry install --no-interaction --only main,test
       - name: Run tests with pytest
         run: |
           poetry run pytest --cov=reuse
@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry~=1.2.0
-          poetry install --no-interaction
+          poetry install --no-interaction --only main,dev,test
       - name: Lint with Pylint
         run: |
           poetry run pylint src/reuse/ tests/
@@ -69,7 +69,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry~=1.2.0
-          poetry install --no-interaction
+          poetry install --no-interaction --only dev
       - name: Test formatting with black
         run: |
           poetry run isort --check src/ tests/
@@ -86,7 +86,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry~=1.2.0
-          poetry install --no-interaction
+          poetry install --no-interaction --only main,dev,test
       - name: Test typing with mypy
         run: |
           poetry run mypy
@@ -112,7 +112,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry~=1.2.0
-          poetry install --no-interaction --no-dev
+          poetry install --no-interaction --only main
       - name: Test REUSE compliance
         run: |
           make reuse
