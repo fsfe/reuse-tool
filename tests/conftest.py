@@ -37,7 +37,7 @@ try:
 except ImportError:
     sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
-    from reuse._util import GIT_EXE, HG_EXE, setup_logging
+    from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE, setup_logging
 
 CWD = Path.cwd()
 
@@ -82,6 +82,14 @@ def hg_exe() -> str:
     if not HG_EXE:
         pytest.skip("cannot run this test without mercurial")
     return str(HG_EXE)
+
+
+@pytest.fixture()
+def pijul_exe() -> str:
+    """Run the test with Pijul."""
+    if not PIJUL_EXE:
+        pytest.skip("cannot run this test without pijul")
+    return str(PIJUL_EXE)
 
 
 @pytest.fixture(params=[True, False])

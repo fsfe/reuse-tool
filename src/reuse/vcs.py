@@ -12,8 +12,9 @@ from __future__ import annotations
 import logging
 import os
 from abc import ABC, abstractmethod
+from inspect import isclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional, Set
+from typing import TYPE_CHECKING, Generator, Optional, Set, Type
 
 from ._util import GIT_EXE, HG_EXE, PIJUL_EXE, StrPath, execute_command
 
@@ -25,6 +26,8 @@ _LOGGER = logging.getLogger(__name__)
 
 class VCSStrategy(ABC):
     """Strategy pattern for version control systems."""
+
+    EXE: str | None = None
 
     @abstractmethod
     def __init__(self, project: Project):
@@ -83,9 +86,11 @@ class VCSStrategyNone(VCSStrategy):
 class VCSStrategyGit(VCSStrategy):
     """Strategy that is used for Git."""
 
+    EXE = GIT_EXE
+
     def __init__(self, project: Project):
         super().__init__(project)
-        if not GIT_EXE:
+        if not self.EXE:
             raise FileNotFoundError("Could not find binary for Git")
         self._all_ignored_files = self._find_all_ignored_files()
         self._submodules = self._find_submodules()
@@ -95,7 +100,7 @@ class VCSStrategyGit(VCSStrategy):
         ignored, don't return all files inside of it.
         """
         command = [
-            str(GIT_EXE),
+            str(self.EXE),
             "ls-files",
             "--exclude-standard",
             "--ignored",
@@ -114,7 +119,7 @@ class VCSStrategyGit(VCSStrategy):
 
     def _find_submodules(self) -> Set[Path]:
         command = [
-            str(GIT_EXE),
+            str(self.EXE),
             "config",
             "-z",
             "--file",
@@ -151,7 +156,7 @@ class VCSStrategyGit(VCSStrategy):
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [str(GIT_EXE), "status"]
+        command = [str(cls.EXE), "status"]
         result = execute_command(command, _LOGGER, cwd=directory)
 
         return not result.returncode
@@ -164,7 +169,7 @@ class VCSStrategyGit(VCSStrategy):
         if not Path(cwd).is_dir():
             raise NotADirectoryError()
 
-        command = [str(GIT_EXE), "rev-parse", "--show-toplevel"]
+        command = [str(cls.EXE), "rev-parse", "--show-toplevel"]
         result = execute_command(command, _LOGGER, cwd=cwd)
 
         if not result.returncode:
@@ -177,9 +182,11 @@ class VCSStrategyGit(VCSStrategy):
 class VCSStrategyHg(VCSStrategy):
     """Strategy that is used for Mercurial."""
 
+    EXE = HG_EXE
+
     def __init__(self, project: Project):
         super().__init__(project)
-        if not HG_EXE:
+        if not self.EXE:
             raise FileNotFoundError("Could not find binary for Mercurial")
         self._all_ignored_files = self._find_all_ignored_files()
 
@@ -188,7 +195,7 @@ class VCSStrategyHg(VCSStrategy):
         is ignored, don't return all files inside of it.
         """
         command = [
-            str(HG_EXE),
+            str(self.EXE),
             "status",
             "--ignored",
             # terse is marked 'experimental' in the hg help but is documented
@@ -219,7 +226,7 @@ class VCSStrategyHg(VCSStrategy):
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [str(HG_EXE), "root"]
+        command = [str(cls.EXE), "root"]
         result = execute_command(command, _LOGGER, cwd=directory)
 
         return not result.returncode
@@ -232,7 +239,7 @@ class VCSStrategyHg(VCSStrategy):
         if not Path(cwd).is_dir():
             raise NotADirectoryError()
 
-        command = [str(HG_EXE), "root"]
+        command = [str(cls.EXE), "root"]
         result = execute_command(command, _LOGGER, cwd=cwd)
 
         if not result.returncode:
@@ -245,15 +252,17 @@ class VCSStrategyHg(VCSStrategy):
 class VCSStrategyPijul(VCSStrategy):
     """Strategy that is used for Pijul."""
 
+    EXE = PIJUL_EXE
+
     def __init__(self, project: Project):
         super().__init__(project)
-        if not PIJUL_EXE:
-            raise FileNotFoundError("Could not find binary for Mercurial")
+        if not self.EXE:
+            raise FileNotFoundError("Could not find binary for Pijul")
         self._all_tracked_files = self._find_all_tracked_files()
 
     def _find_all_tracked_files(self) -> Set[Path]:
         """Return a set of all files tracked by pijul."""
-        command = [str(PIJUL_EXE), "list"]
+        command = [str(self.EXE), "list"]
         result = execute_command(command, _LOGGER, cwd=self.project.root)
         all_files = result.stdout.decode("utf-8").splitlines()
         return {Path(file_) for file_ in all_files}
@@ -274,7 +283,7 @@ class VCSStrategyPijul(VCSStrategy):
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [str(PIJUL_EXE), "diff", "--short"]
+        command = [str(cls.EXE), "diff", "--short"]
         result = execute_command(command, _LOGGER, cwd=directory)
 
         return not result.returncode
@@ -304,6 +313,17 @@ class VCSStrategyPijul(VCSStrategy):
             path = parent
 
 
+def all_vcs_strategies() -> Generator[Type[VCSStrategy], None, None]:
+    """Yield all VCSStrategy classes that aren't the abstract base class."""
+    for value in globals().values():
+        if (
+            isclass(value)
+            and issubclass(value, VCSStrategy)
+            and value is not VCSStrategy
+        ):
+            yield value
+
+
 def find_root(cwd: Optional[StrPath] = None) -> Optional[Path]:
     """Try to find the root of the project from *cwd*. If none is found,
     return None.
@@ -311,16 +331,9 @@ def find_root(cwd: Optional[StrPath] = None) -> Optional[Path]:
     Raises:
         NotADirectoryError: if directory is not a directory.
     """
-    if GIT_EXE:
-        root = VCSStrategyGit.find_root(cwd=cwd)
-        if root:
-            return root
-    if HG_EXE:
-        root = VCSStrategyHg.find_root(cwd=cwd)
-        if root:
-            return root
-    if PIJUL_EXE:
-        root = VCSStrategyPijul.find_root(cwd=cwd)
-        if root:
-            return root
+    for strategy in all_vcs_strategies():
+        if strategy.EXE:
+            root = strategy.find_root(cwd=cwd)
+            if root:
+                return root
     return None

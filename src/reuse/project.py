@@ -35,9 +35,6 @@ from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _HEADER_BYTES,
     _LICENSEREF_PATTERN,
-    GIT_EXE,
-    HG_EXE,
-    PIJUL_EXE,
     StrPath,
     _contains_snippet,
     _copyright_from_dep5,
@@ -47,14 +44,7 @@ from ._util import (
     decoded_text_from_binary,
     extract_reuse_info,
 )
-from .vcs import (
-    VCSStrategy,
-    VCSStrategyGit,
-    VCSStrategyHg,
-    VCSStrategyNone,
-    VCSStrategyPijul,
-    find_root,
-)
+from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -456,12 +446,9 @@ class Project:
         """For each supported VCS, check if the software is available and if the
         directory is a repository. If not, return :class:`VCSStrategyNone`.
         """
-        if GIT_EXE and VCSStrategyGit.in_repo(root):
-            return VCSStrategyGit
-        if HG_EXE and VCSStrategyHg.in_repo(root):
-            return VCSStrategyHg
-        if PIJUL_EXE and VCSStrategyPijul.in_repo(self._root):
-            return VCSStrategyPijul
+        for strategy in all_vcs_strategies():
+            if strategy.EXE and strategy.in_repo(root):
+                return strategy
 
         _LOGGER.info(
             _(
