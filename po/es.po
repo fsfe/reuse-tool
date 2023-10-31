@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-31 14:39+0000\n"
-"PO-Revision-Date: 2023-10-25 21:05+0000\n"
+"PO-Revision-Date: 2023-11-01 20:04+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1.1\n"
+"X-Generator: Weblate 5.2-dev\n"
 
 #: src/reuse/_main.py:38
 msgid ""
@@ -232,9 +232,9 @@ msgid "list all supported SPDX licenses"
 msgstr "Lista de todas las licencias SPDX compatibles"
 
 #: src/reuse/_main.py:295
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{dep5}' could not be decoded as UTF-8."
-msgstr "%s no se pudo decodificar"
+msgstr "'{dep5}' no pudo ser decodificado como UTF-8."
 
 #: src/reuse/_main.py:302
 #, python-brace-format
@@ -242,11 +242,12 @@ msgid ""
 "'{dep5}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
+"{dep5}' no pudo ser analizado. Recibimos el siguiente mensaje de error: "
+"{message}"
 
 #: src/reuse/_util.py:261
-#, fuzzy
 msgid "no '{}' file, or could not read it"
-msgstr "no existe o no se pudo leer el archivo debian/copyright"
+msgstr "no hay un fichero '{}', o no se ha podido leer"
 
 #: src/reuse/_util.py:423
 #, python-brace-format
@@ -636,13 +637,12 @@ msgstr ""
 "{other_path}"
 
 #: src/reuse/project.py:457
-#, fuzzy
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
 msgstr ""
-"el proyecto no es un repositorio VCS o el software VCS necesario no está "
-"instalado"
+"el proyecto '{}' no es un repositorio VCS o el software VCS requerido no "
+"está instalado"
 
 #: src/reuse/report.py:308
 #, python-brace-format
