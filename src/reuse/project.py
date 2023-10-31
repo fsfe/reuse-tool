@@ -37,6 +37,7 @@ from ._util import (
     _LICENSEREF_PATTERN,
     GIT_EXE,
     HG_EXE,
+    PIJUL_EXE,
     StrPath,
     _contains_snippet,
     _copyright_from_dep5,
@@ -46,7 +47,14 @@ from ._util import (
     decoded_text_from_binary,
     extract_reuse_info,
 )
-from .vcs import VCSStrategy, VCSStrategyGit, VCSStrategyHg, VCSStrategyNone
+from .vcs import (
+    VCSStrategy,
+    VCSStrategyGit,
+    VCSStrategyHg,
+    VCSStrategyNone,
+    VCSStrategyPijul,
+    find_root,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -452,6 +460,9 @@ class Project:
             return VCSStrategyGit
         if HG_EXE and VCSStrategyHg.in_repo(root):
             return VCSStrategyHg
+        if PIJUL_EXE and VCSStrategyPijul.in_repo(self._root):
+            return VCSStrategyPijul
+
         _LOGGER.info(
             _(
                 "project '{}' is not a VCS repository or required VCS"

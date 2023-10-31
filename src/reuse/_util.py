@@ -62,6 +62,7 @@ StrPath = Union[str, PathLike]
 
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
+PIJUL_EXE = shutil.which("pijul")
 
 REUSE_IGNORE_START = "REUSE-IgnoreStart"
 REUSE_IGNORE_END = "REUSE-IgnoreEnd"

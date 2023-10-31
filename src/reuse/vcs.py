@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 John Mulligan <jmulligan@redhat.com>
+# SPDX-FileCopyrightText: 2023 Markus Haug <korrat@proton.me>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -14,7 +15,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Set
 
-from ._util import GIT_EXE, HG_EXE, StrPath, execute_command
+from ._util import GIT_EXE, HG_EXE, PIJUL_EXE, StrPath, execute_command
 
 if TYPE_CHECKING:
     from .project import Project
@@ -241,6 +242,68 @@ class VCSStrategyHg(VCSStrategy):
         return None
 
 
+class VCSStrategyPijul(VCSStrategy):
+    """Strategy that is used for Pijul."""
+
+    def __init__(self, project: Project):
+        super().__init__(project)
+        if not PIJUL_EXE:
+            raise FileNotFoundError("Could not find binary for Mercurial")
+        self._all_tracked_files = self._find_all_tracked_files()
+
+    def _find_all_tracked_files(self) -> Set[Path]:
+        """Return a set of all files tracked by pijul."""
+        command = [str(PIJUL_EXE), "list"]
+        result = execute_command(command, _LOGGER, cwd=self.project.root)
+        all_files = result.stdout.decode("utf-8").splitlines()
+        return {Path(file_) for file_ in all_files}
+
+    def is_ignored(self, path: StrPath) -> bool:
+        path = self.project.relative_from_root(path)
+        return path not in self._all_tracked_files
+
+    def is_submodule(self, path: StrPath) -> bool:
+        # not supported in pijul yet
+        return False
+
+    @classmethod
+    def in_repo(cls, directory: StrPath) -> bool:
+        if directory is None:
+            directory = Path.cwd()
+
+        if not Path(directory).is_dir():
+            raise NotADirectoryError()
+
+        command = [str(PIJUL_EXE), "diff", "--short"]
+        result = execute_command(command, _LOGGER, cwd=directory)
+
+        return not result.returncode
+
+    @classmethod
+    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+        if cwd is None:
+            cwd = Path.cwd()
+
+        # TODO this duplicates pijul's logic.
+        # Maybe it should be replaced by calling pijul,
+        # but there is no matching subcommand yet.
+        path = Path(cwd).resolve()
+
+        if not path.is_dir():
+            raise NotADirectoryError()
+
+        while True:
+            if (path / ".pijul").is_dir():
+                return path
+
+            parent = path.parent
+            if parent == path:
+                # We reached the filesystem root
+                return None
+
+            path = parent
+
+
 def find_root(cwd: Optional[StrPath] = None) -> Optional[Path]:
     """Try to find the root of the project from *cwd*. If none is found,
     return None.
@@ -254,6 +317,10 @@ def find_root(cwd: Optional[StrPath] = None) -> Optional[Path]:
             return root
     if HG_EXE:
         root = VCSStrategyHg.find_root(cwd=cwd)
+        if root:
+            return root
+    if PIJUL_EXE:
+        root = VCSStrategyPijul.find_root(cwd=cwd)
         if root:
             return root
     return None
