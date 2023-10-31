@@ -1,12 +1,12 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 Tuomas Siipola <tuomas@zpl.fi>
-# SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
-# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Johannes Zarl-Zierl <johannes@zarl-zierl.at>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -44,6 +44,7 @@ from typing import (
 from binaryornot.check import is_binary
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
+from debian.copyright import Error as DebianError
 from license_expression import ExpressionError, Licensing
 
 from . import ReuseInfo, SourceType
@@ -242,6 +243,30 @@ def _determine_license_suffix_path(path: StrPath) -> Path:
     if path.suffix == ".license":
         return path
     return Path(f"{path}.license")
+
+
+def _parse_dep5(path: StrPath) -> Copyright:
+    """Parse the dep5 file and create a dep5 Copyright object.
+
+    Raises:
+        FileNotFoundError: file doesn't exist.
+        DebianError: file could not be parsed.
+        UnicodeDecodeError: could not decode file as UTF-8.
+    """
+    path = Path(path)
+    try:
+        with path.open(encoding="utf-8") as fp:
+            return Copyright(fp)
+    except FileNotFoundError:
+        _LOGGER.debug(_("no '{}' file, or could not read it").format(path))
+        raise
+    # TODO: Remove ValueError once
+    # <https://salsa.debian.org/python-debian-team/python-debian/-/merge_requests/123>
+    # is closed
+    except (DebianError, ValueError) as error:
+        if error.__class__ == ValueError:
+            raise DebianError(str(error)) from error
+        raise
 
 
 def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:

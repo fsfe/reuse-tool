@@ -1,7 +1,7 @@
 <!--
 SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 SPDX-FileCopyrightText: 2023 DB Systel GmbH
+SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
@@ -80,6 +80,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Fixed
 
+- Syntax errors in .reuse/dep5 now have better error handling. (#841)
 - Reduced python-debian minimum version to 0.1.34. (#808)
 - Fix issue in `annotate` where `--single-line` and `--multi-line` would not
   correctly raise an error with an incompatible comment style. (#853)

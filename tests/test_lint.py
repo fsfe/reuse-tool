@@ -31,7 +31,7 @@ posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
 
 def test_lint_simple(fake_repository):
     """Extremely simple test for lint."""
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
     assert result
@@ -39,7 +39,7 @@ def test_lint_simple(fake_repository):
 
 def test_lint_git(git_repository):
     """Extremely simple test for lint with a git repository."""
-    project = Project(git_repository)
+    project = Project.from_directory(git_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
     assert result
@@ -47,7 +47,7 @@ def test_lint_git(git_repository):
 
 def test_lint_submodule(submodule_repository):
     """Extremely simple test for lint with an ignored submodule."""
-    project = Project(submodule_repository)
+    project = Project.from_directory(submodule_repository)
     (submodule_repository / "submodule/foo.c").write_text("foo")
     report = ProjectReport.generate(project)
     result = format_plain(report)
@@ -56,7 +56,9 @@ def test_lint_submodule(submodule_repository):
 
 def test_lint_submodule_included(submodule_repository):
     """Extremely simple test for lint with an included submodule."""
-    project = Project(submodule_repository, include_submodules=True)
+    project = Project.from_directory(
+        submodule_repository, include_submodules=True
+    )
     (submodule_repository / "submodule/foo.c").write_text("foo")
     report = ProjectReport.generate(project)
     result = format_plain(report)
@@ -65,7 +67,7 @@ def test_lint_submodule_included(submodule_repository):
 
 def test_lint_empty_directory(empty_directory):
     """An empty directory is compliant."""
-    project = Project(empty_directory)
+    project = Project.from_directory(empty_directory)
     report = ProjectReport.generate(project)
     result = format_plain(report)
     assert result
@@ -81,7 +83,7 @@ def test_lint_deprecated(fake_repository):
         "SPDX-License-Identifier: GPL-3.0\nSPDX-FileCopyrightText: Jane Doe"
     )
 
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
@@ -97,7 +99,7 @@ def test_lint_bad_license(fake_repository):
     (fake_repository / "foo.py").write_text(
         "SPDX-License-Identifier: bad-license"
     )
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
@@ -114,7 +116,7 @@ def test_lint_licenses_without_extension(fake_repository):
     (fake_repository / "LICENSES/GPL-3.0-or-later.txt").rename(
         fake_repository / "LICENSES/GPL-3.0-or-later"
     )
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
@@ -127,7 +129,7 @@ def test_lint_licenses_without_extension(fake_repository):
 def test_lint_missing_licenses(fake_repository):
     """A missing license is detected."""
     (fake_repository / "foo.py").write_text("SPDX-License-Identifier: MIT")
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
@@ -141,7 +143,7 @@ def test_lint_missing_licenses(fake_repository):
 def test_lint_unused_licenses(fake_repository):
     """An unused license is detected."""
     (fake_repository / "LICENSES/MIT.txt").write_text("foo")
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
@@ -157,7 +159,7 @@ def test_lint_read_errors(fake_repository):
     """A read error is detected."""
     (fake_repository / "foo.py").write_text("foo")
     (fake_repository / "foo.py").chmod(0o000)
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
@@ -171,7 +173,7 @@ def test_lint_read_errors(fake_repository):
 def test_lint_files_without_copyright_and_licensing(fake_repository):
     """A file without copyright and licensing is detected."""
     (fake_repository / "foo.py").write_text("foo")
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
@@ -189,7 +191,7 @@ def test_lint_files_without_copyright_and_licensing(fake_repository):
 def test_lint_json_output(fake_repository):
     """Test for lint with JSON output."""
     (fake_repository / "foo.py").write_text("SPDX-License-Identifier: MIT")
-    project = Project(fake_repository)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
 
     json_result = report.to_dict_lint()

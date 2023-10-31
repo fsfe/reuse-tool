@@ -1,25 +1,26 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
-# SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2023 Matthias Riße
+# SPDX-FileCopyrightText: 2023 DB Systel GmbH
+#
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Module that contains the central Project class."""
 
 import contextlib
+import errno
 import glob
 import logging
 import os
 import warnings
 from gettext import gettext as _
 from pathlib import Path
-from typing import Dict, Iterator, List, Optional, Union, cast
+from typing import Dict, Iterator, List, Optional, Type
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
 from debian.copyright import Copyright
-from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
 from . import (
@@ -41,16 +42,11 @@ from ._util import (
     _copyright_from_dep5,
     _determine_license_path,
     _is_uncommentable,
+    _parse_dep5,
     decoded_text_from_binary,
     extract_reuse_info,
 )
-from .vcs import (
-    VCSStrategy,
-    VCSStrategyGit,
-    VCSStrategyHg,
-    VCSStrategyNone,
-    find_root,
-)
+from .vcs import VCSStrategy, VCSStrategyGit, VCSStrategyHg, VCSStrategyNone
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -60,44 +56,96 @@ class Project:
     interactions.
     """
 
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
         root: StrPath,
+        vcs_strategy: Optional[Type[VCSStrategy]] = None,
+        license_map: Optional[Dict[str, Dict]] = None,
+        licenses: Optional[Dict[str, Path]] = None,
+        dep5_copyright: Optional[Copyright] = None,
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
     ):
-        self._root = Path(root)
-        if not self._root.is_dir():
-            raise NotADirectoryError(f"{self._root} is no valid path")
+        self.root = Path(root)
 
-        if GIT_EXE and VCSStrategyGit.in_repo(self._root):
-            self.vcs_strategy: VCSStrategy = VCSStrategyGit(self)
-        elif HG_EXE and VCSStrategyHg.in_repo(self._root):
-            self.vcs_strategy = VCSStrategyHg(self)
-        else:
-            _LOGGER.info(
-                _(
-                    "project is not a VCS repository or required VCS software"
-                    " is not installed"
-                )
-            )
-            self.vcs_strategy = VCSStrategyNone(self)
+        if vcs_strategy is None:
+            vcs_strategy = VCSStrategyNone
+        self.vcs_strategy = vcs_strategy(self)
 
+        if license_map is None:
+            license_map = LICENSE_MAP
+        self.license_map = license_map.copy()
+        self.license_map.update(EXCEPTION_MAP)
         self.licenses_without_extension: Dict[str, Path] = {}
 
-        self.license_map = LICENSE_MAP.copy()
-        # TODO: Is this correct?
-        self.license_map.update(EXCEPTION_MAP)
-        self.licenses = self._licenses()
-        # Use '0' as None, because None is a valid value...
-        self._copyright_val: Optional[Union[int, Copyright]] = 0
-        self.include_submodules = include_submodules
+        if licenses is None:
+            licenses = {}
+        self.licenses = licenses
 
-        meson_build_path = self._root / "meson.build"
-        uses_meson = meson_build_path.is_file()
-        self.include_meson_subprojects = (
-            include_meson_subprojects and uses_meson
+        self.dep5_copyright = dep5_copyright
+
+        self.include_submodules = include_submodules
+        self.include_meson_subprojects = include_meson_subprojects
+
+    @classmethod
+    def from_directory(
+        cls,
+        root: StrPath,
+        include_submodules: bool = False,
+        include_meson_subprojects: bool = False,
+    ) -> "Project":
+        """A factory method that reads various files in the *root* directory to
+        correctly build the :class:`Project` object.
+
+        Args:
+            root: The root of the project.
+            include_submodules: Whether to also lint VCS submodules.
+            include_meson_subprojects: Whether to also lint Meson subprojects.
+
+        Raises:
+            FileNotFoundError: if root does not exist.
+            NotADirectoryError: if root is not a directory.
+            UnicodeDecodeError: if .reuse/dep5 could not be decoded.
+            DebianError: if .reuse/dep5 could not be parsed.
+        """
+        root = Path(root)
+        if not root.exists():
+            raise FileNotFoundError(
+                errno.ENOENT,
+                os.strerror(errno.ENOENT),
+                str(root),
+            )
+        if not root.is_dir():
+            raise NotADirectoryError(
+                errno.ENOTDIR,
+                os.strerror(errno.ENOTDIR),
+                str(root),
+            )
+
+        vcs_strategy = cls._detect_vcs_strategy(root)
+        try:
+            dep5_copyright: Optional[Copyright] = _parse_dep5(
+                root / ".reuse/dep5"
+            )
+        except FileNotFoundError:
+            dep5_copyright = None
+
+        project = cls(
+            root,
+            vcs_strategy=vcs_strategy,
+            dep5_copyright=dep5_copyright,
+            include_submodules=include_submodules,
+            include_meson_subprojects=include_meson_subprojects,
         )
+
+        # TODO: Because the `_find_licenses()` method is so broad and depends on
+        # some object attributes, we set the attribute after creating the
+        # object. Ideally we do this before creating the object, but that would
+        # require refactoring the method.
+        project.licenses = project._find_licenses()
+
+        return project
 
     def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
@@ -179,9 +227,9 @@ class Project:
         result = []
 
         # Search the .reuse/dep5 file for REUSE information.
-        if self._copyright:
+        if self.dep5_copyright:
             dep5_result = _copyright_from_dep5(
-                self.relative_from_root(path), self._copyright
+                self.relative_from_root(path), self.dep5_copyright
             )
             if dep5_result.contains_copyright_or_licensing():
                 _LOGGER.info(
@@ -264,15 +312,20 @@ class Project:
             result.append(file_result)
         return result
 
+    @staticmethod
+    def _relative_from_root_static(path: StrPath, root: StrPath) -> Path:
+        """A static method of :method:`Project.relative_fromt_root`."""
+        path = Path(path)
+        try:
+            return path.relative_to(root)
+        except ValueError:
+            return Path(os.path.relpath(path, start=root))
+
     def relative_from_root(self, path: StrPath) -> Path:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
-        path = Path(path)
-        try:
-            return path.relative_to(self.root)
-        except ValueError:
-            return Path(os.path.relpath(path, start=self.root))
+        return self._relative_from_root_static(path, self.root)
 
     def _is_path_ignored(self, path: Path) -> bool:
         """Is *path* ignored by some mechanism?"""
@@ -313,35 +366,11 @@ class Project:
             f"Could not find SPDX License Identifier for {path}"
         )
 
-    @property
-    def root(self) -> Path:
-        """Path to the root of the project."""
-        return self._root
-
-    @property
-    def _copyright(self) -> Optional[Copyright]:
-        if self._copyright_val == 0:
-            copyright_path = self.root / ".reuse/dep5"
-            try:
-                with copyright_path.open(encoding="utf-8") as fp:
-                    self._copyright_val = Copyright(fp)
-            except OSError:
-                _LOGGER.debug("no .reuse/dep5 file, or could not read it")
-            except DebianError:
-                _LOGGER.exception(_(".reuse/dep5 has syntax errors"))
-            except UnicodeError:
-                _LOGGER.exception(_(".reuse/dep5 could not be parsed as utf-8"))
-
-            # This check is a bit redundant, but otherwise I'd have to repeat
-            # this line under each exception.
-            if not self._copyright_val:
-                self._copyright_val = None
-        return cast(Optional[Copyright], self._copyright_val)
-
-    def _licenses(self) -> Dict[str, Path]:
+    def _find_licenses(self) -> Dict[str, Path]:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
         """
+        # TODO: This method does more than one thing. We ought to simplify it.
         license_files: Dict[str, Path] = {}
 
         directory = str(self.root / "LICENSES/**")
@@ -394,7 +423,7 @@ class Project:
                         other_path=license_files[identifier],
                     )
                 )
-                raise RuntimeError(f"Multiple licenses resolve to {identifier}")
+                raise RuntimeError("Multiple licenses resolve to {identifier}")
             # Add the identifiers
             license_files[identifier] = path
             if (
@@ -414,12 +443,19 @@ class Project:
 
         return license_files
 
-
-def create_project() -> Project:
-    """Create a project object. Try to find the project root from CWD,
-    otherwise treat CWD as root.
-    """
-    root = find_root()
-    if root is None:
-        root = Path.cwd()
-    return Project(root)
+    @classmethod
+    def _detect_vcs_strategy(cls, root: StrPath) -> Type[VCSStrategy]:
+        """For each supported VCS, check if the software is available and if the
+        directory is a repository. If not, return :class:`VCSStrategyNone`.
+        """
+        if GIT_EXE and VCSStrategyGit.in_repo(root):
+            return VCSStrategyGit
+        if HG_EXE and VCSStrategyHg.in_repo(root):
+            return VCSStrategyHg
+        _LOGGER.info(
+            _(
+                "project '{}' is not a VCS repository or required VCS"
+                " software is not installed"
+            ).format(root)
+        )
+        return VCSStrategyNone
