@@ -25,7 +25,7 @@ import pytest
 
 from reuse import download
 from reuse._main import main
-from reuse._util import GIT_EXE, HG_EXE
+from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE
 from reuse.report import LINT_VERSION
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
@@ -40,7 +40,7 @@ def optional_git_exe(
 ) -> Generator[Optional[str], None, None]:
     """Run the test with or without git."""
     exe = GIT_EXE if request.param else ""
-    monkeypatch.setattr("reuse.project.GIT_EXE", exe)
+    monkeypatch.setattr("reuse.vcs.GIT_EXE", exe)
     monkeypatch.setattr("reuse._util.GIT_EXE", exe)
     yield exe
 
@@ -51,8 +51,19 @@ def optional_hg_exe(
 ) -> Generator[Optional[str], None, None]:
     """Run the test with or without mercurial."""
     exe = HG_EXE if request.param else ""
-    monkeypatch.setattr("reuse.project.HG_EXE", exe)
+    monkeypatch.setattr("reuse.vcs.HG_EXE", exe)
     monkeypatch.setattr("reuse._util.HG_EXE", exe)
+    yield exe
+
+
+@pytest.fixture(params=[True, False])
+def optional_pijul_exe(
+    request, monkeypatch
+) -> Generator[Optional[str], None, None]:
+    """Run the test with or without Pijul."""
+    exe = PIJUL_EXE if request.param else ""
+    monkeypatch.setattr("reuse.vcs.PIJUL_EXE", exe)
+    monkeypatch.setattr("reuse._util.PIJUL_EXE", exe)
     yield exe
 
 

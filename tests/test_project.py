@@ -212,6 +212,40 @@ def test_all_files_hg_ignored_contains_newline(hg_repository):
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 
+def test_all_files_pijul_ignored(pijul_repository):
+    """Given a pijul repository where some files are ignored, do not yield
+    those files.
+    """
+    project = Project.from_directory(pijul_repository)
+    assert Path("build/hello.py").absolute() not in project.all_files()
+
+
+def test_all_files_pijul_ignored_different_cwd(pijul_repository):
+    """Given a pijul repository where some files are ignored, do not yield
+    those files.
+
+    Be in a different CWD during the above.
+    """
+    os.chdir(pijul_repository / "LICENSES")
+    project = Project.from_directory(pijul_repository)
+    assert Path("build/hello.py").absolute() not in project.all_files()
+
+
+def test_all_files_pijul_ignored_contains_space(pijul_repository):
+    """File names that contain spaces are also ignored."""
+    (pijul_repository / "I contain spaces.pyc").touch()
+    project = Project.from_directory(pijul_repository)
+    assert Path("I contain spaces.pyc").absolute() not in project.all_files()
+
+
+@posix
+def test_all_files_pijul_ignored_contains_newline(pijul_repository):
+    """File names that contain newlines are also ignored."""
+    (pijul_repository / "hello\nworld.pyc").touch()
+    project = Project.from_directory(pijul_repository)
+    assert Path("hello\nworld.pyc").absolute() not in project.all_files()
+
+
 def test_reuse_info_of_file_does_not_exist(fake_repository):
     """Raise FileNotFoundError when asking for the REUSE info of a file that
     does not exist.

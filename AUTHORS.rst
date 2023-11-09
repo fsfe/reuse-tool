@@ -72,6 +72,8 @@ Contributors
 
 - Robin Vobruba
 
+- Markus Haug <korrat@proton.me>
+
 Translators
 -----------
 

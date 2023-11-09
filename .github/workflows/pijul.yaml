@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2023 Free Software Foundation Europe e.V.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Test with Paijul
+
+# These tests are run exclusively on the main branch to reduce CPU time wasted
+# on every single PR that very likely does not affect Pijul functionality.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/reuse/**.py"
+      - "tests/**.py"
+jobs:
+  test-pijul:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: |
+          pip install poetry~=1.2.0
+          poetry install --no-interaction --only main,test
+      # TODO: As soon as a binary is available for Ubuntu 22.04, use it instead
+      # of manually building it.
+      - name: Set up Pijul
+        run: |
+          sudo apt install make libsodium-dev libclang-dev pkg-config libssl-dev libxxhash-dev libzstd-dev clang
+          cargo install --locked pijul --version "1.0.0-beta.6"
+          pijul identity new --no-prompt --display-name 'Jane Doe' --email 'jdoe@example.com' 'jdoe'
+      - name: Run tests with pytest
+        run: |
+          poetry run pytest --cov=reuse
