@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-31 14:39+0000\n"
+"POT-Creation-Date: 2023-11-09 10:04+0000\n"
 "PO-Revision-Date: 2023-06-21 09:53+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -233,52 +233,52 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:261
+#: src/reuse/_util.py:262
 msgid "no '{}' file, or could not read it"
 msgstr ""
 
-#: src/reuse/_util.py:423
+#: src/reuse/_util.py:424
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Não foi possível executar parse '{expression}'"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:558
 msgid "'{}' is not a file"
 msgstr "'{}' não é um ficheiro"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:561
 msgid "'{}' is not a directory"
 msgstr "'{}' não é uma pasta"
 
-#: src/reuse/_util.py:563
+#: src/reuse/_util.py:564
 msgid "can't open '{}'"
 msgstr "não é possível abrir '{}'"
 
-#: src/reuse/_util.py:568
+#: src/reuse/_util.py:569
 msgid "can't write to directory '{}'"
 msgstr "não é possível escrever no directório '{}'"
 
-#: src/reuse/_util.py:574
+#: src/reuse/_util.py:575
 msgid "can't write to '{}'"
 msgstr "não é possível escrever em '{}'"
 
-#: src/reuse/_util.py:587
+#: src/reuse/_util.py:588
 msgid "can't read or write '{}'"
 msgstr "não é possível ler ou escrever em '{}'"
 
-#: src/reuse/_util.py:597
+#: src/reuse/_util.py:598
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' não é uma expressão SPDX válida; a abortar"
 
-#: src/reuse/_util.py:625
+#: src/reuse/_util.py:626
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' não é um Identificador de Licença SPDX válido."
 
-#: src/reuse/_util.py:632
+#: src/reuse/_util.py:633
 msgid "Did you mean:"
 msgstr ""
 
-#: src/reuse/_util.py:639
+#: src/reuse/_util.py:640
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -552,19 +552,19 @@ msgstr ""
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:236
+#: src/reuse/project.py:234
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' abrangido por .reuse/dep5"
 
-#: src/reuse/project.py:242
+#: src/reuse/project.py:240
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
 
-#: src/reuse/project.py:283
+#: src/reuse/project.py:281
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -572,7 +572,7 @@ msgstr ""
 "'{path}' inclui uma expressão SPDX que não pode ser analisada (parsed); "
 "ficheiro ignorado"
 
-#: src/reuse/project.py:292
+#: src/reuse/project.py:290
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -583,17 +583,17 @@ msgid ""
 "suppress-deprecation` to hide this warning."
 msgstr ""
 
-#: src/reuse/project.py:388
+#: src/reuse/project.py:386
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "a determinar o identificador de '{path}'"
 
-#: src/reuse/project.py:396
+#: src/reuse/project.py:394
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} não tem extensão de ficheiro"
 
-#: src/reuse/project.py:406
+#: src/reuse/project.py:404
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -606,14 +606,14 @@ msgstr ""
 "publicada em <https://spdx.org/licenses/> ou que começa por 'LicenseRef-' e "
 "tem uma extensão de ficheiro."
 
-#: src/reuse/project.py:418
+#: src/reuse/project.py:416
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} é o Identificador de Licença SPDX de {path} e {other_path}"
 
-#: src/reuse/project.py:457
+#: src/reuse/project.py:455
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"

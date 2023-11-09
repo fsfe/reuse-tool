@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-31 14:39+0000\n"
+"POT-Creation-Date: 2023-11-09 10:04+0000\n"
 "PO-Revision-Date: 2023-10-04 13:12+0000\n"
 "Last-Translator: Walter Paulo <polo@tictips.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -249,52 +249,52 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:261
+#: src/reuse/_util.py:262
 msgid "no '{}' file, or could not read it"
 msgstr ""
 
-#: src/reuse/_util.py:423
+#: src/reuse/_util.py:424
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Analyse de la syntaxe de '{expression}' impossible"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:558
 msgid "'{}' is not a file"
 msgstr "'{}' n'est pas un fichier"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:561
 msgid "'{}' is not a directory"
 msgstr "'{}' n'est pas un répertoire"
 
-#: src/reuse/_util.py:563
+#: src/reuse/_util.py:564
 msgid "can't open '{}'"
 msgstr "'{}' ne peut être ouvert"
 
-#: src/reuse/_util.py:568
+#: src/reuse/_util.py:569
 msgid "can't write to directory '{}'"
 msgstr "écriture impossible dans le répertoire '{}'"
 
-#: src/reuse/_util.py:574
+#: src/reuse/_util.py:575
 msgid "can't write to '{}'"
 msgstr "écriture impossible dans '{}'"
 
-#: src/reuse/_util.py:587
+#: src/reuse/_util.py:588
 msgid "can't read or write '{}'"
 msgstr "lecture ou écriture impossible pour '{}'"
 
-#: src/reuse/_util.py:597
+#: src/reuse/_util.py:598
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' n'est pas une expression SPDX valide, abandon"
 
-#: src/reuse/_util.py:625
+#: src/reuse/_util.py:626
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' n'est pas un identifiant de licence SPDX valide."
 
-#: src/reuse/_util.py:632
+#: src/reuse/_util.py:633
 msgid "Did you mean:"
 msgstr "Vous vouliez dire :"
 
-#: src/reuse/_util.py:639
+#: src/reuse/_util.py:640
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -569,19 +569,19 @@ msgstr ""
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:236
+#: src/reuse/project.py:234
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' est couvert par .reuse/dep5"
 
-#: src/reuse/project.py:242
+#: src/reuse/project.py:240
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
 
-#: src/reuse/project.py:283
+#: src/reuse/project.py:281
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -589,7 +589,7 @@ msgstr ""
 "'{path}' contient une expression SPDX qui ne peut pas être analysée : le "
 "fichier est ignoré"
 
-#: src/reuse/project.py:292
+#: src/reuse/project.py:290
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -607,17 +607,17 @@ msgstr ""
 "n'est actuellement nécessaire. Pour masquer cet avertissement à l'avenir, "
 "exécutez la commande avec l'argument `--suppress-deprecation`."
 
-#: src/reuse/project.py:388
+#: src/reuse/project.py:386
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "résolution de l'identifiant de '{path}'"
 
-#: src/reuse/project.py:396
+#: src/reuse/project.py:394
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} n'a pas d'extension de fichier"
 
-#: src/reuse/project.py:406
+#: src/reuse/project.py:404
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -630,13 +630,13 @@ msgstr ""
 "fournie à<https://spdx.org/licenses/>, soit qu'elle débute par 'LicenseRef-' "
 "et qu'elle contient une extension de fichier."
 
-#: src/reuse/project.py:418
+#: src/reuse/project.py:416
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr "{identifier} est l'identifiant SPXD de {path} comme de {other_path}"
 
-#: src/reuse/project.py:457
+#: src/reuse/project.py:455
 #, fuzzy
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
