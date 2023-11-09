@@ -399,28 +399,28 @@ def test_annotate_implicit_style_filename(
     assert simple_file.read_text() == expected
 
 
-def test_annotate_unrecognised_style(fake_repository, stringio):
+def test_annotate_unrecognised_style(fake_repository, capsys):
     """Add a header to a file that has an unrecognised extension."""
     simple_file = fake_repository / "foo.foo"
     simple_file.write_text("pass")
 
-    result = main(
-        [
-            "annotate",
-            "--license",
-            "GPL-3.0-or-later",
-            "--copyright",
-            "Jane Doe",
-            "foo.foo",
-        ],
-        out=stringio,
-    )
+    with pytest.raises(SystemExit):
+        main(
+            [
+                "annotate",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Jane Doe",
+                "foo.foo",
+            ],
+        )
 
-    assert result == 0
+    stdout = capsys.readouterr().err
     assert (
-        "foo.foo is not recognised; creating foo.foo.license"
-        in stringio.getvalue()
+        "The following files do not have a recognised file extension" in stdout
     )
+    assert "foo.foo" in stdout
 
 
 def test_annotate_skip_unrecognised(fake_repository, stringio):
@@ -442,7 +442,7 @@ def test_annotate_skip_unrecognised(fake_repository, stringio):
     )
 
     assert result == 0
-    assert "Skipped unrecognised file foo.foo" in stringio.getvalue()
+    assert "Skipped unrecognised file 'foo.foo'" in stringio.getvalue()
 
 
 def test_annotate_skip_unrecognised_and_style(
@@ -758,6 +758,56 @@ def test_annotate_uncommentable_json(
     assert (
         json_file.with_name(f"{json_file.name}.license").read_text().strip()
         == expected
+    )
+
+
+def test_annotate_fallback_dot_license(
+    fake_repository, stringio, mock_date_today
+):
+    """Add a header to .license if --fallback-dot-license is given, and no style
+    yet exists.
+    """
+    (fake_repository / "foo.py").write_text("Foo")
+    (fake_repository / "foo.foo").write_text("Foo")
+
+    expected_py = cleandoc(
+        """
+        # SPDX-FileCopyrightText: 2018 Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+        """
+    )
+    expected_foo = cleandoc(
+        """
+        SPDX-FileCopyrightText: 2018 Jane Doe
+
+        SPDX-License-Identifier: GPL-3.0-or-later
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "--fallback-dot-license",
+            "foo.py",
+            "foo.foo",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert expected_py in (fake_repository / "foo.py").read_text()
+    assert (fake_repository / "foo.foo.license").exists()
+    assert (
+        fake_repository / "foo.foo.license"
+    ).read_text().strip() == expected_foo
+    assert (
+        "'foo.foo' is not recognised; creating 'foo.foo.license'"
+        in stringio.getvalue()
     )
 
 
@@ -1104,6 +1154,7 @@ def test_annotate_multi_line_not_supported_custom_style(
                 "--copyright",
                 "Jane Doe",
                 "--multi-line",
+                "--force-dot-license",
                 "--style",
                 "python",
                 "foo.foo",

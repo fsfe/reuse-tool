@@ -23,6 +23,7 @@ from gettext import gettext as _
 from pathlib import Path
 from typing import IO, Iterable, Optional, Set, Tuple, Type, cast
 
+from binaryornot.check import is_binary
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
@@ -35,7 +36,7 @@ from ._util import (
     _determine_license_suffix_path,
     _get_comment_style,
     _has_style,
-    _is_commentable,
+    _is_uncommentable,
     contains_reuse_info,
     detect_line_endings,
     make_copyright_line,
@@ -116,6 +117,7 @@ def add_header_to_file(
     force_multi: bool = False,
     skip_existing: bool = False,
     skip_unrecognised: bool = False,
+    fallback_dot_license: bool = False,
     merge_copyrights: bool = False,
     replace: bool = True,
     out: IO[str] = sys.stdout,
@@ -130,17 +132,19 @@ def add_header_to_file(
         comment_style = _get_comment_style(path)
     if comment_style is None:
         if skip_unrecognised:
-            out.write(_("Skipped unrecognised file {path}").format(path=path))
+            out.write(_("Skipped unrecognised file '{path}'").format(path=path))
             out.write("\n")
             return result
-        out.write(
-            _("{path} is not recognised; creating {path}.license").format(
-                path=path
+        if fallback_dot_license:
+            out.write(
+                _(
+                    "'{path}' is not recognised; creating '{path}.license'"
+                ).format(path=path)
             )
-        )
-        out.write("\n")
-        path = _determine_license_path(path)
-        comment_style = EmptyCommentStyle
+            out.write("\n")
+            path = _determine_license_suffix_path(path)
+            path.touch()
+            comment_style = EmptyCommentStyle
 
     with open(path, "r", encoding="utf-8", newline="") as fp:
         text = fp.read()
@@ -338,10 +342,14 @@ def verify_write_access(
 
 
 def verify_paths_comment_style(args: Namespace, paths: Iterable[Path]) -> None:
-    """Exit if --exit-if-unrecognised is enabled and one of the paths has an
-    unrecognised style.
+    """Exit if --fallback-dot-license or --skip-unrecognised is not enabled and
+    one of the paths has an unrecognised style.
     """
-    if args.exit_if_unrecognised:
+    if (
+        not args.fallback_dot_license
+        and not args.skip_unrecognised
+        and not args.force_dot_license
+    ):
         unrecognised_files = []
 
         for path in paths:
@@ -353,8 +361,8 @@ def verify_paths_comment_style(args: Namespace, paths: Iterable[Path]) -> None:
                 "{}\n\n{}".format(
                     _(
                         "The following files do not have a recognised file"
-                        " extension. Please use --style, --force-dot-license or"
-                        " --skip-unrecognised:"
+                        " extension. Please use --style, --force-dot-license,"
+                        " --fallback-dot-license, or --skip-unrecognised:"
                     ),
                     "\n".join(str(path) for path in unrecognised_files),
                 )
@@ -433,12 +441,6 @@ def add_arguments(parser: ArgumentParser) -> None:
         action="store_true",
         help=_("force multi-line comment style, optional"),
     )
-    style_mutex_group = parser.add_mutually_exclusive_group()
-    style_mutex_group.add_argument(
-        "--force-dot-license",
-        action="store_true",
-        help=_("write a .license file instead of a header inside the file"),
-    )
     parser.add_argument(
         "--recursive",
         "-r",
@@ -454,11 +456,19 @@ def add_arguments(parser: ArgumentParser) -> None:
             "do not replace the first header in the file; just add a new one"
         ),
     )
+    style_mutex_group = parser.add_mutually_exclusive_group()
     style_mutex_group.add_argument(
-        "--exit-if-unrecognised",
+        "--force-dot-license",
         action="store_true",
         help=_(
-            "exit prematurely if one of the files has no defined comment style"
+            "always write a .license file instead of a header inside the file"
+        ),
+    )
+    style_mutex_group.add_argument(
+        "--fallback-dot-license",
+        action="store_true",
+        help=_(
+            "write a .license file to files with unrecognised comment styles"
         ),
     )
     style_mutex_group.add_argument(
@@ -498,15 +508,10 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
 
     result = 0
     for path in paths:
-        commentable = _is_commentable(path)
-        if not _has_style(path) and not args.force_dot_license:
-            # TODO: This is an awful check.
-            _LOGGER.debug(
-                _("{path} has no style, skipping it.").format(path=path)
-            )
-        elif not commentable or args.force_dot_license:
+        binary = is_binary(str(path))
+        if binary or _is_uncommentable(path) or args.force_dot_license:
             new_path = _determine_license_suffix_path(path)
-            if not commentable:
+            if binary:
                 _LOGGER.info(
                     _(
                         "'{path}' is a binary, therefore using '{new_path}'"
@@ -524,6 +529,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
             force_multi=args.multi_line,
             skip_existing=args.skip_existing,
             skip_unrecognised=args.skip_unrecognised,
+            fallback_dot_license=args.fallback_dot_license,
             merge_copyrights=args.merge_copyrights,
             replace=not args.no_replace,
             out=out,

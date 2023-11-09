@@ -50,6 +50,10 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Display recommendations for steps to fix found issues during a lint. (#698)
 - Add support for Pijul VCS. Pijul support is not added to the Docker image.
   (#858)
+- When running `annotate` on a file with an unrecognised file path, the tool
+  currently exits early. To automatically create a .license file for
+  unrecognised files, `--fallback-dot-license` has been added. (#823, #851,
+  #853, #859; this took a while to get right.)
 
 ### Changed
 
@@ -60,9 +64,6 @@ CLI command and its behaviour. There are no guarantees of stability for the
   "[repositories] that were cloned independently and later added as a submodule
   or old setups", which "have the submodule's git directory inside the submodule
   instead of embedded into the superproject's git directory". (#687)
-- When running `annotate` on a file with an unrecognised file path,
-  automatically create a `.license` file. The old behaviour of exiting on
-  unrecognised paths is now behind `--exit-if-unrecognised`. (#851, #853)
 - No longer scan binary or uncommentable files for their contents in search of
   REUSE information. (#825)
 - `--force-dot-license` and `--skip-unrecognised` are now mutually exclusive on
