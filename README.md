@@ -117,6 +117,7 @@ For full functionality, the following pieces of software are recommended:
 
 - Git
 - Mercurial 4.3+
+- Pijul
 
 ### Installation via pip
 
