@@ -295,9 +295,9 @@ def _parse_copyright_year(year: str) -> list:
     """Parse copyright years and return list."""
     if not year:
         ret = []
-    if re.match(r"\d{4}$", year):
+    elif re.match(r"\d{4}$", year):
         ret = [int(year)]
-    if re.match(r"\d{4} ?- ?\d{4}$", year):
+    elif re.match(r"\d{4} ?- ?\d{4}$", year):
         ret = [int(year[:4]), int(year[-4:])]
     return ret
 
@@ -393,7 +393,9 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
             years += copy["year"]
 
         year: Optional[str] = None
-        if min(years) == max(years):
+        if not years:
+            year = None
+        elif min(years) == max(years):
             year = min(years)
         else:
             year = f"{min(years)} - {max(years)}"
