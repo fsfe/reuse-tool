@@ -87,6 +87,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Reduced python-debian minimum version to 0.1.34. (#808)
 - Fix issue in `annotate` where `--single-line` and `--multi-line` would not
   correctly raise an error with an incompatible comment style. (#853)
+- Fix parsing existing copyright lines when they do not have a year (#861)
 
 ### Security
 
