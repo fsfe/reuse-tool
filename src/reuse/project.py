@@ -20,7 +20,6 @@ from typing import Dict, Iterator, List, Optional, Type
 
 from binaryornot.check import is_binary
 from boolean.boolean import ParseError
-from debian.copyright import Copyright
 from license_expression import ExpressionError
 
 from . import (
@@ -42,7 +41,7 @@ from ._util import (
     decoded_text_from_binary,
     extract_reuse_info,
 )
-from .global_licensing import _copyright_from_dep5, _parse_dep5
+from .global_licensing import GlobalLicensing, ReuseDep5
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
 _LOGGER = logging.getLogger(__name__)
@@ -63,7 +62,7 @@ class Project:
         # TODO: make this an ABC that implements one method: licensing_for_file.
         # ReuseTOML can directly inherit that ABC. We can create a wrapper
         # object for dep5 Copyright.
-        dep5_copyright: Optional[Copyright] = None,
+        dep5_copyright: Optional[GlobalLicensing] = None,
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
     ):
@@ -125,7 +124,7 @@ class Project:
 
         vcs_strategy = cls._detect_vcs_strategy(root)
         try:
-            dep5_copyright: Optional[Copyright] = _parse_dep5(
+            dep5_copyright: Optional[GlobalLicensing] = ReuseDep5.from_file(
                 root / ".reuse/dep5"
             )
         except FileNotFoundError:
@@ -228,8 +227,8 @@ class Project:
 
         # Search the .reuse/dep5 file for REUSE information.
         if self.dep5_copyright:
-            dep5_result = _copyright_from_dep5(
-                self.relative_from_root(path), self.dep5_copyright
+            dep5_result = self.dep5_copyright.reuse_info_of(
+                self.relative_from_root(path)
             )
             if dep5_result.contains_copyright_or_licensing():
                 _LOGGER.info(

@@ -23,7 +23,6 @@ from typing import Generator
 from unittest.mock import create_autospec
 
 import pytest
-from debian.copyright import Copyright
 from jinja2 import Environment
 
 os.environ["LC_ALL"] = "C"
@@ -38,6 +37,7 @@ except ImportError:
     sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
     from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE, setup_logging
+    from reuse.global_licensing import ReuseDep5
 
 CWD = Path.cwd()
 
@@ -363,12 +363,11 @@ def submodule_repository(
 
 
 @pytest.fixture(scope="session")
-def dep5_copyright():
-    """Create a dep5 Copyright object."""
-    with (RESOURCES_DIRECTORY / "fake_repository/.reuse/dep5").open(
-        encoding="utf-8"
-    ) as fp:
-        return Copyright(fp)
+def reuse_dep5():
+    """Create a ReuseDep5 object."""
+    return ReuseDep5.from_file(
+        RESOURCES_DIRECTORY / "fake_repository/.reuse/dep5"
+    )
 
 
 @pytest.fixture()
