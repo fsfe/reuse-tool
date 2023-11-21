@@ -166,6 +166,25 @@ def fake_repository(tmpdir_factory) -> Path:
     return directory
 
 
+@pytest.fixture()
+def fake_repository_reuse_toml(fake_repository) -> Path:
+    """Add REUSE.toml to the fake repo."""
+    shutil.copy(
+        RESOURCES_DIRECTORY / "REUSE.toml", fake_repository / "REUSE.toml"
+    )
+    (fake_repository / "doc/index.rst").touch()
+    return fake_repository
+
+
+@pytest.fixture()
+def fake_repository_dep5(fake_repository) -> Path:
+    """Add .reuse/dep5 to the fake repo."""
+    (fake_repository / ".reuse").mkdir(exist_ok=True)
+    shutil.copy(RESOURCES_DIRECTORY / "dep5", fake_repository / ".reuse/dep5")
+    (fake_repository / "doc/index.rst").touch()
+    return fake_repository
+
+
 def _repo_contents(
     fake_repository, ignore_filename=".gitignore", ignore_prefix=""
 ):
@@ -365,9 +384,7 @@ def submodule_repository(
 @pytest.fixture(scope="session")
 def reuse_dep5():
     """Create a ReuseDep5 object."""
-    return ReuseDep5.from_file(
-        RESOURCES_DIRECTORY / "fake_repository/.reuse/dep5"
-    )
+    return ReuseDep5.from_file(RESOURCES_DIRECTORY / "dep5")
 
 
 @pytest.fixture()

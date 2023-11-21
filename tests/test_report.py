@@ -9,6 +9,7 @@
 
 import os
 import re
+import warnings
 from textwrap import dedent
 
 from conftest import cpython, posix
@@ -210,22 +211,25 @@ def test_generate_file_report_multiple_licenses(
     assert not result.missing_licenses
 
 
-def test_generate_file_report_to_dict_lint_source_information(fake_repository):
+def test_generate_file_report_to_dict_lint_source_information(
+    fake_repository_dep5,
+):
     """When a file is covered both by DEP5 and its file header, the lint dict
     should correctly convey the source information.
     """
-    (fake_repository / "doc/foo.py").write_text(
+    (fake_repository_dep5 / "doc/foo.py").write_text(
         dedent(
             """
             SPDX-License-Identifier: MIT OR 0BSD
             SPDX-FileCopyrightText: in file"""
         )
     )
-    project = Project.from_directory(fake_repository)
-    report = FileReport.generate(
-        project,
-        "doc/foo.py",
-    )
+    project = Project.from_directory(fake_repository_dep5)
+    with warnings.catch_warnings(record=True):
+        report = FileReport.generate(
+            project,
+            "doc/foo.py",
+        )
     result = report.to_dict_lint()
     assert result["path"] == "doc/foo.py"
     assert len(result["copyrights"]) == 2

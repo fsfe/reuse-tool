@@ -27,7 +27,7 @@ from . import (
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import PathType, setup_logging
 from .global_licensing import GlobalLicensingParseError
-from .project import Project
+from .project import GlobalLicensingConflict, GlobalLicensingFound, Project
 from .vcs import find_root
 
 _LOGGER = logging.getLogger(__name__)
@@ -251,18 +251,22 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
     # FileNotFoundError and NotADirectoryError don't need to be caught because
     # argparse already made sure of these things.
     except UnicodeDecodeError:
+        found = cast(GlobalLicensingFound, Project.find_global_licensing(root))
         main_parser.error(
-            _("'{dep5}' could not be decoded as UTF-8.").format(
-                dep5=root / ".reuse/dep5"
-            )
+            _("'{path}' could not be decoded as UTF-8.").format(path=found.path)
         )
     except GlobalLicensingParseError as error:
+        found = cast(GlobalLicensingFound, Project.find_global_licensing(root))
         main_parser.error(
             _(
-                "'{dep5}' could not be parsed. We received the following error"
+                "'{path}' could not be parsed. We received the following error"
                 " message: {message}"
-            ).format(dep5=root / ".reuse/dep5", message=str(error))
+            ).format(path=found.path, message=str(error))
         )
+    except GlobalLicensingConflict as error:
+        main_parser.error(str(error))
+    except OSError as error:
+        main_parser.error(str(error))
 
     project.include_submodules = parsed_args.include_submodules
     project.include_meson_subprojects = parsed_args.include_meson_subprojects

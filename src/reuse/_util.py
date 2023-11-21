@@ -44,7 +44,7 @@ from typing import (
 from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError, Licensing
 
-from . import ReuseInfo
+from . import ReuseInfo, SourceType
 from ._licenses import ALL_NON_DEPRECATED_MAP
 from .comment import (
     EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
@@ -380,6 +380,59 @@ def extract_reuse_info(text: str) -> ReuseInfo:
         copyright_lines=copyright_matches,
         **spdx_tags,  # type: ignore
     )
+
+
+def reuse_info_of_file(
+    path: StrPath, original_path: StrPath, root: StrPath
+) -> ReuseInfo:
+    """Open *path* and return its :class:`ReuseInfo`.
+
+    Normally only the first few :const:`_HEADER_BYTES` are read. But if a
+    snippet was detected, the entire file is read.
+    """
+    path = Path(path)
+    with path.open("rb") as fp:
+        try:
+            read_limit: Optional[int] = _HEADER_BYTES
+            # Completely read the file once
+            # to search for possible snippets
+            if _contains_snippet(fp):
+                _LOGGER.debug(f"'{path}' seems to contain an SPDX Snippet")
+                read_limit = None
+            # Reset read position
+            fp.seek(0)
+            # Scan the file for REUSE info, possibly limiting the read
+            # length
+            file_result = extract_reuse_info(
+                decoded_text_from_binary(fp, size=read_limit)
+            )
+            if file_result.contains_copyright_or_licensing():
+                source_type = SourceType.FILE_HEADER
+                if path.suffix == ".license":
+                    source_type = SourceType.DOT_LICENSE
+                return file_result.copy(
+                    path=relative_from_root(original_path, root).as_posix(),
+                    source_path=relative_from_root(path, root).as_posix(),
+                    source_type=source_type,
+                )
+
+        except (ExpressionError, ParseError):
+            _LOGGER.error(
+                _(
+                    "'{path}' holds an SPDX expression that cannot be"
+                    " parsed, skipping the file"
+                ).format(path=path)
+            )
+    return ReuseInfo()
+
+
+def relative_from_root(path: StrPath, root: StrPath) -> Path:
+    """A helper function to get *path* relative to *root*."""
+    path = Path(path)
+    try:
+        return path.relative_to(root)
+    except ValueError:
+        return Path(os.path.relpath(path, start=root))
 
 
 def find_spdx_tag(text: str, pattern: re.Pattern) -> Iterator[str]:

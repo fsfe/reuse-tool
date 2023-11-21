@@ -37,25 +37,31 @@ class _MultiprocessingContainer:
     def __init__(
         self, project: Project, do_checksum: bool, add_license_concluded: bool
     ):
-        # TODO: We create a copy of the project in the following song-and-dance
-        # because the debian Copyright object cannot be pickled.
-        new_project = Project(
-            project.root,
-            vcs_strategy=project.vcs_strategy.__class__,
-            license_map=project.license_map,
-            licenses=project.licenses.copy(),
-            # Unset dep5_copyright
-            dep5_copyright=None,
-            include_submodules=project.include_submodules,
-            include_meson_subprojects=project.include_meson_subprojects,
-        )
-        new_project.licenses_without_extension = (
-            project.licenses_without_extension
-        )
+        if isinstance(project.global_licensing, ReuseDep5):
+            # Remember that a dep5_copyright was (or was not) set prior.
+            self.has_dep5 = bool(project.global_licensing)
+            # TODO: We create a copy of the project in the following
+            # song-and-dance because the debian Copyright object cannot be
+            # pickled.
+            new_project = Project(
+                project.root,
+                vcs_strategy=project.vcs_strategy.__class__,
+                license_map=project.license_map,
+                licenses=project.licenses.copy(),
+                # TODO: adjust this method/class to account for REUSE.toml as
+                # well. Unset dep5_copyright
+                global_licensing=None,
+                include_submodules=project.include_submodules,
+                include_meson_subprojects=project.include_meson_subprojects,
+            )
+            new_project.licenses_without_extension = (
+                project.licenses_without_extension
+            )
+            self.project = new_project
+        else:
+            self.has_dep5 = False
+            self.project = project
 
-        self.project = new_project
-        # Remember that a dep5_copyright was (or was not) set prior.
-        self.has_dep5 = bool(project.dep5_copyright)
         self.reuse_dep5: Optional[ReuseDep5] = None
         self.do_checksum = do_checksum
         self.add_license_concluded = add_license_concluded
@@ -68,7 +74,7 @@ class _MultiprocessingContainer:
                 self.reuse_dep5 = ReuseDep5.from_file(
                     self.project.root / ".reuse/dep5"
                 )
-                self.project.dep5_copyright = self.reuse_dep5
+                self.project.global_licensing = self.reuse_dep5
         # pylint: disable=broad-except
         try:
             return _MultiprocessingResult(
