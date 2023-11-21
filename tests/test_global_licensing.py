@@ -2,15 +2,24 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Tests for REUSE.toml."""
+"""Tests for REUSE.toml and .reuse/dep5."""
 
+import shutil
 from inspect import cleandoc
 
 import pytest
-from license_expression import ExpressionError
+from conftest import RESOURCES_DIRECTORY
+from debian.copyright import Copyright
+from debian.copyright import Error as DebianError
+from license_expression import ExpressionError, LicenseSymbol
 
 from reuse._util import _LICENSING
-from reuse.reusetoml import AnnotationsItem, ReuseTOML
+from reuse.global_licensing import (
+    AnnotationsItem,
+    ReuseTOML,
+    _copyright_from_dep5,
+    _parse_dep5,
+)
 
 # REUSE-IgnoreStart
 
@@ -103,6 +112,13 @@ class TestAnnotationsItemValidators:
                 {"2023 Jane Doe", 2024},
                 {"MIT"},
             )
+
+
+def test_copyright_from_dep5(dep5_copyright):
+    """Verify that the glob in the dep5 file is matched."""
+    result = _copyright_from_dep5("doc/foo.rst", dep5_copyright)
+    assert LicenseSymbol("CC0-1.0") in result.spdx_expressions
+    assert "2017 Jane Doe" in result.copyright_lines
 
 
 class TestAnnotationsItemFromDict:
@@ -273,6 +289,54 @@ class TestReuseTOMLFromToml:
         assert result.version == 1
         assert result.source == "REUSE.toml"
         assert result.annotations[0] == annotations_item
+
+
+class TestParseDep5:
+    """Tests for _parse_dep5."""
+
+    def test_parse_dep5_simple(self, fake_repository):
+        """No error if everything is good."""
+        result = _parse_dep5(fake_repository / ".reuse/dep5")
+        assert result.__class__ == Copyright
+
+    def test_parse_dep5_not_exists(self, empty_directory):
+        """Raise FileNotFoundError if .reuse/dep5 doesn't exist."""
+        with pytest.raises(FileNotFoundError):
+            _parse_dep5(empty_directory / "foo")
+
+    def test_parse_dep5_unicode_decode_error(self, fake_repository):
+        """Raise UnicodeDecodeError if file can't be decoded as utf-8."""
+        shutil.copy(
+            RESOURCES_DIRECTORY / "fsfe.png", fake_repository / "fsfe.png"
+        )
+        with pytest.raises(UnicodeDecodeError):
+            _parse_dep5(fake_repository / "fsfe.png")
+
+    def test_parse_dep5_parse_error(self, empty_directory):
+        """Raise DebianError on parse error."""
+        (empty_directory / "foo").write_text("foo")
+        with pytest.raises(DebianError):
+            _parse_dep5(empty_directory / "foo")
+
+    def test_parse_dep5_double_copyright_parse_error(self, empty_directory):
+        """Raise DebianError on double Copyright lines."""
+        (empty_directory / "foo").write_text(
+            cleandoc(
+                """
+                Format: something
+                Upstream-Name: example
+                Upstream-Contact: Jane Doe
+                Source: https://example.com
+
+                Files: *
+                Copyright: Jane Doe
+                Copyright: John Doe
+                License: MIT
+                """
+            )
+        )
+        with pytest.raises(DebianError):
+            _parse_dep5(empty_directory / "foo")
 
 
 # REUSE-IgnoreEnd

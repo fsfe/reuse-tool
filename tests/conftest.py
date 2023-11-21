@@ -7,7 +7,7 @@
 
 """Global fixtures and configuration."""
 
-# pylint: disable=redefined-outer-name
+# pylint: disable=redefined-outer-name,invalid-name
 
 import datetime
 import logging
@@ -43,6 +43,22 @@ CWD = Path.cwd()
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
+
+try:
+    import pwd
+
+    is_root = pwd.getpwuid(os.getuid()).pw_name == "root"
+    is_posix = True
+except ImportError:
+    is_root = False
+    is_posix = False
+
+cpython = pytest.mark.skipif(
+    sys.implementation.name != "cpython", reason="only CPython supported"
+)
+git = pytest.mark.skipif(not GIT_EXE, reason="requires git")
+no_root = pytest.mark.xfail(is_root, reason="fails when user is root")
+posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
 # REUSE-IgnoreStart

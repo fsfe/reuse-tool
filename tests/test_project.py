@@ -10,28 +10,17 @@
 import os
 import shutil
 import warnings
-from importlib import import_module
 from inspect import cleandoc
 from pathlib import Path
 from textwrap import dedent
 
 import pytest
+from conftest import RESOURCES_DIRECTORY, posix
 from debian.copyright import Error as DebianError
 from license_expression import LicenseSymbol
 
 from reuse import SourceType
 from reuse.project import Project
-
-try:
-    IS_POSIX = bool(import_module("posix"))
-except ImportError:
-    IS_POSIX = False
-
-posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
-
-TESTS_DIRECTORY = Path(__file__).parent.resolve()
-RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
-
 
 # REUSE-IgnoreStart
 
