@@ -66,7 +66,7 @@ dist: clean-build clean-pyc clean-docs ## builds source and wheel package
 
 .PHONY: create-pot
 create-pot:  ## generate .pot file
-	xgettext --add-comments --from-code=utf-8 --output=po/reuse.pot --files-from=po/POTFILES.in
+	xgettext --add-comments --from-code=utf-8 --output=po/reuse.pot src/reuse/**.py
 	xgettext --add-comments --output=po/argparse.pot /usr/lib*/python3*/argparse.py
 	msgcat --output=po/reuse.pot po/reuse.pot po/argparse.pot
 	for name in po/*.po; do \
