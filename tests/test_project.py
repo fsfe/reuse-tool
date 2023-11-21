@@ -16,10 +16,10 @@ from textwrap import dedent
 
 import pytest
 from conftest import RESOURCES_DIRECTORY, posix
-from debian.copyright import Error as DebianError
 from license_expression import LicenseSymbol
 
 from reuse import SourceType
+from reuse.global_licensing import GlobalLicensingParseError
 from reuse.project import Project
 
 # REUSE-IgnoreStart
@@ -480,7 +480,7 @@ def test_duplicate_field_dep5(empty_directory):
     (empty_directory / ".reuse").mkdir()
     (empty_directory / ".reuse/dep5").write_text(dep5_text)
 
-    with pytest.raises(DebianError):
+    with pytest.raises(GlobalLicensingParseError):
         Project.from_directory(empty_directory)
 
 

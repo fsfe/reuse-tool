@@ -14,8 +14,6 @@ from gettext import gettext as _
 from pathlib import Path
 from typing import IO, Callable, List, Optional, Type, cast
 
-from debian.copyright import Error as DebianError
-
 from . import (
     __REUSE_version__,
     __version__,
@@ -28,6 +26,7 @@ from . import (
 )
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import PathType, setup_logging
+from .global_licensing import GlobalLicensingParseError
 from .project import Project
 from .vcs import find_root
 
@@ -257,7 +256,7 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
                 dep5=root / ".reuse/dep5"
             )
         )
-    except DebianError as error:
+    except GlobalLicensingParseError as error:
         main_parser.error(
             _(
                 "'{dep5}' could not be parsed. We received the following error"

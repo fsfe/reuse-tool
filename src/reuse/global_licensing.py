@@ -5,6 +5,7 @@
 """Code for parsing and validating REUSE.toml."""
 
 import logging
+from abc import ABC, abstractmethod
 from gettext import gettext as _
 from pathlib import Path, PurePath
 from typing import Any, Dict, List, Literal, Set, Type, cast
@@ -22,49 +23,78 @@ from ._util import _LICENSING, StrPath
 _LOGGER = logging.getLogger(__name__)
 
 
-def _parse_dep5(path: StrPath) -> Copyright:
-    """Parse the dep5 file and create a dep5 Copyright object.
-
-    Raises:
-        FileNotFoundError: file doesn't exist.
-        DebianError: file could not be parsed.
-        UnicodeDecodeError: could not decode file as UTF-8.
+class GlobalLicensingParseError(Exception):
+    """An exception representing any kind of error that occurs when trying to
+    parse a :class:`GlobalLicensing` file.
     """
-    path = Path(path)
-    try:
-        with path.open(encoding="utf-8") as fp:
-            return Copyright(fp)
-    except FileNotFoundError:
-        _LOGGER.debug(_("no '{}' file, or could not read it").format(path))
-        raise
-    # TODO: Remove ValueError once
-    # <https://salsa.debian.org/python-debian-team/python-debian/-/merge_requests/123>
-    # is closed
-    except (DebianError, ValueError) as error:
-        if error.__class__ == ValueError:
-            raise DebianError(str(error)) from error
-        raise
 
 
-def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:
-    """Find the reuse information of *path* in the dep5 Copyright object."""
-    path = PurePath(path).as_posix()
-    result = dep5_copyright.find_files_paragraph(path)
+@attrs.define
+class GlobalLicensing(ABC):
+    """An abstract class that represents a configuration file that contains
+    licensing information that is pertinent to other files in the project.
+    """
 
-    if result is None:
-        return ReuseInfo()
+    source: str = attrs.field(validator=attrs.validators.instance_of(str))
 
-    return ReuseInfo(
-        spdx_expressions=set(
-            map(_LICENSING.parse, [result.license.synopsis])  # type: ignore
-        ),
-        copyright_lines=set(
-            map(str.strip, result.copyright.splitlines())  # type: ignore
-        ),
-        path=path,
-        source_type=SourceType.DEP5,
-        source_path=".reuse/dep5",
-    )
+    @classmethod
+    @abstractmethod
+    def from_file(cls, path: StrPath) -> "GlobalLicensing":
+        """Parse the file and create a :class:`GlobalLicensing` object from its
+        contents.
+
+        Raises:
+            FileNotFoundError: file doesn't exist.
+            UnicodeDecodeError: could not decode file as UTF-8.
+            OSError: some other error surrounding I/O.
+            GlobalLicensingParseError: file could not be parsed.
+        """
+
+    @abstractmethod
+    def reuse_info_of(self, path: StrPath) -> ReuseInfo:
+        """Find the reuse information of *path* defined in the configuration."""
+
+
+@attrs.define
+class ReuseDep5(GlobalLicensing):
+    """A soft wrapper around :class:`Copyright`."""
+
+    dep5_copyright: Copyright
+
+    @classmethod
+    def from_file(cls, path: StrPath) -> "ReuseDep5":
+        path = Path(path)
+        try:
+            with path.open(encoding="utf-8") as fp:
+                return cls(str(path), Copyright(fp))
+        except UnicodeDecodeError:
+            raise
+        # TODO: Remove ValueError once
+        # <https://salsa.debian.org/python-debian-team/python-debian/-/merge_requests/123>
+        # is closed
+        except (DebianError, ValueError) as error:
+            raise GlobalLicensingParseError(str(error)) from error
+
+    def reuse_info_of(self, path: StrPath) -> ReuseInfo:
+        path = PurePath(path).as_posix()
+        result = self.dep5_copyright.find_files_paragraph(path)
+
+        if result is None:
+            return ReuseInfo()
+
+        return ReuseInfo(
+            spdx_expressions=set(
+                map(_LICENSING.parse, [result.license.synopsis])  # type: ignore
+            ),
+            copyright_lines=set(
+                map(str.strip, result.copyright.splitlines())  # type: ignore
+            ),
+            path=path,
+            source_type=SourceType.DEP5,
+            # This is hardcoded. It must be a relative path from the project
+            # root. self.source is not (guaranteed) a relative path.
+            source_path=".reuse/dep5",
+        )
 
 
 def _validate_collection_of_type(
@@ -180,14 +210,13 @@ class AnnotationsItem:
 
 
 @attrs.define
-class ReuseTOML:
+class ReuseTOML(GlobalLicensing):
     """A class that contains the data parsed from a REUSE.toml file.
 
     TODO: There are strict typing requirements about the key-value pairs.
     """
 
     version: int = attrs.field(validator=attrs.validators.instance_of(int))
-    source: str = attrs.field(validator=attrs.validators.instance_of(str))
     annotations: List[AnnotationsItem] = attrs.field(
         validator=_validate_list_of_annotations_items
     )
@@ -214,3 +243,11 @@ class ReuseTOML:
         """Create a :class:`ReuseTOML` from TOML text."""
         tomldict = tomlkit.loads(toml)
         return cls.from_dict(tomldict, source)
+
+    @classmethod
+    def from_file(cls, path: StrPath) -> "ReuseTOML":
+        with Path(path).open(encoding="utf-8") as fp:
+            return cls.from_toml(fp.read(), str(path))
+
+    def reuse_info_of(self, path: StrPath) -> ReuseInfo:
+        raise NotImplementedError()

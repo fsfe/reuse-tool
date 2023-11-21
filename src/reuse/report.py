@@ -21,11 +21,9 @@ from pathlib import Path, PurePath
 from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
 from uuid import uuid4
 
-from debian.copyright import Copyright
-
 from . import __REUSE_version__, __version__
 from ._util import _LICENSEREF_PATTERN, _LICENSING, StrPath, _checksum
-from .global_licensing import _parse_dep5
+from .global_licensing import ReuseDep5
 from .project import Project, ReuseInfo
 
 _LOGGER = logging.getLogger(__name__)
@@ -58,19 +56,19 @@ class _MultiprocessingContainer:
         self.project = new_project
         # Remember that a dep5_copyright was (or was not) set prior.
         self.has_dep5 = bool(project.dep5_copyright)
-        self.dep5_copyright: Optional[Copyright] = None
+        self.reuse_dep5: Optional[ReuseDep5] = None
         self.do_checksum = do_checksum
         self.add_license_concluded = add_license_concluded
 
     def __call__(self, file_: StrPath) -> "_MultiprocessingResult":
         # By remembering that we've parsed the .reuse/dep5, we only parse it
         # once (the first time) inside of each process.
-        if self.has_dep5 and not self.dep5_copyright:
+        if self.has_dep5 and not self.reuse_dep5:
             with contextlib.suppress(Exception):
-                self.dep5_copyright = _parse_dep5(
+                self.reuse_dep5 = ReuseDep5.from_file(
                     self.project.root / ".reuse/dep5"
                 )
-                self.project.dep5_copyright = self.dep5_copyright
+                self.project.dep5_copyright = self.reuse_dep5
         # pylint: disable=broad-except
         try:
             return _MultiprocessingResult(
