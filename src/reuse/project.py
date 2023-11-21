@@ -37,12 +37,12 @@ from ._util import (
     _LICENSEREF_PATTERN,
     StrPath,
     _contains_snippet,
-    _copyright_from_dep5,
     _determine_license_path,
     _parse_dep5,
     decoded_text_from_binary,
     extract_reuse_info,
 )
+from .global_licensing import _copyright_from_dep5, _parse_dep5
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
 _LOGGER = logging.getLogger(__name__)
@@ -60,6 +60,9 @@ class Project:
         vcs_strategy: Optional[Type[VCSStrategy]] = None,
         license_map: Optional[Dict[str, Dict]] = None,
         licenses: Optional[Dict[str, Path]] = None,
+        # TODO: make this an ABC that implements one method: licensing_for_file.
+        # ReuseTOML can directly inherit that ABC. We can create a wrapper
+        # object for dep5 Copyright.
         dep5_copyright: Optional[Copyright] = None,
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,

@@ -9,26 +9,13 @@
 
 import os
 import re
-import sys
-from importlib import import_module
 from textwrap import dedent
 
-import pytest
+from conftest import cpython, posix
 
 from reuse import SourceType
 from reuse.project import Project
 from reuse.report import FileReport, ProjectReport
-
-try:
-    IS_POSIX = bool(import_module("posix"))
-except ImportError:
-    IS_POSIX = False
-
-cpython = pytest.mark.skipif(
-    sys.implementation.name != "cpython", reason="only CPython supported"
-)
-posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
-
 
 # REUSE-IgnoreStart
 

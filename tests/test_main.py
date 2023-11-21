@@ -23,14 +23,12 @@ from urllib.error import URLError
 
 import pytest
 from freezegun import freeze_time
+from conftest import RESOURCES_DIRECTORY
 
 from reuse import download
 from reuse._main import main
 from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE
 from reuse.report import LINT_VERSION
-
-TESTS_DIRECTORY = Path(__file__).parent.resolve()
-RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
 # REUSE-IgnoreStart
 

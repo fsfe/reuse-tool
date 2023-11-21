@@ -9,10 +9,7 @@
 
 """Tests for reuse._util"""
 
-# pylint: disable=protected-access,invalid-name
-
 import os
-import shutil
 from argparse import ArgumentTypeError
 from inspect import cleandoc
 from io import BytesIO
@@ -20,31 +17,10 @@ from pathlib import Path
 
 import pytest
 from boolean.boolean import ParseError
-from debian.copyright import Copyright
-from debian.copyright import Error as DebianError
-from license_expression import LicenseSymbol
+from conftest import no_root, posix
 
 from reuse import _util
 from reuse._util import _LICENSING
-
-try:
-    import pwd
-
-    is_root = pwd.getpwuid(os.getuid()).pw_name == "root"
-    is_posix = True
-except ImportError:
-    is_root = False
-    is_posix = False
-
-
-git = pytest.mark.skipif(not _util.GIT_EXE, reason="requires git")
-no_root = pytest.mark.xfail(is_root, reason="fails when user is root")
-posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
-
-
-TESTS_DIRECTORY = Path(__file__).parent.resolve()
-RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
-
 
 # REUSE-IgnoreStart
 
@@ -390,60 +366,6 @@ def test_filter_ignore_block_with_multiple_ignore_blocks():
 
     result = _util.filter_ignore_block(text)
     assert result == expected
-
-
-def test_parse_dep5_simple(fake_repository):
-    """No error if everything is good."""
-    result = _util._parse_dep5(fake_repository / ".reuse/dep5")
-    assert result.__class__ == Copyright
-
-
-def test_parse_dep5_not_exists(empty_directory):
-    """Raise FileNotFoundError if .reuse/dep5 doesn't exist."""
-    with pytest.raises(FileNotFoundError):
-        _util._parse_dep5(empty_directory / "foo")
-
-
-def test_parse_dep5_unicode_decode_error(fake_repository):
-    """Raise UnicodeDecodeError if file can't be decoded as utf-8."""
-    shutil.copy(RESOURCES_DIRECTORY / "fsfe.png", fake_repository / "fsfe.png")
-    with pytest.raises(UnicodeDecodeError):
-        _util._parse_dep5(fake_repository / "fsfe.png")
-
-
-def test_parse_dep5_parse_error(empty_directory):
-    """Raise DebianError on parse error."""
-    (empty_directory / "foo").write_text("foo")
-    with pytest.raises(DebianError):
-        _util._parse_dep5(empty_directory / "foo")
-
-
-def test_parse_dep5_double_copyright_parse_error(empty_directory):
-    """Raise DebianError on double Copyright lines."""
-    (empty_directory / "foo").write_text(
-        cleandoc(
-            """
-            Format: something
-            Upstream-Name: example
-            Upstream-Contact: Jane Doe
-            Source: https://example.com
-
-            Files: *
-            Copyright: Jane Doe
-            Copyright: John Doe
-            License: MIT
-            """
-        )
-    )
-    with pytest.raises(DebianError):
-        _util._parse_dep5(empty_directory / "foo")
-
-
-def test_copyright_from_dep5(dep5_copyright):
-    """Verify that the glob in the dep5 file is matched."""
-    result = _util._copyright_from_dep5("doc/foo.rst", dep5_copyright)
-    assert LicenseSymbol("CC0-1.0") in result.spdx_expressions
-    assert "2017 Jane Doe" in result.copyright_lines
 
 
 def test_make_copyright_line_simple():

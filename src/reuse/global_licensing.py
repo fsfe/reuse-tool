@@ -6,16 +6,65 @@
 
 import logging
 from gettext import gettext as _
+from pathlib import Path, PurePath
 from typing import Any, Dict, List, Literal, Set, Type, cast
 
 import attrs
 import tomlkit
 from boolean.boolean import Expression, ParseError
+from debian.copyright import Copyright
+from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
-from ._util import _LICENSING
+from . import ReuseInfo, SourceType
+from ._util import _LICENSING, StrPath
 
 _LOGGER = logging.getLogger(__name__)
+
+
+def _parse_dep5(path: StrPath) -> Copyright:
+    """Parse the dep5 file and create a dep5 Copyright object.
+
+    Raises:
+        FileNotFoundError: file doesn't exist.
+        DebianError: file could not be parsed.
+        UnicodeDecodeError: could not decode file as UTF-8.
+    """
+    path = Path(path)
+    try:
+        with path.open(encoding="utf-8") as fp:
+            return Copyright(fp)
+    except FileNotFoundError:
+        _LOGGER.debug(_("no '{}' file, or could not read it").format(path))
+        raise
+    # TODO: Remove ValueError once
+    # <https://salsa.debian.org/python-debian-team/python-debian/-/merge_requests/123>
+    # is closed
+    except (DebianError, ValueError) as error:
+        if error.__class__ == ValueError:
+            raise DebianError(str(error)) from error
+        raise
+
+
+def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:
+    """Find the reuse information of *path* in the dep5 Copyright object."""
+    path = PurePath(path).as_posix()
+    result = dep5_copyright.find_files_paragraph(path)
+
+    if result is None:
+        return ReuseInfo()
+
+    return ReuseInfo(
+        spdx_expressions=set(
+            map(_LICENSING.parse, [result.license.synopsis])  # type: ignore
+        ),
+        copyright_lines=set(
+            map(str.strip, result.copyright.splitlines())  # type: ignore
+        ),
+        path=path,
+        source_type=SourceType.DEP5,
+        source_path=".reuse/dep5",
+    )
 
 
 def _validate_collection_of_type(

@@ -6,25 +6,12 @@
 """All tests for reuse.lint"""
 
 import shutil
-import sys
-from importlib import import_module
 
-import pytest
+from conftest import cpython, posix
 
 from reuse.lint import format_plain
 from reuse.project import Project
 from reuse.report import ProjectReport
-
-try:
-    IS_POSIX = bool(import_module("posix"))
-except ImportError:
-    IS_POSIX = False
-
-cpython = pytest.mark.skipif(
-    sys.implementation.name != "cpython", reason="only CPython supported"
-)
-posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
-
 
 # REUSE-IgnoreStart
 
