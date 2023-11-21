@@ -59,9 +59,9 @@ Next, you'll find the following commands handy:
 ### Poetry
 
 Because our downstreams may not have a very recent version of Poetry, we should
-target `poetry-core>=1.1.0` and `poetry~=1.2.0` when interacting with Poetry,
+target `poetry-core>=1.4.0` and `poetry~=1.3.0` when interacting with Poetry,
 especially when generating the `poetry.lock` file. You can
-`pip install poetry~=1.2.0` to ascertain that you always get this right.
+`pip install poetry~=1.3.0` to ascertain that you always get this right.
 
 In order to update the `poetry.lock` file while changing as few lines as
 possible, run `poetry lock --no-update`.
