@@ -4,14 +4,33 @@
 
 """Code for parsing and validating REUSE.toml."""
 
+# mypy: disable-error-code=attr-defined
+
+import fnmatch
 import logging
+import re
 from abc import ABC, abstractmethod
+from enum import Enum
 from gettext import gettext as _
 from pathlib import Path, PurePath
-from typing import Any, Dict, List, Literal, Set, Type, cast
+from typing import (
+    Any,
+    Callable,
+    Collection,
+    Dict,
+    List,
+    Optional,
+    Set,
+    Type,
+    TypeVar,
+    Union,
+    cast,
+    overload,
+)
 
 import attrs
 import tomlkit
+from attr.validators import _InstanceOfValidator as _AttrInstanceOfValidator
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
@@ -22,11 +41,184 @@ from ._util import _LICENSING, StrPath
 
 _LOGGER = logging.getLogger(__name__)
 
+_T = TypeVar("_T")
+
+
+class GlobalPrecedence(Enum):
+    """An enum of behaviours surrounding order of precedence for entries in a
+    :class:`GlobalLicensing`.
+    """
+
+    #: Aggregate the results from the file with the results from the global
+    #: licensing file.
+    AGGREGATE = "aggregate"
+    #: Use the results that are closest to the covered file. This is typically
+    #: the file itself, or the global licensing file if no REUSE information
+    #: exists inside of the file.
+    CLOSEST = "closest"
+    # TODO: The 'TOML' name is a bit awkward here, and should probably be
+    # 'GLOBAL'. However, because only REUSE.toml completely implements this,
+    # let's keep it like so.
+    #: Only use the results from the lobal licensing file.
+    TOML = "toml"
+
 
 class GlobalLicensingParseError(Exception):
     """An exception representing any kind of error that occurs when trying to
     parse a :class:`GlobalLicensing` file.
     """
+
+
+class GlobalLicensingParseTypeError(TypeError, GlobalLicensingParseError):
+    """An exception representing a type error while trying to parse a
+    :class:`GlobalLicensing` file.
+    """
+
+
+class GlobalLicensingParseValueError(GlobalLicensingParseError, ValueError):
+    """An exception representing a value error while trying to parse a
+    :class:`GlobalLicensing` file.
+    """
+
+
+@attrs.define
+class _CollectionOfValidator:
+    collection_type: Type[Collection] = attrs.field()
+    value_type: Type = attrs.field()
+    optional: bool = attrs.field(default=True)
+
+    def __call__(
+        self,
+        instance: object,
+        attribute: attrs.Attribute,
+        value: Collection[_T],
+    ) -> None:
+        # This is a hack to display the TOML's key names instead of the Python
+        # attributes.
+        if hasattr(instance, "TOML_KEYS"):
+            attr_name = instance.TOML_KEYS[attribute.name]
+        else:
+            attr_name = attribute.name
+
+        if not isinstance(value, self.collection_type):
+            raise GlobalLicensingParseTypeError(
+                _(
+                    "{attr_name} must be a {type_name} (got {value} that is a"
+                    " {value_class})."
+                ).format(
+                    attr_name=repr(attr_name),
+                    type_name=self.collection_type.__name__,
+                    value=repr(value),
+                    value_class=repr(value.__class__),
+                )
+            )
+        for item in value:
+            if not isinstance(item, self.value_type):
+                raise GlobalLicensingParseTypeError(
+                    _(
+                        "Item in {attr_name} collection must be a {type_name}"
+                        " (got {item_value} that is a {item_class})."
+                    ).format(
+                        attr_name=repr(attr_name),
+                        type_name=self.value_type.__name__,
+                        item_value=repr(item),
+                        item_class=repr(item.__class__),
+                    )
+                )
+        if not self.optional and not value:
+            raise GlobalLicensingParseValueError(
+                _("{attr_name} must not be empty.").format(
+                    attr_name=repr(attr_name)
+                )
+            )
+
+
+def _validate_collection_of(
+    collection_type: Type[Collection],
+    value_type: Type[_T],
+    optional: bool = False,
+) -> Callable[[Any, attrs.Attribute, Collection[_T]], Any]:
+    return _CollectionOfValidator(
+        collection_type, value_type, optional=optional
+    )
+
+
+class _InstanceOfValidator(_AttrInstanceOfValidator):
+    def __call__(self, inst: Any, attr: attrs.Attribute, value: _T) -> None:
+        try:
+            super().__call__(inst, attr, value)
+        except TypeError as error:
+            raise GlobalLicensingParseTypeError(
+                _(
+                    "{name} must be a {type} (got {value} that is a"
+                    " {value_type})."
+                ).format(
+                    name=repr(error.args[1].name),
+                    type=repr(error.args[2].__name__),
+                    value=repr(error.args[3]),
+                    value_type=repr(error.args[3].__class__),
+                )
+            ) from error
+
+
+def _instance_of(
+    type_: Type[_T],
+) -> Callable[[Any, attrs.Attribute, _T], Any]:
+    return _InstanceOfValidator(type_)
+
+
+def _str_to_global_precedence(value: Any) -> GlobalPrecedence:
+    try:
+        return GlobalPrecedence(value)
+    except ValueError as err:
+        raise GlobalLicensingParseValueError(
+            _(
+                "The value of 'precedence' must be one of {precedence_vals}"
+                " (got {received})"
+            ).format(
+                precedence_vals=tuple(
+                    member.value for member in GlobalPrecedence
+                ),
+                received=repr(value),
+            )
+        ) from err
+
+
+@overload
+def _str_to_set(value: str) -> Set[str]:
+    ...
+
+
+@overload
+def _str_to_set(value: Union[None, _T, Collection[_T]]) -> Set[_T]:
+    ...
+
+
+def _str_to_set(
+    value: Union[str, None, _T, Collection[_T]]
+) -> Union[Set[str], Set[_T]]:
+    if value is None:
+        return cast(Set[str], set())
+    if isinstance(value, str):
+        return {value}
+    if hasattr(value, "__iter__"):
+        return set(value)
+    return {value}
+
+
+def _str_to_set_of_expr(value: Any) -> Set[Expression]:
+    value = _str_to_set(value)
+    result = set()
+    for expression in value:
+        try:
+            result.add(_LICENSING.parse(expression))
+        except (ExpressionError, ParseError) as error:
+            raise GlobalLicensingParseValueError(
+                _("Could not parse '{expression}'").format(
+                    expression=expression
+                )
+            ) from error
+    return result
 
 
 @attrs.define
@@ -35,7 +227,7 @@ class GlobalLicensing(ABC):
     licensing information that is pertinent to other files in the project.
     """
 
-    source: str = attrs.field(validator=attrs.validators.instance_of(str))
+    source: str = attrs.field(validator=_instance_of(str))
 
     @classmethod
     @abstractmethod
@@ -97,104 +289,50 @@ class ReuseDep5(GlobalLicensing):
         )
 
 
-def _validate_collection_of_type(
-    instance: object,
-    attribute: attrs.Attribute,
-    value: List[Any],
-    iterable_type: Type,
-    type_: Type,
-) -> None:
-    # pylint: disable=unused-argument
-    if not isinstance(value, iterable_type):
-        msg = (
-            f"'{attribute.name}' must be a {iterable_type.__name__} (got"
-            f" {value!r} that is a {value.__class__!r})."
-        )
-        raise TypeError(msg, attribute, set, value)
-    for item in value:
-        if not isinstance(item, type_):
-            msg = (
-                f"Item in '{attribute.name}' collection must be a"
-                f" {type_.__name__} (got {item!r} that is a {item.__class__!r})"
-            )
-            raise TypeError(msg, attribute, type_, item)
-
-
-def _validate_set_of_str(
-    instance: object, attribute: attrs.Attribute, value: List[Any]
-) -> None:
-    return _validate_collection_of_type(instance, attribute, value, set, str)
-
-
-def _validate_set_of_expr(
-    instance: object, attribute: attrs.Attribute, value: List[Any]
-) -> None:
-    return _validate_collection_of_type(
-        instance, attribute, value, set, Expression
-    )
-
-
-def _validate_list_of_annotations_items(
-    instance: object, attribute: attrs.Attribute, value: List[Any]
-) -> None:
-    return _validate_collection_of_type(
-        instance, attribute, value, list, AnnotationsItem
-    )
-
-
-def _validate_literal(
-    instance: object, attribute: attrs.Attribute, value: Any
-) -> None:
-    # pylint: disable=unused-argument
-    if value not in cast(Type, attribute.type).__args__:
-        raise ValueError(
-            f"The value of '{attribute.name}' must be one of"
-            " {attribute.type.__args__!r} (got {value!r})"
-        )
-
-
-def _str_to_set(value: Any) -> Set[Any]:
-    if isinstance(value, str):
-        return {value}
-    if hasattr(value, "__iter__"):
-        return set(value)
-    return {value}
-
-
-def _str_to_set_of_expr(value: Any) -> Set[Expression]:
-    value = _str_to_set(value)
-    result = set()
-    for expression in value:
-        try:
-            result.add(_LICENSING.parse(expression))
-        except (ExpressionError, ParseError):
-            _LOGGER.error(
-                _("Could not parse '{expression}'").format(
-                    expression=expression
-                )
-            )
-            raise
-    return result
-
-
 @attrs.define
 class AnnotationsItem:
     """A class that maps to a single [[annotations]] table element in
     REUSE.toml.
     """
 
+    TOML_KEYS = {
+        "paths": "path",
+        "precedence": "precedence",
+        "copyright_lines": "SPDX-FileCopyrightText",
+        "spdx_expressions": "SPDX-License-Identifier",
+    }
+
     paths: Set[str] = attrs.field(
-        converter=_str_to_set, validator=_validate_set_of_str
+        converter=_str_to_set,
+        validator=_validate_collection_of(set, str, optional=False),
     )
-    precedence: Literal["aggregate", "file", "toml"] = attrs.field(
-        validator=_validate_literal
+    precedence: GlobalPrecedence = attrs.field(
+        converter=_str_to_global_precedence
     )
     copyright_lines: Set[str] = attrs.field(
-        converter=_str_to_set, validator=_validate_set_of_str
+        converter=_str_to_set,
+        validator=_validate_collection_of(set, str, optional=True),
+        default=None,
     )
     spdx_expressions: Set[Expression] = attrs.field(
-        converter=_str_to_set_of_expr, validator=_validate_set_of_expr
+        converter=_str_to_set_of_expr,
+        validator=_validate_collection_of(set, Expression, optional=True),
+        default=None,
     )
+
+    _paths_regex: re.Pattern = attrs.field(init=False)
+
+    def __attrs_post_init__(self) -> None:
+        if not self.copyright_lines and not self.spdx_expressions:
+            raise GlobalLicensingParseValueError(
+                _(
+                    "At least one of SPDX-FileCopyrightText or"
+                    " SPDX-License-Identifier must be defined and non-empty."
+                )
+            )
+        self._paths_regex = re.compile(
+            "|".join(fnmatch.translate(path) for path in self.paths)
+        )
 
     @classmethod
     def from_dict(cls, values: Dict[str, Any]) -> "AnnotationsItem":
@@ -202,11 +340,21 @@ class AnnotationsItem:
         key-value pairs for an [[annotations]] table in REUSE.toml.
         """
         new_dict = {}
-        new_dict["paths"] = values.get("path")
-        new_dict["precedence"] = values.get("precedence")
-        new_dict["copyright_lines"] = values.get("SPDX-FileCopyrightText")
-        new_dict["spdx_expressions"] = values.get("SPDX-License-Identifier")
+        new_dict["paths"] = values.get(cls.TOML_KEYS["paths"])
+        new_dict["precedence"] = values.get(cls.TOML_KEYS["precedence"])
+        new_dict["copyright_lines"] = values.get(
+            cls.TOML_KEYS["copyright_lines"]
+        )
+        new_dict["spdx_expressions"] = values.get(
+            cls.TOML_KEYS["spdx_expressions"]
+        )
         return cls(**new_dict)  # type: ignore
+
+    def matches(self, path: str) -> bool:
+        """Determine whether *path* matches any of the paths (or path globs) in
+        :class:`AnnotationsItem`.
+        """
+        return bool(self._paths_regex.match(path))
 
 
 @attrs.define
@@ -216,9 +364,9 @@ class ReuseTOML(GlobalLicensing):
     TODO: There are strict typing requirements about the key-value pairs.
     """
 
-    version: int = attrs.field(validator=attrs.validators.instance_of(int))
+    version: int = attrs.field(validator=_instance_of(int))
     annotations: List[AnnotationsItem] = attrs.field(
-        validator=_validate_list_of_annotations_items
+        validator=_validate_collection_of(list, AnnotationsItem, optional=True)
     )
 
     @classmethod
@@ -241,7 +389,10 @@ class ReuseTOML(GlobalLicensing):
     @classmethod
     def from_toml(cls, toml: str, source: str) -> "ReuseTOML":
         """Create a :class:`ReuseTOML` from TOML text."""
-        tomldict = tomlkit.loads(toml)
+        try:
+            tomldict = tomlkit.loads(toml)
+        except tomlkit.exceptions.TOMLKitError as error:
+            raise GlobalLicensingParseError(str(error)) from error
         return cls.from_dict(tomldict, source)
 
     @classmethod
@@ -249,5 +400,25 @@ class ReuseTOML(GlobalLicensing):
         with Path(path).open(encoding="utf-8") as fp:
             return cls.from_toml(fp.read(), str(path))
 
+    def find_annotations_item(self, path: StrPath) -> Optional[AnnotationsItem]:
+        """Find a :class:`AnnotationsItem` that matches *path*. The latest match
+        in :attr:`annotations` is returned.
+        """
+        path = PurePath(path).as_posix()
+        for item in reversed(self.annotations):
+            if item.matches(path):
+                return item
+        return None
+
     def reuse_info_of(self, path: StrPath) -> ReuseInfo:
-        raise NotImplementedError()
+        path = str(path)
+        item = self.find_annotations_item(path)
+        if item:
+            return ReuseInfo(
+                spdx_expressions=item.spdx_expressions,
+                copyright_lines=item.copyright_lines,
+                path=path,
+                source_path="REUSE.toml",
+                source_type=SourceType.REUSE_TOML,
+            )
+        return ReuseInfo()

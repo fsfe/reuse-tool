@@ -21,7 +21,7 @@ import logging
 import os
 import re
 from dataclasses import dataclass, field
-from enum import Enum, auto
+from enum import Enum
 from importlib.metadata import PackageNotFoundError, version
 from typing import Any, Dict, NamedTuple, Optional, Set, Type
 
@@ -98,6 +98,8 @@ class SourceType(Enum):
     FILE_HEADER = "file-header"
     #: A .reuse/dep5 file containing license information.
     DEP5 = "dep5"
+    #: A REUSE.toml file containing license information.
+    REUSE_TOML = "reuse-toml"
 
 
 # TODO: In Python 3.10+, add kw_only=True
