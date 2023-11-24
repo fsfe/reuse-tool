@@ -54,6 +54,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
   currently exits early. To automatically create a .license file for
   unrecognised files, `--fallback-dot-license` has been added. (#823, #851,
   #853, #859; this took a while to get right.)
+- Ignore `.sl` directory as used by [Sapling SCM](https://sapling-scm.com/).
+  (#867)
 
 ### Changed
 
