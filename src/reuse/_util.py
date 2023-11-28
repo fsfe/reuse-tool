@@ -393,12 +393,11 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
             years += copy["year"]
 
         year: Optional[str] = None
-        if not years:
-            year = None
-        elif min(years) == max(years):
-            year = min(years)
-        else:
-            year = f"{min(years)} - {max(years)}"
+        if years:
+            if min(years) == max(years):
+                year = min(years)
+            else:
+                year = f"{min(years)} - {max(years)}"
 
         copyright_out.add(make_copyright_line(statement, year, style))
     return copyright_out
