@@ -74,6 +74,8 @@ Contributors
 
 - Markus Haug <korrat@proton.me>
 
+- Kevin Broch
+
 Translators
 -----------
 
