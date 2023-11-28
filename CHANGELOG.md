@@ -47,6 +47,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - More file types are recognised:
   - Julia (`.jl`) (#815)
   - Modern Fortran (`.f90`) (#836)
+  - Bazel (`.bzl`) (#870)
 - Display recommendations for steps to fix found issues during a lint. (#698)
 - Add support for Pijul VCS. Pijul support is not added to the Docker image.
   (#858)

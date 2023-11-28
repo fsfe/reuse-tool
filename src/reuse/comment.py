@@ -550,6 +550,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".bbappend": PythonCommentStyle,
     ".bbclass": PythonCommentStyle,
     ".bib": BibTexCommentStyle,
+    ".bzl": PythonCommentStyle,
     ".c": CCommentStyle,
     ".cc": CCommentStyle,
     ".cjs": CCommentStyle,
@@ -758,6 +759,8 @@ EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
 
 FILENAME_COMMENT_STYLE_MAP = {
     ".bashrc": PythonCommentStyle,
+    ".bazelignore": PythonCommentStyle,
+    ".bazelrc": PythonCommentStyle,
     ".browserslist": PythonCommentStyle,
     ".clang-format": PythonCommentStyle,
     ".coveragerc": PythonCommentStyle,
