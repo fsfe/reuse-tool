@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-09 10:04+0000\n"
+"POT-Creation-Date: 2023-11-28 08:50+0000\n"
 "PO-Revision-Date: 2023-02-18 10:24+0000\n"
 "Last-Translator: \"J. Lavoie\" <j.lavoie@net-c.ca>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -238,48 +238,48 @@ msgstr ""
 msgid "no '{}' file, or could not read it"
 msgstr ""
 
-#: src/reuse/_util.py:424
+#: src/reuse/_util.py:425
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Non è possibile parsificare '{expression}'"
 
-#: src/reuse/_util.py:558
+#: src/reuse/_util.py:559
 msgid "'{}' is not a file"
 msgstr "'{}' non è un file"
 
-#: src/reuse/_util.py:561
+#: src/reuse/_util.py:562
 msgid "'{}' is not a directory"
 msgstr "'{}' non è una directory"
 
-#: src/reuse/_util.py:564
+#: src/reuse/_util.py:565
 msgid "can't open '{}'"
 msgstr "non è possibile aprire '{}'"
 
-#: src/reuse/_util.py:569
+#: src/reuse/_util.py:570
 msgid "can't write to directory '{}'"
 msgstr "non è possibile scrivere nella directory '{}'"
 
-#: src/reuse/_util.py:575
+#: src/reuse/_util.py:576
 msgid "can't write to '{}'"
 msgstr "non è possibile scrivere su '{}'"
 
-#: src/reuse/_util.py:588
+#: src/reuse/_util.py:589
 msgid "can't read or write '{}'"
 msgstr "non è possibile leggere o scrivere '{}'"
 
-#: src/reuse/_util.py:598
+#: src/reuse/_util.py:599
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' non è una espressione valida SPDX, interruzione"
 
-#: src/reuse/_util.py:626
+#: src/reuse/_util.py:627
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' non è un valido Identificativo di Licenza SPDX."
 
-#: src/reuse/_util.py:633
+#: src/reuse/_util.py:634
 msgid "Did you mean:"
 msgstr ""
 
-#: src/reuse/_util.py:640
+#: src/reuse/_util.py:641
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
