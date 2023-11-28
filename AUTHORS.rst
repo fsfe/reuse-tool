@@ -76,6 +76,8 @@ Contributors
 
 - Kevin Broch
 
+- Anthony Loiseau
+
 Translators
 -----------
 
