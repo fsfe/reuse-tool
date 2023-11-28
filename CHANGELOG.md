@@ -45,6 +45,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Implement handling LicenseRef in `download` and `init`. (#697)
 - Declared support for Python 3.12. (#846)
 - More file types are recognised:
+  - TCL (`.tcl`) (#871)
   - Julia (`.jl`) (#815)
   - Modern Fortran (`.f90`) (#836)
   - Bazel (`.bzl`) (#870)

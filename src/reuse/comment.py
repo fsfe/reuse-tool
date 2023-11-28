@@ -717,6 +717,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".svg": UncommentableCommentStyle,
     ".svelte": HtmlCommentStyle,
     ".swift": CCommentStyle,
+    ".tcl": PythonCommentStyle,
     ".tex": TexCommentStyle,
     ".textile": HtmlCommentStyle,
     ".tf": PythonCommentStyle,
