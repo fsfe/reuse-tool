@@ -8,6 +8,7 @@
 
 """Module that contains reports about files and projects for linting."""
 
+import bdb
 import contextlib
 import datetime
 import logging
@@ -301,6 +302,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         for result in results:
             if result.error:
+                # Facilitate better debugging by being able to quit the program.
+                if isinstance(result.error, bdb.BdbQuit):
+                    raise bdb.BdbQuit() from result.error
                 if isinstance(result.error, (OSError, UnicodeError)):
                     _LOGGER.error(
                         _("Could not read '{path}'").format(path=result.path),
