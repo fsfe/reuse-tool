@@ -49,6 +49,11 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Julia (`.jl`) (#815)
   - Modern Fortran (`.f90`) (#836)
   - Bazel (`.bzl`) (#870)
+  - GNU Linker script (`.ld`) (#862)
+  - Assembly code (`.s`) (#862)
+  - Empty placeholders (`.empty`) (#862)
+  - ShellCheck configuration (`.shellcheckrc`) (#862)
+  - Pylint in-project configuration (`pylintrc`) (#862)
 - Display recommendations for steps to fix found issues during a lint. (#698)
 - Add support for Pijul VCS. Pijul support is not added to the Docker image.
   (#858)
