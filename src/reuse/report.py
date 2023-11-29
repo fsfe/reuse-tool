@@ -8,6 +8,7 @@
 
 """Module that contains reports about files and projects for linting."""
 
+import contextlib
 import datetime
 import logging
 import multiprocessing as mp
@@ -20,8 +21,16 @@ from pathlib import Path, PurePath
 from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
 from uuid import uuid4
 
+from debian.copyright import Copyright
+
 from . import __REUSE_version__, __version__
-from ._util import _LICENSEREF_PATTERN, _LICENSING, StrPath, _checksum
+from ._util import (
+    _LICENSEREF_PATTERN,
+    _LICENSING,
+    StrPath,
+    _checksum,
+    _parse_dep5,
+)
 from .project import Project, ReuseInfo
 
 _LOGGER = logging.getLogger(__name__)
@@ -35,11 +44,38 @@ class _MultiprocessingContainer:
     def __init__(
         self, project: Project, do_checksum: bool, add_license_concluded: bool
     ):
-        self.project = project
+        # TODO: We create a copy of the project in the following song-and-dance
+        # because the debian Copyright object cannot be pickled.
+        new_project = Project(
+            project.root,
+            vcs_strategy=project.vcs_strategy.__class__,
+            license_map=project.license_map,
+            licenses=project.licenses.copy(),
+            # Unset dep5_copyright
+            dep5_copyright=None,
+            include_submodules=project.include_submodules,
+            include_meson_subprojects=project.include_meson_subprojects,
+        )
+        new_project.licenses_without_extension = (
+            project.licenses_without_extension
+        )
+
+        self.project = new_project
+        # Remember that a dep5_copyright was (or was not) set prior.
+        self.has_dep5 = bool(project.dep5_copyright)
+        self.dep5_copyright: Optional[Copyright] = None
         self.do_checksum = do_checksum
         self.add_license_concluded = add_license_concluded
 
     def __call__(self, file_: StrPath) -> "_MultiprocessingResult":
+        # By remembering that we've parsed the .reuse/dep5, we only parse it
+        # once (the first time) inside of each process.
+        if self.has_dep5 and not self.dep5_copyright:
+            with contextlib.suppress(Exception):
+                self.dep5_copyright = _parse_dep5(
+                    self.project.root / ".reuse/dep5"
+                )
+                self.project.dep5_copyright = self.dep5_copyright
         # pylint: disable=broad-except
         try:
             return _MultiprocessingResult(

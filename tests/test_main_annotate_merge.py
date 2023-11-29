@@ -9,6 +9,8 @@ from inspect import cleandoc
 
 from reuse._main import main
 
+# pylint: disable=unused-argument
+
 # REUSE-IgnoreStart
 
 
@@ -152,6 +154,40 @@ def test_annotate_merge_copyrights_multi_prefix(fake_repository, stringio):
 
             pass
             """
+    )
+
+
+def test_annotate_merge_copyrights_no_year_in_existing(
+    fake_repository, stringio, mock_date_today
+):
+    """This checks the issue reported in
+    <https://github.com/fsfe/reuse-tool/issues/866>. If an existing copyright
+    line doesn't have a year, everything should still work.
+    """
+    (fake_repository / "foo.py").write_text(
+        cleandoc(
+            """
+            # SPDX-FileCopyrightText: Jane Doe
+            """
+        )
+    )
+    main(
+        [
+            "annotate",
+            "--merge-copyrights",
+            "--copyright",
+            "John Doe",
+            "foo.py",
+        ]
+    )
+    assert (
+        cleandoc(
+            """
+            # SPDX-FileCopyrightText: 2018 John Doe
+            # SPDX-FileCopyrightText: Jane Doe
+            """
+        )
+        in (fake_repository / "foo.py").read_text()
     )
 
 

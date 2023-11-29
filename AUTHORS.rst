@@ -72,6 +72,12 @@ Contributors
 
 - Robin Vobruba
 
+- Markus Haug <korrat@proton.me>
+
+- Kevin Broch
+
+- Anthony Loiseau
+
 Translators
 -----------
 

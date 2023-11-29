@@ -37,7 +37,7 @@ try:
 except ImportError:
     sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
-    from reuse._util import GIT_EXE, HG_EXE, setup_logging
+    from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE, setup_logging
 
 CWD = Path.cwd()
 
@@ -82,6 +82,14 @@ def hg_exe() -> str:
     if not HG_EXE:
         pytest.skip("cannot run this test without mercurial")
     return str(HG_EXE)
+
+
+@pytest.fixture()
+def pijul_exe() -> str:
+    """Run the test with Pijul."""
+    if not PIJUL_EXE:
+        pytest.skip("cannot run this test without pijul")
+    return str(PIJUL_EXE)
 
 
 @pytest.fixture(params=[True, False])
@@ -216,6 +224,31 @@ def hg_repository(fake_repository: Path, hg_exe: str) -> Path:
             "--user",
             "Example <example@example.com>",
             "-m",
+            "initial",
+        ],
+        check=True,
+    )
+
+    return fake_repository
+
+
+@pytest.fixture()
+def pijul_repository(fake_repository: Path, pijul_exe: str) -> Path:
+    """Create a pijul repository with ignored files."""
+    os.chdir(fake_repository)
+    _repo_contents(
+        fake_repository,
+        ignore_filename=".ignore",
+    )
+
+    subprocess.run([pijul_exe, "init", "."], check=True)
+    subprocess.run([pijul_exe, "add", "--recursive", "."], check=True)
+    subprocess.run(
+        [
+            pijul_exe,
+            "record",
+            "--all",
+            "--message",
             "initial",
         ],
         check=True,

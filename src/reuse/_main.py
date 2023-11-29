@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -11,7 +11,10 @@ import logging
 import sys
 import warnings
 from gettext import gettext as _
+from pathlib import Path
 from typing import IO, Callable, List, Optional, Type, cast
+
+from debian.copyright import Error as DebianError
 
 from . import (
     __REUSE_version__,
@@ -25,7 +28,8 @@ from . import (
 )
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import PathType, setup_logging
-from .project import Project, create_project
+from .project import Project
+from .vcs import find_root
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -277,10 +281,29 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
         out.write(f"reuse {__version__}\n")
         return 0
 
-    if parsed_args.root:
-        project = Project(parsed_args.root)
-    else:
-        project = create_project()
+    root = parsed_args.root
+    if root is None:
+        root = find_root()
+    if root is None:
+        root = Path.cwd()
+    try:
+        project = Project.from_directory(root)
+    # FileNotFoundError and NotADirectoryError don't need to be caught because
+    # argparse already made sure of these things.
+    except UnicodeDecodeError:
+        main_parser.error(
+            _("'{dep5}' could not be decoded as UTF-8.").format(
+                dep5=root / ".reuse/dep5"
+            )
+        )
+    except DebianError as error:
+        main_parser.error(
+            _(
+                "'{dep5}' could not be parsed. We received the following error"
+                " message: {message}"
+            ).format(dep5=root / ".reuse/dep5", message=str(error))
+        )
+
     project.include_submodules = parsed_args.include_submodules
     project.include_meson_subprojects = parsed_args.include_meson_subprojects
 
