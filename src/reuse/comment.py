@@ -712,8 +712,11 @@ EXTENSION_COMMENT_STYLE_MAP = {
     # SuperCollider synth definition (binary)
     ".scsyndef": UncommentableCommentStyle,
     ".sh": PythonCommentStyle,
+    ".sld": LispCommentStyle,   # Scheme Library Definition (R7RS)
+    ".sls": LispCommentStyle,   # Scheme Library Source (R6RS)
     ".sml": MlCommentStyle,
     ".soy": CCommentStyle,
+    ".sps": LispCommentStyle,   # Scheme Program Source (R6RS)
     ".sql": HaskellCommentStyle,
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
