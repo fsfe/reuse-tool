@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2023 Maxim Cournoyer <maxim.cournoyer@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,6 +18,7 @@ from reuse.comment import (
     CommentParseError,
     CommentStyle,
     HtmlCommentStyle,
+    LispCommentStyle,
     PythonCommentStyle,
     _all_style_classes,
 )
@@ -667,3 +669,23 @@ def test_comment_at_first_character_c_multi_never_ends():
 
     with pytest.raises(CommentParseError):
         CCommentStyle.comment_at_first_character(text)
+
+
+def test_parse_comment_lisp():
+    """Parse a simple Lisp comment."""
+    text = cleandoc(
+        """
+        ;; Hello
+        ;;
+        ;; world
+        """
+    )
+    expected = cleandoc(
+        """
+        Hello
+
+        world
+        """
+    )
+
+    assert LispCommentStyle.parse_comment(text) == expected
