@@ -14,9 +14,10 @@ import glob
 import logging
 import os
 import warnings
+from collections import defaultdict
 from gettext import gettext as _
 from pathlib import Path
-from typing import Dict, Iterator, List, NamedTuple, Optional, Type, cast
+from typing import Dict, Iterator, List, NamedTuple, Optional, Type
 
 from binaryornot.check import is_binary
 
@@ -36,11 +37,10 @@ from ._util import (
     reuse_info_of_file,
 )
 from .global_licensing import (
-    AnnotationsItem,
     GlobalLicensing,
     GlobalPrecedence,
+    NestedReuseTOML,
     ReuseDep5,
-    ReuseTOML,
 )
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
@@ -223,16 +223,19 @@ class Project:
 
         When information is found from multiple sources, and if the precedence
         for that file in REUSE.toml is 'aggregate' (or if .reuse/dep5 is used),
-        then two :class:`ReuseInfo` objects are returned in the set, each with
-        respective discovered REUSE information and information about the
-        source.
+        then two (or more) :class:`ReuseInfo` objects are returned in list set,
+        each with respective discovered REUSE information and information about
+        the source.
 
         Alternatively, if the precedence is set to 'closest' or 'toml', or if
         information was found in only one source, then a list of one item is
         returned.
 
+        The exact precedence handling is detailed in the specification.
+
         An empty list is returned if no information was found whatsoever.
         """
+        # pylint: disable=too-many-branches
         original_path = path
         path = _determine_license_path(path)
 
@@ -240,33 +243,28 @@ class Project:
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in ReuseInfo
-        global_result = ReuseInfo()
+        global_results: "defaultdict[GlobalPrecedence, List[ReuseInfo]]" = (
+            defaultdict(list)
+        )
         file_result = ReuseInfo()
         result: List[ReuseInfo] = []
 
-        # Default value used for .reuse/dep5
-        precedence = GlobalPrecedence.AGGREGATE
-
         # Search the global licensing file for REUSE information.
         if self.global_licensing:
-            global_result = self.global_licensing.reuse_info_of(
-                self.relative_from_root(path)
+            relpath = self.relative_from_root(path)
+            global_results = defaultdict(
+                list, self.global_licensing.reuse_info_of(relpath)
             )
-            if global_result.contains_copyright_or_licensing():
-                _LOGGER.info(
-                    _("'{path}' covered by {global_path}").format(
-                        path=path, global_path=global_result.source_path
-                    )
-                )
+            for info_list in global_results.values():
+                for global_result in info_list:
+                    if global_result.contains_copyright_or_licensing():
+                        _LOGGER.info(
+                            _("'{path}' covered by {global_path}").format(
+                                path=path, global_path=global_result.source_path
+                            )
+                        )
 
-                # Get precedence.
-                if isinstance(self.global_licensing, ReuseTOML):
-                    item = cast(
-                        ReuseTOML, self.global_licensing
-                    ).find_annotations_item(self.relative_from_root(path))
-                    precedence = cast(AnnotationsItem, item).precedence
-
-        if precedence == precedence.TOML:
+        if GlobalPrecedence.TOML in global_results:
             _LOGGER.info(
                 _(
                     "'{path}' is covered exclusively by REUSE.toml. Not reading"
@@ -286,7 +284,7 @@ class Project:
         # There is both information in a .dep5 file and in the file header
         if (
             isinstance(self.global_licensing, ReuseDep5)
-            and global_result.contains_info()
+            and global_results
             and file_result.contains_info()
         ):
             warnings.warn(
@@ -303,19 +301,37 @@ class Project:
                 ).format(
                     original_path=original_path,
                     path=path,
-                    dep5_path=global_result.source_path,
+                    dep5_path=global_results[GlobalPrecedence.AGGREGATE][
+                        0
+                    ].source_path,
                 ),
                 PendingDeprecationWarning,
             )
-        if (
-            precedence in (precedence.AGGREGATE, precedence.TOML)
-            or not file_result
-        ) and global_result.contains_info():
-            result.append(global_result)
-        if (
-            precedence in (precedence.AGGREGATE, precedence.CLOSEST)
-        ) and file_result.contains_info():
+
+        result.extend(global_results[GlobalPrecedence.TOML])
+        result.extend(global_results[GlobalPrecedence.AGGREGATE])
+        if file_result.contains_info():
             result.append(file_result)
+        if not file_result.contains_copyright_or_licensing():
+            result.extend(global_results[GlobalPrecedence.CLOSEST])
+        # Special case: If a file contains only copyright, apply the
+        # REUSE.toml's licensing if it exists, and vice versa.
+        elif file_result.contains_copyright_xor_licensing():
+            if global_results[GlobalPrecedence.CLOSEST]:
+                # There should only by a single CLOSEST result in the list.
+                closest = global_results[GlobalPrecedence.CLOSEST][0]
+                if file_result.copyright_lines:
+                    result.append(
+                        closest.copy(
+                            copyright_lines=set(),
+                        )
+                    )
+                elif file_result.spdx_expressions:
+                    result.append(
+                        closest.copy(
+                            spdx_expressions=set(),
+                        )
+                    )
         return result
 
     def relative_from_root(self, path: StrPath) -> Path:
@@ -336,22 +352,22 @@ class Project:
                 file is present.
         """
         candidate: Optional[GlobalLicensingFound] = None
-        for global_cls, path in {
-            ReuseTOML: root / "REUSE.toml",
-            ReuseDep5: root / ".reuse/dep5",
-        }.items():
-            # Not sure why this cast is needed.
-            global_cls = cast(Type[GlobalLicensing], global_cls)
-            if path.exists():
-                if candidate is not None:
-                    raise GlobalLicensingConflict(
-                        _(
-                            "Found both '{new_path}' and '{old_path}'. You"
-                            " cannot keep both files simultaneously; they are"
-                            " not intercompatible."
-                        ).format(new_path=path, old_path=candidate.path)
-                    )
-                candidate = GlobalLicensingFound(path, global_cls)
+        dep5_path = root / ".reuse/dep5"
+        if (dep5_path).exists():
+            candidate = GlobalLicensingFound(dep5_path, ReuseDep5)
+        toml_path = None
+        with contextlib.suppress(StopIteration):
+            toml_path = next(root.rglob("**/REUSE.toml"))
+        if toml_path is not None:
+            if candidate is not None:
+                raise GlobalLicensingConflict(
+                    _(
+                        "Found both '{new_path}' and '{old_path}'. You"
+                        " cannot keep both files simultaneously; they are"
+                        " not intercompatible."
+                    ).format(new_path=toml_path, old_path=dep5_path)
+                )
+            candidate = GlobalLicensingFound(root, NestedReuseTOML)
         return candidate
 
     def _is_path_ignored(self, path: Path) -> bool:

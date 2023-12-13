@@ -6,6 +6,7 @@
 
 import shutil
 from inspect import cleandoc
+from pathlib import Path
 
 import pytest
 from conftest import RESOURCES_DIRECTORY
@@ -20,13 +21,14 @@ from reuse.global_licensing import (
     GlobalLicensingParseTypeError,
     GlobalLicensingParseValueError,
     GlobalPrecedence,
+    NestedReuseTOML,
     ReuseDep5,
     ReuseTOML,
 )
 
 # REUSE-IgnoreStart
 
-# pylint: disable=redefined-outer-name
+# pylint: disable=redefined-outer-name,too-many-lines
 
 
 @pytest.fixture()
@@ -197,14 +199,15 @@ class TestAnnotationsItemFromDict:
         assert isinstance(item.copyright_lines, set)
 
     def test_both_keys_missing(self):
-        """If both REUSE info keys are missing, raise an error."""
-        with pytest.raises(GlobalLicensingParseValueError):
-            AnnotationsItem.from_dict(
-                {
-                    "path": {"foo.py"},
-                    "precedence": "toml",
-                }
-            )
+        """If both REUSE info keys are missing, raise no error."""
+        item = AnnotationsItem.from_dict(
+            {
+                "path": {"foo.py"},
+                "precedence": "toml",
+            }
+        )
+        assert not item.copyright_lines
+        assert not item.spdx_expressions
 
 
 class TestReuseTOMLValidators:
@@ -334,14 +337,19 @@ class TestReuseTOMLReuseInfoOf:
     """Test the reuse_info_of method of ReuseTOML."""
 
     def test_simple(self, annotations_item):
+        """Simple test."""
         reuse_toml = ReuseTOML("REUSE.toml", 1, [annotations_item])
-        assert reuse_toml.reuse_info_of("foo.py") == ReuseInfo(
-            spdx_expressions={_LICENSING.parse("MIT")},
-            copyright_lines={"2023 Jane Doe"},
-            path="foo.py",
-            source_path="REUSE.toml",
-            source_type=SourceType.REUSE_TOML,
-        )
+        assert reuse_toml.reuse_info_of("foo.py") == {
+            GlobalPrecedence.TOML: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("MIT")},
+                    copyright_lines={"2023 Jane Doe"},
+                    path="foo.py",
+                    source_path="REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                )
+            ]
+        }
 
     def test_latest_annotations_item(self, annotations_item):
         """If two items match, use exclusively the latest."""
@@ -358,13 +366,17 @@ class TestReuseTOMLReuseInfoOf:
                 ),
             ],
         )
-        assert reuse_toml.reuse_info_of("foo.py") == ReuseInfo(
-            spdx_expressions={_LICENSING.parse("0BSD")},
-            copyright_lines={"2023 John Doe"},
-            path="foo.py",
-            source_path="REUSE.toml",
-            source_type=SourceType.REUSE_TOML,
-        )
+        assert reuse_toml.reuse_info_of("foo.py") == {
+            GlobalPrecedence.TOML: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("0BSD")},
+                    copyright_lines={"2023 John Doe"},
+                    path="foo.py",
+                    source_path="REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                )
+            ]
+        }
 
     def test_glob_all(self):
         """When globbing all, match everything."""
@@ -387,15 +399,15 @@ class TestReuseTOMLReuseInfoOf:
             source_path="REUSE.toml",
             source_type=SourceType.REUSE_TOML,
         )
-        assert reuse_toml.reuse_info_of("foo.py") == expected.copy(
-            path="foo.py"
-        )
-        assert reuse_toml.reuse_info_of("bar.py") == expected.copy(
-            path="bar.py"
-        )
-        assert reuse_toml.reuse_info_of("dir/subdir/foo.py") == expected.copy(
-            path="dir/subdir/foo.py"
-        )
+        assert reuse_toml.reuse_info_of("foo.py") == {
+            GlobalPrecedence.TOML: [expected.copy(path="foo.py")]
+        }
+        assert reuse_toml.reuse_info_of("bar.py") == {
+            GlobalPrecedence.TOML: [expected.copy(path="bar.py")]
+        }
+        assert reuse_toml.reuse_info_of("dir/subdir/foo.py") == {
+            GlobalPrecedence.TOML: [expected.copy(path="dir/subdir/foo.py")]
+        }
 
     def test_glob_py(self):
         """When globbing Python paths, match only .py files."""
@@ -411,14 +423,18 @@ class TestReuseTOMLReuseInfoOf:
                 ),
             ],
         )
-        assert reuse_toml.reuse_info_of("dir/foo.py") == ReuseInfo(
-            spdx_expressions={_LICENSING.parse("MIT")},
-            copyright_lines={"2023 Jane Doe"},
-            path="dir/foo.py",
-            source_path="REUSE.toml",
-            source_type=SourceType.REUSE_TOML,
-        )
-        assert reuse_toml.reuse_info_of("foo.c") == ReuseInfo()
+        assert reuse_toml.reuse_info_of("dir/foo.py") == {
+            GlobalPrecedence.TOML: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("MIT")},
+                    copyright_lines={"2023 Jane Doe"},
+                    path="dir/foo.py",
+                    source_path="REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                )
+            ]
+        }
+        assert not reuse_toml.reuse_info_of("foo.c")
 
 
 class TestReuseTOMLFromFile:
@@ -443,6 +459,378 @@ class TestReuseTOMLFromFile:
         assert result.version == 1
         assert result.source == "REUSE.toml"
         assert result.annotations[0] == annotations_item
+
+
+class TestReuseTOMLDirectory:
+    """Test the directory property of ReuseTOML."""
+
+    def test_no_parent(self):
+        """Test what happens if the source has no obvious parent."""
+        toml = ReuseTOML(source="REUSE.toml", version=1, annotations=[])
+        assert toml.directory == Path(".")
+
+    def test_nested(self):
+        """Correctly identify the directory of a nested file."""
+        toml = ReuseTOML(source="src/REUSE.toml", version=1, annotations=[])
+        assert toml.directory == Path("src")
+
+
+class TestNestedReuseTOMLFromFile:
+    """Tests for NestedReuseTOML.from_file."""
+
+    def test_simple(self, fake_repository_reuse_toml):
+        """Find a single REUSE.toml."""
+        result = NestedReuseTOML.from_file(fake_repository_reuse_toml)
+        path = fake_repository_reuse_toml / "REUSE.toml"
+        assert result.reuse_tomls == [ReuseTOML.from_file(path)]
+
+    def test_one_deep(self, empty_directory):
+        """Find a single REUSE.toml deeper in the directory tree."""
+        (empty_directory / "src").mkdir()
+        path = empty_directory / "src/REUSE.toml"
+        path.write_text("version = 1")
+        result = NestedReuseTOML.from_file(empty_directory)
+        assert result.reuse_tomls == [ReuseTOML.from_file(path)]
+
+    def test_multiple(self, fake_repository_reuse_toml):
+        """Find multiple REUSE.tomls."""
+        (fake_repository_reuse_toml / "src/REUSE.toml").write_text(
+            "version = 1"
+        )
+        result = NestedReuseTOML.from_file(fake_repository_reuse_toml)
+        assert len(result.reuse_tomls) == 2
+        assert (
+            ReuseTOML.from_file(fake_repository_reuse_toml / "src/REUSE.toml")
+        ) in result.reuse_tomls
+        assert (
+            ReuseTOML.from_file(fake_repository_reuse_toml / "REUSE.toml")
+            in result.reuse_tomls
+        )
+
+
+class TestNestedReuseTOMLFindReuseTomls:
+    """Tests for NestedReuseTOML.find_reuse_tomls."""
+
+    def test_simple(self, fake_repository_reuse_toml):
+        """Find a single REUSE.toml."""
+        result = NestedReuseTOML.find_reuse_tomls(fake_repository_reuse_toml)
+        assert list(result) == [fake_repository_reuse_toml / "REUSE.toml"]
+
+    def test_one_deep(self, empty_directory):
+        """Find a single REUSE.toml deeper in the directory tree."""
+        (empty_directory / "src").mkdir()
+        path = empty_directory / "src/REUSE.toml"
+        path.touch()
+        result = NestedReuseTOML.find_reuse_tomls(empty_directory)
+        assert list(result) == [path]
+
+    def test_multiple(self, fake_repository_reuse_toml):
+        """Find multiple REUSE.tomls."""
+        (fake_repository_reuse_toml / "src/REUSE.toml").touch()
+        result = NestedReuseTOML.find_reuse_tomls(fake_repository_reuse_toml)
+        assert set(result) == {
+            fake_repository_reuse_toml / "REUSE.toml",
+            fake_repository_reuse_toml / "src/REUSE.toml",
+        }
+
+
+class TestNestedReuseTOMLReuseInfoOf:
+    """Tests for NestedReuseTOML.reuse_info_of."""
+
+    def test_simple(self, annotations_item):
+        """Simple case."""
+        reuse_toml = ReuseTOML("REUSE.toml", 1, [annotations_item])
+        nested_reuse_toml = NestedReuseTOML(".", [reuse_toml])
+        assert nested_reuse_toml.reuse_info_of("foo.py") == {
+            GlobalPrecedence.TOML: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("MIT")},
+                    copyright_lines={"2023 Jane Doe"},
+                    path="foo.py",
+                    source_path="REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                )
+            ]
+        }
+        assert not nested_reuse_toml.reuse_info_of("bar.py")
+
+    def test_no_tomls(self):
+        """Don't break when there are no nested ReuseTOMLs."""
+        nested_reuse_toml = NestedReuseTOML(".", [])
+        assert not nested_reuse_toml.reuse_info_of("foo.py")
+
+    def test_skip_outer_closest(self):
+        """If a precedence is set to 'closest', it is ignored unless it is the
+        deepest element.
+        """
+        outer = ReuseTOML(
+            "REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "src/**",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    copyright_lines={"Copyright Jane Doe"},
+                    spdx_expressions={"MIT"},
+                )
+            ],
+        )
+        inner = ReuseTOML(
+            "src/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "foo.py",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    copyright_lines={"Copyright Alice"},
+                    spdx_expressions={"0BSD"},
+                )
+            ],
+        )
+        toml = NestedReuseTOML(".", [outer, inner])
+        assert toml.reuse_info_of("src/foo.py") == {
+            GlobalPrecedence.CLOSEST: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("0BSD")},
+                    copyright_lines={"Copyright Alice"},
+                    path="src/foo.py",
+                    source_path="src/REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                )
+            ]
+        }
+        assert toml.reuse_info_of("src/bar.py") == {
+            GlobalPrecedence.CLOSEST: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("MIT")},
+                    copyright_lines={"Copyright Jane Doe"},
+                    path="src/bar.py",
+                    source_path="REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                )
+            ]
+        }
+
+    def test_aggregate(self):
+        """If a precedence is set to aggregate, aggregate."""
+        outer = ReuseTOML(
+            "REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "src/**",
+                    precedence=GlobalPrecedence.AGGREGATE,
+                    copyright_lines={"Copyright Jane Doe"},
+                    spdx_expressions={"MIT"},
+                )
+            ],
+        )
+        inner = ReuseTOML(
+            "src/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "foo.py",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    copyright_lines={"Copyright Alice"},
+                    spdx_expressions={"0BSD"},
+                )
+            ],
+        )
+        toml = NestedReuseTOML(".", [outer, inner])
+        assert toml.reuse_info_of("src/foo.py") == {
+            GlobalPrecedence.AGGREGATE: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("MIT")},
+                    copyright_lines={"Copyright Jane Doe"},
+                    path="src/foo.py",
+                    source_path="REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                )
+            ],
+            GlobalPrecedence.CLOSEST: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("0BSD")},
+                    copyright_lines={"Copyright Alice"},
+                    path="src/foo.py",
+                    source_path="src/REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                ),
+            ],
+        }
+
+    def test_toml_precedence(self):
+        """If a precedence is set to toml, ignore deeper TOMLs."""
+        outer = ReuseTOML(
+            "REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "src/**",
+                    precedence=GlobalPrecedence.TOML,
+                    copyright_lines={"Copyright Jane Doe"},
+                    spdx_expressions={"MIT"},
+                )
+            ],
+        )
+        inner = ReuseTOML(
+            "src/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "foo.py",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    copyright_lines={"Copyright Alice"},
+                    spdx_expressions={"0BSD"},
+                )
+            ],
+        )
+        toml = NestedReuseTOML(".", [outer, inner])
+        assert toml.reuse_info_of("src/foo.py") == {
+            GlobalPrecedence.TOML: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("MIT")},
+                    copyright_lines={"Copyright Jane Doe"},
+                    path="src/foo.py",
+                    source_path="REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                ),
+            ]
+        }
+
+    def test_toml_and_aggregate(self):
+        """If the top TOML says aggregate and a deeper TOML has precedence toml,
+        aggregate accordingly.
+        """
+        outer = ReuseTOML(
+            "REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "foo/bar/**",
+                    precedence=GlobalPrecedence.AGGREGATE,
+                    copyright_lines={"Copyright Jane Doe"},
+                    spdx_expressions={"MIT"},
+                )
+            ],
+        )
+        mid = ReuseTOML(
+            "foo/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "bar/**",
+                    precedence=GlobalPrecedence.TOML,
+                    copyright_lines={"Copyright Alice"},
+                    spdx_expressions={"0BSD"},
+                )
+            ],
+        )
+        inner = ReuseTOML(
+            "foo/bar/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "foo.py",
+                    precedence=GlobalPrecedence.TOML,
+                    copyright_lines={"Copyright Bob"},
+                    spdx_expressions={"CC0-1.0"},
+                )
+            ],
+        )
+        toml = NestedReuseTOML(".", [outer, mid, inner])
+        assert toml.reuse_info_of("foo/bar/foo.py") == {
+            GlobalPrecedence.AGGREGATE: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("MIT")},
+                    copyright_lines={"Copyright Jane Doe"},
+                    path="foo/bar/foo.py",
+                    source_path="REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                ),
+            ],
+            GlobalPrecedence.TOML: [
+                ReuseInfo(
+                    spdx_expressions={_LICENSING.parse("0BSD")},
+                    copyright_lines={"Copyright Alice"},
+                    path="foo/bar/foo.py",
+                    source_path="foo/REUSE.toml",
+                    source_type=SourceType.REUSE_TOML,
+                ),
+            ],
+        }
+
+    def test_dont_go_up_hierarchy(self):
+        """If a deep REUSE.toml contains instructions for a base file name,
+        don't match against files named as such in parent directories.
+        """
+        deep = ReuseTOML(
+            "src/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "foo.py",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    copyright_lines={"Copyright Alice"},
+                    spdx_expressions={"0BSD"},
+                )
+            ],
+        )
+        toml = NestedReuseTOML(".", [deep])
+        assert toml.reuse_info_of("src/foo.py")
+        assert toml.reuse_info_of("src/bar/foo.py")
+        assert not toml.reuse_info_of("foo.py")
+        assert not toml.reuse_info_of("doc/foo.py")
+
+    def test_dont_go_up_directory(self):
+        """If a deep REUSE.toml contains an instruction for '../foo.py', don't
+        match it against anything.
+        """
+        deep = ReuseTOML(
+            "src/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "../foo.py",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    copyright_lines={"Copyright Alice"},
+                    spdx_expressions={"0BSD"},
+                )
+            ],
+        )
+        toml = NestedReuseTOML(".", [deep])
+        assert not toml.reuse_info_of("src/foo.py")
+        assert not toml.reuse_info_of("foo.py")
+
+    def test_aggregate_incomplete_info(self):
+        """If one REUSE.toml defines the copyright, and a different one contains
+        the licence, then both bits of information should be used.
+        """
+        outer = ReuseTOML(
+            "REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "src/foo.txt",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    spdx_expressions={"MIT"},
+                )
+            ],
+        )
+        inner = ReuseTOML(
+            "src/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "foo.txt",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    copyright_lines={"Copyright Jane Doe"},
+                )
+            ],
+        )
+        toml = NestedReuseTOML(".", [outer, inner])
+        infos = toml.reuse_info_of("src/foo.txt")[GlobalPrecedence.CLOSEST]
+        assert len(infos) == 2
 
 
 class TestReuseDep5FromFile:
@@ -497,7 +885,10 @@ class TestReuseDep5FromFile:
 
 def test_reuse_dep5_reuse_info_of(reuse_dep5):
     """Verify that the glob in the dep5 file is matched."""
-    result = reuse_dep5.reuse_info_of("doc/foo.rst")
+    infos = reuse_dep5.reuse_info_of("doc/foo.rst")
+    assert len(infos) == 1
+    assert len(infos[GlobalPrecedence.AGGREGATE]) == 1
+    result = infos[GlobalPrecedence.AGGREGATE][0]
     assert LicenseSymbol("CC0-1.0") in result.spdx_expressions
     assert "2017 Jane Doe" in result.copyright_lines
 

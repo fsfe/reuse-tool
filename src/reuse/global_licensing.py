@@ -6,10 +6,12 @@
 
 # mypy: disable-error-code=attr-defined
 
+import contextlib
 import fnmatch
 import logging
 import re
 from abc import ABC, abstractmethod
+from collections import defaultdict
 from enum import Enum
 from gettext import gettext as _
 from pathlib import Path, PurePath
@@ -18,9 +20,11 @@ from typing import (
     Callable,
     Collection,
     Dict,
+    Generator,
     List,
     Optional,
     Set,
+    Tuple,
     Type,
     TypeVar,
     Union,
@@ -243,8 +247,15 @@ class GlobalLicensing(ABC):
         """
 
     @abstractmethod
-    def reuse_info_of(self, path: StrPath) -> ReuseInfo:
-        """Find the reuse information of *path* defined in the configuration."""
+    def reuse_info_of(
+        self, path: StrPath
+    ) -> Dict[GlobalPrecedence, List[ReuseInfo]]:
+        """Find the REUSE information of *path* defined in the configuration.
+        The path must be relative to the root of a
+        :class:`reuse.project.Project`.
+
+        The key indicates the precedence type for the subsequent information.
+        """
 
 
 @attrs.define
@@ -267,26 +278,33 @@ class ReuseDep5(GlobalLicensing):
         except (DebianError, ValueError) as error:
             raise GlobalLicensingParseError(str(error)) from error
 
-    def reuse_info_of(self, path: StrPath) -> ReuseInfo:
+    def reuse_info_of(
+        self, path: StrPath
+    ) -> Dict[GlobalPrecedence, List[ReuseInfo]]:
         path = PurePath(path).as_posix()
         result = self.dep5_copyright.find_files_paragraph(path)
 
         if result is None:
-            return ReuseInfo()
+            return {}
 
-        return ReuseInfo(
-            spdx_expressions=set(
-                map(_LICENSING.parse, [result.license.synopsis])  # type: ignore
-            ),
-            copyright_lines=set(
-                map(str.strip, result.copyright.splitlines())  # type: ignore
-            ),
-            path=path,
-            source_type=SourceType.DEP5,
-            # This is hardcoded. It must be a relative path from the project
-            # root. self.source is not (guaranteed) a relative path.
-            source_path=".reuse/dep5",
-        )
+        return {
+            GlobalPrecedence.AGGREGATE: [
+                ReuseInfo(
+                    spdx_expressions=set(
+                        map(_LICENSING.parse, [result.license.synopsis])
+                    ),
+                    copyright_lines=set(
+                        map(str.strip, result.copyright.splitlines())
+                    ),
+                    path=path,
+                    source_type=SourceType.DEP5,
+                    # This is hardcoded. It must be a relative path from the
+                    # project root. self.source is not (guaranteed) a relative
+                    # path.
+                    source_path=".reuse/dep5",
+                )
+            ]
+        }
 
 
 @attrs.define
@@ -323,13 +341,6 @@ class AnnotationsItem:
     _paths_regex: re.Pattern = attrs.field(init=False)
 
     def __attrs_post_init__(self) -> None:
-        if not self.copyright_lines and not self.spdx_expressions:
-            raise GlobalLicensingParseValueError(
-                _(
-                    "At least one of SPDX-FileCopyrightText or"
-                    " SPDX-License-Identifier must be defined and non-empty."
-                )
-            )
         self._paths_regex = re.compile(
             "|".join(fnmatch.translate(path) for path in self.paths)
         )
@@ -410,15 +421,131 @@ class ReuseTOML(GlobalLicensing):
                 return item
         return None
 
-    def reuse_info_of(self, path: StrPath) -> ReuseInfo:
-        path = str(path)
+    def reuse_info_of(
+        self, path: StrPath
+    ) -> Dict[GlobalPrecedence, List[ReuseInfo]]:
+        path = PurePath(path).as_posix()
         item = self.find_annotations_item(path)
         if item:
-            return ReuseInfo(
-                spdx_expressions=item.spdx_expressions,
-                copyright_lines=item.copyright_lines,
-                path=path,
-                source_path="REUSE.toml",
-                source_type=SourceType.REUSE_TOML,
+            return {
+                item.precedence: [
+                    ReuseInfo(
+                        spdx_expressions=item.spdx_expressions,
+                        copyright_lines=item.copyright_lines,
+                        path=path,
+                        source_path="REUSE.toml",
+                        source_type=SourceType.REUSE_TOML,
+                    )
+                ]
+            }
+        return {}
+
+    @property
+    def directory(self) -> PurePath:
+        """The directory in which the REUSE.toml file is located."""
+        return PurePath(self.source).parent
+
+
+@attrs.define
+class NestedReuseTOML(GlobalLicensing):
+    """A class that represents a hierarchy of :class:`ReuseTOML` objects."""
+
+    reuse_tomls: List[ReuseTOML] = attrs.field()
+
+    @classmethod
+    def from_file(cls, path: StrPath) -> "GlobalLicensing":
+        """TODO: *path* is a directory instead of a file."""
+        tomls = [
+            ReuseTOML.from_file(toml_path)
+            for toml_path in cls.find_reuse_tomls(path)
+        ]
+        return cls(reuse_tomls=tomls, source=str(path))
+
+    def reuse_info_of(
+        self, path: StrPath
+    ) -> Dict[GlobalPrecedence, List[ReuseInfo]]:
+        path = PurePath(path)
+
+        toml_items: List[
+            Tuple[ReuseTOML, AnnotationsItem]
+        ] = self._find_relevant_tomls_and_items(path)
+
+        result = defaultdict(list)
+        for keyval in toml_items:
+            toml = keyval[0]
+            item = keyval[1]
+            relpath = (PurePath(self.source) / path).relative_to(toml.directory)
+            # I'm pretty sure there should be no KeyError here.
+            info = toml.reuse_info_of(relpath)[item.precedence][0]
+            result[item.precedence].append(
+                # Fix the paths to be relative to self.source. As-is, they
+                # were relative to the directory of the respective
+                # REUSE.toml.
+                info.copy(
+                    path=path.as_posix(),
+                    source_path=PurePath(toml.source)
+                    .relative_to(self.source)
+                    .as_posix(),
+                )
             )
-        return ReuseInfo()
+            if item.precedence == GlobalPrecedence.TOML:
+                # No more!
+                break
+
+        # Clean up CLOSEST. Some items were added that are not the closest.
+        # Consider copyright and licensing separately.
+        copyright_found = False
+        licence_found = False
+        to_keep: List[ReuseInfo] = []
+        for info in reversed(result[GlobalPrecedence.CLOSEST]):
+            new_info = info.copy(copyright_lines=set(), spdx_expressions=set())
+            if not copyright_found and info.copyright_lines:
+                new_info = new_info.copy(copyright_lines=info.copyright_lines)
+                copyright_found = True
+            if not licence_found and info.spdx_expressions:
+                new_info = new_info.copy(spdx_expressions=info.spdx_expressions)
+                licence_found = True
+            if new_info.contains_copyright_or_licensing():
+                to_keep.append(new_info)
+        result[GlobalPrecedence.CLOSEST] = list(reversed(to_keep))
+        # Looping over CLOSEST created it in the defaultdict. Remove it if it's
+        # empty.
+        if not result[GlobalPrecedence.CLOSEST]:
+            del result[GlobalPrecedence.CLOSEST]
+
+        return dict(result)
+
+    @classmethod
+    def find_reuse_tomls(cls, path: StrPath) -> Generator[Path, None, None]:
+        """Find all REUSE.toml files in *path*."""
+        return Path(path).rglob("**/REUSE.toml")
+
+    def _find_relevant_tomls(self, path: StrPath) -> List[ReuseTOML]:
+        found = []
+        for toml in self.reuse_tomls:
+            # TODO: When Python 3.8 is dropped, use is_relative_to instead.
+            with contextlib.suppress(ValueError):
+                PurePath(path).relative_to(toml.directory)
+                # No error.
+                found.append(toml)
+        # Sort from topmost to deepest directory.
+        found.sort(key=lambda toml: toml.directory.parts)
+        return found
+
+    def _find_relevant_tomls_and_items(
+        self, path: StrPath
+    ) -> List[Tuple[ReuseTOML, AnnotationsItem]]:
+        # *path* is relative to the Project root, which is the *source* of
+        # NestedReuseTOML, which itself is a relative (to CWD) or absolute
+        # path.
+        path = PurePath(path)
+        adjusted_path = PurePath(self.source) / path
+
+        tomls = self._find_relevant_tomls(adjusted_path)
+        toml_items: List[Tuple[ReuseTOML, AnnotationsItem]] = []
+        for toml in tomls:
+            relpath = adjusted_path.relative_to(toml.directory)
+            item = toml.find_annotations_item(relpath)
+            if item is not None:
+                toml_items.append((toml, item))
+        return toml_items

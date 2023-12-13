@@ -10,6 +10,7 @@
 import os
 import re
 import warnings
+from inspect import cleandoc
 from textwrap import dedent
 
 from conftest import cpython, posix
@@ -436,6 +437,36 @@ def test_generate_project_report_to_dict_lint(fake_repository, multiprocessing):
 
     # Check if the rest of the keys are sorted alphabetically
     assert list(result.keys())[3:-1] == sorted(list(result.keys())[3:-1])
+
+
+def test_generate_project_partial_info_in_toml(
+    empty_directory, multiprocessing
+):
+    """Some information is in REUSE.toml, and some is inside of the file."""
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            precedence = "closest"
+            SPDX-FileCopyrightText = "Jane Doe"
+            # This is ignored because it's in the file!
+            SPDX-License-Identifier = "MIT"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text("# SPDX-License-Identifier: 0BSD")
+    project = Project.from_directory(empty_directory)
+    report = ProjectReport.generate(project, multiprocessing=multiprocessing)
+    file_report = next(
+        report for report in report.file_reports if report.path.name == "foo.py"
+    )
+    infos = file_report.reuse_infos
+    assert len(infos) == 2
+    assert file_report.copyright == "Jane Doe"
+    assert file_report.licenses_in_file == ["0BSD"]
 
 
 def test_bill_of_materials(fake_repository, multiprocessing):

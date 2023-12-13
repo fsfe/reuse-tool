@@ -17,11 +17,12 @@ import pytest
 from conftest import RESOURCES_DIRECTORY, posix
 from license_expression import LicenseSymbol
 
-from reuse import SourceType
+from reuse import ReuseInfo, SourceType
+from reuse._util import _LICENSING
 from reuse.global_licensing import (
     GlobalLicensingParseError,
+    NestedReuseTOML,
     ReuseDep5,
-    ReuseTOML,
 )
 from reuse.project import GlobalLicensingConflict, Project
 
@@ -517,6 +518,141 @@ def test_reuse_info_of_aggregate_precedence(empty_directory):
             assert False
 
 
+def test_reuse_info_of_aggregate_and_closest(empty_directory):
+    """A rather tricky case. Top-level REUSE.toml says aggregate. Nearest
+    REUSE.toml says closest. The top-level REUSE.toml info should now be
+    aggregated with the file contents IF they exist. Else, aggregate with the
+    nearest REUSE.toml info.
+    """
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "src/foo.py"
+            precedence = "aggregate"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "src").mkdir()
+    (empty_directory / "src/REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            precedence = "closest"
+            SPDX-FileCopyrightText = "2017 John Doe"
+            SPDX-License-Identifier = "MIT"
+            """
+        )
+    )
+    (empty_directory / "src/foo.py").touch()
+    project = Project.from_directory(empty_directory)
+    assert project.reuse_info_of("src/foo.py") == [
+        ReuseInfo(
+            spdx_expressions={_LICENSING.parse("CC0-1.0")},
+            copyright_lines={"2017 Jane Doe"},
+            path="src/foo.py",
+            source_path="REUSE.toml",
+            source_type=SourceType.REUSE_TOML,
+        ),
+        ReuseInfo(
+            spdx_expressions={_LICENSING.parse("MIT")},
+            copyright_lines={"2017 John Doe"},
+            path="src/foo.py",
+            source_path="src/REUSE.toml",
+            source_type=SourceType.REUSE_TOML,
+        ),
+    ]
+
+    # Populate the file.
+    (empty_directory / "src/foo.py").write_text(
+        cleandoc(
+            """
+            # Copyright Example
+            # SPDX-License-Identifier: 0BSD
+            """
+        )
+    )
+    assert project.reuse_info_of("src/foo.py") == [
+        ReuseInfo(
+            spdx_expressions={_LICENSING.parse("CC0-1.0")},
+            copyright_lines={"2017 Jane Doe"},
+            path="src/foo.py",
+            source_path="REUSE.toml",
+            source_type=SourceType.REUSE_TOML,
+        ),
+        ReuseInfo(
+            spdx_expressions={_LICENSING.parse("0BSD")},
+            copyright_lines={"Copyright Example"},
+            path="src/foo.py",
+            source_path="src/foo.py",
+            source_type=SourceType.FILE_HEADER,
+        ),
+    ]
+
+
+def test_reuse_info_of_copyright_xor_licensing(empty_directory):
+    """Test a corner case where partial REUSE information is defined inside of a
+    file (copyright xor licensing). Get the missing information from the
+    REUSE.toml.
+    """
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+
+            [[annotations]]
+            path = "bar.py"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text(
+        cleandoc(
+            """
+            SPDX-License-Identifier: MIT
+            """
+        )
+    )
+    (empty_directory / "bar.py").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2017 John Doe
+            """
+        )
+    )
+    project = Project.from_directory(empty_directory)
+
+    foo_infos = project.reuse_info_of("foo.py")
+    assert len(foo_infos) == 2
+    foo_toml_info = [info for info in foo_infos if info.copyright_lines][0]
+    assert foo_toml_info.source_type == SourceType.REUSE_TOML
+    assert not foo_toml_info.spdx_expressions
+    foo_file_info = [info for info in foo_infos if info.spdx_expressions][0]
+    assert foo_file_info.source_type == SourceType.FILE_HEADER
+    assert not foo_file_info.copyright_lines
+
+    bar_infos = project.reuse_info_of("bar.py")
+    assert len(bar_infos) == 2
+    bar_toml_info = [info for info in bar_infos if info.spdx_expressions][0]
+    assert bar_toml_info.source_type == SourceType.REUSE_TOML
+    assert not bar_toml_info.copyright_lines
+    bar_file_info = [info for info in bar_infos if info.copyright_lines][0]
+    assert bar_file_info.source_type == SourceType.FILE_HEADER
+    assert not bar_file_info.spdx_expressions
+
+
 def test_reuse_info_of_no_duplicates(empty_directory):
     """A file contains the same lines twice. The ReuseInfo only contains those
     lines once.
@@ -633,8 +769,8 @@ def test_find_global_licensing_dep5(fake_repository_dep5):
 def test_find_global_licensing_reuse_toml(fake_repository_reuse_toml):
     """Find the REUSE.toml file."""
     result = Project.find_global_licensing(fake_repository_reuse_toml)
-    assert result.path == fake_repository_reuse_toml / "REUSE.toml"
-    assert result.cls == ReuseTOML
+    assert result.path == fake_repository_reuse_toml / "."
+    assert result.cls == NestedReuseTOML
 
 
 def test_find_global_licensing_none(empty_directory):
