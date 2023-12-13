@@ -158,6 +158,10 @@ class ReuseInfo:
         """Either *spdx_expressions* or *copyright_lines* is non-empty."""
         return bool(self.spdx_expressions or self.copyright_lines)
 
+    def contains_copyright_xor_licensing(self) -> bool:
+        """One of *spdx_expressions* or *copyright_lines* is non-empty."""
+        return bool(self.spdx_expressions) ^ bool(self.copyright_lines)
+
     def contains_info(self) -> bool:
         """Any field except *path*, *source_path* and *source_type* is
         non-empty.
