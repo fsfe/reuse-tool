@@ -210,6 +210,105 @@ class TestAnnotationsItemFromDict:
         assert not item.spdx_expressions
 
 
+class TestAnnotationsItemMatches:
+    """Test AnnotationsItem's matches method."""
+
+    def test_simple(self):
+        """Simple case."""
+        item = AnnotationsItem(
+            paths=["foo.py"],
+            precedence="toml",
+            copyright_lines=["Jane Doe"],
+            spdx_expressions=["MIT"],
+        )
+        assert item.matches("foo.py")
+        assert item.matches("src/foo.py")
+        assert not item.matches("bar.py")
+
+    def test_in_directory(self):
+        """Correctly handle pathname separators. Looking at you, Windows."""
+        item = AnnotationsItem(
+            paths=["src/foo.py"],
+            precedence="toml",
+            copyright_lines=["Jane Doe"],
+            spdx_expressions=["MIT"],
+        )
+        assert item.matches("src/foo.py")
+        assert not item.matches("foo.py")
+
+    def test_all_py(self):
+        """Correctly find all Python files."""
+        item = AnnotationsItem(
+            paths=["**/*.py"],
+            precedence="toml",
+            copyright_lines=["Jane Doe"],
+            spdx_expressions=["MIT"],
+        )
+        assert item.matches("foo.py")
+        assert item.matches(".foo.py")
+        assert item.matches("src/foo.py")
+        assert not item.matches("src/foo.js")
+
+    def test_all_py_alternate(self):
+        """Another way to correctly find all Python files using a bare '*.py'
+        instead of the more formal '**/*.py' mechanism.
+        """
+        item = AnnotationsItem(
+            paths=["*.py"],
+            precedence="toml",
+            copyright_lines=["Jane Doe"],
+            spdx_expressions=["MIT"],
+        )
+        assert item.matches("foo.py")
+        assert item.matches(".foo.py")
+        assert item.matches("src/foo.py")
+        assert not item.matches("src/foo.js")
+
+    def test_only_in_dir(self):
+        """Only find files in a certain directory."""
+        item = AnnotationsItem(
+            paths=["src/*.py"],
+            precedence="toml",
+            copyright_lines=["Jane Doe"],
+            spdx_expressions=["MIT"],
+        )
+        assert not item.matches("foo.py")
+        assert item.matches("src/foo.py")
+        # This very specific test is the reason we use wcmatch instead of
+        # fnmatch. To match deeper files with 'src/*.py' would be rather weird.
+        # This complicates the spec a little, but I think it's worth the
+        # precision. One of REUSE's goals is to be unambiguous after all.
+        assert not item.matches("src/other/foo.py")
+
+    def test_multiple_paths(self):
+        """Match one of multiple files."""
+        item = AnnotationsItem(
+            paths=["*.py", "*.js", "README"],
+            precedence="toml",
+            copyright_lines=["Jane Doe"],
+            spdx_expressions=["MIT"],
+        )
+        assert item.matches("foo.py")
+        assert item.matches(".foo.py")
+        assert item.matches("foo.js")
+        assert item.matches("README")
+        assert item.matches("README.py")
+        assert not item.matches("README.md")
+
+    def test_match_all(self):
+        """Match everything."""
+        item = AnnotationsItem(
+            paths=["*"],
+            precedence="toml",
+            copyright_lines=["Jane Doe"],
+            spdx_expressions=["MIT"],
+        )
+        assert item.matches("foo.py")
+        assert item.matches("src/foo.py")
+        assert item.matches(".gitignore")
+        assert item.matches(".foo/bar")
+
+
 class TestReuseTOMLValidators:
     """Test the validators of ReuseTOML."""
 

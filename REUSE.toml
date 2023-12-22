@@ -32,13 +32,13 @@ SPDX-FileCopyrightText = "2023 Free Software Foundation Europe e.V. <https://fsf
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 [[annotations]]
-path = "tests/resources/*"
+path = "tests/resources/**"
 precedence = "toml"
 SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
 [[annotations]]
-path = "src/reuse.egg-info/*"
+path = "src/reuse.egg-info/**"
 precedence = "toml"
 SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
