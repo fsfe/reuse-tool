@@ -160,6 +160,18 @@ files = [
 ]
 
 [[package]]
+name = "bracex"
+version = "2.4"
+description = "Bash style brace expander."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "bracex-2.4-py3-none-any.whl", hash = "sha256:efdc71eff95eaff5e0f8cfebe7d01adf2c8637c8c92edaf63ef348c241a82418"},
+    {file = "bracex-2.4.tar.gz", hash = "sha256:a27eaf1df42cf561fed58b7a8f3fdf129d1ea16a81e1fadd1d17989bc6384beb"},
+]
+
+[[package]]
 name = "bump2version"
 version = "1.0.1"
 description = "Version-bump your software with a single command!"
@@ -1688,6 +1700,21 @@ docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.2)", "sphinx-
 test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7)", "packaging (>=23.1)", "pytest (>=7.4)", "pytest-env (>=0.8.2)", "pytest-freezer (>=0.4.8)", "pytest-mock (>=3.11.1)", "pytest-randomly (>=3.12)", "pytest-timeout (>=2.1)", "setuptools (>=68)", "time-machine (>=2.10)"]
 
 [[package]]
+name = "wcmatch"
+version = "8.5"
+description = "Wildcard/glob file name matcher."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "wcmatch-8.5-py3-none-any.whl", hash = "sha256:14554e409b142edeefab901dc68ad570b30a72a8ab9a79106c5d5e9a6d241bd5"},
+    {file = "wcmatch-8.5.tar.gz", hash = "sha256:86c17572d0f75cbf3bcb1a18f3bf2f9e72b39a9c08c9b4a74e991e1882a8efb3"},
+]
+
+[package.dependencies]
+bracex = ">=2.1.1"
+
+[[package]]
 name = "wrapt"
 version = "1.16.0"
 description = "Module for decorators, wrappers and monkey patching."
@@ -1786,4 +1813,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "14afcd527294b07fbd81afaf116f29d01302505bd129db26c8a675261bcc1bbc"
+content-hash = "45c59a541ffd1938b7b80dc1853ba97c22ed8b6b556e8074f8506fc89134bcce"

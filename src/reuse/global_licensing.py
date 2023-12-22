@@ -7,7 +7,6 @@
 # mypy: disable-error-code=attr-defined
 
 import contextlib
-import fnmatch
 import logging
 import re
 from abc import ABC, abstractmethod
@@ -34,6 +33,7 @@ from typing import (
 
 import attrs
 import tomlkit
+import wcmatch.glob as wcglob
 from attr.validators import _InstanceOfValidator as _AttrInstanceOfValidator
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
@@ -342,7 +342,15 @@ class AnnotationsItem:
 
     def __attrs_post_init__(self) -> None:
         self._paths_regex = re.compile(
-            "|".join(fnmatch.translate(path) for path in self.paths)
+            "|".join(
+                wcglob.translate(  # type: ignore
+                    self.paths,
+                    flags=wcglob.DOTGLOB  # Match '.foo.py' on '*.py'.
+                    | wcglob.FORCEUNIX  # Use Unix file paths.
+                    | wcglob.GLOBSTAR  # Use '**' feature.
+                    | wcglob.MATCHBASE,  # 'foo.py' matches 'src/foo.py'.
+                )[0]
+            )
         )
 
     @classmethod
