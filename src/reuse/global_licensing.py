@@ -325,7 +325,7 @@ class AnnotationsItem:
         validator=_validate_collection_of(set, str, optional=False),
     )
     precedence: GlobalPrecedence = attrs.field(
-        converter=_str_to_global_precedence
+        converter=_str_to_global_precedence, default=GlobalPrecedence.CLOSEST
     )
     copyright_lines: Set[str] = attrs.field(
         converter=_str_to_set,
@@ -360,7 +360,9 @@ class AnnotationsItem:
         """
         new_dict = {}
         new_dict["paths"] = values.get(cls.TOML_KEYS["paths"])
-        new_dict["precedence"] = values.get(cls.TOML_KEYS["precedence"])
+        precedence = values.get(cls.TOML_KEYS["precedence"])
+        if precedence is not None:
+            new_dict["precedence"] = precedence
         new_dict["copyright_lines"] = values.get(
             cls.TOML_KEYS["copyright_lines"]
         )
