@@ -52,6 +52,15 @@ class TestAnnotationsItemValidators:
         assert item.copyright_lines == {"2023 Jane Doe"}
         assert item.spdx_expressions == {_LICENSING.parse("MIT")}
 
+    def test_precedence_defaults_to_closest(self):
+        """If precedence is NOTHING, default to closest."""
+        item = AnnotationsItem(
+            {"foo.py"},
+            copyright_lines={"2023 Jane Doe"},
+            spdx_expressions={"MIT"},
+        )
+        assert item.precedence == GlobalPrecedence.CLOSEST
+
     def test_from_list(self):
         """Convert lists to sets."""
         item = AnnotationsItem(
@@ -150,6 +159,17 @@ class TestAnnotationsItemFromDict:
         assert item.precedence == GlobalPrecedence.TOML
         assert item.copyright_lines == {"2023 Jane Doe"}
         assert item.spdx_expressions == {_LICENSING.parse("MIT")}
+
+    def test_implicit_precedence(self):
+        """When precedence is not defined, default to closest."""
+        item = AnnotationsItem.from_dict(
+            {
+                "path": {"foo.py"},
+                "SPDX-FileCopyrightText": {"2023 Jane Doe"},
+                "SPDX-License-Identifier": {"MIT"},
+            }
+        )
+        assert item.precedence == GlobalPrecedence.CLOSEST
 
     def test_trigger_validators(self):
         """It's possible to trigger the validators by providing a bad value."""
@@ -558,6 +578,23 @@ class TestReuseTOMLFromFile:
         assert result.version == 1
         assert result.source == "REUSE.toml"
         assert result.annotations[0] == annotations_item
+
+    def test_precedence_implicit(self, empty_directory):
+        """When precedence is not set, default to closest."""
+        (empty_directory / "REUSE.toml").write_text(
+            cleandoc(
+                """
+                version = 1
+
+                [[annotations]]
+                path = "foo.py"
+                SPDX-FileCopyrightText = "2023 Jane Doe"
+                SPDX-License-Identifier = "MIT"
+                """
+            )
+        )
+        result = ReuseTOML.from_file("REUSE.toml")
+        assert result.annotations[0].precedence == GlobalPrecedence.CLOSEST
 
 
 class TestReuseTOMLDirectory:
