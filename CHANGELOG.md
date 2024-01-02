@@ -54,6 +54,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Empty placeholders (`.empty`) (#862)
   - ShellCheck configuration (`.shellcheckrc`) (#862)
   - Pylint in-project configuration (`pylintrc`) (#862)
+  - Lisp schemes (`.sld`, `.sls`, `.sps`) (#875)
 - Display recommendations for steps to fix found issues during a lint. (#698)
 - Add support for Pijul VCS. Pijul support is not added to the Docker image.
   (#858)
