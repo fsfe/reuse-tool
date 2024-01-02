@@ -78,6 +78,8 @@ Contributors
 
 - Anthony Loiseau
 
+- Apteryks
+
 Translators
 -----------
 
