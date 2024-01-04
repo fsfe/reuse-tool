@@ -524,6 +524,15 @@ class XQueryCommentStyle(CommentStyle):
     INDENT_BEFORE_END = " "
 
 
+class CSingleCommentStyle(CommentStyle):
+    """C single-only comment style."""
+
+    SHORTHAND = "csingle"
+
+    SINGLE_LINE = "//"
+    INDENT_AFTER_SINGLE = " "
+
+
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
@@ -600,7 +609,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".graphql": PythonCommentStyle,
     ".groovy": CCommentStyle,
     ".h": CCommentStyle,
-    ".ha": CCommentStyle,
+    ".ha": CSingleCommentStyle,
     ".hbs": HandlebarsCommentStyle,
     ".hcl": PythonCommentStyle,
     ".hh": CCommentStyle,
@@ -712,11 +721,11 @@ EXTENSION_COMMENT_STYLE_MAP = {
     # SuperCollider synth definition (binary)
     ".scsyndef": UncommentableCommentStyle,
     ".sh": PythonCommentStyle,
-    ".sld": LispCommentStyle,   # Scheme Library Definition (R7RS)
-    ".sls": LispCommentStyle,   # Scheme Library Source (R6RS)
+    ".sld": LispCommentStyle,  # Scheme Library Definition (R7RS)
+    ".sls": LispCommentStyle,  # Scheme Library Source (R6RS)
     ".sml": MlCommentStyle,
     ".soy": CCommentStyle,
-    ".sps": LispCommentStyle,   # Scheme Program Source (R6RS)
+    ".sps": LispCommentStyle,  # Scheme Program Source (R6RS)
     ".sql": HaskellCommentStyle,
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
@@ -756,6 +765,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".xsl": HtmlCommentStyle,
     ".yaml": PythonCommentStyle,
     ".yml": PythonCommentStyle,
+    ".zig": CSingleCommentStyle,
     ".zsh": PythonCommentStyle,
 }
 
