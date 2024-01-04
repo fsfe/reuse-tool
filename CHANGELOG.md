@@ -67,6 +67,10 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Changed
 
+- Previously, any file that begins with `COPYING` or `LICENSE` was ignored. This
+  has been changed. Now, files like `COPYING_README` are no longer ignored, but
+  `COPYING` and `COPYING.txt` are still ignored (in other words: exact matches,
+  or `COPYING` + a file extension). Idem ditto for `LICENSE`. (#886)
 - Alpine Docker image now uses 3.18 as base. (#846)
 - The Git submodule detection was made less naïve. Where previously it detected
   a directory with a `.git` file as a submodule, it now uses the git command to
