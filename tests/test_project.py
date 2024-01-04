@@ -101,10 +101,34 @@ def test_all_files_ignore_git(empty_directory):
 def test_all_files_ignore_hg(empty_directory):
     """When the hg directory is present, ignore it."""
     (empty_directory / ".hg").mkdir()
-    (empty_directory / ".hg/config").touch()
+    (empty_directory / ".hg/config").write_text("foo")
 
     project = Project.from_directory(empty_directory)
     assert not list(project.all_files())
+
+
+def test_all_files_ignore_license_copying(empty_directory):
+    """When there are files names LICENSE, LICENSE.ext, COPYING, or COPYING.ext,
+    ignore them.
+    """
+    (empty_directory / "LICENSE").write_text("foo")
+    (empty_directory / "LICENSE.txt").write_text("foo")
+    (empty_directory / "COPYING").write_text("foo")
+    (empty_directory / "COPYING.txt").write_text("foo")
+
+    project = Project.from_directory(empty_directory)
+    assert not list(project.all_files())
+
+
+def test_all_files_not_ignore_license_copying_no_ext(empty_directory):
+    """Do not ignore files that start with LICENSE or COPYING and are followed
+    by some non-extension text.
+    """
+    (empty_directory / "LICENSE_README.md").write_text("foo")
+    (empty_directory / "COPYING2").write_text("foo")
+
+    project = Project.from_directory(empty_directory)
+    assert len(list(project.all_files())) == 2
 
 
 @posix
