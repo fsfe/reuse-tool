@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-28 08:50+0000\n"
-"PO-Revision-Date: 2023-07-20 11:05+0000\n"
-"Last-Translator: nautilusx <translate@disroot.org>\n"
+"PO-Revision-Date: 2024-01-08 20:06+0000\n"
+"Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "de/>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: src/reuse/_main.py:38
 msgid ""
@@ -56,7 +56,7 @@ msgstr "Debug-Statements aktivieren"
 
 #: src/reuse/_main.py:79
 msgid "hide deprecation warnings"
-msgstr ""
+msgstr "„Veraltet“-Warnung verbergen"
 
 #: src/reuse/_main.py:84
 msgid "do not skip over Git submodules"
@@ -88,7 +88,6 @@ msgstr ""
 "schreibe Urheberrechts- und Lizenzinformationen in die Kopfzeilen von Dateien"
 
 #: src/reuse/_main.py:120
-#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -117,27 +116,39 @@ msgid ""
 "If a binary file is detected, or if --force-dot-license is specified, the "
 "header is placed in a .license file."
 msgstr ""
-"Schreibe Urheberrechts- und Lizenzinformationen in die Kopfzeilen von einer "
-"oder mehr Dateien.\n"
+"Hinzufügen von Urheberrechten und Lizenzen in die Kopfzeilen einer oder "
+"mehrerer Dateien.\n"
 "\n"
-"Mit der Benutzung von --copyright und --license können Sie bestimmen, welche "
-"Urheber und Lizenzen Sie in die Kopfzeilen der jeweiligen Dateien "
-"hinzufügen.\n"
+"Durch die Verwendung von --copyright und --license können Sie festlegen, "
+"welche Urheberrechtsinhaber und Lizenzen den Kopfzeilen der angegebenen "
+"Dateien hinzuzufügen werden.\n"
 "\n"
-"Der Kommentarstil wird normalerweise automatisch erkannt. Wenn das nicht der "
-"Fall ist, endet der Vorgang. Benutzen Sie --style um einen Kommentarstil zu "
-"bestimmen oder zu forcieren.\n"
+"Durch die Verwendung von --contributor können Sie Personen oder "
+"Organisationen angeben, die beigetragen haben, aber keine "
+"Urheberrechtsinhaber der angegebenen Dateien sind.\n"
+"Das erste Kommentar wird durch einer neuen Kopfzeile ersetzt, die die neuen "
+"Urheberrechts- und Lizenzierungsinformationen sowie das frühere Urheberrecht "
+"und die Lizenzierung enthält. Wenn Sie das erste Kommentar erhalten möchten, "
+"verwenden Sie --no-replace.\n"
 "\n"
-"Sie können die Vorlage für die Kopfzeilen-Kommentare mit --template ändern. "
-"Erstellen Sie dazu eine Jinja2-Vorlage in .reuse/templates/mytemplate."
-"jinja2. Sie können die Vorlage verwenden mithilfe von '--template "
-"mytemplate'. Mehr Informationen zu dieser Funktion in der Online-"
-"Dokumentation.\n"
+"Der Kommentarstil sollte für Ihre Dateien automatisch erkannt werden. Wenn "
+"ein Kommentastil nicht erkannt werden konnte und --skip-unrecognised nicht "
+"angegeben wurde, wird der Prozess abgebrochen. Verwenden Sie --style, um den "
+"Kommentarstil anzugeben oder zu überschreiben.\n"
 "\n"
-"Wenn eine Binärdatei erkannt wurde, oder wenn --explicit-license verwendet "
-"wurde, werden die Kopfzeilen in einer .license-Datei gespeichert.\n"
+"Ein einzeiliger Kommentarstil wird verwendet, sofern einer verfügbar ist. "
+"Falls kein einzeiliger Kommentarstil verfügbar ist, wird ein mehrzeiliger "
+"Kommentarstil verwendet. Sie können einen bestimmten Kommentarstil mit "
+"--single-line oder --multi-line erzwingen.\n"
 "\n"
-"WICHTIG: Diese Funktion ist momentan EXPERIMENTELL!"
+"Sie können die Schablone der Kopfzeilen-Kommentare ändern, indem Sie --"
+"template verwenden. Speichern Sie eine Jinja2-Schablone in .reuse/templates/"
+"meineschablone.jinja2. Sie können die Schablone verwenden, indem Sie \"--"
+"template meineschablone\" angeben. Lesen Sie die Online-Dokumentation über "
+"die Nutzung dieser Funktion.\n"
+"\n"
+"Wird eine binäre Datei erkannt wird oder --force-dot-license angegeben ist, "
+"werden die Kopfzeilen in eine .license-Datei geschrieben."
 
 #: src/reuse/_main.py:163
 msgid "download a license and place it in the LICENSES/ directory"
@@ -227,7 +238,7 @@ msgstr "Listet alle unterstützten SPDX-Lizenzen auf"
 #: src/reuse/_main.py:295
 #, python-brace-format
 msgid "'{dep5}' could not be decoded as UTF-8."
-msgstr ""
+msgstr "'{dep5}' konnte nicht als UTF-8 decodiert werden."
 
 #: src/reuse/_main.py:302
 #, python-brace-format
@@ -235,10 +246,12 @@ msgid ""
 "'{dep5}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
+"'{dep5}' konnte nicht geparst werden. Wir erhielten folgende Fehlermeldung: "
+"{message}"
 
 #: src/reuse/_util.py:262
 msgid "no '{}' file, or could not read it"
-msgstr ""
+msgstr "Keine datei '{}' oder konnte sie nicht lesen"
 
 #: src/reuse/_util.py:425
 #, python-brace-format
@@ -279,7 +292,7 @@ msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
 
 #: src/reuse/_util.py:634
 msgid "Did you mean:"
-msgstr ""
+msgstr "Meinten Sie:"
 
 #: src/reuse/_util.py:641
 msgid ""
@@ -309,9 +322,9 @@ msgid "Error: {spdx_identifier} already exists."
 msgstr "Fehler: {spdx_identifier} existiert bereits."
 
 #: src/reuse/download.py:155
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error: {path} does not exist."
-msgstr "'{path}' endet nicht mit .spdx"
+msgstr "Fehler: {path} existiert nicht."
 
 #: src/reuse/download.py:158
 msgid "Error: Failed to download license."
@@ -328,7 +341,7 @@ msgstr "{spdx_identifier} erfolgreich heruntergeladen."
 
 #: src/reuse/download.py:180
 msgid "--output has no effect when used together with --all"
-msgstr ""
+msgstr "--output hat keinen Effekt, wenn es zusammen mit --all benutzt wird"
 
 #: src/reuse/download.py:184
 msgid "the following arguments are required: license"
@@ -344,13 +357,12 @@ msgstr ""
 "Dem generierten Kommentar fehlen Zeilen zum Urheberrecht oder Lizenzausdrücke"
 
 #: src/reuse/init.py:30
-#, fuzzy
 msgid ""
 "What license is your project under? Provide the SPDX License Identifier. See "
 "<https://spdx.org/licenses/> for the list."
 msgstr ""
 "Unter welcher Lizenz steht Ihr Projekt? Geben Sie den SPDX-Lizenz-"
-"Identifikator an."
+"Identifikator an. Sehen Sie die Liste auf <https://spdx.org/licenses/>."
 
 #: src/reuse/init.py:35
 msgid ""
@@ -394,7 +406,7 @@ msgstr "Alles erledigt! Initialisiere jetzt."
 
 #: src/reuse/init.py:128
 msgid "Retrieving {}"
-msgstr ""
+msgstr "Empfangen von {}"
 
 #: src/reuse/init.py:133
 msgid "{} already exists"
@@ -410,6 +422,8 @@ msgid ""
 "Error: Could not copy {path}, please add {lic}.txt manually in the LICENCES/ "
 "directory."
 msgstr ""
+"Fehler: Konnte {path} nicht kopieren, bitte fügen Sie {lic}.txt manuell zum "
+"Verzeichnis LICENCES/ hinzu."
 
 #: src/reuse/init.py:149
 msgid "Creating .reuse/dep5"
@@ -421,15 +435,15 @@ msgstr "Initialisierung vollständig."
 
 #: src/reuse/lint.py:29
 msgid "prevents output"
-msgstr ""
+msgstr "Verhindert Ausgabe"
 
 #: src/reuse/lint.py:32
 msgid "formats output as JSON"
-msgstr ""
+msgstr "formatiert Ausgabe als JSON"
 
 #: src/reuse/lint.py:38
 msgid "formats output as plain text"
-msgstr ""
+msgstr "formatiert Ausgabe als rohen Text"
 
 #: src/reuse/lint.py:57
 msgid "BAD LICENSES"
@@ -521,19 +535,16 @@ msgid "Used licenses:"
 msgstr "Verwendete Lizenzen:"
 
 #: src/reuse/lint.py:172
-#, fuzzy
 msgid "Read errors:"
-msgstr "Lesefehler: {count}"
+msgstr "Lesefehler:"
 
 #: src/reuse/lint.py:174
-#, fuzzy
 msgid "files with copyright information:"
-msgstr "Dateien mit Urheberrechtsinformationen: {count} / {total}"
+msgstr "Dateien mit Urheberrechtsinformationen:"
 
 #: src/reuse/lint.py:178
-#, fuzzy
 msgid "files with license information:"
-msgstr "Dateien mit Lizenzinformationen: {count} / {total}"
+msgstr "Dateien mit Lizenzinformationen:"
 
 #: src/reuse/lint.py:195
 msgid ""
@@ -553,7 +564,7 @@ msgstr ""
 
 #: src/reuse/lint.py:209
 msgid "RECOMMENDATIONS"
-msgstr ""
+msgstr "EMPFEHLUNGEN"
 
 #: src/reuse/project.py:234
 #, python-brace-format
@@ -566,6 +577,9 @@ msgid ""
 "'{path}' was detected as a binary file or its extension is marked as "
 "uncommentable; not searching its contents for REUSE information."
 msgstr ""
+"'{path}' wurde als binäre Datei erkannt oder ihre Erweiterung ist als "
+"unkommentierbar gekennzeichnet; suche ihre Inhalte nicht nach REUSE-"
+"Informationen."
 
 #: src/reuse/project.py:281
 #, python-brace-format
@@ -585,6 +599,13 @@ msgid ""
 "github.com/fsfe/reuse-tool/issues/779>. You need do nothing yet. Run with `--"
 "suppress-deprecation` to hide this warning."
 msgstr ""
+"Urheberrechts- und Lizenzinformationen für '{original_path}' wurden sowohl "
+"in '{path}' als auch in der DEP5-Datei unter '{dep5_path}' gefunden. Die "
+"Informationen für diese beiden Quellen wurden zusammengelegt. In Zukunft "
+"wird sich dieses Verhalten ändern, und Sie müssen explizit das Zusammenlegen "
+"aktivieren. Siehe <https://github.com/fsfe/reuse-tool/issues/779>. Sie "
+"müssen noch nichts tun. Ausführen mit `--suppress-deprecation`, um diese "
+"Warnung zu verbergen."
 
 #: src/reuse/project.py:386
 #, python-brace-format
@@ -621,6 +642,8 @@ msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
 msgstr ""
+"Projekt '{}' ist kein VCS-Repository oder die benötigte VCS-Software ist "
+"nicht installiert"
 
 #: src/reuse/report.py:308
 #, python-brace-format
@@ -639,6 +662,11 @@ msgid ""
 "valid SPDX License Identifiers or do not start with 'LicenseRef-'. FAQ about "
 "custom licenses: https://reuse.software/faq/#custom-license"
 msgstr ""
+"Korrektur ungültiger Lizenzen: Mindestens eine Lizenz im LICENSES-"
+"Verzeichnis, und/oder die per 'SPDX-License-Identifier' angegeben wird, ist "
+"ungültig. Sie sind entweder keine gültigen SPDX-Lizenz-Identifikatoren oder "
+"beginnen nicht mit 'LicenseRef-'. FAQ zu benutzerdefinierten Lizenzen: "
+"https://reuse.software/faq/#custom-license"
 
 #: src/reuse/report.py:447
 msgid ""
@@ -648,6 +676,11 @@ msgid ""
 "recommended  new identifiers can be found here: <https://spdx.org/licenses/"
 "#deprecated>"
 msgstr ""
+"Korrektur veralteter Lizenzen: Mindestens eine der Lizenzen im LICENSES-"
+"Verzeichnis und/oder die per 'SPDX-License-Identifier'-Kennzeichnung oder in "
+"'.reuse/dep5' angegeben ist wurde von SPDX als veraltet markiert. Die "
+"aktuelle Liste und ihre jeweiligen empfohlenen neuen Kennungen finden Sie "
+"hier: <https://spdx.org/licenses/#deprecated>"
 
 #: src/reuse/report.py:458
 msgid ""
@@ -655,6 +688,9 @@ msgid ""
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
 "the file(s) accordingly."
 msgstr ""
+"Korrektur von Lizenzen ohne Dateierweiterung: Mindestens eine "
+"Lizenztextdatei im Verzeichnis 'LICENSES' hat keine '.txt'-Dateierweiterung. "
+"Bitte benennen Sie die Datei(en) entsprechend um."
 
 #: src/reuse/report.py:467
 msgid ""
@@ -664,6 +700,12 @@ msgid ""
 "simply run 'reuse download --all' to get any missing ones. For custom "
 "licenses (starting with 'LicenseRef-'), you need to add these files yourself."
 msgstr ""
+"Korrektur fehlender Lizenzen: Für mindestens eine der durch die 'SPDX-"
+"License-Identifier' angegebenen Lizenzkennzeichen gibt es im Verzeichnis "
+"'LICENSES' keine entsprechende Lizenztextdatei. Für SPDX-Lizenz-"
+"Identifikatoren können Sie einfach 'reuse download --all' ausführen, um "
+"fehlende zu erhalten. Für benutzerdefinierte Lizenzen (beginnend mit "
+"'LicenseRef-'), müssen Sie diese Dateien selbst hinzufügen."
 
 #: src/reuse/report.py:479
 msgid ""
@@ -673,6 +715,12 @@ msgid ""
 "delete the unused license text if you are sure that no file or code snippet "
 "is licensed as such."
 msgstr ""
+"Korrektur ungenutzter Lizenzen: Mindestens eine der Lizenztextdateien in "
+"'LICENSES' wird von keiner Datei referenziert, z.B. durch einen 'SPDX-"
+"License-Identifier'-Eintrag. Bitte stellen Sie sicher, dass Sie entweder die "
+"entsprechend lizenzierten Dateien korrekt markieren oder den ungenutzten "
+"Lizenztext löschen, wenn Sie sicher sind, dass keine Datei oder Code-"
+"Schnipsel darunter lizenziert ist."
 
 #: src/reuse/report.py:490
 msgid ""
