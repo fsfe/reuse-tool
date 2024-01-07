@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-28 08:50+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-01-08 20:06+0000\n"
+"Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
+"sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: src/reuse/_main.py:38
 msgid ""
@@ -23,16 +25,21 @@ msgid ""
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
 "for the online documentation."
 msgstr ""
+"reuse är ett verktyg för att följa REUSE-rekommendationerna. Se "
+"<https://reuse.software/> för mer information och <https://reuse.readthedocs."
+"io/> för den web-baserade dokumentationen."
 
 #: src/reuse/_main.py:44
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr ""
+"Den här versionen av reuse är kompatibel med version {} av REUSE-"
+"specifikationen."
 
 #: src/reuse/_main.py:47
 msgid "Support the FSFE's work:"
-msgstr ""
+msgstr "Stötta FSFE's arbete:"
 
 #: src/reuse/_main.py:51
 msgid ""
@@ -40,6 +47,9 @@ msgid ""
 "continue working for Free Software wherever necessary. Please consider "
 "making a donation at <https://fsfe.org/donate/>."
 msgstr ""
+"Donationer är avgörande för vår styrka och självständighet. De gör det "
+"möjligt för oss att jobba för Fri mjukvara där det är nödvändigt. Vänligen "
+"överväg att göra en donation till <https://fsfe.org/donate/>."
 
 #: src/reuse/_main.py:74
 msgid "enable debug statements"
@@ -51,11 +61,11 @@ msgstr ""
 
 #: src/reuse/_main.py:84
 msgid "do not skip over Git submodules"
-msgstr ""
+msgstr "hoppa inte över undermoduler för Git"
 
 #: src/reuse/_main.py:89
 msgid "do not skip over Meson subprojects"
-msgstr ""
+msgstr "hoppa inte över underprojekt för Meson"
 
 #: src/reuse/_main.py:94
 msgid "do not use multiprocessing"
@@ -63,11 +73,11 @@ msgstr ""
 
 #: src/reuse/_main.py:101
 msgid "define root of project"
-msgstr ""
+msgstr "definiera roten av projektet"
 
 #: src/reuse/_main.py:106
 msgid "show program's version number and exit"
-msgstr ""
+msgstr "visa programmets versionsnummer och avsluta"
 
 #: src/reuse/_main.py:110
 msgid "subcommands"
@@ -109,7 +119,7 @@ msgstr ""
 
 #: src/reuse/_main.py:163
 msgid "download a license and place it in the LICENSES/ directory"
-msgstr ""
+msgstr "hämta en licens och placera den i mappen LICENSES/"
 
 #: src/reuse/_main.py:166
 msgid ""
@@ -128,11 +138,11 @@ msgstr ""
 
 #: src/reuse/_main.py:189
 msgid "initialize REUSE project"
-msgstr ""
+msgstr "initialisera REUSE-projektet"
 
 #: src/reuse/_main.py:197
 msgid "list all non-compliant files"
-msgstr ""
+msgstr "lista alla filer som inte uppfyller kraven"
 
 #: src/reuse/_main.py:200
 #, python-brace-format
@@ -161,12 +171,12 @@ msgstr ""
 
 #: src/reuse/_main.py:235
 msgid "list all supported SPDX licenses"
-msgstr ""
+msgstr "lista alla SPDX-licenser som stöds"
 
 #: src/reuse/_main.py:295
 #, python-brace-format
 msgid "'{dep5}' could not be decoded as UTF-8."
-msgstr ""
+msgstr "'{dep5}' kunde inte avkodas som UTF-8."
 
 #: src/reuse/_main.py:302
 #, python-brace-format
@@ -174,43 +184,44 @@ msgid ""
 "'{dep5}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
+"'{dep5}' kunde inte tolkas. Vi tog emot följande felmeddelande: {message}"
 
 #: src/reuse/_util.py:262
 msgid "no '{}' file, or could not read it"
-msgstr ""
+msgstr "ingen '{}'-fil eller kunde inte läsa den"
 
 #: src/reuse/_util.py:425
 #, python-brace-format
 msgid "Could not parse '{expression}'"
-msgstr ""
+msgstr "Kunde inte tolka '{expression}'"
 
 #: src/reuse/_util.py:559
 msgid "'{}' is not a file"
-msgstr ""
+msgstr "'{}' är inte en fil"
 
 #: src/reuse/_util.py:562
 msgid "'{}' is not a directory"
-msgstr ""
+msgstr "'{}' är inte en katalog"
 
 #: src/reuse/_util.py:565
 msgid "can't open '{}'"
-msgstr ""
+msgstr "kan inte öppna '{}'"
 
 #: src/reuse/_util.py:570
 msgid "can't write to directory '{}'"
-msgstr ""
+msgstr "kan inte skriva till katalogen '{}'"
 
 #: src/reuse/_util.py:576
 msgid "can't write to '{}'"
-msgstr ""
+msgstr "kan inte skriva till '{}'"
 
 #: src/reuse/_util.py:589
 msgid "can't read or write '{}'"
-msgstr ""
+msgstr "kan inte läsa eller skriva '{}'"
 
 #: src/reuse/_util.py:599
 msgid "'{}' is not a valid SPDX expression, aborting"
-msgstr ""
+msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
 
 #: src/reuse/_util.py:627
 msgid "'{}' is not a valid SPDX License Identifier."
@@ -218,13 +229,15 @@ msgstr ""
 
 #: src/reuse/_util.py:634
 msgid "Did you mean:"
-msgstr ""
+msgstr "Menade du:"
 
 #: src/reuse/_util.py:641
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
 msgstr ""
+"Se <https://spdx.org/licenses/> för en lista över giltiga SPDX-"
+"licensidentifierare."
 
 #: src/reuse/download.py:122
 msgid "SPDX License Identifier of license"
@@ -232,7 +245,7 @@ msgstr ""
 
 #: src/reuse/download.py:127
 msgid "download all missing licenses detected in the project"
-msgstr ""
+msgstr "ladda ner alla saknade licenser som upptäckts i projektet"
 
 #: src/reuse/download.py:137
 msgid ""
@@ -243,25 +256,25 @@ msgstr ""
 #: src/reuse/download.py:148
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
-msgstr ""
+msgstr "Fel: {spdx_identifier} existerar redan."
 
 #: src/reuse/download.py:155
 #, python-brace-format
 msgid "Error: {path} does not exist."
-msgstr ""
+msgstr "Fel: {path} existerar inte."
 
 #: src/reuse/download.py:158
 msgid "Error: Failed to download license."
-msgstr ""
+msgstr "Fel: Hämtningen av licensen misslyckades."
 
 #: src/reuse/download.py:163
 msgid "Is your internet connection working?"
-msgstr ""
+msgstr "Fungerar din internet-anslutning?"
 
 #: src/reuse/download.py:168
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
-msgstr ""
+msgstr "Hämtningen av {spdx_identifier} lyckades."
 
 #: src/reuse/download.py:180
 msgid "--output has no effect when used together with --all"
@@ -269,11 +282,11 @@ msgstr ""
 
 #: src/reuse/download.py:184
 msgid "the following arguments are required: license"
-msgstr ""
+msgstr "följande argument behövs: licens"
 
 #: src/reuse/download.py:186
 msgid "cannot use --output with more than one license"
-msgstr ""
+msgstr "kan inte använda --output med mer än en licens"
 
 #: src/reuse/header.py:99
 msgid "generated comment is missing copyright lines or license expressions"
