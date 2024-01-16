@@ -340,6 +340,15 @@ class CCommentStyle(CommentStyle):
     ]
 
 
+class CSingleCommentStyle(CommentStyle):
+    """C single-only comment style."""
+
+    SHORTHAND = "csingle"
+
+    SINGLE_LINE = "//"
+    INDENT_AFTER_SINGLE = " "
+
+
 class CssCommentStyle(CommentStyle):
     """CSS comment style."""
 
@@ -551,15 +560,6 @@ class XQueryCommentStyle(CommentStyle):
     INDENT_BEFORE_MIDDLE = " "
     INDENT_AFTER_MIDDLE = " "
     INDENT_BEFORE_END = " "
-
-
-class CSingleCommentStyle(CommentStyle):
-    """C single-only comment style."""
-
-    SHORTHAND = "csingle"
-
-    SINGLE_LINE = "//"
-    INDENT_AFTER_SINGLE = " "
 
 
 #: A map of (common) file extensions against comment types.
