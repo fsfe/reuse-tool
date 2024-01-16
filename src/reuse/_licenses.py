@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # load_license_list was copied and altered from its original location
-# at <https://github.com/spdx/tools-python/blob/master/spdx/config.py>.
+# at <https://github.com/spdx/tools-python/blob/462e986/spdx/config.py>.
 
 """A list with all SPDX licenses."""
 
