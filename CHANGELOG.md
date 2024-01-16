@@ -100,6 +100,11 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Fix issue in `annotate` where `--single-line` and `--multi-line` would not
   correctly raise an error with an incompatible comment style. (#853)
 - Fix parsing existing copyright lines when they do not have a year (#861)
+- Better handling of Lisp comment styles. Now, any number of ";" characters is
+  recognised as the prefix to a Lisp comment, and ";;;" is used when inserting
+  comment headers, as per
+  <https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html>.
+  (#874)
 
 ### Security
 

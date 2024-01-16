@@ -15,6 +15,7 @@
 # SPDX-FileCopyrightText: 2023 Mathias Dannesbo <md@magenta.dk>
 # SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
 # SPDX-FileCopyrightText: 2023 Juelich Supercomputing Centre, Forschungszentrum Juelich GmbH
+# SPDX-FileCopyrightText: 2023 Maxim Cournoyer <maxim.cournoyer@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -24,8 +25,9 @@ headers, in any case.
 
 import logging
 import operator
+import re
 from textwrap import dedent
-from typing import List, NamedTuple, Type
+from typing import List, NamedTuple, Optional, Type
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -53,6 +55,7 @@ class CommentStyle:
 
     SHORTHAND = ""
     SINGLE_LINE = ""
+    SINGLE_LINE_REGEXP: Optional[re.Pattern] = None
     INDENT_AFTER_SINGLE = ""
     # (start, middle, end)
     # e.g., ("/*", "*", "*/")
@@ -157,12 +160,20 @@ class CommentStyle:
         result_lines = []
 
         for line in text.splitlines():
+            # TODO: When Python 3.8 is dropped, consider using str.removeprefix
+            if cls.SINGLE_LINE_REGEXP:
+                if match := cls.SINGLE_LINE_REGEXP.match(line):
+                    line = line.lstrip(match.group(0))
+                    result_lines.append(line)
+                    continue
+
             if not line.startswith(cls.SINGLE_LINE):
                 raise CommentParseError(
                     f"'{line}' does not start with a comment marker"
                 )
             line = line.lstrip(cls.SINGLE_LINE)
             result_lines.append(line)
+
         result = "\n".join(result_lines)
         return dedent(result)
 
@@ -246,23 +257,31 @@ class CommentStyle:
             raise CommentParseError(f"{cls} cannot parse comments")
 
         lines = text.splitlines()
+        end: Optional[int] = None
 
-        if cls.can_handle_single() and text.startswith(cls.SINGLE_LINE):
-            end = 0
+        if cls.can_handle_single():
             for i, line in enumerate(lines):
-                if not line.startswith(cls.SINGLE_LINE):
+                if (
+                    cls.SINGLE_LINE_REGEXP
+                    and cls.SINGLE_LINE_REGEXP.match(line)
+                ) or line.startswith(cls.SINGLE_LINE):
+                    end = i
+                else:
                     break
-                end = i
-            return "\n".join(lines[0 : end + 1])
-        if cls.can_handle_multi() and text.startswith(cls.MULTI_LINE.start):
-            end = 0
+        if (
+            end is None
+            and cls.can_handle_multi()
+            and text.startswith(cls.MULTI_LINE.start)
+        ):
             for i, line in enumerate(lines):
                 end = i
                 if line.endswith(cls.MULTI_LINE.end):
                     break
             else:
                 raise CommentParseError("Comment block never delimits")
-            return "\n".join(lines[0 : end + 1])
+
+        if end is not None:
+            return "\n".join(lines[: end + 1])
 
         raise CommentParseError(
             "Could not find a parseable comment block at the first character"
@@ -319,6 +338,15 @@ class CCommentStyle(CommentStyle):
         "#!",  #  V-Lang
         "<?php",  # PHP
     ]
+
+
+class CSingleCommentStyle(CommentStyle):
+    """C single-only comment style."""
+
+    SHORTHAND = "csingle"
+
+    SINGLE_LINE = "//"
+    INDENT_AFTER_SINGLE = " "
 
 
 class CssCommentStyle(CommentStyle):
@@ -424,7 +452,8 @@ class LispCommentStyle(CommentStyle):
 
     SHORTHAND = "lisp"
 
-    SINGLE_LINE = ";"
+    SINGLE_LINE = ";;;"
+    SINGLE_LINE_REGEXP = re.compile(r"^;+\s*")
     INDENT_AFTER_SINGLE = " "
 
 
@@ -480,6 +509,15 @@ class ReStructedTextCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class SemicolonCommentStyle(CommentStyle):
+    """Semicolon comment style."""
+
+    SHORTHAND = "semicolon"
+
+    SINGLE_LINE = ";"
+    INDENT_AFTER_SINGLE = " "
+
+
 class TexCommentStyle(CommentStyle):
     """TeX comment style."""
 
@@ -524,23 +562,14 @@ class XQueryCommentStyle(CommentStyle):
     INDENT_BEFORE_END = " "
 
 
-class CSingleCommentStyle(CommentStyle):
-    """C single-only comment style."""
-
-    SHORTHAND = "csingle"
-
-    SINGLE_LINE = "//"
-    INDENT_AFTER_SINGLE = " "
-
-
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
     ".adoc": CCommentStyle,
     ".ads": HaskellCommentStyle,
     ".aes": UncommentableCommentStyle,
-    ".ahk": LispCommentStyle,
-    ".ahkl": LispCommentStyle,
+    ".ahk": SemicolonCommentStyle,
+    ".ahkl": SemicolonCommentStyle,
     ".aidl": CCommentStyle,
     ".applescript": AppleScriptCommentStyle,
     ".arb": UncommentableCommentStyle,
@@ -619,7 +648,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".html": HtmlCommentStyle,
     ".hx": CCommentStyle,
     ".hxsl": CCommentStyle,
-    ".ini": LispCommentStyle,
+    ".ini": SemicolonCommentStyle,
     ".ino": CCommentStyle,
     ".ipynb": UncommentableCommentStyle,
     ".iuml": PlantUmlCommentStyle,

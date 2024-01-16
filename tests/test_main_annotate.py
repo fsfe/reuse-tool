@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2023 Maxim Cournoyer <maxim.cournoyer@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -44,6 +45,120 @@ def test_annotate_simple(fake_repository, stringio, mock_date_today):
             "--copyright",
             "Jane Doe",
             "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
+def test_annotate_simple_scheme(fake_repository, stringio, mock_date_today):
+    "Add a header to a Scheme file."
+    simple_file = fake_repository / "foo.scm"
+    simple_file.write_text("#t")
+    expected = cleandoc(
+        """
+        ;;; SPDX-FileCopyrightText: 2018 Jane Doe
+        ;;;
+        ;;; SPDX-License-Identifier: GPL-3.0-or-later
+
+        #t
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "foo.scm",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
+def test_annotate_scheme_standardised(
+    fake_repository, stringio, mock_date_today
+):
+    """The comment block is rewritten/standardised."""
+    simple_file = fake_repository / "foo.scm"
+    simple_file.write_text(
+        cleandoc(
+            """
+            ; SPDX-FileCopyrightText: 2018 Jane Doe
+            ;
+            ; SPDX-License-Identifier: GPL-3.0-or-later
+
+            #t
+            """
+        )
+    )
+    expected = cleandoc(
+        """
+        ;;; SPDX-FileCopyrightText: 2018 Jane Doe
+        ;;;
+        ;;; SPDX-License-Identifier: GPL-3.0-or-later
+
+        #t
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "foo.scm",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
+def test_annotate_scheme_standardised2(
+    fake_repository, stringio, mock_date_today
+):
+    """The comment block is rewritten/standardised."""
+    simple_file = fake_repository / "foo.scm"
+    simple_file.write_text(
+        cleandoc(
+            """
+            ;; SPDX-FileCopyrightText: 2018 Jane Doe
+            ;;
+            ;; SPDX-License-Identifier: GPL-3.0-or-later
+
+            #t
+            """
+        )
+    )
+    expected = cleandoc(
+        """
+        ;;; SPDX-FileCopyrightText: 2018 Jane Doe
+        ;;;
+        ;;; SPDX-License-Identifier: GPL-3.0-or-later
+
+        #t
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            "foo.scm",
         ],
         out=stringio,
     )
