@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-17 11:49+0000\n"
-"PO-Revision-Date: 2023-07-10 21:48+0000\n"
+"PO-Revision-Date: 2024-01-17 12:48+0000\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
-"Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/eo/>\n"
+"Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: src/reuse/_main.py:38
 msgid ""
@@ -67,7 +67,7 @@ msgstr "ne preterpasi Meson-subprojektojn"
 
 #: src/reuse/_main.py:94
 msgid "do not use multiprocessing"
-msgstr "ne uzi plurprocesorado"
+msgstr "ne uzi plurprocesoradon"
 
 #: src/reuse/_main.py:101
 msgid "define root of project"
@@ -83,7 +83,7 @@ msgstr "subkomandoj"
 
 #: src/reuse/_main.py:117
 msgid "add copyright and licensing into the header of files"
-msgstr "aldoni kopirajtahn kaj permesilajn informojn en la kapojn de dosieroj"
+msgstr "aldoni kopirajtajn kaj permesilajn informojn en la kapojn de dosieroj"
 
 #: src/reuse/_main.py:120
 #, fuzzy
@@ -217,9 +217,9 @@ msgid "list all supported SPDX licenses"
 msgstr "listigi ĉiujn subtenitajn SPDX-permesilojn"
 
 #: src/reuse/_main.py:295
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{dep5}' could not be decoded as UTF-8."
-msgstr "ne povis malkodi %s"
+msgstr "ne povis malkodi '{dep5}' kiel UTF-8."
 
 #: src/reuse/_main.py:302
 #, python-brace-format
@@ -229,9 +229,8 @@ msgid ""
 msgstr ""
 
 #: src/reuse/_util.py:262
-#, fuzzy
 msgid "no '{}' file, or could not read it"
-msgstr "neniu debian/copyright dosiero, aŭ ne povis legi ĝin"
+msgstr "neniu dosiero '{}' aŭ ne povis legi ĝin"
 
 #: src/reuse/_util.py:425
 #, python-brace-format
