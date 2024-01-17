@@ -38,6 +38,20 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 3.0.0 - 2024-01-17
 
 This release contains a lot of small improvements and changes without anything
