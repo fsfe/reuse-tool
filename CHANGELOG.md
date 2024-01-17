@@ -38,7 +38,15 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 3.0.0 - 2024-01-17
+
+This release contains a lot of small improvements and changes without anything
+big per se. Rather, it is made in advance of a release which will contain a
+single feature: [REUSE.toml](https://github.com/fsfe/reuse-tool/issues/779), a
+replacement for `.reuse/dep5`. `.reuse/dep5` will still be supported as a
+deprecated feature for some time.
+
+That future 3.1 release will have some alpha testing in advance.
 
 ### Added
 
@@ -86,12 +94,11 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - The `-debian` Docker image is now based off debian:12-slim. It used to be
   based on the python:slim image, which used debian:slim under the hood. (#849)
 
-### Deprecated
-
 ### Removed
 
 - Removed deprecated `--explicit-license`. (#851)
 - Removed deprecated `addheader`. (#851)
+- No longer depend on `sphinx-autodoc-typehints` for documentation. (#772)
 
 ### Fixed
 
@@ -105,8 +112,6 @@ CLI command and its behaviour. There are no guarantees of stability for the
   comment headers, as per
   <https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html>.
   (#874)
-
-### Security
 
 ## 2.1.0 - 2023-07-18
 
