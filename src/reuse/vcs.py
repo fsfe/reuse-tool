@@ -16,7 +16,7 @@ from inspect import isclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Generator, Optional, Set, Type
 
-from ._util import GIT_EXE, HG_EXE, PIJUL_EXE, StrPath, execute_command
+from ._util import GIT_EXE, HG_EXE, PIJUL_EXE, SL_EXE, StrPath, execute_command
 
 if TYPE_CHECKING:
     from .project import Project
@@ -192,6 +192,76 @@ class VCSStrategyHg(VCSStrategy):
 
     def _find_all_ignored_files(self) -> Set[Path]:
         """Return a set of all files ignored by mercurial. If a whole directory
+        is ignored, don't return all files inside of it.
+        """
+        command = [
+            str(self.EXE),
+            "status",
+            "--ignored",
+            # terse is marked 'experimental' in the hg help but is documented
+            # in the man page. It collapses the output of a dir containing only
+            # ignored files to the ignored name like the git command does.
+            # TODO: Re-enable this flag in the future.
+            # "--terse=i",
+            "--no-status",
+            "--print0",
+        ]
+        result = execute_command(command, _LOGGER, cwd=self.project.root)
+        all_files = result.stdout.decode("utf-8").split("\0")
+        return {Path(file_) for file_ in all_files}
+
+    def is_ignored(self, path: StrPath) -> bool:
+        path = self.project.relative_from_root(path)
+        return path in self._all_ignored_files
+
+    def is_submodule(self, path: StrPath) -> bool:
+        # TODO: Implement me.
+        return False
+
+    @classmethod
+    def in_repo(cls, directory: StrPath) -> bool:
+        if directory is None:
+            directory = Path.cwd()
+
+        if not Path(directory).is_dir():
+            raise NotADirectoryError()
+
+        command = [str(cls.EXE), "root"]
+        result = execute_command(command, _LOGGER, cwd=directory)
+
+        return not result.returncode
+
+    @classmethod
+    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+        if cwd is None:
+            cwd = Path.cwd()
+
+        if not Path(cwd).is_dir():
+            raise NotADirectoryError()
+
+        command = [str(cls.EXE), "root"]
+        result = execute_command(command, _LOGGER, cwd=cwd)
+
+        if not result.returncode:
+            path = result.stdout.decode("utf-8")[:-1]
+            return Path(os.path.relpath(path, cwd))
+
+        return None
+
+
+class VSStrategySapling(VCSStrategy):
+    """Strategy that is used for Sapling."""
+
+    EXE = SL_EXE
+
+    def __init__(self, project: Project):
+        super().__init__(project)
+        if not self.EXE:
+            raise FileNotFoundError("Could not find binary for Sapling")
+        self._all_ignored_files = self._find_all_ignored_files()
+
+    def _find_all_ignored_files(self) -> Set[Path]:
+        """Return a set of all files ignored by sapling. If a whole directory
         is ignored, don't return all files inside of it.
         """
         command = [
