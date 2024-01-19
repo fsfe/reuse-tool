@@ -38,15 +38,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
+## 3.0.1 - 2024-01-19
 
 ### Fixed
 
@@ -55,8 +47,6 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - This reverts behaviour introduced in v3.0.0: the contents of uncommentable
   files are scanned for REUSE information again. The contents of binary files
   are not. (#896)
-
-### Security
 
 ## 3.0.0 - 2024-01-17
 
