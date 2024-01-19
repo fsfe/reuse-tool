@@ -39,7 +39,6 @@ from ._util import (
     _contains_snippet,
     _copyright_from_dep5,
     _determine_license_path,
-    _is_uncommentable,
     _parse_dep5,
     decoded_text_from_binary,
     extract_reuse_info,
@@ -234,12 +233,11 @@ class Project:
                     _("'{path}' covered by .reuse/dep5").format(path=path)
                 )
 
-        if _is_uncommentable(path) or is_binary(str(path)):
+        if is_binary(str(path)):
             _LOGGER.info(
                 _(
-                    "'{path}' was detected as a binary file or its extension is"
-                    " marked as uncommentable; not searching its contents for"
-                    " REUSE information."
+                    "'{path}' was detected as a binary file; not searching its"
+                    " contents for REUSE information."
                 ).format(path=path)
             )
         else:
