@@ -50,13 +50,17 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Fixed
 
+### Security
+
+## 3.0.1 - 2024-01-19
+
+### Fixed
+
 - `.qrc` and `.ui` now have the HTML comment style instead of being marked
   uncommentable. (#896)
 - This reverts behaviour introduced in v3.0.0: the contents of uncommentable
   files are scanned for REUSE information again. The contents of binary files
   are not. (#896)
-
-### Security
 
 ## 3.0.0 - 2024-01-17
 
