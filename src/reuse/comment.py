@@ -725,7 +725,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pyx": PythonCommentStyle,
     ".qbs": CCommentStyle,
     ".qml": CCommentStyle,
-    ".qrc": UncommentableCommentStyle,
+    ".qrc": HtmlCommentStyle,
     ".qss": CssCommentStyle,
     ".R": PythonCommentStyle,
     ".rake": PythonCommentStyle,
@@ -772,7 +772,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".tsx": CCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
     ".typ": CCommentStyle,  # typst files
-    ".ui": UncommentableCommentStyle,
+    ".ui": HtmlCommentStyle,
     ".v": CCommentStyle,  # V-Lang source code
     ".vala": CCommentStyle,
     ".vim": VimCommentStyle,

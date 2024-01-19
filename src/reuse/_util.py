@@ -41,7 +41,6 @@ from typing import (
     cast,
 )
 
-from binaryornot.check import is_binary
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
@@ -332,17 +331,6 @@ def _is_uncommentable(path: Path) -> bool:
 def _has_style(path: Path) -> bool:
     """*path*'s extension has a CommentStyle."""
     return _get_comment_style(path) is not None
-
-
-def _is_commentable(path: Path) -> bool:
-    """Determines if *path* is commentable. Commentable files:
-
-    - have a CommentStyle that isn't UncommentableCommentStyle;
-    - are not binary.
-    """
-    return not (
-        _is_uncommentable(path) or not _has_style(path) or is_binary(str(path))
-    )
 
 
 def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:

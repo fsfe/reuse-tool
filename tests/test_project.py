@@ -274,6 +274,17 @@ def test_reuse_info_of_unlicensed_file(fake_repository):
     assert not bool(project.reuse_info_of("foo.py"))
 
 
+def test_reuse_info_of_uncommentable_file(empty_directory):
+    """When a file is marked uncommentable, but does contain REUSE info, read it
+    anyway.
+    """
+    (empty_directory / "foo.png").write_text("Copyright 2017 Jane Doe")
+    project = Project.from_directory(empty_directory)
+    result = project.reuse_info_of("foo.png")
+    assert len(result) == 1
+    assert result[0].copyright_lines
+
+
 def test_reuse_info_of_only_copyright(fake_repository):
     """A file contains only a copyright line. Test whether it correctly picks
     up on that.
