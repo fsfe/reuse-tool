@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-17 18:32+0000\n"
+"POT-Creation-Date: 2024-01-19 11:28+0000\n"
 "PO-Revision-Date: 2023-04-12 13:49+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -238,52 +238,52 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:262
+#: src/reuse/_util.py:261
 msgid "no '{}' file, or could not read it"
 msgstr ""
 
-#: src/reuse/_util.py:425
+#: src/reuse/_util.py:413
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Nepodařilo se analyzovat '{expression}'"
 
-#: src/reuse/_util.py:559
+#: src/reuse/_util.py:547
 msgid "'{}' is not a file"
 msgstr "'{}' není soubor"
 
-#: src/reuse/_util.py:562
+#: src/reuse/_util.py:550
 msgid "'{}' is not a directory"
 msgstr "'{}' není adresář"
 
-#: src/reuse/_util.py:565
+#: src/reuse/_util.py:553
 msgid "can't open '{}'"
 msgstr "nelze otevřít '{}'"
 
-#: src/reuse/_util.py:570
+#: src/reuse/_util.py:558
 msgid "can't write to directory '{}'"
 msgstr "nelze zapisovat do adresáře '{}'"
 
-#: src/reuse/_util.py:576
+#: src/reuse/_util.py:564
 msgid "can't write to '{}'"
 msgstr "nelze zapisovat do '{}'"
 
-#: src/reuse/_util.py:589
+#: src/reuse/_util.py:577
 msgid "can't read or write '{}'"
 msgstr "nelze číst ani zapisovat '{}'"
 
-#: src/reuse/_util.py:599
+#: src/reuse/_util.py:587
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' není platný výraz SPDX, přeruší se"
 
-#: src/reuse/_util.py:627
+#: src/reuse/_util.py:615
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' není platný identifikátor licence SPDX."
 
-#: src/reuse/_util.py:634
+#: src/reuse/_util.py:622
 msgid "Did you mean:"
 msgstr "Měl jste na mysli:"
 
-#: src/reuse/_util.py:641
+#: src/reuse/_util.py:629
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -552,26 +552,26 @@ msgstr "Váš projekt bohužel není v souladu s verzí {} specifikace REUSE :-(
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:234
+#: src/reuse/project.py:233
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' zahrnuto v .reuse/dep5"
 
-#: src/reuse/project.py:240
+#: src/reuse/project.py:239
 #, python-brace-format
 msgid ""
-"'{path}' was detected as a binary file or its extension is marked as "
-"uncommentable; not searching its contents for REUSE information."
+"'{path}' was detected as a binary file; not searching its contents for REUSE "
+"information."
 msgstr ""
 
-#: src/reuse/project.py:281
+#: src/reuse/project.py:279
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 "'{path}' obsahuje výraz SPDX, který nelze analyzovat a soubor se přeskočí"
 
-#: src/reuse/project.py:290
+#: src/reuse/project.py:288
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -582,17 +582,17 @@ msgid ""
 "suppress-deprecation` to hide this warning."
 msgstr ""
 
-#: src/reuse/project.py:386
+#: src/reuse/project.py:384
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "určující identifikátor '{path}'"
 
-#: src/reuse/project.py:394
+#: src/reuse/project.py:392
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} nemá příponu souboru"
 
-#: src/reuse/project.py:404
+#: src/reuse/project.py:402
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -605,14 +605,14 @@ msgstr ""
 "adrese <https://spdx.org/licenses/> nebo zda začíná znakem 'LicenseRef-' a "
 "zda má příponu souboru."
 
-#: src/reuse/project.py:416
+#: src/reuse/project.py:414
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} je identifikátor licence SPDX jak {path}, tak {other_path}"
 
-#: src/reuse/project.py:455
+#: src/reuse/project.py:453
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"

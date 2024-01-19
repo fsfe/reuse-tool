@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-17 18:32+0000\n"
+"POT-Creation-Date: 2024-01-19 11:28+0000\n"
 "PO-Revision-Date: 2023-02-18 10:24+0000\n"
 "Last-Translator: \"J. Lavoie\" <j.lavoie@net-c.ca>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/fsfe/reuse-tool/nl/"
@@ -232,53 +232,53 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:262
+#: src/reuse/_util.py:261
 #, fuzzy
 msgid "no '{}' file, or could not read it"
 msgstr "geen debian/copyright bestand, of kon het niet lezen"
 
-#: src/reuse/_util.py:425
+#: src/reuse/_util.py:413
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Kon '{expression}' niet parsen"
 
-#: src/reuse/_util.py:559
+#: src/reuse/_util.py:547
 msgid "'{}' is not a file"
 msgstr "'{}' is geen bestand"
 
-#: src/reuse/_util.py:562
+#: src/reuse/_util.py:550
 msgid "'{}' is not a directory"
 msgstr "'{}' is geen map"
 
-#: src/reuse/_util.py:565
+#: src/reuse/_util.py:553
 msgid "can't open '{}'"
 msgstr "kan '{}' niet openen"
 
-#: src/reuse/_util.py:570
+#: src/reuse/_util.py:558
 msgid "can't write to directory '{}'"
 msgstr "kan niet schrijven naar map '{}'"
 
-#: src/reuse/_util.py:576
+#: src/reuse/_util.py:564
 msgid "can't write to '{}'"
 msgstr "kan niet schrijven naar '{}'"
 
-#: src/reuse/_util.py:589
+#: src/reuse/_util.py:577
 msgid "can't read or write '{}'"
 msgstr "kan '{}' niet lezen of schrijven"
 
-#: src/reuse/_util.py:599
+#: src/reuse/_util.py:587
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' is geen geldige SPDX-uitdrukking, aan het afbreken"
 
-#: src/reuse/_util.py:627
+#: src/reuse/_util.py:615
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' is geen geldige SPDX Licentie Identificatie."
 
-#: src/reuse/_util.py:634
+#: src/reuse/_util.py:622
 msgid "Did you mean:"
 msgstr ""
 
-#: src/reuse/_util.py:641
+#: src/reuse/_util.py:629
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -551,19 +551,19 @@ msgstr ""
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:234
+#: src/reuse/project.py:233
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' valt onder .reuse/dep5"
 
-#: src/reuse/project.py:240
+#: src/reuse/project.py:239
 #, python-brace-format
 msgid ""
-"'{path}' was detected as a binary file or its extension is marked as "
-"uncommentable; not searching its contents for REUSE information."
+"'{path}' was detected as a binary file; not searching its contents for REUSE "
+"information."
 msgstr ""
 
-#: src/reuse/project.py:281
+#: src/reuse/project.py:279
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -571,7 +571,7 @@ msgstr ""
 "'{path}' bevat een SPDX-uitdrukking die niet geparsed kan worden; sla het "
 "bestand over"
 
-#: src/reuse/project.py:290
+#: src/reuse/project.py:288
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -582,18 +582,18 @@ msgid ""
 "suppress-deprecation` to hide this warning."
 msgstr ""
 
-#: src/reuse/project.py:386
+#: src/reuse/project.py:384
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "identificatie van '{path}' bepalen"
 
-#: src/reuse/project.py:394
+#: src/reuse/project.py:392
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} heeft geen bestandsextensie"
 
 # Niet helemaal duidelijk hoe resolving hier wordt bedoeld.
-#: src/reuse/project.py:404
+#: src/reuse/project.py:402
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -606,7 +606,7 @@ msgstr ""
 "die gevonden kan worden op <https://spdx.org/licenses/> of dat deze begint "
 "met 'LicenseRef-' en dat deze een bestandsextensie heeft."
 
-#: src/reuse/project.py:416
+#: src/reuse/project.py:414
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -614,7 +614,7 @@ msgstr ""
 "{identifier} is de SPDX Licentie Identificatie van zowel {path} als "
 "{other_path}"
 
-#: src/reuse/project.py:455
+#: src/reuse/project.py:453
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"

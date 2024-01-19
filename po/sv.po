@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-17 18:32+0000\n"
+"POT-Creation-Date: 2024-01-19 11:28+0000\n"
 "PO-Revision-Date: 2024-01-08 20:06+0000\n"
 "Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -186,52 +186,52 @@ msgid ""
 msgstr ""
 "'{dep5}' kunde inte tolkas. Vi tog emot följande felmeddelande: {message}"
 
-#: src/reuse/_util.py:262
+#: src/reuse/_util.py:261
 msgid "no '{}' file, or could not read it"
 msgstr "ingen '{}'-fil eller kunde inte läsa den"
 
-#: src/reuse/_util.py:425
+#: src/reuse/_util.py:413
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Kunde inte tolka '{expression}'"
 
-#: src/reuse/_util.py:559
+#: src/reuse/_util.py:547
 msgid "'{}' is not a file"
 msgstr "'{}' är inte en fil"
 
-#: src/reuse/_util.py:562
+#: src/reuse/_util.py:550
 msgid "'{}' is not a directory"
 msgstr "'{}' är inte en katalog"
 
-#: src/reuse/_util.py:565
+#: src/reuse/_util.py:553
 msgid "can't open '{}'"
 msgstr "kan inte öppna '{}'"
 
-#: src/reuse/_util.py:570
+#: src/reuse/_util.py:558
 msgid "can't write to directory '{}'"
 msgstr "kan inte skriva till katalogen '{}'"
 
-#: src/reuse/_util.py:576
+#: src/reuse/_util.py:564
 msgid "can't write to '{}'"
 msgstr "kan inte skriva till '{}'"
 
-#: src/reuse/_util.py:589
+#: src/reuse/_util.py:577
 msgid "can't read or write '{}'"
 msgstr "kan inte läsa eller skriva '{}'"
 
-#: src/reuse/_util.py:599
+#: src/reuse/_util.py:587
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
 
-#: src/reuse/_util.py:627
+#: src/reuse/_util.py:615
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr ""
 
-#: src/reuse/_util.py:634
+#: src/reuse/_util.py:622
 msgid "Did you mean:"
 msgstr "Menade du:"
 
-#: src/reuse/_util.py:641
+#: src/reuse/_util.py:629
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -491,25 +491,25 @@ msgstr ""
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/project.py:234
+#: src/reuse/project.py:233
 #, python-brace-format
 msgid "'{path}' covered by .reuse/dep5"
 msgstr ""
 
-#: src/reuse/project.py:240
+#: src/reuse/project.py:239
 #, python-brace-format
 msgid ""
-"'{path}' was detected as a binary file or its extension is marked as "
-"uncommentable; not searching its contents for REUSE information."
+"'{path}' was detected as a binary file; not searching its contents for REUSE "
+"information."
 msgstr ""
 
-#: src/reuse/project.py:281
+#: src/reuse/project.py:279
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 
-#: src/reuse/project.py:290
+#: src/reuse/project.py:288
 #, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -520,17 +520,17 @@ msgid ""
 "suppress-deprecation` to hide this warning."
 msgstr ""
 
-#: src/reuse/project.py:386
+#: src/reuse/project.py:384
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr ""
 
-#: src/reuse/project.py:394
+#: src/reuse/project.py:392
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr ""
 
-#: src/reuse/project.py:404
+#: src/reuse/project.py:402
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -539,13 +539,13 @@ msgid ""
 "file extension."
 msgstr ""
 
-#: src/reuse/project.py:416
+#: src/reuse/project.py:414
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 
-#: src/reuse/project.py:455
+#: src/reuse/project.py:453
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
