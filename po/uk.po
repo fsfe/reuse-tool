@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-19 11:28+0000\n"
-"PO-Revision-Date: 2023-11-04 14:36+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"PO-Revision-Date: 2024-01-20 15:01+0000\n"
+"Last-Translator: Сергій <sergiy.goncharuk.1@gmail.com>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: src/reuse/_main.py:38
 msgid ""
@@ -564,13 +564,13 @@ msgid "'{path}' covered by .reuse/dep5"
 msgstr "'{path}' охоплюється .reuse/dep5"
 
 #: src/reuse/project.py:239
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
 "information."
 msgstr ""
 "'{path}' виявлено як двійковий файл або його розширення позначено таким, що "
-"не коментується; не виконується пошук інформації у його вмісті для REUSE."
+"не коментується; пошук інформації у його вмісті для REUSE не виконується."
 
 #: src/reuse/project.py:279
 #, python-brace-format
