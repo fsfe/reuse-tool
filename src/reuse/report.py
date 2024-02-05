@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2024 Martin Lehmann <lemmi59612@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -103,7 +104,7 @@ class _MultiprocessingResult(NamedTuple):
 class ProjectReport:  # pylint: disable=too-many-instance-attributes
     """Object that holds linting report about the project."""
 
-    def __init__(self, do_checksum: bool = True):
+    def __init__(self, do_checksum: bool = True, only: Iterable[Path] = ()):
         self.path: StrPath = ""
         self.licenses: Dict[str, Path] = {}
         self.missing_licenses: Dict[str, Set[Path]] = {}
@@ -112,11 +113,12 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self.read_errors: Set[Path] = set()
         self.file_reports: Set[FileReport] = set()
         self.licenses_without_extension: Dict[str, Path] = {}
+        self.used_licenses: Set[str] = set()
 
         self.do_checksum = do_checksum
+        self.only = set(only)
 
         self._unused_licenses: Optional[Set[str]] = None
-        self._used_licenses: Optional[Set[str]] = None
         self._files_without_licenses: Optional[Set[Path]] = None
         self._files_without_copyright: Optional[Set[Path]] = None
         self._is_compliant: Optional[bool] = None
@@ -279,9 +281,10 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         do_checksum: bool = True,
         multiprocessing: bool = cpu_count() > 1,  # type: ignore
         add_license_concluded: bool = False,
+        only: Iterable[Path] = (),
     ) -> "ProjectReport":
         """Generate a ProjectReport from a Project."""
-        project_report = cls(do_checksum=do_checksum)
+        project_report = cls(do_checksum=do_checksum, only=only)
         project_report.path = project.root
         project_report.licenses = project.licenses
         project_report.licenses_without_extension = (
@@ -320,6 +323,15 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 continue
             file_report = cast(FileReport, result.report)
 
+            # We always need to collect all used licenses for the "unused
+            # licenses" check, even if we're not interested in a file.
+            project_report.used_licenses.update(file_report.licenses_in_file)
+            if (
+                project_report.only
+                and file_report.path not in project_report.only
+            ):
+                continue
+
             # File report.
             project_report.file_reports.add(file_report)
 
@@ -343,19 +355,6 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 project_report.deprecated_licenses.add(name)
 
         return project_report
-
-    @property
-    def used_licenses(self) -> Set[str]:
-        """Set of license identifiers that are found in file reports."""
-        if self._used_licenses is not None:
-            return self._used_licenses
-
-        self._used_licenses = {
-            lic
-            for file_report in self.file_reports
-            for lic in file_report.licenses_in_file
-        }
-        return self._used_licenses
 
     @property
     def unused_licenses(self) -> Set[str]:

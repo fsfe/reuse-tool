@@ -5,8 +5,8 @@
 - id: reuse
   name: reuse
   entry: reuse
-  args: ["lint"]
+  args: ["lint", "--only"]
   language: python
-  pass_filenames: false
+  require_serial: true
   description:
     "Lint the project directory for compliance with the REUSE Specification"

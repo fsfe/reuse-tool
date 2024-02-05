@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2024 Martin Lehmann <lemmi59612@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -63,6 +64,23 @@ def test_lint_submodule_included(submodule_repository):
     report = ProjectReport.generate(project)
     result = format_plain(report)
     assert ":-(" in result
+
+
+def test_lint_only(fake_repository):
+    """Test that ``only=...`` ignores errors in excluded files."""
+    (fake_repository / "main.py").write_text(
+        "SPDX-License-Identifier: GPL-3.0-or-later\n"
+        "SPDX-FileCopyrightText: Jane Doe"
+    )
+    (fake_repository / "ignored.py").write_text(
+        "SPDX-License-Identifier: Proprietary"
+    )
+
+    project = Project.from_directory(fake_repository)
+    report = ProjectReport.generate(project, only=["main.py"])
+    result = format_plain(report)
+
+    assert ":-)" in result
 
 
 def test_lint_empty_directory(empty_directory):
