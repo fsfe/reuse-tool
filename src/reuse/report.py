@@ -336,14 +336,14 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             project_report.file_reports.add(file_report)
 
             # Missing licenses.
-            for missing_license in file_report.missing_licenses:
+            for license_name in file_report.missing_licenses:
                 project_report.missing_licenses.setdefault(
-                    missing_license, set()
+                    license_name, set()
                 ).add(file_report.path)
 
             # Bad licenses
-            for bad_license in file_report.bad_licenses:
-                project_report.bad_licenses.setdefault(bad_license, set()).add(
+            for license_name in file_report.bad_licenses:
+                project_report.bad_licenses.setdefault(license_name, set()).add(
                     file_report.path
                 )
 
