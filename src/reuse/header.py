@@ -294,8 +294,8 @@ def find_and_replace_header(
     if before.strip():
         new_text = f"{before.rstrip()}\n\n{new_text}"
     if after.strip():
-        NL = "\n"
-        new_text = f"{new_text}\n{after.lstrip(NL)}"
+        newline = "\n"
+        new_text = f"{new_text}\n{after.lstrip(newline)}"
     return new_text
 
 
