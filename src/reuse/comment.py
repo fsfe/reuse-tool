@@ -577,6 +577,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".asc": CCommentStyle,
     ".asciidoc": CCommentStyle,
     ".ashx": AspxCommentStyle,
+    ".asm": LispCommentStyle,  # ASM assembler
     ".asmx": AspxCommentStyle,
     ".aspx": AspxCommentStyle,
     ".aux": TexCommentStyle,
@@ -737,7 +738,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rs": CCommentStyle,
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
-    ".s": LispCommentStyle,
+    ".s": PythonCommentStyle,  # Assume GNU Assembler for x86
     ".sass": CssCommentStyle,
     ".sbt": CCommentStyle,
     ".sc": CCommentStyle,  # SuperCollider source file
