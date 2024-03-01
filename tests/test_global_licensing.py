@@ -242,7 +242,7 @@ class TestAnnotationsItemMatches:
             spdx_expressions=["MIT"],
         )
         assert item.matches("foo.py")
-        assert item.matches("src/foo.py")
+        assert not item.matches("src/foo.py")
         assert not item.matches("bar.py")
 
     def test_in_directory(self):
@@ -260,21 +260,6 @@ class TestAnnotationsItemMatches:
         """Correctly find all Python files."""
         item = AnnotationsItem(
             paths=["**/*.py"],
-            precedence="toml",
-            copyright_lines=["Jane Doe"],
-            spdx_expressions=["MIT"],
-        )
-        assert item.matches("foo.py")
-        assert item.matches(".foo.py")
-        assert item.matches("src/foo.py")
-        assert not item.matches("src/foo.js")
-
-    def test_all_py_alternate(self):
-        """Another way to correctly find all Python files using a bare '*.py'
-        instead of the more formal '**/*.py' mechanism.
-        """
-        item = AnnotationsItem(
-            paths=["*.py"],
             precedence="toml",
             copyright_lines=["Jane Doe"],
             spdx_expressions=["MIT"],
@@ -318,7 +303,7 @@ class TestAnnotationsItemMatches:
     def test_match_all(self):
         """Match everything."""
         item = AnnotationsItem(
-            paths=["*"],
+            paths=["**"],
             precedence="toml",
             copyright_lines=["Jane Doe"],
             spdx_expressions=["MIT"],
@@ -504,7 +489,7 @@ class TestReuseTOMLReuseInfoOf:
             1,
             [
                 AnnotationsItem(
-                    paths={"*"},
+                    paths={"**"},
                     precedence="toml",
                     copyright_lines={"2023 Jane Doe"},
                     spdx_expressions={"MIT"},
@@ -535,7 +520,7 @@ class TestReuseTOMLReuseInfoOf:
             1,
             [
                 AnnotationsItem(
-                    paths={"*.py"},
+                    paths={"**/*.py"},
                     precedence="toml",
                     copyright_lines={"2023 Jane Doe"},
                     spdx_expressions={"MIT"},
@@ -897,7 +882,7 @@ class TestNestedReuseTOMLReuseInfoOf:
         }
 
     def test_dont_go_up_hierarchy(self):
-        """If a deep REUSE.toml contains instructions for a base file name,
+        """If a deep REUSE.toml contains instructions for a dir-globbed file,
         don't match against files named as such in parent directories.
         """
         deep = ReuseTOML(
@@ -905,7 +890,7 @@ class TestNestedReuseTOMLReuseInfoOf:
             1,
             [
                 AnnotationsItem(
-                    "foo.py",
+                    "**/foo.py",
                     precedence=GlobalPrecedence.CLOSEST,
                     copyright_lines={"Copyright Alice"},
                     spdx_expressions={"0BSD"},

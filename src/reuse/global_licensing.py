@@ -347,8 +347,7 @@ class AnnotationsItem:
                     self.paths,
                     flags=wcglob.DOTGLOB  # Match '.foo.py' on '*.py'.
                     | wcglob.FORCEUNIX  # Use Unix file paths.
-                    | wcglob.GLOBSTAR  # Use '**' feature.
-                    | wcglob.MATCHBASE,  # 'foo.py' matches 'src/foo.py'.
+                    | wcglob.GLOBSTAR,  # Use '**' feature.
                 )[0]
             )
         )
