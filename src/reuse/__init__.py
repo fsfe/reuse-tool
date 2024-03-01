@@ -21,7 +21,7 @@ import logging
 import os
 import re
 from dataclasses import dataclass, field
-from enum import Enum, auto
+from enum import Enum
 from importlib.metadata import PackageNotFoundError, version
 from typing import Any, Dict, NamedTuple, Optional, Set, Type
 
@@ -98,6 +98,8 @@ class SourceType(Enum):
     FILE_HEADER = "file-header"
     #: A .reuse/dep5 file containing license information.
     DEP5 = "dep5"
+    #: A REUSE.toml file containing license information.
+    REUSE_TOML = "reuse-toml"
 
 
 # TODO: In Python 3.10+, add kw_only=True
@@ -155,6 +157,10 @@ class ReuseInfo:
     def contains_copyright_or_licensing(self) -> bool:
         """Either *spdx_expressions* or *copyright_lines* is non-empty."""
         return bool(self.spdx_expressions or self.copyright_lines)
+
+    def contains_copyright_xor_licensing(self) -> bool:
+        """One of *spdx_expressions* or *copyright_lines* is non-empty."""
+        return bool(self.spdx_expressions) ^ bool(self.copyright_lines)
 
     def contains_info(self) -> bool:
         """Any field except *path*, *source_path* and *source_type* is

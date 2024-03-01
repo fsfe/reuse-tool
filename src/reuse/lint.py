@@ -171,11 +171,11 @@ def format_plain(report: ProjectReport) -> str:
         _("Used licenses:"): ", ".join(report.used_licenses),
         _("Read errors:"): str(len(report.read_errors)),
         _(
-            "files with copyright information:"
+            "Files with copyright information:"
         ): f"{total_files - len(report.files_without_copyright)}"
         f" / {total_files}",
         _(
-            "files with license information:"
+            "Files with license information:"
         ): f"{total_files - len(report.files_without_licenses)}"
         f" / {total_files}",
     }

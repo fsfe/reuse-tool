@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2023 Free Software Foundation Europe e.V. <https://fsfe.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+version = 1
+
+[[annotations]]
+path = [
+     ".bumpversion.cfg",
+     "setup.cfg"
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "docs/reuse*.rst"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = "docs/modules.rst"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = "po/*.po"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = "tests/resources/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "src/reuse.egg-info/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "poetry.lock"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "flake.lock"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-License-Identifier = "CC0-1.0"

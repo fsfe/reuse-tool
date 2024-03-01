@@ -22,14 +22,12 @@ from unittest.mock import create_autospec
 from urllib.error import URLError
 
 import pytest
+from conftest import RESOURCES_DIRECTORY
 
 from reuse import download
 from reuse._main import main
 from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE
 from reuse.report import LINT_VERSION
-
-TESTS_DIRECTORY = Path(__file__).parent.resolve()
-RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
 # REUSE-IgnoreStart
 
@@ -79,6 +77,22 @@ def test_lint(fake_repository, stringio, optional_git_exe, optional_hg_exe):
     """Run a successful lint. The optional VCSs are there to make sure that the
     test also works if these programs are not installed.
     """
+    result = main(["lint"], out=stringio)
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
+def test_lint_reuse_toml(fake_repository_reuse_toml, stringio):
+    """Run a simple lint with REUSE.toml."""
+    result = main(["lint"], out=stringio)
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
+def test_lint_dep5(fake_repository_dep5, stringio):
+    """Run a simple lint with .reuse/dep5."""
     result = main(["lint"], out=stringio)
 
     assert result == 0
@@ -236,19 +250,19 @@ def test_lint_fail_quiet(fake_repository, stringio):
     assert stringio.getvalue() == ""
 
 
-def test_lint_dep5_decode_error(fake_repository, capsys):
+def test_lint_dep5_decode_error(fake_repository_dep5, capsys):
     """Display an error if dep5 cannot be decoded."""
     shutil.copy(
-        RESOURCES_DIRECTORY / "fsfe.png", fake_repository / ".reuse/dep5"
+        RESOURCES_DIRECTORY / "fsfe.png", fake_repository_dep5 / ".reuse/dep5"
     )
     with pytest.raises(SystemExit):
         main(["lint"])
     assert "could not be decoded" in capsys.readouterr().err
 
 
-def test_lint_dep5_parse_error(fake_repository, capsys):
+def test_lint_dep5_parse_error(fake_repository_dep5, capsys):
     """Display an error if there's a dep5 parse error."""
-    (fake_repository / ".reuse/dep5").write_text("foo")
+    (fake_repository_dep5 / ".reuse/dep5").write_text("foo")
     with pytest.raises(SystemExit):
         main(["lint"])
     assert "could not be parsed" in capsys.readouterr().err
@@ -294,7 +308,7 @@ def test_lint_custom_root(fake_repository, stringio):
     result = main(["--root", "doc", "lint"], out=stringio)
 
     assert result > 0
-    assert "index.rst" in stringio.getvalue()
+    assert "usage.md" in stringio.getvalue()
     assert ":-(" in stringio.getvalue()
 
 
@@ -303,14 +317,16 @@ def test_lint_custom_root_git(git_repository, stringio):
     result = main(["--root", "doc", "lint"], out=stringio)
 
     assert result > 0
-    assert "index.rst" in stringio.getvalue()
+    assert "usage.md" in stringio.getvalue()
     assert ":-(" in stringio.getvalue()
 
 
-def test_lint_custom_root_different_cwd(fake_repository, stringio):
+def test_lint_custom_root_different_cwd(fake_repository_reuse_toml, stringio):
     """Use a custom root while CWD is different."""
     os.chdir("/")
-    result = main(["--root", str(fake_repository), "lint"], out=stringio)
+    result = main(
+        ["--root", str(fake_repository_reuse_toml), "lint"], out=stringio
+    )
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
