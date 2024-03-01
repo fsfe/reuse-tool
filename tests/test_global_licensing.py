@@ -899,6 +899,26 @@ class TestNestedReuseTOMLReuseInfoOf:
         assert not toml.reuse_info_of("foo.py")
         assert not toml.reuse_info_of("doc/foo.py")
 
+    def test_dont_go_up_directory(self):
+        """If a deep REUSE.toml contains an instruction for '../foo.py', don't
+        match it against anything.
+        """
+        deep = ReuseTOML(
+            "src/REUSE.toml",
+            1,
+            [
+                AnnotationsItem(
+                    "../foo.py",
+                    precedence=GlobalPrecedence.CLOSEST,
+                    copyright_lines={"Copyright Alice"},
+                    spdx_expressions={"0BSD"},
+                )
+            ],
+        )
+        toml = NestedReuseTOML(".", [deep])
+        assert not toml.reuse_info_of("src/foo.py")
+        assert not toml.reuse_info_of("foo.py")
+
     def test_aggregate_incomplete_info(self):
         """If one REUSE.toml defines the copyright, and a different one contains
         the licence, then both bits of information should be used.
