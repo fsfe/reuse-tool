@@ -48,7 +48,7 @@ _LOGGER = logging.getLogger(__name__)
 _T = TypeVar("_T")
 
 
-class GlobalPrecedence(Enum):
+class PrecedenceType(Enum):
     """An enum of behaviours surrounding order of precedence for entries in a
     :class:`GlobalLicensing`.
     """
@@ -60,11 +60,8 @@ class GlobalPrecedence(Enum):
     #: the file itself, or the global licensing file if no REUSE information
     #: exists inside of the file.
     CLOSEST = "closest"
-    # TODO: The 'TOML' name is a bit awkward here, and should probably be
-    # 'GLOBAL'. However, because only REUSE.toml completely implements this,
-    # let's keep it like so.
-    #: Only use the results from the lobal licensing file.
-    TOML = "toml"
+    #: Only use the results from the global licensing file.
+    OVERRIDE = "override"
 
 
 class GlobalLicensingParseError(Exception):
@@ -171,9 +168,9 @@ def _instance_of(
     return _InstanceOfValidator(type_)
 
 
-def _str_to_global_precedence(value: Any) -> GlobalPrecedence:
+def _str_to_global_precedence(value: Any) -> PrecedenceType:
     try:
-        return GlobalPrecedence(value)
+        return PrecedenceType(value)
     except ValueError as err:
         raise GlobalLicensingParseValueError(
             _(
@@ -181,7 +178,7 @@ def _str_to_global_precedence(value: Any) -> GlobalPrecedence:
                 " (got {received})"
             ).format(
                 precedence_vals=tuple(
-                    member.value for member in GlobalPrecedence
+                    member.value for member in PrecedenceType
                 ),
                 received=repr(value),
             )
@@ -249,7 +246,7 @@ class GlobalLicensing(ABC):
     @abstractmethod
     def reuse_info_of(
         self, path: StrPath
-    ) -> Dict[GlobalPrecedence, List[ReuseInfo]]:
+    ) -> Dict[PrecedenceType, List[ReuseInfo]]:
         """Find the REUSE information of *path* defined in the configuration.
         The path must be relative to the root of a
         :class:`reuse.project.Project`.
@@ -280,7 +277,7 @@ class ReuseDep5(GlobalLicensing):
 
     def reuse_info_of(
         self, path: StrPath
-    ) -> Dict[GlobalPrecedence, List[ReuseInfo]]:
+    ) -> Dict[PrecedenceType, List[ReuseInfo]]:
         path = PurePath(path).as_posix()
         result = self.dep5_copyright.find_files_paragraph(path)
 
@@ -288,7 +285,7 @@ class ReuseDep5(GlobalLicensing):
             return {}
 
         return {
-            GlobalPrecedence.AGGREGATE: [
+            PrecedenceType.AGGREGATE: [
                 ReuseInfo(
                     spdx_expressions=set(
                         map(_LICENSING.parse, [result.license.synopsis])
@@ -324,8 +321,8 @@ class AnnotationsItem:
         converter=_str_to_set,
         validator=_validate_collection_of(set, str, optional=False),
     )
-    precedence: GlobalPrecedence = attrs.field(
-        converter=_str_to_global_precedence, default=GlobalPrecedence.CLOSEST
+    precedence: PrecedenceType = attrs.field(
+        converter=_str_to_global_precedence, default=PrecedenceType.CLOSEST
     )
     copyright_lines: Set[str] = attrs.field(
         converter=_str_to_set,
@@ -432,7 +429,7 @@ class ReuseTOML(GlobalLicensing):
 
     def reuse_info_of(
         self, path: StrPath
-    ) -> Dict[GlobalPrecedence, List[ReuseInfo]]:
+    ) -> Dict[PrecedenceType, List[ReuseInfo]]:
         path = PurePath(path).as_posix()
         item = self.find_annotations_item(path)
         if item:
@@ -472,7 +469,7 @@ class NestedReuseTOML(GlobalLicensing):
 
     def reuse_info_of(
         self, path: StrPath
-    ) -> Dict[GlobalPrecedence, List[ReuseInfo]]:
+    ) -> Dict[PrecedenceType, List[ReuseInfo]]:
         path = PurePath(path)
 
         toml_items: List[
@@ -497,7 +494,7 @@ class NestedReuseTOML(GlobalLicensing):
                     .as_posix(),
                 )
             )
-            if item.precedence == GlobalPrecedence.TOML:
+            if item.precedence == PrecedenceType.OVERRIDE:
                 # No more!
                 break
 
@@ -506,7 +503,7 @@ class NestedReuseTOML(GlobalLicensing):
         copyright_found = False
         licence_found = False
         to_keep: List[ReuseInfo] = []
-        for info in reversed(result[GlobalPrecedence.CLOSEST]):
+        for info in reversed(result[PrecedenceType.CLOSEST]):
             new_info = info.copy(copyright_lines=set(), spdx_expressions=set())
             if not copyright_found and info.copyright_lines:
                 new_info = new_info.copy(copyright_lines=info.copyright_lines)
@@ -516,11 +513,11 @@ class NestedReuseTOML(GlobalLicensing):
                 licence_found = True
             if new_info.contains_copyright_or_licensing():
                 to_keep.append(new_info)
-        result[GlobalPrecedence.CLOSEST] = list(reversed(to_keep))
+        result[PrecedenceType.CLOSEST] = list(reversed(to_keep))
         # Looping over CLOSEST created it in the defaultdict. Remove it if it's
         # empty.
-        if not result[GlobalPrecedence.CLOSEST]:
-            del result[GlobalPrecedence.CLOSEST]
+        if not result[PrecedenceType.CLOSEST]:
+            del result[PrecedenceType.CLOSEST]
 
         return dict(result)
 

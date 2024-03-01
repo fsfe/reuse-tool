@@ -38,8 +38,8 @@ from ._util import (
 )
 from .global_licensing import (
     GlobalLicensing,
-    GlobalPrecedence,
     NestedReuseTOML,
+    PrecedenceType,
     ReuseDep5,
 )
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
@@ -243,7 +243,7 @@ class Project:
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in ReuseInfo
-        global_results: "defaultdict[GlobalPrecedence, List[ReuseInfo]]" = (
+        global_results: "defaultdict[PrecedenceType, List[ReuseInfo]]" = (
             defaultdict(list)
         )
         file_result = ReuseInfo()
@@ -264,7 +264,7 @@ class Project:
                             )
                         )
 
-        if GlobalPrecedence.TOML in global_results:
+        if PrecedenceType.OVERRIDE in global_results:
             _LOGGER.info(
                 _(
                     "'{path}' is covered exclusively by REUSE.toml. Not reading"
@@ -301,25 +301,25 @@ class Project:
                 ).format(
                     original_path=original_path,
                     path=path,
-                    dep5_path=global_results[GlobalPrecedence.AGGREGATE][
+                    dep5_path=global_results[PrecedenceType.AGGREGATE][
                         0
                     ].source_path,
                 ),
                 PendingDeprecationWarning,
             )
 
-        result.extend(global_results[GlobalPrecedence.TOML])
-        result.extend(global_results[GlobalPrecedence.AGGREGATE])
+        result.extend(global_results[PrecedenceType.OVERRIDE])
+        result.extend(global_results[PrecedenceType.AGGREGATE])
         if file_result.contains_info():
             result.append(file_result)
         if not file_result.contains_copyright_or_licensing():
-            result.extend(global_results[GlobalPrecedence.CLOSEST])
+            result.extend(global_results[PrecedenceType.CLOSEST])
         # Special case: If a file contains only copyright, apply the
         # REUSE.toml's licensing if it exists, and vice versa.
         elif file_result.contains_copyright_xor_licensing():
-            if global_results[GlobalPrecedence.CLOSEST]:
+            if global_results[PrecedenceType.CLOSEST]:
                 # There should only by a single CLOSEST result in the list.
-                closest = global_results[GlobalPrecedence.CLOSEST][0]
+                closest = global_results[PrecedenceType.CLOSEST][0]
                 if file_result.copyright_lines:
                     result.append(
                         closest.copy(

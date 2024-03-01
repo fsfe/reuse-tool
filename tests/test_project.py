@@ -383,7 +383,7 @@ def test_reuse_info_of_toml_precedence(empty_directory):
 
             [[annotations]]
             path = "foo.py"
-            precedence = "toml"
+            precedence = "override"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
             """
