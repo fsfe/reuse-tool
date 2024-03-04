@@ -561,7 +561,6 @@ class XQueryCommentStyle(CommentStyle):
     INDENT_AFTER_MIDDLE = " "
     INDENT_BEFORE_END = " "
 
-
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
@@ -737,7 +736,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rs": CCommentStyle,
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
-    ".s": LispCommentStyle,
+    ".s": PythonCommentStyle, # Assume GNU Assembler for x86
     ".sass": CssCommentStyle,
     ".sbt": CCommentStyle,
     ".sc": CCommentStyle,  # SuperCollider source file
@@ -796,6 +795,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".yml": PythonCommentStyle,
     ".zig": CSingleCommentStyle,
     ".zsh": PythonCommentStyle,
+    ".asm": LispCommentStyle,     # ASM assembler
 }
 
 EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
