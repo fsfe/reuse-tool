@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2024 Martin Lehmann <lemmi59612@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -36,6 +37,15 @@ def add_arguments(parser: ArgumentParser) -> None:
         "--plain",
         action="store_true",
         help=_("formats output as plain text"),
+    )
+
+    parser.add_argument(
+        "--only",
+        action="extend",
+        type=Path,
+        nargs="*",
+        default=[],
+        help=_("only report issues for these files"),
     )
 
 
@@ -260,7 +270,10 @@ def format_json(report: ProjectReport) -> str:
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """List all non-compliant files."""
     report = ProjectReport.generate(
-        project, do_checksum=False, multiprocessing=not args.no_multiprocessing
+        project,
+        do_checksum=False,
+        multiprocessing=not args.no_multiprocessing,
+        only=args.only,
     )
 
     if args.quiet:
