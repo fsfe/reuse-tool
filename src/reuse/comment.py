@@ -636,6 +636,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".go": CCommentStyle,
     ".gradle": CCommentStyle,
     ".graphql": PythonCommentStyle,
+    ".graphqls": PythonCommentStyle,
     ".groovy": CCommentStyle,
     ".h": CCommentStyle,
     ".ha": CSingleCommentStyle,
