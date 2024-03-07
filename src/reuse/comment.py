@@ -653,6 +653,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".gradle": CCommentStyle,
     ".graphql": PythonCommentStyle,
     ".graphqls": PythonCommentStyle,
+    ".gqls": PythonCommentStyle,
     ".groovy": CCommentStyle,
     ".h": CCommentStyle,
     ".ha": CSingleCommentStyle,
