@@ -42,6 +42,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
+- More file types are recognised:
+  - CUDA-C++ (`.cu`, `.cuh`)
+
 ### Changed
 
 ### Deprecated
