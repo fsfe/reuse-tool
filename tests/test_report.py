@@ -8,6 +8,7 @@
 
 
 import os
+import re
 import sys
 from importlib import import_module
 from textwrap import dedent
@@ -451,7 +452,11 @@ def test_bill_of_materials(fake_repository, multiprocessing):
     project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project, multiprocessing=multiprocessing)
     # TODO: Actually do something
-    report.bill_of_materials()
+    bom = report.bill_of_materials()
+    created_re = re.compile(
+        r"^Created: \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", re.MULTILINE
+    )
+    assert created_re.search(bom) is not None
 
 
 # REUSE-IgnoreEnd
