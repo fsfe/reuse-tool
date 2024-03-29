@@ -482,7 +482,7 @@ def test_annotate_specify_style(fake_repository, stringio, mock_date_today):
             "--copyright",
             "Jane Doe",
             "--style",
-            "c",
+            "cpp",
             "foo.py",
         ],
         out=stringio,

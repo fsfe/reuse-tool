@@ -55,8 +55,18 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Support alternate spelling `--skip-unrecognized`. (#974)
 - In `annotate`, rename `--copyright-style` to `--copyright-prefix`. The former
   parameter is still supported. (#973)
+- Support alternate spelling `--skip-unrecognized` (#974)
+- `cpp` and `cppsingle` style shorthands (see changes). (#941)
 
 ### Changed
+
+- Reorganised the way that `c`, `css`, and `csingle` styles work. (#941)
+  - `c` used to support multi-line comments; it now only supports multi-line
+    `/* */` comments. This is identical to the old `css` style.
+  - `cpp` has been added, which supports multi-line `/* */` comments and
+    single-line `//` comments. This is identical to the old `c` style.
+  - `csingle` has been renamed to `cppsingle`, and it supports only single-line
+    `//` comments.
 
 ### Deprecated
 
@@ -65,6 +75,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - The PendingDeprecationWarning for the aggregation of information between DEP5
   and the contents of a file has been removed. This behaviour is now explicitly
   specified in REUSE Specification v3.2. (#1017, related to #779)
+- `csingle` and `css` style shorthands (see changes). (#941)
 
 ### Fixed
 

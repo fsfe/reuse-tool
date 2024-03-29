@@ -329,6 +329,17 @@ class CCommentStyle(CommentStyle):
 
     SHORTHAND = "c"
 
+    MULTI_LINE = MultiLineSegments("/*", "*", "*/")
+    INDENT_BEFORE_MIDDLE = " "
+    INDENT_AFTER_MIDDLE = " "
+    INDENT_BEFORE_END = " "
+
+
+class CppCommentStyle(CommentStyle):
+    """C++ comment style."""
+
+    SHORTHAND = "cpp"
+
     SINGLE_LINE = "//"
     INDENT_AFTER_SINGLE = " "
     MULTI_LINE = MultiLineSegments("/*", "*", "*/")
@@ -341,24 +352,13 @@ class CCommentStyle(CommentStyle):
     ]
 
 
-class CSingleCommentStyle(CommentStyle):
-    """C single-only comment style."""
+class CppSingleCommentStyle(CommentStyle):
+    """C++ single-only comment style."""
 
-    SHORTHAND = "csingle"
+    SHORTHAND = "cppsingle"
 
     SINGLE_LINE = "//"
     INDENT_AFTER_SINGLE = " "
-
-
-class CssCommentStyle(CommentStyle):
-    """CSS comment style."""
-
-    SHORTHAND = "css"
-
-    MULTI_LINE = MultiLineSegments("/*", "*", "*/")
-    INDENT_BEFORE_MIDDLE = " "
-    INDENT_AFTER_MIDDLE = " "
-    INDENT_BEFORE_END = " "
 
 
 class EmptyCommentStyle(CommentStyle):
@@ -577,17 +577,17 @@ class XQueryCommentStyle(CommentStyle):
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
     ".adb": HaskellCommentStyle,
-    ".adoc": CCommentStyle,
+    ".adoc": CppCommentStyle,
     ".ads": HaskellCommentStyle,
     ".aes": UncommentableCommentStyle,
     ".ahk": SemicolonCommentStyle,
     ".ahkl": SemicolonCommentStyle,
-    ".aidl": CCommentStyle,
+    ".aidl": CppCommentStyle,
     ".applescript": AppleScriptCommentStyle,
     ".arb": UncommentableCommentStyle,
     ".asax": AspxCommentStyle,
-    ".asc": CCommentStyle,
-    ".asciidoc": CCommentStyle,
+    ".asc": CppCommentStyle,
+    ".asciidoc": CppCommentStyle,
     ".ashx": AspxCommentStyle,
     ".asm": LispCommentStyle,  # ASM assembler
     ".asmx": AspxCommentStyle,
@@ -604,34 +604,34 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".bib": BibTexCommentStyle,
     ".bzl": PythonCommentStyle,
     ".c": CCommentStyle,
-    ".cc": CCommentStyle,
-    ".cjs": CCommentStyle,
+    ".cc": CppCommentStyle,
+    ".cjs": CppCommentStyle,
     ".cl": LispCommentStyle,
     ".clj": LispCommentStyle,
     ".cljc": LispCommentStyle,
     ".cljs": LispCommentStyle,
     ".cls": TexCommentStyle,
     ".cmake": PythonCommentStyle,  # TODO: Bracket comments not supported.
-    ".code-workspace": CCommentStyle,
+    ".code-workspace": CppCommentStyle,
     ".coffee": PythonCommentStyle,
-    ".cpp": CCommentStyle,
-    ".cs": CCommentStyle,
+    ".cpp": CppCommentStyle,
+    ".cs": CppCommentStyle,
     ".csl": HtmlCommentStyle,  # Bibliography (XML based)
     ".cson": PythonCommentStyle,
-    ".css": CssCommentStyle,
+    ".css": CCommentStyle,
     ".csproj": HtmlCommentStyle,
     ".csv": UncommentableCommentStyle,
-    ".cu": CCommentStyle,
-    ".cuh": CCommentStyle,
-    ".cxx": CCommentStyle,
-    ".d": CCommentStyle,
-    ".dart": CCommentStyle,
-    ".di": CCommentStyle,
+    ".cu": CppCommentStyle,
+    ".cuh": CppCommentStyle,
+    ".cxx": CppCommentStyle,
+    ".d": CppCommentStyle,
+    ".dart": CppCommentStyle,
+    ".di": CppCommentStyle,
     ".doc": UncommentableCommentStyle,
     ".docx": UncommentableCommentStyle,
     ".dotx": UncommentableCommentStyle,
-    ".dts": CCommentStyle,
-    ".dtsi": CCommentStyle,
+    ".dts": CppCommentStyle,
+    ".dtsi": CppCommentStyle,
     ".el": LispCommentStyle,
     ".erl": TexCommentStyle,
     ".ex": PythonCommentStyle,
@@ -650,52 +650,52 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".for": FortranCommentStyle,
     ".ftn": FortranCommentStyle,
     ".fpp": FortranCommentStyle,
-    ".fs": CCommentStyle,
-    ".fsx": CCommentStyle,
+    ".fs": CppCommentStyle,
+    ".fsx": CppCommentStyle,
     ".ftl": FtlCommentStyle,
     ".gemspec": PythonCommentStyle,
-    ".go": CCommentStyle,
-    ".gradle": CCommentStyle,
+    ".go": CppCommentStyle,
+    ".gradle": CppCommentStyle,
     ".graphql": PythonCommentStyle,
     ".graphqls": PythonCommentStyle,
     ".gqls": PythonCommentStyle,
-    ".groovy": CCommentStyle,
+    ".groovy": CppCommentStyle,
     ".h": CCommentStyle,
-    ".ha": CSingleCommentStyle,
+    ".ha": CppSingleCommentStyle,
     ".hbs": HandlebarsCommentStyle,
     ".hcl": PythonCommentStyle,
-    ".hh": CCommentStyle,
-    ".hjson": CCommentStyle,
-    ".hpp": CCommentStyle,
+    ".hh": CppCommentStyle,
+    ".hjson": CppCommentStyle,
+    ".hpp": CppCommentStyle,
     ".hrl": TexCommentStyle,
     ".hs": HaskellCommentStyle,
     ".html": HtmlCommentStyle,
-    ".hx": CCommentStyle,
-    ".hxsl": CCommentStyle,
+    ".hx": CppCommentStyle,
+    ".hxsl": CppCommentStyle,
     ".ini": SemicolonCommentStyle,
-    ".ino": CCommentStyle,
+    ".ino": CppCommentStyle,
     ".ipynb": UncommentableCommentStyle,
     ".iuml": PlantUmlCommentStyle,
-    ".java": CCommentStyle,
+    ".java": CppCommentStyle,
     ".jinja": JinjaCommentStyle,
     ".jinja2": JinjaCommentStyle,
     ".jl": JuliaCommentStyle,
     ".jpg": UncommentableCommentStyle,
     ".jpeg": UncommentableCommentStyle,
-    ".js": CCommentStyle,
+    ".js": CppCommentStyle,
     ".json": UncommentableCommentStyle,
-    ".json5": CCommentStyle,
-    ".jsonc": CCommentStyle,
+    ".json5": CppCommentStyle,
+    ".jsonc": CppCommentStyle,
     ".jsp": AspxCommentStyle,
-    ".jsx": CCommentStyle,
+    ".jsx": CppCommentStyle,
     ".jy": PythonCommentStyle,
     ".ksh": PythonCommentStyle,
-    ".kt": CCommentStyle,
-    ".kts": CCommentStyle,
+    ".kt": CppCommentStyle,
+    ".kts": CppCommentStyle,
     ".l": LispCommentStyle,
     ".latex": TexCommentStyle,
-    ".ld": CCommentStyle,
-    ".less": CssCommentStyle,
+    ".ld": CppCommentStyle,
+    ".less": CCommentStyle,
     ".license": EmptyCommentStyle,
     ".lisp": LispCommentStyle,
     ".lsp": LispCommentStyle,
@@ -704,7 +704,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".man": UnixManCommentStyle,
     ".markdown": HtmlCommentStyle,
     ".md": HtmlCommentStyle,
-    ".mjs": CCommentStyle,
+    ".mjs": CppCommentStyle,
     ".mk": PythonCommentStyle,
     ".ml": MlCommentStyle,
     ".mli": MlCommentStyle,
@@ -726,10 +726,10 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ott": UncommentableCommentStyle,
     ".pdf": UncommentableCommentStyle,
     ".pem": UncommentableCommentStyle,
-    ".php": CCommentStyle,
-    ".php3": CCommentStyle,
-    ".php4": CCommentStyle,
-    ".php5": CCommentStyle,
+    ".php": CppCommentStyle,
+    ".php3": CppCommentStyle,
+    ".php4": CppCommentStyle,
+    ".php5": CppCommentStyle,
     ".pl": PythonCommentStyle,
     ".plantuml": PlantUmlCommentStyle,
     ".png": UncommentableCommentStyle,
@@ -742,7 +742,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pro": PythonCommentStyle,
     ".props": HtmlCommentStyle,  # MSBuild files
     ".properties": PythonCommentStyle,
-    ".proto": CCommentStyle,
+    ".proto": CppCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
     ".psm1": PythonCommentStyle,  # TODO: Multiline comments
     ".pu": PlantUmlCommentStyle,
@@ -752,10 +752,10 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pyi": PythonCommentStyle,
     ".pyw": PythonCommentStyle,
     ".pyx": PythonCommentStyle,
-    ".qbs": CCommentStyle,
-    ".qml": CCommentStyle,
+    ".qbs": CppCommentStyle,
+    ".qml": CppCommentStyle,
     ".qrc": HtmlCommentStyle,
-    ".qss": CssCommentStyle,
+    ".qss": CCommentStyle,
     ".R": PythonCommentStyle,
     ".rake": PythonCommentStyle,
     ".rb": PythonCommentStyle,
@@ -763,19 +763,19 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rbx": PythonCommentStyle,
     ".rkt": LispCommentStyle,
     ".Rmd": HtmlCommentStyle,
-    ".rs": CCommentStyle,
+    ".rs": CppCommentStyle,
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
     ".s": PythonCommentStyle,  # Assume GNU Assembler for x86
-    ".sass": CssCommentStyle,
-    ".sbt": CCommentStyle,
-    ".sc": CCommentStyle,  # SuperCollider source file
-    ".scad": CCommentStyle,
-    ".scala": CCommentStyle,
+    ".sass": CCommentStyle,
+    ".sbt": CppCommentStyle,
+    ".sc": CppCommentStyle,  # SuperCollider source file
+    ".scad": CppCommentStyle,
+    ".scala": CppCommentStyle,
     ".scm": LispCommentStyle,
     ".scpt": AppleScriptCommentStyle,
     ".scptd": AppleScriptCommentStyle,
-    ".scss": CssCommentStyle,
+    ".scss": CCommentStyle,
     # SuperCollider synth definition (binary)
     ".scsyndef": UncommentableCommentStyle,
     ".sh": PythonCommentStyle,
@@ -784,13 +784,13 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".sln": UncommentableCommentStyle,
     ".sls": LispCommentStyle,  # Scheme Library Source (R6RS)
     ".sml": MlCommentStyle,
-    ".soy": CCommentStyle,
+    ".soy": CppCommentStyle,
     ".sps": LispCommentStyle,  # Scheme Program Source (R6RS)
     ".sql": HaskellCommentStyle,
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
     ".svelte": HtmlCommentStyle,
-    ".swift": CCommentStyle,
+    ".swift": CppCommentStyle,
     ".t": PythonCommentStyle,
     ".tcl": PythonCommentStyle,
     ".tex": TexCommentStyle,
@@ -800,17 +800,17 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".thy": MlCommentStyle,
     ".toc": TexCommentStyle,
     ".toml": PythonCommentStyle,
-    ".ts": CCommentStyle,
-    ".tsx": CCommentStyle,
+    ".ts": CppCommentStyle,
+    ".tsx": CppCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
-    ".typ": CCommentStyle,  # typst files
+    ".typ": CppCommentStyle,  # typst files
     ".ui": HtmlCommentStyle,
-    ".v": CCommentStyle,  # V-Lang source code
-    ".vala": CCommentStyle,
+    ".v": CppCommentStyle,  # V-Lang source code
+    ".vala": CppCommentStyle,
     ".vbproj": HtmlCommentStyle,
     ".vim": VimCommentStyle,
     ".vm": VelocityCommentStyle,
-    ".vsh": CCommentStyle,  # V-Lang script
+    ".vsh": CppCommentStyle,  # V-Lang script
     ".vtl": VelocityCommentStyle,
     ".vue": HtmlCommentStyle,
     ".webp": UncommentableCommentStyle,
@@ -827,7 +827,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".xsl": HtmlCommentStyle,
     ".yaml": PythonCommentStyle,
     ".yml": PythonCommentStyle,
-    ".zig": CSingleCommentStyle,
+    ".zig": CppSingleCommentStyle,
     ".zsh": PythonCommentStyle,
 }
 
@@ -877,10 +877,10 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Dockerfile": PythonCommentStyle,
     "Doxyfile": PythonCommentStyle,
     "Gemfile": PythonCommentStyle,
-    "go.mod": CCommentStyle,
+    "go.mod": CppCommentStyle,
     "go.sum": UncommentableCommentStyle,
     "gradlew": PythonCommentStyle,
-    "Jenkinsfile": CCommentStyle,
+    "Jenkinsfile": CppCommentStyle,
     "Makefile.am": PythonCommentStyle,
     "Makefile": PythonCommentStyle,
     "MANIFEST.in": PythonCommentStyle,

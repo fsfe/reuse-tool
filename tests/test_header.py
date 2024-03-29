@@ -11,7 +11,7 @@ from inspect import cleandoc
 import pytest
 
 from reuse import ReuseInfo
-from reuse.comment import CCommentStyle, CommentCreateError
+from reuse.comment import CommentCreateError, CppCommentStyle
 from reuse.header import (
     MissingReuseInfo,
     add_new_header,
@@ -95,7 +95,7 @@ def test_create_header_template_commented(template_commented):
             info,
             template=template_commented,
             template_is_commented=True,
-            style=CCommentStyle,
+            style=CppCommentStyle,
         ).strip()
         == expected
     )
