@@ -533,6 +533,16 @@ class UncommentableCommentStyle(EmptyCommentStyle):
     """
 
 
+class UnixManCommentStyle(CommentStyle):
+    """UNIX manual page comment style."""
+
+    SHORTHAND = "man"
+
+    # In case the below is difficult to read, the comment character is: .\"
+    SINGLE_LINE = r".\""
+    INDENT_AFTER_SINGLE = " "
+
+
 class VelocityCommentStyle(CommentStyle):
     """Apache Velocity Template Language comment style."""
 
@@ -681,6 +691,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".lsp": LispCommentStyle,
     ".lua": HaskellCommentStyle,
     ".m4": M4CommentStyle,
+    ".man": UnixManCommentStyle,
     ".markdown": HtmlCommentStyle,
     ".md": HtmlCommentStyle,
     ".mjs": CCommentStyle,
