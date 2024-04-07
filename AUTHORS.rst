@@ -80,6 +80,8 @@ Contributors
 
 - Apteryks
 
+- Ngô Ngọc Đức Huy <huyngo@disroot.org>
+
 Translators
 -----------
 
