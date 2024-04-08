@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-08 13:04+0000\n"
+"POT-Creation-Date: 2024-04-08 15:46+0000\n"
 "PO-Revision-Date: 2024-01-20 15:01+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -644,17 +644,17 @@ msgstr ""
 "el proyecto '{}' no es un repositorio VCS o el software VCS requerido no "
 "está instalado"
 
-#: src/reuse/report.py:308
+#: src/reuse/report.py:307
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "No se pudo leer '{path}'"
 
-#: src/reuse/report.py:315
+#: src/reuse/report.py:314
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Se produjo un error inesperado al procesar '{path}'"
 
-#: src/reuse/report.py:436
+#: src/reuse/report.py:435
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -667,7 +667,7 @@ msgstr ""
 "'LicenseRef-'. Preguntas frecuentes sobre las licencias personalizadas: "
 "https://reuse.software/faq/#custom-license"
 
-#: src/reuse/report.py:447
+#: src/reuse/report.py:446
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -681,7 +681,7 @@ msgstr ""
 "los nuevos identificadores recomendados se encuentran aquí: <https://spdx."
 "org/licenses/#deprecated>"
 
-#: src/reuse/report.py:458
+#: src/reuse/report.py:457
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -691,7 +691,7 @@ msgstr ""
 "con la licencia en el directorio 'LICENCIAS' no tiene una extensión '.txt'. "
 "Cambie el nombre de los archivos en consecuencia."
 
-#: src/reuse/report.py:467
+#: src/reuse/report.py:466
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -707,7 +707,7 @@ msgstr ""
 "En el caso de las licencias personalizadas (que empiezan por 'LicenseRef-'), "
 "deberá añadir estos archivos usted mismo."
 
-#: src/reuse/report.py:479
+#: src/reuse/report.py:478
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -722,7 +722,7 @@ msgstr ""
 "elimine el texto de la licencia no utilizado si está seguro de que ningún "
 "archivo o fragmento de código tiene una licencia como tal."
 
-#: src/reuse/report.py:490
+#: src/reuse/report.py:489
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -733,7 +733,7 @@ msgstr ""
 "archivos. Encontrará los archivos afectados en la parte superior como parte "
 "de los mensajes de los errores registrados."
 
-#: src/reuse/report.py:499
+#: src/reuse/report.py:498
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
