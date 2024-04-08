@@ -38,6 +38,25 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- More file types are recognised:
+  - Assembler (`.asm`) (#928)
+
+### Changed
+
+- `.s` files now use the Python comment style as per GNU Assembler (gas). (#928)
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 3.0.2 - 2024-04-08
 
 ### Fixed
