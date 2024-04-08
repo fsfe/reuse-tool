@@ -22,6 +22,7 @@ from unittest.mock import create_autospec
 from urllib.error import URLError
 
 import pytest
+from freezegun import freeze_time
 
 from reuse import download
 from reuse._main import main
@@ -336,6 +337,7 @@ def test_lint_no_multiprocessing(fake_repository, stringio, multiprocessing):
     assert ":-)" in stringio.getvalue()
 
 
+@freeze_time("2024-04-08T17:34:00Z")
 def test_spdx(fake_repository, stringio):
     """Compile to an SPDX document."""
     os.chdir(str(fake_repository))
@@ -347,6 +349,7 @@ def test_spdx(fake_repository, stringio):
     assert "\nLicenseConcluded: GPL-3.0-or-later\n" not in output
     assert "\nCreator: Person: Anonymous ()\n" in output
     assert "\nCreator: Organization: Anonymous ()\n" in output
+    assert "\nCreated: 2024-04-08T17:34:00Z\n" in output
 
     # TODO: This test is rubbish.
     assert result == 0
