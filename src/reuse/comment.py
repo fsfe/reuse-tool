@@ -605,6 +605,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".csl": HtmlCommentStyle,  # Bibliography (XML based)
     ".css": CssCommentStyle,
     ".csv": UncommentableCommentStyle,
+    ".cu": CCommentStyle,
+    ".cuh": CCommentStyle,
     ".cxx": CCommentStyle,
     ".d": CCommentStyle,
     ".dart": CCommentStyle,
