@@ -47,6 +47,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - CUDA-C++ (`.cu`, `.cuh`) (#938)
   - Various .NET files (`.csproj`, `.fsproj`, `.fsx`, `.props`, `.sln`,
     `.vbproj`) (#940)
+- Added comment styles:
+  - `man` for UNIX Man pages (`.man`) (#954)
 
 ### Changed
 
