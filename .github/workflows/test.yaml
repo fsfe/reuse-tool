@@ -73,7 +73,7 @@ jobs:
       - name: Test formatting with black
         run: |
           poetry run isort --check src/ tests/
-          poetry run black .
+          poetry run black --check .
 
   mypy:
     runs-on: ubuntu-22.04
