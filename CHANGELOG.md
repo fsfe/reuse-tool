@@ -58,6 +58,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 - Clearer instructions for `--suppress-deprecation` in deprecation warning.
   (#949)
+- The datetime value for `Created:` was wrongly formatted since 3.0.0. It now
+  returns a correctly formatted ISO 8601 date again. (#952)
 
 ### Security
 
