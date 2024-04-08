@@ -293,8 +293,8 @@ class Project:
                     " and you will need to explicitly enable aggregation."
                     " See"
                     " <https://github.com/fsfe/reuse-tool/issues/779>. You"
-                    " need do nothing yet. Run with"
-                    " `--suppress-deprecation` to hide this warning."
+                    " need do nothing yet. Run "
+                    " `reuse --suppress-deprecation lint` to hide this warning."
                 ).format(
                     original_path=original_path,
                     path=path,
