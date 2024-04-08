@@ -539,9 +539,11 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
                 {
                     "value": line,
                     "source": reuse_info.source_path,
-                    "source_type": reuse_info.source_type.value
-                    if reuse_info.source_type
-                    else None,
+                    "source_type": (
+                        reuse_info.source_type.value
+                        if reuse_info.source_type
+                        else None
+                    ),
                 }
                 for reuse_info in self.reuse_infos
                 for line in reuse_info.copyright_lines
@@ -550,9 +552,11 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
                 {
                     "value": str(expression),
                     "source": reuse_info.source_path,
-                    "source_type": reuse_info.source_type.value
-                    if reuse_info.source_type
-                    else None,
+                    "source_type": (
+                        reuse_info.source_type.value
+                        if reuse_info.source_type
+                        else None
+                    ),
                 }
                 for reuse_info in self.reuse_infos
                 for expression in reuse_info.spdx_expressions
