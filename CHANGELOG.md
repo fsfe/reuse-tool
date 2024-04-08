@@ -45,6 +45,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - More file types are recognised:
   - Assembler (`.asm`) (#928)
   - CUDA-C++ (`.cu`, `.cuh`) (#938)
+  - Various .NET files (`.csproj`, `.fsproj`, `.fsx`, `.props`, `.sln`,
+    `.vbproj`) (#940)
 
 ### Changed
 
