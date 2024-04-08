@@ -55,6 +55,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Fixed
 
+- Clearer instructions for `--suppress-deprecation` in deprecation warning.
+  (#949)
+
 ### Security
 
 ## 3.0.2 - 2024-04-08
