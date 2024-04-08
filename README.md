@@ -279,7 +279,7 @@ You can find the full contribution guidelines at
 ## License
 
 This work is licensed under multiple licences. Because keeping this section
-up-to-date is challenging, here is a brief summary as of February 2023:
+up-to-date is challenging, here is a brief summary as of April 2024:
 
 - All original source code is licensed under GPL-3.0-or-later.
 - All documentation is licensed under CC-BY-SA-4.0.
