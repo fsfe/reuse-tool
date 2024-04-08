@@ -510,7 +510,7 @@ msgstr ""
 "'{path}' містить вираз SPDX, який неможливо проаналізувати, пропуск файлу"
 
 #: src/reuse/project.py:288
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
 "both '{path}' and in the DEP5 file located at '{dep5_path}'. The information "
@@ -522,9 +522,9 @@ msgstr ""
 "Інформацію про авторське право та ліцензування для '{original_path}' можна "
 "знайти як у '{path}', так і у файлі DEP5, розташованому за адресою "
 "'{dep5_path}'. Інформація для цих двох джерел була агрегована. У майбутньому "
-"ця поведінка зміниться, і вам потрібно буде явно увімкнути агрегування. "
+"ця поведінка зміниться, і вам потрібно буде явно ввімкнути агрегування. "
 "Перегляньте <https://github.com/fsfe/reuse-tool/issues/779>. Наразі вам не "
-"потрібно нічого робити. Запустіть програму з `--suppress-deprecation`, щоб "
+"потрібно нічого робити. Запустіть  `reuse --suppress-deprecation lint`, щоб "
 "сховати це попередження."
 
 #: src/reuse/project.py:384
