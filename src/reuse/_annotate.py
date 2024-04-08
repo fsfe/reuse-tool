@@ -342,11 +342,13 @@ def verify_write_access(
 
 
 def verify_paths_comment_style(args: Namespace, paths: Iterable[Path]) -> None:
-    """Exit if --fallback-dot-license or --skip-unrecognised is not enabled and
-    one of the paths has an unrecognised style.
+    """Exit if --style, --force-dot-license, --fallback-dot-license,
+    or --skip-unrecognised is not enabled and one of the paths has an
+    unrecognised style.
     """
     if (
-        not args.fallback_dot_license
+        not args.style
+        and not args.fallback_dot_license
         and not args.skip_unrecognised
         and not args.force_dot_license
     ):
