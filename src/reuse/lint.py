@@ -19,7 +19,7 @@ from typing import IO, Any
 
 from . import __REUSE_version__
 from .project import Project
-from .report import ProjectReport
+from .report import FileReport, ProjectReport
 
 
 def add_arguments(parser: ArgumentParser) -> None:
@@ -36,6 +36,12 @@ def add_arguments(parser: ArgumentParser) -> None:
         "--plain",
         action="store_true",
         help=_("formats output as plain text"),
+    )
+    mutex_group.add_argument(
+        "-l",
+        "--lines",
+        action="store_true",
+        help=_("formats output as errors per line"),
     )
 
 
@@ -257,6 +263,42 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
+def _output_per_file_report(report: FileReport) -> str:
+    """Formats data dictionary as plaintext strings to be printed to sys.stdout
+
+    Args:
+        report: FileReport data
+
+    Returns:
+        String (in plaintext) that can be output to sys.stdout
+    """
+    output = StringIO()
+    if report.bad_licenses:
+        output.write(f"{report.name}: ")
+        output.write(_("bad licenses:"))
+        output.write(f" {' '.join(report.bad_licenses)}\n")
+    if report.missing_licenses:
+        output.write(f"{report.name}: ")
+        output.write(_("missing licenses:"))
+        output.write(f" {' '.join(report.missing_licenses)}\n")
+    return output.getvalue()
+
+
+def format_lines(report: ProjectReport) -> str:
+    """Formats data dictionary as plaintext strings to be printed to sys.stdout
+
+    Args:
+        report: ProjectReport data
+
+    Returns:
+        String (in plaintext) that can be output to sys.stdout
+    """
+    output = StringIO()
+    for f_report in report.file_reports:
+        output.write(_output_per_file_report(f_report))
+    return output.getvalue()
+
+
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """List all non-compliant files."""
     report = ProjectReport.generate(
@@ -267,6 +309,8 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         pass
     elif args.json:
         out.write(format_json(report))
+    elif args.lines:
+        out.write(format_lines(report))
     else:
         out.write(format_plain(report))
 
