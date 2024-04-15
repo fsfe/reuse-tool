@@ -114,12 +114,12 @@ _SPDX_TAGS: Dict[str, re.Pattern] = {
 
 _COPYRIGHT_PATTERNS = [
     re.compile(
-        r"(?P<copyright>(?P<prefix>SPDX-(File|Snippet)CopyrightText:)\s+"
+        r"(?P<copyright>(?P<prefix>SPDX-(File|Snippet)CopyrightText:(\s\([cC]\)|\s©)?)\s+"
         r"((?P<year>\d{4} ?- ?\d{4}|\d{4}),?\s+)?"
         r"(?P<statement>.*?))" + _END_PATTERN
     ),
     re.compile(
-        r"(?P<copyright>(?P<prefix>Copyright(\s?\([cC]\))?)\s+"
+        r"(?P<copyright>(?P<prefix>Copyright(\s\([cC]\)|\s©)?)\s+"
         r"((?P<year>\d{4} ?- ?\d{4}|\d{4}),?\s+)?"
         r"(?P<statement>.*?))" + _END_PATTERN
     ),
