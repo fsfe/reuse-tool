@@ -49,6 +49,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Various .NET files (`.csproj`, `.fsproj`, `.fsx`, `.props`, `.sln`,
     `.vbproj`) (#940)
   - Cargo (`Cargo.lock`) (#937)
+  - Clang-Tidy (`.clang-tidy`) (#961)
 - Added comment styles:
   - `man` for UNIX Man pages (`.man`) (#954)
 
