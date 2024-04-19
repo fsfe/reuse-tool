@@ -831,6 +831,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".bazelrc": PythonCommentStyle,
     ".browserslist": PythonCommentStyle,
     ".clang-format": PythonCommentStyle,
+    ".clang-tidy": PythonCommentStyle,
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
