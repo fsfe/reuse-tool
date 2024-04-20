@@ -19,7 +19,7 @@ from typing import IO, Any
 
 from . import __REUSE_version__
 from .project import Project
-from .report import FileReport, ProjectReport
+from .report import ProjectReport
 
 
 def add_arguments(parser: ArgumentParser) -> None:
@@ -263,28 +263,7 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
-def _output_per_file_report(report: FileReport) -> str:
-    """Formats data dictionary as plaintext strings to be printed to sys.stdout
-
-    Args:
-        report: FileReport data
-
-    Returns:
-        String (in plaintext) that can be output to sys.stdout
-    """
-    output = StringIO()
-    if report.bad_licenses:
-        output.write(f"{report.name}: ")
-        output.write(_("bad licenses:"))
-        output.write(f" {' '.join(report.bad_licenses)}\n")
-    if report.missing_licenses:
-        output.write(f"{report.name}: ")
-        output.write(_("missing licenses:"))
-        output.write(f" {' '.join(report.missing_licenses)}\n")
-    return output.getvalue()
-
-
-def format_lines(report: ProjectReport) -> str:
+def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
     """Formats data dictionary as plaintext strings to be printed to sys.stdout
 
     Args:
@@ -293,9 +272,52 @@ def format_lines(report: ProjectReport) -> str:
     Returns:
         String (in plaintext) that can be output to sys.stdout
     """
+    # TODO: modify so that license_directory isn't needed
     output = StringIO()
-    for f_report in report.file_reports:
-        output.write(_output_per_file_report(f_report))
+    # TODO: perhaps merge with format_plain
+
+    if not report.is_compliant:
+        # Bad licenses
+        for lic, files in sorted(report.bad_licenses.items()):
+            for file in sorted(files):
+                output.write(_(f"{file}: bad license: {lic}\n"))
+
+        # TODO: maintain the exact path rather than assuming it. Also: is this
+        # based on the analysis of the license file?
+        # Deprecated licenses
+        for lic in sorted(report.deprecated_licenses):
+            license_path = licenses_directory.joinpath(lic)
+            output.write(_(f"{license_path}: deprecated license\n"))
+
+        # TODO: maintain the exact path rather than assuming it
+        # Licenses without extension
+        for lic in sorted(report.licenses_without_extension):
+            license_path = licenses_directory.joinpath(lic)
+            output.write(_(f"{license_path}: license without file extension\n"))
+
+        # Missing licenses
+        for lic, files in sorted(report.missing_licenses.items()):
+            for file in sorted(files):
+                output.write(_(f"{file}: missing license: {lic}\n"))
+
+        # TODO: maintain the exact path rather than assuming it
+        # Unused licenses
+        for lic in sorted(report.unused_licenses):
+            license_path = licenses_directory.joinpath(lic)
+            output.write(_(f"{license_path}: unused license\n"))
+
+        # Read errors
+        for path in sorted(report.read_errors):
+            output.write(_(f"{path}: read error\n"))
+
+        # Without licenses
+        for file in report.files_without_licenses:
+            output.write(_(f"{file}: without license\n"))
+
+        # Without copyright
+        for file in report.files_without_copyright:
+            output.write(_(f"{file}: without copyright\n"))
+
     return output.getvalue()
 
 
@@ -310,7 +332,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     elif args.json:
         out.write(format_json(report))
     elif args.lines:
-        out.write(format_lines(report))
+        out.write(format_lines(report, project.licenses_directory))
     else:
         out.write(format_plain(report))
 

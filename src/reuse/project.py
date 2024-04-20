@@ -75,6 +75,7 @@ class Project:
         include_meson_subprojects: bool = False,
     ):
         self.root = Path(root)
+        self.licenses_directory = Path(root).joinpath("LICENSES")
 
         if vcs_strategy is None:
             vcs_strategy = VCSStrategyNone
@@ -424,7 +425,7 @@ class Project:
         # TODO: This method does more than one thing. We ought to simplify it.
         license_files: Dict[str, Path] = {}
 
-        directory = str(self.root / "LICENSES/**")
+        directory = str(self.licenses_directory / "**")
         for path_str in glob.iglob(directory, recursive=True):
             path = Path(path_str)
             # For some reason, LICENSES/** is resolved even though it
