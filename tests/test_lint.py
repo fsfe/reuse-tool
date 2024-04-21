@@ -5,11 +5,12 @@
 
 """All tests for reuse.lint"""
 
+import re
 import shutil
 
 from conftest import cpython, posix
 
-from reuse.lint import format_plain
+from reuse.lint import format_lines, format_plain
 from reuse.project import Project
 from reuse.report import ProjectReport
 
@@ -210,6 +211,54 @@ def test_lint_json_output(fake_repository):
             assert test_file["licenses"][0]["source"] == str(
                 fake_repository / ".reuse/dep5"
             )
+
+
+def test_lint_lines_output(fake_repository):
+    """Complete test for lint with lines output."""
+    # Prepare a repository that includes all types of situations:
+    # missing_licenses, unused_licenses, bad_licenses, deprecated_licenses,
+    # licenses_without_extension, files_without_copyright,
+    # files_without_licenses, read_errors
+    (fake_repository / "invalid-license.py").write_text(
+        "SPDX-License-Identifier: invalid"
+    )
+    (fake_repository / "no-license.py").write_text(
+        "SPDX-FileCopyrightText: Jane Doe"
+    )
+    (fake_repository / "LICENSES" / "invalid-license-text").write_text(
+        "An invalid license text"
+    )
+    (fake_repository / "LICENSES" / "Nokia-Qt-exception-1.1.txt").write_text(
+        "Deprecated"
+    )
+    (fake_repository / "LICENSES" / "MIT").write_text("foo")
+    (fake_repository / "restricted.py").write_text("foo")
+    (fake_repository / "restricted.py").chmod(0o000)
+    # TODO: should potentially conflicting filenames be handled differently?
+    (fake_repository / "file:with:colons.py").write_text("foo")
+    (fake_repository / "file with spaces.py").write_text("foo")
+
+    project = Project.from_directory(fake_repository)
+    report = ProjectReport.generate(project)
+
+    lines_result = format_lines(report, project.licenses_directory)
+    lines_result_lines = lines_result.splitlines()
+
+    assert len(lines_result_lines) == 15
+
+    for line in lines_result_lines:
+        assert re.match(".+: .+", line)
+
+    assert lines_result.count("invalid-license.py") == 3
+    assert lines_result.count("no-license.py") == 1
+    assert lines_result.count("LICENSES") == 6
+    assert lines_result.count("invalid-license-text") == 3
+    # TODO: file extension of license isn't kept in the data
+    assert lines_result.count("Nokia-Qt-exception-1.1.txt") == 2
+    assert lines_result.count("MIT") == 2
+    assert lines_result.count("restricted.py") == 1
+    assert lines_result.count("file:with:colons.py") == 2
+    assert lines_result.count("file with spaces.py") == 2
 
 
 # REUSE-IgnoreEnd
