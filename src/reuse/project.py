@@ -75,7 +75,9 @@ class Project:
         include_meson_subprojects: bool = False,
     ):
         self.root = Path(root)
-        self.licenses_directory = Path(root).joinpath("LICENSES")
+        self.licenses_directory = self.root.joinpath("LICENSES").relative_to(
+            self.root
+        )
 
         if vcs_strategy is None:
             vcs_strategy = VCSStrategyNone
