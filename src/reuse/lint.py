@@ -265,6 +265,8 @@ def format_json(report: ProjectReport) -> str:
 
 def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
     """Formats data dictionary as plaintext strings to be printed to sys.stdout
+    Sorting of output is not guaranteed.
+    Symbolic links can result in multiple entries per file.
 
     Args:
         report: ProjectReport data
@@ -274,7 +276,6 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
     """
     # TODO: modify so that license_directory isn't needed
     output = StringIO()
-    # TODO: perhaps merge with format_plain
 
     def license_path(lic: str) -> Path:
         return licenses_directory.joinpath(lic)
@@ -283,6 +284,7 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
         # Bad licenses
         for lic, files in sorted(report.bad_licenses.items()):
             for file in sorted(files):
+                # TODO: lic might be "invalid"
                 output.write(_(f"{file}: bad license: {lic}\n"))
 
         # TODO: maintain the exact path rather than assuming it. Also: is this
@@ -301,6 +303,7 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
         # Missing licenses
         for lic, files in sorted(report.missing_licenses.items()):
             for file in sorted(files):
+                # TODO: lic might be "invalid"
                 output.write(_(f"{file}: missing license: {lic}\n"))
 
         # TODO: maintain the exact path rather than assuming it
