@@ -276,6 +276,9 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
     output = StringIO()
     # TODO: perhaps merge with format_plain
 
+    def license_path(lic: str) -> Path:
+        return licenses_directory.joinpath(lic)
+
     if not report.is_compliant:
         # Bad licenses
         for lic, files in sorted(report.bad_licenses.items()):
@@ -286,14 +289,14 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
         # based on the analysis of the license file?
         # Deprecated licenses
         for lic in sorted(report.deprecated_licenses):
-            license_path = licenses_directory.joinpath(lic)
-            output.write(_(f"{license_path}: deprecated license\n"))
+            lic_path = license_path(lic)
+            output.write(_(f"{lic_path}: deprecated license\n"))
 
         # TODO: maintain the exact path rather than assuming it
         # Licenses without extension
         for lic in sorted(report.licenses_without_extension):
-            license_path = licenses_directory.joinpath(lic)
-            output.write(_(f"{license_path}: license without file extension\n"))
+            lic_path = license_path(lic)
+            output.write(_(f"{lic_path}: license without file extension\n"))
 
         # Missing licenses
         for lic, files in sorted(report.missing_licenses.items()):
@@ -303,8 +306,8 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
         # TODO: maintain the exact path rather than assuming it
         # Unused licenses
         for lic in sorted(report.unused_licenses):
-            license_path = licenses_directory.joinpath(lic)
-            output.write(_(f"{license_path}: unused license\n"))
+            lic_path = license_path(lic)
+            output.write(_(f"{lic_path}: unused license\n"))
 
         # Read errors
         for path in sorted(report.read_errors):
