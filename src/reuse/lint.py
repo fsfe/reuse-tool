@@ -282,19 +282,18 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
 
     if not report.is_compliant:
         # Bad licenses
+        # TODO: include source code line number of the finding
         for lic, files in sorted(report.bad_licenses.items()):
             for file in sorted(files):
-                # TODO: lic might be "invalid"
                 output.write(_(f"{file}: bad license: {lic}\n"))
 
-        # TODO: maintain the exact path rather than assuming it. Also: is this
-        # based on the analysis of the license file?
+        # TODO: maintain the exact path to include the file extension
         # Deprecated licenses
         for lic in sorted(report.deprecated_licenses):
             lic_path = license_path(lic)
             output.write(_(f"{lic_path}: deprecated license\n"))
 
-        # TODO: maintain the exact path rather than assuming it
+        # TODO: maintain the exact path to include the file extension
         # Licenses without extension
         for lic in sorted(report.licenses_without_extension):
             lic_path = license_path(lic)
@@ -303,10 +302,9 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
         # Missing licenses
         for lic, files in sorted(report.missing_licenses.items()):
             for file in sorted(files):
-                # TODO: lic might be "invalid"
                 output.write(_(f"{file}: missing license: {lic}\n"))
 
-        # TODO: maintain the exact path rather than assuming it
+        # TODO: maintain the exact path to include the file extension
         # Unused licenses
         for lic in sorted(report.unused_licenses):
             lic_path = license_path(lic)
