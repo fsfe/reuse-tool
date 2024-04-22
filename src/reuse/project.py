@@ -3,7 +3,6 @@
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2023 Matthias Riße
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
-# SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -76,9 +75,6 @@ class Project:
         include_meson_subprojects: bool = False,
     ):
         self.root = Path(root)
-        self.licenses_directory = self.root.joinpath("LICENSES").relative_to(
-            self.root
-        )
 
         if vcs_strategy is None:
             vcs_strategy = VCSStrategyNone
@@ -428,7 +424,7 @@ class Project:
         # TODO: This method does more than one thing. We ought to simplify it.
         license_files: Dict[str, Path] = {}
 
-        directory = str(self.licenses_directory / "**")
+        directory = str(self.root / "LICENSES/**")
         for path_str in glob.iglob(directory, recursive=True):
             path = Path(path_str)
             # For some reason, LICENSES/** is resolved even though it
