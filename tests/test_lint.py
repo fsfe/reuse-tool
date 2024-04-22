@@ -247,7 +247,7 @@ def test_lint_lines_output(fake_repository):
     assert len(lines_result_lines) == 15
 
     for line in lines_result_lines:
-        assert re.match(".+: .+", line)
+        assert re.match(".+: [^:]+", line)
 
     assert lines_result.count("invalid-license.py") == 3
     assert lines_result.count("no-license.py") == 1

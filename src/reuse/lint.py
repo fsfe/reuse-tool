@@ -285,7 +285,7 @@ def format_lines(report: ProjectReport) -> str:
         # Bad licenses
         for lic, files in sorted(report.bad_licenses.items()):
             for file in sorted(files):
-                output.write(_(f"{file}: bad license: {lic}\n"))
+                output.write(_(f"{file}: bad license {lic}\n"))
 
         # Deprecated licenses
         for lic in sorted(report.deprecated_licenses):
@@ -300,7 +300,7 @@ def format_lines(report: ProjectReport) -> str:
         # Missing licenses
         for lic, files in sorted(report.missing_licenses.items()):
             for file in sorted(files):
-                output.write(_(f"{file}: missing license: {lic}\n"))
+                output.write(_(f"{file}: missing license {lic}\n"))
 
         # Unused licenses
         for lic in sorted(report.unused_licenses):
