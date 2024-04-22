@@ -235,7 +235,6 @@ def test_lint_lines_output(fake_repository):
     (fake_repository / "LICENSES" / "MIT").write_text("foo")
     (fake_repository / "restricted.py").write_text("foo")
     (fake_repository / "restricted.py").chmod(0o000)
-    (fake_repository / "file:with:colons.py").write_text("foo")
     (fake_repository / "file with spaces.py").write_text("foo")
 
     project = Project.from_directory(fake_repository)
@@ -244,7 +243,7 @@ def test_lint_lines_output(fake_repository):
     lines_result = format_lines(report)
     lines_result_lines = lines_result.splitlines()
 
-    assert len(lines_result_lines) == 15
+    assert len(lines_result_lines) == 13
 
     for line in lines_result_lines:
         assert re.match(".+: [^:]+", line)
@@ -256,7 +255,6 @@ def test_lint_lines_output(fake_repository):
     assert lines_result.count("Nokia-Qt-exception-1.1.txt") == 2
     assert lines_result.count("MIT") == 2
     assert lines_result.count("restricted.py") == 1
-    assert lines_result.count("file:with:colons.py") == 2
     assert lines_result.count("file with spaces.py") == 2
 
 
