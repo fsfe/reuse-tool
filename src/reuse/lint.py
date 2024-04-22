@@ -263,7 +263,7 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
-def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
+def format_lines(report: ProjectReport) -> str:
     """Formats data dictionary as plaintext strings to be printed to sys.stdout
     Sorting of output is not guaranteed.
     Symbolic links can result in multiple entries per file.
@@ -274,11 +274,11 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
     Returns:
         String (in plaintext) that can be output to sys.stdout
     """
-    # TODO: modify so that license_directory isn't needed
     output = StringIO()
 
-    def license_path(lic: str) -> Path:
-        return licenses_directory.joinpath(lic)
+    def license_path(lic: str) -> Path | None:
+        "Resolve a license identifier to a license path."
+        return report.licenses.get(lic)
 
     if not report.is_compliant:
         # Bad licenses
@@ -287,13 +287,11 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
             for file in sorted(files):
                 output.write(_(f"{file}: bad license: {lic}\n"))
 
-        # TODO: maintain the exact path to include the file extension
         # Deprecated licenses
         for lic in sorted(report.deprecated_licenses):
             lic_path = license_path(lic)
             output.write(_(f"{lic_path}: deprecated license\n"))
 
-        # TODO: maintain the exact path to include the file extension
         # Licenses without extension
         for lic in sorted(report.licenses_without_extension):
             lic_path = license_path(lic)
@@ -304,7 +302,6 @@ def format_lines(report: ProjectReport, licenses_directory: Path) -> str:
             for file in sorted(files):
                 output.write(_(f"{file}: missing license: {lic}\n"))
 
-        # TODO: maintain the exact path to include the file extension
         # Unused licenses
         for lic in sorted(report.unused_licenses):
             lic_path = license_path(lic)
@@ -336,7 +333,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     elif args.json:
         out.write(format_json(report))
     elif args.lines:
-        out.write(format_lines(report, project.licenses_directory))
+        out.write(format_lines(report))
     else:
         out.write(format_plain(report))
 

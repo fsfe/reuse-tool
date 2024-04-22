@@ -241,7 +241,7 @@ def test_lint_lines_output(fake_repository):
     project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
 
-    lines_result = format_lines(report, project.licenses_directory)
+    lines_result = format_lines(report)
     lines_result_lines = lines_result.splitlines()
 
     assert len(lines_result_lines) == 15
@@ -253,7 +253,6 @@ def test_lint_lines_output(fake_repository):
     assert lines_result.count("no-license.py") == 1
     assert lines_result.count("LICENSES") == 6
     assert lines_result.count("invalid-license-text") == 3
-    # TODO: file extension of license isn't kept in the data
     assert lines_result.count("Nokia-Qt-exception-1.1.txt") == 2
     assert lines_result.count("MIT") == 2
     assert lines_result.count("restricted.py") == 1
