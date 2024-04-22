@@ -16,7 +16,7 @@ from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
-from typing import IO, Any
+from typing import IO, Any, Optional
 
 from . import __REUSE_version__
 from .project import Project
@@ -277,7 +277,7 @@ def format_lines(report: ProjectReport) -> str:
     """
     output = StringIO()
 
-    def license_path(lic: str) -> Path | None:
+    def license_path(lic: str) -> Optional[Path]:
         "Resolve a license identifier to a license path."
         return report.licenses.get(lic)
 
