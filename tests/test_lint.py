@@ -235,7 +235,6 @@ def test_lint_lines_output(fake_repository):
     (fake_repository / "LICENSES" / "MIT").write_text("foo")
     (fake_repository / "restricted.py").write_text("foo")
     (fake_repository / "restricted.py").chmod(0o000)
-    # TODO: should potentially conflicting filenames be handled differently?
     (fake_repository / "file:with:colons.py").write_text("foo")
     (fake_repository / "file with spaces.py").write_text("foo")
 

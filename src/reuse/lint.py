@@ -283,7 +283,6 @@ def format_lines(report: ProjectReport) -> str:
 
     if not report.is_compliant:
         # Bad licenses
-        # TODO: include source code line number of the finding
         for lic, files in sorted(report.bad_licenses.items()):
             for file in sorted(files):
                 output.write(_(f"{file}: bad license: {lic}\n"))
