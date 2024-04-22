@@ -233,8 +233,6 @@ def test_lint_lines_output(fake_repository):
         "Deprecated"
     )
     (fake_repository / "LICENSES" / "MIT").write_text("foo")
-    (fake_repository / "restricted.py").write_text("foo")
-    (fake_repository / "restricted.py").chmod(0o000)
     (fake_repository / "file with spaces.py").write_text("foo")
 
     project = Project.from_directory(fake_repository)
@@ -243,7 +241,6 @@ def test_lint_lines_output(fake_repository):
     lines_result = format_lines(report)
     lines_result_lines = lines_result.splitlines()
 
-    print(lines_result_lines)  # TODO: remove this debug
     assert len(lines_result_lines) == 12
 
     for line in lines_result_lines:
@@ -255,8 +252,23 @@ def test_lint_lines_output(fake_repository):
     assert lines_result.count("invalid-license-text") == 3
     assert lines_result.count("Nokia-Qt-exception-1.1.txt") == 2
     assert lines_result.count("MIT") == 2
-    assert lines_result.count("restricted.py") == 1
     assert lines_result.count("file with spaces.py") == 2
+
+
+@cpython
+@posix
+def test_lint_lines_read_errors(fake_repository):
+    """Check read error output"""
+    (fake_repository / "restricted.py").write_text("foo")
+    (fake_repository / "restricted.py").chmod(0o000)
+    project = Project.from_directory(fake_repository)
+    report = ProjectReport.generate(project)
+    result = format_lines(report)
+    print(result)
+
+    assert len(result.splitlines()) == 1
+    assert "restricted.py" in result
+    assert "read error" in result
 
 
 # REUSE-IgnoreEnd
