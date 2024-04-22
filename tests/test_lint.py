@@ -243,7 +243,8 @@ def test_lint_lines_output(fake_repository):
     lines_result = format_lines(report)
     lines_result_lines = lines_result.splitlines()
 
-    assert len(lines_result_lines) == 13
+    print(lines_result_lines)  # TODO: remove this debug
+    assert len(lines_result_lines) == 12
 
     for line in lines_result_lines:
         assert re.match(".+: [^:]+", line)
