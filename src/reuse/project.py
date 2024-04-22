@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2023 Matthias Riße
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 

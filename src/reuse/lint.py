@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
