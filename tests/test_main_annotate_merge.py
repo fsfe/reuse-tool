@@ -8,7 +8,6 @@
 from inspect import cleandoc
 
 from reuse._main import main
-
 from reuse._util import _COPYRIGHT_STYLES
 
 # pylint: disable=unused-argument
