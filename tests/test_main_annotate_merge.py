@@ -21,7 +21,7 @@ def test_annotate_merge_copyrights_simple(fake_repository, stringio):
     simple_file = fake_repository / "foo.py"
 
     for copyright_style, copyright_string in _COPYRIGHT_STYLES.items():
-        simple_file.write_text("pass")
+        simple_file.write_text("pass", encoding="utf-8")
         result = main(
             [
                 "annotate",
@@ -40,7 +40,7 @@ def test_annotate_merge_copyrights_simple(fake_repository, stringio):
         )
 
         assert result == 0
-        assert simple_file.read_text() == cleandoc(
+        assert simple_file.read_text(encoding="utf-8") == cleandoc(
             f"""
                 # {copyright_string} 2016 Mary Sue
                 #
@@ -68,7 +68,7 @@ def test_annotate_merge_copyrights_simple(fake_repository, stringio):
         )
 
         assert result == 0
-        assert simple_file.read_text() == cleandoc(
+        assert simple_file.read_text(encoding="utf-8") == cleandoc(
             f"""
                 # {copyright_string} 2016 - 2018 Mary Sue
                 #
