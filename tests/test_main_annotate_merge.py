@@ -9,6 +9,8 @@ from inspect import cleandoc
 
 from reuse._main import main
 
+from reuse._util import _COPYRIGHT_STYLES
+
 # pylint: disable=unused-argument
 
 # REUSE-IgnoreStart
@@ -17,59 +19,64 @@ from reuse._main import main
 def test_annotate_merge_copyrights_simple(fake_repository, stringio):
     """Add multiple headers to a file with merge copyrights."""
     simple_file = fake_repository / "foo.py"
-    simple_file.write_text("pass")
 
-    result = main(
-        [
-            "annotate",
-            "--year",
-            "2016",
-            "--license",
-            "GPL-3.0-or-later",
-            "--copyright",
-            "Mary Sue",
-            "--merge-copyrights",
-            "foo.py",
-        ],
-        out=stringio,
-    )
+    for copyright_style, copyright_string in _COPYRIGHT_STYLES.items():
+        simple_file.write_text("pass")
+        result = main(
+            [
+                "annotate",
+                "--year",
+                "2016",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--copyright-style",
+                copyright_style,
+                "--merge-copyrights",
+                "foo.py",
+            ],
+            out=stringio,
+        )
 
-    assert result == 0
-    assert simple_file.read_text() == cleandoc(
-        """
-            # SPDX-FileCopyrightText: 2016 Mary Sue
-            #
-            # SPDX-License-Identifier: GPL-3.0-or-later
+        assert result == 0
+        assert simple_file.read_text() == cleandoc(
+            f"""
+                # {copyright_string} 2016 Mary Sue
+                #
+                # SPDX-License-Identifier: GPL-3.0-or-later
 
-            pass
-            """
-    )
+                pass
+                """
+        )
 
-    result = main(
-        [
-            "annotate",
-            "--year",
-            "2018",
-            "--license",
-            "GPL-3.0-or-later",
-            "--copyright",
-            "Mary Sue",
-            "--merge-copyrights",
-            "foo.py",
-        ],
-        out=stringio,
-    )
+        result = main(
+            [
+                "annotate",
+                "--year",
+                "2018",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Mary Sue",
+                "--copyright-style",
+                copyright_style,
+                "--merge-copyrights",
+                "foo.py",
+            ],
+            out=stringio,
+        )
 
-    assert result == 0
-    assert simple_file.read_text() == cleandoc(
-        """
-            # SPDX-FileCopyrightText: 2016 - 2018 Mary Sue
-            #
-            # SPDX-License-Identifier: GPL-3.0-or-later
+        assert result == 0
+        assert simple_file.read_text() == cleandoc(
+            f"""
+                # {copyright_string} 2016 - 2018 Mary Sue
+                #
+                # SPDX-License-Identifier: GPL-3.0-or-later
 
-            pass
-            """
-    )
+                pass
+                """
+        )
 
 
 def test_annotate_merge_copyrights_multi_prefix(fake_repository, stringio):
