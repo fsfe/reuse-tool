@@ -278,7 +278,7 @@ def format_lines(report: ProjectReport) -> str:
     output = StringIO()
 
     def license_path(lic: str) -> Optional[Path]:
-        "Resolve a license identifier to a license path."
+        """Resolve a license identifier to a license path."""
         return report.licenses.get(lic)
 
     if not report.is_compliant:
