@@ -305,6 +305,13 @@ def format_lines(report: ProjectReport) -> str:
                 )
             )
 
+        # Unused licenses
+        for lic in sorted(report.unused_licenses):
+            lic_path = license_path(lic)
+            output.write(
+                _("{lic_path}: unused license\n").format(lic_path=lic_path)
+            )
+
         # Missing licenses
         for lic, files in sorted(report.missing_licenses.items()):
             for path in sorted(files):
@@ -313,13 +320,6 @@ def format_lines(report: ProjectReport) -> str:
                         path=path, lic=lic
                     )
                 )
-
-        # Unused licenses
-        for lic in sorted(report.unused_licenses):
-            lic_path = license_path(lic)
-            output.write(
-                _("{lic_path}: unused license\n").format(lic_path=lic_path)
-            )
 
         # Read errors
         for path in sorted(report.read_errors):
