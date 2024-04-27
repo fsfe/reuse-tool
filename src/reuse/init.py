@@ -1,9 +1,11 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2024 Ngô Ngọc Đức Huy <huyngo@disroot.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Functions for REUSE-ifying a project."""
 
+import os
 import re
 import sys
 from argparse import ArgumentParser, Namespace
@@ -58,6 +60,39 @@ def prompt_licenses(out: IO[str] = sys.stdout) -> List[str]:
             licenses.append(result)
 
 
+def prompt(question: str, out: IO[str] = sys.stdout) -> str:
+    """Prompt for value."""
+    out.write(question)
+    out.write("\n")
+    value = input()
+    out.write("\n")
+    return value
+
+
+def filter_invalid_licenses(licenses: List[str],
+                            out: IO[str] = sys.stdout) -> List[str]:
+    """Check if licenses in a list are valid, and prompt again if none is."""
+    filtered_licenses = []
+    for _license in licenses:
+        if _license not in ALL_NON_DEPRECATED_MAP and not re.match(
+            _LICENSEREF_PATTERN, _license
+        ):
+            print_incorrect_spdx_identifier(_license, out=out)
+            out.write("\n\n")
+        else:
+            filtered_licenses.append(_license)
+    if len(filtered_licenses) == 0:
+        licenses = prompt_licenses(out=out)
+    else:
+        out.write(_("Chosen licenses:"))
+        out.write("\n")
+        for _license in licenses:
+            out.write(_license)
+            out.write("\n")
+        out.write("\n")
+    return filtered_licenses
+
+
 def add_arguments(parser: ArgumentParser) -> None:
     """Add arguments to parser."""
     parser.add_argument(
@@ -66,6 +101,28 @@ def add_arguments(parser: ArgumentParser) -> None:
         nargs="?",
         type=PathType("r", force_directory=True),
     )
+    parser.add_argument(
+        "--licenses",
+        action="store",
+        nargs="*",
+        type=str
+    )
+    parser.add_argument(
+        "--project-name",
+        type=str
+    )
+    parser.add_argument(
+        "--project-address",
+        type=str
+    )
+    parser.add_argument(
+        "--maintainer",
+        type=str
+    )
+    parser.add_argument(
+        "--email",
+        type=str
+    )
 
 
 def run(
@@ -73,8 +130,8 @@ def run(
     project: Project,
     out: IO[str] = sys.stdout,
 ) -> int:
-    """List all non-compliant files."""
-    # pylint: disable=too-many-statements,unused-argument
+    """Initialize project."""
+    # pylint: disable=unused-argument
     if args.path:
         root = args.path
     else:
@@ -90,31 +147,28 @@ def run(
     out.write(_("Initializing project for REUSE."))
     out.write("\n\n")
 
-    licenses = prompt_licenses(out=out)
+    if args.licenses:
+        licenses = filter_invalid_licenses(args.licenses, out)
+    elif (env_licenses := os.getenv("REUSE_LICENSES")) is not None:
+        licenses = filter_invalid_licenses(env_licenses.split(), out)
+    else:
+        licenses = prompt_licenses(out=out)
 
-    out.write(_("What is the name of the project?"))
-    out.write("\n")
-    project_name = input()
+    project_name = (args.project_name or
+                    prompt(_("What is the name of the project?"), out))
 
-    out.write("\n")
+    project_url = (args.project_address or
+                   prompt(
+                       _("What is the internet address of the project?"), out))
 
-    out.write(_("What is the internet address of the project?"))
-    out.write("\n")
-    project_url = input()
+    contact_name = (args.maintainer or
+                    os.getenv("REUSE_MAINTAINER") or
+                    prompt(_("What is the name of the maintainer?"), out))
 
-    out.write("\n")
-
-    out.write(_("What is the name of the maintainer?"))
-    out.write("\n")
-    contact_name = input()
-
-    out.write("\n")
-
-    out.write(_("What is the e-mail address of the maintainer?"))
-    out.write("\n")
-    contact_address = input()
-
-    out.write("\n")
+    contact_address = (
+        args.email or
+        os.getenv("REUSE_EMAIL") or
+        prompt(_("What is the e-mail address of the maintainer?"), out))
 
     out.write(_("All done! Initializing now."))
     out.write("\n\n")
