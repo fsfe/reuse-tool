@@ -284,40 +284,54 @@ def format_lines(report: ProjectReport) -> str:
     if not report.is_compliant:
         # Bad licenses
         for lic, files in sorted(report.bad_licenses.items()):
-            for file in sorted(files):
-                output.write(_(f"{file}: bad license {lic}\n"))
+            for path in sorted(files):
+                output.write(
+                    _("{path}: bad license {lic}\n").format(path=path, lic=lic)
+                )
 
         # Deprecated licenses
         for lic in sorted(report.deprecated_licenses):
             lic_path = license_path(lic)
-            output.write(_(f"{lic_path}: deprecated license\n"))
+            output.write(
+                _("{lic_path}: deprecated license\n").format(lic_path=lic_path)
+            )
 
         # Licenses without extension
         for lic in sorted(report.licenses_without_extension):
             lic_path = license_path(lic)
-            output.write(_(f"{lic_path}: license without file extension\n"))
+            output.write(
+                _("{lic_path}: license without file extension\n").format(
+                    lic_path=lic_path
+                )
+            )
 
         # Missing licenses
         for lic, files in sorted(report.missing_licenses.items()):
-            for file in sorted(files):
-                output.write(_(f"{file}: missing license {lic}\n"))
+            for path in sorted(files):
+                output.write(
+                    _("{path}: missing license {lic}\n").format(
+                        path=path, lic=lic
+                    )
+                )
 
         # Unused licenses
         for lic in sorted(report.unused_licenses):
             lic_path = license_path(lic)
-            output.write(_(f"{lic_path}: unused license\n"))
+            output.write(
+                _("{lic_path}: unused license\n").format(lic_path=lic_path)
+            )
 
         # Read errors
         for path in sorted(report.read_errors):
-            output.write(_(f"{path}: read error\n"))
+            output.write(_("{path}: read error\n").format(path=path))
 
         # Without licenses
-        for file in report.files_without_licenses:
-            output.write(_(f"{file}: without license\n"))
+        for path in report.files_without_licenses:
+            output.write(_("{path}: without license\n").format(path=path))
 
         # Without copyright
-        for file in report.files_without_copyright:
-            output.write(_(f"{file}: without copyright\n"))
+        for path in report.files_without_copyright:
+            output.write(_("{path}: without copyright\n").format(path=path))
 
     return output.getvalue()
 
