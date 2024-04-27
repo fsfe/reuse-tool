@@ -150,9 +150,6 @@ class VCSStrategyGit(VCSStrategy):
 
     @classmethod
     def in_repo(cls, directory: StrPath) -> bool:
-        if directory is None:
-            directory = Path.cwd()
-
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
@@ -220,9 +217,6 @@ class VCSStrategyHg(VCSStrategy):
 
     @classmethod
     def in_repo(cls, directory: StrPath) -> bool:
-        if directory is None:
-            directory = Path.cwd()
-
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
@@ -277,9 +271,6 @@ class VCSStrategyPijul(VCSStrategy):
 
     @classmethod
     def in_repo(cls, directory: StrPath) -> bool:
-        if directory is None:
-            directory = Path.cwd()
-
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
