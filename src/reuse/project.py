@@ -295,7 +295,7 @@ class Project:
                     " information for these two sources has been"
                     " aggregated. You are recommended to instead use"
                     " REUSE.toml, where you can specify the order of"
-                    " precedence. TODO: conversion command?"
+                    " precedence. Use `reuse convert-dep5` to convert."
                     " Run with"
                     " `--suppress-deprecation` to hide this warning."
                 ).format(
@@ -357,7 +357,8 @@ class Project:
             warnings.warn(
                 _(
                     "'.reuse/dep5' is deprecated. You are recommended to"
-                    " instead use REUSE.toml."
+                    " instead use REUSE.toml. Use `reuse convert-dep5` to"
+                    " convert."
                 ),
                 PendingDeprecationWarning,
             )

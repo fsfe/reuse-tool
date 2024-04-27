@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
+# SPDX-FileCopyrightText: 2024 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,12 +23,12 @@ from unittest.mock import create_autospec
 from urllib.error import URLError
 
 import pytest
-from freezegun import freeze_time
 from conftest import RESOURCES_DIRECTORY
+from freezegun import freeze_time
 
 from reuse import download
 from reuse._main import main
-from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE
+from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE, cleandoc_nl
 from reuse.report import LINT_VERSION
 
 # REUSE-IgnoreStart
@@ -610,6 +611,32 @@ def test_supported_licenses(stringio):
         r"GPL-3\.0-or-later\s+GNU General Public License v3\.0 or later\s+https:\/\/spdx\.org\/licenses\/GPL-3\.0-or-later\.html\s+\n",
         stringio.getvalue(),
     )
+
+
+def test_convert_dep5(fake_repository_dep5, stringio):
+    """Convert a DEP5 repository to a REUSE.toml repository."""
+    result = main(["convert-dep5"], out=stringio)
+
+    assert result == 0
+    assert not (fake_repository_dep5 / ".reuse/dep5").exists()
+    assert (fake_repository_dep5 / "REUSE.toml").exists()
+    assert (fake_repository_dep5 / "REUSE.toml").read_text() == cleandoc_nl(
+        """
+        version = 1
+
+        [[annotations]]
+        path = "doc/*"
+        precedence = "aggregate"
+        SPDX-FileCopyrightText = "2017 Jane Doe"
+        SPDX-License-Identifier = "CC0-1.0"
+        """
+    )
+
+
+def test_convert_dep5_no_dep5_file(fake_repository, stringio):
+    """Cannot convert when there is no .reuse/dep5 file."""
+    with pytest.raises(SystemExit):
+        main(["convert-dep5"], out=stringio)
 
 
 # REUSE-IgnoreEnd

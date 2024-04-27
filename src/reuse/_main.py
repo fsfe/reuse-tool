@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2024 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -18,6 +19,7 @@ from . import (
     __REUSE_version__,
     __version__,
     _annotate,
+    convert_dep5,
     download,
     lint,
     spdx,
@@ -185,6 +187,14 @@ def parser() -> argparse.ArgumentParser:
         supported_licenses.run,
         help=_("list all supported SPDX licenses"),
         aliases=["supported-licences"],
+    )
+
+    add_command(
+        subparsers,
+        "convert-dep5",
+        convert_dep5.add_arguments,
+        convert_dep5.run,
+        help=_("convert .reuse/dep5 to REUSE.toml"),
     )
 
     return parser

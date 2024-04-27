@@ -24,6 +24,7 @@ from collections import Counter
 from difflib import SequenceMatcher
 from gettext import gettext as _
 from hashlib import sha1
+from inspect import cleandoc
 from itertools import chain
 from os import PathLike
 from pathlib import Path
@@ -647,6 +648,11 @@ def detect_line_endings(text: str) -> str:
         if line_ending in text:
             return line_ending
     return os.linesep
+
+
+def cleandoc_nl(text: str) -> str:
+    """Like :func:`inspect.cleandoc`, but with a newline at the end."""
+    return cleandoc(text) + "\n"
 
 
 # REUSE-IgnoreEnd
