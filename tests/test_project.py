@@ -760,10 +760,16 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
 
 
 def test_find_global_licensing_dep5(fake_repository_dep5):
-    """Find the dep5 file."""
-    result = Project.find_global_licensing(fake_repository_dep5)
-    assert result.path == fake_repository_dep5 / ".reuse/dep5"
-    assert result.cls == ReuseDep5
+    """Find the dep5 file. Also output a PendingDeprecationWarning."""
+    with warnings.catch_warnings(record=True) as caught_warnings:
+        result = Project.find_global_licensing(fake_repository_dep5)
+        assert result.path == fake_repository_dep5 / ".reuse/dep5"
+        assert result.cls == ReuseDep5
+
+        assert len(caught_warnings) == 1
+        assert issubclass(
+            caught_warnings[0].category, PendingDeprecationWarning
+        )
 
 
 def test_find_global_licensing_reuse_toml(fake_repository_reuse_toml):
