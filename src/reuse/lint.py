@@ -327,11 +327,11 @@ def format_lines(report: ProjectReport) -> str:
 
         # Without licenses
         for path in report.files_without_licenses:
-            output.write(_("{path}: without license\n").format(path=path))
+            output.write(_("{path}: no license identifier\n").format(path=path))
 
         # Without copyright
         for path in report.files_without_copyright:
-            output.write(_("{path}: without copyright\n").format(path=path))
+            output.write(_("{path}: no copyright notice\n").format(path=path))
 
     return output.getvalue()
 
