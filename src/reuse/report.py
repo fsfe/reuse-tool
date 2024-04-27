@@ -498,7 +498,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                     "Fix missing copyright/licensing information: For one or"
                     " more files, the tool cannot find copyright and/or"
                     " licensing information. You typically do this by adding"
-                    " 'SPDX-FileCopyrightText' and 'SPDX-License-Identifer'"
+                    " 'SPDX-FileCopyrightText' and 'SPDX-License-Identifier'"
                     " tags to each file. The tutorial explains additional ways"
                     " to do this: <https://reuse.software/tutorial/>"
                 )
