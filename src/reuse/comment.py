@@ -733,6 +733,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pri": PythonCommentStyle,
     ".pro": PythonCommentStyle,
     ".props": HtmlCommentStyle,  # MSBuild files
+    ".properties": PythonCommentStyle,
     ".proto": CCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
     ".psm1": PythonCommentStyle,  # TODO: Multiline comments
@@ -865,7 +866,6 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Gemfile": PythonCommentStyle,
     "go.mod": CCommentStyle,
     "go.sum": UncommentableCommentStyle,
-    "gradle-wrapper.properties": PythonCommentStyle,
     "gradlew": PythonCommentStyle,
     "Jenkinsfile": CCommentStyle,
     "Makefile.am": PythonCommentStyle,
@@ -880,7 +880,6 @@ FILENAME_COMMENT_STYLE_MAP = {
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
-    "sonar-project.properties": PythonCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
 
