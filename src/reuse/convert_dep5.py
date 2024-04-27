@@ -7,7 +7,7 @@
 import sys
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
-from typing import IO, cast
+from typing import IO, Any, List, Union, cast
 
 import tomlkit
 from debian.copyright import Copyright
@@ -21,10 +21,12 @@ def toml_from_dep5(dep5: Copyright) -> str:
     annotations = []
     for paragraph in dep5.all_files_paragraphs():
         # Convert some lists to single-item elements as necessary.
-        copyrights = [line.strip() for line in paragraph.copyright.splitlines()]
+        copyrights: Union[str, List[str]] = [
+            line.strip() for line in cast(str, paragraph.copyright).splitlines()
+        ]
         if len(copyrights) == 1:
             copyrights = copyrights[0]
-        paths = list(paragraph.files)
+        paths: Union[str, List[str]] = list(paragraph.files)
         if len(paths) == 1:
             paths = paths[0]
         annotations.append(
@@ -32,7 +34,9 @@ def toml_from_dep5(dep5: Copyright) -> str:
                 "path": paths,
                 "precedence": "aggregate",
                 "SPDX-FileCopyrightText": copyrights,
-                "SPDX-License-Identifier": paragraph.license.synopsis,
+                "SPDX-License-Identifier": cast(
+                    Any, paragraph.license
+                ).synopsis,
             }
         )
     # TODO: magic version number

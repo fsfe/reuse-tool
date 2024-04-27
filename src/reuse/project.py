@@ -17,7 +17,7 @@ import warnings
 from collections import defaultdict
 from gettext import gettext as _
 from pathlib import Path
-from typing import Dict, Iterator, List, NamedTuple, Optional, Type
+from typing import DefaultDict, Dict, Iterator, List, NamedTuple, Optional, Type
 
 from binaryornot.check import is_binary
 
@@ -243,7 +243,7 @@ class Project:
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in ReuseInfo
-        global_results: "defaultdict[PrecedenceType, List[ReuseInfo]]" = (
+        global_results: "DefaultDict[PrecedenceType, List[ReuseInfo]]" = (
             defaultdict(list)
         )
         file_result = ReuseInfo()
