@@ -56,6 +56,10 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Changed
 
 - `.s` files now use the Python comment style as per GNU Assembler (gas). (#928)
+- Previously, any file that begins with `COPYING` or `LICENSE` was ignored. This
+  has been changed. Now, files like `COPYING_README` are no longer ignored, but
+  `COPYING` and `COPYING.txt` are still ignored (in other words: exact matches,
+  or `COPYING` + a file extension). Idem ditto for `LICENSE`. (#886)
 
 ### Deprecated
 
