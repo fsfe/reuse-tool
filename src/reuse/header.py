@@ -216,8 +216,8 @@ def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
             shebang_lines.append(line)
             text = text.replace(line, "", 1)
         else:
-            shebang = "\n".join(shebang_lines)
             break
+    shebang = "\n".join(shebang_lines)
     return (shebang, text)
 
 
