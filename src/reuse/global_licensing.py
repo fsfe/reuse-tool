@@ -186,13 +186,11 @@ def _str_to_global_precedence(value: Any) -> PrecedenceType:
 
 
 @overload
-def _str_to_set(value: str) -> Set[str]:
-    ...
+def _str_to_set(value: str) -> Set[str]: ...
 
 
 @overload
-def _str_to_set(value: Union[None, _T, Collection[_T]]) -> Set[_T]:
-    ...
+def _str_to_set(value: Union[None, _T, Collection[_T]]) -> Set[_T]: ...
 
 
 def _str_to_set(
@@ -472,9 +470,9 @@ class NestedReuseTOML(GlobalLicensing):
     ) -> Dict[PrecedenceType, List[ReuseInfo]]:
         path = PurePath(path)
 
-        toml_items: List[
-            Tuple[ReuseTOML, AnnotationsItem]
-        ] = self._find_relevant_tomls_and_items(path)
+        toml_items: List[Tuple[ReuseTOML, AnnotationsItem]] = (
+            self._find_relevant_tomls_and_items(path)
+        )
 
         result = defaultdict(list)
         for keyval in toml_items:
