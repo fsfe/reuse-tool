@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2024 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -368,8 +369,10 @@ def test_find_and_replace_separate_shebang():
     assert find_and_replace_header(text, info) == expected
 
 
-def test_find_and_replace_only_shebang():
-    """When the file only contains a shebang, keep it at the top of the file."""
+def test_find_and_replace_shebang_but_no_copyright():
+    """When the file contains a shebang but no copyright information, keep it at
+    the top of the file.
+    """
     info = ReuseInfo({"GPL-3.0-or-later"})
     text = cleandoc(
         """
@@ -390,6 +393,24 @@ def test_find_and_replace_only_shebang():
 
         pass
         """
+    )
+
+    assert find_and_replace_header(text, info) == expected
+
+
+def test_find_and_replace_only_shebang():
+    """When the file only contains a shebang, add copyright info below it."""
+    info = ReuseInfo({"GPL-3.0-or-later"})
+    text = "#!/usr/bin/env python3"
+    expected = (
+        cleandoc(
+            """
+            #!/usr/bin/env python3
+
+            # SPDX-License-Identifier: GPL-3.0-or-later
+            """
+        )
+        + "\n"
     )
 
     assert find_and_replace_header(text, info) == expected
