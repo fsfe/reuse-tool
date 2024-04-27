@@ -12,7 +12,7 @@ from typing import IO, Any, List, Union, cast
 import tomlkit
 from debian.copyright import Copyright
 
-from .global_licensing import ReuseDep5
+from .global_licensing import REUSE_TOML_VERSION, ReuseDep5
 from .project import Project
 
 
@@ -39,8 +39,9 @@ def toml_from_dep5(dep5: Copyright) -> str:
                 ).synopsis,
             }
         )
-    # TODO: magic version number
-    return tomlkit.dumps({"version": 1, "annotations": annotations})
+    return tomlkit.dumps(
+        {"version": REUSE_TOML_VERSION, "annotations": annotations}
+    )
 
 
 # pylint: disable=unused-argument

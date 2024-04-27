@@ -47,6 +47,9 @@ _LOGGER = logging.getLogger(__name__)
 
 _T = TypeVar("_T")
 
+#: Current version of REUSE.toml.
+REUSE_TOML_VERSION = 1
+
 
 class PrecedenceType(Enum):
     """An enum of behaviours surrounding order of precedence for entries in a
@@ -374,10 +377,7 @@ class AnnotationsItem:
 
 @attrs.define
 class ReuseTOML(GlobalLicensing):
-    """A class that contains the data parsed from a REUSE.toml file.
-
-    TODO: There are strict typing requirements about the key-value pairs.
-    """
+    """A class that contains the data parsed from a REUSE.toml file."""
 
     version: int = attrs.field(validator=_instance_of(int))
     annotations: List[AnnotationsItem] = attrs.field(
