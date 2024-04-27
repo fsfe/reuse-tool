@@ -19,7 +19,6 @@ from . import (
     __version__,
     _annotate,
     download,
-    init,
     lint,
     spdx,
     supported_licenses,
@@ -139,14 +138,6 @@ def parser() -> argparse.ArgumentParser:
         description=fill_all(
             _("Download a license and place it in the LICENSES/ directory.")
         ),
-    )
-
-    add_command(
-        subparsers,
-        "init",
-        init.add_arguments,
-        init.run,
-        help=_("initialize REUSE project"),
     )
 
     add_command(
