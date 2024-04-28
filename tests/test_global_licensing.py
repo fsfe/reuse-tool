@@ -279,11 +279,55 @@ class TestAnnotationsItemMatches:
         )
         assert not item.matches("foo.py")
         assert item.matches("src/foo.py")
-        # This very specific test is the reason we use wcmatch instead of
-        # fnmatch. To match deeper files with 'src/*.py' would be rather weird.
-        # This complicates the spec a little, but I think it's worth the
-        # precision. One of REUSE's goals is to be unambiguous after all.
         assert not item.matches("src/other/foo.py")
+
+    def test_escape_asterisk(self):
+        """Handle escape asterisk."""
+        item = AnnotationsItem(paths=[r"\*.py"])
+        assert item.matches("*.py")
+        assert not item.matches("foo.py")
+
+    def test_escape_asterisk_asterisk(self):
+        """Handle escape asterisk asterisk."""
+        item = AnnotationsItem(paths=[r"\**.py"])
+        assert item.matches("*foo.py")
+        assert not item.matches("foo.py")
+
+    def test_escape_asterisk_escape_asterisk(self):
+        """Handle escape asterisk escape asterisk."""
+        item = AnnotationsItem(paths=[r"\*\*.py"])
+        assert item.matches("**.py")
+        assert not item.matches("foo.py")
+        assert not item.matches("*foo.py")
+
+    def test_escape_asterisk_asterisk_slash_asterisk(self):
+        """Handle escape asterisk asterisk slash asterisk."""
+        item = AnnotationsItem(paths=[r"\**/*.py"])
+        assert item.matches("*foo/foo.py")
+        assert not item.matches("bar/foo.py")
+
+    def test_escape_asterisk_escape_asterisk_slash_asterisk(self):
+        """Handle escape asterisk escape asterisk slash asterisk."""
+        item = AnnotationsItem(paths=[r"\*\*/*.py"])
+        assert item.matches("**/foo.py")
+        assert not item.matches("bar/foo.py")
+        assert not item.matches("*foo/foo.py")
+
+    def test_escape_escape_asterisk(self):
+        """Handle escape escape asterisk."""
+        item = AnnotationsItem(paths=[r"\\*.py"])
+        assert item.matches(r"\foo.py")
+
+    def test_asterisk_asterisk_asterisk(self):
+        """Handle asterisk asterisk asterisk."""
+        item = AnnotationsItem(paths=[r"***.py"])
+        assert item.matches("foo/bar/quz.py")
+
+    def test_escape_a(self):
+        """Handle escape a."""
+        item = AnnotationsItem(paths=[r"\a"])
+        assert item.matches(r"a")
+        assert not item.matches(r"\a")
 
     def test_multiple_paths(self):
         """Match one of multiple files."""
@@ -435,6 +479,45 @@ class TestReuseTOMLFromToml:
         """If there is a TOML syntax error, raise a GlobalLicensingParseError"""
         with pytest.raises(GlobalLicensingParseError):
             ReuseTOML.from_toml("version = 1,", "REUSE.toml")
+
+
+class TestReuseTOMLEscaping:
+    """Test the escaping functionality in paths in conjunction with reading from
+    TOML.
+    """
+
+    def test_escape_asterisk(self):
+        """Handle escape asterisk."""
+        text = cleandoc(
+            r"""
+            version = 1
+
+            [[annotations]]
+            path = "\\*.py"
+            SPDX-FileCopyrightText = "2023 Jane Doe"
+            SPDX-License-Identifier = "MIT"
+            """
+        )
+        toml = ReuseTOML.from_toml(text, "REUSE.toml")
+        assert toml.reuse_info_of(r"*.py")
+        assert not toml.reuse_info_of(r"\*.py")
+        assert not toml.reuse_info_of(r"foo.py")
+        assert not toml.reuse_info_of(r"\foo.py")
+
+    def test_escape_escape(self):
+        """Handle escape escape."""
+        text = cleandoc(
+            r"""
+            version = 1
+
+            [[annotations]]
+            path = "\\\\.py"
+            SPDX-FileCopyrightText = "2023 Jane Doe"
+            SPDX-License-Identifier = "MIT"
+            """
+        )
+        toml = ReuseTOML.from_toml(text, "REUSE.toml")
+        assert toml.reuse_info_of(r"\.py")
 
 
 class TestReuseTOMLReuseInfoOf:

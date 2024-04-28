@@ -33,7 +33,6 @@ from typing import (
 
 import attrs
 import tomlkit
-import wcmatch.glob as wcglob
 from attr.validators import _InstanceOfValidator as _AttrInstanceOfValidator
 from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
@@ -339,15 +338,44 @@ class AnnotationsItem:
     _paths_regex: re.Pattern = attrs.field(init=False)
 
     def __attrs_post_init__(self) -> None:
+        def translate(path: str) -> str:
+            blocks = []
+            escaping = False
+            globstar = False
+            prev_char = ""
+            for char in path:
+                if char == "\\":
+                    if prev_char == "\\" and escaping:
+                        escaping = False
+                        blocks.append(r"\\")
+                    else:
+                        escaping = True
+                elif char == "*":
+                    if escaping:
+                        blocks.append(re.escape("*"))
+                        escaping = False
+                    elif prev_char == "*" and not globstar:
+                        globstar = True
+                        blocks.append(r".*")
+                elif char == "/":
+                    if globstar:
+                        pass
+                    else:
+                        globstar = False
+                        blocks.append("/")
+                    escaping = False
+                else:
+                    if prev_char == "*" and not globstar:
+                        blocks.append(r"[^/]*")
+                    blocks.append(re.escape(char))
+                    globstar = False
+                    escaping = False
+                prev_char = char
+            result = "".join(blocks)
+            return f"^({result})$"
+
         self._paths_regex = re.compile(
-            "|".join(
-                wcglob.translate(  # type: ignore
-                    self.paths,
-                    flags=wcglob.DOTGLOB  # Match '.foo.py' on '*.py'.
-                    | wcglob.FORCEUNIX  # Use Unix file paths.
-                    | wcglob.GLOBSTAR,  # Use '**' feature.
-                )[0]
-            )
+            "|".join(translate(path) for path in self.paths)
         )
 
     @classmethod
