@@ -92,8 +92,6 @@ class TestAnnotationsItemValidators:
         with pytest.raises(GlobalLicensingParseError):
             AnnotationsItem(
                 {"foo.py"},
-                "override",
-                {"2023 Jane Doe"},
                 {"MIT OR"},
             )
 
@@ -103,8 +101,6 @@ class TestAnnotationsItemValidators:
             AnnotationsItem(
                 {"foo.py"},
                 "foobar",
-                {"2023 Jane Doe"},
-                {"MIT"},
             )
 
     def test_not_str(self):
@@ -112,9 +108,7 @@ class TestAnnotationsItemValidators:
         with pytest.raises(GlobalLicensingParseTypeError):
             AnnotationsItem(
                 {"foo.py"},
-                "override",
-                123,
-                {"MIT"},
+                copyright_lines=123,
             )
 
     def test_not_set_of_str(self):
@@ -122,9 +116,7 @@ class TestAnnotationsItemValidators:
         with pytest.raises(GlobalLicensingParseTypeError):
             AnnotationsItem(
                 {"foo.py"},
-                "override",
-                {"2023 Jane Doe", 2024},
-                {"MIT"},
+                copyright_lines={"2023 Jane Doe", 2024},
             )
 
     def test_paths_must_not_be_empty(self):
@@ -132,9 +124,6 @@ class TestAnnotationsItemValidators:
         with pytest.raises(GlobalLicensingParseValueError):
             AnnotationsItem(
                 set(),
-                "override",
-                {"2023 Jane Doe"},
-                {"MIT"},
             )
 
     def test_everything_except_path_optional(self):
@@ -165,8 +154,6 @@ class TestAnnotationsItemFromDict:
         item = AnnotationsItem.from_dict(
             {
                 "path": {"foo.py"},
-                "SPDX-FileCopyrightText": {"2023 Jane Doe"},
-                "SPDX-License-Identifier": {"MIT"},
             }
         )
         assert item.precedence == PrecedenceType.CLOSEST
@@ -177,9 +164,6 @@ class TestAnnotationsItemFromDict:
             AnnotationsItem.from_dict(
                 {
                     "path": {123},
-                    "precedence": "override",
-                    "SPDX-FileCopyrightText": {"2023 Jane Doe"},
-                    "SPDX-License-Identifier": {"MIT"},
                 }
             )
 
@@ -200,9 +184,6 @@ class TestAnnotationsItemFromDict:
             AnnotationsItem.from_dict(
                 {
                     "path": None,
-                    "precedence": "override",
-                    "SPDX-FileCopyrightText": {"2023 Jane Doe"},
-                    "SPDX-License-Identifier": {"MIT"},
                 }
             )
 
@@ -211,7 +192,6 @@ class TestAnnotationsItemFromDict:
         item = AnnotationsItem.from_dict(
             {
                 "path": {"foo.py"},
-                "precedence": "override",
                 "SPDX-License-Identifier": {"MIT"},
             }
         )
@@ -223,7 +203,6 @@ class TestAnnotationsItemFromDict:
         item = AnnotationsItem.from_dict(
             {
                 "path": {"foo.py"},
-                "precedence": "override",
             }
         )
         assert not item.copyright_lines
@@ -235,35 +214,20 @@ class TestAnnotationsItemMatches:
 
     def test_simple(self):
         """Simple case."""
-        item = AnnotationsItem(
-            paths=["foo.py"],
-            precedence="override",
-            copyright_lines=["Jane Doe"],
-            spdx_expressions=["MIT"],
-        )
+        item = AnnotationsItem(paths=["foo.py"])
         assert item.matches("foo.py")
         assert not item.matches("src/foo.py")
         assert not item.matches("bar.py")
 
     def test_in_directory(self):
         """Correctly handle pathname separators. Looking at you, Windows."""
-        item = AnnotationsItem(
-            paths=["src/foo.py"],
-            precedence="override",
-            copyright_lines=["Jane Doe"],
-            spdx_expressions=["MIT"],
-        )
+        item = AnnotationsItem(paths=["src/foo.py"])
         assert item.matches("src/foo.py")
         assert not item.matches("foo.py")
 
     def test_all_py(self):
         """Correctly find all Python files."""
-        item = AnnotationsItem(
-            paths=["**/*.py"],
-            precedence="override",
-            copyright_lines=["Jane Doe"],
-            spdx_expressions=["MIT"],
-        )
+        item = AnnotationsItem(paths=["**/*.py"])
         assert item.matches("foo.py")
         assert item.matches(".foo.py")
         assert item.matches("src/foo.py")
@@ -271,12 +235,7 @@ class TestAnnotationsItemMatches:
 
     def test_only_in_dir(self):
         """Only find files in a certain directory."""
-        item = AnnotationsItem(
-            paths=["src/*.py"],
-            precedence="override",
-            copyright_lines=["Jane Doe"],
-            spdx_expressions=["MIT"],
-        )
+        item = AnnotationsItem(paths=["src/*.py"])
         assert not item.matches("foo.py")
         assert item.matches("src/foo.py")
         assert not item.matches("src/other/foo.py")
@@ -331,12 +290,7 @@ class TestAnnotationsItemMatches:
 
     def test_multiple_paths(self):
         """Match one of multiple files."""
-        item = AnnotationsItem(
-            paths=["*.py", "*.js", "README"],
-            precedence="override",
-            copyright_lines=["Jane Doe"],
-            spdx_expressions=["MIT"],
-        )
+        item = AnnotationsItem(paths=["*.py", "*.js", "README"])
         assert item.matches("foo.py")
         assert item.matches(".foo.py")
         assert item.matches("foo.js")
@@ -346,12 +300,7 @@ class TestAnnotationsItemMatches:
 
     def test_match_all(self):
         """Match everything."""
-        item = AnnotationsItem(
-            paths=["**"],
-            precedence="override",
-            copyright_lines=["Jane Doe"],
-            spdx_expressions=["MIT"],
-        )
+        item = AnnotationsItem(paths=["**"])
         assert item.matches("foo.py")
         assert item.matches("src/foo.py")
         assert item.matches(".gitignore")
