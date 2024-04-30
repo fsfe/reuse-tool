@@ -321,6 +321,7 @@ class BibTexCommentStyle(CommentStyle):
     SHORTHAND = "bibtex"
 
     MULTI_LINE = MultiLineSegments("@Comment{", "", "}")
+    SHEBANGS = ["% !BIB", "%!BIB"]
 
 
 class CCommentStyle(CommentStyle):
@@ -525,6 +526,7 @@ class TexCommentStyle(CommentStyle):
 
     SINGLE_LINE = "%"
     INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["% !TEX", "%!TEX"]
 
 
 class UncommentableCommentStyle(EmptyCommentStyle):
