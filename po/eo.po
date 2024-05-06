@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-27 10:06+0000\n"
+"POT-Creation-Date: 2024-05-06 15:34+0000\n"
 "PO-Revision-Date: 2024-01-17 12:48+0000\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -86,7 +86,6 @@ msgid "add copyright and licensing into the header of files"
 msgstr "aldoni kopirajtajn kaj permesilajn informojn en la kapojn de dosieroj"
 
 #: src/reuse/_main.py:120
-#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -94,86 +93,27 @@ msgid ""
 "and licenses to add to the headers of the given files.\n"
 "\n"
 "By using --contributor, you can specify people or entity that contributed "
-"but are not copyright holder of the given files.\n"
-"The first comment is replaced with a new header containing the new copyright "
-"and licensing information and its former copyright and licensing. If you "
-"want to keep the first comment intact, use --no-replace.\n"
-"\n"
-"The comment style should be auto-detected for your files. If a comment style "
-"could not be detected and --skip-unrecognised is not specified, the process "
-"aborts. Use --style to specify or override the comment style to use.\n"
-"\n"
-"A single-line comment style is used when it is available. If no single-line "
-"comment style is available, a multi-line comment style is used. You can "
-"force a certain comment style using --single-line or --multi-line.\n"
-"\n"
-"You can change the template of the header comment by using --template. Place "
-"a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can use the "
-"template by specifying '--template mytemplate'. Read the online "
-"documentation on how to use this feature.\n"
-"\n"
-"If a binary file is detected, or if --force-dot-license is specified, the "
-"header is placed in a .license file."
+"but are not copyright holder of the given files."
 msgstr ""
-"Aldoni kopirajtahn kaj permesilajn informojn en la kapojn de dosieroj.\n"
-"\n"
-"Tra uzi --copyright kaj --license, vi povas specifi kiujn kopirajtajn "
-"proprulojn kaj permesilojn oni aldonu al la kapojn de la specifitaj "
-"dosieroj.\n"
-"\n"
-"Oni aŭtomate eltrovos la komentstilon de viaj dosieroj. Se oni ne povas "
-"eltrovi tion, la procezo haltas. Uzu --style por specifi aŭ superskribi la "
-"uzendan komentstilon.\n"
-"\n"
-"Vi povas ŝanĝi la ŝablonon de la kapo tra uzi --template. Metu Jinja2-"
-"ŝablonon en .reuse/templates/miaŝablono.jinja2. Vi povas uzi la ŝablonon tra "
-"specifi '--template miaŝablono'. Legu la reta dokumentado por pli da "
-"informoj pri ĉi tiu funkcio.\n"
-"\n"
-"Se oni detektas duuman dosieron, aŭ se vi specifas --explicit-license, la "
-"kapon oni metas en .license-dosieron.\n"
-"\n"
-"GRAVA: Ĉi tio estas ĉimomente PROVCELA!"
 
-#: src/reuse/_main.py:163
+#: src/reuse/_main.py:139
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "elŝuti permesilon kaj meti ĝin en la LICENSES/-dosierujon"
 
-#: src/reuse/_main.py:166
-msgid ""
-"Download a license and place it in the LICENSES/ directory.\n"
-"\n"
-"The LICENSES/ directory is automatically found in the following order:\n"
-"\n"
-"- The LICENSES/ directory in the root of the VCS repository.\n"
-"\n"
-"- The current directory if its name is LICENSES.\n"
-"\n"
-"- The LICENSES/ directory in the current directory.\n"
-"\n"
-"If the LICENSES/ directory cannot be found, one is simply created."
-msgstr ""
-"Elŝuti permesilon kaj meti ĝin en la LICENSES/-dosierujon.\n"
-"\n"
-"La LICENSES-dosierujon oni aŭtomate trovas tiel, en ordo:\n"
-"\n"
-"- La LICENSES/-dosierujo en la radiko de la VCS-deponejo.\n"
-"\n"
-"- La aktuala dosierujo se ĝia nomo ests LICENSES.\n"
-"\n"
-"- La LICENSES/-dosierujo sub la aktuala dosierujo.\n"
-"\n"
-"Se oni ne povas trovi la LICENSES/-dosierujon, oni kreos ĝin."
+#: src/reuse/_main.py:141
+#, fuzzy
+msgid "Download a license and place it in the LICENSES/ directory."
+msgstr "elŝuti permesilon kaj meti ĝin en la LICENSES/-dosierujon"
 
-#: src/reuse/_main.py:189
+#: src/reuse/_main.py:150
 msgid "initialize REUSE project"
 msgstr "pravalorizi REUSE-projekton"
 
-#: src/reuse/_main.py:197
+#: src/reuse/_main.py:158
 msgid "list all non-compliant files"
 msgstr "listigi ĉiujn nekonformajn dosierojn"
 
-#: src/reuse/_main.py:200
+#: src/reuse/_main.py:161
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -208,20 +148,20 @@ msgstr ""
 "\n"
 "- Ĉu ĉiuj dosieroj havas validajn kopirajtajn kaj permesilajn informojn?"
 
-#: src/reuse/_main.py:227
+#: src/reuse/_main.py:188
 msgid "print the project's bill of materials in SPDX format"
 msgstr "presi la pecoliston de la projekto en SPDX-formo"
 
-#: src/reuse/_main.py:235
+#: src/reuse/_main.py:196
 msgid "list all supported SPDX licenses"
 msgstr "listigi ĉiujn subtenitajn SPDX-permesilojn"
 
-#: src/reuse/_main.py:295
+#: src/reuse/_main.py:256
 #, python-brace-format
 msgid "'{dep5}' could not be decoded as UTF-8."
 msgstr "ne povis malkodi '{dep5}' kiel UTF-8."
 
-#: src/reuse/_main.py:302
+#: src/reuse/_main.py:263
 #, python-brace-format
 msgid ""
 "'{dep5}' could not be parsed. We received the following error message: "
@@ -281,52 +221,52 @@ msgstr ""
 "Vidu <https://spdx.org/licenses/> por listo de validaj SPDX Permesilaj "
 "Identigiloj."
 
-#: src/reuse/download.py:122
+#: src/reuse/download.py:130
 msgid "SPDX License Identifier of license"
 msgstr "SPDX Permesila Identigilo de permesilo"
 
-#: src/reuse/download.py:127
+#: src/reuse/download.py:135
 msgid "download all missing licenses detected in the project"
 msgstr "elŝuti ĉiujn mankantajn permesilojn kiujn oni eltrovis en la projekto"
 
-#: src/reuse/download.py:137
+#: src/reuse/download.py:145
 msgid ""
 "source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself"
 msgstr ""
 
-#: src/reuse/download.py:148
+#: src/reuse/download.py:156
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr "Eraro: {spdx_identifier} jam ekzistas."
 
-#: src/reuse/download.py:155
+#: src/reuse/download.py:163
 #, fuzzy, python-brace-format
 msgid "Error: {path} does not exist."
 msgstr "'{path}' ne finiĝas per .spdx"
 
-#: src/reuse/download.py:158
+#: src/reuse/download.py:166
 msgid "Error: Failed to download license."
 msgstr "Eraro: Malsukcesis elŝuti permesilon."
 
-#: src/reuse/download.py:163
+#: src/reuse/download.py:171
 msgid "Is your internet connection working?"
 msgstr "Ĉu via retkonekto funkcias?"
 
-#: src/reuse/download.py:168
+#: src/reuse/download.py:176
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Sukceses elŝutis {spdx_identifier}."
 
-#: src/reuse/download.py:180
+#: src/reuse/download.py:188
 msgid "--output has no effect when used together with --all"
 msgstr "--output faras nenion kiam --all ankaŭ uziĝas"
 
-#: src/reuse/download.py:184
+#: src/reuse/download.py:192
 msgid "the following arguments are required: license"
 msgstr "la sekvaj argumentoj nepras: license"
 
-#: src/reuse/download.py:186
+#: src/reuse/download.py:194
 msgid "cannot use --output with more than one license"
 msgstr "ne povas uzi --output kun pli ol unu permesilo"
 
@@ -855,6 +795,82 @@ msgstr "nevalida elekto: %(value)r (elektu el %(choices)s)"
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: eraro: %(message)s\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Add copyright and licensing into the header of one or more files.\n"
+#~ "\n"
+#~ "By using --copyright and --license, you can specify which copyright "
+#~ "holders and licenses to add to the headers of the given files.\n"
+#~ "\n"
+#~ "By using --contributor, you can specify people or entity that contributed "
+#~ "but are not copyright holder of the given files.\n"
+#~ "The first comment is replaced with a new header containing the new "
+#~ "copyright and licensing information and its former copyright and "
+#~ "licensing. If you want to keep the first comment intact, use --no-"
+#~ "replace.\n"
+#~ "\n"
+#~ "The comment style should be auto-detected for your files. If a comment "
+#~ "style could not be detected and --skip-unrecognised is not specified, the "
+#~ "process aborts. Use --style to specify or override the comment style to "
+#~ "use.\n"
+#~ "\n"
+#~ "A single-line comment style is used when it is available. If no single-"
+#~ "line comment style is available, a multi-line comment style is used. You "
+#~ "can force a certain comment style using --single-line or --multi-line.\n"
+#~ "\n"
+#~ "You can change the template of the header comment by using --template. "
+#~ "Place a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can "
+#~ "use the template by specifying '--template mytemplate'. Read the online "
+#~ "documentation on how to use this feature.\n"
+#~ "\n"
+#~ "If a binary file is detected, or if --force-dot-license is specified, the "
+#~ "header is placed in a .license file."
+#~ msgstr ""
+#~ "Aldoni kopirajtahn kaj permesilajn informojn en la kapojn de dosieroj.\n"
+#~ "\n"
+#~ "Tra uzi --copyright kaj --license, vi povas specifi kiujn kopirajtajn "
+#~ "proprulojn kaj permesilojn oni aldonu al la kapojn de la specifitaj "
+#~ "dosieroj.\n"
+#~ "\n"
+#~ "Oni aŭtomate eltrovos la komentstilon de viaj dosieroj. Se oni ne povas "
+#~ "eltrovi tion, la procezo haltas. Uzu --style por specifi aŭ superskribi "
+#~ "la uzendan komentstilon.\n"
+#~ "\n"
+#~ "Vi povas ŝanĝi la ŝablonon de la kapo tra uzi --template. Metu Jinja2-"
+#~ "ŝablonon en .reuse/templates/miaŝablono.jinja2. Vi povas uzi la ŝablonon "
+#~ "tra specifi '--template miaŝablono'. Legu la reta dokumentado por pli da "
+#~ "informoj pri ĉi tiu funkcio.\n"
+#~ "\n"
+#~ "Se oni detektas duuman dosieron, aŭ se vi specifas --explicit-license, la "
+#~ "kapon oni metas en .license-dosieron.\n"
+#~ "\n"
+#~ "GRAVA: Ĉi tio estas ĉimomente PROVCELA!"
+
+#~ msgid ""
+#~ "Download a license and place it in the LICENSES/ directory.\n"
+#~ "\n"
+#~ "The LICENSES/ directory is automatically found in the following order:\n"
+#~ "\n"
+#~ "- The LICENSES/ directory in the root of the VCS repository.\n"
+#~ "\n"
+#~ "- The current directory if its name is LICENSES.\n"
+#~ "\n"
+#~ "- The LICENSES/ directory in the current directory.\n"
+#~ "\n"
+#~ "If the LICENSES/ directory cannot be found, one is simply created."
+#~ msgstr ""
+#~ "Elŝuti permesilon kaj meti ĝin en la LICENSES/-dosierujon.\n"
+#~ "\n"
+#~ "La LICENSES-dosierujon oni aŭtomate trovas tiel, en ordo:\n"
+#~ "\n"
+#~ "- La LICENSES/-dosierujo en la radiko de la VCS-deponejo.\n"
+#~ "\n"
+#~ "- La aktuala dosierujo se ĝia nomo ests LICENSES.\n"
+#~ "\n"
+#~ "- La LICENSES/-dosierujo sub la aktuala dosierujo.\n"
+#~ "\n"
+#~ "Se oni ne povas trovi la LICENSES/-dosierujon, oni kreos ĝin."
 
 #~ msgid ".reuse/dep5 has syntax errors"
 #~ msgstr ".reuse/dep5 havas sintaksajn erarojn"

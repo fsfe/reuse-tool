@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-27 10:06+0000\n"
+"POT-Creation-Date: 2024-05-06 15:34+0000\n"
 "PO-Revision-Date: 2024-01-20 15:01+0000\n"
 "Last-Translator: Сергій <sergiy.goncharuk.1@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -96,97 +96,27 @@ msgid ""
 "and licenses to add to the headers of the given files.\n"
 "\n"
 "By using --contributor, you can specify people or entity that contributed "
-"but are not copyright holder of the given files.\n"
-"The first comment is replaced with a new header containing the new copyright "
-"and licensing information and its former copyright and licensing. If you "
-"want to keep the first comment intact, use --no-replace.\n"
-"\n"
-"The comment style should be auto-detected for your files. If a comment style "
-"could not be detected and --skip-unrecognised is not specified, the process "
-"aborts. Use --style to specify or override the comment style to use.\n"
-"\n"
-"A single-line comment style is used when it is available. If no single-line "
-"comment style is available, a multi-line comment style is used. You can "
-"force a certain comment style using --single-line or --multi-line.\n"
-"\n"
-"You can change the template of the header comment by using --template. Place "
-"a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can use the "
-"template by specifying '--template mytemplate'. Read the online "
-"documentation on how to use this feature.\n"
-"\n"
-"If a binary file is detected, or if --force-dot-license is specified, the "
-"header is placed in a .license file."
+"but are not copyright holder of the given files."
 msgstr ""
-"Додайте відомості про авторські права та ліцензування в заголовок одного або "
-"кількох файлів.\n"
-"\n"
-"За допомогою --copyright і --license ви можете вказати, яких власників "
-"авторських прав і ліцензій слід додати до заголовків цих файлів.\n"
-"\n"
-"Використовуючи --contributor, ви можете вказати людей або організацію, які "
-"зробили внесок, але не є власниками авторських прав на дані файли.\n"
-"Перший коментар замінено новим заголовком, що містить нову інформацію про "
-"авторське право та ліцензування, а також попередні авторські права та "
-"ліцензування. Якщо ви хочете залишити перший коментар недоторканим, "
-"використовуйте --no-replace.\n"
-"\n"
-"Стиль коментарів має бути визначено автоматично для ваших файлів. Якщо стиль "
-"коментаря не вдалося визначити й не вказано --skip-unrecognised, процес буде "
-"перервано. Використовуйте --style, щоб вказати або перевизначити стиль "
-"коментування.\n"
-"\n"
-"Стиль однорядкового коментаря буде використано, якщо він доступний. Якщо "
-"стиль однорядкового коментаря недоступний, використовується стиль "
-"багаторядкового коментаря. Ви можете примусово застосувати певний стиль "
-"коментарів за ljlfdib --single-line або --multi-line.\n"
-"\n"
-"Ви можете змінити шаблон заголовка коментаря за допомогою --template. "
-"Помістіть шаблон Jinja2 до теки .reuse/templates/mytemplate.jinja2. Ви "
-"можете використовувати шаблон, вказавши '--template mytemplate'. Прочитайте "
-"онлайн-документацію про те, як користуватися цією функцією.\n"
-"\n"
-"Якщо виявлено двійковий файл або якщо вказано --force-dot-license, заголовок "
-"буде розміщено у файлі .license."
 
-#: src/reuse/_main.py:163
+#: src/reuse/_main.py:139
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "завантажити ліцензію та розмістити її в каталозі LICENSES/"
 
-#: src/reuse/_main.py:166
-msgid ""
-"Download a license and place it in the LICENSES/ directory.\n"
-"\n"
-"The LICENSES/ directory is automatically found in the following order:\n"
-"\n"
-"- The LICENSES/ directory in the root of the VCS repository.\n"
-"\n"
-"- The current directory if its name is LICENSES.\n"
-"\n"
-"- The LICENSES/ directory in the current directory.\n"
-"\n"
-"If the LICENSES/ directory cannot be found, one is simply created."
-msgstr ""
-"Завантажте ліцензію та розмістіть її в каталозі LICENSES/.\n"
-"\n"
-"Каталог LICENSES/ автоматично розміщено в такому порядку:\n"
-"\n"
-"- Каталог LICENSES/ в корені репозиторію VCS.\n"
-"\n"
-"- Поточний каталог, якщо його назва - LICENSES.\n"
-"\n"
-"- Каталог LICENSES/ в поточному каталозі.\n"
-"\n"
-"Якщо каталог LICENSES/ не вдається знайти, він просто створюється."
+#: src/reuse/_main.py:141
+#, fuzzy
+msgid "Download a license and place it in the LICENSES/ directory."
+msgstr "завантажити ліцензію та розмістити її в каталозі LICENSES/"
 
-#: src/reuse/_main.py:189
+#: src/reuse/_main.py:150
 msgid "initialize REUSE project"
 msgstr "ініціалізувати проєкт REUSE"
 
-#: src/reuse/_main.py:197
+#: src/reuse/_main.py:158
 msgid "list all non-compliant files"
 msgstr "список усіх несумісних файлів"
 
-#: src/reuse/_main.py:200
+#: src/reuse/_main.py:161
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -222,20 +152,20 @@ msgstr ""
 "\n"
 "- Чи всі файли мають дійсні відомості про авторські права та ліцензії?"
 
-#: src/reuse/_main.py:227
+#: src/reuse/_main.py:188
 msgid "print the project's bill of materials in SPDX format"
 msgstr "друкувати опис матеріалів проєкту у форматі SPDX"
 
-#: src/reuse/_main.py:235
+#: src/reuse/_main.py:196
 msgid "list all supported SPDX licenses"
 msgstr "список всіх підтримуваних ліцензій SPDX"
 
-#: src/reuse/_main.py:295
+#: src/reuse/_main.py:256
 #, python-brace-format
 msgid "'{dep5}' could not be decoded as UTF-8."
 msgstr "Не вдалося розшифрувати '{dep5}' як utf-8."
 
-#: src/reuse/_main.py:302
+#: src/reuse/_main.py:263
 #, python-brace-format
 msgid ""
 "'{dep5}' could not be parsed. We received the following error message: "
@@ -297,15 +227,15 @@ msgstr ""
 "Перегляньте <https://spdx.org/licenses/> список дійсних ідентифікаторів "
 "ліцензії SPDX."
 
-#: src/reuse/download.py:122
+#: src/reuse/download.py:130
 msgid "SPDX License Identifier of license"
 msgstr "Ідентифікатор ліцензії SPDX"
 
-#: src/reuse/download.py:127
+#: src/reuse/download.py:135
 msgid "download all missing licenses detected in the project"
 msgstr "завантажити всі відсутні ліцензії, виявлені в проєкті"
 
-#: src/reuse/download.py:137
+#: src/reuse/download.py:145
 msgid ""
 "source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself"
@@ -313,38 +243,38 @@ msgstr ""
 "джерело, з якого можна скопіювати користувацькі ліцензії LicenseRef-, або "
 "каталог, який містить файл, або сам файл"
 
-#: src/reuse/download.py:148
+#: src/reuse/download.py:156
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr "Помилка: {spdx_identifier} вже існує."
 
-#: src/reuse/download.py:155
+#: src/reuse/download.py:163
 #, python-brace-format
 msgid "Error: {path} does not exist."
 msgstr "Помилка: {path} не існує."
 
-#: src/reuse/download.py:158
+#: src/reuse/download.py:166
 msgid "Error: Failed to download license."
 msgstr "Помилка: не вдалося завантажити ліцензію."
 
-#: src/reuse/download.py:163
+#: src/reuse/download.py:171
 msgid "Is your internet connection working?"
 msgstr "Чи працює ваше інтернет-з'єднання?"
 
-#: src/reuse/download.py:168
+#: src/reuse/download.py:176
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Успішно завантажено {spdx_identifier}."
 
-#: src/reuse/download.py:180
+#: src/reuse/download.py:188
 msgid "--output has no effect when used together with --all"
 msgstr "--output не працює разом з --all"
 
-#: src/reuse/download.py:184
+#: src/reuse/download.py:192
 msgid "the following arguments are required: license"
 msgstr "необхідні такі аргументи: license"
 
-#: src/reuse/download.py:186
+#: src/reuse/download.py:194
 msgid "cannot use --output with more than one license"
 msgstr "не можна використовувати --output з кількома ліцензіями"
 
@@ -922,6 +852,92 @@ msgstr "неприпустимий вибір: %(value)r (варто обрат�
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: помилка: %(message)s\n"
+
+#~ msgid ""
+#~ "Add copyright and licensing into the header of one or more files.\n"
+#~ "\n"
+#~ "By using --copyright and --license, you can specify which copyright "
+#~ "holders and licenses to add to the headers of the given files.\n"
+#~ "\n"
+#~ "By using --contributor, you can specify people or entity that contributed "
+#~ "but are not copyright holder of the given files.\n"
+#~ "The first comment is replaced with a new header containing the new "
+#~ "copyright and licensing information and its former copyright and "
+#~ "licensing. If you want to keep the first comment intact, use --no-"
+#~ "replace.\n"
+#~ "\n"
+#~ "The comment style should be auto-detected for your files. If a comment "
+#~ "style could not be detected and --skip-unrecognised is not specified, the "
+#~ "process aborts. Use --style to specify or override the comment style to "
+#~ "use.\n"
+#~ "\n"
+#~ "A single-line comment style is used when it is available. If no single-"
+#~ "line comment style is available, a multi-line comment style is used. You "
+#~ "can force a certain comment style using --single-line or --multi-line.\n"
+#~ "\n"
+#~ "You can change the template of the header comment by using --template. "
+#~ "Place a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can "
+#~ "use the template by specifying '--template mytemplate'. Read the online "
+#~ "documentation on how to use this feature.\n"
+#~ "\n"
+#~ "If a binary file is detected, or if --force-dot-license is specified, the "
+#~ "header is placed in a .license file."
+#~ msgstr ""
+#~ "Додайте відомості про авторські права та ліцензування в заголовок одного "
+#~ "або кількох файлів.\n"
+#~ "\n"
+#~ "За допомогою --copyright і --license ви можете вказати, яких власників "
+#~ "авторських прав і ліцензій слід додати до заголовків цих файлів.\n"
+#~ "\n"
+#~ "Використовуючи --contributor, ви можете вказати людей або організацію, "
+#~ "які зробили внесок, але не є власниками авторських прав на дані файли.\n"
+#~ "Перший коментар замінено новим заголовком, що містить нову інформацію про "
+#~ "авторське право та ліцензування, а також попередні авторські права та "
+#~ "ліцензування. Якщо ви хочете залишити перший коментар недоторканим, "
+#~ "використовуйте --no-replace.\n"
+#~ "\n"
+#~ "Стиль коментарів має бути визначено автоматично для ваших файлів. Якщо "
+#~ "стиль коментаря не вдалося визначити й не вказано --skip-unrecognised, "
+#~ "процес буде перервано. Використовуйте --style, щоб вказати або "
+#~ "перевизначити стиль коментування.\n"
+#~ "\n"
+#~ "Стиль однорядкового коментаря буде використано, якщо він доступний. Якщо "
+#~ "стиль однорядкового коментаря недоступний, використовується стиль "
+#~ "багаторядкового коментаря. Ви можете примусово застосувати певний стиль "
+#~ "коментарів за ljlfdib --single-line або --multi-line.\n"
+#~ "\n"
+#~ "Ви можете змінити шаблон заголовка коментаря за допомогою --template. "
+#~ "Помістіть шаблон Jinja2 до теки .reuse/templates/mytemplate.jinja2. Ви "
+#~ "можете використовувати шаблон, вказавши '--template mytemplate'. "
+#~ "Прочитайте онлайн-документацію про те, як користуватися цією функцією.\n"
+#~ "\n"
+#~ "Якщо виявлено двійковий файл або якщо вказано --force-dot-license, "
+#~ "заголовок буде розміщено у файлі .license."
+
+#~ msgid ""
+#~ "Download a license and place it in the LICENSES/ directory.\n"
+#~ "\n"
+#~ "The LICENSES/ directory is automatically found in the following order:\n"
+#~ "\n"
+#~ "- The LICENSES/ directory in the root of the VCS repository.\n"
+#~ "\n"
+#~ "- The current directory if its name is LICENSES.\n"
+#~ "\n"
+#~ "- The LICENSES/ directory in the current directory.\n"
+#~ "\n"
+#~ "If the LICENSES/ directory cannot be found, one is simply created."
+#~ msgstr ""
+#~ "Завантажте ліцензію та розмістіть її в каталозі LICENSES/.\n"
+#~ "\n"
+#~ "Каталог LICENSES/ автоматично розміщено в такому порядку:\n"
+#~ "\n"
+#~ "- Каталог LICENSES/ в корені репозиторію VCS.\n"
+#~ "\n"
+#~ "- Поточний каталог, якщо його назва - LICENSES.\n"
+#~ "\n"
+#~ "- Каталог LICENSES/ в поточному каталозі.\n"
+#~ "\n"
+#~ "Якщо каталог LICENSES/ не вдається знайти, він просто створюється."
 
 #~ msgid ".reuse/dep5 has syntax errors"
 #~ msgstr ".reuse/dep5 має синтаксичні помилки"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-27 10:06+0000\n"
+"POT-Creation-Date: 2024-05-06 15:34+0000\n"
 "PO-Revision-Date: 2023-04-12 13:49+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -87,7 +87,6 @@ msgid "add copyright and licensing into the header of files"
 msgstr "přidání autorských práv a licencí do záhlaví souborů"
 
 #: src/reuse/_main.py:120
-#, fuzzy
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -95,94 +94,27 @@ msgid ""
 "and licenses to add to the headers of the given files.\n"
 "\n"
 "By using --contributor, you can specify people or entity that contributed "
-"but are not copyright holder of the given files.\n"
-"The first comment is replaced with a new header containing the new copyright "
-"and licensing information and its former copyright and licensing. If you "
-"want to keep the first comment intact, use --no-replace.\n"
-"\n"
-"The comment style should be auto-detected for your files. If a comment style "
-"could not be detected and --skip-unrecognised is not specified, the process "
-"aborts. Use --style to specify or override the comment style to use.\n"
-"\n"
-"A single-line comment style is used when it is available. If no single-line "
-"comment style is available, a multi-line comment style is used. You can "
-"force a certain comment style using --single-line or --multi-line.\n"
-"\n"
-"You can change the template of the header comment by using --template. Place "
-"a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can use the "
-"template by specifying '--template mytemplate'. Read the online "
-"documentation on how to use this feature.\n"
-"\n"
-"If a binary file is detected, or if --force-dot-license is specified, the "
-"header is placed in a .license file."
+"but are not copyright holder of the given files."
 msgstr ""
-"Přidání autorských práv a licencí do záhlaví jednoho nebo více souborů.\n"
-"\n"
-"Pomocí parametrů --copyright a --license můžete určit, kteří držitelé "
-"autorských práv a licencí mají být přidáni do záhlaví daných souborů.\n"
-"\n"
-"První komentář je nahrazen novou hlavičkou obsahující nové informace o "
-"autorských právech a licencích a její původní autorská práva a licence. "
-"Pokud chcete zachovat první komentář nedotčený, použijte parametr --no-"
-"replace.\n"
-"\n"
-"Styl komentáře by měl být pro vaše soubory automaticky detekován. Pokud se "
-"styl komentáře nepodařilo zjistit a není zadána možnost --skip-unrecognised, "
-"proces se přeruší. Pomocí --style určete nebo přepište styl komentáře, který "
-"se má použít.\n"
-"\n"
-"Pokud je k dispozici jednořádkový styl komentáře, použije se tento styl. "
-"Pokud není k dispozici jednořádkový styl komentáře, použije se víceřádkový "
-"styl komentáře. Určitý styl komentáře můžete vynutit pomocí parametrů --"
-"single-line nebo --multi-line.\n"
-"\n"
-"Šablonu komentáře záhlaví můžete změnit pomocí příkazu --template. Umístěte "
-"šablonu Jinja2 do souboru .reuse/templates/mytemplate.jinja2. Šablonu můžete "
-"použít zadáním '--template mytemplate'. Přečtěte si online dokumentaci, jak "
-"tuto funkci používat.\n"
-"\n"
-"Pokud je detekován binární soubor nebo pokud je zadán parametr --explicit-"
-"license, je hlavička umístěna do souboru .license."
 
-#: src/reuse/_main.py:163
+#: src/reuse/_main.py:139
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "stáhněte si licenci a umístěte ji do adresáře LICENSES/"
 
-#: src/reuse/_main.py:166
-msgid ""
-"Download a license and place it in the LICENSES/ directory.\n"
-"\n"
-"The LICENSES/ directory is automatically found in the following order:\n"
-"\n"
-"- The LICENSES/ directory in the root of the VCS repository.\n"
-"\n"
-"- The current directory if its name is LICENSES.\n"
-"\n"
-"- The LICENSES/ directory in the current directory.\n"
-"\n"
-"If the LICENSES/ directory cannot be found, one is simply created."
-msgstr ""
-"Stáhněte si licenci a umístěte ji do adresáře LICENSES/.\n"
-"\n"
-"Adresář LICENSES/ se automaticky vyhledává v následujícím pořadí:\n"
-"\n"
-"- Adresář LICENSES/ v kořenovém adresáři úložiště VCS.\n"
-"\n"
-"- Aktuální adresář, pokud je jeho název LICENSES.\n"
-"\n"
-"- Adresář LICENSES/ v aktuálním adresáři.\n"
-"\n"
-"Pokud adresář LICENSES/ nelze nalézt, je jednoduše vytvořen."
+#: src/reuse/_main.py:141
+#, fuzzy
+msgid "Download a license and place it in the LICENSES/ directory."
+msgstr "stáhněte si licenci a umístěte ji do adresáře LICENSES/"
 
-#: src/reuse/_main.py:189
+#: src/reuse/_main.py:150
 msgid "initialize REUSE project"
 msgstr "inicializace projektu REUSE"
 
-#: src/reuse/_main.py:197
+#: src/reuse/_main.py:158
 msgid "list all non-compliant files"
 msgstr "seznam všech nevyhovujících souborů"
 
-#: src/reuse/_main.py:200
+#: src/reuse/_main.py:161
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -218,20 +150,20 @@ msgstr ""
 "\n"
 "- Mají všechny soubory platné informace o autorských právech a licencích?"
 
-#: src/reuse/_main.py:227
+#: src/reuse/_main.py:188
 msgid "print the project's bill of materials in SPDX format"
 msgstr "vytisknout výkaz materiálu projektu ve formátu SPDX"
 
-#: src/reuse/_main.py:235
+#: src/reuse/_main.py:196
 msgid "list all supported SPDX licenses"
 msgstr "seznam všech podporovaných licencí SPDX"
 
-#: src/reuse/_main.py:295
+#: src/reuse/_main.py:256
 #, fuzzy, python-brace-format
 msgid "'{dep5}' could not be decoded as UTF-8."
 msgstr ".reuse/dep5 nelze analyzovat jako utf-8"
 
-#: src/reuse/_main.py:302
+#: src/reuse/_main.py:263
 #, python-brace-format
 msgid ""
 "'{dep5}' could not be parsed. We received the following error message: "
@@ -291,52 +223,52 @@ msgstr ""
 "Seznam platných identifikátorů licence SPDX naleznete na adrese <https://"
 "spdx.org/licenses/>."
 
-#: src/reuse/download.py:122
+#: src/reuse/download.py:130
 msgid "SPDX License Identifier of license"
 msgstr "Licence SPDX Identifikátor licence"
 
-#: src/reuse/download.py:127
+#: src/reuse/download.py:135
 msgid "download all missing licenses detected in the project"
 msgstr "stáhnout všechny chybějící licence zjištěné v projektu"
 
-#: src/reuse/download.py:137
+#: src/reuse/download.py:145
 msgid ""
 "source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself"
 msgstr ""
 
-#: src/reuse/download.py:148
+#: src/reuse/download.py:156
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr "Chyba: {spdx_identifier} již existuje."
 
-#: src/reuse/download.py:155
+#: src/reuse/download.py:163
 #, python-brace-format
 msgid "Error: {path} does not exist."
 msgstr ""
 
-#: src/reuse/download.py:158
+#: src/reuse/download.py:166
 msgid "Error: Failed to download license."
 msgstr "Chyba: Nepodařilo se stáhnout licenci."
 
-#: src/reuse/download.py:163
+#: src/reuse/download.py:171
 msgid "Is your internet connection working?"
 msgstr "Funguje vaše internetové připojení?"
 
-#: src/reuse/download.py:168
+#: src/reuse/download.py:176
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Úspěšně stažen {spdx_identifier}."
 
-#: src/reuse/download.py:180
+#: src/reuse/download.py:188
 msgid "--output has no effect when used together with --all"
 msgstr "--output nemá žádný účinek, pokud se použije společně s --all"
 
-#: src/reuse/download.py:184
+#: src/reuse/download.py:192
 msgid "the following arguments are required: license"
 msgstr "jsou vyžadovány tyto argumenty: licence"
 
-#: src/reuse/download.py:186
+#: src/reuse/download.py:194
 msgid "cannot use --output with more than one license"
 msgstr "nelze použít --output s více než jednou licencí"
 
@@ -868,6 +800,90 @@ msgstr "neplatná volba: %(value)r (vyberte z %(choices)s)"
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: chyba: %(message)s\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Add copyright and licensing into the header of one or more files.\n"
+#~ "\n"
+#~ "By using --copyright and --license, you can specify which copyright "
+#~ "holders and licenses to add to the headers of the given files.\n"
+#~ "\n"
+#~ "By using --contributor, you can specify people or entity that contributed "
+#~ "but are not copyright holder of the given files.\n"
+#~ "The first comment is replaced with a new header containing the new "
+#~ "copyright and licensing information and its former copyright and "
+#~ "licensing. If you want to keep the first comment intact, use --no-"
+#~ "replace.\n"
+#~ "\n"
+#~ "The comment style should be auto-detected for your files. If a comment "
+#~ "style could not be detected and --skip-unrecognised is not specified, the "
+#~ "process aborts. Use --style to specify or override the comment style to "
+#~ "use.\n"
+#~ "\n"
+#~ "A single-line comment style is used when it is available. If no single-"
+#~ "line comment style is available, a multi-line comment style is used. You "
+#~ "can force a certain comment style using --single-line or --multi-line.\n"
+#~ "\n"
+#~ "You can change the template of the header comment by using --template. "
+#~ "Place a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can "
+#~ "use the template by specifying '--template mytemplate'. Read the online "
+#~ "documentation on how to use this feature.\n"
+#~ "\n"
+#~ "If a binary file is detected, or if --force-dot-license is specified, the "
+#~ "header is placed in a .license file."
+#~ msgstr ""
+#~ "Přidání autorských práv a licencí do záhlaví jednoho nebo více souborů.\n"
+#~ "\n"
+#~ "Pomocí parametrů --copyright a --license můžete určit, kteří držitelé "
+#~ "autorských práv a licencí mají být přidáni do záhlaví daných souborů.\n"
+#~ "\n"
+#~ "První komentář je nahrazen novou hlavičkou obsahující nové informace o "
+#~ "autorských právech a licencích a její původní autorská práva a licence. "
+#~ "Pokud chcete zachovat první komentář nedotčený, použijte parametr --no-"
+#~ "replace.\n"
+#~ "\n"
+#~ "Styl komentáře by měl být pro vaše soubory automaticky detekován. Pokud "
+#~ "se styl komentáře nepodařilo zjistit a není zadána možnost --skip-"
+#~ "unrecognised, proces se přeruší. Pomocí --style určete nebo přepište styl "
+#~ "komentáře, který se má použít.\n"
+#~ "\n"
+#~ "Pokud je k dispozici jednořádkový styl komentáře, použije se tento styl. "
+#~ "Pokud není k dispozici jednořádkový styl komentáře, použije se "
+#~ "víceřádkový styl komentáře. Určitý styl komentáře můžete vynutit pomocí "
+#~ "parametrů --single-line nebo --multi-line.\n"
+#~ "\n"
+#~ "Šablonu komentáře záhlaví můžete změnit pomocí příkazu --template. "
+#~ "Umístěte šablonu Jinja2 do souboru .reuse/templates/mytemplate.jinja2. "
+#~ "Šablonu můžete použít zadáním '--template mytemplate'. Přečtěte si online "
+#~ "dokumentaci, jak tuto funkci používat.\n"
+#~ "\n"
+#~ "Pokud je detekován binární soubor nebo pokud je zadán parametr --explicit-"
+#~ "license, je hlavička umístěna do souboru .license."
+
+#~ msgid ""
+#~ "Download a license and place it in the LICENSES/ directory.\n"
+#~ "\n"
+#~ "The LICENSES/ directory is automatically found in the following order:\n"
+#~ "\n"
+#~ "- The LICENSES/ directory in the root of the VCS repository.\n"
+#~ "\n"
+#~ "- The current directory if its name is LICENSES.\n"
+#~ "\n"
+#~ "- The LICENSES/ directory in the current directory.\n"
+#~ "\n"
+#~ "If the LICENSES/ directory cannot be found, one is simply created."
+#~ msgstr ""
+#~ "Stáhněte si licenci a umístěte ji do adresáře LICENSES/.\n"
+#~ "\n"
+#~ "Adresář LICENSES/ se automaticky vyhledává v následujícím pořadí:\n"
+#~ "\n"
+#~ "- Adresář LICENSES/ v kořenovém adresáři úložiště VCS.\n"
+#~ "\n"
+#~ "- Aktuální adresář, pokud je jeho název LICENSES.\n"
+#~ "\n"
+#~ "- Adresář LICENSES/ v aktuálním adresáři.\n"
+#~ "\n"
+#~ "Pokud adresář LICENSES/ nelze nalézt, je jednoduše vytvořen."
 
 #~ msgid ".reuse/dep5 has syntax errors"
 #~ msgstr ".reuse/dep5 obsahuje chyby syntaxe"

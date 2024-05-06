@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-27 10:06+0000\n"
+"POT-Creation-Date: 2024-05-06 15:34+0000\n"
 "PO-Revision-Date: 2024-01-08 20:06+0000\n"
 "Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -95,101 +95,27 @@ msgid ""
 "and licenses to add to the headers of the given files.\n"
 "\n"
 "By using --contributor, you can specify people or entity that contributed "
-"but are not copyright holder of the given files.\n"
-"The first comment is replaced with a new header containing the new copyright "
-"and licensing information and its former copyright and licensing. If you "
-"want to keep the first comment intact, use --no-replace.\n"
-"\n"
-"The comment style should be auto-detected for your files. If a comment style "
-"could not be detected and --skip-unrecognised is not specified, the process "
-"aborts. Use --style to specify or override the comment style to use.\n"
-"\n"
-"A single-line comment style is used when it is available. If no single-line "
-"comment style is available, a multi-line comment style is used. You can "
-"force a certain comment style using --single-line or --multi-line.\n"
-"\n"
-"You can change the template of the header comment by using --template. Place "
-"a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can use the "
-"template by specifying '--template mytemplate'. Read the online "
-"documentation on how to use this feature.\n"
-"\n"
-"If a binary file is detected, or if --force-dot-license is specified, the "
-"header is placed in a .license file."
+"but are not copyright holder of the given files."
 msgstr ""
-"Hinzufügen von Urheberrechten und Lizenzen in die Kopfzeilen einer oder "
-"mehrerer Dateien.\n"
-"\n"
-"Durch die Verwendung von --copyright und --license können Sie festlegen, "
-"welche Urheberrechtsinhaber und Lizenzen den Kopfzeilen der angegebenen "
-"Dateien hinzuzufügen werden.\n"
-"\n"
-"Durch die Verwendung von --contributor können Sie Personen oder "
-"Organisationen angeben, die beigetragen haben, aber keine "
-"Urheberrechtsinhaber der angegebenen Dateien sind.\n"
-"Das erste Kommentar wird durch einer neuen Kopfzeile ersetzt, die die neuen "
-"Urheberrechts- und Lizenzierungsinformationen sowie das frühere Urheberrecht "
-"und die Lizenzierung enthält. Wenn Sie das erste Kommentar erhalten möchten, "
-"verwenden Sie --no-replace.\n"
-"\n"
-"Der Kommentarstil sollte für Ihre Dateien automatisch erkannt werden. Wenn "
-"ein Kommentastil nicht erkannt werden konnte und --skip-unrecognised nicht "
-"angegeben wurde, wird der Prozess abgebrochen. Verwenden Sie --style, um den "
-"Kommentarstil anzugeben oder zu überschreiben.\n"
-"\n"
-"Ein einzeiliger Kommentarstil wird verwendet, sofern einer verfügbar ist. "
-"Falls kein einzeiliger Kommentarstil verfügbar ist, wird ein mehrzeiliger "
-"Kommentarstil verwendet. Sie können einen bestimmten Kommentarstil mit --"
-"single-line oder --multi-line erzwingen.\n"
-"\n"
-"Sie können die Schablone der Kopfzeilen-Kommentare ändern, indem Sie --"
-"template verwenden. Speichern Sie eine Jinja2-Schablone in .reuse/templates/"
-"meineschablone.jinja2. Sie können die Schablone verwenden, indem Sie \"--"
-"template meineschablone\" angeben. Lesen Sie die Online-Dokumentation über "
-"die Nutzung dieser Funktion.\n"
-"\n"
-"Wird eine binäre Datei erkannt wird oder --force-dot-license angegeben ist, "
-"werden die Kopfzeilen in eine .license-Datei geschrieben."
 
-#: src/reuse/_main.py:163
+#: src/reuse/_main.py:139
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "lade eine Datei herunter und speichere sie im Verzeichnis LICENSES/"
 
-#: src/reuse/_main.py:166
-msgid ""
-"Download a license and place it in the LICENSES/ directory.\n"
-"\n"
-"The LICENSES/ directory is automatically found in the following order:\n"
-"\n"
-"- The LICENSES/ directory in the root of the VCS repository.\n"
-"\n"
-"- The current directory if its name is LICENSES.\n"
-"\n"
-"- The LICENSES/ directory in the current directory.\n"
-"\n"
-"If the LICENSES/ directory cannot be found, one is simply created."
-msgstr ""
-"Lade eine Datei herunter und speichere sie im Verzeichnis LICENSES/.\n"
-"\n"
-"Das LICENSES/-Verzeichnis wird automatisch in dieser Reihenfolge gesucht:\n"
-"\n"
-"- Das LICENSES/-Verzeichnis im Wurzelverzeichnis des VCS-Repositorys.\n"
-"\n"
-"- Das aktuelle Verzeichnis wenn dessen Name LICENSES ist.\n"
-"\n"
-"- Das LICENSES/-Verzeichnis im aktuellen Verzeichnis.\n"
-"\n"
-"Wenn das LICENSES/-Verzeichnis nicht gefunden werden kann, wird einfach "
-"eines erstellt."
+#: src/reuse/_main.py:141
+#, fuzzy
+msgid "Download a license and place it in the LICENSES/ directory."
+msgstr "lade eine Datei herunter und speichere sie im Verzeichnis LICENSES/"
 
-#: src/reuse/_main.py:189
+#: src/reuse/_main.py:150
 msgid "initialize REUSE project"
 msgstr "REUSE-Projekt initialisieren"
 
-#: src/reuse/_main.py:197
+#: src/reuse/_main.py:158
 msgid "list all non-compliant files"
 msgstr "alle nicht-konformen Dateien zeigen"
 
-#: src/reuse/_main.py:200
+#: src/reuse/_main.py:161
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -227,20 +153,20 @@ msgstr ""
 "- Sind alle Dateien mit gültigen Urheberrechts- und Lizenzinformationen "
 "versehen?"
 
-#: src/reuse/_main.py:227
+#: src/reuse/_main.py:188
 msgid "print the project's bill of materials in SPDX format"
 msgstr "Komponentenliste im SPDX-Format ausgeben"
 
-#: src/reuse/_main.py:235
+#: src/reuse/_main.py:196
 msgid "list all supported SPDX licenses"
 msgstr "Listet alle unterstützten SPDX-Lizenzen auf"
 
-#: src/reuse/_main.py:295
+#: src/reuse/_main.py:256
 #, python-brace-format
 msgid "'{dep5}' could not be decoded as UTF-8."
 msgstr "'{dep5}' konnte nicht als UTF-8 decodiert werden."
 
-#: src/reuse/_main.py:302
+#: src/reuse/_main.py:263
 #, python-brace-format
 msgid ""
 "'{dep5}' could not be parsed. We received the following error message: "
@@ -302,52 +228,52 @@ msgstr ""
 "Besuchen Sie <https://spdx.org/licenses/> für eine Liste von gültigen SPDX-"
 "Lizenz-Identifikatoren."
 
-#: src/reuse/download.py:122
+#: src/reuse/download.py:130
 msgid "SPDX License Identifier of license"
 msgstr "SPDX-Lizenz-Identifikator der Lizenz"
 
-#: src/reuse/download.py:127
+#: src/reuse/download.py:135
 msgid "download all missing licenses detected in the project"
 msgstr "lade alle fehlenden Lizenzen herunter, die im Projekt gefunden wurden"
 
-#: src/reuse/download.py:137
+#: src/reuse/download.py:145
 msgid ""
 "source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself"
 msgstr ""
 
-#: src/reuse/download.py:148
+#: src/reuse/download.py:156
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr "Fehler: {spdx_identifier} existiert bereits."
 
-#: src/reuse/download.py:155
+#: src/reuse/download.py:163
 #, python-brace-format
 msgid "Error: {path} does not exist."
 msgstr "Fehler: {path} existiert nicht."
 
-#: src/reuse/download.py:158
+#: src/reuse/download.py:166
 msgid "Error: Failed to download license."
 msgstr "Fehler: Lizenz konnte nicht heruntergeladen werden."
 
-#: src/reuse/download.py:163
+#: src/reuse/download.py:171
 msgid "Is your internet connection working?"
 msgstr "Funktioniert Ihre Internetverbindung?"
 
-#: src/reuse/download.py:168
+#: src/reuse/download.py:176
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "{spdx_identifier} erfolgreich heruntergeladen."
 
-#: src/reuse/download.py:180
+#: src/reuse/download.py:188
 msgid "--output has no effect when used together with --all"
 msgstr "--output hat keinen Effekt, wenn es zusammen mit --all benutzt wird"
 
-#: src/reuse/download.py:184
+#: src/reuse/download.py:192
 msgid "the following arguments are required: license"
 msgstr "Die folgenden Argumente sind erforderlich: license"
 
-#: src/reuse/download.py:186
+#: src/reuse/download.py:194
 msgid "cannot use --output with more than one license"
 msgstr "Kann --output nicht mit mehr als einer Lizenz verwenden"
 
@@ -917,6 +843,97 @@ msgstr "ungültige Auswahl: %(value)r (wähle von %(choices)s)"
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: Fehler: %(message)s\n"
+
+#~ msgid ""
+#~ "Add copyright and licensing into the header of one or more files.\n"
+#~ "\n"
+#~ "By using --copyright and --license, you can specify which copyright "
+#~ "holders and licenses to add to the headers of the given files.\n"
+#~ "\n"
+#~ "By using --contributor, you can specify people or entity that contributed "
+#~ "but are not copyright holder of the given files.\n"
+#~ "The first comment is replaced with a new header containing the new "
+#~ "copyright and licensing information and its former copyright and "
+#~ "licensing. If you want to keep the first comment intact, use --no-"
+#~ "replace.\n"
+#~ "\n"
+#~ "The comment style should be auto-detected for your files. If a comment "
+#~ "style could not be detected and --skip-unrecognised is not specified, the "
+#~ "process aborts. Use --style to specify or override the comment style to "
+#~ "use.\n"
+#~ "\n"
+#~ "A single-line comment style is used when it is available. If no single-"
+#~ "line comment style is available, a multi-line comment style is used. You "
+#~ "can force a certain comment style using --single-line or --multi-line.\n"
+#~ "\n"
+#~ "You can change the template of the header comment by using --template. "
+#~ "Place a Jinja2 template in .reuse/templates/mytemplate.jinja2. You can "
+#~ "use the template by specifying '--template mytemplate'. Read the online "
+#~ "documentation on how to use this feature.\n"
+#~ "\n"
+#~ "If a binary file is detected, or if --force-dot-license is specified, the "
+#~ "header is placed in a .license file."
+#~ msgstr ""
+#~ "Hinzufügen von Urheberrechten und Lizenzen in die Kopfzeilen einer oder "
+#~ "mehrerer Dateien.\n"
+#~ "\n"
+#~ "Durch die Verwendung von --copyright und --license können Sie festlegen, "
+#~ "welche Urheberrechtsinhaber und Lizenzen den Kopfzeilen der angegebenen "
+#~ "Dateien hinzuzufügen werden.\n"
+#~ "\n"
+#~ "Durch die Verwendung von --contributor können Sie Personen oder "
+#~ "Organisationen angeben, die beigetragen haben, aber keine "
+#~ "Urheberrechtsinhaber der angegebenen Dateien sind.\n"
+#~ "Das erste Kommentar wird durch einer neuen Kopfzeile ersetzt, die die "
+#~ "neuen Urheberrechts- und Lizenzierungsinformationen sowie das frühere "
+#~ "Urheberrecht und die Lizenzierung enthält. Wenn Sie das erste Kommentar "
+#~ "erhalten möchten, verwenden Sie --no-replace.\n"
+#~ "\n"
+#~ "Der Kommentarstil sollte für Ihre Dateien automatisch erkannt werden. "
+#~ "Wenn ein Kommentastil nicht erkannt werden konnte und --skip-unrecognised "
+#~ "nicht angegeben wurde, wird der Prozess abgebrochen. Verwenden Sie --"
+#~ "style, um den Kommentarstil anzugeben oder zu überschreiben.\n"
+#~ "\n"
+#~ "Ein einzeiliger Kommentarstil wird verwendet, sofern einer verfügbar ist. "
+#~ "Falls kein einzeiliger Kommentarstil verfügbar ist, wird ein mehrzeiliger "
+#~ "Kommentarstil verwendet. Sie können einen bestimmten Kommentarstil mit --"
+#~ "single-line oder --multi-line erzwingen.\n"
+#~ "\n"
+#~ "Sie können die Schablone der Kopfzeilen-Kommentare ändern, indem Sie --"
+#~ "template verwenden. Speichern Sie eine Jinja2-Schablone in .reuse/"
+#~ "templates/meineschablone.jinja2. Sie können die Schablone verwenden, "
+#~ "indem Sie \"--template meineschablone\" angeben. Lesen Sie die Online-"
+#~ "Dokumentation über die Nutzung dieser Funktion.\n"
+#~ "\n"
+#~ "Wird eine binäre Datei erkannt wird oder --force-dot-license angegeben "
+#~ "ist, werden die Kopfzeilen in eine .license-Datei geschrieben."
+
+#~ msgid ""
+#~ "Download a license and place it in the LICENSES/ directory.\n"
+#~ "\n"
+#~ "The LICENSES/ directory is automatically found in the following order:\n"
+#~ "\n"
+#~ "- The LICENSES/ directory in the root of the VCS repository.\n"
+#~ "\n"
+#~ "- The current directory if its name is LICENSES.\n"
+#~ "\n"
+#~ "- The LICENSES/ directory in the current directory.\n"
+#~ "\n"
+#~ "If the LICENSES/ directory cannot be found, one is simply created."
+#~ msgstr ""
+#~ "Lade eine Datei herunter und speichere sie im Verzeichnis LICENSES/.\n"
+#~ "\n"
+#~ "Das LICENSES/-Verzeichnis wird automatisch in dieser Reihenfolge "
+#~ "gesucht:\n"
+#~ "\n"
+#~ "- Das LICENSES/-Verzeichnis im Wurzelverzeichnis des VCS-Repositorys.\n"
+#~ "\n"
+#~ "- Das aktuelle Verzeichnis wenn dessen Name LICENSES ist.\n"
+#~ "\n"
+#~ "- Das LICENSES/-Verzeichnis im aktuellen Verzeichnis.\n"
+#~ "\n"
+#~ "Wenn das LICENSES/-Verzeichnis nicht gefunden werden kann, wird einfach "
+#~ "eines erstellt."
 
 #~ msgid ".reuse/dep5 has syntax errors"
 #~ msgstr ".reuse/dep5 hat Syntaxfehler"
