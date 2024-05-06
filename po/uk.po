@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-06 16:33+0000\n"
-"PO-Revision-Date: 2024-01-20 15:01+0000\n"
+"PO-Revision-Date: 2024-05-06 18:54+0200\n"
 "Last-Translator: Сергій <sergiy.goncharuk.1@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
 "tool/uk/>\n"
@@ -623,7 +623,7 @@ msgstr ""
 "'{path}' виявлено як двійковий файл або його розширення позначено таким, що "
 "не коментується; пошук інформації у його вмісті для REUSE не виконується."
 
-#: src/reuse/project.py:292
+#: src/reuse/project.py:288
 #, fuzzy, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
@@ -636,9 +636,9 @@ msgstr ""
 "Інформацію про авторське право та ліцензування для '{original_path}' можна "
 "знайти як у '{path}', так і у файлі DEP5, розташованому за адресою "
 "'{dep5_path}'. Інформація для цих двох джерел була агрегована. У майбутньому "
-"ця поведінка зміниться, і вам потрібно буде явно увімкнути агрегування. "
+"ця поведінка зміниться, і вам потрібно буде явно ввімкнути агрегування. "
 "Перегляньте <https://github.com/fsfe/reuse-tool/issues/779>. Наразі вам не "
-"потрібно нічого робити. Запустіть програму з `--suppress-deprecation`, щоб "
+"потрібно нічого робити. Запустіть  `reuse --suppress-deprecation lint`, щоб "
 "сховати це попередження."
 
 #: src/reuse/project.py:359
