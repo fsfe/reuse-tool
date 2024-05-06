@@ -57,7 +57,7 @@ lint-third-party: ## Lint selected third-party repositories to compare with expe
 
 .PHONY: docs
 docs: clean-docs ## generate Sphinx HTML documentation, including API docs
-	$(MAKE) -C docs html
+	$(MAKE) -C docs html man
 
 .PHONY: dist
 dist: clean-build clean-pyc clean-docs ## builds source and wheel package
