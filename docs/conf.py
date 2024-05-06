@@ -87,6 +87,13 @@ man_pages = [
         1,
     ),
     (
+        "man/reuse-annotate",
+        "reuse-annotate",
+        "Add REUSE information to files",
+        "Free Software Foundation Europe",
+        1,
+    ),
+    (
         "man/reuse-lint",
         "reuse-lint",
         "Verify whether a project is compliant with the REUSE Specification",

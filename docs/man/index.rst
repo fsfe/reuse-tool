@@ -13,4 +13,5 @@ information about the functioning of the tool.
    :maxdepth: 1
 
    reuse
+   reuse-annotate
    reuse-lint
