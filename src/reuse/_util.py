@@ -188,7 +188,7 @@ def execute_command(
     )
 
 
-def find_licenses_directory(root: StrPath) -> Path:
+def find_licenses_directory(root: Optional[StrPath] = None) -> Path:
     """Find the licenses directory from CWD or *root*. In the following order:
 
     - LICENSES/ in *root*.

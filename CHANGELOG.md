@@ -72,6 +72,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
   (#949)
 - The datetime value for `Created:` was wrongly formatted since 3.0.0. It now
   returns a correctly formatted ISO 8601 date again. (#952)
+- Repaired the behaviour of `reuse download` where being inside of a LICENSES/
+  directory should not create a deeper LICENSES/LICENSES/ directory. (#975)
 - Support annotating a file that contains only a shebang. (#965)
 
 ### Security

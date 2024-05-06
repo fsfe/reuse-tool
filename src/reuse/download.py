@@ -14,7 +14,7 @@ import urllib.request
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
 from pathlib import Path
-from typing import IO, Optional
+from typing import IO, Optional, cast
 from urllib.error import URLError
 from urllib.parse import urljoin
 
@@ -28,6 +28,7 @@ from ._util import (
 )
 from .project import Project
 from .report import ProjectReport
+from .vcs import VCSStrategyNone
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -59,7 +60,14 @@ def download_license(spdx_identifier: str) -> str:
     raise URLError("Status code was not 200")
 
 
-def _path_to_license_file(spdx_identifier: str, root: StrPath) -> Path:
+def _path_to_license_file(spdx_identifier: str, project: Project) -> Path:
+    root: Optional[Path] = project.root
+    # Hack
+    if cast(Path, root).name == "LICENSES" and isinstance(
+        project.vcs_strategy, VCSStrategyNone
+    ):
+        root = None
+
     licenses_path = find_licenses_directory(root=root)
     return licenses_path / "".join((spdx_identifier, ".txt"))
 
@@ -192,7 +200,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         if args.file:
             destination = args.file
         else:
-            destination = _path_to_license_file(lic, project.root)
+            destination = _path_to_license_file(lic, project)
         try:
             put_license_in_file(
                 lic, destination=destination, source=args.source

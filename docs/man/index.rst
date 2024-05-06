@@ -14,4 +14,5 @@ information about the functioning of the tool.
 
    reuse
    reuse-annotate
+   reuse-download
    reuse-lint

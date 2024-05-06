@@ -94,6 +94,13 @@ man_pages = [
         1,
     ),
     (
+        "man/reuse-download",
+        "reuse-download",
+        "Download license files",
+        "Free Software Foundation Europe",
+        1,
+    ),
+    (
         "man/reuse-lint",
         "reuse-lint",
         "Verify whether a project is compliant with the REUSE Specification",

@@ -487,6 +487,56 @@ def test_download_custom_output_too_many(
         )
 
 
+def test_download_inside_licenses_dir(
+    fake_repository, stringio, mock_put_license_in_file
+):
+    """While inside the LICENSES/ directory, don't create another LICENSES/
+    directory.
+    """
+    os.chdir(fake_repository / "LICENSES")
+    result = main(["download", "0BSD"], out=stringio)
+    assert result == 0
+    mock_put_license_in_file.assert_called_with(
+        "0BSD", destination=Path("0BSD.txt").absolute(), source=None
+    )
+
+
+def test_download_inside_licenses_dir_in_git(
+    git_repository, stringio, mock_put_license_in_file
+):
+    """While inside a random LICENSES/ directory in a Git repository,.use the
+    root LICENSES/ directory.
+    """
+    (git_repository / "doc/LICENSES").mkdir()
+    os.chdir(git_repository / "doc/LICENSES")
+    result = main(["download", "0BSD"], out=stringio)
+    assert result == 0
+    mock_put_license_in_file.assert_called_with(
+        "0BSD", destination=Path("../../LICENSES/0BSD.txt"), source=None
+    )
+
+
+def test_download_different_root(
+    fake_repository, stringio, mock_put_license_in_file
+):
+    """Download using a different root."""
+    (fake_repository / "new_root").mkdir()
+
+    result = main(
+        [
+            "--root",
+            str((fake_repository / "new_root").resolve()),
+            "download",
+            "MIT",
+        ],
+        out=stringio,
+    )
+    assert result == 0
+    mock_put_license_in_file.assert_called_with(
+        "MIT", Path("new_root/LICENSES/MIT.txt").resolve(), source=None
+    )
+
+
 def test_download_licenseref_no_source(empty_directory, stringio):
     """Downloading a LicenseRef license creates an empty file."""
     main(["download", "LicenseRef-hello"], out=stringio)
