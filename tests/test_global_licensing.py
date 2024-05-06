@@ -9,7 +9,7 @@ from inspect import cleandoc
 from pathlib import Path
 
 import pytest
-from conftest import RESOURCES_DIRECTORY
+from conftest import RESOURCES_DIRECTORY, posix
 from debian.copyright import Copyright
 from license_expression import LicenseSymbol
 
@@ -453,6 +453,7 @@ class TestReuseTOMLEscaping:
         assert not toml.reuse_info_of(r"foo.py")
         assert not toml.reuse_info_of(r"\foo.py")
 
+    @posix
     def test_escape_escape(self):
         """Handle escape escape."""
         text = cleandoc(
