@@ -16,3 +16,4 @@ information about the functioning of the tool.
    reuse-annotate
    reuse-download
    reuse-lint
+   reuse-spdx

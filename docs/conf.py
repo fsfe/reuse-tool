@@ -107,6 +107,13 @@ man_pages = [
         "Free Software Foundation Europe",
         1,
     ),
+    (
+        "man/reuse-spdx",
+        "reuse-spdx",
+        "Generate SPDX bill of materials",
+        "Free Software Foundation Europe",
+        1,
+    ),
 ]
 
 # -- Custom ------------------------------------------------------------------
