@@ -29,6 +29,7 @@ stable), you may find the API generated from Python docstrings useful or
 insightful.
 
 .. toctree::
+   :maxdepth: 3
 
    API<api/reuse>
 
