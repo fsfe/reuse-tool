@@ -42,6 +42,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
+- Manpages added for all `reuse` commands. Distribution maintainers might wish
+  to distribute the (Sphinx-built) manpages. (#975)
 - More file types are recognised:
   - Assembler (`.asm`) (#928)
   - GraphQL (`.graphqls`, `.gqls`) (#930)
