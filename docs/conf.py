@@ -65,6 +65,7 @@ apidoc_module_dir = str(ROOT_DIR / "src/reuse")
 # apidoc_excluded_paths = []
 apidoc_separate_modules = True
 apidoc_toc_file = False
+apidoc_extra_args = ["--maxdepth", "2"]
 
 autodoc_member_order = "bysource"
 
