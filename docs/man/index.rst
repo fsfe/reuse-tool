@@ -17,3 +17,4 @@ information about the functioning of the tool.
    reuse-download
    reuse-lint
    reuse-spdx
+   reuse-supported-licenses

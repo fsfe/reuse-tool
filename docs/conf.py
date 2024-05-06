@@ -114,6 +114,13 @@ man_pages = [
         "Free Software Foundation Europe",
         1,
     ),
+    (
+        "man/reuse-supported-licenses",
+        "reuse-supported-licenses",
+        "Print a list of supported licenses",
+        "Free Software Foundation Europe",
+        1,
+    ),
 ]
 
 # -- Custom ------------------------------------------------------------------
