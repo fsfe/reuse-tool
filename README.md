@@ -258,6 +258,9 @@ an error.
 ## Maintainers
 
 - Carmen Bianca Bakker <carmenbianca@fsfe.org>
+
+### Former maintainers
+
 - Max Mehl <max.mehl@fsfe.org>
 - Linus Sehn <linus@fsfe.org>
 
