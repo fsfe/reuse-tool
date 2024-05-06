@@ -83,7 +83,14 @@ man_pages = [
         "man/reuse",
         "reuse",
         "A tool for compliance with the REUSE recommendations",
-        "Carmen Bianca BAKKER",
+        "Free Software Foundation Europe",
+        1,
+    ),
+    (
+        "man/reuse-lint",
+        "reuse-lint",
+        "Verify whether a project is compliant with the REUSE Specification",
+        "Free Software Foundation Europe",
         1,
     ),
 ]
