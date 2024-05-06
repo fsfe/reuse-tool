@@ -9,38 +9,6 @@ obvious when using the tool. This chapter does not cover *everything*, assuming
 that the user is helped enough by ``reuse --help`` and ``reuse <subcommand>
 --help``.
 
-Implementation details
-======================
-
-This section covers implementation details that are true for the entire tool.
-
-When searching for copyright and licensing tags inside of files, the tool does
-not strictly limit itself to the header comment as prescribed by the
-specification. It searches the first 4 kibibytes of the file. This makes sure
-that the tool can parse any type of plain-text file, even if the comment style
-is not recognised.
-
-If a file is found to have an unparsable tag, that file is not parsed at all.
-This is `a bug <https://github.com/fsfe/reuse-tool/issues/4>`_.
-
-The tool does not verify the correctness of copyright notices. If it finds any
-line containing '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
-everything following it is considered a valid copyright notice, even if the
-copyright notice is not compliant with the specification.
-
-When running the tool, the root of the project is automatically found if the
-working directory is inside a VCS repository. Otherwise, it treats the working
-directory as the root of the project. You can override the root of the project
-with the ``--root`` optional argument.
-
-Git submodules are automatically ignored unless ``--include-submodules`` is
-passed as optional argument.
-
-Meson subprojects are automatically ignored if ``meson.build`` exists in the
-project root. ``--include-meson-subprojects`` overrides this behaviour.
-
-Symbolic links and files that are zero-sized are automatically ignored.
-
 annotate
 ========
 

@@ -77,6 +77,16 @@ html_theme = "furo"
 html_logo = "reuse-r-only.svg"
 html_static_path = ["_static"]
 
+# -- Options for man output --------------------------------------------------
+man_pages = [
+    (
+        "man/reuse",
+        "reuse",
+        "A tool for compliance with the REUSE recommendations",
+        "Carmen Bianca BAKKER",
+        1,
+    ),
+]
 
 # -- Custom ------------------------------------------------------------------
 

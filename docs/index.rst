@@ -20,6 +20,7 @@ about REUSE at `<https://reuse.software>`_.
    Overview<readme>
    usage
    scripts
+   man/index
 
 API reference
 -------------
