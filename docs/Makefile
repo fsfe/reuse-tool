@@ -3,9 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # You can set these variables from the command line.
-SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = reuse
+SPHINXOPTS    ?=
+SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build
 

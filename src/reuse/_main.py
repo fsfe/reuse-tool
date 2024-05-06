@@ -125,32 +125,8 @@ def parser() -> argparse.ArgumentParser:
                 " given files.\n"
                 "\n"
                 "By using --contributor, you can specify people or entity that"
-                " contributed but are not copyright holder of the given files."
-                "\n"
-                "The first comment is replaced with a new header containing"
-                " the new copyright and licensing information and its former"
-                " copyright and licensing. If you want to keep the first"
-                " comment intact, use --no-replace.\n"
-                "\n"
-                "The comment style should be auto-detected for your files. If"
-                " a comment style could not be detected and --skip-unrecognised"
-                " is not specified, the process aborts. Use --style to specify"
-                " or override the comment style to use.\n"
-                "\n"
-                "A single-line comment style is used when it is available. If"
-                " no single-line comment style is available, a multi-line"
-                " comment style is used. You can force a certain comment style"
-                " using --single-line or --multi-line.\n"
-                "\n"
-                "You can change the template of the header comment by using"
-                " --template. Place a Jinja2 template in"
-                " .reuse/templates/mytemplate.jinja2. You can use the template"
-                " by specifying"
-                " '--template mytemplate'. Read the online documentation on"
-                " how to use this feature.\n"
-                "\n"
-                "If a binary file is detected, or if --force-dot-license is"
-                " specified, the header is placed in a .license file."
+                " contributed but are not copyright holder of the given"
+                " files."
             )
         ),
     )
@@ -162,22 +138,7 @@ def parser() -> argparse.ArgumentParser:
         download.run,
         help=_("download a license and place it in the LICENSES/ directory"),
         description=fill_all(
-            _(
-                "Download a license and place it in the LICENSES/ directory.\n"
-                "\n"
-                "The LICENSES/ directory is automatically found in the"
-                " following order:\n"
-                "\n"
-                "- The LICENSES/ directory in the root of the VCS"
-                " repository.\n"
-                "\n"
-                "- The current directory if its name is LICENSES.\n"
-                "\n"
-                "- The LICENSES/ directory in the current directory.\n"
-                "\n"
-                "If the LICENSES/ directory cannot be found, one is simply"
-                " created."
-            )
+            _("Download a license and place it in the LICENSES/ directory.")
         ),
     )
 

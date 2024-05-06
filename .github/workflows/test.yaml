@@ -128,7 +128,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry~=1.2.0
-          pip install -r docs/requirements.txt
+          poetry install --no-interaction --only main,docs
       - name: Create docs with Sphinx
         run: |
-          make docs-ci
+          make docs

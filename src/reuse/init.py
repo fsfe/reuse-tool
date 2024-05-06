@@ -122,7 +122,7 @@ def run(
     # Creating files past this point!
 
     for lic in licenses:
-        destination = _path_to_license_file(lic, root=root)
+        destination = _path_to_license_file(lic, project=project)
 
         try:
             out.write(_("Retrieving {}").format(lic))

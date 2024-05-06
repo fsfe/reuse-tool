@@ -8,24 +8,49 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to reuse's documentation!
-=================================
+reuse documentation
+===================
+
+This is the documentation for the REUSE tool. You may find more information
+about REUSE at `<https://reuse.software>`_.
 
 .. toctree::
    :maxdepth: 2
 
    Overview<readme>
-   usage
    scripts
-   contributing
+   man/index
+
+API reference
+-------------
+
+Although the API is not declared stable (and likely never will be declared
+stable), you may find the API generated from Python docstrings useful or
+insightful.
+
+.. toctree::
+
+   API<api/reuse>
+
+Project
+-------
+
+.. toctree::
+   :maxdepth: 2
+
+   contribute
    authors
+
+Change log
+----------
+
+.. toctree::
+   :maxdepth: 2
+
    history
-   API<api/modules>
-
-
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
