@@ -24,9 +24,10 @@ from collections import Counter
 from difflib import SequenceMatcher
 from gettext import gettext as _
 from hashlib import sha1
+from inspect import cleandoc
 from itertools import chain
 from os import PathLike
-from pathlib import Path, PurePath
+from pathlib import Path
 from typing import (
     IO,
     Any,
@@ -42,8 +43,6 @@ from typing import (
 )
 
 from boolean.boolean import Expression, ParseError
-from debian.copyright import Copyright
-from debian.copyright import Error as DebianError
 from license_expression import ExpressionError, Licensing
 
 from . import ReuseInfo, SourceType
@@ -245,51 +244,6 @@ def _determine_license_suffix_path(path: StrPath) -> Path:
     return Path(f"{path}.license")
 
 
-def _parse_dep5(path: StrPath) -> Copyright:
-    """Parse the dep5 file and create a dep5 Copyright object.
-
-    Raises:
-        FileNotFoundError: file doesn't exist.
-        DebianError: file could not be parsed.
-        UnicodeDecodeError: could not decode file as UTF-8.
-    """
-    path = Path(path)
-    try:
-        with path.open(encoding="utf-8") as fp:
-            return Copyright(fp)
-    except FileNotFoundError:
-        _LOGGER.debug(_("no '{}' file, or could not read it").format(path))
-        raise
-    # TODO: Remove ValueError once
-    # <https://salsa.debian.org/python-debian-team/python-debian/-/merge_requests/123>
-    # is closed
-    except (DebianError, ValueError) as error:
-        if error.__class__ == ValueError:
-            raise DebianError(str(error)) from error
-        raise
-
-
-def _copyright_from_dep5(path: StrPath, dep5_copyright: Copyright) -> ReuseInfo:
-    """Find the reuse information of *path* in the dep5 Copyright object."""
-    path = PurePath(path).as_posix()
-    result = dep5_copyright.find_files_paragraph(path)
-
-    if result is None:
-        return ReuseInfo()
-
-    return ReuseInfo(
-        spdx_expressions=set(
-            map(_LICENSING.parse, [result.license.synopsis])  # type: ignore
-        ),
-        copyright_lines=set(
-            map(str.strip, result.copyright.splitlines())  # type: ignore
-        ),
-        path=path,
-        source_type=SourceType.DEP5,
-        source_path=".reuse/dep5",
-    )
-
-
 def _parse_copyright_year(year: str) -> list:
     """Parse copyright years and return list."""
     if not year:
@@ -427,6 +381,59 @@ def extract_reuse_info(text: str) -> ReuseInfo:
         copyright_lines=copyright_matches,
         **spdx_tags,  # type: ignore
     )
+
+
+def reuse_info_of_file(
+    path: StrPath, original_path: StrPath, root: StrPath
+) -> ReuseInfo:
+    """Open *path* and return its :class:`ReuseInfo`.
+
+    Normally only the first few :const:`_HEADER_BYTES` are read. But if a
+    snippet was detected, the entire file is read.
+    """
+    path = Path(path)
+    with path.open("rb") as fp:
+        try:
+            read_limit: Optional[int] = _HEADER_BYTES
+            # Completely read the file once
+            # to search for possible snippets
+            if _contains_snippet(fp):
+                _LOGGER.debug(f"'{path}' seems to contain an SPDX Snippet")
+                read_limit = None
+            # Reset read position
+            fp.seek(0)
+            # Scan the file for REUSE info, possibly limiting the read
+            # length
+            file_result = extract_reuse_info(
+                decoded_text_from_binary(fp, size=read_limit)
+            )
+            if file_result.contains_copyright_or_licensing():
+                source_type = SourceType.FILE_HEADER
+                if path.suffix == ".license":
+                    source_type = SourceType.DOT_LICENSE
+                return file_result.copy(
+                    path=relative_from_root(original_path, root).as_posix(),
+                    source_path=relative_from_root(path, root).as_posix(),
+                    source_type=source_type,
+                )
+
+        except (ExpressionError, ParseError):
+            _LOGGER.error(
+                _(
+                    "'{path}' holds an SPDX expression that cannot be"
+                    " parsed, skipping the file"
+                ).format(path=path)
+            )
+    return ReuseInfo()
+
+
+def relative_from_root(path: StrPath, root: StrPath) -> Path:
+    """A helper function to get *path* relative to *root*."""
+    path = Path(path)
+    try:
+        return path.relative_to(root)
+    except ValueError:
+        return Path(os.path.relpath(path, start=root))
 
 
 def find_spdx_tag(text: str, pattern: re.Pattern) -> Iterator[str]:
@@ -641,6 +648,11 @@ def detect_line_endings(text: str) -> str:
         if line_ending in text:
             return line_ending
     return os.linesep
+
+
+def cleandoc_nl(text: str) -> str:
+    """Like :func:`inspect.cleandoc`, but with a newline at the end."""
+    return cleandoc(text) + "\n"
 
 
 # REUSE-IgnoreEnd

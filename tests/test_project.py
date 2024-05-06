@@ -10,28 +10,21 @@
 import os
 import shutil
 import warnings
-from importlib import import_module
 from inspect import cleandoc
 from pathlib import Path
-from textwrap import dedent
 
 import pytest
-from debian.copyright import Error as DebianError
+from conftest import RESOURCES_DIRECTORY, posix
 from license_expression import LicenseSymbol
 
-from reuse import SourceType
-from reuse.project import Project
-
-try:
-    IS_POSIX = bool(import_module("posix"))
-except ImportError:
-    IS_POSIX = False
-
-posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
-
-TESTS_DIRECTORY = Path(__file__).parent.resolve()
-RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
-
+from reuse import ReuseInfo, SourceType
+from reuse._util import _LICENSING
+from reuse.global_licensing import (
+    GlobalLicensingParseError,
+    NestedReuseTOML,
+    ReuseDep5,
+)
+from reuse.project import GlobalLicensingConflict, Project
 
 # REUSE-IgnoreStart
 
@@ -47,6 +40,17 @@ def test_project_not_exists(empty_directory):
     """Cannot create a Project with a directory that doesn't exist."""
     with pytest.raises(FileNotFoundError):
         Project.from_directory(empty_directory / "foo")
+
+
+def test_project_conflicting_global_licensing(empty_directory):
+    """If both REUSE.toml and .reuse/dep5 exist, expect a
+    GlobalLicensingConflict.
+    """
+    (empty_directory / "REUSE.toml").write_text("version = 1")
+    (empty_directory / ".reuse").mkdir()
+    (empty_directory / ".reuse/dep5").touch()
+    with pytest.raises(GlobalLicensingConflict):
+        Project.from_directory(empty_directory)
 
 
 def test_all_files(empty_directory):
@@ -329,19 +333,20 @@ def test_reuse_info_of_only_copyright(fake_repository):
     assert reuse_info.path == "foo.py"
 
 
-def test_reuse_info_of_also_covered_by_dep5(fake_repository):
+def test_reuse_info_of_also_covered_by_dep5(fake_repository_dep5):
     """A file contains all REUSE information, but .reuse/dep5 also
     provides information on this file. Aggregate the information (for now), and
     expect a PendingDeprecationWarning.
     """
-    (fake_repository / "doc/foo.py").write_text(
-        dedent(
+    (fake_repository_dep5 / "doc/foo.py").write_text(
+        cleandoc(
             """
             SPDX-License-Identifier: MIT
-            SPDX-FileCopyrightText: in file"""
+            SPDX-FileCopyrightText: in file
+            """
         )
     )
-    project = Project.from_directory(fake_repository)
+    project = Project.from_directory(fake_repository_dep5)
     with warnings.catch_warnings(record=True) as caught_warnings:
         reuse_infos = project.reuse_info_of("doc/foo.py")
         assert len(reuse_infos) == 2
@@ -360,11 +365,292 @@ def test_reuse_info_of_also_covered_by_dep5(fake_repository):
                 )
                 assert reuse_info.path == "doc/foo.py"
                 assert reuse_info.source_path == "doc/foo.py"
+            else:
+                assert False
 
         assert len(caught_warnings) == 1
         assert issubclass(
             caught_warnings[0].category, PendingDeprecationWarning
         )
+
+
+def test_reuse_info_of_toml_precedence(empty_directory):
+    """When the precedence is set to toml, ignore file contents."""
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            precedence = "override"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text(
+        cleandoc(
+            """
+            # The below should give a parser error. Not going to happen because
+            # the file is never parsed.
+            SPDX-License-Identifier: ignored AND
+            SPDX-FileCopyrightText: ignored
+            """
+        )
+    )
+    project = Project.from_directory(empty_directory)
+    reuse_infos = project.reuse_info_of("foo.py")
+    assert len(reuse_infos) == 1
+    reuse_info = reuse_infos[0]
+    assert reuse_info.source_type == SourceType.REUSE_TOML
+    assert reuse_info.source_path == "REUSE.toml"
+    assert reuse_info.path == "foo.py"
+    assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
+    assert "2017 Jane Doe" in reuse_info.copyright_lines
+
+
+def test_reuse_info_of_closest_precedence(empty_directory):
+    """When the precedence is set to closest, ignore REUSE.toml contents."""
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            precedence = "closest"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text(
+        cleandoc(
+            """
+            SPDX-License-Identifier: MIT
+            SPDX-FileCopyrightText: In File
+            """
+        )
+    )
+    project = Project.from_directory(empty_directory)
+    reuse_infos = project.reuse_info_of("foo.py")
+    assert len(reuse_infos) == 1
+    reuse_info = reuse_infos[0]
+    assert reuse_info.source_type == SourceType.FILE_HEADER
+    assert reuse_info.source_path == "foo.py"
+    assert reuse_info.path == "foo.py"
+    assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
+    assert "SPDX-FileCopyrightText: In File" in reuse_info.copyright_lines
+
+
+def test_reuse_info_of_closest_precedence_empty(empty_directory):
+    """When the precedence is set to closest, but the file is empty, use
+    REUSE.toml contents.
+    """
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            precedence = "closest"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "foo.py").touch()
+    project = Project.from_directory(empty_directory)
+    reuse_infos = project.reuse_info_of("foo.py")
+    assert len(reuse_infos) == 1
+    reuse_info = reuse_infos[0]
+    assert reuse_info.source_type == SourceType.REUSE_TOML
+    assert reuse_info.source_path == "REUSE.toml"
+    assert reuse_info.path == "foo.py"
+    assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
+    assert "2017 Jane Doe" in reuse_info.copyright_lines
+
+
+def test_reuse_info_of_aggregate_precedence(empty_directory):
+    """When the precedence is set to aggregate, aggregate sources."""
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            precedence = "aggregate"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text(
+        cleandoc(
+            """
+            SPDX-License-Identifier: MIT
+            SPDX-FileCopyrightText: In File
+            """
+        )
+    )
+    project = Project.from_directory(empty_directory)
+    reuse_infos = project.reuse_info_of("foo.py")
+    assert len(reuse_infos) == 2
+    assert reuse_infos[0].source_type != reuse_infos[1].source_type
+    for reuse_info in reuse_infos:
+        if reuse_info.source_type == SourceType.FILE_HEADER:
+            assert reuse_info.source_type
+            assert reuse_info.source_path == "foo.py"
+            assert reuse_info.path == "foo.py"
+            assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
+            assert (
+                "SPDX-FileCopyrightText: In File" in reuse_info.copyright_lines
+            )
+        elif reuse_info.source_type == SourceType.REUSE_TOML:
+            assert reuse_info.source_path == "REUSE.toml"
+            assert reuse_info.path == "foo.py"
+            assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
+            assert "2017 Jane Doe" in reuse_info.copyright_lines
+        else:
+            assert False
+
+
+def test_reuse_info_of_aggregate_and_closest(empty_directory):
+    """A rather tricky case. Top-level REUSE.toml says aggregate. Nearest
+    REUSE.toml says closest. The top-level REUSE.toml info should now be
+    aggregated with the file contents IF they exist. Else, aggregate with the
+    nearest REUSE.toml info.
+    """
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "src/foo.py"
+            precedence = "aggregate"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "src").mkdir()
+    (empty_directory / "src/REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            precedence = "closest"
+            SPDX-FileCopyrightText = "2017 John Doe"
+            SPDX-License-Identifier = "MIT"
+            """
+        )
+    )
+    (empty_directory / "src/foo.py").touch()
+    project = Project.from_directory(empty_directory)
+    assert project.reuse_info_of("src/foo.py") == [
+        ReuseInfo(
+            spdx_expressions={_LICENSING.parse("CC0-1.0")},
+            copyright_lines={"2017 Jane Doe"},
+            path="src/foo.py",
+            source_path="REUSE.toml",
+            source_type=SourceType.REUSE_TOML,
+        ),
+        ReuseInfo(
+            spdx_expressions={_LICENSING.parse("MIT")},
+            copyright_lines={"2017 John Doe"},
+            path="src/foo.py",
+            source_path="src/REUSE.toml",
+            source_type=SourceType.REUSE_TOML,
+        ),
+    ]
+
+    # Populate the file.
+    (empty_directory / "src/foo.py").write_text(
+        cleandoc(
+            """
+            # Copyright Example
+            # SPDX-License-Identifier: 0BSD
+            """
+        )
+    )
+    assert project.reuse_info_of("src/foo.py") == [
+        ReuseInfo(
+            spdx_expressions={_LICENSING.parse("CC0-1.0")},
+            copyright_lines={"2017 Jane Doe"},
+            path="src/foo.py",
+            source_path="REUSE.toml",
+            source_type=SourceType.REUSE_TOML,
+        ),
+        ReuseInfo(
+            spdx_expressions={_LICENSING.parse("0BSD")},
+            copyright_lines={"Copyright Example"},
+            path="src/foo.py",
+            source_path="src/foo.py",
+            source_type=SourceType.FILE_HEADER,
+        ),
+    ]
+
+
+def test_reuse_info_of_copyright_xor_licensing(empty_directory):
+    """Test a corner case where partial REUSE information is defined inside of a
+    file (copyright xor licensing). Get the missing information from the
+    REUSE.toml.
+    """
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+
+            [[annotations]]
+            path = "bar.py"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text(
+        cleandoc(
+            """
+            SPDX-License-Identifier: MIT
+            """
+        )
+    )
+    (empty_directory / "bar.py").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2017 John Doe
+            """
+        )
+    )
+    project = Project.from_directory(empty_directory)
+
+    foo_infos = project.reuse_info_of("foo.py")
+    assert len(foo_infos) == 2
+    foo_toml_info = [info for info in foo_infos if info.copyright_lines][0]
+    assert foo_toml_info.source_type == SourceType.REUSE_TOML
+    assert not foo_toml_info.spdx_expressions
+    foo_file_info = [info for info in foo_infos if info.spdx_expressions][0]
+    assert foo_file_info.source_type == SourceType.FILE_HEADER
+    assert not foo_file_info.copyright_lines
+
+    bar_infos = project.reuse_info_of("bar.py")
+    assert len(bar_infos) == 2
+    bar_toml_info = [info for info in bar_infos if info.spdx_expressions][0]
+    assert bar_toml_info.source_type == SourceType.REUSE_TOML
+    assert not bar_toml_info.copyright_lines
+    bar_file_info = [info for info in bar_infos if info.copyright_lines][0]
+    assert bar_file_info.source_type == SourceType.FILE_HEADER
+    assert not bar_file_info.spdx_expressions
 
 
 def test_reuse_info_of_no_duplicates(empty_directory):
@@ -389,13 +675,13 @@ def test_reuse_info_of_no_duplicates(empty_directory):
     )
 
 
-def test_reuse_info_of_binary_succeeds(fake_repository):
+def test_reuse_info_of_binary_succeeds(fake_repository_dep5):
     """reuse_info_of succeeds when the target is covered by dep5."""
     shutil.copy(
-        RESOURCES_DIRECTORY / "fsfe.png", fake_repository / "doc/fsfe.png"
+        RESOURCES_DIRECTORY / "fsfe.png", fake_repository_dep5 / "doc/fsfe.png"
     )
 
-    project = Project.from_directory(fake_repository)
+    project = Project.from_directory(fake_repository_dep5)
     reuse_info = project.reuse_info_of("doc/fsfe.png")[0]
     assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
     assert reuse_info.source_type == SourceType.DEP5
@@ -473,6 +759,39 @@ def test_relative_from_root_no_shared_base_path(empty_directory):
     ) == Path("src/hello.py")
 
 
+def test_find_global_licensing_dep5(fake_repository_dep5):
+    """Find the dep5 file. Also output a PendingDeprecationWarning."""
+    with warnings.catch_warnings(record=True) as caught_warnings:
+        result = Project.find_global_licensing(fake_repository_dep5)
+        assert result.path == fake_repository_dep5 / ".reuse/dep5"
+        assert result.cls == ReuseDep5
+
+        assert len(caught_warnings) == 1
+        assert issubclass(
+            caught_warnings[0].category, PendingDeprecationWarning
+        )
+
+
+def test_find_global_licensing_reuse_toml(fake_repository_reuse_toml):
+    """Find the REUSE.toml file."""
+    result = Project.find_global_licensing(fake_repository_reuse_toml)
+    assert result.path == fake_repository_reuse_toml / "."
+    assert result.cls == NestedReuseTOML
+
+
+def test_find_global_licensing_none(empty_directory):
+    """Find no file."""
+    result = Project.find_global_licensing(empty_directory)
+    assert result is None
+
+
+def test_find_global_licensing_conflict(fake_repository_dep5):
+    """Expect an error on a conflict"""
+    (fake_repository_dep5 / "REUSE.toml").touch()
+    with pytest.raises(GlobalLicensingConflict):
+        Project.find_global_licensing(fake_repository_dep5)
+
+
 def test_duplicate_field_dep5(empty_directory):
     """When a duplicate field is in a dep5 file, correctly handle errors."""
     dep5_text = cleandoc(
@@ -491,7 +810,7 @@ def test_duplicate_field_dep5(empty_directory):
     (empty_directory / ".reuse").mkdir()
     (empty_directory / ".reuse/dep5").write_text(dep5_text)
 
-    with pytest.raises(DebianError):
+    with pytest.raises(GlobalLicensingParseError):
         Project.from_directory(empty_directory)
 
 

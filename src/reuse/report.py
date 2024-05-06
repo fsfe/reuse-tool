@@ -8,6 +8,7 @@
 
 """Module that contains reports about files and projects for linting."""
 
+import bdb
 import contextlib
 import datetime
 import logging
@@ -21,16 +22,9 @@ from pathlib import Path, PurePath
 from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
 from uuid import uuid4
 
-from debian.copyright import Copyright
-
 from . import __REUSE_version__, __version__
-from ._util import (
-    _LICENSEREF_PATTERN,
-    _LICENSING,
-    StrPath,
-    _checksum,
-    _parse_dep5,
-)
+from ._util import _LICENSEREF_PATTERN, _LICENSING, StrPath, _checksum
+from .global_licensing import ReuseDep5
 from .project import Project, ReuseInfo
 
 _LOGGER = logging.getLogger(__name__)
@@ -44,38 +38,44 @@ class _MultiprocessingContainer:
     def __init__(
         self, project: Project, do_checksum: bool, add_license_concluded: bool
     ):
-        # TODO: We create a copy of the project in the following song-and-dance
-        # because the debian Copyright object cannot be pickled.
-        new_project = Project(
-            project.root,
-            vcs_strategy=project.vcs_strategy.__class__,
-            license_map=project.license_map,
-            licenses=project.licenses.copy(),
-            # Unset dep5_copyright
-            dep5_copyright=None,
-            include_submodules=project.include_submodules,
-            include_meson_subprojects=project.include_meson_subprojects,
-        )
-        new_project.licenses_without_extension = (
-            project.licenses_without_extension
-        )
+        if isinstance(project.global_licensing, ReuseDep5):
+            # Remember that a dep5_copyright was (or was not) set prior.
+            self.has_dep5 = bool(project.global_licensing)
+            # TODO: We create a copy of the project in the following
+            # song-and-dance because the debian Copyright object cannot be
+            # pickled.
+            new_project = Project(
+                project.root,
+                vcs_strategy=project.vcs_strategy.__class__,
+                license_map=project.license_map,
+                licenses=project.licenses.copy(),
+                # TODO: adjust this method/class to account for REUSE.toml as
+                # well. Unset dep5_copyright
+                global_licensing=None,
+                include_submodules=project.include_submodules,
+                include_meson_subprojects=project.include_meson_subprojects,
+            )
+            new_project.licenses_without_extension = (
+                project.licenses_without_extension
+            )
+            self.project = new_project
+        else:
+            self.has_dep5 = False
+            self.project = project
 
-        self.project = new_project
-        # Remember that a dep5_copyright was (or was not) set prior.
-        self.has_dep5 = bool(project.dep5_copyright)
-        self.dep5_copyright: Optional[Copyright] = None
+        self.reuse_dep5: Optional[ReuseDep5] = None
         self.do_checksum = do_checksum
         self.add_license_concluded = add_license_concluded
 
     def __call__(self, file_: StrPath) -> "_MultiprocessingResult":
         # By remembering that we've parsed the .reuse/dep5, we only parse it
         # once (the first time) inside of each process.
-        if self.has_dep5 and not self.dep5_copyright:
+        if self.has_dep5 and not self.reuse_dep5:
             with contextlib.suppress(Exception):
-                self.dep5_copyright = _parse_dep5(
+                self.reuse_dep5 = ReuseDep5.from_file(
                     self.project.root / ".reuse/dep5"
                 )
-                self.project.dep5_copyright = self.dep5_copyright
+                self.project.global_licensing = self.reuse_dep5
         # pylint: disable=broad-except
         try:
             return _MultiprocessingResult(
@@ -302,6 +302,9 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         for result in results:
             if result.error:
+                # Facilitate better debugging by being able to quit the program.
+                if isinstance(result.error, bdb.BdbQuit):
+                    raise bdb.BdbQuit() from result.error
                 if isinstance(result.error, (OSError, UnicodeError)):
                     _LOGGER.error(
                         _("Could not read '{path}'").format(path=result.path),

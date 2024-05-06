@@ -42,6 +42,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
+- Added support for `REUSE.toml`. (#863)
 - Manpages added for all `reuse` commands. Distribution maintainers might wish
   to distribute the (Sphinx-built) manpages. (#975)
 - More file types are recognised:
@@ -65,6 +66,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
   or `COPYING` + a file extension). Idem ditto for `LICENSE`. (#886)
 
 ### Deprecated
+
+- `.reuse/dep5` is marked deprecated. `reuse convert-dep5` will help you switch
+  to `REUSE.toml`. (#863)
 
 ### Removed
 

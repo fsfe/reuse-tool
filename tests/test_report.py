@@ -9,26 +9,15 @@
 
 import os
 import re
-import sys
-from importlib import import_module
+import warnings
+from inspect import cleandoc
 from textwrap import dedent
 
-import pytest
+from conftest import cpython, posix
 
 from reuse import SourceType
 from reuse.project import Project
 from reuse.report import FileReport, ProjectReport
-
-try:
-    IS_POSIX = bool(import_module("posix"))
-except ImportError:
-    IS_POSIX = False
-
-cpython = pytest.mark.skipif(
-    sys.implementation.name != "cpython", reason="only CPython supported"
-)
-posix = pytest.mark.skipif(not IS_POSIX, reason="Windows not supported")
-
 
 # REUSE-IgnoreStart
 
@@ -223,22 +212,25 @@ def test_generate_file_report_multiple_licenses(
     assert not result.missing_licenses
 
 
-def test_generate_file_report_to_dict_lint_source_information(fake_repository):
+def test_generate_file_report_to_dict_lint_source_information(
+    fake_repository_dep5,
+):
     """When a file is covered both by DEP5 and its file header, the lint dict
     should correctly convey the source information.
     """
-    (fake_repository / "doc/foo.py").write_text(
+    (fake_repository_dep5 / "doc/foo.py").write_text(
         dedent(
             """
             SPDX-License-Identifier: MIT OR 0BSD
             SPDX-FileCopyrightText: in file"""
         )
     )
-    project = Project.from_directory(fake_repository)
-    report = FileReport.generate(
-        project,
-        "doc/foo.py",
-    )
+    project = Project.from_directory(fake_repository_dep5)
+    with warnings.catch_warnings(record=True):
+        report = FileReport.generate(
+            project,
+            "doc/foo.py",
+        )
     result = report.to_dict_lint()
     assert result["path"] == "doc/foo.py"
     assert len(result["copyrights"]) == 2
@@ -445,6 +437,36 @@ def test_generate_project_report_to_dict_lint(fake_repository, multiprocessing):
 
     # Check if the rest of the keys are sorted alphabetically
     assert list(result.keys())[3:-1] == sorted(list(result.keys())[3:-1])
+
+
+def test_generate_project_partial_info_in_toml(
+    empty_directory, multiprocessing
+):
+    """Some information is in REUSE.toml, and some is inside of the file."""
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            precedence = "closest"
+            SPDX-FileCopyrightText = "Jane Doe"
+            # This is ignored because it's in the file!
+            SPDX-License-Identifier = "MIT"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text("# SPDX-License-Identifier: 0BSD")
+    project = Project.from_directory(empty_directory)
+    report = ProjectReport.generate(project, multiprocessing=multiprocessing)
+    file_report = next(
+        report for report in report.file_reports if report.path.name == "foo.py"
+    )
+    infos = file_report.reuse_infos
+    assert len(infos) == 2
+    assert file_report.copyright == "Jane Doe"
+    assert file_report.licenses_in_file == ["0BSD"]
 
 
 def test_bill_of_materials(fake_repository, multiprocessing):

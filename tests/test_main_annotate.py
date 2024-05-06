@@ -1475,7 +1475,7 @@ def test_annotate_recursive(fake_repository, stringio, mock_date_today):
         out=stringio,
     )
 
-    for path in (fake_repository / "src").glob("src/**"):
+    for path in (fake_repository / "src").rglob("src/**"):
         content = path.read_text()
         assert "SPDX-FileCopyrightText: 2018 Joe Somebody" in content
 

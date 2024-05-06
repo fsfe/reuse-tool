@@ -31,6 +31,7 @@ include = [
     { path = "README.md", format = "sdist" },
     { path = "CHANGELOG.md", format = "sdist" },
     { path = ".reuse", format = "sdist" },
+    { path = "REUSE.toml", format = "sdist" },
     { path = "LICENSES", format = "sdist" },
     { path = "docs", format = "sdist" },
 ]
@@ -55,7 +56,9 @@ Jinja2 = "^3.0.0"
 binaryornot = ">=0.4.4"
 "boolean.py" = ">=3.8"
 license-expression = ">=1.0"
-python-debian = "^0.1.34,!=0.1.45,!=0.1.46,!=0.1.47"
+python-debian = ">=0.1.34,!=0.1.45,!=0.1.46,!=0.1.47,<1.0"
+tomlkit = ">=0.8,<1.0"
+attrs = ">=21.1"
 
 [tool.poetry.group.test.dependencies]
 pytest = ">=6.0.0"

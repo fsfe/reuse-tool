@@ -14,14 +14,12 @@ import glob
 import logging
 import os
 import warnings
+from collections import defaultdict
 from gettext import gettext as _
 from pathlib import Path
-from typing import Dict, Iterator, List, Optional, Type
+from typing import DefaultDict, Dict, Iterator, List, NamedTuple, Optional, Type
 
 from binaryornot.check import is_binary
-from boolean.boolean import ParseError
-from debian.copyright import Copyright
-from license_expression import ExpressionError
 
 from . import (
     _IGNORE_DIR_PATTERNS,
@@ -29,23 +27,35 @@ from . import (
     _IGNORE_MESON_PARENT_DIR_PATTERNS,
     IdentifierNotFound,
     ReuseInfo,
-    SourceType,
 )
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
-    _HEADER_BYTES,
     _LICENSEREF_PATTERN,
     StrPath,
-    _contains_snippet,
-    _copyright_from_dep5,
     _determine_license_path,
-    _parse_dep5,
-    decoded_text_from_binary,
-    extract_reuse_info,
+    relative_from_root,
+    reuse_info_of_file,
+)
+from .global_licensing import (
+    GlobalLicensing,
+    NestedReuseTOML,
+    PrecedenceType,
+    ReuseDep5,
 )
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
 _LOGGER = logging.getLogger(__name__)
+
+
+class GlobalLicensingConflict(Exception):
+    """There are two global licensing files in the project that are not
+    compatible.
+    """
+
+
+class GlobalLicensingFound(NamedTuple):
+    path: Path
+    cls: Type[GlobalLicensing]
 
 
 class Project:
@@ -60,7 +70,7 @@ class Project:
         vcs_strategy: Optional[Type[VCSStrategy]] = None,
         license_map: Optional[Dict[str, Dict]] = None,
         licenses: Optional[Dict[str, Path]] = None,
-        dep5_copyright: Optional[Copyright] = None,
+        global_licensing: Optional[GlobalLicensing] = None,
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
     ):
@@ -80,7 +90,7 @@ class Project:
             licenses = {}
         self.licenses = licenses
 
-        self.dep5_copyright = dep5_copyright
+        self.global_licensing = global_licensing
 
         self.include_submodules = include_submodules
         self.include_meson_subprojects = include_meson_subprojects
@@ -103,8 +113,12 @@ class Project:
         Raises:
             FileNotFoundError: if root does not exist.
             NotADirectoryError: if root is not a directory.
-            UnicodeDecodeError: if .reuse/dep5 could not be decoded.
-            DebianError: if .reuse/dep5 could not be parsed.
+            UnicodeDecodeError: if the global licensing config file could not be
+                decoded.
+            GlobalLicensingParseError: if the global licensing config file could
+                not be parsed.
+            GlobalLicensingConflict: if more than one global licensing config
+                file is present.
         """
         root = Path(root)
         if not root.exists():
@@ -121,17 +135,16 @@ class Project:
             )
 
         vcs_strategy = cls._detect_vcs_strategy(root)
-        try:
-            dep5_copyright: Optional[Copyright] = _parse_dep5(
-                root / ".reuse/dep5"
-            )
-        except FileNotFoundError:
-            dep5_copyright = None
+
+        global_licensing: Optional[GlobalLicensing] = None
+        found = cls.find_global_licensing(root)
+        if found:
+            global_licensing = found.cls.from_file(found.path)
 
         project = cls(
             root,
             vcs_strategy=vcs_strategy,
-            dep5_copyright=dep5_copyright,
+            global_licensing=global_licensing,
             include_submodules=include_submodules,
             include_meson_subprojects=include_meson_subprojects,
         )
@@ -202,16 +215,27 @@ class Project:
         """Return REUSE info of *path*.
 
         This function will return any REUSE information that it can find: from
-        within the file, the .license file and/or from the .reuse/dep5 file.
+        within the file, the .license file, from REUSE.toml, and/or from the
+        .reuse/dep5 file.
 
         The presence of a .license file always means that the file itself will
         not be parsed for REUSE information.
 
-        When the .reuse/dep5 file covers a file and there is also REUSE
-        information within that file (or within its .license file), then two
-        :class:`ReuseInfo` objects are returned in the set, each with respective
-        discovered REUSE information and information about the source.
+        When information is found from multiple sources, and if the precedence
+        for that file in REUSE.toml is 'aggregate' (or if .reuse/dep5 is used),
+        then two (or more) :class:`ReuseInfo` objects are returned in list set,
+        each with respective discovered REUSE information and information about
+        the source.
+
+        Alternatively, if the precedence is set to 'closest' or 'toml', or if
+        information was found in only one source, then a list of one item is
+        returned.
+
+        The exact precedence handling is detailed in the specification.
+
+        An empty list is returned if no information was found whatsoever.
         """
+        # pylint: disable=too-many-branches
         original_path = path
         path = _determine_license_path(path)
 
@@ -219,21 +243,35 @@ class Project:
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in ReuseInfo
-        dep5_result = ReuseInfo()
+        global_results: "DefaultDict[PrecedenceType, List[ReuseInfo]]" = (
+            defaultdict(list)
+        )
         file_result = ReuseInfo()
-        result = []
+        result: List[ReuseInfo] = []
 
-        # Search the .reuse/dep5 file for REUSE information.
-        if self.dep5_copyright:
-            dep5_result = _copyright_from_dep5(
-                self.relative_from_root(path), self.dep5_copyright
+        # Search the global licensing file for REUSE information.
+        if self.global_licensing:
+            relpath = self.relative_from_root(path)
+            global_results = defaultdict(
+                list, self.global_licensing.reuse_info_of(relpath)
             )
-            if dep5_result.contains_copyright_or_licensing():
-                _LOGGER.info(
-                    _("'{path}' covered by .reuse/dep5").format(path=path)
-                )
+            for info_list in global_results.values():
+                for global_result in info_list:
+                    if global_result.contains_copyright_or_licensing():
+                        _LOGGER.info(
+                            _("'{path}' covered by {global_path}").format(
+                                path=path, global_path=global_result.source_path
+                            )
+                        )
 
-        if is_binary(str(path)):
+        if PrecedenceType.OVERRIDE in global_results:
+            _LOGGER.info(
+                _(
+                    "'{path}' is covered exclusively by REUSE.toml. Not reading"
+                    " the file contents."
+                ).format(path=path)
+            )
+        elif is_binary(str(path)):
             _LOGGER.info(
                 _(
                     "'{path}' was detected as a binary file; not searching its"
@@ -241,87 +279,104 @@ class Project:
                 ).format(path=path)
             )
         else:
-            # Search the file for REUSE information.
-            with path.open("rb") as fp:
-                try:
-                    read_limit: Optional[int] = _HEADER_BYTES
-                    # Completely read the file once
-                    # to search for possible snippets
-                    if _contains_snippet(fp):
-                        _LOGGER.debug(
-                            f"'{path}' seems to contain an SPDX Snippet"
-                        )
-                        read_limit = None
-                    # Reset read position
-                    fp.seek(0)
-                    # Scan the file for REUSE info, possibly limiting the read
-                    # length
-                    file_result = extract_reuse_info(
-                        decoded_text_from_binary(fp, size=read_limit)
-                    )
-                    if file_result.contains_copyright_or_licensing():
-                        source_type = SourceType.FILE_HEADER
-                        if path.suffix == ".license":
-                            source_type = SourceType.DOT_LICENSE
-                        file_result = file_result.copy(
-                            path=self.relative_from_root(
-                                original_path
-                            ).as_posix(),
-                            source_path=self.relative_from_root(
-                                path
-                            ).as_posix(),
-                            source_type=source_type,
-                        )
-
-                except (ExpressionError, ParseError):
-                    _LOGGER.error(
-                        _(
-                            "'{path}' holds an SPDX expression that cannot be"
-                            " parsed, skipping the file"
-                        ).format(path=path)
-                    )
+            file_result = reuse_info_of_file(path, original_path, self.root)
 
         # There is both information in a .dep5 file and in the file header
-        if dep5_result.contains_info() and file_result.contains_info():
+        if (
+            isinstance(self.global_licensing, ReuseDep5)
+            and global_results
+            and file_result.contains_info()
+        ):
             warnings.warn(
                 _(
                     "Copyright and licensing information for"
                     " '{original_path}' has been found in both '{path}' and"
                     " in the DEP5 file located at '{dep5_path}'. The"
                     " information for these two sources has been"
-                    " aggregated. In the future this behaviour will change,"
-                    " and you will need to explicitly enable aggregation."
-                    " See"
-                    " <https://github.com/fsfe/reuse-tool/issues/779>. You"
-                    " need do nothing yet. Run "
-                    " `reuse --suppress-deprecation lint` to hide this warning."
+                    " aggregated. You are recommended to instead use"
+                    " REUSE.toml, where you can specify the order of"
+                    " precedence. Use `reuse convert-dep5` to convert."
+                    " Run with"
+                    " `--suppress-deprecation` to hide this warning."
                 ).format(
                     original_path=original_path,
                     path=path,
-                    dep5_path=dep5_result.source_path,
+                    dep5_path=global_results[PrecedenceType.AGGREGATE][
+                        0
+                    ].source_path,
                 ),
                 PendingDeprecationWarning,
             )
-        if dep5_result.contains_info():
-            result.append(dep5_result)
+
+        result.extend(global_results[PrecedenceType.OVERRIDE])
+        result.extend(global_results[PrecedenceType.AGGREGATE])
         if file_result.contains_info():
             result.append(file_result)
+        if not file_result.contains_copyright_or_licensing():
+            result.extend(global_results[PrecedenceType.CLOSEST])
+        # Special case: If a file contains only copyright, apply the
+        # REUSE.toml's licensing if it exists, and vice versa.
+        elif file_result.contains_copyright_xor_licensing():
+            if global_results[PrecedenceType.CLOSEST]:
+                # There should only by a single CLOSEST result in the list.
+                closest = global_results[PrecedenceType.CLOSEST][0]
+                if file_result.copyright_lines:
+                    result.append(
+                        closest.copy(
+                            copyright_lines=set(),
+                        )
+                    )
+                elif file_result.spdx_expressions:
+                    result.append(
+                        closest.copy(
+                            spdx_expressions=set(),
+                        )
+                    )
         return result
-
-    @staticmethod
-    def _relative_from_root_static(path: StrPath, root: StrPath) -> Path:
-        """A static method of :method:`Project.relative_fromt_root`."""
-        path = Path(path)
-        try:
-            return path.relative_to(root)
-        except ValueError:
-            return Path(os.path.relpath(path, start=root))
 
     def relative_from_root(self, path: StrPath) -> Path:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
-        return self._relative_from_root_static(path, self.root)
+        return relative_from_root(path, self.root)
+
+    @classmethod
+    def find_global_licensing(
+        cls, root: Path
+    ) -> Optional[GlobalLicensingFound]:
+        """Find the path and corresponding class of a project directory's
+        :class:`GlobalLicensing`.
+
+        Raises:
+            GlobalLicensingConflict: if more than one global licensing config
+                file is present.
+        """
+        candidate: Optional[GlobalLicensingFound] = None
+        dep5_path = root / ".reuse/dep5"
+        if (dep5_path).exists():
+            warnings.warn(
+                _(
+                    "'.reuse/dep5' is deprecated. You are recommended to"
+                    " instead use REUSE.toml. Use `reuse convert-dep5` to"
+                    " convert."
+                ),
+                PendingDeprecationWarning,
+            )
+            candidate = GlobalLicensingFound(dep5_path, ReuseDep5)
+        toml_path = None
+        with contextlib.suppress(StopIteration):
+            toml_path = next(root.rglob("**/REUSE.toml"))
+        if toml_path is not None:
+            if candidate is not None:
+                raise GlobalLicensingConflict(
+                    _(
+                        "Found both '{new_path}' and '{old_path}'. You"
+                        " cannot keep both files simultaneously; they are"
+                        " not intercompatible."
+                    ).format(new_path=toml_path, old_path=dep5_path)
+                )
+            candidate = GlobalLicensingFound(root, NestedReuseTOML)
+        return candidate
 
     def _is_path_ignored(self, path: Path) -> bool:
         """Is *path* ignored by some mechanism?"""

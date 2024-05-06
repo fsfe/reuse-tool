@@ -35,6 +35,20 @@ def test_reuse_info_contains_copyright_or_licensing_other_truthy():
     assert not info.contains_copyright_or_licensing()
 
 
+def test_reuse_info_contains_copyright_xor_licensing():
+    """A simple xor version of the previous function."""
+    assert not ReuseInfo().contains_copyright_xor_licensing()
+    assert not ReuseInfo(
+        spdx_expressions={"MIT"}, copyright_lines={"Copyright Jane Doe"}
+    ).contains_copyright_xor_licensing()
+    assert ReuseInfo(
+        spdx_expressions={"MIT"}
+    ).contains_copyright_xor_licensing()
+    assert ReuseInfo(
+        copyright_lines={"Copyright Jane Doe"}
+    ).contains_copyright_xor_licensing()
+
+
 def test_reuse_info_contains_info_simple():
     """If any of the non-source files are truthy, expect True."""
     assert ReuseInfo(spdx_expressions={"MIT"}).contains_info()

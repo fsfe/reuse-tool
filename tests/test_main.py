@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
+# SPDX-FileCopyrightText: 2024 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,15 +23,13 @@ from unittest.mock import create_autospec
 from urllib.error import URLError
 
 import pytest
+from conftest import RESOURCES_DIRECTORY
 from freezegun import freeze_time
 
 from reuse import download
 from reuse._main import main
-from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE
+from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE, cleandoc_nl
 from reuse.report import LINT_VERSION
-
-TESTS_DIRECTORY = Path(__file__).parent.resolve()
-RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
 
 # REUSE-IgnoreStart
 
@@ -80,6 +79,22 @@ def test_lint(fake_repository, stringio, optional_git_exe, optional_hg_exe):
     """Run a successful lint. The optional VCSs are there to make sure that the
     test also works if these programs are not installed.
     """
+    result = main(["lint"], out=stringio)
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
+def test_lint_reuse_toml(fake_repository_reuse_toml, stringio):
+    """Run a simple lint with REUSE.toml."""
+    result = main(["lint"], out=stringio)
+
+    assert result == 0
+    assert ":-)" in stringio.getvalue()
+
+
+def test_lint_dep5(fake_repository_dep5, stringio):
+    """Run a simple lint with .reuse/dep5."""
     result = main(["lint"], out=stringio)
 
     assert result == 0
@@ -237,19 +252,19 @@ def test_lint_fail_quiet(fake_repository, stringio):
     assert stringio.getvalue() == ""
 
 
-def test_lint_dep5_decode_error(fake_repository, capsys):
+def test_lint_dep5_decode_error(fake_repository_dep5, capsys):
     """Display an error if dep5 cannot be decoded."""
     shutil.copy(
-        RESOURCES_DIRECTORY / "fsfe.png", fake_repository / ".reuse/dep5"
+        RESOURCES_DIRECTORY / "fsfe.png", fake_repository_dep5 / ".reuse/dep5"
     )
     with pytest.raises(SystemExit):
         main(["lint"])
     assert "could not be decoded" in capsys.readouterr().err
 
 
-def test_lint_dep5_parse_error(fake_repository, capsys):
+def test_lint_dep5_parse_error(fake_repository_dep5, capsys):
     """Display an error if there's a dep5 parse error."""
-    (fake_repository / ".reuse/dep5").write_text("foo")
+    (fake_repository_dep5 / ".reuse/dep5").write_text("foo")
     with pytest.raises(SystemExit):
         main(["lint"])
     assert "could not be parsed" in capsys.readouterr().err
@@ -295,7 +310,7 @@ def test_lint_custom_root(fake_repository, stringio):
     result = main(["--root", "doc", "lint"], out=stringio)
 
     assert result > 0
-    assert "index.rst" in stringio.getvalue()
+    assert "usage.md" in stringio.getvalue()
     assert ":-(" in stringio.getvalue()
 
 
@@ -304,14 +319,16 @@ def test_lint_custom_root_git(git_repository, stringio):
     result = main(["--root", "doc", "lint"], out=stringio)
 
     assert result > 0
-    assert "index.rst" in stringio.getvalue()
+    assert "usage.md" in stringio.getvalue()
     assert ":-(" in stringio.getvalue()
 
 
-def test_lint_custom_root_different_cwd(fake_repository, stringio):
+def test_lint_custom_root_different_cwd(fake_repository_reuse_toml, stringio):
     """Use a custom root while CWD is different."""
     os.chdir("/")
-    result = main(["--root", str(fake_repository), "lint"], out=stringio)
+    result = main(
+        ["--root", str(fake_repository_reuse_toml), "lint"], out=stringio
+    )
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
@@ -594,6 +611,32 @@ def test_supported_licenses(stringio):
         r"GPL-3\.0-or-later\s+GNU General Public License v3\.0 or later\s+https:\/\/spdx\.org\/licenses\/GPL-3\.0-or-later\.html\s+\n",
         stringio.getvalue(),
     )
+
+
+def test_convert_dep5(fake_repository_dep5, stringio):
+    """Convert a DEP5 repository to a REUSE.toml repository."""
+    result = main(["convert-dep5"], out=stringio)
+
+    assert result == 0
+    assert not (fake_repository_dep5 / ".reuse/dep5").exists()
+    assert (fake_repository_dep5 / "REUSE.toml").exists()
+    assert (fake_repository_dep5 / "REUSE.toml").read_text() == cleandoc_nl(
+        """
+        version = 1
+
+        [[annotations]]
+        path = "doc/*"
+        precedence = "aggregate"
+        SPDX-FileCopyrightText = "2017 Jane Doe"
+        SPDX-License-Identifier = "CC0-1.0"
+        """
+    )
+
+
+def test_convert_dep5_no_dep5_file(fake_repository, stringio):
+    """Cannot convert when there is no .reuse/dep5 file."""
+    with pytest.raises(SystemExit):
+        main(["convert-dep5"], out=stringio)
 
 
 # REUSE-IgnoreEnd

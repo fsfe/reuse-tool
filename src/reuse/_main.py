@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2024 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -14,21 +15,20 @@ from gettext import gettext as _
 from pathlib import Path
 from typing import IO, Callable, List, Optional, Type, cast
 
-from debian.copyright import Error as DebianError
-
 from . import (
     __REUSE_version__,
     __version__,
     _annotate,
+    convert_dep5,
     download,
-    init,
     lint,
     spdx,
     supported_licenses,
 )
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import PathType, setup_logging
-from .project import Project
+from .global_licensing import GlobalLicensingParseError
+from .project import GlobalLicensingConflict, GlobalLicensingFound, Project
 from .vcs import find_root
 
 _LOGGER = logging.getLogger(__name__)
@@ -144,14 +144,6 @@ def parser() -> argparse.ArgumentParser:
 
     add_command(
         subparsers,
-        "init",
-        init.add_arguments,
-        init.run,
-        help=_("initialize REUSE project"),
-    )
-
-    add_command(
-        subparsers,
         "lint",
         lint.add_arguments,
         lint.run,
@@ -195,6 +187,14 @@ def parser() -> argparse.ArgumentParser:
         supported_licenses.run,
         help=_("list all supported SPDX licenses"),
         aliases=["supported-licences"],
+    )
+
+    add_command(
+        subparsers,
+        "convert-dep5",
+        convert_dep5.add_arguments,
+        convert_dep5.run,
+        help=_("convert .reuse/dep5 to REUSE.toml"),
     )
 
     return parser
@@ -252,18 +252,22 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
     # FileNotFoundError and NotADirectoryError don't need to be caught because
     # argparse already made sure of these things.
     except UnicodeDecodeError:
+        found = cast(GlobalLicensingFound, Project.find_global_licensing(root))
         main_parser.error(
-            _("'{dep5}' could not be decoded as UTF-8.").format(
-                dep5=root / ".reuse/dep5"
-            )
+            _("'{path}' could not be decoded as UTF-8.").format(path=found.path)
         )
-    except DebianError as error:
+    except GlobalLicensingParseError as error:
+        found = cast(GlobalLicensingFound, Project.find_global_licensing(root))
         main_parser.error(
             _(
-                "'{dep5}' could not be parsed. We received the following error"
+                "'{path}' could not be parsed. We received the following error"
                 " message: {message}"
-            ).format(dep5=root / ".reuse/dep5", message=str(error))
+            ).format(path=found.path, message=str(error))
         )
+    except GlobalLicensingConflict as error:
+        main_parser.error(str(error))
+    except OSError as error:
+        main_parser.error(str(error))
 
     project.include_submodules = parsed_args.include_submodules
     project.include_meson_subprojects = parsed_args.include_meson_subprojects

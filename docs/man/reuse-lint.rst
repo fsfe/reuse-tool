@@ -68,6 +68,7 @@ are the methods:
 - Placing tags in the header of the file.
 - Placing tags in a ``.license`` file adjacent to the file.
 - Putting the information in the ``REUSE.toml`` file.
+- Putting the information in the ``.reuse/dep5`` file. (Deprecated)
 
 If a file is found that does not have copyright and/or license information
 associated with it, then the project is not compliant.

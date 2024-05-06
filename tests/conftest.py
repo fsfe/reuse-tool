@@ -7,7 +7,7 @@
 
 """Global fixtures and configuration."""
 
-# pylint: disable=redefined-outer-name
+# pylint: disable=redefined-outer-name,invalid-name
 
 import datetime
 import logging
@@ -23,7 +23,6 @@ from typing import Generator
 from unittest.mock import create_autospec
 
 import pytest
-from debian.copyright import Copyright
 from jinja2 import Environment
 
 os.environ["LC_ALL"] = "C"
@@ -38,11 +37,28 @@ except ImportError:
     sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
     from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE, setup_logging
+    from reuse.global_licensing import ReuseDep5
 
 CWD = Path.cwd()
 
 TESTS_DIRECTORY = Path(__file__).parent.resolve()
 RESOURCES_DIRECTORY = TESTS_DIRECTORY / "resources"
+
+try:
+    import pwd
+
+    is_root = pwd.getpwuid(os.getuid()).pw_name == "root"
+    is_posix = True
+except ImportError:
+    is_root = False
+    is_posix = False
+
+cpython = pytest.mark.skipif(
+    sys.implementation.name != "cpython", reason="only CPython supported"
+)
+git = pytest.mark.skipif(not GIT_EXE, reason="requires git")
+no_root = pytest.mark.xfail(is_root, reason="fails when user is root")
+posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
 
 # REUSE-IgnoreStart
@@ -148,6 +164,25 @@ def fake_repository(tmpdir_factory) -> Path:
 
     os.chdir(directory)
     return directory
+
+
+@pytest.fixture()
+def fake_repository_reuse_toml(fake_repository) -> Path:
+    """Add REUSE.toml to the fake repo."""
+    shutil.copy(
+        RESOURCES_DIRECTORY / "REUSE.toml", fake_repository / "REUSE.toml"
+    )
+    (fake_repository / "doc/index.rst").touch()
+    return fake_repository
+
+
+@pytest.fixture()
+def fake_repository_dep5(fake_repository) -> Path:
+    """Add .reuse/dep5 to the fake repo."""
+    (fake_repository / ".reuse").mkdir(exist_ok=True)
+    shutil.copy(RESOURCES_DIRECTORY / "dep5", fake_repository / ".reuse/dep5")
+    (fake_repository / "doc/index.rst").touch()
+    return fake_repository
 
 
 def _repo_contents(
@@ -347,12 +382,9 @@ def submodule_repository(
 
 
 @pytest.fixture(scope="session")
-def dep5_copyright():
-    """Create a dep5 Copyright object."""
-    with (RESOURCES_DIRECTORY / "fake_repository/.reuse/dep5").open(
-        encoding="utf-8"
-    ) as fp:
-        return Copyright(fp)
+def reuse_dep5():
+    """Create a ReuseDep5 object."""
+    return ReuseDep5.from_file(RESOURCES_DIRECTORY / "dep5")
 
 
 @pytest.fixture()
