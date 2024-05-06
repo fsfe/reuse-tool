@@ -18,7 +18,6 @@ about REUSE at `<https://reuse.software>`_.
    :maxdepth: 2
 
    Overview<readme>
-   usage
    scripts
    man/index
 
