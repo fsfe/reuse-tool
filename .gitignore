@@ -152,7 +152,7 @@ po/reuse.pot
 docs/api/
 docs/history.md
 docs/readme.md
-docs/contributing.md
+docs/contribute.md
 prof/
 
 # Nix-related

@@ -190,7 +190,9 @@ def copy_markdown(_):
     """
     copyfile("../README.md", "readme.md")
     copyfile("../CHANGELOG.md", "history.md")
-    copyfile("../CONTRIBUTING.md", "contributing.md")
+    # this used to be renamed to 'contributing.md', but this caused a conflict
+    # with the ToC in the README.
+    copyfile("../CONTRIBUTING.md", "contribute.md")
 
 
 def setup(app):

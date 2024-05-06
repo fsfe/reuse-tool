@@ -29,7 +29,7 @@ recommendations.
 - [Usage](#usage)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
-- [License](#license)
+- [Licensing](#licensing)
 
 ## Background
 
@@ -276,7 +276,7 @@ discussion and support related to the project.
 You can find the full contribution guidelines at
 <https://reuse.readthedocs.io/en/latest/contributing.html>.
 
-## License
+## Licensing
 
 This work is licensed under multiple licences. Because keeping this section
 up-to-date is challenging, here is a brief summary as of April 2024:
