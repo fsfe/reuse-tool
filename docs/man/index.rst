@@ -14,6 +14,7 @@ information about the functioning of the tool.
 
    reuse
    reuse-annotate
+   reuse-convert-dep5
    reuse-download
    reuse-lint
    reuse-spdx

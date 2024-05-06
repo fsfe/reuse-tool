@@ -94,6 +94,13 @@ man_pages = [
         1,
     ),
     (
+        "man/reuse-convert-dep5",
+        "reuse-convert-dep5",
+        "Convert .reuse/dep5 to REUSE.toml",
+        "Free Software Foundation Europe",
+        1,
+    ),
+    (
         "man/reuse-download",
         "reuse-download",
         "Download license files",
