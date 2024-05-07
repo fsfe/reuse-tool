@@ -64,6 +64,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
   has been changed. Now, files like `COPYING_README` are no longer ignored, but
   `COPYING` and `COPYING.txt` are still ignored (in other words: exact matches,
   or `COPYING` + a file extension). Idem ditto for `LICENSE`. (#886)
+- Dependencies added:
+  - `attrs>=21.1` (#863)
+  - `tomlkit>=0.8` (#863)
 
 ### Deprecated
 
