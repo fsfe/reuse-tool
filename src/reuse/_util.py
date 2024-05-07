@@ -132,6 +132,7 @@ _COPYRIGHT_PATTERNS = [
 _COPYRIGHT_PREFIXES = {
     "spdx": "SPDX-FileCopyrightText:",
     "spdx-c": "SPDX-FileCopyrightText: (C)",
+    "spdx-string-c": "SPDX-FileCopyrightText: Copyright (C)",
     "spdx-symbol": "SPDX-FileCopyrightText: ©",
     "string": "Copyright",
     "string-c": "Copyright (C)",
