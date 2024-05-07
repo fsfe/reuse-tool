@@ -132,6 +132,8 @@ _COPYRIGHT_STYLES = {
     "spdx": "SPDX-FileCopyrightText:",
     "spdx-c": "SPDX-FileCopyrightText: (C)",
     "spdx-string-c": "SPDX-FileCopyrightText: Copyright (C)",
+    "spdx-string": "SPDX-FileCopyrightText: Copyright",
+    "spdx-string-symbol": "SPDX-FileCopyrightText: Copyright ©",
     "spdx-symbol": "SPDX-FileCopyrightText: ©",
     "string": "Copyright",
     "string-c": "Copyright (C)",

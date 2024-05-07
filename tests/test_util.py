@@ -435,6 +435,22 @@ def test_make_copyright_line_style_spdx_string_c_year():
     assert statement == "SPDX-FileCopyrightText: Copyright (C) 2019 hello"
 
 
+def test_make_copyright_line_style_spdx_string_year():
+    """Given a simple statement, style and a year, make it a copyright line."""
+    statement = _util.make_copyright_line(
+        "hello", year=2019, copyright_style="spdx-string"
+    )
+    assert statement == "SPDX-FileCopyrightText: Copyright 2019 hello"
+
+
+def test_make_copyright_line_style_spdx_string_symbol_year():
+    """Given a simple statement, style and a year, make it a copyright line."""
+    statement = _util.make_copyright_line(
+        "hello", year=2019, copyright_style="spdx-string-symbol"
+    )
+    assert statement == "SPDX-FileCopyrightText: Copyright © 2019 hello"
+
+
 def test_make_copyright_line_style_string_symbol_year():
     """Given a simple statement, style and a year, make it a copyright line."""
     statement = _util.make_copyright_line(
