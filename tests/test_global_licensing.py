@@ -304,6 +304,15 @@ class TestAnnotationsItemMatches:
         assert item.matches(r"a")
         assert not item.matches(r"\a")
 
+    def test_middle_asterisk(self):
+        """See what happens if the asterisk is in the middle of the path."""
+        item = AnnotationsItem(paths=["foo*bar"])
+        assert item.matches("foobar")
+        assert item.matches("foo2bar")
+        assert not item.matches("foo")
+        assert not item.matches("bar")
+        assert not item.matches("foo/bar")
+
     def test_multiple_paths(self):
         """Match one of multiple files."""
         item = AnnotationsItem(paths=["*.py", "*.js", "README"])
