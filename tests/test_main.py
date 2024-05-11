@@ -625,7 +625,7 @@ def test_convert_dep5(fake_repository_dep5, stringio):
         version = 1
 
         [[annotations]]
-        path = "doc/*"
+        path = "doc/**"
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2017 Jane Doe"
         SPDX-License-Identifier = "CC0-1.0"

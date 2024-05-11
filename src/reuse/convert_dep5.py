@@ -4,6 +4,7 @@
 
 """Logic to convert a .reuse/dep5 file to a REUSE.toml file."""
 
+import re
 import sys
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
@@ -14,6 +15,15 @@ from debian.copyright import Copyright
 
 from .global_licensing import REUSE_TOML_VERSION, ReuseDep5
 from .project import Project
+
+_SINGLE_ASTERISK_PATTERN = re.compile(r"(?<!\*)\*(?!\*)")
+
+
+def _convert_asterisk(path: str) -> str:
+    """This solves a semantics difference. A singular asterisk is semantically
+    identical to a double asterisk in REUSE.toml.
+    """
+    return _SINGLE_ASTERISK_PATTERN.sub("**", path)
 
 
 def toml_from_dep5(dep5: Copyright) -> str:
@@ -27,6 +37,7 @@ def toml_from_dep5(dep5: Copyright) -> str:
         if len(copyrights) == 1:
             copyrights = copyrights[0]
         paths: Union[str, List[str]] = list(paragraph.files)
+        paths = [_convert_asterisk(path) for path in paths]
         if len(paths) == 1:
             paths = paths[0]
         annotations.append(

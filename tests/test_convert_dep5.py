@@ -44,6 +44,38 @@ def test_toml_from_dep5_single_file():
     assert toml_from_dep5(Copyright(text)) == expected
 
 
+def test_toml_from_dep5_asterisks():
+    """Single asterisks get converted to double asterisks. Double asterisks get
+    left alone.
+    """
+    text = StringIO(
+        cleandoc_nl(
+            """
+            Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+            Upstream-Name: test
+            Upstream-Contact: test
+            Source: test
+
+            Files: */**/***
+            Copyright: 2018 Jane Doe
+            License: MIT
+            """
+        )
+    )
+    expected = cleandoc_nl(
+        """
+        version = 1
+
+        [[annotations]]
+        path = "**/**/***"
+        precedence = "aggregate"
+        SPDX-FileCopyrightText = "2018 Jane Doe"
+        SPDX-License-Identifier = "MIT"
+        """
+    )
+    assert toml_from_dep5(Copyright(text)) == expected
+
+
 def test_toml_from_dep5_multiple_files_in_paragraph():
     """Correctly convert a DEP5 file with a more files in a paragraph."""
     text = StringIO(
@@ -65,7 +97,7 @@ def test_toml_from_dep5_multiple_files_in_paragraph():
         version = 1
 
         [[annotations]]
-        path = ["hello.txt", "foo*.txt"]
+        path = ["hello.txt", "foo**.txt"]
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2018 Jane Doe"
         SPDX-License-Identifier = "MIT"
