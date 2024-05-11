@@ -358,10 +358,7 @@ class AnnotationsItem:
                         globstar = True
                         blocks.append(r".*")
                 elif char == "/":
-                    if globstar:
-                        pass
-                    else:
-                        globstar = False
+                    if not globstar:
                         blocks.append("/")
                     escaping = False
                 else:
@@ -371,6 +368,8 @@ class AnnotationsItem:
                     globstar = False
                     escaping = False
                 prev_char = char
+            if prev_char == "*" and not globstar:
+                blocks.append(r"[^/]*")
             result = "".join(blocks)
             return f"^({result})$"
 
