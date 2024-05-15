@@ -842,10 +842,12 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".gitattributes": PythonCommentStyle,
     ".gitignore": PythonCommentStyle,
     ".gitmodules": PythonCommentStyle,
+    ".htaccess": PythonCommentStyle,
     ".mailmap": PythonCommentStyle,
     ".metadata": UncommentableCommentStyle,
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
     ".npmignore": PythonCommentStyle,
+    ".npmrc": SemicolonCommentStyle,
     ".prettierrc": UncommentableCommentStyle,  # could either be JSON or YAML
     ".prettierignore": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
