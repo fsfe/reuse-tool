@@ -30,6 +30,7 @@ include = [
     { path = "AUTHORS.rst", format = "sdist" },
     { path = "README.md", format = "sdist" },
     { path = "CHANGELOG.md", format = "sdist" },
+    { path = "CONTRIBUTING.md", format = "sdist" },
     { path = ".reuse", format = "sdist" },
     { path = "REUSE.toml", format = "sdist" },
     { path = "LICENSES", format = "sdist" },
