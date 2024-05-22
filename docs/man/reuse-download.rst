@@ -18,8 +18,8 @@ Description
 
 The *license* arguments must be SPDX License Identifiers.
 
-The ``LICENSES/`` directory can will be found in the root of your project. If
-you are already in a directory named ``LICENSES`` and you are not in a VCS
+The ``LICENSES/`` directory will be found in the root of your project. If you
+are already in a directory named ``LICENSES`` and you are not in a VCS
 repository, that directory will be used.
 
 If no ``LICENSES/`` directory exists, one will be created.
