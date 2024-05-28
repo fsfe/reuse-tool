@@ -70,7 +70,7 @@ possible, run `poetry lock --no-update`.
 
 - Verify changelog
 - Create branch release-x.y.z
-- `bumpversion --new-version x.y.z minor`
+- `bumpver update --set-version vx.y.z`
 - `make update-resources`
 - Alter changelog
 - Do some final tweaks/bugfixes (and alter changelog)
