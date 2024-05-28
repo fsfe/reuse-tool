@@ -86,6 +86,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Repaired the behaviour of `reuse download` where being inside of a LICENSES/
   directory should not create a deeper LICENSES/LICENSES/ directory. (#975)
 - Support annotating a file that contains only a shebang. (#965)
+- Add `CONTRIBUTING.md` to the sdist. (#987)
 
 ### Security
 
