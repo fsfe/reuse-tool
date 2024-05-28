@@ -1,15 +1,17 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
+# SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """All tests for reuse.lint"""
 
+import re
 import shutil
 
 from conftest import cpython, posix
 
-from reuse.lint import format_plain
+from reuse.lint import format_lines, format_plain
 from reuse.project import Project
 from reuse.report import ProjectReport
 
@@ -210,6 +212,63 @@ def test_lint_json_output(fake_repository):
             assert test_file["licenses"][0]["source"] == str(
                 fake_repository / ".reuse/dep5"
             )
+
+
+def test_lint_lines_output(fake_repository):
+    """Complete test for lint with lines output."""
+    # Prepare a repository that includes all types of situations:
+    # missing_licenses, unused_licenses, bad_licenses, deprecated_licenses,
+    # licenses_without_extension, files_without_copyright,
+    # files_without_licenses, read_errors
+    (fake_repository / "invalid-license.py").write_text(
+        "SPDX-License-Identifier: invalid"
+    )
+    (fake_repository / "no-license.py").write_text(
+        "SPDX-FileCopyrightText: Jane Doe"
+    )
+    (fake_repository / "LICENSES" / "invalid-license-text").write_text(
+        "An invalid license text"
+    )
+    (fake_repository / "LICENSES" / "Nokia-Qt-exception-1.1.txt").write_text(
+        "Deprecated"
+    )
+    (fake_repository / "LICENSES" / "MIT").write_text("foo")
+    (fake_repository / "file with spaces.py").write_text("foo")
+
+    project = Project.from_directory(fake_repository)
+    report = ProjectReport.generate(project)
+
+    lines_result = format_lines(report)
+    lines_result_lines = lines_result.splitlines()
+
+    assert len(lines_result_lines) == 12
+
+    for line in lines_result_lines:
+        assert re.match(".+: [^:]+", line)
+
+    assert lines_result.count("invalid-license.py") == 3
+    assert lines_result.count("no-license.py") == 1
+    assert lines_result.count("LICENSES") == 6
+    assert lines_result.count("invalid-license-text") == 3
+    assert lines_result.count("Nokia-Qt-exception-1.1.txt") == 2
+    assert lines_result.count("MIT") == 2
+    assert lines_result.count("file with spaces.py") == 2
+
+
+@cpython
+@posix
+def test_lint_lines_read_errors(fake_repository):
+    """Check read error output"""
+    (fake_repository / "restricted.py").write_text("foo")
+    (fake_repository / "restricted.py").chmod(0o000)
+    project = Project.from_directory(fake_repository)
+    report = ProjectReport.generate(project)
+    result = format_lines(report)
+    print(result)
+
+    assert len(result.splitlines()) == 1
+    assert "restricted.py" in result
+    assert "read error" in result
 
 
 # REUSE-IgnoreEnd

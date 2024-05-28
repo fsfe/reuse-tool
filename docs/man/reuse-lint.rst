@@ -76,21 +76,25 @@ associated with it, then the project is not compliant.
 Options
 -------
 
-.. option:: --quiet
+.. option:: -q, --quiet
 
   Do not print anything to STDOUT.
 
 ..
   TODO: specify the JSON output.
 
-.. option:: --json
+.. option:: -j, --json
 
   Output the results of the lint as JSON.
 
-.. option:: --plain
+.. option:: -p, --plain
 
   Output the results of the lint as descriptive text. The text is valid
   Markdown.
+
+.. option:: -l, --lines
+
+  Output one line per error, prefixed by the file path.
 
 .. option:: -h, --help
 

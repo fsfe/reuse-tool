@@ -58,6 +58,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - npm `.npmrc` files (#985)
 - Added comment styles:
   - `man` for UNIX Man pages (`.man`) (#954)
+- Added `--lines` output option for `lint`. (#956)
 
 ### Changed
 

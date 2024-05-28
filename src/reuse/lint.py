@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -15,7 +16,7 @@ from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
-from typing import IO, Any
+from typing import IO, Any, Optional
 
 from . import __REUSE_version__
 from .project import Project
@@ -36,6 +37,12 @@ def add_arguments(parser: ArgumentParser) -> None:
         "--plain",
         action="store_true",
         help=_("formats output as plain text"),
+    )
+    mutex_group.add_argument(
+        "-l",
+        "--lines",
+        action="store_true",
+        help=_("formats output as errors per line"),
     )
 
 
@@ -257,6 +264,78 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
+def format_lines(report: ProjectReport) -> str:
+    """Formats data dictionary as plaintext strings to be printed to sys.stdout
+    Sorting of output is not guaranteed.
+    Symbolic links can result in multiple entries per file.
+
+    Args:
+        report: ProjectReport data
+
+    Returns:
+        String (in plaintext) that can be output to sys.stdout
+    """
+    output = StringIO()
+
+    def license_path(lic: str) -> Optional[Path]:
+        """Resolve a license identifier to a license path."""
+        return report.licenses.get(lic)
+
+    if not report.is_compliant:
+        # Bad licenses
+        for lic, files in sorted(report.bad_licenses.items()):
+            for path in sorted(files):
+                output.write(
+                    _("{path}: bad license {lic}\n").format(path=path, lic=lic)
+                )
+
+        # Deprecated licenses
+        for lic in sorted(report.deprecated_licenses):
+            lic_path = license_path(lic)
+            output.write(
+                _("{lic_path}: deprecated license\n").format(lic_path=lic_path)
+            )
+
+        # Licenses without extension
+        for lic in sorted(report.licenses_without_extension):
+            lic_path = license_path(lic)
+            output.write(
+                _("{lic_path}: license without file extension\n").format(
+                    lic_path=lic_path
+                )
+            )
+
+        # Unused licenses
+        for lic in sorted(report.unused_licenses):
+            lic_path = license_path(lic)
+            output.write(
+                _("{lic_path}: unused license\n").format(lic_path=lic_path)
+            )
+
+        # Missing licenses
+        for lic, files in sorted(report.missing_licenses.items()):
+            for path in sorted(files):
+                output.write(
+                    _("{path}: missing license {lic}\n").format(
+                        path=path, lic=lic
+                    )
+                )
+
+        # Read errors
+        for path in sorted(report.read_errors):
+            output.write(_("{path}: read error\n").format(path=path))
+
+        # Without licenses
+        for path in report.files_without_licenses:
+            output.write(_("{path}: no license identifier\n").format(path=path))
+
+        # Without copyright
+        for path in report.files_without_copyright:
+            output.write(_("{path}: no copyright notice\n").format(path=path))
+
+    return output.getvalue()
+
+
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """List all non-compliant files."""
     report = ProjectReport.generate(
@@ -267,6 +346,8 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         pass
     elif args.json:
         out.write(format_json(report))
+    elif args.lines:
+        out.write(format_lines(report))
     else:
         out.write(format_plain(report))
 
