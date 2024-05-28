@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-06 16:33+0000\n"
+"POT-Creation-Date: 2024-05-28 12:41+0000\n"
 "PO-Revision-Date: 2023-09-28 07:03+0000\n"
 "Last-Translator: \"T. E. Kalaycı\" <tekrei@tutanota.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -373,7 +373,7 @@ msgstr ""
 "Geçerli SPDX Lisans Kimlikleri listesi için <https://spdx.org/licenses/> "
 "adresine bakın."
 
-#: src/reuse/convert_dep5.py:57
+#: src/reuse/convert_dep5.py:68
 #, fuzzy
 msgid "no '.reuse/dep5' file"
 msgstr ".reuse/dep5 oluşturuluyor"
@@ -460,134 +460,179 @@ msgstr ""
 msgid "generated comment is missing copyright lines or license expressions"
 msgstr "oluşturulan yorumda telif hakkı satırları veya lisans ifadeleri eksik"
 
-#: src/reuse/lint.py:29
+#: src/reuse/lint.py:30
 msgid "prevents output"
 msgstr "çıktıyı önler"
 
-#: src/reuse/lint.py:32
+#: src/reuse/lint.py:33
 msgid "formats output as JSON"
 msgstr "çıktıyı JSON olarak biçimlendirir"
 
-#: src/reuse/lint.py:38
+#: src/reuse/lint.py:39
 msgid "formats output as plain text"
 msgstr "çıktıyı düz metin olarak biçimlendirir"
 
-#: src/reuse/lint.py:57
+#: src/reuse/lint.py:45
+#, fuzzy
+msgid "formats output as errors per line"
+msgstr "çıktıyı düz metin olarak biçimlendirir"
+
+#: src/reuse/lint.py:64
 msgid "BAD LICENSES"
 msgstr "KÖTÜ LİSANSLAR"
 
-#: src/reuse/lint.py:59 src/reuse/lint.py:88
+#: src/reuse/lint.py:66 src/reuse/lint.py:95
 msgid "'{}' found in:"
 msgstr "'{}' şurada mevcut:"
 
-#: src/reuse/lint.py:66
+#: src/reuse/lint.py:73
 msgid "DEPRECATED LICENSES"
 msgstr "MODASI GEÇMİŞ LİSANSLAR"
 
-#: src/reuse/lint.py:68
+#: src/reuse/lint.py:75
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "Şu lisanslar artık SPDX tarafından kullanılmıyor:"
 
-#: src/reuse/lint.py:76
+#: src/reuse/lint.py:83
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "DOSYA UZANTISI OLMAYAN LİSANSLAR"
 
-#: src/reuse/lint.py:78
+#: src/reuse/lint.py:85
 msgid "The following licenses have no file extension:"
 msgstr "Şu lisansların dosya uzantısı yok:"
 
-#: src/reuse/lint.py:86
+#: src/reuse/lint.py:93
 msgid "MISSING LICENSES"
 msgstr "EKSİK LİSANSLAR"
 
-#: src/reuse/lint.py:95
+#: src/reuse/lint.py:102
 msgid "UNUSED LICENSES"
 msgstr "KULLANILMAYAN LİSANSLAR"
 
-#: src/reuse/lint.py:96
+#: src/reuse/lint.py:103
 msgid "The following licenses are not used:"
 msgstr "Şu lisanslar kullanılmıyor:"
 
-#: src/reuse/lint.py:103
+#: src/reuse/lint.py:110
 msgid "READ ERRORS"
 msgstr "OKUMA HATALARI"
 
-#: src/reuse/lint.py:104
+#: src/reuse/lint.py:111
 msgid "Could not read:"
 msgstr "Okunamıyor:"
 
-#: src/reuse/lint.py:125
+#: src/reuse/lint.py:132
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "EKSİK TELİF HAKKI VE LİSANS BİLGİSİ"
 
-#: src/reuse/lint.py:131
+#: src/reuse/lint.py:138
 msgid "The following files have no copyright and licensing information:"
 msgstr "Şu dosyalarda telif hakkı ve lisans bilgisi yok:"
 
-#: src/reuse/lint.py:142
+#: src/reuse/lint.py:149
 msgid "The following files have no copyright information:"
 msgstr "Şu dosyalarda telif hakkı bilgisi yok:"
 
-#: src/reuse/lint.py:151
+#: src/reuse/lint.py:158
 msgid "The following files have no licensing information:"
 msgstr "Şu dosyalarda lisans bilgisi yok:"
 
-#: src/reuse/lint.py:159
+#: src/reuse/lint.py:166
 msgid "SUMMARY"
 msgstr "ÖZET"
 
-#: src/reuse/lint.py:164
+#: src/reuse/lint.py:171
 msgid "Bad licenses:"
 msgstr "Kötü lisanslar:"
 
-#: src/reuse/lint.py:165
+#: src/reuse/lint.py:172
 msgid "Deprecated licenses:"
 msgstr "Modası geçmiş lisanslar:"
 
-#: src/reuse/lint.py:166
+#: src/reuse/lint.py:173
 msgid "Licenses without file extension:"
 msgstr "Dosya uzantısı olmayan lisanslar:"
 
-#: src/reuse/lint.py:169
+#: src/reuse/lint.py:176
 msgid "Missing licenses:"
 msgstr "Eksik lisanslar:"
 
-#: src/reuse/lint.py:170
+#: src/reuse/lint.py:177
 msgid "Unused licenses:"
 msgstr "Kullanılmayan lisanslar:"
 
-#: src/reuse/lint.py:171
+#: src/reuse/lint.py:178
 msgid "Used licenses:"
 msgstr "Kullanılan lisanslar:"
 
-#: src/reuse/lint.py:172
+#: src/reuse/lint.py:179
 msgid "Read errors:"
 msgstr "Okuma hataları:"
 
-#: src/reuse/lint.py:174
+#: src/reuse/lint.py:181
 #, fuzzy
 msgid "Files with copyright information:"
 msgstr "Telif hakkı içeren dosyalar:"
 
-#: src/reuse/lint.py:178
+#: src/reuse/lint.py:185
 #, fuzzy
 msgid "Files with license information:"
 msgstr "Lisans bilgisi içeren dosyalar:"
 
-#: src/reuse/lint.py:195
+#: src/reuse/lint.py:202
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr "Tebrikler! Projeniz REUSE Belirtiminin {} sürümüyle uyumlu :-)"
 
-#: src/reuse/lint.py:202
+#: src/reuse/lint.py:209
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr "Maalesef, projeniz REUSE Belirtiminin {} sürümüyle uyumlu değil :-("
 
-#: src/reuse/lint.py:209
+#: src/reuse/lint.py:216
 msgid "RECOMMENDATIONS"
+msgstr ""
+
+#: src/reuse/lint.py:289
+#, python-brace-format
+msgid "{path}: bad license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:296
+#, fuzzy, python-brace-format
+msgid "{lic_path}: deprecated license\n"
+msgstr "Modası geçmiş lisanslar:"
+
+#: src/reuse/lint.py:303
+#, fuzzy, python-brace-format
+msgid "{lic_path}: license without file extension\n"
+msgstr "Dosya uzantısı olmayan lisanslar:"
+
+#: src/reuse/lint.py:312
+#, fuzzy, python-brace-format
+msgid "{lic_path}: unused license\n"
+msgstr "Kullanılmayan lisanslar:"
+
+#: src/reuse/lint.py:319
+#, python-brace-format
+msgid "{path}: missing license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:326
+#, python-brace-format
+msgid "{path}: read error\n"
+msgstr ""
+
+#: src/reuse/lint.py:330
+#, fuzzy, python-brace-format
+msgid "{path}: no license identifier\n"
+msgstr "'{}' geçerli bir SPDX Lisans Kimliği değil."
+
+#: src/reuse/lint.py:334
+#, python-brace-format
+msgid "{path}: no copyright notice\n"
 msgstr ""
 
 #: src/reuse/project.py:262

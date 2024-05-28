@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-06 16:33+0000\n"
+"POT-Creation-Date: 2024-05-28 12:41+0000\n"
 "PO-Revision-Date: 2023-04-12 13:49+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -381,7 +381,7 @@ msgstr ""
 "Seznam platných identifikátorů licence SPDX naleznete na adrese <https://"
 "spdx.org/licenses/>."
 
-#: src/reuse/convert_dep5.py:57
+#: src/reuse/convert_dep5.py:68
 #, fuzzy
 msgid "no '.reuse/dep5' file"
 msgstr "Vytvoření .reuse/dep5"
@@ -470,137 +470,181 @@ msgstr ""
 "ve vygenerovaném komentáři chybí řádky s autorskými právy nebo licenční "
 "výrazy"
 
-#: src/reuse/lint.py:29
+#: src/reuse/lint.py:30
 msgid "prevents output"
 msgstr ""
 
-#: src/reuse/lint.py:32
+#: src/reuse/lint.py:33
 msgid "formats output as JSON"
 msgstr ""
 
-#: src/reuse/lint.py:38
+#: src/reuse/lint.py:39
 msgid "formats output as plain text"
 msgstr ""
 
-#: src/reuse/lint.py:57
+#: src/reuse/lint.py:45
+msgid "formats output as errors per line"
+msgstr ""
+
+#: src/reuse/lint.py:64
 msgid "BAD LICENSES"
 msgstr "NEVHODNÉ LICENCE"
 
-#: src/reuse/lint.py:59 src/reuse/lint.py:88
+#: src/reuse/lint.py:66 src/reuse/lint.py:95
 msgid "'{}' found in:"
 msgstr "'{}' nalezeno v:"
 
-#: src/reuse/lint.py:66
+#: src/reuse/lint.py:73
 msgid "DEPRECATED LICENSES"
 msgstr "ZASTARALÉ LICENCE"
 
-#: src/reuse/lint.py:68
+#: src/reuse/lint.py:75
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "Následující licence jsou v SPDX zrušeny:"
 
-#: src/reuse/lint.py:76
+#: src/reuse/lint.py:83
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "LICENCE BEZ KONCOVKY SOUBORU"
 
-#: src/reuse/lint.py:78
+#: src/reuse/lint.py:85
 msgid "The following licenses have no file extension:"
 msgstr "Následující licence nemají příponu souboru:"
 
-#: src/reuse/lint.py:86
+#: src/reuse/lint.py:93
 msgid "MISSING LICENSES"
 msgstr "CHYBĚJÍCÍ LICENCE"
 
-#: src/reuse/lint.py:95
+#: src/reuse/lint.py:102
 msgid "UNUSED LICENSES"
 msgstr "NEPOUŽITÉ LICENCE"
 
-#: src/reuse/lint.py:96
+#: src/reuse/lint.py:103
 msgid "The following licenses are not used:"
 msgstr "Následující licence nejsou používány:"
 
-#: src/reuse/lint.py:103
+#: src/reuse/lint.py:110
 msgid "READ ERRORS"
 msgstr "CHYBY ČTENÍ"
 
-#: src/reuse/lint.py:104
+#: src/reuse/lint.py:111
 msgid "Could not read:"
 msgstr "Nelze načíst:"
 
-#: src/reuse/lint.py:125
+#: src/reuse/lint.py:132
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "CHYBĚJÍCÍ INFORMACE O AUTORSKÝCH PRÁVECH A LICENCÍCH"
 
-#: src/reuse/lint.py:131
+#: src/reuse/lint.py:138
 msgid "The following files have no copyright and licensing information:"
 msgstr ""
 "Následující soubory neobsahují žádné informace o autorských právech a "
 "licencích:"
 
-#: src/reuse/lint.py:142
+#: src/reuse/lint.py:149
 msgid "The following files have no copyright information:"
 msgstr "Následující soubory nemají žádné informace o autorských právech:"
 
-#: src/reuse/lint.py:151
+#: src/reuse/lint.py:158
 msgid "The following files have no licensing information:"
 msgstr "Následující soubory neobsahují žádné licenční informace:"
 
-#: src/reuse/lint.py:159
+#: src/reuse/lint.py:166
 msgid "SUMMARY"
 msgstr "SHRNUTÍ"
 
-#: src/reuse/lint.py:164
+#: src/reuse/lint.py:171
 msgid "Bad licenses:"
 msgstr "Neplatné licence:"
 
-#: src/reuse/lint.py:165
+#: src/reuse/lint.py:172
 msgid "Deprecated licenses:"
 msgstr "Zastaralé licence:"
 
-#: src/reuse/lint.py:166
+#: src/reuse/lint.py:173
 msgid "Licenses without file extension:"
 msgstr "Licence bez přípony souboru:"
 
-#: src/reuse/lint.py:169
+#: src/reuse/lint.py:176
 msgid "Missing licenses:"
 msgstr "Chybějící licence:"
 
-#: src/reuse/lint.py:170
+#: src/reuse/lint.py:177
 msgid "Unused licenses:"
 msgstr "Nepoužité licence:"
 
-#: src/reuse/lint.py:171
+#: src/reuse/lint.py:178
 msgid "Used licenses:"
 msgstr "Použité licence:"
 
-#: src/reuse/lint.py:172
+#: src/reuse/lint.py:179
 #, fuzzy
 msgid "Read errors:"
 msgstr "Chyby čtení: {count}"
 
-#: src/reuse/lint.py:174
+#: src/reuse/lint.py:181
 #, fuzzy
 msgid "Files with copyright information:"
 msgstr "Soubory s informacemi o autorských právech: {count} / {total}"
 
-#: src/reuse/lint.py:178
+#: src/reuse/lint.py:185
 #, fuzzy
 msgid "Files with license information:"
 msgstr "Soubory s licenčními informacemi: {count} / {total}"
 
-#: src/reuse/lint.py:195
+#: src/reuse/lint.py:202
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr "Gratulujeme! Váš projekt je v souladu s verzí {} specifikace REUSE :-)"
 
-#: src/reuse/lint.py:202
+#: src/reuse/lint.py:209
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr "Váš projekt bohužel není v souladu s verzí {} specifikace REUSE :-("
 
-#: src/reuse/lint.py:209
+#: src/reuse/lint.py:216
 msgid "RECOMMENDATIONS"
+msgstr ""
+
+#: src/reuse/lint.py:289
+#, python-brace-format
+msgid "{path}: bad license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:296
+#, fuzzy, python-brace-format
+msgid "{lic_path}: deprecated license\n"
+msgstr "Zastaralé licence:"
+
+#: src/reuse/lint.py:303
+#, fuzzy, python-brace-format
+msgid "{lic_path}: license without file extension\n"
+msgstr "Licence bez přípony souboru:"
+
+#: src/reuse/lint.py:312
+#, fuzzy, python-brace-format
+msgid "{lic_path}: unused license\n"
+msgstr "Nepoužité licence:"
+
+#: src/reuse/lint.py:319
+#, python-brace-format
+msgid "{path}: missing license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:326
+#, python-brace-format
+msgid "{path}: read error\n"
+msgstr ""
+
+#: src/reuse/lint.py:330
+#, fuzzy, python-brace-format
+msgid "{path}: no license identifier\n"
+msgstr "'{}' není platný identifikátor licence SPDX."
+
+#: src/reuse/lint.py:334
+#, python-brace-format
+msgid "{path}: no copyright notice\n"
 msgstr ""
 
 #: src/reuse/project.py:262

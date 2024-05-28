@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-06 16:33+0000\n"
+"POT-Creation-Date: 2024-05-28 12:41+0000\n"
 "PO-Revision-Date: 2024-05-06 18:54+0200\n"
 "Last-Translator: Сергій <sergiy.goncharuk.1@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -382,7 +382,7 @@ msgstr ""
 "Перегляньте <https://spdx.org/licenses/> список дійсних ідентифікаторів "
 "ліцензії SPDX."
 
-#: src/reuse/convert_dep5.py:57
+#: src/reuse/convert_dep5.py:68
 #, fuzzy
 msgid "no '.reuse/dep5' file"
 msgstr "Створення .reuse/dep5"
@@ -473,135 +473,180 @@ msgstr ""
 "у згенерованому коментарі відсутні рядки про авторські права або вирази "
 "ліцензії"
 
-#: src/reuse/lint.py:29
+#: src/reuse/lint.py:30
 msgid "prevents output"
 msgstr "запобігає виводу"
 
-#: src/reuse/lint.py:32
+#: src/reuse/lint.py:33
 msgid "formats output as JSON"
 msgstr "форматує вивід як JSON"
 
-#: src/reuse/lint.py:38
+#: src/reuse/lint.py:39
 msgid "formats output as plain text"
 msgstr "форматує вивід як звичайний текст"
 
-#: src/reuse/lint.py:57
+#: src/reuse/lint.py:45
+#, fuzzy
+msgid "formats output as errors per line"
+msgstr "форматує вивід як звичайний текст"
+
+#: src/reuse/lint.py:64
 msgid "BAD LICENSES"
 msgstr "ПОГАНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:59 src/reuse/lint.py:88
+#: src/reuse/lint.py:66 src/reuse/lint.py:95
 msgid "'{}' found in:"
 msgstr "'{}' знайдено в:"
 
-#: src/reuse/lint.py:66
+#: src/reuse/lint.py:73
 msgid "DEPRECATED LICENSES"
 msgstr "ЗАСТАРІЛІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:68
+#: src/reuse/lint.py:75
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "У SPDX застаріли такі ліцензії:"
 
-#: src/reuse/lint.py:76
+#: src/reuse/lint.py:83
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "ЛІЦЕНЗІЇ БЕЗ РОЗШИРЕННЯ ФАЙЛУ"
 
-#: src/reuse/lint.py:78
+#: src/reuse/lint.py:85
 msgid "The following licenses have no file extension:"
 msgstr "Ці ліцензії не мають розширення файлу:"
 
-#: src/reuse/lint.py:86
+#: src/reuse/lint.py:93
 msgid "MISSING LICENSES"
 msgstr "ВІДСУТНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:95
+#: src/reuse/lint.py:102
 msgid "UNUSED LICENSES"
 msgstr "НЕВИКОРИСТАНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:96
+#: src/reuse/lint.py:103
 msgid "The following licenses are not used:"
 msgstr "Не використовуються такі ліцензії:"
 
-#: src/reuse/lint.py:103
+#: src/reuse/lint.py:110
 msgid "READ ERRORS"
 msgstr "ПОМИЛКИ ЧИТАННЯ"
 
-#: src/reuse/lint.py:104
+#: src/reuse/lint.py:111
 msgid "Could not read:"
 msgstr "Не вдалося прочитати:"
 
-#: src/reuse/lint.py:125
+#: src/reuse/lint.py:132
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "ВІДСУТНІ ВІДОМОСТІ ПРО АВТОРСЬКІ ПРАВА ТА ЛІЦЕНЗУВАННЯ"
 
-#: src/reuse/lint.py:131
+#: src/reuse/lint.py:138
 msgid "The following files have no copyright and licensing information:"
 msgstr "Ці файли не містять відомостей про авторські права та ліцензії:"
 
-#: src/reuse/lint.py:142
+#: src/reuse/lint.py:149
 msgid "The following files have no copyright information:"
 msgstr "Такі файли не містять відомостей про авторські права:"
 
-#: src/reuse/lint.py:151
+#: src/reuse/lint.py:158
 msgid "The following files have no licensing information:"
 msgstr "Такі файли не мають відомостей про ліцензування:"
 
-#: src/reuse/lint.py:159
+#: src/reuse/lint.py:166
 msgid "SUMMARY"
 msgstr "ПІДСУМОК"
 
-#: src/reuse/lint.py:164
+#: src/reuse/lint.py:171
 msgid "Bad licenses:"
 msgstr "Погані ліцензії:"
 
-#: src/reuse/lint.py:165
+#: src/reuse/lint.py:172
 msgid "Deprecated licenses:"
 msgstr "Застарілі ліцензії:"
 
-#: src/reuse/lint.py:166
+#: src/reuse/lint.py:173
 msgid "Licenses without file extension:"
 msgstr "Ліцензії без розширення файлу:"
 
-#: src/reuse/lint.py:169
+#: src/reuse/lint.py:176
 msgid "Missing licenses:"
 msgstr "Відсутні ліцензії:"
 
-#: src/reuse/lint.py:170
+#: src/reuse/lint.py:177
 msgid "Unused licenses:"
 msgstr "Невикористані ліцензії:"
 
-#: src/reuse/lint.py:171
+#: src/reuse/lint.py:178
 msgid "Used licenses:"
 msgstr "Використані ліцензії:"
 
-#: src/reuse/lint.py:172
+#: src/reuse/lint.py:179
 msgid "Read errors:"
 msgstr "Помилки читання:"
 
-#: src/reuse/lint.py:174
+#: src/reuse/lint.py:181
 #, fuzzy
 msgid "Files with copyright information:"
 msgstr "файли з відомостями про авторські права:"
 
-#: src/reuse/lint.py:178
+#: src/reuse/lint.py:185
 #, fuzzy
 msgid "Files with license information:"
 msgstr "файли з відомостями про ліцензію:"
 
-#: src/reuse/lint.py:195
+#: src/reuse/lint.py:202
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr "Вітаємо! Ваш проєкт відповідає версії {} специфікації REUSE :-)"
 
-#: src/reuse/lint.py:202
+#: src/reuse/lint.py:209
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr "На жаль, ваш проєкт не сумісний із версією {} специфікації REUSE :-("
 
-#: src/reuse/lint.py:209
+#: src/reuse/lint.py:216
 msgid "RECOMMENDATIONS"
 msgstr "РЕКОМЕНДАЦІЇ"
+
+#: src/reuse/lint.py:289
+#, python-brace-format
+msgid "{path}: bad license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:296
+#, fuzzy, python-brace-format
+msgid "{lic_path}: deprecated license\n"
+msgstr "Застарілі ліцензії:"
+
+#: src/reuse/lint.py:303
+#, fuzzy, python-brace-format
+msgid "{lic_path}: license without file extension\n"
+msgstr "Ліцензії без розширення файлу:"
+
+#: src/reuse/lint.py:312
+#, fuzzy, python-brace-format
+msgid "{lic_path}: unused license\n"
+msgstr "Невикористані ліцензії:"
+
+#: src/reuse/lint.py:319
+#, python-brace-format
+msgid "{path}: missing license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:326
+#, python-brace-format
+msgid "{path}: read error\n"
+msgstr ""
+
+#: src/reuse/lint.py:330
+#, fuzzy, python-brace-format
+msgid "{path}: no license identifier\n"
+msgstr "'{}' не є дійсним ідентифікатором ліцензії SPDX."
+
+#: src/reuse/lint.py:334
+#, python-brace-format
+msgid "{path}: no copyright notice\n"
+msgstr ""
 
 #: src/reuse/project.py:262
 #, fuzzy, python-brace-format
@@ -623,7 +668,7 @@ msgstr ""
 "'{path}' виявлено як двійковий файл або його розширення позначено таким, що "
 "не коментується; пошук інформації у його вмісті для REUSE не виконується."
 
-#: src/reuse/project.py:288
+#: src/reuse/project.py:292
 #, fuzzy, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "

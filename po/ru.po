@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-06 16:33+0000\n"
+"POT-Creation-Date: 2024-05-28 12:41+0000\n"
 "PO-Revision-Date: 2024-05-25 05:09+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -160,7 +160,8 @@ msgstr "всегда записывайте файл .license вместо за�
 
 #: src/reuse/_annotate.py:473
 msgid "write a .license file to files with unrecognised comment styles"
-msgstr "записывать файл .license в файлы с нераспознанными стилями комментариев"
+msgstr ""
+"записывать файл .license в файлы с нераспознанными стилями комментариев"
 
 #: src/reuse/_annotate.py:479
 msgid "skip files with unrecognised comment styles"
@@ -304,8 +305,8 @@ msgstr ""
 "\n"
 "В частности, проверяются следующие критерии:\n"
 "\n"
-"- Есть ли в проекте плохие (нераспознанные, не совместимые с SPDX) лицензии?"
-"\n"
+"- Есть ли в проекте плохие (нераспознанные, не совместимые с SPDX) "
+"лицензии?\n"
 "\n"
 "- Есть ли лицензии, на которые ссылаются внутри проекта, но которые не "
 "включены в каталог LICENSES/?\n"
@@ -395,7 +396,7 @@ msgstr ""
 "Список допустимых идентификаторов лицензий SPDX см. в <https://spdx.org/"
 "licenses/>."
 
-#: src/reuse/convert_dep5.py:57
+#: src/reuse/convert_dep5.py:68
 msgid "no '.reuse/dep5' file"
 msgstr "Нет файла '.reuse/dep5'"
 
@@ -464,8 +465,8 @@ msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
-"Элемент в коллекции {attr_name} должен быть {type_name} (получил {item_value}"
-", который является {item_class})."
+"Элемент в коллекции {attr_name} должен быть {type_name} (получил "
+"{item_value}, который является {item_class})."
 
 #: src/reuse/global_licensing.py:133
 #, python-brace-format
@@ -492,135 +493,180 @@ msgstr ""
 "В сгенерированном комментарии отсутствуют строки об авторских правах или "
 "выражениях лицензии"
 
-#: src/reuse/lint.py:29
+#: src/reuse/lint.py:30
 msgid "prevents output"
 msgstr "предотвращает выход"
 
-#: src/reuse/lint.py:32
+#: src/reuse/lint.py:33
 msgid "formats output as JSON"
 msgstr "форматирует вывод в формате JSON"
 
-#: src/reuse/lint.py:38
+#: src/reuse/lint.py:39
 msgid "formats output as plain text"
 msgstr "Форматирует вывод в виде обычного текста"
 
-#: src/reuse/lint.py:57
+#: src/reuse/lint.py:45
+#, fuzzy
+msgid "formats output as errors per line"
+msgstr "Форматирует вывод в виде обычного текста"
+
+#: src/reuse/lint.py:64
 msgid "BAD LICENSES"
 msgstr "ПЛОХАЯ ЛИЦЕНЗИЯ"
 
-#: src/reuse/lint.py:59 src/reuse/lint.py:88
+#: src/reuse/lint.py:66 src/reuse/lint.py:95
 msgid "'{}' found in:"
 msgstr "'{}' найдено в:"
 
-#: src/reuse/lint.py:66
+#: src/reuse/lint.py:73
 msgid "DEPRECATED LICENSES"
 msgstr "УСТАРЕВШИЕ ЛИЦЕНЗИИ"
 
-#: src/reuse/lint.py:68
+#: src/reuse/lint.py:75
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "Следующие лицензии устарели в SPDX:"
 
-#: src/reuse/lint.py:76
+#: src/reuse/lint.py:83
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "ЛИЦЕНЗИИ БЕЗ РАСШИРЕНИЯ ФАЙЛА"
 
-#: src/reuse/lint.py:78
+#: src/reuse/lint.py:85
 msgid "The following licenses have no file extension:"
 msgstr "Следующие лицензии не имеют расширения файла:"
 
-#: src/reuse/lint.py:86
+#: src/reuse/lint.py:93
 msgid "MISSING LICENSES"
 msgstr "ОТСУТСТВУЮЩИЕ ЛИЦЕНЗИИ"
 
-#: src/reuse/lint.py:95
+#: src/reuse/lint.py:102
 msgid "UNUSED LICENSES"
 msgstr "НЕИСПОЛЬЗОВАННЫЕ ЛИЦЕНЗИИ"
 
-#: src/reuse/lint.py:96
+#: src/reuse/lint.py:103
 msgid "The following licenses are not used:"
 msgstr "Следующие лицензии не используются:"
 
-#: src/reuse/lint.py:103
+#: src/reuse/lint.py:110
 msgid "READ ERRORS"
 msgstr "ОШИБКИ ЧТЕНИЯ"
 
-#: src/reuse/lint.py:104
+#: src/reuse/lint.py:111
 msgid "Could not read:"
 msgstr "Не удалось прочитать:"
 
-#: src/reuse/lint.py:125
+#: src/reuse/lint.py:132
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "ОТСУТСТВИЕ ИНФОРМАЦИИ ОБ АВТОРСКИХ ПРАВАХ И ЛИЦЕНЗИРОВАНИИ"
 
-#: src/reuse/lint.py:131
+#: src/reuse/lint.py:138
 msgid "The following files have no copyright and licensing information:"
 msgstr ""
 "Следующие файлы не содержат информации об авторских правах и лицензировании:"
 
-#: src/reuse/lint.py:142
+#: src/reuse/lint.py:149
 msgid "The following files have no copyright information:"
 msgstr "Следующие файлы не содержат информации об авторских правах:"
 
-#: src/reuse/lint.py:151
+#: src/reuse/lint.py:158
 msgid "The following files have no licensing information:"
 msgstr "Следующие файлы не содержат информации о лицензировании:"
 
-#: src/reuse/lint.py:159
+#: src/reuse/lint.py:166
 msgid "SUMMARY"
 msgstr "РЕЗЮМЕ"
 
-#: src/reuse/lint.py:164
+#: src/reuse/lint.py:171
 msgid "Bad licenses:"
 msgstr "Плохие лицензии:"
 
-#: src/reuse/lint.py:165
+#: src/reuse/lint.py:172
 msgid "Deprecated licenses:"
 msgstr "Утраченные лицензии:"
 
-#: src/reuse/lint.py:166
+#: src/reuse/lint.py:173
 msgid "Licenses without file extension:"
 msgstr "Лицензии без расширения файла:"
 
-#: src/reuse/lint.py:169
+#: src/reuse/lint.py:176
 msgid "Missing licenses:"
 msgstr "Отсутствующие лицензии:"
 
-#: src/reuse/lint.py:170
+#: src/reuse/lint.py:177
 msgid "Unused licenses:"
 msgstr "Неиспользованные лицензии:"
 
-#: src/reuse/lint.py:171
+#: src/reuse/lint.py:178
 msgid "Used licenses:"
 msgstr "Используемые лицензии:"
 
-#: src/reuse/lint.py:172
+#: src/reuse/lint.py:179
 msgid "Read errors:"
 msgstr "Читайте ошибки:"
 
-#: src/reuse/lint.py:174
+#: src/reuse/lint.py:181
 msgid "Files with copyright information:"
 msgstr "Файлы с информацией об авторских правах:"
 
-#: src/reuse/lint.py:178
+#: src/reuse/lint.py:185
 msgid "Files with license information:"
 msgstr "Файлы с информацией о лицензии:"
 
-#: src/reuse/lint.py:195
+#: src/reuse/lint.py:202
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr "Поздравляем! Ваш проект соответствует версии {} спецификации REUSE :-)"
 
-#: src/reuse/lint.py:202
+#: src/reuse/lint.py:209
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr ""
 "К сожалению, ваш проект не соответствует версии {} спецификации REUSE :-("
 
-#: src/reuse/lint.py:209
+#: src/reuse/lint.py:216
 msgid "RECOMMENDATIONS"
 msgstr "РЕКОМЕНДАЦИИ"
+
+#: src/reuse/lint.py:289
+#, python-brace-format
+msgid "{path}: bad license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:296
+#, fuzzy, python-brace-format
+msgid "{lic_path}: deprecated license\n"
+msgstr "Утраченные лицензии:"
+
+#: src/reuse/lint.py:303
+#, fuzzy, python-brace-format
+msgid "{lic_path}: license without file extension\n"
+msgstr "Лицензии без расширения файла:"
+
+#: src/reuse/lint.py:312
+#, fuzzy, python-brace-format
+msgid "{lic_path}: unused license\n"
+msgstr "Неиспользованные лицензии:"
+
+#: src/reuse/lint.py:319
+#, python-brace-format
+msgid "{path}: missing license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:326
+#, python-brace-format
+msgid "{path}: read error\n"
+msgstr ""
+
+#: src/reuse/lint.py:330
+#, fuzzy, python-brace-format
+msgid "{path}: no license identifier\n"
+msgstr "'{}' не является действительным идентификатором лицензии SPDX."
+
+#: src/reuse/lint.py:334
+#, python-brace-format
+msgid "{path}: no copyright notice\n"
+msgstr ""
 
 #: src/reuse/project.py:262
 #, python-brace-format
@@ -911,12 +957,12 @@ msgstr "Недопустимое значение конфликтного_ра�
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] ""
-"одна,двадцать одна,тридцать одна,сорок одна,пятьдесят одна,шестьдесят "
-"одна,семьдесят одна,восемдесят одна,девяносто одна, сто одна противоречащая "
+"одна,двадцать одна,тридцать одна,сорок одна,пятьдесят одна,шестьдесят одна,"
+"семьдесят одна,восемдесят одна,девяносто одна, сто одна противоречащая "
 "строка опций: %s"
 msgstr[1] ""
-"две,три,четыре,двадцать две,двадцать три,двадцать четыре,тридцать "
-"две,тридцать три,тридцать четыре,сорок две конфликтующих строк опций: %s"
+"две,три,четыре,двадцать две,двадцать три,двадцать четыре,тридцать две,"
+"тридцать три,тридцать четыре,сорок две конфликтующих строк опций: %s"
 msgstr[2] ""
 "ноль,пять,шесть,семь,восемь,девять,десять,одинадцать,двенадцать,тринадцать "
 "конфликтующих строк опций: %s"
@@ -983,12 +1029,11 @@ msgstr "ожидал по крайней мере один аргумент"
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] ""
-"один,двадцать один,тридцать один,сорок один,пятьдесят один,шестьдесят "
-"один,семдесят один,восемдесят один,девяносто один,сто один ожидаемый "
-"аргумент %s"
+"один,двадцать один,тридцать один,сорок один,пятьдесят один,шестьдесят один,"
+"семдесят один,восемдесят один,девяносто один,сто один ожидаемый аргумент %s"
 msgstr[1] ""
-"два,три,четыре,двадцать два,двадцать три,двадцать четыре,тридцать "
-"два,тридцать три,тридцать четыре,сорок два ожидаемых %s аргументов"
+"два,три,четыре,двадцать два,двадцать три,двадцать четыре,тридцать два,"
+"тридцать три,тридцать четыре,сорок два ожидаемых %s аргументов"
 msgstr[2] ""
 "ноль,пять,шесть,семь,восемь,девять,десять,одинадцать,двенадцать,тринадцать "
 "ожидаемых %s аргументов"
