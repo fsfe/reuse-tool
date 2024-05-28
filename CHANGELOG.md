@@ -38,7 +38,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
-## Unreleased - YYYY-MM-DD
+## 3.1.0a1 - 2024-05-28
 
 ### Added
 
@@ -79,8 +79,6 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - `.reuse/dep5` is marked deprecated. `reuse convert-dep5` will help you switch
   to `REUSE.toml`. (#863)
 
-### Removed
-
 ### Fixed
 
 - Clearer instructions for `--suppress-deprecation` in deprecation warning.
@@ -91,8 +89,6 @@ CLI command and its behaviour. There are no guarantees of stability for the
   directory should not create a deeper LICENSES/LICENSES/ directory. (#975)
 - Support annotating a file that contains only a shebang. (#965)
 - Add `CONTRIBUTING.md` to the sdist. (#987)
-
-### Security
 
 ## 3.0.2 - 2024-04-08
 
