@@ -83,6 +83,13 @@ possible, run `poetry lock --no-update`.
 - `git merge release-x.y.z`
 - `git push origin main`
 - Create a release on GitHub.
+
+### After release
+
 - Update readthedocs (if not happened automatically)
 - Update API worker: https://git.fsfe.org/reuse/api-worker#user-content-server
 - Make sure package is updated in distros (contact maintainers)
+- Update the revision in `dev.md` of
+  [reuse-website](https://github.com/fsfe/reuse-website).
+- If a major release, make sure
+  [reuse-action](https://github.com/fsfe/reuse-action/) is updated.
