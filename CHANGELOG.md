@@ -56,9 +56,12 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Java `.properties` files (#968)
   - Apache HTTP server config `.htaccess` files (#985)
   - npm `.npmrc` files (#985)
+  - LaTeX class files (`.cls`) (#971)
 - Added comment styles:
   - `man` for UNIX Man pages (`.man`) (#954)
 - Added `--lines` output option for `lint`. (#956)
+- Treat `% !TEX` and `% !BIB` as shebangs in TeX and BibTeX files, respectively
+  (#971)
 
 ### Changed
 

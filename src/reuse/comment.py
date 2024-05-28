@@ -321,6 +321,7 @@ class BibTexCommentStyle(CommentStyle):
     SHORTHAND = "bibtex"
 
     MULTI_LINE = MultiLineSegments("@Comment{", "", "}")
+    SHEBANGS = ["% !BIB", "%!BIB"]
 
 
 class CCommentStyle(CommentStyle):
@@ -525,6 +526,7 @@ class TexCommentStyle(CommentStyle):
 
     SINGLE_LINE = "%"
     INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["% !TEX", "%!TEX"]
 
 
 class UncommentableCommentStyle(EmptyCommentStyle):
@@ -607,6 +609,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".clj": LispCommentStyle,
     ".cljc": LispCommentStyle,
     ".cljs": LispCommentStyle,
+    ".cls": TexCommentStyle,
     ".cmake": PythonCommentStyle,  # TODO: Bracket comments not supported.
     ".code-workspace": CCommentStyle,
     ".coffee": PythonCommentStyle,
