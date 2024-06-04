@@ -597,6 +597,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".axd": AspxCommentStyle,
     ".bash": PythonCommentStyle,
     ".bat": BatchFileCommentStyle,
+    ".bats": PythonCommentStyle,
     ".bb": PythonCommentStyle,
     ".bbappend": PythonCommentStyle,
     ".bbclass": PythonCommentStyle,
