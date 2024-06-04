@@ -863,6 +863,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
     ".shellcheckrc": PythonCommentStyle,
+    ".taprc": PythonCommentStyle,
     ".vimrc": VimCommentStyle,
     ".yarnrc": PythonCommentStyle,
     "ansible.cfg": PythonCommentStyle,
