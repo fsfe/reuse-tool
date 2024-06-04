@@ -865,6 +865,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".shellcheckrc": PythonCommentStyle,
     ".taprc": PythonCommentStyle,
     ".vimrc": VimCommentStyle,
+    ".zshrc": PythonCommentStyle,
     ".yarnrc": PythonCommentStyle,
     "ansible.cfg": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
