@@ -354,14 +354,16 @@ class Project:
         candidate: Optional[GlobalLicensingFound] = None
         dep5_path = root / ".reuse/dep5"
         if (dep5_path).exists():
-            warnings.warn(
-                _(
-                    "'.reuse/dep5' is deprecated. You are recommended to"
-                    " instead use REUSE.toml. Use `reuse convert-dep5` to"
-                    " convert."
-                ),
-                PendingDeprecationWarning,
-            )
+            # Sneaky workaround to not print this warning.
+            if not os.environ.get("_SUPPRESS_DEP5_WARNING"):
+                warnings.warn(
+                    _(
+                        "'.reuse/dep5' is deprecated. You are recommended to"
+                        " instead use REUSE.toml. Use `reuse convert-dep5` to"
+                        " convert."
+                    ),
+                    PendingDeprecationWarning,
+                )
             candidate = GlobalLicensingFound(dep5_path, ReuseDep5)
         toml_path = None
         with contextlib.suppress(StopIteration):

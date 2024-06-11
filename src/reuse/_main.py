@@ -9,6 +9,7 @@
 
 import argparse
 import logging
+import os
 import sys
 import warnings
 from gettext import gettext as _
@@ -241,6 +242,11 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
     if parsed_args.version:
         out.write(f"reuse {__version__}\n")
         return 0
+
+    # Very stupid workaround to not print a DEP5 deprecation warning in the
+    # middle of conversion to REUSE.toml.
+    if args and args[0] == "convert-dep5":
+        os.environ["_SUPPRESS_DEP5_WARNING"] = "1"
 
     root = parsed_args.root
     if root is None:

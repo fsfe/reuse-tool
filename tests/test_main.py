@@ -16,6 +16,7 @@ import json
 import os
 import re
 import shutil
+import warnings
 from inspect import cleandoc
 from pathlib import Path
 from typing import Generator, Optional
@@ -637,6 +638,14 @@ def test_convert_dep5_no_dep5_file(fake_repository, stringio):
     """Cannot convert when there is no .reuse/dep5 file."""
     with pytest.raises(SystemExit):
         main(["convert-dep5"], out=stringio)
+
+
+def test_convert_dep5_no_warning(fake_repository_dep5, stringio):
+    """No PendingDeprecationWarning when running convert-dep5."""
+    with warnings.catch_warnings(record=True) as caught_warnings:
+        result = main(["convert-dep5"], out=stringio)
+        assert result == 0
+        assert not caught_warnings
 
 
 # REUSE-IgnoreEnd
