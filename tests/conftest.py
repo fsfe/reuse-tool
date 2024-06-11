@@ -9,6 +9,7 @@
 
 # pylint: disable=redefined-outer-name,invalid-name
 
+import contextlib
 import datetime
 import logging
 import multiprocessing as mp
@@ -82,6 +83,13 @@ def pytest_runtest_setup(item):
     # pylint: disable=unused-argument
     # Make sure to restore CWD
     os.chdir(CWD)
+
+    # TODO: Awful workaround. In `main`, this environment variable is set under
+    # certain conditions. This means that all tests that run _after_ that
+    # condition is met also have the environment variable set, because the
+    # environment had been changed. There should be a better way to scope this.
+    with contextlib.suppress(KeyError):
+        del os.environ["_SUPPRESS_DEP5_WARNING"]
 
 
 @pytest.fixture()
