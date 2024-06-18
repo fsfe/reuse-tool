@@ -87,7 +87,7 @@ _IGNORE_SPDX_PATTERNS = [
 # Combine SPDX patterns into file patterns to ease default ignore usage
 _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
-def load_ignore_patterns():
+def load_ignore_patterns() -> None:
     """Load ignore patterns from REUSE.ignore file."""
     ignore_file = "REUSE.ignore"
     if os.path.exists(ignore_file):
