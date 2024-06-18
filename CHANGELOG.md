@@ -47,6 +47,10 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Hjson (`.hjson`) (#1002)
   - JSON5 (`.json5`) (#1002)
   - JSON with Comments (`.jsonc`) (#1002)
+  - Tap (`.taprc`) (#997)
+  - Zsh (`.zshrc`) (#997)
+  - Perl test (`.t`) (#997)
+  - BATS test (`.bats`) (#997)
 
 ### Changed
 
