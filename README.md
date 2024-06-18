@@ -19,7 +19,7 @@ recommendations.
 - Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
 - Source code: <https://github.com/fsfe/reuse-tool>
 - PyPI: <https://pypi.python.org/pypi/reuse>
-- REUSE: 3.0
+- REUSE: 3.2
 - Python: 3.8+
 
 ## Table of contents
@@ -178,7 +178,7 @@ To check against the recommendations, use `reuse lint`:
 ~/Projects/reuse-tool $ reuse lint
 [...]
 
-Congratulations! Your project is compliant with version 3.0 of the REUSE Specification :-)
+Congratulations! Your project is compliant with version 3.2 of the REUSE Specification :-)
 ```
 
 This tool can do various more things, detailed in the documentation. Here a
