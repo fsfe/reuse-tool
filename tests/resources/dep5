@@ -1,7 +1,4 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Some project
-Upstream-Contact: Jane Doe
-Source: https://example.com/
 
 Files: doc/*
 Copyright: 2017 Jane Doe
