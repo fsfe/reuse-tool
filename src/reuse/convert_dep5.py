@@ -8,15 +8,37 @@ import re
 import sys
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
-from typing import IO, Any, List, Union, cast
+from typing import IO, List, TypeVar, Union, cast
 
 import tomlkit
-from debian.copyright import Copyright
+from debian.copyright import Copyright, FilesParagraph
 
 from .global_licensing import REUSE_TOML_VERSION, ReuseDep5
 from .project import Project
 
 _SINGLE_ASTERISK_PATTERN = re.compile(r"(?<!\*)\*(?!\*)")
+
+_T = TypeVar("_T")
+
+
+def _collapse_list_if_one_item(
+    # Technically this should be Sequence[_T], but I can't get that to work.
+    sequence: List[_T],
+) -> Union[List[_T], _T]:
+    """Return the only item of the list if the length of the list is one, else
+    return the list.
+    """
+    if len(sequence) == 1:
+        return sequence[0]
+    return sequence
+
+
+def _copyrights_from_paragraph(
+    paragraph: FilesParagraph,
+) -> Union[str, List[str]]:
+    return _collapse_list_if_one_item(
+        [line.strip() for line in cast(str, paragraph.copyright).splitlines()]
+    )
 
 
 def _convert_asterisk(path: str) -> str:
@@ -26,30 +48,25 @@ def _convert_asterisk(path: str) -> str:
     return _SINGLE_ASTERISK_PATTERN.sub("**", path)
 
 
+def _paths_from_paragraph(paragraph: FilesParagraph) -> Union[str, List[str]]:
+    return _collapse_list_if_one_item(
+        [_convert_asterisk(path) for path in list(paragraph.files)]
+    )
+
+
 def toml_from_dep5(dep5: Copyright) -> str:
     """Given a Copyright object, return an equivalent REUSE.toml string."""
     annotations = []
     for paragraph in dep5.all_files_paragraphs():
-        # Convert some lists to single-item elements as necessary.
-        copyrights: Union[str, List[str]] = [
-            line.strip() for line in cast(str, paragraph.copyright).splitlines()
-        ]
-        if len(copyrights) == 1:
-            copyrights = copyrights[0]
-        paths: Union[str, List[str]] = list(paragraph.files)
-        paths = [_convert_asterisk(path) for path in paths]
-        if len(paths) == 1:
-            paths = paths[0]
-        annotations.append(
-            {
-                "path": paths,
-                "precedence": "aggregate",
-                "SPDX-FileCopyrightText": copyrights,
-                "SPDX-License-Identifier": cast(
-                    Any, paragraph.license
-                ).synopsis,
-            }
-        )
+        copyrights = _copyrights_from_paragraph(paragraph)
+        paths = _paths_from_paragraph(paragraph)
+        paragraph_result = {
+            "path": paths,
+            "precedence": "aggregate",
+            "SPDX-FileCopyrightText": copyrights,
+            "SPDX-License-Identifier": paragraph.license.to_str(),
+        }
+        annotations.append(paragraph_result)
     return tomlkit.dumps(
         {"version": REUSE_TOML_VERSION, "annotations": annotations}
     )
