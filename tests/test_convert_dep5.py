@@ -264,3 +264,51 @@ def test_toml_from_dep5_header_multiple_contacts():
         """
     )
     assert toml_from_dep5(Copyright(text)) == expected
+
+
+def test_toml_from_dep5_man_example():
+    """Test the example from the man page."""
+    text = StringIO(
+        cleandoc_nl(
+            """
+            Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+            Upstream-Name: Some project
+            Upstream-Contact: Jane Doe
+            Source: https://example.com/
+            Disclaimer: Some rights reserved
+
+            Files: hello*.txt
+            Copyright: 2018 Jane Doe
+            License: MIT
+            Comment: hello world
+
+            Files: foo bar
+            Copyright: 2018 Jane Doe
+                2019 John Doe
+            License: MIT
+            """
+        )
+    )
+    expected = cleandoc_nl(
+        """
+        version = 1
+        SPDX-PackageName = "Some project"
+        SPDX-PackageSupplier = "Jane Doe"
+        SPDX-PackageDownloadLocation = "https://example.com/"
+        SPDX-PackageComment = "Some rights reserved"
+
+        [[annotations]]
+        path = "hello**.txt"
+        precedence = "aggregate"
+        SPDX-FileCopyrightText = "2018 Jane Doe"
+        SPDX-License-Identifier = "MIT"
+        SPDX-FileComment = "hello world"
+
+        [[annotations]]
+        path = ["foo", "bar"]
+        precedence = "aggregate"
+        SPDX-FileCopyrightText = ["2018 Jane Doe", "2019 John Doe"]
+        SPDX-License-Identifier = "MIT"
+        """
+    )
+    assert toml_from_dep5(Copyright(text)) == expected
