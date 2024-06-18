@@ -36,12 +36,21 @@ behaviour in determining compliance. This is intentional.
 ## Pull requests
 
 Pull requests are generally welcome and encouraged, but please beware that they
-may be closed as out-of-scope or otherwise not aligned with the design goals. To
-be safe, open an issue and engage in dialogue before beginning to implement a
+may be closed for various reasons, such as:
+
+- The change is out-of-scope for REUSE.
+- The change does not align with the design goals of REUSE.
+- The change is good, but the maintenance burden is too heavy.
+
+To be safe, open an issue and engage in dialogue before beginning to implement a
 feature that may not be accepted.
 
 When making a pull request, don't hesitate to add yourself to the AUTHORS.rst
 file and the copyright headers of the files you touch.
+
+Every pull request should add an entry in `CHANGELOG.md`. Some exceptions apply,
+such as changes which are too tiny to be significant, certain refactorings, or
+fixes to pull requests which were already merged, but not yet released.
 
 ## Translation
 
