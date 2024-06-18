@@ -87,6 +87,7 @@ _IGNORE_SPDX_PATTERNS = [
 # Combine SPDX patterns into file patterns to ease default ignore usage
 _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
+
 def load_ignore_patterns() -> None:
     """Load ignore patterns from REUSE.ignore file."""
     ignore_file = "REUSE.ignore"
@@ -104,11 +105,15 @@ def load_ignore_patterns() -> None:
                         else:
                             _IGNORE_FILE_PATTERNS.append(re.compile(pattern))
                     except re.error as err:
-                        print("Invalid regex pattern in REUSE.ignore: " +
-                              f"{pattern} - {err}")
+                        print(
+                            "Invalid regex pattern in REUSE.ignore: "
+                            + f"{pattern} - {err}"
+                        )
+
 
 # Load additional ignore patterns at startup
 load_ignore_patterns()
+
 
 class SourceType(Enum):
     """
