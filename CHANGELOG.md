@@ -38,6 +38,26 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
+## Unreleased - YYYY-MM-DD
+
+### Added
+
+- More file types are recognised:
+  - CSON (`.cson`) (#1002)
+  - Hjson (`.hjson`) (#1002)
+  - JSON5 (`.json5`) (#1002)
+  - JSON with Comments (`.jsonc`) (#1002)
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## 3.1.0a1 - 2024-05-28
 
 ### Added
