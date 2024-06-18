@@ -15,6 +15,24 @@ via e-mail to one of the maintainers. General inquiries can be sent to
 Interaction within this project is covered by the
 [FSFE's Code of Conduct](https://fsfe.org/about/codeofconduct).
 
+## Scope and design goals of REUSE
+
+REUSE has a finite scope. The goal is to make upstream licensing **easy,
+comprehensive, unambiguous, and machine-readable**. Contributions which
+contradict the goals are unlikely to be accepted. Comprehensiveness is
+especially important; REUSE provides no real mechanism for excluding a file from
+REUSE compliance testing, and it is unlikely that such a mechanism will be
+added.
+
+Behaviour changes to linting are also unlikely to be accepted, even if they are
+good changes. The linting behaviour should always match the
+[REUSE Specification](https://reuse.software/spec/). If you think that the
+linting behaviour should change, you should open an issue on the
+[reuse-website](https://github.com/fsfe/reuse-website) repository.
+
+The linter does not accept any arguments or configurations which modify its
+behaviour in determining compliance. This is intentional.
+
 ## Pull requests
 
 Pull requests are generally welcome and encouraged, but please beware that they
