@@ -273,6 +273,11 @@ requests, and pull requests. Even and especially when in doubt, feel free to
 open an issue with a question. Contributions of all types are welcome, and the
 development team is happy to provide guidance and support for new contributors.
 
+You should exercise some caution when opening a pull request to make changes
+which were not (yet) acknowledged by the team as pertinent. Such pull requests
+may be closed, leading to disappointment. To avoid this, please open an issue
+first.
+
 Additionally, the <reuse@lists.fsfe.org> mailing list is available for
 discussion and support related to the project.
 
