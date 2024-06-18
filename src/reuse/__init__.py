@@ -64,6 +64,7 @@ _IGNORE_MESON_PARENT_DIR_PATTERNS = [
 ]
 
 _IGNORE_FILE_PATTERNS = [
+    re.compile(r"^REUSE.ignore$"),
     re.compile(r"^LICENSE(\..*)?$"),
     re.compile(r"^COPYING(\..*)?$"),
     # ".git" as file happens in submodules
@@ -86,6 +87,26 @@ _IGNORE_SPDX_PATTERNS = [
 # Combine SPDX patterns into file patterns to ease default ignore usage
 _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
+def load_ignore_patterns():
+    ignore_file = "REUSE.ignore"
+    if os.path.exists(ignore_file):
+        with open(ignore_file, "r") as f:
+            lines = f.readlines()
+            for line in lines:
+                pattern = line.strip()
+                if pattern:  # Only add non-empty lines
+                    try:
+                        if pattern.endswith('/'):
+                            pattern = pattern.rstrip('/')
+                            pattern = pattern + '$'
+                            _IGNORE_DIR_PATTERNS.append(re.compile(pattern))
+                        else:
+                            _IGNORE_FILE_PATTERNS.append(re.compile(pattern))
+                    except re.error as e:
+                        print(f"Invalid regex pattern in REUSE.ignore: {pattern} - {e}")
+
+# Load additional ignore patterns at startup
+load_ignore_patterns()
 
 class SourceType(Enum):
     """
