@@ -8,10 +8,10 @@ import re
 import sys
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
-from typing import IO, List, TypeVar, Union, cast
+from typing import IO, Any, Dict, Iterable, List, Optional, TypeVar, Union, cast
 
 import tomlkit
-from debian.copyright import Copyright, FilesParagraph
+from debian.copyright import Copyright, FilesParagraph, Header
 
 from .global_licensing import REUSE_TOML_VERSION, ReuseDep5
 from .project import Project
@@ -31,6 +31,23 @@ def _collapse_list_if_one_item(
     if len(sequence) == 1:
         return sequence[0]
     return sequence
+
+
+def _header_from_dep5_header(
+    header: Header,
+) -> Dict[str, Union[str, List[str]]]:
+    result: Dict[str, Union[str, List[str]]] = {}
+    if header.upstream_name:
+        result["SPDX-PackageName"] = str(header.upstream_name)
+    if header.upstream_contact:
+        result["SPDX-PackageSupplier"] = _collapse_list_if_one_item(
+            list(map(str, header.upstream_contact))
+        )
+    if header.source:
+        result["SPDX-PackageDownloadLocation"] = str(header.source)
+    if header.disclaimer:
+        result["SPDX-PackageComment"] = str(header.disclaimer)
+    return result
 
 
 def _copyrights_from_paragraph(
@@ -54,10 +71,15 @@ def _paths_from_paragraph(paragraph: FilesParagraph) -> Union[str, List[str]]:
     )
 
 
-def toml_from_dep5(dep5: Copyright) -> str:
-    """Given a Copyright object, return an equivalent REUSE.toml string."""
+def _comment_from_paragraph(paragraph: FilesParagraph) -> Optional[str]:
+    return cast(Optional[str], paragraph.comment)
+
+
+def _annotations_from_paragraphs(
+    paragraphs: Iterable[FilesParagraph],
+) -> List[Dict[str, Union[str, List[str]]]]:
     annotations = []
-    for paragraph in dep5.all_files_paragraphs():
+    for paragraph in paragraphs:
         copyrights = _copyrights_from_paragraph(paragraph)
         paths = _paths_from_paragraph(paragraph)
         paragraph_result = {
@@ -66,10 +88,21 @@ def toml_from_dep5(dep5: Copyright) -> str:
             "SPDX-FileCopyrightText": copyrights,
             "SPDX-License-Identifier": paragraph.license.to_str(),
         }
+        comment = _comment_from_paragraph(paragraph)
+        if comment:
+            paragraph_result["SPDX-FileComment"] = comment
         annotations.append(paragraph_result)
-    return tomlkit.dumps(
-        {"version": REUSE_TOML_VERSION, "annotations": annotations}
-    )
+    return annotations
+
+
+def toml_from_dep5(dep5: Copyright) -> str:
+    """Given a Copyright object, return an equivalent REUSE.toml string."""
+    header = _header_from_dep5_header(dep5.header)
+    annotations = _annotations_from_paragraphs(dep5.all_files_paragraphs())
+    result: Dict[str, Any] = {"version": REUSE_TOML_VERSION}
+    result.update(header)
+    result["annotations"] = annotations
+    return tomlkit.dumps(result)
 
 
 # pylint: disable=unused-argument
