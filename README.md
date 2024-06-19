@@ -282,7 +282,7 @@ Additionally, the <reuse@lists.fsfe.org> mailing list is available for
 discussion and support related to the project.
 
 You can find the full contribution guidelines at
-<https://reuse.readthedocs.io/en/latest/contributing.html>.
+<https://reuse.readthedocs.io/en/latest/contribute.html>.
 
 ## Licensing
 
