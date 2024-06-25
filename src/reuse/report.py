@@ -239,7 +239,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         for report in reports:
             out.write(
-                "Relationship: SPDXRef-DOCUMENT describes"
+                "Relationship: SPDXRef-DOCUMENT DESCRIBES"
                 f" {report.spdx_id}\n"
             )
 
