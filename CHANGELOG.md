@@ -1,6 +1,7 @@
 <!--
 SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 SPDX-FileCopyrightText: 2023 DB Systel GmbH
+SPDX-FileCopyrightText: 2024 Rivos Inc.
 SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 
 SPDX-License-Identifier: CC-BY-SA-4.0
@@ -51,6 +52,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Zsh (`.zshrc`) (#997)
   - Perl test (`.t`) (#997)
   - BATS test (`.bats`) (#997)
+- Support alternate spelling `--skip-unrecognized` (#974)
 
 ### Changed
 
