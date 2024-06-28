@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-28 12:41+0000\n"
-"PO-Revision-Date: 2024-05-06 18:54+0200\n"
-"Last-Translator: Сергій <sergiy.goncharuk.1@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"PO-Revision-Date: 2024-06-29 11:09+0000\n"
+"Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: src/reuse/_annotate.py:73
 #, python-brace-format
@@ -37,14 +37,14 @@ msgstr ""
 "'{path}' не підтримує багаторядкові коментарі, не використовуйте --multi-line"
 
 #: src/reuse/_annotate.py:135
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
-msgstr "Пропущений нерозпізнаний файл {path}"
+msgstr "Пропущено нерозпізнаний файл '{path}'"
 
 #: src/reuse/_annotate.py:141
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr ""
+msgstr "'{path}' не розпізнано; створення '{path}.license'"
 
 #: src/reuse/_annotate.py:157
 #, python-brace-format
@@ -91,13 +91,13 @@ msgid "can't write to '{}'"
 msgstr "неможливо записати в '{}'"
 
 #: src/reuse/_annotate.py:365
-#, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license, --fallback-dot-license, or --skip-unrecognised:"
 msgstr ""
-"Ці файли не мають розпізнаного розширення файлу. Використовуйте --style, --"
-"force-dot-license або --skip-unrecognised:"
+"Наступні файли не мають розпізнаного файлового розширення. Будь ласка, "
+"використовуйте --style, --force-dot-license, --fallback-dot-license або "
+"--skip-unrecognised:"
 
 #: src/reuse/_annotate.py:381
 msgid "copyright statement, repeatable"
@@ -153,14 +153,12 @@ msgid "do not replace the first header in the file; just add a new one"
 msgstr "не замінювати перший заголовок у файлі; просто додавати новий"
 
 #: src/reuse/_annotate.py:466
-#, fuzzy
 msgid "always write a .license file instead of a header inside the file"
-msgstr "записувати файл .license замість заголовка всередині файлу"
+msgstr "завжди записуйте файл .license замість заголовка всередині файлу"
 
 #: src/reuse/_annotate.py:473
-#, fuzzy
 msgid "write a .license file to files with unrecognised comment styles"
-msgstr "пропускати файли з нерозпізнаними стилями коментарів"
+msgstr "дописати файл .license до файлів з нерозпізнаними стилями коментарів"
 
 #: src/reuse/_annotate.py:479
 msgid "skip files with unrecognised comment styles"
@@ -254,15 +252,22 @@ msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Додайте інформацію про авторські права та ліцензування в заголовок одного "
+"або декількох файлів.\n"
+"\n"
+" За допомогою --copyright і --license ви можете вказати, яких власників "
+"авторських прав і ліцензій додавати до заголовків цих файлів.\n"
+"\n"
+" За допомогою --contributor ви можете вказати особу або організацію, яка "
+"зробила внесок, але не є власником авторських прав на дані файли."
 
 #: src/reuse/_main.py:139
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "завантажити ліцензію та розмістити її в каталозі LICENSES/"
 
 #: src/reuse/_main.py:141
-#, fuzzy
 msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "завантажити ліцензію та розмістити її в каталозі LICENSES/"
+msgstr "Завантажте ліцензію та помістіть її в папку LICENSES/."
 
 #: src/reuse/_main.py:150
 msgid "list all non-compliant files"
@@ -314,21 +319,21 @@ msgstr "список всіх підтримуваних ліцензій SPDX"
 
 #: src/reuse/_main.py:197
 msgid "convert .reuse/dep5 to REUSE.toml"
-msgstr ""
+msgstr "конвертувати .reuse/dep5 у REUSE.toml"
 
 #: src/reuse/_main.py:257
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{path}' could not be decoded as UTF-8."
-msgstr "Не вдалося розшифрувати '{dep5}' як utf-8."
+msgstr "'{path}' не може бути декодовано як UTF-8."
 
 #: src/reuse/_main.py:263
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
-"'{dep5}' не вдалося розібрати. Ми отримали таке повідомлення про помилку: "
-"{message}"
+"'{path}' не вдалося розібрати. Ми отримали наступне повідомлення про помилку:"
+" {message}"
 
 #: src/reuse/_util.py:367 src/reuse/global_licensing.py:218
 #, python-brace-format
@@ -383,9 +388,8 @@ msgstr ""
 "ліцензії SPDX."
 
 #: src/reuse/convert_dep5.py:68
-#, fuzzy
 msgid "no '.reuse/dep5' file"
-msgstr "Створення .reuse/dep5"
+msgstr "немає файлу '.reuse/dep5"
 
 #: src/reuse/download.py:130
 msgid "SPDX License Identifier of license"
@@ -443,6 +447,7 @@ msgstr "не можна використовувати --output з кілько�
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
+"{attr_name} має бути {type_name} (отримано {value}, що є {value_class})."
 
 #: src/reuse/global_licensing.py:122
 #, python-brace-format
@@ -450,22 +455,26 @@ msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
+"Елемент у колекції {attr_name} має бути {type_name} (отримав {item_value}, "
+"що є {item_class})."
 
 #: src/reuse/global_licensing.py:133
 #, python-brace-format
 msgid "{attr_name} must not be empty."
-msgstr ""
+msgstr "{attr_name} не повинне бути порожнім."
 
 #: src/reuse/global_licensing.py:156
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
-msgstr ""
+msgstr "{name} має бути {type} (отримано {value}, яке є {value_type})."
 
 #: src/reuse/global_licensing.py:179
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
 msgstr ""
+"Значення 'precedence' має бути одним з {precedence_vals} (отримано "
+"{received})"
 
 #: src/reuse/header.py:99
 msgid "generated comment is missing copyright lines or license expressions"
@@ -486,9 +495,8 @@ msgid "formats output as plain text"
 msgstr "форматує вивід як звичайний текст"
 
 #: src/reuse/lint.py:45
-#, fuzzy
 msgid "formats output as errors per line"
-msgstr "форматує вивід як звичайний текст"
+msgstr "форматує вивід у вигляді помилок на рядок"
 
 #: src/reuse/lint.py:64
 msgid "BAD LICENSES"
@@ -583,14 +591,12 @@ msgid "Read errors:"
 msgstr "Помилки читання:"
 
 #: src/reuse/lint.py:181
-#, fuzzy
 msgid "Files with copyright information:"
-msgstr "файли з відомостями про авторські права:"
+msgstr "Файли з інформацією про авторські права:"
 
 #: src/reuse/lint.py:185
-#, fuzzy
 msgid "Files with license information:"
-msgstr "файли з відомостями про ліцензію:"
+msgstr "Файли з інформацією про ліцензію:"
 
 #: src/reuse/lint.py:202
 msgid ""
@@ -611,53 +617,53 @@ msgstr "РЕКОМЕНДАЦІЇ"
 #: src/reuse/lint.py:289
 #, python-brace-format
 msgid "{path}: bad license {lic}\n"
-msgstr ""
+msgstr "{path}: bad license {lic}\n"
 
 #: src/reuse/lint.py:296
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{lic_path}: deprecated license\n"
-msgstr "Застарілі ліцензії:"
+msgstr "{lic_path}: застаріла ліцензія\n"
 
 #: src/reuse/lint.py:303
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{lic_path}: license without file extension\n"
-msgstr "Ліцензії без розширення файлу:"
+msgstr "{lic_path}: ліцензія без розширення файлу\n"
 
 #: src/reuse/lint.py:312
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{lic_path}: unused license\n"
-msgstr "Невикористані ліцензії:"
+msgstr "{lic_path}: невикористана ліцензія\n"
 
 #: src/reuse/lint.py:319
 #, python-brace-format
 msgid "{path}: missing license {lic}\n"
-msgstr ""
+msgstr "{path}: зникла ліцензія {lic}\n"
 
 #: src/reuse/lint.py:326
 #, python-brace-format
 msgid "{path}: read error\n"
-msgstr ""
+msgstr "{path}: помилка читання\n"
 
 #: src/reuse/lint.py:330
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path}: no license identifier\n"
-msgstr "'{}' не є дійсним ідентифікатором ліцензії SPDX."
+msgstr "{path}: немає ідентифікатора ліцензії\n"
 
 #: src/reuse/lint.py:334
 #, python-brace-format
 msgid "{path}: no copyright notice\n"
-msgstr ""
+msgstr "{path}: без повідомлення про авторське право\n"
 
 #: src/reuse/project.py:262
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{path}' covered by {global_path}"
-msgstr "'{path}' охоплюється .reuse/dep5"
+msgstr "'{path}' покрито за рахунок {global_path}"
 
 #: src/reuse/project.py:270
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
-msgstr ""
+msgstr "'{path}' покрито виключно файлом REUSE.toml. Не читаючи вміст файлу."
 
 #: src/reuse/project.py:277
 #, python-brace-format
@@ -669,7 +675,7 @@ msgstr ""
 "не коментується; пошук інформації у його вмісті для REUSE не виконується."
 
 #: src/reuse/project.py:292
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Copyright and licensing information for '{original_path}' has been found in "
 "both '{path}' and in the DEP5 file located at '{dep5_path}'. The information "
@@ -678,19 +684,20 @@ msgid ""
 "convert-dep5` to convert. Run with `--suppress-deprecation` to hide this "
 "warning."
 msgstr ""
-"Інформацію про авторське право та ліцензування для '{original_path}' можна "
-"знайти як у '{path}', так і у файлі DEP5, розташованому за адресою "
-"'{dep5_path}'. Інформація для цих двох джерел була агрегована. У майбутньому "
-"ця поведінка зміниться, і вам потрібно буде явно ввімкнути агрегування. "
-"Перегляньте <https://github.com/fsfe/reuse-tool/issues/779>. Наразі вам не "
-"потрібно нічого робити. Запустіть  `reuse --suppress-deprecation lint`, щоб "
-"сховати це попередження."
+"Інформацію про авторське право та ліцензування для '{original_path}' "
+"знайдено як в '{path}', так і у файлі DEP5, розташованому за адресою "
+"'{dep5_path}'. Інформація з цих двох джерел була об'єднана. Замість цього "
+"рекомендовано використовувати REUSE.txt, де ви можете вказати порядок "
+"пріоритету. Використовуйте `reuse convert-dep5` для перетворення. Запустіть "
+"з `--suppress-deprecation`, щоб приховати це попередження."
 
 #: src/reuse/project.py:359
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
+"'.reuse/dep5' є застарілим. Замість нього рекомендовано використовувати "
+"REUSE.toml. Для перетворення використовуйте `reuse convert-dep5`."
 
 #: src/reuse/project.py:373
 #, python-brace-format
@@ -698,6 +705,8 @@ msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
+"Знайдено як '{new_path}', так і '{old_path}'. Ви не можете зберігати обидва "
+"файли одночасно, вони несумісні."
 
 #: src/reuse/project.py:439
 #, python-brace-format
