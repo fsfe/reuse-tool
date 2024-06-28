@@ -1,14 +1,15 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin <kirelagin@gmail.com>
+# SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
-# SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Alliander N.V. <https://alliander.com>
+# SPDX-FileCopyrightText: 2021 Alvar Penning
 # SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
-# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2024 Rivos Inc.
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -18,7 +19,7 @@ import datetime
 import logging
 import os
 import sys
-from argparse import ArgumentParser, Namespace
+from argparse import SUPPRESS, ArgumentParser, Namespace
 from gettext import gettext as _
 from pathlib import Path
 from typing import IO, Iterable, Optional, Set, Tuple, Type, cast
@@ -477,6 +478,12 @@ def add_arguments(parser: ArgumentParser) -> None:
         "--skip-unrecognised",
         action="store_true",
         help=_("skip files with unrecognised comment styles"),
+    )
+    style_mutex_group.add_argument(
+        "--skip-unrecognized",
+        dest="skip_unrecognised",
+        action="store_true",
+        help=SUPPRESS,
     )
     parser.add_argument(
         "--skip-existing",

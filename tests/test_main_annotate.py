@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Stefan Bakker <s.bakker777@gmail.com>
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
-# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 Maxim Cournoyer <maxim.cournoyer@gmail.com>
+# SPDX-FileCopyrightText: 2024 Rivos Inc.
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -563,7 +564,12 @@ def test_annotate_unrecognised_style(fake_repository, capsys):
     assert "foo.foo" in stdout
 
 
-def test_annotate_skip_unrecognised(fake_repository, stringio):
+@pytest.mark.parametrize(
+    "skip_unrecognised", ["--skip-unrecognised", "--skip-unrecognized"]
+)
+def test_annotate_skip_unrecognised(
+    fake_repository, skip_unrecognised, stringio
+):
     """Skip file that has an unrecognised extension."""
     simple_file = fake_repository / "foo.foo"
     simple_file.write_text("pass")
@@ -575,7 +581,7 @@ def test_annotate_skip_unrecognised(fake_repository, stringio):
             "GPL-3.0-or-later",
             "--copyright",
             "Jane Doe",
-            "--skip-unrecognised",
+            skip_unrecognised,
             "foo.foo",
         ],
         out=stringio,
