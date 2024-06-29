@@ -810,6 +810,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".v": CppCommentStyle,  # V-Lang source code
     ".vala": CppCommentStyle,
     ".vbproj": HtmlCommentStyle,
+    ".vhdl": HaskellCommentStyle,
     ".vim": VimCommentStyle,
     ".vm": VelocityCommentStyle,
     ".vsh": CppCommentStyle,  # V-Lang script
