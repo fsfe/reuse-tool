@@ -1,9 +1,9 @@
 # SPDX-FileCopyrightText: 2021 Liam Beguin <liambeguin@gmail.com>
+# SPDX-FileCopyrightText: 2024 Rivos Inc.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for reuse._main: annotate merge-copyrights option"""
-
 
 from inspect import cleandoc
 
@@ -102,7 +102,7 @@ def test_annotate_merge_copyrights_multi_prefix(fake_repository, stringio):
                 str(2015 + i),
                 "--license",
                 "GPL-3.0-or-later",
-                "--copyright-style",
+                "--copyright-prefix",
                 "string-c",
                 "--copyright",
                 "Mary Sue",

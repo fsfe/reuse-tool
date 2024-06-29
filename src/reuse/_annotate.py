@@ -30,7 +30,7 @@ from jinja2.exceptions import TemplateNotFound
 
 from . import ReuseInfo
 from ._util import (
-    _COPYRIGHT_STYLES,
+    _COPYRIGHT_PREFIXES,
     PathType,
     StrPath,
     _determine_license_path,
@@ -305,13 +305,13 @@ def get_reuse_info(args: Namespace, year: Optional[str]) -> ReuseInfo:
     --contributor.
     """
     expressions = set(args.license) if args.license is not None else set()
-    copyright_style = (
-        args.copyright_style if args.copyright_style is not None else "spdx"
+    copyright_prefix = (
+        args.copyright_prefix if args.copyright_prefix is not None else "spdx"
     )
     copyright_lines = (
         {
             make_copyright_line(
-                item, year=year, copyright_style=copyright_style
+                item, year=year, copyright_prefix=copyright_prefix
             )
             for item in args.copyright
         }
@@ -411,10 +411,16 @@ def add_arguments(parser: ArgumentParser) -> None:
         help=_("comment style to use, optional"),
     )
     parser.add_argument(
+        "--copyright-prefix",
+        action="store",
+        choices=list(_COPYRIGHT_PREFIXES.keys()),
+        help=_("copyright prefix to use, optional"),
+    )
+    parser.add_argument(
         "--copyright-style",
         action="store",
-        choices=list(_COPYRIGHT_STYLES.keys()),
-        help=_("copyright style to use, optional"),
+        dest="copyright_prefix",
+        help=SUPPRESS,
     )
     parser.add_argument(
         "--template",
