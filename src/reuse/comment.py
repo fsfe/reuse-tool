@@ -1,21 +1,22 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2019 Kirill Elagin
 # SPDX-FileCopyrightText: 2020 Dmitry Bogatov
-# SPDX-FileCopyrightText: 2021-2022 Alliander N.V. <https://alliander.com>
 # SPDX-FileCopyrightText: 2021 Alvar Penning
-# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-FileCopyrightText: 2021 Matija Šuklje <matija@suklje.name>
+# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2022 Alliander N.V. <https://alliander.com>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
-# SPDX-FileCopyrightText: 2022 Stefan Hynek <stefan.hynek@uni-goettingen.de>
-# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Sebastian Crane <seabass@fsfe.org>
-# SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
+# SPDX-FileCopyrightText: 2022 Stefan Hynek <stefan.hynek@uni-goettingen.de>
+# SPDX-FileCopyrightText: 2023 Juelich Supercomputing Centre, Forschungszentrum Juelich GmbH
 # SPDX-FileCopyrightText: 2023 Kevin Meagher
 # SPDX-FileCopyrightText: 2023 Mathias Dannesbo <md@magenta.dk>
-# SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
-# SPDX-FileCopyrightText: 2023 Juelich Supercomputing Centre, Forschungszentrum Juelich GmbH
 # SPDX-FileCopyrightText: 2023 Maxim Cournoyer <maxim.cournoyer@gmail.com>
+# SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
+# SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
+# SPDX-FileCopyrightText: 2024 Rivos Inc.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -700,6 +701,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".lisp": LispCommentStyle,
     ".lsp": LispCommentStyle,
     ".lua": HaskellCommentStyle,
+    ".m": TexCommentStyle,
     ".m4": M4CommentStyle,
     ".man": UnixManCommentStyle,
     ".markdown": HtmlCommentStyle,
