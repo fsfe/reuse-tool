@@ -695,7 +695,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".kts": CppCommentStyle,
     ".l": LispCommentStyle,
     ".latex": TexCommentStyle,
-    ".ld": CppCommentStyle,
+    ".ld": CCommentStyle,
     ".less": CCommentStyle,
     ".license": EmptyCommentStyle,
     ".lisp": LispCommentStyle,
