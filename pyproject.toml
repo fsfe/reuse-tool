@@ -7,7 +7,7 @@
 
 [tool.poetry]
 name = "reuse"
-version = "3.1.0"
+version = "4.0.0"
 description = "reuse is a tool for compliance with the REUSE recommendations."
 authors = [
     "Free Software Foundation Europe <contact@fsfe.org>",
@@ -102,7 +102,7 @@ requires = ["poetry-core>=1.1.0"]
 build-backend = "poetry.core.masonry.api"
 
 [bumpver]
-current_version = "v3.1.0"
+current_version = "v4.0.0"
 version_pattern = "vMAJOR.MINOR.PATCH[PYTAGNUM]"
 commit_message = "Bump version: {old_version} → {new_version}"
 tag_message = "{new_version}"
