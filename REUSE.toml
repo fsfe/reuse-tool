@@ -50,7 +50,12 @@ SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsf
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = "flake.lock"
+path = ".github/pull_request_template.md"
 precedence = "override"
-SPDX-FileCopyrightText = "2017 Free Software Foundation Europe e.V. <https://fsfe.org>"
+SPDX-FileCopyrightText = "2024 Free Software Foundation Europe e.V. <https://fsfe.org>"
 SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "changelog.d/**/*.md"
+SPDX-FileCopyrightText = "REUSE contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0 OR GPL-3.0-or-later"
