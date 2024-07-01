@@ -39,7 +39,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
-## 3.1.0 - YYYY-MM-DD
+## 4.0.0 - YYYY-MM-DD
 
 This release of REUSE implements the new
 [REUSE Specification v3.2](https://reuse.software/spec-3.2). It adds the
@@ -59,6 +59,8 @@ Your distribution's packager will need to make them accessible via
 `man reuse(1)`. Unfortunately, man pages cannot be made accessible via Python's
 packaging, although the full documentation (including man pages) is included in
 the sdist.
+
+This changeset also contains the changes of v3.1.0a1.
 
 ### Added
 
