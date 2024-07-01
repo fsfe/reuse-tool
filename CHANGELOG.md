@@ -60,6 +60,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Fixed
 
+- In `reuse spdx`, fixed the output to be more compliant by capitalising
+  `SPDXRef-Document DESCRIBES` appropriately. (#1013)
+
 ### Security
 
 ## 3.1.0a1 - 2024-05-28
