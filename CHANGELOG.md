@@ -52,7 +52,9 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Zsh (`.zshrc`) (#997)
   - Perl test (`.t`) (#997)
   - BATS test (`.bats`) (#997)
-- Support alternate spelling `--skip-unrecognized` (#974)
+- Support alternate spelling `--skip-unrecognized`. (#974)
+- In `annotate`, rename `--copyright-style` to `--copyright-prefix`. The former
+  parameter is still supported. (#973)
 
 ### Changed
 

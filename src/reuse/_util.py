@@ -6,6 +6,7 @@
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Johannes Zarl-Zierl <johannes@zarl-zierl.at>
+# SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -128,7 +129,7 @@ _COPYRIGHT_PATTERNS = [
         r"(?P<statement>.*?))" + _END_PATTERN
     ),
 ]
-_COPYRIGHT_STYLES = {
+_COPYRIGHT_PREFIXES = {
     "spdx": "SPDX-FileCopyrightText:",
     "spdx-c": "SPDX-FileCopyrightText: (C)",
     "spdx-symbol": "SPDX-FileCopyrightText: ©",
@@ -317,16 +318,16 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
             item for item in copyright_in if item["statement"] == statement
         ]
 
-        # Get the style of the most common prefix
-        prefix = str(
+        # Get the most common prefix.
+        most_common = str(
             Counter([item["prefix"] for item in copyright_list]).most_common(1)[
                 0
             ][0]
         )
-        style = "spdx"
-        for key, value in _COPYRIGHT_STYLES.items():
-            if prefix == value:
-                style = key
+        prefix = "spdx"
+        for key, value in _COPYRIGHT_PREFIXES.items():
+            if most_common == value:
+                prefix = key
                 break
 
         # get year range if any
@@ -341,7 +342,7 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
             else:
                 year = f"{min(years)} - {max(years)}"
 
-        copyright_out.add(make_copyright_line(statement, year, style))
+        copyright_out.add(make_copyright_line(statement, year, prefix))
     return copyright_out
 
 
@@ -492,7 +493,7 @@ def contains_reuse_info(text: str) -> bool:
 
 
 def make_copyright_line(
-    statement: str, year: Optional[str] = None, copyright_style: str = "spdx"
+    statement: str, year: Optional[str] = None, copyright_prefix: str = "spdx"
 ) -> str:
     """Given a statement, prefix it with ``SPDX-FileCopyrightText:`` if it is
     not already prefixed with some manner of copyright tag.
@@ -500,10 +501,11 @@ def make_copyright_line(
     if "\n" in statement:
         raise RuntimeError(f"Unexpected newline in '{statement}'")
 
-    copyright_prefix = _COPYRIGHT_STYLES.get(copyright_style)
-    if copyright_prefix is None:
+    prefix = _COPYRIGHT_PREFIXES.get(copyright_prefix)
+    if prefix is None:
+        # TODO: Maybe translate this. Also maybe reduce DRY here.
         raise RuntimeError(
-            "Unexpected copyright style: Need 'spdx', 'spdx-c', "
+            "Unexpected copyright prefix: Need 'spdx', 'spdx-c', "
             "'spdx-symbol', 'string', 'string-c', "
             "'string-symbol', or 'symbol'"
         )
@@ -513,8 +515,8 @@ def make_copyright_line(
         if match is not None:
             return statement
     if year is not None:
-        return f"{copyright_prefix} {year} {statement}"
-    return f"{copyright_prefix} {statement}"
+        return f"{prefix} {year} {statement}"
+    return f"{prefix} {statement}"
 
 
 def _checksum(path: StrPath) -> str:
