@@ -129,6 +129,7 @@ the sdist.
 - The PendingDeprecationWarning for the aggregation of information between DEP5
   and the contents of a file has been removed. This behaviour is now explicitly
   specified in REUSE Specification v3.2. (#1017, related to #779)
+- `reuse init` removed. (#863)
 
 ### Fixed
 
