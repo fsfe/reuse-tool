@@ -276,6 +276,45 @@ def test_annotate_no_year(fake_repository, stringio):
     assert simple_file.read_text() == expected
 
 
+@pytest.mark.parametrize(
+    "copyright_prefix", ["--copyright-prefix", "--copyright-style"]
+)
+def test_annotate_copyright_prefix(
+    fake_repository, copyright_prefix, stringio, mock_date_today
+):
+    """Add a header with a specific copyright prefix. Also test the old name of
+    the parameter.
+    """
+    simple_file = fake_repository / "foo.py"
+    simple_file.write_text("pass")
+    expected = cleandoc(
+        """
+        # Copyright 2018 Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    )
+
+    result = main(
+        [
+            "annotate",
+            "--license",
+            "GPL-3.0-or-later",
+            "--copyright",
+            "Jane Doe",
+            copyright_prefix,
+            "string",
+            "foo.py",
+        ],
+        out=stringio,
+    )
+
+    assert result == 0
+    assert simple_file.read_text() == expected
+
+
 def test_annotate_shebang(fake_repository, stringio):
     """Keep the shebang when annotating."""
     simple_file = fake_repository / "foo.py"
