@@ -23,21 +23,7 @@ The versions follow [semantic versioning](https://semver.org) for the `reuse`
 CLI command and its behaviour. There are no guarantees of stability for the
 `reuse` Python library.
 
-<!--
-## Unreleased - YYYY-MM-DD
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
--->
+<!-- protokolo-section-tag -->
 
 ## Unreleased - YYYY-MM-DD
 
