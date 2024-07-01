@@ -132,8 +132,6 @@ the sdist.
 
 ### Fixed
 
-- Clearer instructions for `--suppress-deprecation` in deprecation warning.
-  (#949)
 - The datetime value for `Created:` was wrongly formatted since 3.0.0. It now
   returns a correctly formatted ISO 8601 date again. (#952)
 - Repaired the behaviour of `reuse download` where being inside of a LICENSES/
