@@ -41,11 +41,30 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ## 3.1.0 - YYYY-MM-DD
 
+This release of REUSE implements the new
+[REUSE Specification v3.2](https://reuse.software/spec-3.2). It adds the
+`REUSE.toml` file format as a replacement for `.reuse/dep5`. The new format is
+easier to write and parse, is better at disambiguating certain corner cases, and
+is more flexible for customisation and future additions.
+
+Alongside the `REUSE.toml` feature is a wealth of other improvements.
+`reuse lint --lines` may be especially interesting for CI workflows, as well as
+the fact that the amount of `PendingDeprecationWarning`s has been drastically
+reduced now that the information aggregation behaviour of `.reuse/dep5` is
+explicitly defined in the specification.
+
+The tool has also been made easier to use with the addition of man pages. The
+man pages can be found online at <https://reuse.readthedocs.io/en/stable/man/>.
+Your distribution's packager will need to make them accessible via
+`man reuse(1)`. Unfortunately, man pages cannot be made accessible via Python's
+packaging, although the full documentation (including man pages) is included in
+the sdist.
+
 ### Added
 
 - Added support for `REUSE.toml`. (#863)
-- Manpages added for all `reuse` commands. Distribution maintainers might wish
-  to distribute the (Sphinx-built) manpages. (#975)
+- Man pages added for all `reuse` commands. Distribution maintainers might wish
+  to distribute the (Sphinx-built) man pages. (#975)
 - More file types are recognised:
   - Assembler (`.asm`) (#928)
   - GraphQL (`.graphqls`, `.gqls`) (#930)
