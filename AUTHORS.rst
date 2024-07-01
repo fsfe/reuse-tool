@@ -17,67 +17,36 @@ Contributors
 ------------
 
 - Sebastian Schuberth <schuberth@fsfe.org>
-
 - Max Mehl <max.mehl@fsfe.org>
-
 - Matija Šuklje <matija@suklje.name>
-
 - Greg Kroah-Hartman
-
 - Basil Peace
-
 - Keith Maxwell
-
 - Stefan Bakker <s.bakker777@gmail.com>
-
 - Kirill Elagin <kirelagin@gmail.com>
-
 - John Mulligan <jmulligan@redhat.com>
-
 - Tuomas Siipola <tuomas@zpl.fi>
-
 - Diego Elio Pettenò <flameeyes@flameeyes.com>
-
 - David Alfonso
-
 - Maximilian Dolling <mdolling@gfz-potsdam.de>
-
 - yoctocell
-
 - Tuomas Siipola
-
 - Gri-ffin <gameshunter359@gmail.com>
-
 - Nico Rikken <nico.rikken@fsfe.org>
-
 - Florian Snow <florian@familysnow.net>
-
 - Linus Sehn <linus@fsfe.org>
-
 - Yaman Qalieh
-
 - Pietro Albini <pietro.albini@ferrous-systems.com>
-
 - Matthias Riße
-
 - Stefan Hynek <stefan.hynek@uni-goettingen.de>
-
 - rajivsunar07
-
 - roberto-red <roberto@redradix.com>
-
 - Shun Sakai
-
 - Dirk Brömmel
-
 - Robin Vobruba
-
 - Markus Haug <korrat@proton.me>
-
 - Kevin Broch
-
 - Anthony Loiseau
-
 - Apteryks
 
 Translators
@@ -86,13 +55,11 @@ Translators
 - Dutch:
 
   + André Ockers <ao@fsfe.org>
-
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
 
 - French:
 
   + OliBug <act-zebug@riseup.net>
-
   + Vincent Lequertier <vincent@fsfe.org>
 
 - Galician:
@@ -102,13 +69,11 @@ Translators
 - German:
 
   + Max Mehl <max.mehl@fsfe.org>
-
   + Thomas Doczkal <doczkal@fsfe.org>
 
 - Esperanto:
 
   + Carmen Bianca Bakker <carmenbianca@fsfe.org>
-
   + Tirifto <tirifto@posteo.cz>
 
 - Italian:
@@ -122,9 +87,7 @@ Translators
 - Spanish:
 
   + flow <adolflow@sindominio.net>
-
   + pd <euklade@gmail.com>
-
   + Roberto Bauglir <bauglir@fsfe.org>
 
 - Turkish:
