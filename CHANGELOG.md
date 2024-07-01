@@ -58,6 +58,10 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Removed
 
+- The PendingDeprecationWarning for the aggregation of information between DEP5
+  and the contents of a file has been removed. This behaviour is now explicitly
+  specified in REUSE Specification v3.2. (#1017, related to #779)
+
 ### Fixed
 
 ### Security
