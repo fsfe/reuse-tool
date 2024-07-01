@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 12:41+0000\n"
+"POT-Creation-Date: 2024-07-01 07:50+0000\n"
 "PO-Revision-Date: 2024-05-25 05:09+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -20,7 +20,7 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.6-dev\n"
 
-#: src/reuse/_annotate.py:73
+#: src/reuse/_annotate.py:74
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use --single-"
@@ -29,7 +29,7 @@ msgstr ""
 "'{path}' не поддерживает однострочные комментарии, пожалуйста, не "
 "используйте --single-line"
 
-#: src/reuse/_annotate.py:80
+#: src/reuse/_annotate.py:81
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use --multi-line"
@@ -37,27 +37,27 @@ msgstr ""
 "'{path}' не поддерживает многострочные комментарии, пожалуйста, не "
 "используйте --multi-line"
 
-#: src/reuse/_annotate.py:135
+#: src/reuse/_annotate.py:136
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
 msgstr "Пропущен нераспознанный файл '{path}'"
 
-#: src/reuse/_annotate.py:141
+#: src/reuse/_annotate.py:142
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
 msgstr "'{path}' не распознан; создаем '{path}. лицензия'"
 
-#: src/reuse/_annotate.py:157
+#: src/reuse/_annotate.py:158
 #, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
 msgstr "Пропущенный файл '{path}' уже содержит информацию о REUSE"
 
-#: src/reuse/_annotate.py:191
+#: src/reuse/_annotate.py:192
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr "Ошибка: Не удалось создать комментарий для '{path}'"
 
-#: src/reuse/_annotate.py:198
+#: src/reuse/_annotate.py:199
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -69,30 +69,30 @@ msgstr ""
 "удалось написать новый заголовок."
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:209
+#: src/reuse/_annotate.py:210
 #, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr "Успешно изменен заголовок {path}"
 
-#: src/reuse/_annotate.py:220
+#: src/reuse/_annotate.py:221
 msgid "--skip-unrecognised has no effect when used together with --style"
 msgstr ""
 "--skip-unrecognised не имеет эффекта, если используется вместе с --style"
 
-#: src/reuse/_annotate.py:230
+#: src/reuse/_annotate.py:231
 msgid "option --contributor, --copyright or --license is required"
 msgstr "Требуется опция --создатель, - авторское право или --лицензия"
 
-#: src/reuse/_annotate.py:271
+#: src/reuse/_annotate.py:272
 #, python-brace-format
 msgid "template {template} could not be found"
 msgstr "Шаблон {template} не найден"
 
-#: src/reuse/_annotate.py:340 src/reuse/_util.py:571
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:571
 msgid "can't write to '{}'"
 msgstr "Невозможно записать в '{}'"
 
-#: src/reuse/_annotate.py:365
+#: src/reuse/_annotate.py:366
 msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license, --fallback-dot-license, or --skip-unrecognised:"
@@ -100,84 +100,84 @@ msgstr ""
 "Следующие файлы не имеют распознанного расширения. Пожалуйста, используйте --"
 "style, --force-dot-license, --fallback-dot-license или --skip-unrecognised:"
 
-#: src/reuse/_annotate.py:381
+#: src/reuse/_annotate.py:382
 msgid "copyright statement, repeatable"
 msgstr "заявление об авторских правах, повторяемое"
 
-#: src/reuse/_annotate.py:388
+#: src/reuse/_annotate.py:389
 msgid "SPDX Identifier, repeatable"
 msgstr "Идентификатор SPDX, повторяемый"
 
-#: src/reuse/_annotate.py:394
+#: src/reuse/_annotate.py:395
 msgid "file contributor, repeatable"
 msgstr "вкладчик файлов, повторяемость"
 
-#: src/reuse/_annotate.py:402
+#: src/reuse/_annotate.py:403
 msgid "year of copyright statement, optional"
 msgstr "год утверждения авторского права, необязательно"
 
-#: src/reuse/_annotate.py:410
+#: src/reuse/_annotate.py:411
 msgid "comment style to use, optional"
 msgstr "стиль комментария, который следует использовать, необязательно"
 
-#: src/reuse/_annotate.py:416
+#: src/reuse/_annotate.py:417
 msgid "copyright style to use, optional"
 msgstr "стиль авторского права, который будет использоваться, необязательно"
 
-#: src/reuse/_annotate.py:423
+#: src/reuse/_annotate.py:424
 msgid "name of template to use, optional"
 msgstr "имя шаблона, который будет использоваться, необязательно"
 
-#: src/reuse/_annotate.py:428
+#: src/reuse/_annotate.py:429
 msgid "do not include year in statement"
 msgstr "не указывайте год в отчете"
 
-#: src/reuse/_annotate.py:433
+#: src/reuse/_annotate.py:434
 msgid "merge copyright lines if copyright statements are identical"
 msgstr ""
 "объединить строки с авторскими правами, если заявления об авторских правах "
 "идентичны"
 
-#: src/reuse/_annotate.py:439
+#: src/reuse/_annotate.py:440
 msgid "force single-line comment style, optional"
 msgstr "стиль однострочных комментариев, необязательно"
 
-#: src/reuse/_annotate.py:444
+#: src/reuse/_annotate.py:445
 msgid "force multi-line comment style, optional"
 msgstr "установить стиль многострочного комментария, необязательно"
 
-#: src/reuse/_annotate.py:451
+#: src/reuse/_annotate.py:452
 msgid "add headers to all files under specified directories recursively"
 msgstr "рекурсивно добавлять заголовки ко всем файлам в указанных каталогах"
 
-#: src/reuse/_annotate.py:458
+#: src/reuse/_annotate.py:459
 msgid "do not replace the first header in the file; just add a new one"
 msgstr "не заменяйте первый заголовок в файле; просто добавьте новый"
 
-#: src/reuse/_annotate.py:466
+#: src/reuse/_annotate.py:467
 msgid "always write a .license file instead of a header inside the file"
 msgstr "всегда записывайте файл .license вместо заголовка внутри файла"
 
-#: src/reuse/_annotate.py:473
+#: src/reuse/_annotate.py:474
 msgid "write a .license file to files with unrecognised comment styles"
 msgstr ""
 "записывать файл .license в файлы с нераспознанными стилями комментариев"
 
-#: src/reuse/_annotate.py:479
+#: src/reuse/_annotate.py:480
 msgid "skip files with unrecognised comment styles"
 msgstr "пропускать файлы с нераспознанными стилями комментариев"
 
-#: src/reuse/_annotate.py:484
+#: src/reuse/_annotate.py:491
 msgid "skip files that already contain REUSE information"
 msgstr "пропускать файлы, которые уже содержат информацию о REUSE"
 
-#: src/reuse/_annotate.py:519
+#: src/reuse/_annotate.py:526
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
 "'{path}' - двоичный файл, поэтому для заголовка используется '{new_path}'"
 
-#: src/reuse/_main.py:38
+#: src/reuse/_main.py:39
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
@@ -187,7 +187,7 @@ msgstr ""
 "информацию см. на сайте <https://reuse.software/>, а онлайн-документацию - "
 "на сайте <https://reuse.readthedocs.io/>."
 
-#: src/reuse/_main.py:44
+#: src/reuse/_main.py:45
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
@@ -195,11 +195,11 @@ msgstr ""
 "Эта версия повторного использования совместима с версией {} спецификации "
 "REUSE."
 
-#: src/reuse/_main.py:47
+#: src/reuse/_main.py:48
 msgid "Support the FSFE's work:"
 msgstr "Поддержите работу ФСПО:"
 
-#: src/reuse/_main.py:51
+#: src/reuse/_main.py:52
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
@@ -210,44 +210,44 @@ msgstr ""
 "обеспечения везде, где это необходимо. Пожалуйста, рассмотрите возможность "
 "сделать пожертвование по адресу <https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:74
+#: src/reuse/_main.py:75
 msgid "enable debug statements"
 msgstr "включить отладочные операторы"
 
-#: src/reuse/_main.py:79
+#: src/reuse/_main.py:80
 msgid "hide deprecation warnings"
 msgstr "скрыть предупреждения об устаревании"
 
-#: src/reuse/_main.py:84
+#: src/reuse/_main.py:85
 msgid "do not skip over Git submodules"
 msgstr "не пропускайте подмодули Git"
 
-#: src/reuse/_main.py:89
+#: src/reuse/_main.py:90
 msgid "do not skip over Meson subprojects"
 msgstr "не пропускайте мезонные подпроекты"
 
-#: src/reuse/_main.py:94
+#: src/reuse/_main.py:95
 msgid "do not use multiprocessing"
 msgstr "не используйте многопроцессорную обработку"
 
-#: src/reuse/_main.py:101
+#: src/reuse/_main.py:102
 msgid "define root of project"
 msgstr "определить корень проекта"
 
-#: src/reuse/_main.py:106
+#: src/reuse/_main.py:107
 msgid "show program's version number and exit"
 msgstr "показать номер версии программы и выйти"
 
-#: src/reuse/_main.py:110
+#: src/reuse/_main.py:111
 msgid "subcommands"
 msgstr "подкоманды"
 
-#: src/reuse/_main.py:117
+#: src/reuse/_main.py:118
 msgid "add copyright and licensing into the header of files"
 msgstr ""
 "добавьте в заголовок файлов информацию об авторских правах и лицензировании"
 
-#: src/reuse/_main.py:120
+#: src/reuse/_main.py:121
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -267,19 +267,19 @@ msgstr ""
 "которые внесли свой вклад, но не являются владельцами авторских прав на "
 "данные файлы."
 
-#: src/reuse/_main.py:139
+#: src/reuse/_main.py:140
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "загрузите лицензию и поместите ее в каталог LICENSES/"
 
-#: src/reuse/_main.py:141
+#: src/reuse/_main.py:142
 msgid "Download a license and place it in the LICENSES/ directory."
 msgstr "Загрузите лицензию и поместите ее в каталог LICENSES/."
 
-#: src/reuse/_main.py:150
+#: src/reuse/_main.py:151
 msgid "list all non-compliant files"
 msgstr "список всех файлов, не соответствующих требованиям"
 
-#: src/reuse/_main.py:153
+#: src/reuse/_main.py:154
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -317,24 +317,24 @@ msgstr ""
 "- Все ли файлы содержат достоверную информацию об авторских правах и "
 "лицензировании?"
 
-#: src/reuse/_main.py:180
+#: src/reuse/_main.py:181
 msgid "print the project's bill of materials in SPDX format"
 msgstr "распечатать ведомость материалов проекта в формате SPDX"
 
-#: src/reuse/_main.py:188
+#: src/reuse/_main.py:189
 msgid "list all supported SPDX licenses"
 msgstr "список всех поддерживаемых лицензий SPDX"
 
-#: src/reuse/_main.py:197
+#: src/reuse/_main.py:198
 msgid "convert .reuse/dep5 to REUSE.toml"
 msgstr "Преобразование .reuse/dep5 в REUSE.toml"
 
-#: src/reuse/_main.py:257
+#: src/reuse/_main.py:263
 #, python-brace-format
 msgid "'{path}' could not be decoded as UTF-8."
 msgstr "'{path}' не может быть декодирован как UTF-8."
 
-#: src/reuse/_main.py:263
+#: src/reuse/_main.py:269
 #, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
@@ -396,7 +396,7 @@ msgstr ""
 "Список допустимых идентификаторов лицензий SPDX см. в <https://spdx.org/"
 "licenses/>."
 
-#: src/reuse/convert_dep5.py:68
+#: src/reuse/convert_dep5.py:118
 msgid "no '.reuse/dep5' file"
 msgstr "Нет файла '.reuse/dep5'"
 
@@ -689,24 +689,7 @@ msgstr ""
 "'{path}' был обнаружен как двоичный файл; поиск информации о REUSE в его "
 "содержимом не производится."
 
-#: src/reuse/project.py:292
-#, python-brace-format
-msgid ""
-"Copyright and licensing information for '{original_path}' has been found in "
-"both '{path}' and in the DEP5 file located at '{dep5_path}'. The information "
-"for these two sources has been aggregated. You are recommended to instead "
-"use REUSE.toml, where you can specify the order of precedence. Use `reuse "
-"convert-dep5` to convert. Run with `--suppress-deprecation` to hide this "
-"warning."
-msgstr ""
-"Информация об авторских правах и лицензировании для '{original_path}' была "
-"найдена как в '{path}', так и в файле DEP5, расположенном по адресу "
-"'{dep5_path}'. Информация из этих двух источников была объединена. Вместо "
-"этого рекомендуется использовать REUSE.toml, где можно указать порядок "
-"приоритета. Для преобразования используйте `reuse convert-dep5`. Запускайте "
-"с `--suppress-deprecation`, чтобы скрыть это предупреждение."
-
-#: src/reuse/project.py:359
+#: src/reuse/project.py:334
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
@@ -714,7 +697,7 @@ msgstr ""
 "'.reuse/dep5' является устаревшим. Вместо него рекомендуется использовать "
 "REUSE.toml. Для преобразования используйте `reuse convert-dep5`."
 
-#: src/reuse/project.py:373
+#: src/reuse/project.py:348
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
@@ -723,17 +706,17 @@ msgstr ""
 "Найдены оба файла '{new_path}' и '{old_path}'. Вы не можете хранить оба "
 "файла одновременно; они несовместимы."
 
-#: src/reuse/project.py:439
+#: src/reuse/project.py:414
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "определяющий идентификатор '{path}'"
 
-#: src/reuse/project.py:447
+#: src/reuse/project.py:422
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "У {path} нет расширения файла"
 
-#: src/reuse/project.py:457
+#: src/reuse/project.py:432
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -746,14 +729,14 @@ msgstr ""
 "<https://spdx.org/licenses/> или что она начинается с 'LicenseRef-' и имеет "
 "расширение файла."
 
-#: src/reuse/project.py:469
+#: src/reuse/project.py:444
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} - это идентификатор лицензии SPDX для {path} и {other_path}"
 
-#: src/reuse/project.py:508
+#: src/reuse/project.py:483
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -1067,3 +1050,19 @@ msgstr "Неверный выбор: %(value)r (выберите из %(choices)
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: ошибка: %(message)s\n"
+
+#, python-brace-format
+#~ msgid ""
+#~ "Copyright and licensing information for '{original_path}' has been found "
+#~ "in both '{path}' and in the DEP5 file located at '{dep5_path}'. The "
+#~ "information for these two sources has been aggregated. You are "
+#~ "recommended to instead use REUSE.toml, where you can specify the order of "
+#~ "precedence. Use `reuse convert-dep5` to convert. Run with `--suppress-"
+#~ "deprecation` to hide this warning."
+#~ msgstr ""
+#~ "Информация об авторских правах и лицензировании для '{original_path}' "
+#~ "была найдена как в '{path}', так и в файле DEP5, расположенном по адресу "
+#~ "'{dep5_path}'. Информация из этих двух источников была объединена. Вместо "
+#~ "этого рекомендуется использовать REUSE.toml, где можно указать порядок "
+#~ "приоритета. Для преобразования используйте `reuse convert-dep5`. "
+#~ "Запускайте с `--suppress-deprecation`, чтобы скрыть это предупреждение."

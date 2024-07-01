@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 12:41+0000\n"
+"POT-Creation-Date: 2024-07-01 07:50+0000\n"
 "PO-Revision-Date: 2024-01-08 20:06+0000\n"
 "Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -18,40 +18,40 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.4-dev\n"
 
-#: src/reuse/_annotate.py:73
+#: src/reuse/_annotate.py:74
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use --single-"
 "line"
 msgstr ""
 
-#: src/reuse/_annotate.py:80
+#: src/reuse/_annotate.py:81
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use --multi-line"
 msgstr ""
 
-#: src/reuse/_annotate.py:135
+#: src/reuse/_annotate.py:136
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
 msgstr ""
 
-#: src/reuse/_annotate.py:141
+#: src/reuse/_annotate.py:142
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
 msgstr ""
 
-#: src/reuse/_annotate.py:157
+#: src/reuse/_annotate.py:158
 #, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
 msgstr ""
 
-#: src/reuse/_annotate.py:191
+#: src/reuse/_annotate.py:192
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr "Fehler: Kann kein Kommentar für '{path}' erstellen"
 
-#: src/reuse/_annotate.py:198
+#: src/reuse/_annotate.py:199
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -63,30 +63,30 @@ msgstr ""
 "falsch. Keine neuen Kopfzeile geschrieben."
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:209
+#: src/reuse/_annotate.py:210
 #, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr "Kopfzeilen von {path} erfolgreich geändert"
 
-#: src/reuse/_annotate.py:220
+#: src/reuse/_annotate.py:221
 #, fuzzy
 msgid "--skip-unrecognised has no effect when used together with --style"
 msgstr "--output hat keinen Effekt, wenn es zusammen mit --all benutzt wird"
 
-#: src/reuse/_annotate.py:230
+#: src/reuse/_annotate.py:231
 msgid "option --contributor, --copyright or --license is required"
 msgstr "Die Option --contributor, --copyright oder --license ist erforderlich"
 
-#: src/reuse/_annotate.py:271
+#: src/reuse/_annotate.py:272
 #, python-brace-format
 msgid "template {template} could not be found"
 msgstr "Vorlage {template} konnte nicht gefunden werden"
 
-#: src/reuse/_annotate.py:340 src/reuse/_util.py:571
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:571
 msgid "can't write to '{}'"
 msgstr "kann nicht in '{}' schreiben"
 
-#: src/reuse/_annotate.py:365
+#: src/reuse/_annotate.py:366
 #, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use --"
@@ -95,86 +95,86 @@ msgstr ""
 "'{path}' hat keine erkannte Dateiendung, bitte verwenden Sie --style oder --"
 "explicit-license"
 
-#: src/reuse/_annotate.py:381
+#: src/reuse/_annotate.py:382
 msgid "copyright statement, repeatable"
 msgstr "Urheberrechtsinformation, wiederholbar"
 
-#: src/reuse/_annotate.py:388
+#: src/reuse/_annotate.py:389
 msgid "SPDX Identifier, repeatable"
 msgstr "SPDX-Lizenz-Identifikator, wiederholbar"
 
-#: src/reuse/_annotate.py:394
+#: src/reuse/_annotate.py:395
 msgid "file contributor, repeatable"
 msgstr "Dateimitwirkender, wiederholbar"
 
-#: src/reuse/_annotate.py:402
+#: src/reuse/_annotate.py:403
 msgid "year of copyright statement, optional"
 msgstr "Jahr der Urheberrechtsinformation, optional"
 
-#: src/reuse/_annotate.py:410
+#: src/reuse/_annotate.py:411
 msgid "comment style to use, optional"
 msgstr "zu benutzender Kommentarstil, optional"
 
-#: src/reuse/_annotate.py:416
+#: src/reuse/_annotate.py:417
 #, fuzzy
 msgid "copyright style to use, optional"
 msgstr "zu benutzender Kommentarstil, optional"
 
-#: src/reuse/_annotate.py:423
+#: src/reuse/_annotate.py:424
 msgid "name of template to use, optional"
 msgstr "Name der zu verwendenden Vorlage, optional"
 
-#: src/reuse/_annotate.py:428
+#: src/reuse/_annotate.py:429
 msgid "do not include year in statement"
 msgstr "füge kein Jahr in Angabe hinzu"
 
-#: src/reuse/_annotate.py:433
+#: src/reuse/_annotate.py:434
 #, fuzzy
 msgid "merge copyright lines if copyright statements are identical"
 msgstr "Jahr der Urheberrechtsinformation, optional"
 
-#: src/reuse/_annotate.py:439
+#: src/reuse/_annotate.py:440
 #, fuzzy
 msgid "force single-line comment style, optional"
 msgstr "zu benutzender Kommentarstil, optional"
 
-#: src/reuse/_annotate.py:444
+#: src/reuse/_annotate.py:445
 #, fuzzy
 msgid "force multi-line comment style, optional"
 msgstr "zu benutzender Kommentarstil, optional"
 
-#: src/reuse/_annotate.py:451
+#: src/reuse/_annotate.py:452
 msgid "add headers to all files under specified directories recursively"
 msgstr ""
 
-#: src/reuse/_annotate.py:458
+#: src/reuse/_annotate.py:459
 msgid "do not replace the first header in the file; just add a new one"
 msgstr ""
 
-#: src/reuse/_annotate.py:466
+#: src/reuse/_annotate.py:467
 msgid "always write a .license file instead of a header inside the file"
 msgstr ""
 
-#: src/reuse/_annotate.py:473
+#: src/reuse/_annotate.py:474
 msgid "write a .license file to files with unrecognised comment styles"
 msgstr ""
 
-#: src/reuse/_annotate.py:479
+#: src/reuse/_annotate.py:480
 msgid "skip files with unrecognised comment styles"
 msgstr ""
 
-#: src/reuse/_annotate.py:484
+#: src/reuse/_annotate.py:491
 #, fuzzy
 msgid "skip files that already contain REUSE information"
 msgstr "Dateien mit Lizenzinformationen:"
 
-#: src/reuse/_annotate.py:519
+#: src/reuse/_annotate.py:526
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
 "'{path}' ist im Binärformat, benutze daher '{new_path}' für die Kopfzeilen"
 
-#: src/reuse/_main.py:38
+#: src/reuse/_main.py:39
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
@@ -184,7 +184,7 @@ msgstr ""
 "überprüfen. Mehr Informationen finden Sie auf <https://reuse.software/> oder "
 "in der Online-Dokumentation auf <https://reuse.readthedocs.io/>."
 
-#: src/reuse/_main.py:44
+#: src/reuse/_main.py:45
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
@@ -192,11 +192,11 @@ msgstr ""
 "Diese Version von reuse ist kompatibel mit Version {} der REUSE-"
 "Spezifikation."
 
-#: src/reuse/_main.py:47
+#: src/reuse/_main.py:48
 msgid "Support the FSFE's work:"
 msgstr "Die Arbeit der FSFE unterstützen:"
 
-#: src/reuse/_main.py:51
+#: src/reuse/_main.py:52
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
@@ -206,44 +206,44 @@ msgstr ""
 "ermöglichen es uns, weiterhin für Freie Software zu arbeiten, wo immer es "
 "nötig ist. Bitte erwägen Sie eine Spende unter <https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:74
+#: src/reuse/_main.py:75
 msgid "enable debug statements"
 msgstr "Debug-Statements aktivieren"
 
-#: src/reuse/_main.py:79
+#: src/reuse/_main.py:80
 msgid "hide deprecation warnings"
 msgstr "„Veraltet“-Warnung verbergen"
 
-#: src/reuse/_main.py:84
+#: src/reuse/_main.py:85
 msgid "do not skip over Git submodules"
 msgstr "Git-Submodules nicht überspringen"
 
-#: src/reuse/_main.py:89
+#: src/reuse/_main.py:90
 msgid "do not skip over Meson subprojects"
 msgstr "Meson-Teilprojekte nicht überspringen"
 
-#: src/reuse/_main.py:94
+#: src/reuse/_main.py:95
 msgid "do not use multiprocessing"
 msgstr "kein Multiprocessing verwenden"
 
-#: src/reuse/_main.py:101
+#: src/reuse/_main.py:102
 msgid "define root of project"
 msgstr "Stammverzeichnis des Projekts bestimmen"
 
-#: src/reuse/_main.py:106
+#: src/reuse/_main.py:107
 msgid "show program's version number and exit"
 msgstr "zeige die Versionsnummer des Programms und beende"
 
-#: src/reuse/_main.py:110
+#: src/reuse/_main.py:111
 msgid "subcommands"
 msgstr "Unterkommandos"
 
-#: src/reuse/_main.py:117
+#: src/reuse/_main.py:118
 msgid "add copyright and licensing into the header of files"
 msgstr ""
 "schreibe Urheberrechts- und Lizenzinformationen in die Kopfzeilen von Dateien"
 
-#: src/reuse/_main.py:120
+#: src/reuse/_main.py:121
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -254,20 +254,20 @@ msgid ""
 "but are not copyright holder of the given files."
 msgstr ""
 
-#: src/reuse/_main.py:139
+#: src/reuse/_main.py:140
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "lade eine Datei herunter und speichere sie im Verzeichnis LICENSES/"
 
-#: src/reuse/_main.py:141
+#: src/reuse/_main.py:142
 #, fuzzy
 msgid "Download a license and place it in the LICENSES/ directory."
 msgstr "lade eine Datei herunter und speichere sie im Verzeichnis LICENSES/"
 
-#: src/reuse/_main.py:150
+#: src/reuse/_main.py:151
 msgid "list all non-compliant files"
 msgstr "alle nicht-konformen Dateien zeigen"
 
-#: src/reuse/_main.py:153
+#: src/reuse/_main.py:154
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -305,24 +305,24 @@ msgstr ""
 "- Sind alle Dateien mit gültigen Urheberrechts- und Lizenzinformationen "
 "versehen?"
 
-#: src/reuse/_main.py:180
+#: src/reuse/_main.py:181
 msgid "print the project's bill of materials in SPDX format"
 msgstr "Komponentenliste im SPDX-Format ausgeben"
 
-#: src/reuse/_main.py:188
+#: src/reuse/_main.py:189
 msgid "list all supported SPDX licenses"
 msgstr "Listet alle unterstützten SPDX-Lizenzen auf"
 
-#: src/reuse/_main.py:197
+#: src/reuse/_main.py:198
 msgid "convert .reuse/dep5 to REUSE.toml"
 msgstr ""
 
-#: src/reuse/_main.py:257
+#: src/reuse/_main.py:263
 #, fuzzy, python-brace-format
 msgid "'{path}' could not be decoded as UTF-8."
 msgstr "'{dep5}' konnte nicht als UTF-8 decodiert werden."
 
-#: src/reuse/_main.py:263
+#: src/reuse/_main.py:269
 #, fuzzy, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
@@ -384,7 +384,7 @@ msgstr ""
 "Besuchen Sie <https://spdx.org/licenses/> für eine Liste von gültigen SPDX-"
 "Lizenz-Identifikatoren."
 
-#: src/reuse/convert_dep5.py:68
+#: src/reuse/convert_dep5.py:118
 #, fuzzy
 msgid "no '.reuse/dep5' file"
 msgstr "Erstelle .reuse/dep5"
@@ -673,48 +673,30 @@ msgstr ""
 "unkommentierbar gekennzeichnet; suche ihre Inhalte nicht nach REUSE-"
 "Informationen."
 
-#: src/reuse/project.py:292
-#, fuzzy, python-brace-format
-msgid ""
-"Copyright and licensing information for '{original_path}' has been found in "
-"both '{path}' and in the DEP5 file located at '{dep5_path}'. The information "
-"for these two sources has been aggregated. You are recommended to instead "
-"use REUSE.toml, where you can specify the order of precedence. Use `reuse "
-"convert-dep5` to convert. Run with `--suppress-deprecation` to hide this "
-"warning."
-msgstr ""
-"Urheberrechts- und Lizenzinformationen für '{original_path}' wurden sowohl "
-"in '{path}' als auch in der DEP5-Datei unter '{dep5_path}' gefunden. Die "
-"Informationen für diese beiden Quellen wurden zusammengelegt. In Zukunft "
-"wird sich dieses Verhalten ändern, und Sie müssen explizit das Zusammenlegen "
-"aktivieren. Siehe <https://github.com/fsfe/reuse-tool/issues/779>. Sie "
-"müssen noch nichts tun. Ausführen mit `--suppress-deprecation`, um diese "
-"Warnung zu verbergen."
-
-#: src/reuse/project.py:359
+#: src/reuse/project.py:334
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
 
-#: src/reuse/project.py:373
+#: src/reuse/project.py:348
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
 
-#: src/reuse/project.py:439
+#: src/reuse/project.py:414
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "erkenne Identifikator von '{path}'"
 
-#: src/reuse/project.py:447
+#: src/reuse/project.py:422
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} hat keine Dateiendung"
 
-#: src/reuse/project.py:457
+#: src/reuse/project.py:432
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -727,14 +709,14 @@ msgstr ""
 "Lizenzliste unter <https://spdx.org/licenses/> steht oder mit 'LicenseRef-' "
 "beginnt und eine Dateiendung hat."
 
-#: src/reuse/project.py:469
+#: src/reuse/project.py:444
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} ist der SPDX-Lizenz-Identifikator von {path} und {other_path}"
 
-#: src/reuse/project.py:508
+#: src/reuse/project.py:483
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -1014,6 +996,23 @@ msgstr "ungültige Auswahl: %(value)r (wähle von %(choices)s)"
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: Fehler: %(message)s\n"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "Copyright and licensing information for '{original_path}' has been found "
+#~ "in both '{path}' and in the DEP5 file located at '{dep5_path}'. The "
+#~ "information for these two sources has been aggregated. You are "
+#~ "recommended to instead use REUSE.toml, where you can specify the order of "
+#~ "precedence. Use `reuse convert-dep5` to convert. Run with `--suppress-"
+#~ "deprecation` to hide this warning."
+#~ msgstr ""
+#~ "Urheberrechts- und Lizenzinformationen für '{original_path}' wurden "
+#~ "sowohl in '{path}' als auch in der DEP5-Datei unter '{dep5_path}' "
+#~ "gefunden. Die Informationen für diese beiden Quellen wurden "
+#~ "zusammengelegt. In Zukunft wird sich dieses Verhalten ändern, und Sie "
+#~ "müssen explizit das Zusammenlegen aktivieren. Siehe <https://github.com/"
+#~ "fsfe/reuse-tool/issues/779>. Sie müssen noch nichts tun. Ausführen mit `--"
+#~ "suppress-deprecation`, um diese Warnung zu verbergen."
 
 #~ msgid "initialize REUSE project"
 #~ msgstr "REUSE-Projekt initialisieren"
