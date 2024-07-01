@@ -281,33 +281,6 @@ class Project:
         else:
             file_result = reuse_info_of_file(path, original_path, self.root)
 
-        # There is both information in a .dep5 file and in the file header
-        if (
-            isinstance(self.global_licensing, ReuseDep5)
-            and global_results
-            and file_result.contains_info()
-        ):
-            warnings.warn(
-                _(
-                    "Copyright and licensing information for"
-                    " '{original_path}' has been found in both '{path}' and"
-                    " in the DEP5 file located at '{dep5_path}'. The"
-                    " information for these two sources has been"
-                    " aggregated. You are recommended to instead use"
-                    " REUSE.toml, where you can specify the order of"
-                    " precedence. Use `reuse convert-dep5` to convert."
-                    " Run with"
-                    " `--suppress-deprecation` to hide this warning."
-                ).format(
-                    original_path=original_path,
-                    path=path,
-                    dep5_path=global_results[PrecedenceType.AGGREGATE][
-                        0
-                    ].source_path,
-                ),
-                PendingDeprecationWarning,
-            )
-
         result.extend(global_results[PrecedenceType.OVERRIDE])
         result.extend(global_results[PrecedenceType.AGGREGATE])
         if file_result.contains_info():
