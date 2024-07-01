@@ -124,7 +124,6 @@ This changeset also contains the changes of v3.1.0a1.
 
 - `.reuse/dep5` is marked deprecated. `reuse convert-dep5` will help you switch
   to `REUSE.toml`. (#863)
-- `csingle` and `css` style shorthands (see changes). (#941)
 
 ### Removed
 
@@ -132,6 +131,7 @@ This changeset also contains the changes of v3.1.0a1.
   and the contents of a file has been removed. This behaviour is now explicitly
   specified in REUSE Specification v3.2. (#1017, related to #779)
 - `reuse init` removed. (#863)
+- `csingle` and `css` style shorthands (see changes). (#941)
 
 ### Fixed
 
