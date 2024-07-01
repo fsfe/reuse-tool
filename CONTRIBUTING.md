@@ -48,9 +48,25 @@ feature that may not be accepted.
 When making a pull request, don't hesitate to add yourself to the AUTHORS.rst
 file and the copyright headers of the files you touch.
 
-Every pull request should add an entry in `CHANGELOG.md`. Some exceptions apply,
-such as changes which are too tiny to be significant, certain refactorings, or
-fixes to pull requests which were already merged, but not yet released.
+### Change log
+
+Every pull request should add a change log entry. Change log entries go into
+`changelog.d/<directory>/<name>.md`, where `<directory>` is the appropriate
+category for the change set, and where `<name>` is a short or random name for
+your change set.
+
+The contents of the file should typically look like this:
+
+```markdown
+- Added a new feature. (#pr_number)
+```
+
+At release time, the contents of the `changelog.d/` directory are compiled into
+`CHANGELOG.md` using `protokolo compile`.
+
+Some PRs are excepted from adding change log entries, such as changes which are
+too tiny to be significant, certain refactorings, or fixes to pull requests
+which were already merged, but not yet released.
 
 ## Translation
 
