@@ -916,3 +916,6 @@ _result.remove(UncommentableCommentStyle)
 
 #: A map of human-friendly names against style classes.
 NAME_STYLE_MAP = {style.SHORTHAND: style for style in _result}
+# TODO: Remove this for next major 4.0 release.
+NAME_STYLE_MAP["csingle"] = CppSingleCommentStyle
+NAME_STYLE_MAP["css"] = CCommentStyle

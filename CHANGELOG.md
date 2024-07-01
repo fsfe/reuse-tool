@@ -70,12 +70,13 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Deprecated
 
+- `csingle` and `css` style shorthands (see changes). (#941)
+
 ### Removed
 
 - The PendingDeprecationWarning for the aggregation of information between DEP5
   and the contents of a file has been removed. This behaviour is now explicitly
   specified in REUSE Specification v3.2. (#1017, related to #779)
-- `csingle` and `css` style shorthands (see changes). (#941)
 
 ### Fixed
 
