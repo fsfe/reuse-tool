@@ -1075,6 +1075,22 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
+name = "protokolo"
+version = "2.1.4"
+description = "Protokolo is a change log generator."
+category = "dev"
+optional = false
+python-versions = "<4.0,>=3.11"
+files = [
+    {file = "protokolo-2.1.4-cp311-cp311-manylinux_2_36_x86_64.whl", hash = "sha256:b10ff72199e5ced3fd662a5b870b673bf37a5c990dd4eacf054bdf3ea5f2e359"},
+    {file = "protokolo-2.1.4.tar.gz", hash = "sha256:451addc697e43a2aac4db612acf747ffe839686e5ea71018a5bc1ea5adeddc08"},
+]
+
+[package.dependencies]
+attrs = ">=22.1.0"
+click = ">=8.0"
+
+[[package]]
 name = "pygments"
 version = "2.18.0"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -1804,4 +1820,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "14a038a5fa48006c3394fee5efc29aef8a6b335d8c78c97d94e5e9e0b77bd44a"
+content-hash = "057ae26f33e216758289466ff694ada751ccb92f81e593872d81a5f6f0312724"
