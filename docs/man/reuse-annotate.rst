@@ -39,7 +39,7 @@ The tool tries to auto-detect the comment style to use from the file extension
 of a file, and use that comment style.
 
 Normally, the tool uses a single-line comment style when one is available (e.g.,
-``//`` is used instead of ``/* ... */`` for C comment styles). If no single-line
+``//`` is used instead of ``/* ... */`` for C++ comment styles). If no single-line
 comment style is available, a multi-line style is used.
 
 Mandatory options
