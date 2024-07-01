@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-01 07:50+0000\n"
+"POT-Creation-Date: 2024-07-01 08:48+0000\n"
 "PO-Revision-Date: 2024-06-29 11:09+0000\n"
 "Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -86,7 +86,7 @@ msgstr "потрібен параметр --contributor, --copyright або --li
 msgid "template {template} could not be found"
 msgstr "не вдалося знайти шаблон {template}"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:571
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:573
 msgid "can't write to '{}'"
 msgstr "неможливо записати в '{}'"
 
@@ -120,55 +120,56 @@ msgid "comment style to use, optional"
 msgstr "використовуваний стиль коментарів, необов'язковий"
 
 #: src/reuse/_annotate.py:417
-msgid "copyright style to use, optional"
+#, fuzzy
+msgid "copyright prefix to use, optional"
 msgstr "використовуваний стиль авторського права, необов'язковий"
 
-#: src/reuse/_annotate.py:424
+#: src/reuse/_annotate.py:430
 msgid "name of template to use, optional"
 msgstr "використовувана назва шаблону, необов'язково"
 
-#: src/reuse/_annotate.py:429
+#: src/reuse/_annotate.py:435
 msgid "do not include year in statement"
 msgstr "не включати рік в оголошення"
 
-#: src/reuse/_annotate.py:434
+#: src/reuse/_annotate.py:440
 msgid "merge copyright lines if copyright statements are identical"
 msgstr ""
 "об’єднувати рядки авторських прав, якщо оголошення авторських прав ідентичні"
 
-#: src/reuse/_annotate.py:440
+#: src/reuse/_annotate.py:446
 msgid "force single-line comment style, optional"
 msgstr "примусовий однорядковий стиль коментаря, необов'язково"
 
-#: src/reuse/_annotate.py:445
+#: src/reuse/_annotate.py:451
 msgid "force multi-line comment style, optional"
 msgstr "примусовий багаторядковий стиль коментарів, необов'язково"
 
-#: src/reuse/_annotate.py:452
+#: src/reuse/_annotate.py:458
 msgid "add headers to all files under specified directories recursively"
 msgstr "рекурсивно додавати заголовки до всіх файлів у вказаних каталогах"
 
-#: src/reuse/_annotate.py:459
+#: src/reuse/_annotate.py:465
 msgid "do not replace the first header in the file; just add a new one"
 msgstr "не замінювати перший заголовок у файлі; просто додавати новий"
 
-#: src/reuse/_annotate.py:467
+#: src/reuse/_annotate.py:473
 msgid "always write a .license file instead of a header inside the file"
 msgstr "завжди записуйте файл .license замість заголовка всередині файлу"
 
-#: src/reuse/_annotate.py:474
+#: src/reuse/_annotate.py:480
 msgid "write a .license file to files with unrecognised comment styles"
 msgstr "дописати файл .license до файлів з нерозпізнаними стилями коментарів"
 
-#: src/reuse/_annotate.py:480
+#: src/reuse/_annotate.py:486
 msgid "skip files with unrecognised comment styles"
 msgstr "пропускати файли з нерозпізнаними стилями коментарів"
 
-#: src/reuse/_annotate.py:491
+#: src/reuse/_annotate.py:497
 msgid "skip files that already contain REUSE information"
 msgstr "пропускати файли, які вже містять інформацію REUSE"
 
-#: src/reuse/_annotate.py:526
+#: src/reuse/_annotate.py:532
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
@@ -335,51 +336,51 @@ msgstr ""
 "'{path}' не вдалося розібрати. Ми отримали наступне повідомлення про "
 "помилку: {message}"
 
-#: src/reuse/_util.py:367 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:368 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Не вдалося проаналізувати '{expression}'"
 
-#: src/reuse/_util.py:423
+#: src/reuse/_util.py:424
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 "'{path}' містить вираз SPDX, який неможливо проаналізувати, пропуск файлу"
 
-#: src/reuse/_util.py:554
+#: src/reuse/_util.py:556
 msgid "'{}' is not a file"
 msgstr "'{}' не є файлом"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:559
 msgid "'{}' is not a directory"
 msgstr "'{}' не є каталогом"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:562
 msgid "can't open '{}'"
 msgstr "не вдалося відкрити '{}'"
 
-#: src/reuse/_util.py:565
+#: src/reuse/_util.py:567
 msgid "can't write to directory '{}'"
 msgstr "неможливо записати в каталог '{}'"
 
-#: src/reuse/_util.py:584
+#: src/reuse/_util.py:586
 msgid "can't read or write '{}'"
 msgstr "неможливо прочитати чи записати '{}'"
 
-#: src/reuse/_util.py:594
+#: src/reuse/_util.py:596
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' не є дійсним виразом SPDX, переривання"
 
-#: src/reuse/_util.py:622
+#: src/reuse/_util.py:624
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' не є дійсним ідентифікатором ліцензії SPDX."
 
-#: src/reuse/_util.py:629
+#: src/reuse/_util.py:631
 msgid "Did you mean:"
 msgstr "Ви мали на увазі:"
 
-#: src/reuse/_util.py:636
+#: src/reuse/_util.py:638
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."

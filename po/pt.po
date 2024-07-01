@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-01 07:50+0000\n"
+"POT-Creation-Date: 2024-07-01 08:48+0000\n"
 "PO-Revision-Date: 2023-06-21 09:53+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -81,7 +81,7 @@ msgstr "é requerida uma das opções --copyright ou --license"
 msgid "template {template} could not be found"
 msgstr "o modelo {template} não foi encontrado"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:571
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:573
 msgid "can't write to '{}'"
 msgstr "não é possível escrever em '{}'"
 
@@ -117,58 +117,58 @@ msgstr "estilo de comentário a usar (opcional)"
 
 #: src/reuse/_annotate.py:417
 #, fuzzy
-msgid "copyright style to use, optional"
+msgid "copyright prefix to use, optional"
 msgstr "estilo de comentário a usar (opcional)"
 
-#: src/reuse/_annotate.py:424
+#: src/reuse/_annotate.py:430
 msgid "name of template to use, optional"
 msgstr "nome do modelo a usar (opcional)"
 
-#: src/reuse/_annotate.py:429
+#: src/reuse/_annotate.py:435
 msgid "do not include year in statement"
 msgstr "não incluir o ano na declaração"
 
-#: src/reuse/_annotate.py:434
+#: src/reuse/_annotate.py:440
 #, fuzzy
 msgid "merge copyright lines if copyright statements are identical"
 msgstr "ano da declaração de direitos de autor (opcional)"
 
-#: src/reuse/_annotate.py:440
+#: src/reuse/_annotate.py:446
 #, fuzzy
 msgid "force single-line comment style, optional"
 msgstr "estilo de comentário a usar (opcional)"
 
-#: src/reuse/_annotate.py:445
+#: src/reuse/_annotate.py:451
 #, fuzzy
 msgid "force multi-line comment style, optional"
 msgstr "estilo de comentário a usar (opcional)"
 
-#: src/reuse/_annotate.py:452
+#: src/reuse/_annotate.py:458
 msgid "add headers to all files under specified directories recursively"
 msgstr ""
 
-#: src/reuse/_annotate.py:459
+#: src/reuse/_annotate.py:465
 msgid "do not replace the first header in the file; just add a new one"
 msgstr ""
 
-#: src/reuse/_annotate.py:467
+#: src/reuse/_annotate.py:473
 msgid "always write a .license file instead of a header inside the file"
 msgstr ""
 
-#: src/reuse/_annotate.py:474
+#: src/reuse/_annotate.py:480
 msgid "write a .license file to files with unrecognised comment styles"
 msgstr ""
 
-#: src/reuse/_annotate.py:480
+#: src/reuse/_annotate.py:486
 msgid "skip files with unrecognised comment styles"
 msgstr ""
 
-#: src/reuse/_annotate.py:491
+#: src/reuse/_annotate.py:497
 #, fuzzy
 msgid "skip files that already contain REUSE information"
 msgstr "Ficheiros com informação de licenciamento: {count} / {total}"
 
-#: src/reuse/_annotate.py:526
+#: src/reuse/_annotate.py:532
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr "'{path}' é binário, por isso é usado '{new_path}' para o cabeçalho"
@@ -327,12 +327,12 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:367 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:368 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Não foi possível executar parse '{expression}'"
 
-#: src/reuse/_util.py:423
+#: src/reuse/_util.py:424
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -340,39 +340,39 @@ msgstr ""
 "'{path}' inclui uma expressão SPDX que não pode ser analisada (parsed); "
 "ficheiro ignorado"
 
-#: src/reuse/_util.py:554
+#: src/reuse/_util.py:556
 msgid "'{}' is not a file"
 msgstr "'{}' não é um ficheiro"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:559
 msgid "'{}' is not a directory"
 msgstr "'{}' não é uma pasta"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:562
 msgid "can't open '{}'"
 msgstr "não é possível abrir '{}'"
 
-#: src/reuse/_util.py:565
+#: src/reuse/_util.py:567
 msgid "can't write to directory '{}'"
 msgstr "não é possível escrever no directório '{}'"
 
-#: src/reuse/_util.py:584
+#: src/reuse/_util.py:586
 msgid "can't read or write '{}'"
 msgstr "não é possível ler ou escrever em '{}'"
 
-#: src/reuse/_util.py:594
+#: src/reuse/_util.py:596
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' não é uma expressão SPDX válida; a abortar"
 
-#: src/reuse/_util.py:622
+#: src/reuse/_util.py:624
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' não é um Identificador de Licença SPDX válido."
 
-#: src/reuse/_util.py:629
+#: src/reuse/_util.py:631
 msgid "Did you mean:"
 msgstr ""
 
-#: src/reuse/_util.py:636
+#: src/reuse/_util.py:638
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-01 07:50+0000\n"
+"POT-Creation-Date: 2024-07-01 08:48+0000\n"
 "PO-Revision-Date: 2023-02-18 10:24+0000\n"
 "Last-Translator: \"J. Lavoie\" <j.lavoie@net-c.ca>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/fsfe/reuse-tool/nl/"
@@ -82,7 +82,7 @@ msgstr "de optie --copyright of --license is vereist"
 msgid "template {template} could not be found"
 msgstr "sjabloon {template} kon niet worden gevonden"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:571
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:573
 msgid "can't write to '{}'"
 msgstr "kan niet schrijven naar '{}'"
 
@@ -118,58 +118,58 @@ msgstr "te gebruiken commentaarstijl (optie)"
 
 #: src/reuse/_annotate.py:417
 #, fuzzy
-msgid "copyright style to use, optional"
+msgid "copyright prefix to use, optional"
 msgstr "te gebruiken commentaarstijl (optie)"
 
-#: src/reuse/_annotate.py:424
+#: src/reuse/_annotate.py:430
 msgid "name of template to use, optional"
 msgstr "naam van het te gebruiken sjabloon (optie)"
 
-#: src/reuse/_annotate.py:429
+#: src/reuse/_annotate.py:435
 msgid "do not include year in statement"
 msgstr "voeg geen jaar toe aan verklaring"
 
-#: src/reuse/_annotate.py:434
+#: src/reuse/_annotate.py:440
 #, fuzzy
 msgid "merge copyright lines if copyright statements are identical"
 msgstr "jaar van auteursrechtverklaring (optie)"
 
-#: src/reuse/_annotate.py:440
+#: src/reuse/_annotate.py:446
 #, fuzzy
 msgid "force single-line comment style, optional"
 msgstr "te gebruiken commentaarstijl (optie)"
 
-#: src/reuse/_annotate.py:445
+#: src/reuse/_annotate.py:451
 #, fuzzy
 msgid "force multi-line comment style, optional"
 msgstr "te gebruiken commentaarstijl (optie)"
 
-#: src/reuse/_annotate.py:452
+#: src/reuse/_annotate.py:458
 msgid "add headers to all files under specified directories recursively"
 msgstr ""
 
-#: src/reuse/_annotate.py:459
+#: src/reuse/_annotate.py:465
 msgid "do not replace the first header in the file; just add a new one"
 msgstr ""
 
-#: src/reuse/_annotate.py:467
+#: src/reuse/_annotate.py:473
 msgid "always write a .license file instead of a header inside the file"
 msgstr ""
 
-#: src/reuse/_annotate.py:474
+#: src/reuse/_annotate.py:480
 msgid "write a .license file to files with unrecognised comment styles"
 msgstr ""
 
-#: src/reuse/_annotate.py:480
+#: src/reuse/_annotate.py:486
 msgid "skip files with unrecognised comment styles"
 msgstr ""
 
-#: src/reuse/_annotate.py:491
+#: src/reuse/_annotate.py:497
 #, fuzzy
 msgid "skip files that already contain REUSE information"
 msgstr "Bestanden met licentie-informatie: {count} / {total}"
 
-#: src/reuse/_annotate.py:526
+#: src/reuse/_annotate.py:532
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
@@ -329,12 +329,12 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:367 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:368 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Kon '{expression}' niet parsen"
 
-#: src/reuse/_util.py:423
+#: src/reuse/_util.py:424
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -342,39 +342,39 @@ msgstr ""
 "'{path}' bevat een SPDX-uitdrukking die niet geparsed kan worden; sla het "
 "bestand over"
 
-#: src/reuse/_util.py:554
+#: src/reuse/_util.py:556
 msgid "'{}' is not a file"
 msgstr "'{}' is geen bestand"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:559
 msgid "'{}' is not a directory"
 msgstr "'{}' is geen map"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:562
 msgid "can't open '{}'"
 msgstr "kan '{}' niet openen"
 
-#: src/reuse/_util.py:565
+#: src/reuse/_util.py:567
 msgid "can't write to directory '{}'"
 msgstr "kan niet schrijven naar map '{}'"
 
-#: src/reuse/_util.py:584
+#: src/reuse/_util.py:586
 msgid "can't read or write '{}'"
 msgstr "kan '{}' niet lezen of schrijven"
 
-#: src/reuse/_util.py:594
+#: src/reuse/_util.py:596
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' is geen geldige SPDX-uitdrukking, aan het afbreken"
 
-#: src/reuse/_util.py:622
+#: src/reuse/_util.py:624
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' is geen geldige SPDX Licentie Identificatie."
 
-#: src/reuse/_util.py:629
+#: src/reuse/_util.py:631
 msgid "Did you mean:"
 msgstr ""
 
-#: src/reuse/_util.py:636
+#: src/reuse/_util.py:638
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
