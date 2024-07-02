@@ -30,6 +30,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Added
 
 - More file types are recognised:
+  - Earthly files (`Earthfile` and `.earthlyignore`) (#1024)
   - CSON (`.cson`) (#1002)
   - Hjson (`.hjson`) (#1002)
   - JSON5 (`.json5`) (#1002)
