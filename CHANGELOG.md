@@ -47,6 +47,9 @@ This release of REUSE implements the new
 easier to write and parse, is better at disambiguating certain corner cases, and
 is more flexible for customisation and future additions.
 
+To convert your existing `.reuse/dep5` to `REUSE.toml`, you can simply use the
+`reuse convert-dep5` command.
+
 Alongside the `REUSE.toml` feature is a wealth of other improvements.
 `reuse lint --lines` may be especially interesting for CI workflows, as well as
 the fact that the amount of `PendingDeprecationWarning`s has been drastically
@@ -65,6 +68,7 @@ This changeset also contains the changes of v3.1.0a1.
 ### Added
 
 - Added support for `REUSE.toml`. (#863)
+- Added `reuse convert-dep5` to convert `.reuse/dep5` to `REUSE.toml`. (#863)
 - Man pages added for all `reuse` commands. Distribution maintainers might wish
   to distribute the (Sphinx-built) man pages. (#975)
 - More file types are recognised:
