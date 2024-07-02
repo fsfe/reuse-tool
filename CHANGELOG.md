@@ -93,6 +93,7 @@ This changeset also contains the changes of v3.1.0a1.
   - BATS test (`.bats`) (#997)
   - Octave/Matlab (`.m`) (#604)
   - VHDL(`.vhdl`) (#564)
+  - Earthly files (`Earthfile` and `.earthlyignore`) (#1024)
 - Added comment styles:
   - `man` for UNIX Man pages (`.man`) (#954)
 - Added `--lines` output option for `lint`. (#956)
