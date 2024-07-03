@@ -25,61 +25,38 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
-## Unreleased - YYYY-MM-DD
+## 4.0.0 - 2024-07-03
 
-### Added
+This release of REUSE implements the new
+[REUSE Specification v3.2](https://reuse.software/spec-3.2). It adds the
+`REUSE.toml` file format as a replacement for `.reuse/dep5`. The new format is
+easier to write and parse, is better at disambiguating certain corner cases, and
+is more flexible for customisation and future additions.
 
-- More file types are recognised:
-  - CSON (`.cson`) (#1002)
-  - Hjson (`.hjson`) (#1002)
-  - JSON5 (`.json5`) (#1002)
-  - JSON with Comments (`.jsonc`) (#1002)
-  - Tap (`.taprc`) (#997)
-  - Zsh (`.zshrc`) (#997)
-  - Perl test (`.t`) (#997)
-  - BATS test (`.bats`) (#997)
-  - Octave/Matlab (`.m`) (#604)
-  - VHDL(`.vhdl`) (#564)
-- Support alternate spelling `--skip-unrecognized`. (#974)
-- In `annotate`, rename `--copyright-style` to `--copyright-prefix`. The former
-  parameter is still supported. (#973)
-- Support alternate spelling `--skip-unrecognized` (#974)
-- `cpp` and `cppsingle` style shorthands (see changes). (#941)
+To convert your existing `.reuse/dep5` to `REUSE.toml`, you can simply use the
+`reuse convert-dep5` command.
 
-### Changed
+Alongside the `REUSE.toml` feature is a wealth of other improvements.
+`reuse lint --lines` may be especially interesting for CI workflows, as well as
+the fact that the amount of `PendingDeprecationWarning`s has been drastically
+reduced now that the information aggregation behaviour of `.reuse/dep5` is
+explicitly defined in the specification.
 
-- Reorganised the way that `c`, `css`, and `csingle` styles work. (#941)
-  - `c` used to support multi-line comments; it now only supports multi-line
-    `/* */` comments. This is identical to the old `css` style.
-  - `cpp` has been added, which supports multi-line `/* */` comments and
-    single-line `//` comments. This is identical to the old `c` style.
-  - `csingle` has been renamed to `cppsingle`, and it supports only single-line
-    `//` comments.
+The tool has also been made easier to use with the addition of man pages. The
+man pages can be found online at <https://reuse.readthedocs.io/en/stable/man/>.
+Your distribution's packager will need to make them accessible via
+`man reuse(1)`. Unfortunately, man pages cannot be made accessible via Python's
+packaging, although the full documentation (including man pages) is included in
+the sdist.
 
-### Deprecated
-
-- `csingle` and `css` style shorthands (see changes). (#941)
-
-### Removed
-
-- The PendingDeprecationWarning for the aggregation of information between DEP5
-  and the contents of a file has been removed. This behaviour is now explicitly
-  specified in REUSE Specification v3.2. (#1017, related to #779)
-
-### Fixed
-
-- In `reuse spdx`, fixed the output to be more compliant by capitalising
-  `SPDXRef-Document DESCRIBES` appropriately. (#1013)
-
-### Security
-
-## 3.1.0a1 - 2024-05-28
+This changeset also contains the changes of v3.1.0a1.
 
 ### Added
 
 - Added support for `REUSE.toml`. (#863)
-- Manpages added for all `reuse` commands. Distribution maintainers might wish
-  to distribute the (Sphinx-built) manpages. (#975)
+- Added `reuse convert-dep5` to convert `.reuse/dep5` to `REUSE.toml`. (#863)
+- Man pages added for all `reuse` commands. Distribution maintainers might wish
+  to distribute the (Sphinx-built) man pages. (#975)
 - More file types are recognised:
   - Assembler (`.asm`) (#928)
   - GraphQL (`.graphqls`, `.gqls`) (#930)
@@ -92,11 +69,27 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - Apache HTTP server config `.htaccess` files (#985)
   - npm `.npmrc` files (#985)
   - LaTeX class files (`.cls`) (#971)
+  - CSON (`.cson`) (#1002)
+  - Hjson (`.hjson`) (#1002)
+  - JSON5 (`.json5`) (#1002)
+  - JSON with Comments (`.jsonc`) (#1002)
+  - Tap (`.taprc`) (#997)
+  - Zsh (`.zshrc`) (#997)
+  - Perl test (`.t`) (#997)
+  - BATS test (`.bats`) (#997)
+  - Octave/Matlab (`.m`) (#604)
+  - VHDL(`.vhdl`) (#564)
+  - Earthly files (`Earthfile` and `.earthlyignore`) (#1024)
 - Added comment styles:
   - `man` for UNIX Man pages (`.man`) (#954)
 - Added `--lines` output option for `lint`. (#956)
 - Treat `% !TEX` and `% !BIB` as shebangs in TeX and BibTeX files, respectively
   (#971)
+- Support alternate spelling `--skip-unrecognized`. (#974)
+- In `annotate`, rename `--copyright-style` to `--copyright-prefix`. The former
+  parameter is still supported. (#973)
+- Support alternate spelling `--skip-unrecognized` (#974)
+- `cpp` and `cppsingle` style shorthands (see changes). (#941)
 
 ### Changed
 
@@ -110,22 +103,37 @@ CLI command and its behaviour. There are no guarantees of stability for the
 - Dependencies added:
   - `attrs>=21.1` (#863)
   - `tomlkit>=0.8` (#863)
+- Reorganised the way that `c`, `css`, and `csingle` styles work. (#941)
+  - `c` used to support multi-line comments; it now only supports multi-line
+    `/* */` comments. This is identical to the old `css` style.
+  - `cpp` has been added, which supports multi-line `/* */` comments and
+    single-line `//` comments. This is identical to the old `c` style.
+  - `csingle` has been renamed to `cppsingle`, and it supports only single-line
+    `//` comments.
 
 ### Deprecated
 
 - `.reuse/dep5` is marked deprecated. `reuse convert-dep5` will help you switch
   to `REUSE.toml`. (#863)
 
+### Removed
+
+- The PendingDeprecationWarning for the aggregation of information between DEP5
+  and the contents of a file has been removed. This behaviour is now explicitly
+  specified in REUSE Specification v3.2. (#1017, related to #779)
+- `reuse init` removed. (#863)
+- `csingle` and `css` style shorthands (see changes). (#941)
+
 ### Fixed
 
-- Clearer instructions for `--suppress-deprecation` in deprecation warning.
-  (#949)
 - The datetime value for `Created:` was wrongly formatted since 3.0.0. It now
   returns a correctly formatted ISO 8601 date again. (#952)
 - Repaired the behaviour of `reuse download` where being inside of a LICENSES/
   directory should not create a deeper LICENSES/LICENSES/ directory. (#975)
 - Support annotating a file that contains only a shebang. (#965)
 - Add `CONTRIBUTING.md` to the sdist. (#987)
+- In `reuse spdx`, fixed the output to be more compliant by capitalising
+  `SPDXRef-Document DESCRIBES` appropriately. (#1013)
 
 ## 3.0.2 - 2024-04-08
 

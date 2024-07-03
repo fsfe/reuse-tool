@@ -847,6 +847,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".clang-tidy": PythonCommentStyle,
     ".coveragerc": PythonCommentStyle,
     ".dockerignore": PythonCommentStyle,
+    ".earthlyignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
     ".empty": EmptyCommentStyle,
     ".eslintignore": PythonCommentStyle,
@@ -879,6 +880,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Containerfile": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
     "Doxyfile": PythonCommentStyle,
+    "Earthfile": PythonCommentStyle,
     "Gemfile": PythonCommentStyle,
     "go.mod": CppCommentStyle,
     "go.sum": UncommentableCommentStyle,
@@ -919,6 +921,3 @@ _result.remove(UncommentableCommentStyle)
 
 #: A map of human-friendly names against style classes.
 NAME_STYLE_MAP = {style.SHORTHAND: style for style in _result}
-# TODO: Remove this for next major 4.0 release.
-NAME_STYLE_MAP["csingle"] = CppSingleCommentStyle
-NAME_STYLE_MAP["css"] = CCommentStyle
