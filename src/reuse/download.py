@@ -179,6 +179,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         )
         out.write("\n")
 
+    licenses = args.license
     if args.all:
         # TODO: This is fairly inefficient, but gets the job done.
         report = ProjectReport.generate(project)
@@ -192,8 +193,6 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         args.parser.error(_("the following arguments are required: license"))
     elif len(args.license) > 1 and args.file:
         args.parser.error(_("cannot use --output with more than one license"))
-    else:
-        licenses = args.license
 
     return_code = 0
     for lic in licenses:
