@@ -11,7 +11,7 @@ build:
     python: "3.8"
   jobs:
     post_create_environment:
-      - python -m pip install 'poetry<1.8'
+      - python -m pip install poetry
     post_install:
       - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH python -m poetry install --with
         docs
