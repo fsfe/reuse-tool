@@ -247,9 +247,8 @@ def _determine_license_suffix_path(path: StrPath) -> Path:
 
 def _parse_copyright_year(year: str) -> list:
     """Parse copyright years and return list."""
-    if not year:
-        ret = []
-    elif re.match(r"\d{4}$", year):
+    ret = []
+    if re.match(r"\d{4}$", year):
         ret = [int(year)]
     elif re.match(r"\d{4} ?- ?\d{4}$", year):
         ret = [int(year[:4]), int(year[-4:])]
