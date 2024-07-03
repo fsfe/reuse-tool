@@ -25,6 +25,14 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## 4.0.2 - 2024-07-03
+
+### Fixed
+
+- Repaired a bug that would cause a crash when running
+  `annotate --merge-copyrights` on a file that does not yet have a year in the
+  copyright statement. This bug was introduced in v4.0.1. (#1030)
+
 ## 4.0.1 - 2024-07-03
 
 ### Fixed
