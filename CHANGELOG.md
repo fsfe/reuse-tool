@@ -39,7 +39,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 ### Security
 -->
 
-## 4.0.0 - YYYY-MM-DD
+## 4.0.0 - 2024-07-03
 
 This release of REUSE implements the new
 [REUSE Specification v3.2](https://reuse.software/spec-3.2). It adds the
