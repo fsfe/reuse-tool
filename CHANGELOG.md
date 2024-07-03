@@ -25,6 +25,13 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## 4.0.1 - 2024-07-03
+
+### Fixed
+
+- Make sure that Read the Docs can compile the documentation. This necesitated
+  updating `poetry.lock`. (#1028)
+
 ## 4.0.0 - 2024-07-03
 
 This release of REUSE implements the new
