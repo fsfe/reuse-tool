@@ -1,0 +1,1 @@
+- Make sure that readthedocs can compile the documentation.
