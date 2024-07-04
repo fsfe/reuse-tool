@@ -768,7 +768,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rs": CppCommentStyle,
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
-    ".s": PythonCommentStyle,  # Assume GNU Assembler for x86
+    ".s": CCommentStyle,
     ".sass": CCommentStyle,
     ".sbt": CppCommentStyle,
     ".sc": CppCommentStyle,  # SuperCollider source file
