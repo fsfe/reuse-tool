@@ -1,0 +1,1 @@
+- `.s` files (GNU as) now use the C comment style (#1034)
