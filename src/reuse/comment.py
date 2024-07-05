@@ -677,6 +677,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ino": CppCommentStyle,
     ".ipynb": UncommentableCommentStyle,
     ".iuml": PlantUmlCommentStyle,
+    ".j2": JinjaCommentStyle,
     ".java": CppCommentStyle,
     ".jinja": JinjaCommentStyle,
     ".jinja2": JinjaCommentStyle,
