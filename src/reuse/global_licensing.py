@@ -595,6 +595,7 @@ class NestedReuseTOML(GlobalLicensing):
                 path,
                 include_submodules=include_submodules,
                 include_meson_subprojects=include_meson_subprojects,
+                include_reuse_tomls=True,
                 vcs_strategy=vcs_strategy,
             )
             if item.name == "REUSE.toml"
