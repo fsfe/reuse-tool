@@ -25,6 +25,13 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## 4.0.3 - 2024-07-08
+
+### Fixed
+
+- Increased the minimum requirement of `attrs` to `>=21.3`. Older versions do
+  not import correctly. (#1044)
+
 ## 4.0.2 - 2024-07-03
 
 ### Fixed
