@@ -59,7 +59,7 @@ binaryornot = ">=0.4.4"
 license-expression = ">=1.0"
 python-debian = ">=0.1.34,!=0.1.45,!=0.1.46,!=0.1.47"
 tomlkit = ">=0.8"
-attrs = ">=21.1"
+attrs = ">=21.3"
 
 [tool.poetry.group.test.dependencies]
 pytest = ">=6.0.0"
