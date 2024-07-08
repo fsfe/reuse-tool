@@ -24,13 +24,14 @@ from unittest.mock import create_autospec
 from urllib.error import URLError
 
 import pytest
-from conftest import RESOURCES_DIRECTORY
 from freezegun import freeze_time
 
 from reuse import download
 from reuse._main import main
 from reuse._util import GIT_EXE, HG_EXE, PIJUL_EXE, cleandoc_nl
 from reuse.report import LINT_VERSION
+
+from .conftest import RESOURCES_DIRECTORY
 
 # REUSE-IgnoreStart
 

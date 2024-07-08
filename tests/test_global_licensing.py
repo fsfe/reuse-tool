@@ -9,7 +9,6 @@ from inspect import cleandoc
 from pathlib import Path
 
 import pytest
-from conftest import RESOURCES_DIRECTORY, posix
 from debian.copyright import Copyright
 from license_expression import LicenseSymbol
 
@@ -25,6 +24,8 @@ from reuse.global_licensing import (
     ReuseDep5,
     ReuseTOML,
 )
+
+from .conftest import RESOURCES_DIRECTORY, posix
 
 # REUSE-IgnoreStart
 
