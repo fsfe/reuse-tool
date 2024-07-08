@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-03 13:09+0000\n"
+"POT-Creation-Date: 2024-07-08 08:43+0000\n"
 "PO-Revision-Date: 2024-07-07 21:10+0000\n"
 "Last-Translator: Anthony Loiseau <anthony@loiseau.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -87,7 +87,7 @@ msgstr "une des options --contributor, --copyright ou --license est nécessaire"
 msgid "template {template} could not be found"
 msgstr "le modèle {template} est introuvable"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:573
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:574
 msgid "can't write to '{}'"
 msgstr "écriture impossible dans '{}'"
 
@@ -264,8 +264,8 @@ msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
-"Ajoute un copyright et une licence dans l'entête d'un ou plusieurs fichiers."
-"\n"
+"Ajoute un copyright et une licence dans l'entête d'un ou plusieurs "
+"fichiers.\n"
 "\n"
 "En utilisant --copyright et --license, vous pouvez spécifier les détenteurs "
 "de copyrights et les licences à ajouter dans les entêtes des fichiers "
@@ -350,12 +350,12 @@ msgstr ""
 "'{path}' ne peut pas être traité. Nous avons reçu le message d'erreur "
 "suivant : {message}"
 
-#: src/reuse/_util.py:368 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:369 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Analyse de la syntaxe de '{expression}' impossible"
 
-#: src/reuse/_util.py:424
+#: src/reuse/_util.py:425
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -363,39 +363,39 @@ msgstr ""
 "'{path}' contient une expression SPDX qui ne peut pas être analysée : le "
 "fichier est ignoré"
 
-#: src/reuse/_util.py:556
+#: src/reuse/_util.py:557
 msgid "'{}' is not a file"
 msgstr "'{}' n'est pas un fichier"
 
-#: src/reuse/_util.py:559
+#: src/reuse/_util.py:560
 msgid "'{}' is not a directory"
 msgstr "'{}' n'est pas un répertoire"
 
-#: src/reuse/_util.py:562
+#: src/reuse/_util.py:563
 msgid "can't open '{}'"
 msgstr "'{}' ne peut être ouvert"
 
-#: src/reuse/_util.py:567
+#: src/reuse/_util.py:568
 msgid "can't write to directory '{}'"
 msgstr "écriture impossible dans le répertoire '{}'"
 
-#: src/reuse/_util.py:586
+#: src/reuse/_util.py:587
 msgid "can't read or write '{}'"
 msgstr "lecture ou écriture impossible pour '{}'"
 
-#: src/reuse/_util.py:596
+#: src/reuse/_util.py:597
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' n'est pas une expression SPDX valide, abandon"
 
-#: src/reuse/_util.py:624
+#: src/reuse/_util.py:625
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' n'est pas un identifiant de licence SPDX valide."
 
-#: src/reuse/_util.py:631
+#: src/reuse/_util.py:632
 msgid "Did you mean:"
 msgstr "Vouliez-vous dire :"
 
-#: src/reuse/_util.py:638
+#: src/reuse/_util.py:639
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -447,15 +447,15 @@ msgstr "Votre connexion internet fonctionne-t-elle ?"
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Téléchargement de {spdx_identifier} terminé."
 
-#: src/reuse/download.py:188
+#: src/reuse/download.py:189
 msgid "--output has no effect when used together with --all"
 msgstr "--output n'a pas d'effet s'il est utilisé en même temps que --all"
 
-#: src/reuse/download.py:192
+#: src/reuse/download.py:193
 msgid "the following arguments are required: license"
 msgstr "les arguments suivants sont nécessaires : licence"
 
-#: src/reuse/download.py:194
+#: src/reuse/download.py:195
 msgid "cannot use --output with more than one license"
 msgstr "--output ne peut pas être utilisé avec plus d'une licence"
 
@@ -473,8 +473,8 @@ msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
-"Les éléments de la collection {attr_name} doivent être des {type_name} ("
-"obtenu {item_value} qui et un(e) {item_class})."
+"Les éléments de la collection {attr_name} doivent être des {type_name} "
+"(obtenu {item_value} qui et un(e) {item_class})."
 
 #: src/reuse/global_licensing.py:133
 #, python-brace-format
@@ -484,7 +484,8 @@ msgstr "{attr_name} ne doit pas être vide."
 #: src/reuse/global_licensing.py:156
 #, fuzzy, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
-msgstr "{name} doit être un(e) {type} (obtenu {value} qui est un {value_type})."
+msgstr ""
+"{name} doit être un(e) {type} (obtenu {value} qui est un {value_type})."
 
 #: src/reuse/global_licensing.py:179
 #, fuzzy, python-brace-format

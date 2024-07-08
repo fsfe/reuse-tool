@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-03 13:09+0000\n"
+"POT-Creation-Date: 2024-07-08 08:43+0000\n"
 "PO-Revision-Date: 2023-09-28 07:03+0000\n"
 "Last-Translator: \"T. E. Kalaycı\" <tekrei@tutanota.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -82,7 +82,7 @@ msgstr "--contributor, --copyright veya --license seçenekleri gereklidir"
 msgid "template {template} could not be found"
 msgstr "{template} şablonu bulunamıyor"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:573
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:574
 msgid "can't write to '{}'"
 msgstr "'{}' yazılamıyor"
 
@@ -323,50 +323,50 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:368 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:369 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "'{expression}' çözümlenemiyor"
 
-#: src/reuse/_util.py:424
+#: src/reuse/_util.py:425
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr "'{path}' çözümlenemeyen bir SPDX ifadesine sahip, dosya atlanıyor"
 
-#: src/reuse/_util.py:556
+#: src/reuse/_util.py:557
 msgid "'{}' is not a file"
 msgstr "'{}' bir dosya değil"
 
-#: src/reuse/_util.py:559
+#: src/reuse/_util.py:560
 msgid "'{}' is not a directory"
 msgstr "'{}' bir dizin değil"
 
-#: src/reuse/_util.py:562
+#: src/reuse/_util.py:563
 msgid "can't open '{}'"
 msgstr "'{}' açılamıyor"
 
-#: src/reuse/_util.py:567
+#: src/reuse/_util.py:568
 msgid "can't write to directory '{}'"
 msgstr "'{}' dizinine yazılamıyor"
 
-#: src/reuse/_util.py:586
+#: src/reuse/_util.py:587
 msgid "can't read or write '{}'"
 msgstr "'{}' okunamıyor veya yazılamıyor"
 
-#: src/reuse/_util.py:596
+#: src/reuse/_util.py:597
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' geçerli bir SPDX ifadesi değil, iptal ediliyor"
 
-#: src/reuse/_util.py:624
+#: src/reuse/_util.py:625
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' geçerli bir SPDX Lisans Kimliği değil."
 
-#: src/reuse/_util.py:631
+#: src/reuse/_util.py:632
 msgid "Did you mean:"
 msgstr "Şunu mu kastettiniz:"
 
-#: src/reuse/_util.py:638
+#: src/reuse/_util.py:639
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -416,15 +416,15 @@ msgstr "İnternet bağlantınız çalışıyor mu?"
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "{spdx_identifier} başarılı bir şekilde indirildi."
 
-#: src/reuse/download.py:188
+#: src/reuse/download.py:189
 msgid "--output has no effect when used together with --all"
 msgstr "--all ile birlikte kullanıldığında --output'un bir etkisi yok"
 
-#: src/reuse/download.py:192
+#: src/reuse/download.py:193
 msgid "the following arguments are required: license"
 msgstr "şu değişkenler gerekiyor: license"
 
-#: src/reuse/download.py:194
+#: src/reuse/download.py:195
 msgid "cannot use --output with more than one license"
 msgstr "--output birden fazla lisansla birlikte kullanılamıyor"
 

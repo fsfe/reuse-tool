@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-03 13:09+0000\n"
+"POT-Creation-Date: 2024-07-08 08:43+0000\n"
 "PO-Revision-Date: 2024-01-08 20:06+0000\n"
 "Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -79,7 +79,7 @@ msgstr ""
 msgid "template {template} could not be found"
 msgstr ""
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:573
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:574
 msgid "can't write to '{}'"
 msgstr "kan inte skriva till '{}'"
 
@@ -300,50 +300,50 @@ msgid ""
 msgstr ""
 "'{dep5}' kunde inte tolkas. Vi tog emot följande felmeddelande: {message}"
 
-#: src/reuse/_util.py:368 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:369 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Kunde inte tolka '{expression}'"
 
-#: src/reuse/_util.py:424
+#: src/reuse/_util.py:425
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 
-#: src/reuse/_util.py:556
+#: src/reuse/_util.py:557
 msgid "'{}' is not a file"
 msgstr "'{}' är inte en fil"
 
-#: src/reuse/_util.py:559
+#: src/reuse/_util.py:560
 msgid "'{}' is not a directory"
 msgstr "'{}' är inte en katalog"
 
-#: src/reuse/_util.py:562
+#: src/reuse/_util.py:563
 msgid "can't open '{}'"
 msgstr "kan inte öppna '{}'"
 
-#: src/reuse/_util.py:567
+#: src/reuse/_util.py:568
 msgid "can't write to directory '{}'"
 msgstr "kan inte skriva till katalogen '{}'"
 
-#: src/reuse/_util.py:586
+#: src/reuse/_util.py:587
 msgid "can't read or write '{}'"
 msgstr "kan inte läsa eller skriva '{}'"
 
-#: src/reuse/_util.py:596
+#: src/reuse/_util.py:597
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
 
-#: src/reuse/_util.py:624
+#: src/reuse/_util.py:625
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr ""
 
-#: src/reuse/_util.py:631
+#: src/reuse/_util.py:632
 msgid "Did you mean:"
 msgstr "Menade du:"
 
-#: src/reuse/_util.py:638
+#: src/reuse/_util.py:639
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -392,15 +392,15 @@ msgstr "Fungerar din internet-anslutning?"
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Hämtningen av {spdx_identifier} lyckades."
 
-#: src/reuse/download.py:188
+#: src/reuse/download.py:189
 msgid "--output has no effect when used together with --all"
 msgstr ""
 
-#: src/reuse/download.py:192
+#: src/reuse/download.py:193
 msgid "the following arguments are required: license"
 msgstr "följande argument behövs: licens"
 
-#: src/reuse/download.py:194
+#: src/reuse/download.py:195
 msgid "cannot use --output with more than one license"
 msgstr "kan inte använda --output med mer än en licens"
 
