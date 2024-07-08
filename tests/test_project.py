@@ -17,7 +17,6 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
-from conftest import RESOURCES_DIRECTORY
 from license_expression import LicenseSymbol
 
 from reuse import _LICENSING, ReuseInfo, SourceType
@@ -28,6 +27,8 @@ from reuse.exceptions import (
 )
 from reuse.global_licensing import ReuseDep5, ReuseTOML
 from reuse.project import Project
+
+from .conftest import RESOURCES_DIRECTORY
 
 # REUSE-IgnoreStart
 

@@ -148,7 +148,7 @@ use_parentheses = true
 line_length = 80
 
 [tool.pytest.ini_options]
-addopts = "--doctest-modules"
+addopts = "--doctest-modules --import-mode=importlib"
 
 [tool.mypy]
 files = [
