@@ -32,6 +32,7 @@ from typing import (
     cast,
 )
 
+import attrs
 from binaryornot.check import is_binary
 
 from . import IdentifierNotFound, ReuseInfo
@@ -71,42 +72,35 @@ class GlobalLicensingFound(NamedTuple):
 # vcs_strategy) is passed to SO MANY PLACES. Maybe Project should be simplified
 # to contain exclusively those values, or maybe these values should be extracted
 # out of Project to simplify passing this information around.
+@attrs.define
 class Project:
     """Simple object that holds the project's root, which is necessary for many
     interactions.
     """
 
-    # pylint: disable=too-many-arguments
-    def __init__(
-        self,
-        root: StrPath,
-        vcs_strategy: Optional[VCSStrategy] = None,
-        license_map: Optional[Dict[str, Dict]] = None,
-        licenses: Optional[Dict[str, Path]] = None,
-        global_licensing: Optional[GlobalLicensing] = None,
-        include_submodules: bool = False,
-        include_meson_subprojects: bool = False,
-    ):
-        self.root = Path(root)
+    root: Path = attrs.field(converter=Path)
+    include_submodules: bool = False
+    include_meson_subprojects: bool = False
+    vcs_strategy: VCSStrategy = attrs.field()
+    global_licensing: Optional[GlobalLicensing] = None
 
-        if vcs_strategy is None:
-            vcs_strategy = VCSStrategyNone(root)
-        self.vcs_strategy = vcs_strategy
+    # TODO: I want to get rid of these, or somehow refactor this mess.
+    license_map: Dict[str, Dict] = attrs.field()
+    licenses: Dict[str, Path] = attrs.field(factory=dict)
 
-        if license_map is None:
-            license_map = LICENSE_MAP
-        self.license_map = license_map.copy()
-        self.license_map.update(EXCEPTION_MAP)
-        self.licenses_without_extension: Dict[str, Path] = {}
+    licenses_without_extension: Dict[str, Path] = attrs.field(
+        init=False, factory=dict
+    )
 
-        if licenses is None:
-            licenses = {}
-        self.licenses = licenses
+    @vcs_strategy.default
+    def _default_vcs_strategy(self) -> VCSStrategy:
+        return VCSStrategyNone(self.root)
 
-        self.global_licensing = global_licensing
-
-        self.include_submodules = include_submodules
-        self.include_meson_subprojects = include_meson_subprojects
+    @license_map.default
+    def _default_license_map(self) -> Dict[str, Dict]:
+        license_map = LICENSE_MAP.copy()
+        license_map.update(EXCEPTION_MAP)
+        return license_map
 
     @classmethod
     def from_directory(
