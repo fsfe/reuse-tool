@@ -80,7 +80,7 @@ class Project:
     def __init__(
         self,
         root: StrPath,
-        vcs_strategy: Optional[Type[VCSStrategy]] = None,
+        vcs_strategy: Optional[VCSStrategy] = None,
         license_map: Optional[Dict[str, Dict]] = None,
         licenses: Optional[Dict[str, Path]] = None,
         global_licensing: Optional[GlobalLicensing] = None,
@@ -90,8 +90,8 @@ class Project:
         self.root = Path(root)
 
         if vcs_strategy is None:
-            vcs_strategy = VCSStrategyNone
-        self.vcs_strategy = vcs_strategy(self)
+            vcs_strategy = VCSStrategyNone(root)
+        self.vcs_strategy = vcs_strategy
 
         if license_map is None:
             license_map = LICENSE_MAP
@@ -530,13 +530,13 @@ class Project:
         return license_files
 
     @classmethod
-    def _detect_vcs_strategy(cls, root: StrPath) -> Type[VCSStrategy]:
+    def _detect_vcs_strategy(cls, root: StrPath) -> VCSStrategy:
         """For each supported VCS, check if the software is available and if the
         directory is a repository. If not, return :class:`VCSStrategyNone`.
         """
         for strategy in all_vcs_strategies():
             if strategy.EXE and strategy.in_repo(root):
-                return strategy
+                return strategy(root)
 
         _LOGGER.info(
             _(
@@ -544,4 +544,4 @@ class Project:
                 " software is not installed"
             ).format(root)
         )
-        return VCSStrategyNone
+        return VCSStrategyNone(root)
