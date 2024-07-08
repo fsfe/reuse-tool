@@ -112,13 +112,23 @@ def test_all_files_ignore_hg(empty_directory):
 
 
 def test_all_files_ignore_license_copying(empty_directory):
-    """When there are files names LICENSE, LICENSE.ext, COPYING, or COPYING.ext,
-    ignore them.
+    """When there are files named LICENSE, LICENSE.ext, LICENSE-MIT, COPYING,
+    COPYING.ext, or COPYING-MIT, ignore them.
     """
     (empty_directory / "LICENSE").write_text("foo")
     (empty_directory / "LICENSE.txt").write_text("foo")
+    (empty_directory / "LICENSE-MIT").write_text("foo")
     (empty_directory / "COPYING").write_text("foo")
     (empty_directory / "COPYING.txt").write_text("foo")
+    (empty_directory / "COPYING-MIT").write_text("foo")
+
+    project = Project.from_directory(empty_directory)
+    assert not list(project.all_files())
+
+
+def test_all_files_ignore_uk_license(empty_directory):
+    """Ignore UK spelling of licence."""
+    (empty_directory / "LICENCE").write_text("foo")
 
     project = Project.from_directory(empty_directory)
     assert not list(project.all_files())
