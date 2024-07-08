@@ -40,6 +40,8 @@ from license_expression import ExpressionError
 
 from . import ReuseInfo, SourceType
 from ._util import _LICENSING, StrPath, is_relative_to
+from .covered_files import iter_files
+from .vcs import VCSStrategy
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -231,7 +233,7 @@ class GlobalLicensing(ABC):
 
     @classmethod
     @abstractmethod
-    def from_file(cls, path: StrPath) -> "GlobalLicensing":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "GlobalLicensing":
         """Parse the file and create a :class:`GlobalLicensing` object from its
         contents.
 
@@ -261,7 +263,7 @@ class ReuseDep5(GlobalLicensing):
     dep5_copyright: Copyright
 
     @classmethod
-    def from_file(cls, path: StrPath) -> "ReuseDep5":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "ReuseDep5":
         path = Path(path)
         try:
             with path.open(encoding="utf-8") as fp:
@@ -437,7 +439,7 @@ class ReuseTOML(GlobalLicensing):
         return cls.from_dict(tomldict, source)
 
     @classmethod
-    def from_file(cls, path: StrPath) -> "ReuseTOML":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "ReuseTOML":
         with Path(path).open(encoding="utf-8") as fp:
             return cls.from_toml(fp.read(), str(path))
 
@@ -483,11 +485,21 @@ class NestedReuseTOML(GlobalLicensing):
     reuse_tomls: List[ReuseTOML] = attrs.field()
 
     @classmethod
-    def from_file(cls, path: StrPath) -> "GlobalLicensing":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "GlobalLicensing":
         """TODO: *path* is a directory instead of a file."""
+        include_submodules: bool = kwargs.get("include_submodules", False)
+        include_meson_subprojects: bool = kwargs.get(
+            "include_meson_subprojects", False
+        )
+        vcs_strategy: Optional[VCSStrategy] = kwargs.get("vcs_strategy")
         tomls = [
             ReuseTOML.from_file(toml_path)
-            for toml_path in cls.find_reuse_tomls(path)
+            for toml_path in cls.find_reuse_tomls(
+                path,
+                include_submodules=include_submodules,
+                include_meson_subprojects=include_meson_subprojects,
+                vcs_strategy=vcs_strategy,
+            )
         ]
         return cls(reuse_tomls=tomls, source=str(path))
 
@@ -546,9 +558,24 @@ class NestedReuseTOML(GlobalLicensing):
         return dict(result)
 
     @classmethod
-    def find_reuse_tomls(cls, path: StrPath) -> Generator[Path, None, None]:
+    def find_reuse_tomls(
+        cls,
+        path: StrPath,
+        include_submodules: bool = False,
+        include_meson_subprojects: bool = False,
+        vcs_strategy: Optional[VCSStrategy] = None,
+    ) -> Generator[Path, None, None]:
         """Find all REUSE.toml files in *path*."""
-        return Path(path).rglob("**/REUSE.toml")
+        return (
+            item
+            for item in iter_files(
+                path,
+                include_submodules=include_submodules,
+                include_meson_subprojects=include_meson_subprojects,
+                vcs_strategy=vcs_strategy,
+            )
+            if item.name == "REUSE.toml"
+        )
 
     def _find_relevant_tomls(self, path: StrPath) -> List[ReuseTOML]:
         found = []

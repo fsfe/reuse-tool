@@ -67,6 +67,10 @@ class GlobalLicensingFound(NamedTuple):
     cls: Type[GlobalLicensing]
 
 
+# TODO: The information (root, include_submodules, include_meson_subprojects,
+# vcs_strategy) is passed to SO MANY PLACES. Maybe Project should be simplified
+# to contain exclusively those values, or maybe these values should be extracted
+# out of Project to simplify passing this information around.
 class Project:
     """Simple object that holds the project's root, which is necessary for many
     interactions.
@@ -146,9 +150,19 @@ class Project:
         vcs_strategy = cls._detect_vcs_strategy(root)
 
         global_licensing: Optional[GlobalLicensing] = None
-        found = cls.find_global_licensing(root)
+        found = cls.find_global_licensing(
+            root,
+            include_submodules=include_submodules,
+            include_meson_subprojects=include_meson_subprojects,
+            vcs_strategy=vcs_strategy,
+        )
         if found:
-            global_licensing = found.cls.from_file(found.path)
+            global_licensing = found.cls.from_file(
+                found.path,
+                include_submodules=include_submodules,
+                include_meson_subprojects=include_meson_subprojects,
+                vcs_strategy=vcs_strategy,
+            )
 
         project = cls(
             root,
@@ -321,7 +335,11 @@ class Project:
 
     @classmethod
     def find_global_licensing(
-        cls, root: Path
+        cls,
+        root: Path,
+        include_submodules: bool = False,
+        include_meson_subprojects: bool = False,
+        vcs_strategy: Optional[VCSStrategy] = None,
     ) -> Optional[GlobalLicensingFound]:
         """Find the path and corresponding class of a project directory's
         :class:`GlobalLicensing`.
@@ -344,9 +362,18 @@ class Project:
                     PendingDeprecationWarning,
                 )
             candidate = GlobalLicensingFound(dep5_path, ReuseDep5)
+
+        # TODO: the performance of this isn't great.
         toml_path = None
         with contextlib.suppress(StopIteration):
-            toml_path = next(root.rglob("**/REUSE.toml"))
+            toml_path = next(
+                NestedReuseTOML.find_reuse_tomls(
+                    root,
+                    include_submodules=include_submodules,
+                    include_meson_subprojects=include_meson_subprojects,
+                    vcs_strategy=vcs_strategy,
+                )
+            )
         if toml_path is not None:
             if candidate is not None:
                 raise GlobalLicensingConflict(
@@ -357,6 +384,7 @@ class Project:
                     ).format(new_path=toml_path, old_path=dep5_path)
                 )
             candidate = GlobalLicensingFound(root, NestedReuseTOML)
+
         return candidate
 
     def _identifier_of_license(self, path: Path) -> str:

@@ -25,6 +25,7 @@ from reuse.global_licensing import (
     ReuseDep5,
     ReuseTOML,
 )
+from reuse.vcs import VCSStrategyGit
 
 # REUSE-IgnoreStart
 
@@ -699,17 +700,81 @@ class TestNestedReuseTOMLFindReuseTomls:
         """Find a single REUSE.toml deeper in the directory tree."""
         (empty_directory / "src").mkdir()
         path = empty_directory / "src/REUSE.toml"
-        path.touch()
+        path.write_text("version = 1")
         result = NestedReuseTOML.find_reuse_tomls(empty_directory)
         assert list(result) == [path]
 
     def test_multiple(self, fake_repository_reuse_toml):
         """Find multiple REUSE.tomls."""
-        (fake_repository_reuse_toml / "src/REUSE.toml").touch()
+        (fake_repository_reuse_toml / "src/REUSE.toml").write_text(
+            "version = 1"
+        )
         result = NestedReuseTOML.find_reuse_tomls(fake_repository_reuse_toml)
         assert set(result) == {
             fake_repository_reuse_toml / "REUSE.toml",
             fake_repository_reuse_toml / "src/REUSE.toml",
+        }
+
+    def test_with_vcs_strategy(self, git_repository):
+        """Ignore the correct files ignored by the repository."""
+        (git_repository / "REUSE.toml").write_text("version = 1")
+        (git_repository / "build/REUSE.toml").write_text("version =1")
+        (git_repository / "src/REUSE.toml").write_text("version = 1")
+
+        result = NestedReuseTOML.find_reuse_tomls(
+            git_repository, vcs_strategy=VCSStrategyGit(git_repository)
+        )
+        assert set(result) == {
+            git_repository / "REUSE.toml",
+            git_repository / "src/REUSE.toml",
+        }
+
+    def test_includes_submodule(self, submodule_repository):
+        """include_submodules is correctly implemented."""
+        (submodule_repository / "REUSE.toml").write_text("version = 1")
+        (submodule_repository / "submodule/REUSE.toml").write_text(
+            "version = 1"
+        )
+
+        result_without = NestedReuseTOML.find_reuse_tomls(
+            submodule_repository,
+            vcs_strategy=VCSStrategyGit(submodule_repository),
+        )
+        assert set(result_without) == {submodule_repository / "REUSE.toml"}
+
+        result_with = NestedReuseTOML.find_reuse_tomls(
+            submodule_repository,
+            include_submodules=True,
+            vcs_strategy=VCSStrategyGit(submodule_repository),
+        )
+        assert set(result_with) == {
+            submodule_repository / "REUSE.toml",
+            submodule_repository / "submodule/REUSE.toml",
+        }
+
+    def test_includes_meson_subprojects(self, subproject_repository):
+        """include_meson_subprojects is correctly implemented."""
+        (subproject_repository / "REUSE.toml").write_text("version = 1")
+        (subproject_repository / "subprojects/REUSE.toml").write_text(
+            "version = 1"
+        )
+        (subproject_repository / "subprojects/libfoo/REUSE.toml").write_text(
+            "version = 1"
+        )
+
+        result_without = NestedReuseTOML.find_reuse_tomls(subproject_repository)
+        assert set(result_without) == {
+            subproject_repository / "REUSE.toml",
+            subproject_repository / "subprojects/REUSE.toml",
+        }
+
+        result_with = NestedReuseTOML.find_reuse_tomls(
+            subproject_repository, include_meson_subprojects=True
+        )
+        assert set(result_with) == {
+            subproject_repository / "REUSE.toml",
+            subproject_repository / "subprojects/REUSE.toml",
+            subproject_repository / "subprojects/libfoo/REUSE.toml",
         }
 
 

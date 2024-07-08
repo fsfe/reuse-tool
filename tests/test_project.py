@@ -591,7 +591,7 @@ def test_find_global_licensing_none(empty_directory):
 
 def test_find_global_licensing_conflict(fake_repository_dep5):
     """Expect an error on a conflict"""
-    (fake_repository_dep5 / "REUSE.toml").touch()
+    (fake_repository_dep5 / "REUSE.toml").write_text("version = 1")
     with pytest.raises(GlobalLicensingConflict):
         Project.find_global_licensing(fake_repository_dep5)
 
