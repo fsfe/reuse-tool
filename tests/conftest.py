@@ -401,6 +401,35 @@ def submodule_repository(
     return git_repository
 
 
+@pytest.fixture()
+def subproject_repository(fake_repository: Path) -> Path:
+    """Add a Meson subproject to the fake repo."""
+    (fake_repository / "meson.build").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
+            """
+        )
+    )
+    subprojects_dir = fake_repository / "subprojects"
+    subprojects_dir.mkdir()
+    libfoo_dir = subprojects_dir / "libfoo"
+    libfoo_dir.mkdir()
+    # ./subprojects/foo.wrap has license and linter succeeds
+    (subprojects_dir / "foo.wrap").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
+            """
+        )
+    )
+    # ./subprojects/libfoo/foo.c misses license but is ignored
+    (libfoo_dir / "foo.c").write_text("foo")
+    return fake_repository
+
+
 @pytest.fixture(scope="session")
 def reuse_dep5():
     """Create a ReuseDep5 object."""
