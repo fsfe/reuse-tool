@@ -892,6 +892,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "manifest": PythonCommentStyle,  # used by cdist
     "meson.build": PythonCommentStyle,
     "meson_options.txt": PythonCommentStyle,
+    "poetry.lock": UncommentableCommentStyle,
     "pubspec.lock": UncommentableCommentStyle,
     "pylintrc": PythonCommentStyle,
     "Rakefile": PythonCommentStyle,
