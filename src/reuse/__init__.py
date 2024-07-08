@@ -68,7 +68,6 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r"^COPYING(\..*)?$"),
     # ".git" as file happens in submodules
     re.compile(r"^\.git$"),
-    re.compile(r"^\.gitkeep$"),
     re.compile(r"^\.hgtags$"),
     re.compile(r".*\.license$"),
     # Workaround for https://github.com/fsfe/reuse-tool/issues/229
