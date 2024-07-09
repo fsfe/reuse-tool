@@ -9,7 +9,6 @@
 
 """Module that contains the central Project class."""
 
-import contextlib
 import errno
 import glob
 import logging
@@ -51,6 +50,7 @@ from .global_licensing import (
     NestedReuseTOML,
     PrecedenceType,
     ReuseDep5,
+    ReuseTOML,
 )
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
@@ -151,11 +151,8 @@ class Project:
             vcs_strategy=vcs_strategy,
         )
         if found:
-            global_licensing = found.cls.from_file(
-                found.path,
-                include_submodules=include_submodules,
-                include_meson_subprojects=include_meson_subprojects,
-                vcs_strategy=vcs_strategy,
+            global_licensing = cls._global_licensing_from_found(
+                found, str(root)
             )
 
         project = cls(
@@ -334,7 +331,7 @@ class Project:
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
         vcs_strategy: Optional[VCSStrategy] = None,
-    ) -> Optional[GlobalLicensingFound]:
+    ) -> List[GlobalLicensingFound]:
         """Find the path and corresponding class of a project directory's
         :class:`GlobalLicensing`.
 
@@ -342,7 +339,7 @@ class Project:
             GlobalLicensingConflict: if more than one global licensing config
                 file is present.
         """
-        candidate: Optional[GlobalLicensingFound] = None
+        candidates: List[GlobalLicensingFound] = []
         dep5_path = root / ".reuse/dep5"
         if (dep5_path).exists():
             # Sneaky workaround to not print this warning.
@@ -355,31 +352,44 @@ class Project:
                     ),
                     PendingDeprecationWarning,
                 )
-            candidate = GlobalLicensingFound(dep5_path, ReuseDep5)
+            candidates = [GlobalLicensingFound(dep5_path, ReuseDep5)]
 
-        # TODO: the performance of this isn't great.
-        toml_path = None
-        with contextlib.suppress(StopIteration):
-            toml_path = next(
-                NestedReuseTOML.find_reuse_tomls(
-                    root,
-                    include_submodules=include_submodules,
-                    include_meson_subprojects=include_meson_subprojects,
-                    vcs_strategy=vcs_strategy,
-                )
+        reuse_toml_candidates = [
+            GlobalLicensingFound(path, ReuseTOML)
+            for path in NestedReuseTOML.find_reuse_tomls(
+                root,
+                include_submodules=include_submodules,
+                include_meson_subprojects=include_meson_subprojects,
+                vcs_strategy=vcs_strategy,
             )
-        if toml_path is not None:
-            if candidate is not None:
+        ]
+        if reuse_toml_candidates:
+            if candidates:
                 raise GlobalLicensingConflict(
                     _(
                         "Found both '{new_path}' and '{old_path}'. You"
                         " cannot keep both files simultaneously; they are"
                         " not intercompatible."
-                    ).format(new_path=toml_path, old_path=dep5_path)
+                    ).format(
+                        new_path=reuse_toml_candidates[0].path,
+                        old_path=dep5_path,
+                    )
                 )
-            candidate = GlobalLicensingFound(root, NestedReuseTOML)
+            candidates = reuse_toml_candidates
 
-        return candidate
+        return candidates
+
+    @classmethod
+    def _global_licensing_from_found(
+        cls, found: List[GlobalLicensingFound], root: StrPath
+    ) -> GlobalLicensing:
+        if len(found) == 1 and found[0].cls == ReuseDep5:
+            return ReuseDep5.from_file(found[0].path)
+        # This is an impossible scenario at time of writing.
+        if not all(item.cls == ReuseTOML for item in found):
+            raise NotImplementedError()
+        tomls = [ReuseTOML.from_file(item.path) for item in found]
+        return NestedReuseTOML(reuse_tomls=tomls, source=str(root))
 
     def _identifier_of_license(self, path: Path) -> str:
         """Figure out the SPDX License identifier of a license given its path.

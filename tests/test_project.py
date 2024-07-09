@@ -24,8 +24,8 @@ from reuse._util import _LICENSING
 from reuse.covered_files import iter_files
 from reuse.global_licensing import (
     GlobalLicensingParseError,
-    NestedReuseTOML,
     ReuseDep5,
+    ReuseTOML,
 )
 from reuse.project import GlobalLicensingConflict, Project
 
@@ -567,8 +567,10 @@ def test_find_global_licensing_dep5(fake_repository_dep5):
     """Find the dep5 file. Also output a PendingDeprecationWarning."""
     with warnings.catch_warnings(record=True) as caught_warnings:
         result = Project.find_global_licensing(fake_repository_dep5)
-        assert result.path == fake_repository_dep5 / ".reuse/dep5"
-        assert result.cls == ReuseDep5
+        assert len(result) == 1
+        dep5 = result[0]
+        assert dep5.path == fake_repository_dep5 / ".reuse/dep5"
+        assert dep5.cls == ReuseDep5
 
         assert len(caught_warnings) == 1
         assert issubclass(
@@ -579,14 +581,25 @@ def test_find_global_licensing_dep5(fake_repository_dep5):
 def test_find_global_licensing_reuse_toml(fake_repository_reuse_toml):
     """Find the REUSE.toml file."""
     result = Project.find_global_licensing(fake_repository_reuse_toml)
-    assert result.path == fake_repository_reuse_toml / "."
-    assert result.cls == NestedReuseTOML
+    assert len(result) == 1
+    toml = result[0]
+    assert toml.path == fake_repository_reuse_toml / "REUSE.toml"
+    assert toml.cls == ReuseTOML
+
+
+def test_find_global_licensing_reuse_toml_multiple(fake_repository_reuse_toml):
+    """Find multiple REUSE.tomls."""
+    (fake_repository_reuse_toml / "src/REUSE.toml").write_text("version = 1")
+    result = Project.find_global_licensing(fake_repository_reuse_toml)
+    assert len(result) == 2
+    assert result[0].path == fake_repository_reuse_toml / "REUSE.toml"
+    assert result[1].path == fake_repository_reuse_toml / "src/REUSE.toml"
 
 
 def test_find_global_licensing_none(empty_directory):
     """Find no file."""
     result = Project.find_global_licensing(empty_directory)
-    assert result is None
+    assert not result
 
 
 def test_find_global_licensing_conflict(fake_repository_dep5):
