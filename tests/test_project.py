@@ -51,7 +51,7 @@ def test_project_conflicting_global_licensing(empty_directory):
     """
     (empty_directory / "REUSE.toml").write_text("version = 1")
     (empty_directory / ".reuse").mkdir()
-    (empty_directory / ".reuse/dep5").touch()
+    shutil.copy(RESOURCES_DIRECTORY / "dep5", empty_directory / ".reuse/dep5")
     with pytest.raises(GlobalLicensingConflict):
         Project.from_directory(empty_directory)
 

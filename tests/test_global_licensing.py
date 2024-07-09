@@ -347,33 +347,37 @@ class TestReuseTOMLValidators:
 
     def test_version_not_int(self, annotations_item):
         """Version must be an int"""
-        with pytest.raises(GlobalLicensingParseTypeError):
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(
                 version=1.2, source="REUSE.toml", annotations=[annotations_item]
             )
+        assert exc_info.value.source == "REUSE.toml"
 
     def test_source_not_str(self, annotations_item):
         """Source must be a str."""
-        with pytest.raises(GlobalLicensingParseTypeError):
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(version=1, source=123, annotations=[annotations_item])
+        assert exc_info.value.source == 123
 
     def test_annotations_must_be_list(self, annotations_item):
         """Annotations must be in a list, not any other collection."""
         # TODO: Technically we could change this to 'any collection that is
         # ordered', but let's not split hairs.
-        with pytest.raises(GlobalLicensingParseTypeError):
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(
                 version=1,
                 source="REUSE.toml",
                 annotations=iter([annotations_item]),
             )
+        assert exc_info.value.source == "REUSE.toml"
 
     def test_annotations_must_be_object(self):
         """Annotations must be AnnotationsItem objects."""
-        with pytest.raises(GlobalLicensingParseTypeError):
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(
                 version=1, source="REUSE.toml", annotations=[{"foo": "bar"}]
             )
+        assert exc_info.value.source == "REUSE.toml"
 
 
 class TestReuseTOMLFromDict:
@@ -427,6 +431,24 @@ class TestReuseTOMLFromDict:
                 },
                 "REUSE.toml",
             )
+
+    def test_annotations_error(self):
+        """If there is an error in the annotations, the error get ReuseTOML's
+        source.
+        """
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
+            ReuseTOML.from_dict(
+                {
+                    "version": 1,
+                    "annotations": [
+                        {
+                            "path": {1},
+                        }
+                    ],
+                },
+                "REUSE.toml",
+            )
+        assert exc_info.value.source == "REUSE.toml"
 
 
 class TestReuseTOMLFromToml:
@@ -1097,14 +1119,19 @@ class TestReuseDep5FromFile:
         shutil.copy(
             RESOURCES_DIRECTORY / "fsfe.png", fake_repository_dep5 / "fsfe.png"
         )
-        with pytest.raises(UnicodeDecodeError):
+        with pytest.raises(GlobalLicensingParseError) as exc_info:
             ReuseDep5.from_file(fake_repository_dep5 / "fsfe.png")
+        error = exc_info.value
+        assert error.source == str(fake_repository_dep5 / "fsfe.png")
+        assert "'utf-8' codec can't decode byte" in str(error)
 
     def test_parse_error(self, empty_directory):
         """Raise GlobalLicensingParseError on parse error."""
         (empty_directory / "foo").write_text("foo")
-        with pytest.raises(GlobalLicensingParseError):
+        with pytest.raises(GlobalLicensingParseError) as exc_info:
             ReuseDep5.from_file(empty_directory / "foo")
+        error = exc_info.value
+        assert error.source == str(empty_directory / "foo")
 
     def test_double_copyright_parse_error(self, empty_directory):
         """Raise GlobalLicensingParseError on double Copyright lines."""
@@ -1123,8 +1150,10 @@ class TestReuseDep5FromFile:
                 """
             )
         )
-        with pytest.raises(GlobalLicensingParseError):
+        with pytest.raises(GlobalLicensingParseError) as exc_info:
             ReuseDep5.from_file(empty_directory / "foo")
+        error = exc_info.value
+        assert error.source == str(empty_directory / "foo")
 
 
 def test_reuse_dep5_reuse_info_of(reuse_dep5):

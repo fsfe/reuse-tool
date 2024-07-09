@@ -217,7 +217,10 @@ def test_lint_dep5_decode_error(fake_repository_dep5, capsys):
     )
     with pytest.raises(SystemExit):
         main(["lint"])
-    assert "could not be decoded" in capsys.readouterr().err
+    error = capsys.readouterr().err
+    assert str(fake_repository_dep5 / ".reuse/dep5") in error
+    assert "could not be parsed" in error
+    assert "'utf-8' codec can't decode byte" in error
 
 
 def test_lint_dep5_parse_error(fake_repository_dep5, capsys):
@@ -225,7 +228,38 @@ def test_lint_dep5_parse_error(fake_repository_dep5, capsys):
     (fake_repository_dep5 / ".reuse/dep5").write_text("foo")
     with pytest.raises(SystemExit):
         main(["lint"])
-    assert "could not be parsed" in capsys.readouterr().err
+    error = capsys.readouterr().err
+    assert str(fake_repository_dep5 / ".reuse/dep5") in error
+    assert "could not be parsed" in error
+
+
+def test_lint_toml_parse_error_version(fake_repository_reuse_toml, capsys):
+    """If version has the wrong type, print an error."""
+    (fake_repository_reuse_toml / "REUSE.toml").write_text("version = 'a'")
+    with pytest.raises(SystemExit):
+        main(["lint"])
+    error = capsys.readouterr().err
+    assert str(fake_repository_reuse_toml / "REUSE.toml") in error
+    assert "could not be parsed" in error
+
+
+def test_lint_toml_parse_error_annotation(fake_repository_reuse_toml, capsys):
+    """If there is an error in an annotation, print an error."""
+    (fake_repository_reuse_toml / "REUSE.toml").write_text(
+        cleandoc_nl(
+            """
+            version = 1
+
+            [[annotations]]
+            path = 1
+            """
+        )
+    )
+    with pytest.raises(SystemExit):
+        main(["lint"])
+    error = capsys.readouterr().err
+    assert str(fake_repository_reuse_toml / "REUSE.toml") in error
+    assert "could not be parsed" in error
 
 
 def test_lint_json(fake_repository, stringio):
