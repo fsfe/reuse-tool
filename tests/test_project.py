@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -237,6 +238,40 @@ def test_all_files_hg_ignored_contains_newline(hg_repository):
     """File names that contain newlines are also ignored."""
     (hg_repository / "hello\nworld.pyc").touch()
     project = Project.from_directory(hg_repository)
+    assert Path("hello\nworld.pyc").absolute() not in project.all_files()
+
+
+def test_all_files_jujutsu_ignored(jujutsu_repository):
+    """Given a jujutsu repository where some files are ignored, do not yield
+    those files.
+    """
+    project = Project.from_directory(jujutsu_repository)
+    assert Path("build/hello.py").absolute() not in project.all_files()
+
+
+def test_all_files_jujutsu_ignored_different_cwd(jujutsu_repository):
+    """Given a jujutsu repository where some files are ignored, do not yield
+    those files.
+
+    Be in a different CWD during the above.
+    """
+    os.chdir(jujutsu_repository / "LICENSES")
+    project = Project.from_directory(jujutsu_repository)
+    assert Path("build/hello.py").absolute() not in project.all_files()
+
+
+def test_all_files_jujutsu_ignored_contains_space(jujutsu_repository):
+    """File names that contain spaces are also ignored."""
+    (jujutsu_repository / "I contain spaces.pyc").touch()
+    project = Project.from_directory(jujutsu_repository)
+    assert Path("I contain spaces.pyc").absolute() not in project.all_files()
+
+
+@posix
+def test_all_files_jujutsu_ignored_contains_newline(jujutsu_repository):
+    """File names that contain newlines are also ignored."""
+    (jujutsu_repository / "hello\nworld.pyc").touch()
+    project = Project.from_directory(jujutsu_repository)
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 

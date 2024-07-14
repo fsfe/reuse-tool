@@ -118,6 +118,7 @@ For full functionality, the following pieces of software are recommended:
 - Git
 - Mercurial 4.3+
 - Pijul
+- Jujutsu
 
 ### Installation via pip
 
