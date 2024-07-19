@@ -96,6 +96,10 @@ Options
 
   Output one line per error, prefixed by the file path.
 
+.. option:: -g, --github
+
+  Output one line per error in GitHub workflow command syntax.
+
 .. option:: -h, --help
 
   Display help and exit.

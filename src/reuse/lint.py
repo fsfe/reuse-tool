@@ -47,6 +47,12 @@ def add_arguments(parser: ArgumentParser) -> None:
         action="store_true",
         help=_("formats output as errors per line"),
     )
+    mutex_group.add_argument(
+        "-g",
+        "--github",
+        action="store_true",
+        help=_("formats output as GitHub workflow commands per line"),
+    )
 
 
 # pylint: disable=too-many-branches,too-many-statements,too-many-locals
@@ -270,7 +276,7 @@ def format_json(report: ProjectReport) -> str:
 def get_errors(
     report: ProjectReport,
 ) -> Iterable[tuple[Path | str | None, str]]:
-    """Formats data dictionary as plaintext strings to be printed to sys.stdout
+    """Returns data dictionary iterable of paths and errors.
     Sorting of output is not guaranteed.
     Symbolic links can result in multiple entries per file.
 
@@ -278,7 +284,7 @@ def get_errors(
         report: ProjectReport data
 
     Returns:
-        String (in plaintext) that can be output to sys.stdout
+        Iterable of tuples containing path and error message.
     """
 
     def license_path(lic: str) -> Optional[Path]:
@@ -343,6 +349,27 @@ def format_lines(report: ProjectReport) -> str:
     return ""
 
 
+def format_github(report: ProjectReport) -> str:
+    """Formats data dictionary as GitHub workflow commands
+    to be printed to sys.stdout
+    Sorting of output is not guaranteed.
+    Symbolic links can result in multiple entries per file.
+
+    Args:
+        report: ProjectReport data
+
+    Returns:
+        String (in plaintext) that can be output to sys.stdout
+    """
+    if not report.is_compliant:
+        return "".join(
+            f"::error file={path}::{error}\n"
+            for path, error in get_errors(report)
+        )
+
+    return ""
+
+
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """List all non-compliant files."""
     report = ProjectReport.generate(
@@ -355,6 +382,8 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         out.write(format_json(report))
     elif args.lines:
         out.write(format_lines(report))
+    elif args.github:
+        out.write(format_github(report))
     else:
         out.write(format_plain(report))
 
