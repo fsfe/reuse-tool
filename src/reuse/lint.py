@@ -13,6 +13,7 @@ the reports and printing some conclusions.
 from __future__ import annotations
 
 import json
+import os
 import sys
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
@@ -376,15 +377,26 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )
 
-    if args.quiet:
-        pass
-    elif args.json:
-        out.write(format_json(report))
-    elif args.lines:
-        out.write(format_lines(report))
-    elif args.github:
-        out.write(format_github(report))
-    else:
-        out.write(format_plain(report))
+    formatters = {
+        "json": format_json,
+        "lines": format_lines,
+        "github": format_github,
+        "plain": format_plain,
+    }
+
+    if not args.quiet:
+        output_format = os.environ.get("REUSE_OUTPUT_FORMAT")
+
+        if output_format is not None and output_format in formatters:
+            formatter = formatters[output_format]
+            out.write(formatter(report))
+        elif args.json:
+            out.write(format_json(report))
+        elif args.lines:
+            out.write(format_lines(report))
+        elif args.github:
+            out.write(format_github(report))
+        else:
+            out.write(format_plain(report))
 
     return 0 if report.is_compliant else 1

@@ -103,3 +103,12 @@ Options
 .. option:: -h, --help
 
   Display help and exit.
+
+Environment
+-----------
+
+.. envvar:: REUSE_OUTPUT_FORMAT
+
+   Specifies output format, one of ``plain``, ``lines``, ``github``, ``json``
+
+   It behaves same as corresponding command line options.
