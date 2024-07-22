@@ -20,7 +20,7 @@ from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
-from typing import IO, Any, Iterable, Optional
+from typing import IO, Any, Generator, Optional
 
 from . import __REUSE_version__
 from .project import Project
@@ -276,7 +276,7 @@ def format_json(report: ProjectReport) -> str:
 
 def get_errors(
     report: ProjectReport,
-) -> Iterable[tuple[Path | str | None, str]]:
+) -> Generator[tuple[Path | str | None, str], None, None]:
     """Returns data dictionary iterable of paths and errors.
     Sorting of output is not guaranteed.
     Symbolic links can result in multiple entries per file.
