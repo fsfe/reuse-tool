@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2020 John Mulligan <jmulligan@redhat.com>
 # SPDX-FileCopyrightText: 2023 Markus Haug <korrat@proton.me>
+# SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -16,7 +17,14 @@ from inspect import isclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Generator, Optional, Set, Type
 
-from ._util import GIT_EXE, HG_EXE, PIJUL_EXE, StrPath, execute_command
+from ._util import (
+    GIT_EXE,
+    HG_EXE,
+    JUJUTSU_EXE,
+    PIJUL_EXE,
+    StrPath,
+    execute_command,
+)
 
 if TYPE_CHECKING:
     from .project import Project
@@ -213,6 +221,71 @@ class VCSStrategyHg(VCSStrategy):
 
     def is_submodule(self, path: StrPath) -> bool:
         # TODO: Implement me.
+        return False
+
+    @classmethod
+    def in_repo(cls, directory: StrPath) -> bool:
+        if not Path(directory).is_dir():
+            raise NotADirectoryError()
+
+        command = [str(cls.EXE), "root"]
+        result = execute_command(command, _LOGGER, cwd=directory)
+
+        return not result.returncode
+
+    @classmethod
+    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+        if cwd is None:
+            cwd = Path.cwd()
+
+        if not Path(cwd).is_dir():
+            raise NotADirectoryError()
+
+        command = [str(cls.EXE), "root"]
+        result = execute_command(command, _LOGGER, cwd=cwd)
+
+        if not result.returncode:
+            path = result.stdout.decode("utf-8")[:-1]
+            return Path(os.path.relpath(path, cwd))
+
+        return None
+
+
+class VCSStrategyJujutsu(VCSStrategy):
+    """Strategy that is used for Jujutsu."""
+
+    EXE = JUJUTSU_EXE
+
+    def __init__(self, project: Project):
+        super().__init__(project)
+        if not self.EXE:
+            raise FileNotFoundError("Could not find binary for Jujutsu")
+        self._all_tracked_files = self._find_all_tracked_files()
+
+    def _find_all_tracked_files(self) -> Set[Path]:
+        """
+        Return a set of all files tracked in the current jj revision
+        """
+        command = [str(self.EXE), "files"]
+        result = execute_command(command, _LOGGER, cwd=self.project.root)
+        all_files = result.stdout.decode("utf-8").split("\n")
+        return {Path(file_) for file_ in all_files if file_}
+
+    def is_ignored(self, path: StrPath) -> bool:
+        path = self.project.relative_from_root(path)
+
+        for tracked in self._all_tracked_files:
+            if tracked.parts[: len(path.parts)] == path.parts:
+                # We can't check only if the path is in our tracked files as we
+                # must support directories as well as files
+                #
+                # We'll consider a directory "tracked" if there are any tracked
+                # files inside it
+                return False
+
+        return True
+
+    def is_submodule(self, path: StrPath) -> bool:
         return False
 
     @classmethod
