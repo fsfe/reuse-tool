@@ -287,15 +287,15 @@ def format_json(report: ProjectReport) -> str:
 def get_errors(
     report: ProjectReport,
 ) -> Generator[PathError, None, None]:
-    """Returns data dictionary iterable of paths and errors.
+    """Returns a generator of paths and errors from a report.
     Sorting of output is not guaranteed.
     Symbolic links can result in multiple entries per file.
 
     Args:
-        report: ProjectReport data
+        report: :class:`ProjectReport` data
 
     Returns:
-        Iterable of tuples containing path and error message.
+        Generator of :class:`PathError`s.
     """
 
     def license_path(lic: str) -> Path:
@@ -374,16 +374,17 @@ def format_lines(report: ProjectReport) -> str:
 
 
 def format_github(report: ProjectReport) -> str:
-    """Formats data dictionary as GitHub workflow commands
-    to be printed to sys.stdout
-    Sorting of output is not guaranteed.
-    Symbolic links can result in multiple entries per file.
+    """Formats report as GitHub workflow commands to be printed to sys.stdout.
+    The format is documented at
+    <https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions>.
+    Sorting of output is not guaranteed. Symbolic links can result in multiple
+    entries per file.
 
     Args:
-        report: ProjectReport data
+        report: :class:`ProjectReport` data
 
     Returns:
-        String (in plaintext) that can be output to sys.stdout
+        String (in plaintext) that can be output to sys.stdout.
     """
     if not report.is_compliant:
         return "".join(
