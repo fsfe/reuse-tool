@@ -124,12 +124,15 @@ def test_extract_copyright_variations():
     """There are multiple ways to declare copyright. All should be detected."""
     text = cleandoc(
         """
-        SPDX-FileCopyrightText: 2019 Jane Doe
-        SPDX-FileCopyrightText: © 2019 Jane Doe
-        © 2019 Jane Doe
-        Copyright © 2019 Jane Doe
-        Copyright 2019 Jane Doe
-        Copyright (C) 2019 Jane Doe
+        SPDX-FileCopyrightText: 2019 spdx
+        SPDX-FileCopyrightText: (C) 2019 spdx-c
+        SPDX-FileCopyrightText: © 2019 spdx-symbol
+        SPDX-FileCopyrightText: Copyright (C) 2019 spdx-string-c
+        SPDX-FileCopyrightText: Copyright © 2019 spdx-string-symbol
+        Copyright 2019 string
+        Copyright (C) 2019 string-c
+        Copyright © 2019 string-symbol
+        © 2019 symbol
         """
     )
 
@@ -426,6 +429,30 @@ def test_make_copyright_line_prefix_string_c_year():
         "hello", year=2019, copyright_prefix="string-c"
     )
     assert statement == "Copyright (C) 2019 hello"
+
+
+def test_make_copyright_line_prefix_spdx_string_c_year():
+    """Given a simple statement, prefix and a year, make it a copyright line."""
+    statement = _util.make_copyright_line(
+        "hello", year=2019, copyright_prefix="spdx-string-c"
+    )
+    assert statement == "SPDX-FileCopyrightText: Copyright (C) 2019 hello"
+
+
+def test_make_copyright_line_prefix_spdx_string_year():
+    """Given a simple statement, prefix and a year, make it a copyright line."""
+    statement = _util.make_copyright_line(
+        "hello", year=2019, copyright_prefix="spdx-string"
+    )
+    assert statement == "SPDX-FileCopyrightText: Copyright 2019 hello"
+
+
+def test_make_copyright_line_prefix_spdx_string_symbol_year():
+    """Given a simple statement, prefix and a year, make it a copyright line."""
+    statement = _util.make_copyright_line(
+        "hello", year=2019, copyright_prefix="spdx-string-symbol"
+    )
+    assert statement == "SPDX-FileCopyrightText: Copyright © 2019 hello"
 
 
 def test_make_copyright_line_prefix_string_symbol_year():

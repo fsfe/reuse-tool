@@ -84,13 +84,16 @@ Other options
 
   .. code-block::
 
-    spdx:           SPDX-FileCopyrightText: <year> <statement>
-    spdx-c:         SPDX-FileCopyrightText: (C) <year> <statement>
-    spdx-symbol:    SPDX-FileCopyrightText: © <year> <statement>
-    string:         Copyright <year> <statement>
-    string-c:       Copyright (C) <year> <statement>
-    string-symbol:  Copyright © <year> <statement>
-    symbol:         © <year> <statement>
+    spdx:               SPDX-FileCopyrightText: <year> <statement>
+    spdx-c:             SPDX-FileCopyrightText: (C) <year> <statement>
+    spdx-symbol:        SPDX-FileCopyrightText: © <year> <statement>
+    spdx-string:        SPDX-FileCopyrightText: Copyright <year> <statement>
+    spdx-string-c:      SPDX-FileCopyrightText: Copyright (C) <year> <statement>
+    spdx-string-symbol: SPDX-FileCopyrightText: Copyright © <year> <statement>
+    string:             Copyright <year> <statement>
+    string-c:           Copyright (C) <year> <statement>
+    string-symbol:      Copyright © <year> <statement>
+    symbol:             © <year> <statement>
 
 .. option:: -t, --template TEMPLATE
 
