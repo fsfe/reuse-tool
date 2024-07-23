@@ -13,6 +13,7 @@ the reports and printing some conclusions.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import sys
 from argparse import ArgumentParser, Namespace
@@ -20,11 +21,13 @@ from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
-from typing import IO, Any, Generator, Optional
+from typing import IO, Any, Generator
 
 from . import __REUSE_version__
 from .project import Project
 from .report import ProjectReport
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def add_arguments(parser: ArgumentParser) -> None:
@@ -288,9 +291,20 @@ def get_errors(
         Iterable of tuples containing path and error message.
     """
 
-    def license_path(lic: str) -> Optional[Path]:
+    def license_path(lic: str) -> Path:
         """Resolve a license identifier to a license path."""
-        return report.licenses.get(lic)
+        result = report.licenses.get(lic)
+        # TODO: This should never happen. It basically only happens if the
+        # report or the project is malformed. There should be a better way to do
+        # this.
+        if result is None:
+            _LOGGER.error(
+                _(
+                    "license {lic} has no known path; this should not happen"
+                ).format(lic=lic)
+            )
+            result = Path(report.path)
+        return result
 
     if not report.is_compliant:
         # Bad licenses
