@@ -124,12 +124,15 @@ def test_extract_copyright_variations():
     """There are multiple ways to declare copyright. All should be detected."""
     text = cleandoc(
         """
-        SPDX-FileCopyrightText: 2019 Jane Doe
-        SPDX-FileCopyrightText: © 2019 Jane Doe
-        © 2019 Jane Doe
-        Copyright © 2019 Jane Doe
-        Copyright 2019 Jane Doe
-        Copyright (C) 2019 Jane Doe
+        SPDX-FileCopyrightText: 2019 spdx
+        SPDX-FileCopyrightText: (C) 2019 spdx-c
+        SPDX-FileCopyrightText: © 2019 spdx-symbol
+        SPDX-FileCopyrightText: Copyright (C) 2019 spdx-string-c
+        SPDX-FileCopyrightText: Copyright © 2019 spdx-string-symbol
+        Copyright 2019 string
+        Copyright (C) 2019 string-c
+        Copyright © 2019 string-symbol
+        © 2019 symbol
         """
     )
 
