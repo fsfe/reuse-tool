@@ -21,13 +21,20 @@ from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
-from typing import IO, Any, Generator
+from typing import IO, Any, Generator, NamedTuple
 
 from . import __REUSE_version__
 from .project import Project
 from .report import ProjectReport
 
 _LOGGER = logging.getLogger(__name__)
+
+
+class PathError(NamedTuple):
+    """A simple container with a path and an error message."""
+
+    path: Path
+    error: str
 
 
 def add_arguments(parser: ArgumentParser) -> None:
@@ -279,7 +286,7 @@ def format_json(report: ProjectReport) -> str:
 
 def get_errors(
     report: ProjectReport,
-) -> Generator[tuple[Path | str | None, str], None, None]:
+) -> Generator[PathError, None, None]:
     """Returns data dictionary iterable of paths and errors.
     Sorting of output is not guaranteed.
     Symbolic links can result in multiple entries per file.
@@ -310,39 +317,41 @@ def get_errors(
         # Bad licenses
         for lic, files in sorted(report.bad_licenses.items()):
             for path in sorted(files):
-                yield (path, _("bad license {lic}").format(lic=lic))
+                yield PathError(path, _("bad license {lic}").format(lic=lic))
 
         # Deprecated licenses
         for lic in sorted(report.deprecated_licenses):
             lic_path = license_path(lic)
-            yield (lic_path, _("deprecated license"))
+            yield PathError(lic_path, _("deprecated license"))
 
         # Licenses without extension
         for lic in sorted(report.licenses_without_extension):
             lic_path = license_path(lic)
-            yield (lic_path, _("license without file extension"))
+            yield PathError(lic_path, _("license without file extension"))
 
         # Unused licenses
         for lic in sorted(report.unused_licenses):
             lic_path = license_path(lic)
-            yield lic_path, _("unused license")
+            yield PathError(lic_path, _("unused license"))
 
         # Missing licenses
         for lic, files in sorted(report.missing_licenses.items()):
             for path in sorted(files):
-                yield (path, _("missing license {lic}").format(lic=lic))
+                yield PathError(
+                    path, _("missing license {lic}").format(lic=lic)
+                )
 
         # Read errors
         for path in sorted(report.read_errors):
-            yield (path, _("read error"))
+            yield PathError(path, _("read error"))
 
         # Without licenses
         for path in report.files_without_licenses:
-            yield (path, _("no license identifier"))
+            yield PathError(path, _("no license identifier"))
 
         # Without copyright
         for path in report.files_without_copyright:
-            yield (path, _("no copyright notice"))
+            yield PathError(path, _("no copyright notice"))
 
 
 def format_lines(report: ProjectReport) -> str:
