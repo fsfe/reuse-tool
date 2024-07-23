@@ -287,9 +287,8 @@ def format_json(report: ProjectReport) -> str:
 def get_errors(
     report: ProjectReport,
 ) -> Generator[PathError, None, None]:
-    """Returns a generator of paths and errors from a report.
-    Sorting of output is not guaranteed.
-    Symbolic links can result in multiple entries per file.
+    """Returns a generator of paths and errors from a report. Sorting of output
+    is not guaranteed. Symbolic links can result in multiple entries per file.
 
     Args:
         report: :class:`ProjectReport` data
@@ -355,15 +354,15 @@ def get_errors(
 
 
 def format_lines(report: ProjectReport) -> str:
-    """Formats data dictionary as plaintext strings to be printed to sys.stdout
-    Sorting of output is not guaranteed.
-    Symbolic links can result in multiple entries per file.
+    """Formats report as plaintext strings to be printed to sys.stdout. Sorting
+    of output is not guaranteed. Symbolic links can result in multiple entries
+    per file.
 
     Args:
-        report: ProjectReport data
+        report: :class:`ProjectReport` data
 
     Returns:
-        String (in plaintext) that can be output to sys.stdout
+        String (in plaintext) that can be output to sys.stdout.
     """
     if not report.is_compliant:
         return "".join(
