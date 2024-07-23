@@ -68,10 +68,10 @@ def add_arguments(parser: ArgumentParser) -> None:
 
 # pylint: disable=too-many-branches,too-many-statements,too-many-locals
 def format_plain(report: ProjectReport) -> str:
-    """Formats data dictionary as plaintext string to be printed to sys.stdout
+    """Formats report as plaintext string to be printed to sys.stdout.
 
     Args:
-        report: ProjectReport data
+        report: :class:`ProjectReport` data
 
     Returns:
         String (in plaintext) that can be output to sys.stdout
@@ -253,13 +253,13 @@ def format_plain(report: ProjectReport) -> str:
 
 
 def format_json(report: ProjectReport) -> str:
-    """Formats data dictionary as JSON string ready to be printed to sys.stdout
+    """Formats report as JSON string ready to be printed to sys.stdout.
 
     Args:
-        report: Dictionary containing formatted ProjectReport data
+        report: :class:`ProjectReport` data
 
     Returns:
-        String (representing JSON) that can be output to sys.stdout
+        String (representing JSON) that can be output to sys.stdout.
     """
 
     def custom_serializer(obj: Any) -> Any:
