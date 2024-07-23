@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
+# SPDX-FileCopyrightText: 2024 Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -9,18 +10,31 @@
 the reports and printing some conclusions.
 """
 
+from __future__ import annotations
+
 import json
+import logging
+import os
 import sys
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
-from typing import IO, Any, Optional
+from typing import IO, Any, Generator, NamedTuple
 
 from . import __REUSE_version__
 from .project import Project
 from .report import ProjectReport
+
+_LOGGER = logging.getLogger(__name__)
+
+
+class PathError(NamedTuple):
+    """A simple container with a path and an error message."""
+
+    path: Path
+    error: str
 
 
 def add_arguments(parser: ArgumentParser) -> None:
@@ -44,14 +58,20 @@ def add_arguments(parser: ArgumentParser) -> None:
         action="store_true",
         help=_("formats output as errors per line"),
     )
+    mutex_group.add_argument(
+        "-g",
+        "--github",
+        action="store_true",
+        help=_("formats output as GitHub workflow commands per line"),
+    )
 
 
 # pylint: disable=too-many-branches,too-many-statements,too-many-locals
 def format_plain(report: ProjectReport) -> str:
-    """Formats data dictionary as plaintext string to be printed to sys.stdout
+    """Formats report as plaintext string to be printed to sys.stdout.
 
     Args:
-        report: ProjectReport data
+        report: :class:`ProjectReport` data
 
     Returns:
         String (in plaintext) that can be output to sys.stdout
@@ -233,13 +253,13 @@ def format_plain(report: ProjectReport) -> str:
 
 
 def format_json(report: ProjectReport) -> str:
-    """Formats data dictionary as JSON string ready to be printed to sys.stdout
+    """Formats report as JSON string ready to be printed to sys.stdout.
 
     Args:
-        report: Dictionary containing formatted ProjectReport data
+        report: :class:`ProjectReport` data
 
     Returns:
-        String (representing JSON) that can be output to sys.stdout
+        String (representing JSON) that can be output to sys.stdout.
     """
 
     def custom_serializer(obj: Any) -> Any:
@@ -264,76 +284,114 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
-def format_lines(report: ProjectReport) -> str:
-    """Formats data dictionary as plaintext strings to be printed to sys.stdout
-    Sorting of output is not guaranteed.
-    Symbolic links can result in multiple entries per file.
+def get_errors(
+    report: ProjectReport,
+) -> Generator[PathError, None, None]:
+    """Returns a generator of paths and errors from a report. Sorting of output
+    is not guaranteed. Symbolic links can result in multiple entries per file.
 
     Args:
-        report: ProjectReport data
+        report: :class:`ProjectReport` data
 
     Returns:
-        String (in plaintext) that can be output to sys.stdout
+        Generator of :class:`PathError`s.
     """
-    output = StringIO()
 
-    def license_path(lic: str) -> Optional[Path]:
+    def license_path(lic: str) -> Path:
         """Resolve a license identifier to a license path."""
-        return report.licenses.get(lic)
+        result = report.licenses.get(lic)
+        # TODO: This should never happen. It basically only happens if the
+        # report or the project is malformed. There should be a better way to do
+        # this.
+        if result is None:
+            _LOGGER.error(
+                _(
+                    "license {lic} has no known path; this should not happen"
+                ).format(lic=lic)
+            )
+            result = Path(report.path)
+        return result
 
     if not report.is_compliant:
         # Bad licenses
         for lic, files in sorted(report.bad_licenses.items()):
             for path in sorted(files):
-                output.write(
-                    _("{path}: bad license {lic}\n").format(path=path, lic=lic)
-                )
+                yield PathError(path, _("bad license {lic}").format(lic=lic))
 
         # Deprecated licenses
         for lic in sorted(report.deprecated_licenses):
             lic_path = license_path(lic)
-            output.write(
-                _("{lic_path}: deprecated license\n").format(lic_path=lic_path)
-            )
+            yield PathError(lic_path, _("deprecated license"))
 
         # Licenses without extension
         for lic in sorted(report.licenses_without_extension):
             lic_path = license_path(lic)
-            output.write(
-                _("{lic_path}: license without file extension\n").format(
-                    lic_path=lic_path
-                )
-            )
+            yield PathError(lic_path, _("license without file extension"))
 
         # Unused licenses
         for lic in sorted(report.unused_licenses):
             lic_path = license_path(lic)
-            output.write(
-                _("{lic_path}: unused license\n").format(lic_path=lic_path)
-            )
+            yield PathError(lic_path, _("unused license"))
 
         # Missing licenses
         for lic, files in sorted(report.missing_licenses.items()):
             for path in sorted(files):
-                output.write(
-                    _("{path}: missing license {lic}\n").format(
-                        path=path, lic=lic
-                    )
+                yield PathError(
+                    path, _("missing license {lic}").format(lic=lic)
                 )
 
         # Read errors
         for path in sorted(report.read_errors):
-            output.write(_("{path}: read error\n").format(path=path))
+            yield PathError(path, _("read error"))
 
         # Without licenses
         for path in report.files_without_licenses:
-            output.write(_("{path}: no license identifier\n").format(path=path))
+            yield PathError(path, _("no license identifier"))
 
         # Without copyright
         for path in report.files_without_copyright:
-            output.write(_("{path}: no copyright notice\n").format(path=path))
+            yield PathError(path, _("no copyright notice"))
 
-    return output.getvalue()
+
+def format_lines(report: ProjectReport) -> str:
+    """Formats report as plaintext strings to be printed to sys.stdout. Sorting
+    of output is not guaranteed. Symbolic links can result in multiple entries
+    per file.
+
+    Args:
+        report: :class:`ProjectReport` data
+
+    Returns:
+        String (in plaintext) that can be output to sys.stdout.
+    """
+    if not report.is_compliant:
+        return "".join(
+            f"{path}: {error}\n" for path, error in get_errors(report)
+        )
+
+    return ""
+
+
+def format_github(report: ProjectReport) -> str:
+    """Formats report as GitHub workflow commands to be printed to sys.stdout.
+    The format is documented at
+    <https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions>.
+    Sorting of output is not guaranteed. Symbolic links can result in multiple
+    entries per file.
+
+    Args:
+        report: :class:`ProjectReport` data
+
+    Returns:
+        String (in plaintext) that can be output to sys.stdout.
+    """
+    if not report.is_compliant:
+        return "".join(
+            f"::error file={path}::{error}\n"
+            for path, error in get_errors(report)
+        )
+
+    return ""
 
 
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
@@ -342,13 +400,26 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
         project, do_checksum=False, multiprocessing=not args.no_multiprocessing
     )
 
-    if args.quiet:
-        pass
-    elif args.json:
-        out.write(format_json(report))
-    elif args.lines:
-        out.write(format_lines(report))
-    else:
-        out.write(format_plain(report))
+    formatters = {
+        "json": format_json,
+        "lines": format_lines,
+        "github": format_github,
+        "plain": format_plain,
+    }
+
+    if not args.quiet:
+        output_format = os.environ.get("REUSE_OUTPUT_FORMAT")
+
+        if output_format is not None and output_format in formatters:
+            formatter = formatters[output_format]
+            out.write(formatter(report))
+        elif args.json:
+            out.write(format_json(report))
+        elif args.lines:
+            out.write(format_lines(report))
+        elif args.github:
+            out.write(format_github(report))
+        else:
+            out.write(format_plain(report))
 
     return 0 if report.is_compliant else 1

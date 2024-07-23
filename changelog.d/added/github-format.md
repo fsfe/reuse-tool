@@ -1,0 +1,1 @@
+- Added `--github` output option for `lint`.
