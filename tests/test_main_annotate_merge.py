@@ -8,6 +8,7 @@
 from inspect import cleandoc
 
 from reuse._main import main
+from reuse._util import _COPYRIGHT_PREFIXES
 
 # pylint: disable=unused-argument
 
@@ -189,6 +190,71 @@ def test_annotate_merge_copyrights_no_year_in_existing(
         )
         in (fake_repository / "foo.py").read_text()
     )
+
+
+def test_annotate_merge_copyrights_all_prefixes(
+    fake_repository, stringio, mock_date_today
+):
+    """Test that merging works for all copyright prefixes."""
+    # TODO: there should probably also be a test for mixing copyright prefixes,
+    # but this behaviour is really unpredictable to me at the moment, and the
+    # whole copyright-line-as-string thing needs overhauling.
+    simple_file = fake_repository / "foo.py"
+    for copyright_prefix, copyright_string in _COPYRIGHT_PREFIXES.items():
+        simple_file.write_text("pass")
+        result = main(
+            [
+                "annotate",
+                "--year",
+                "2016",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Jane Doe",
+                "--copyright-style",
+                copyright_prefix,
+                "--merge-copyrights",
+                "foo.py",
+            ],
+            out=stringio,
+        )
+        assert result == 0
+        assert simple_file.read_text(encoding="utf-8") == cleandoc(
+            f"""
+                # {copyright_string} 2016 Jane Doe
+                #
+                # SPDX-License-Identifier: GPL-3.0-or-later
+
+                pass
+                """
+        )
+
+        result = main(
+            [
+                "annotate",
+                "--year",
+                "2018",
+                "--license",
+                "GPL-3.0-or-later",
+                "--copyright",
+                "Jane Doe",
+                "--copyright-style",
+                copyright_prefix,
+                "--merge-copyrights",
+                "foo.py",
+            ],
+            out=stringio,
+        )
+        assert result == 0
+        assert simple_file.read_text(encoding="utf-8") == cleandoc(
+            f"""
+                # {copyright_string} 2016 - 2018 Jane Doe
+                #
+                # SPDX-License-Identifier: GPL-3.0-or-later
+
+                pass
+                """
+        )
 
 
 # REUSE-IgnoreEnd
