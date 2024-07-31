@@ -5,7 +5,7 @@
 - id: reuse
   name: reuse
   entry: reuse
-  args: ["lint"]
+  args: ["lint", "lint-file"]
   language: python
   pass_filenames: false
   description:

@@ -157,6 +157,40 @@ class Project:
 
         return project
 
+    def specific_files(
+        self, files: Optional[List], directory: Optional[StrPath] = None
+    ) -> Iterator[Path]:
+        """Yield all files in the specified file list within a directory.
+
+        The files that are not yielded are:
+
+        - Files ignored by VCS (e.g., see .gitignore)
+
+        - Files matching IGNORE_*_PATTERNS.
+        """
+        if directory is None:
+            directory = self.root
+        directory = Path(directory)
+
+        # Filter files.
+        for file_ in files:
+            the_file = directory / file_
+            if self._is_path_ignored(the_file):
+                _LOGGER.debug("ignoring '%s'", the_file)
+                continue
+            if the_file.is_symlink():
+                _LOGGER.debug("skipping symlink '%s'", the_file)
+                continue
+            # Suppressing this error because I simply don't want to deal
+            # with that here.
+            with contextlib.suppress(OSError):
+                if the_file.stat().st_size == 0:
+                    _LOGGER.debug("skipping 0-sized file '%s'", the_file)
+                    continue
+
+            _LOGGER.debug("yielding '%s'", the_file)
+            yield the_file
+
     def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
 

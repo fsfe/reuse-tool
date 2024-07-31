@@ -103,7 +103,7 @@ class _MultiprocessingResult(NamedTuple):
 class ProjectReport:  # pylint: disable=too-many-instance-attributes
     """Object that holds linting report about the project."""
 
-    def __init__(self, do_checksum: bool = True):
+    def __init__(self, do_checksum: bool = True, file_list: list = list[Any]):
         self.path: StrPath = ""
         self.licenses: Dict[str, Path] = {}
         self.missing_licenses: Dict[str, Set[Path]] = {}
@@ -114,6 +114,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         self.licenses_without_extension: Dict[str, Path] = {}
 
         self.do_checksum = do_checksum
+        self.file_list = file_list
 
         self._unused_licenses: Optional[Set[str]] = None
         self._used_licenses: Optional[Set[str]] = None
@@ -276,6 +277,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         cls,
         project: Project,
         do_checksum: bool = True,
+        file_list: list = list[Any],
         multiprocessing: bool = cpu_count() > 1,  # type: ignore
         add_license_concluded: bool = False,
     ) -> "ProjectReport":
@@ -298,7 +300,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 )
             pool.join()
         else:
-            results = map(container, project.all_files())
+            # Search specific file list if files are provided with
+            # `reuse lint-file`. Otherwise, lint all files
+            results = (
+                map(container, project.specific_files(file_list))
+                if file_list
+                else map(container, project.all_files())
+            )
 
         for result in results:
             if result.error:
