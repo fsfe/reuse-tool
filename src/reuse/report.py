@@ -293,20 +293,17 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             project, do_checksum, add_license_concluded
         )
 
+        # Iterate over specific file list if files are provided with
+        # `reuse lint-file`. Otherwise, lint all files.
+        iter_files = project.specific_files(file_list) if file_list else project.all_files()
         if multiprocessing:
             with mp.Pool() as pool:
                 results: Iterable[_MultiprocessingResult] = pool.map(
-                    container, project.all_files()
+                    container, iter_files
                 )
             pool.join()
         else:
-            # Search specific file list if files are provided with
-            # `reuse lint-file`. Otherwise, lint all files
-            results = (
-                map(container, project.specific_files(file_list))
-                if file_list
-                else map(container, project.all_files())
-            )
+            results = (map(container, iter_files))
 
         for result in results:
             if result.error:
