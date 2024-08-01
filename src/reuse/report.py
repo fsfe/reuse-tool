@@ -103,7 +103,7 @@ class _MultiprocessingResult(NamedTuple):
 class ProjectReport:  # pylint: disable=too-many-instance-attributes
     """Object that holds linting report about the project."""
 
-    def __init__(self, do_checksum: bool = True, file_list: list[Any] = None):
+    def __init__(self, do_checksum: bool = True, file_list: Optional[List[str]] = None):
         self.path: StrPath = ""
         self.licenses: Dict[str, Path] = {}
         self.missing_licenses: Dict[str, Set[Path]] = {}
@@ -277,7 +277,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         cls,
         project: Project,
         do_checksum: bool = True,
-        file_list: list[Any] = None,
+        file_list: Optional[List[str]] = None,
         multiprocessing: bool = cpu_count() > 1,  # type: ignore
         add_license_concluded: bool = False,
     ) -> "ProjectReport":
