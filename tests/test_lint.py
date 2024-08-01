@@ -270,5 +270,18 @@ def test_lint_lines_read_errors(fake_repository):
     assert "restricted.py" in result
     assert "read error" in result
 
+def test_lint_specific_files(fake_repository):
+    """Check lint-file subcommand."""
+    (fake_repository / "foo.py").write_text("foo")
+    (fake_repository / "bar.py").write_text("bar")
+    
+    project = Project.from_directory(fake_repository)
+    report = ProjectReport.generate(project, file_list=["foo.py"])
+    result = format_plain(report)
+
+    assert ":-(" in result
+    assert "# UNUSED LICENSES" in result
+    assert "bar.py" not in result
+
 
 # REUSE-IgnoreEnd
