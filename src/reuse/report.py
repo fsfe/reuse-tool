@@ -3,6 +3,8 @@
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2024 Kerry McAdams <https://github.com/klmcadams>
+# SPDX-FileCopyrightText: 2024 Sebastien Morais <https://github.com/SMoraisAnsys>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -103,7 +105,9 @@ class _MultiprocessingResult(NamedTuple):
 class ProjectReport:  # pylint: disable=too-many-instance-attributes
     """Object that holds linting report about the project."""
 
-    def __init__(self, do_checksum: bool = True, file_list: Optional[List[str]] = None):
+    def __init__(
+        self, do_checksum: bool = True, file_list: Optional[List[str]] = None
+    ):
         self.path: StrPath = ""
         self.licenses: Dict[str, Path] = {}
         self.missing_licenses: Dict[str, Set[Path]] = {}
@@ -295,7 +299,11 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
         # Iterate over specific file list if files are provided with
         # `reuse lint-file`. Otherwise, lint all files.
-        iter_files = project.specific_files(file_list) if file_list else project.all_files()
+        iter_files = (
+            project.specific_files(file_list)
+            if file_list
+            else project.all_files()
+        )
         if multiprocessing:
             with mp.Pool() as pool:
                 results: Iterable[_MultiprocessingResult] = pool.map(
@@ -303,7 +311,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 )
             pool.join()
         else:
-            results = (map(container, iter_files))
+            results = map(container, iter_files)
 
         for result in results:
             if result.error:

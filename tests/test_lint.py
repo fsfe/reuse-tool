@@ -1,6 +1,6 @@
-# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
+# SPDX-FileCopyrightText: 2024 Sebastien Morais <https://github.com/SMoraisAnsys>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -270,11 +270,12 @@ def test_lint_lines_read_errors(fake_repository):
     assert "restricted.py" in result
     assert "read error" in result
 
+
 def test_lint_specific_files(fake_repository):
     """Check lint-file subcommand."""
     (fake_repository / "foo.py").write_text("foo")
     (fake_repository / "bar.py").write_text("bar")
-    
+
     project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project, file_list=["foo.py"])
     result = format_plain(report)

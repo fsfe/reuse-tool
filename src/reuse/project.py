@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2023 Matthias Riße
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2024 Kerry McAdams <https://github.com/klmcadams>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -172,24 +173,25 @@ class Project:
             directory = self.root
         directory = Path(directory)
 
-        # Filter files.
-        for file_ in files:
-            the_file = directory / file_
-            if self._is_path_ignored(the_file):
-                _LOGGER.debug("ignoring '%s'", the_file)
-                continue
-            if the_file.is_symlink():
-                _LOGGER.debug("skipping symlink '%s'", the_file)
-                continue
-            # Suppressing this error because I simply don't want to deal
-            # with that here.
-            with contextlib.suppress(OSError):
-                if the_file.stat().st_size == 0:
-                    _LOGGER.debug("skipping 0-sized file '%s'", the_file)
+        if files is not None:
+            # Filter files.
+            for file_ in files:
+                the_file = directory / file_
+                if self._is_path_ignored(the_file):
+                    _LOGGER.debug("ignoring '%s'", the_file)
                     continue
+                if the_file.is_symlink():
+                    _LOGGER.debug("skipping symlink '%s'", the_file)
+                    continue
+                # Suppressing this error because I simply don't want to deal
+                # with that here.
+                with contextlib.suppress(OSError):
+                    if the_file.stat().st_size == 0:
+                        _LOGGER.debug("skipping 0-sized file '%s'", the_file)
+                        continue
 
-            _LOGGER.debug("yielding '%s'", the_file)
-            yield the_file
+                _LOGGER.debug("yielding '%s'", the_file)
+                yield the_file
 
     def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
