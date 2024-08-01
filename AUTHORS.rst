@@ -120,6 +120,7 @@ Contributors
 - Jon Burdo <jon@jonburdo.com>
 - Josef Andersson <josef.andersson@gmail.com>
 - José Vieira <jvieira33@sapo.pt>
+- Kerry McAdams <github@klmcadams>
 - Kevin Meagher <11620178+kjmeagher@users.noreply.github.com>
 - Lars Francke <lars.francke@stackable.de>
 - Libor Pechacek <lpechacek@gmx.com>
@@ -139,6 +140,7 @@ Contributors
 - Romain Tartière <romain@blogreen.org>
 - Ryan Schmidt <git@ryandesign.com>
 - Sebastian Crane <seabass@fsfe.org>
+- Sebastien Morais <github@SMoraisAnsys>
 - T. E. Kalaycı <tekrei@tutanota.com>
 - Vishesh Handa <me@vhanda.in>
 - Vlad-Stefan Harbuz <vlad@vladh.net>

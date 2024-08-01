@@ -3,8 +3,8 @@
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
-# SPDX-FileCopyrightText: 2024 Kerry McAdams <https://github.com/klmcadams>
-# SPDX-FileCopyrightText: 2024 Sebastien Morais <https://github.com/SMoraisAnsys>
+# SPDX-FileCopyrightText: 2024 Kerry McAdams <github@klmcadams>
+# SPDX-FileCopyrightText: 2024 Sebastien Morais <github@SMoraisAnsys>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 

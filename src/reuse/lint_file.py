@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 Kerry McAdams <https://github.com/klmcadams>
+# SPDX-FileCopyrightText: 2024 Kerry McAdams <github@klmcadams>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 

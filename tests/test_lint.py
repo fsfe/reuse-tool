@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
-# SPDX-FileCopyrightText: 2024 Sebastien Morais <https://github.com/SMoraisAnsys>
+# SPDX-FileCopyrightText: 2024 Sebastien Morais <github@SMoraisAnsys>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""All tests for reuse.lint"""
+"""All tests for reuse.lint and reuse.lint_files"""
 
 import re
 import shutil
