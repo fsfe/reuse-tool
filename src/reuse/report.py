@@ -21,7 +21,17 @@ from hashlib import md5
 from io import StringIO
 from os import cpu_count
 from pathlib import Path, PurePath
-from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
+from typing import (
+    Any,
+    Dict,
+    Iterable,
+    List,
+    NamedTuple,
+    Optional,
+    Set,
+    Union,
+    cast,
+)
 from uuid import uuid4
 
 from . import __REUSE_version__, __version__
@@ -284,7 +294,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         file_list: Optional[List[str]] = None,
         multiprocessing: bool = cpu_count() > 1,  # type: ignore
         add_license_concluded: bool = False,
-    ) -> list | Iterable[_MultiprocessingResult]:
+    ) -> Union[list, Iterable[_MultiprocessingResult]]:
         """Get lint results based on multiprocessing and file_list."""
         container = _MultiprocessingContainer(
             project, do_checksum, add_license_concluded
