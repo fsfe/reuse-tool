@@ -277,22 +277,15 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return out.getvalue()
 
     @classmethod
-    def generate(
+    def get_lint_results(
         cls,
         project: Project,
         do_checksum: bool = True,
         file_list: Optional[List[str]] = None,
         multiprocessing: bool = cpu_count() > 1,  # type: ignore
         add_license_concluded: bool = False,
-    ) -> "ProjectReport":
-        """Generate a ProjectReport from a Project."""
-        project_report = cls(do_checksum=do_checksum)
-        project_report.path = project.root
-        project_report.licenses = project.licenses
-        project_report.licenses_without_extension = (
-            project.licenses_without_extension
-        )
-
+    ) -> list | Iterable[_MultiprocessingResult]:
+        """Get lint results based on multiprocessing and file_list."""
         container = _MultiprocessingContainer(
             project, do_checksum, add_license_concluded
         )
@@ -312,6 +305,33 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             pool.join()
         else:
             results = map(container, iter_files)
+
+        return results
+
+    @classmethod
+    def generate(
+        cls,
+        project: Project,
+        do_checksum: bool = True,
+        file_list: Optional[List[str]] = None,
+        multiprocessing: bool = cpu_count() > 1,  # type: ignore
+        add_license_concluded: bool = False,
+    ) -> "ProjectReport":
+        """Generate a ProjectReport from a Project."""
+        project_report = cls(do_checksum=do_checksum)
+        project_report.path = project.root
+        project_report.licenses = project.licenses
+        project_report.licenses_without_extension = (
+            project.licenses_without_extension
+        )
+
+        results = cls.get_lint_results(
+            project,
+            do_checksum,
+            file_list,
+            multiprocessing,  # type: ignore
+            add_license_concluded,
+        )
 
         for result in results:
             if result.error:
@@ -333,6 +353,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
                 )
                 project_report.read_errors.add(Path(result.path))
                 continue
+
             file_report = cast(FileReport, result.report)
 
             # File report.
