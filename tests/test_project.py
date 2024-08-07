@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2024 Linnea Gräf
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -454,6 +455,80 @@ def test_reuse_info_of_copyright_xor_licensing(empty_directory):
     bar_file_info = [info for info in bar_infos if info.copyright_lines][0]
     assert bar_file_info.source_type == SourceType.FILE_HEADER
     assert not bar_file_info.spdx_expressions
+
+
+def test_reuse_info_of_copyright_xor_licensing_with_license_dot(
+    empty_directory,
+):
+    """Test a corner case where partial REUSE information is defined inside of a
+    .license file (copyright xor licensing). Get the missing information from
+    the REUSE.toml.
+    """
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "*.py"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+
+            [[annotations]]
+            path = "*.py.license"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "MIT"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text(
+        cleandoc(
+            """
+            print("This is very strictly copyrighted code")
+            """
+        )
+    )
+    (empty_directory / "foo.py.license").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2017 John Doe
+            """
+        )
+    )
+    (empty_directory / "bar.py").write_text(
+        cleandoc(
+            """
+            print("This is other very strictly copyrighted code")
+            """
+        )
+    )
+    (empty_directory / "bar.py.license").write_text(
+        cleandoc(
+            """
+            SPDX-License-Identifier: 0BSD
+            """
+        )
+    )
+    project = Project.from_directory(empty_directory)
+
+    foo_infos = project.reuse_info_of("foo.py")
+    assert len(foo_infos) == 2
+    foo_toml_info = [info for info in foo_infos if info.spdx_expressions][0]
+    assert foo_toml_info.source_type == SourceType.REUSE_TOML
+    assert not foo_toml_info.copyright_lines
+    assert "MIT" not in str(foo_toml_info.spdx_expressions)
+    foo_file_info = [info for info in foo_infos if info.copyright_lines][0]
+    assert foo_file_info.source_type == SourceType.DOT_LICENSE
+    assert not foo_file_info.spdx_expressions
+
+    bar_infos = project.reuse_info_of("bar.py")
+    assert len(bar_infos) == 2
+    bar_toml_info = [info for info in bar_infos if info.copyright_lines][0]
+    assert bar_toml_info.source_type == SourceType.REUSE_TOML
+    assert not bar_toml_info.spdx_expressions
+    bar_file_info = [info for info in bar_infos if info.spdx_expressions][0]
+    assert bar_file_info.source_type == SourceType.DOT_LICENSE
+    assert not bar_file_info.copyright_lines
 
 
 def test_reuse_info_of_no_duplicates(empty_directory):
