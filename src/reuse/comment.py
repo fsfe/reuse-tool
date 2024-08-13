@@ -884,6 +884,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Dockerfile": PythonCommentStyle,
     "Doxyfile": PythonCommentStyle,
     "Earthfile": PythonCommentStyle,
+    "flake.lock": UncommentableCommentStyle,  # is a JSON file
     "Gemfile": PythonCommentStyle,
     "go.mod": CppCommentStyle,
     "go.sum": UncommentableCommentStyle,
