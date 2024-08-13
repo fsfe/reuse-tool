@@ -851,6 +851,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".dockerignore": PythonCommentStyle,
     ".earthlyignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
+    ".envrc": PythonCommentStyle,
     ".empty": EmptyCommentStyle,
     ".eslintignore": PythonCommentStyle,
     ".eslintrc": UncommentableCommentStyle,
