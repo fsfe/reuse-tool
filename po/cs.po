@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-08 08:43+0000\n"
-"PO-Revision-Date: 2023-04-12 13:49+0000\n"
+"PO-Revision-Date: 2024-08-15 21:09+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -17,8 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Generator: Weblate 5.7\n"
 
 #: src/reuse/_annotate.py:74
 #, python-brace-format
@@ -36,19 +36,19 @@ msgid ""
 msgstr "'{path}' nepodporuje víceřádkové komentáře, nepoužívejte --multi-line"
 
 #: src/reuse/_annotate.py:136
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
-msgstr "Přeskočen nerozpoznaný soubor {path}"
+msgstr "Přeskočen nerozpoznaný soubor '{path}'"
 
 #: src/reuse/_annotate.py:142
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr ""
+msgstr "'{path}' není rozpoznán; vytváří se '{path}.license'"
 
 #: src/reuse/_annotate.py:158
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Přeskočený soubor '{path}' již obsahuje informace SPDX"
+msgstr "Přeskočený soubor '{path}' již obsahuje informace REUSE"
 
 #: src/reuse/_annotate.py:192
 #, python-brace-format
@@ -78,9 +78,8 @@ msgstr ""
 "--skip-unrecognised nemá žádný účinek, pokud se použije společně s --style"
 
 #: src/reuse/_annotate.py:231
-#, fuzzy
 msgid "option --contributor, --copyright or --license is required"
-msgstr "je vyžadována volba --copyright nebo --licence"
+msgstr "je vyžadována možnost --contributor, --copyright nebo --license"
 
 #: src/reuse/_annotate.py:272
 #, python-brace-format
@@ -92,13 +91,12 @@ msgid "can't write to '{}'"
 msgstr "nelze zapisovat do '{}'"
 
 #: src/reuse/_annotate.py:366
-#, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license, --fallback-dot-license, or --skip-unrecognised:"
 msgstr ""
-"Následující soubory nemají rozpoznanou příponu. Použijte prosím --style, --"
-"force-dot-licence nebo --skip-unrecognised:"
+"Následující soubory nemají rozpoznanou příponu. Použijte --style, --force-"
+"dot-license, --fallback-dot-license nebo --skip-unrecognised:"
 
 #: src/reuse/_annotate.py:382
 msgid "copyright statement, repeatable"
@@ -109,9 +107,8 @@ msgid "SPDX Identifier, repeatable"
 msgstr "Identifikátor SPDX, opakovatelný"
 
 #: src/reuse/_annotate.py:395
-#, fuzzy
 msgid "file contributor, repeatable"
-msgstr "Identifikátor SPDX, opakovatelný"
+msgstr "přispěvatel souboru, opakovatelný"
 
 #: src/reuse/_annotate.py:403
 msgid "year of copyright statement, optional"
@@ -122,9 +119,8 @@ msgid "comment style to use, optional"
 msgstr "styl komentáře, který se má použít, nepovinné"
 
 #: src/reuse/_annotate.py:417
-#, fuzzy
 msgid "copyright prefix to use, optional"
-msgstr "styl autorských práv, který se má použít, nepovinné"
+msgstr "předpona autorských práv, která se má použít, nepovinné"
 
 #: src/reuse/_annotate.py:430
 msgid "name of template to use, optional"
@@ -157,23 +153,20 @@ msgid "do not replace the first header in the file; just add a new one"
 msgstr "nenahrazovat první hlavičku v souboru, ale přidat novou"
 
 #: src/reuse/_annotate.py:473
-#, fuzzy
 msgid "always write a .license file instead of a header inside the file"
-msgstr "zapsat soubor .license místo hlavičky uvnitř souboru"
+msgstr "místo hlavičky uvnitř souboru vždy zapsat soubor .license"
 
 #: src/reuse/_annotate.py:480
-#, fuzzy
 msgid "write a .license file to files with unrecognised comment styles"
-msgstr "přeskočit soubory s nerozpoznanými styly komentářů"
+msgstr "zapsat soubor .license do souborů s nerozpoznanými styly komentářů"
 
 #: src/reuse/_annotate.py:486
 msgid "skip files with unrecognised comment styles"
 msgstr "přeskočit soubory s nerozpoznanými styly komentářů"
 
 #: src/reuse/_annotate.py:497
-#, fuzzy
 msgid "skip files that already contain REUSE information"
-msgstr "přeskočit soubory, které již obsahují informace SPDX"
+msgstr "přeskočit soubory, které již obsahují informace REUSE"
 
 #: src/reuse/_annotate.py:532
 #, python-brace-format
@@ -216,7 +209,7 @@ msgstr "povolit příkazy pro ladění"
 
 #: src/reuse/_main.py:80
 msgid "hide deprecation warnings"
-msgstr ""
+msgstr "skrýt varování o zastarání"
 
 #: src/reuse/_main.py:85
 msgid "do not skip over Git submodules"
@@ -256,15 +249,21 @@ msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Přidání autorských práv a licencí do záhlaví jednoho nebo více souborů.\n"
+"\n"
+"Pomocí parametrů --copyright a --license můžete určit, kteří držitelé "
+"autorských práv a licencí mají být přidáni do záhlaví daných souborů.\n"
+"\n"
+"Pomocí parametru --contributor můžete určit osoby nebo subjekty, které "
+"přispěly, ale nejsou držiteli autorských práv daných souborů."
 
 #: src/reuse/_main.py:140
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "stáhněte si licenci a umístěte ji do adresáře LICENSES/"
 
 #: src/reuse/_main.py:142
-#, fuzzy
 msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "stáhněte si licenci a umístěte ji do adresáře LICENSES/"
+msgstr "Stáhněte si licenci a umístěte ji do adresáře LICENSES/."
 
 #: src/reuse/_main.py:151
 msgid "list all non-compliant files"
@@ -316,12 +315,12 @@ msgstr "seznam všech podporovaných licencí SPDX"
 
 #: src/reuse/_main.py:198
 msgid "convert .reuse/dep5 to REUSE.toml"
-msgstr ""
+msgstr "Převeďte .reuse/dep5 do REUSE.toml"
 
 #: src/reuse/_main.py:263
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{path}' could not be decoded as UTF-8."
-msgstr ".reuse/dep5 nelze analyzovat jako utf-8"
+msgstr "'{path}' se nepodařilo dekódovat jako UTF-8."
 
 #: src/reuse/_main.py:269
 #, python-brace-format
@@ -329,6 +328,8 @@ msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
+"'{path}' se nepodařilo zpracovat. Obdrželi jsme následující chybové hlášení: "
+"{message}"
 
 #: src/reuse/_util.py:369 src/reuse/global_licensing.py:218
 #, python-brace-format
@@ -383,9 +384,8 @@ msgstr ""
 "spdx.org/licenses/>."
 
 #: src/reuse/convert_dep5.py:118
-#, fuzzy
 msgid "no '.reuse/dep5' file"
-msgstr "Vytvoření .reuse/dep5"
+msgstr "žádný soubor '.reuse/dep5'"
 
 #: src/reuse/download.py:130
 msgid "SPDX License Identifier of license"
@@ -400,6 +400,8 @@ msgid ""
 "source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself"
 msgstr ""
+"zdroj, ze kterého se kopírují vlastní licence LicenseRef- nebo adresář, "
+"který soubor obsahuje, nebo samotný soubor"
 
 #: src/reuse/download.py:156
 #, python-brace-format
@@ -409,7 +411,7 @@ msgstr "Chyba: {spdx_identifier} již existuje."
 #: src/reuse/download.py:163
 #, python-brace-format
 msgid "Error: {path} does not exist."
-msgstr ""
+msgstr "Chyba: {path} neexistuje."
 
 #: src/reuse/download.py:166
 msgid "Error: Failed to download license."
@@ -440,7 +442,7 @@ msgstr "nelze použít --output s více než jednou licencí"
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
-msgstr ""
+msgstr "{attr_name} musí být {type_name} (mít {value}, který je {value_class})."
 
 #: src/reuse/global_licensing.py:122
 #, python-brace-format
@@ -448,22 +450,25 @@ msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
+"Položka v kolekci {attr_name} musí být {type_name} (mít {item_value}, která "
+"je {item_class})."
 
 #: src/reuse/global_licensing.py:133
 #, python-brace-format
 msgid "{attr_name} must not be empty."
-msgstr ""
+msgstr "{attr_name} nesmí být prázdný."
 
 #: src/reuse/global_licensing.py:156
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
-msgstr ""
+msgstr "{name} musí být {type} (má {value}, která je {value_type})."
 
 #: src/reuse/global_licensing.py:179
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
 msgstr ""
+"Hodnota 'precedence' musí být jedna z {precedence_vals} (got {received})"
 
 #: src/reuse/header.py:99
 msgid "generated comment is missing copyright lines or license expressions"
@@ -473,19 +478,19 @@ msgstr ""
 
 #: src/reuse/lint.py:30
 msgid "prevents output"
-msgstr ""
+msgstr "brání výstupu"
 
 #: src/reuse/lint.py:33
 msgid "formats output as JSON"
-msgstr ""
+msgstr "formátuje výstup jako JSON"
 
 #: src/reuse/lint.py:39
 msgid "formats output as plain text"
-msgstr ""
+msgstr "formátuje výstup jako prostý text"
 
 #: src/reuse/lint.py:45
 msgid "formats output as errors per line"
-msgstr ""
+msgstr "formátuje výstup jako chyby na řádek"
 
 #: src/reuse/lint.py:64
 msgid "BAD LICENSES"
@@ -578,19 +583,16 @@ msgid "Used licenses:"
 msgstr "Použité licence:"
 
 #: src/reuse/lint.py:179
-#, fuzzy
 msgid "Read errors:"
-msgstr "Chyby čtení: {count}"
+msgstr "Chyby čtení:"
 
 #: src/reuse/lint.py:181
-#, fuzzy
 msgid "Files with copyright information:"
-msgstr "Soubory s informacemi o autorských právech: {count} / {total}"
+msgstr "Soubory s informacemi o autorských právech:"
 
 #: src/reuse/lint.py:185
-#, fuzzy
 msgid "Files with license information:"
-msgstr "Soubory s licenčními informacemi: {count} / {total}"
+msgstr "Soubory s licenčními informacemi:"
 
 #: src/reuse/lint.py:202
 msgid ""
