@@ -97,7 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install prettier
-        run: npm install prettier@3.0.3
+        run: npm install prettier@3.3.3
       - name: Run prettier
         run: npx prettier --check .
 
