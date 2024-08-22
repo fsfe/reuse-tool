@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-08 08:43+0000\n"
+"POT-Creation-Date: 2024-08-22 09:37+0000\n"
 "PO-Revision-Date: 2024-01-17 12:48+0000\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -84,7 +84,7 @@ msgstr "opcio --copyright aŭ --license necesas"
 msgid "template {template} could not be found"
 msgstr "ŝablono {template} netroveblas"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:574
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:581
 msgid "can't write to '{}'"
 msgstr "ne povas skribi al '{}'"
 
@@ -326,12 +326,12 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:369 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:376 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Ne povis analizi '{expression}'"
 
-#: src/reuse/_util.py:425
+#: src/reuse/_util.py:432
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -339,39 +339,39 @@ msgstr ""
 "'{path}' entenas SPDX-esprimon, kiun oni ne povas analizi; preterpasante la "
 "dosieron"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:564
 msgid "'{}' is not a file"
 msgstr "'{}' ne estas dosiero"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:567
 msgid "'{}' is not a directory"
 msgstr "'{}' ne estas dosierujo"
 
-#: src/reuse/_util.py:563
+#: src/reuse/_util.py:570
 msgid "can't open '{}'"
 msgstr "ne povas malfermi '{}'"
 
-#: src/reuse/_util.py:568
+#: src/reuse/_util.py:575
 msgid "can't write to directory '{}'"
 msgstr "ne povas skribi al dosierujo '{}'"
 
-#: src/reuse/_util.py:587
+#: src/reuse/_util.py:594
 msgid "can't read or write '{}'"
 msgstr "ne povas legi aŭ skribi '{}'"
 
-#: src/reuse/_util.py:597
+#: src/reuse/_util.py:604
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' ne estas valida SPDX-esprimo. Ĉesigante"
 
-#: src/reuse/_util.py:625
+#: src/reuse/_util.py:632
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' ne estas valida SPDX Permesila Identigilo."
 
-#: src/reuse/_util.py:632
+#: src/reuse/_util.py:639
 msgid "Did you mean:"
 msgstr "Ĉu vi intencis:"
 
-#: src/reuse/_util.py:639
+#: src/reuse/_util.py:646
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."

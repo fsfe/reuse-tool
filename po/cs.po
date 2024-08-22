@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-08 08:43+0000\n"
+"POT-Creation-Date: 2024-08-22 09:37+0000\n"
 "PO-Revision-Date: 2024-08-17 00:09+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -86,7 +86,7 @@ msgstr "je vyžadována možnost --contributor, --copyright nebo --license"
 msgid "template {template} could not be found"
 msgstr "šablonu {template} se nepodařilo najít"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:574
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:581
 msgid "can't write to '{}'"
 msgstr "nelze zapisovat do '{}'"
 
@@ -331,51 +331,51 @@ msgstr ""
 "'{path}' se nepodařilo zpracovat. Obdrželi jsme následující chybové hlášení: "
 "{message}"
 
-#: src/reuse/_util.py:369 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:376 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Nepodařilo se analyzovat '{expression}'"
 
-#: src/reuse/_util.py:425
+#: src/reuse/_util.py:432
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 "'{path}' obsahuje výraz SPDX, který nelze analyzovat a soubor se přeskočí"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:564
 msgid "'{}' is not a file"
 msgstr "'{}' není soubor"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:567
 msgid "'{}' is not a directory"
 msgstr "'{}' není adresář"
 
-#: src/reuse/_util.py:563
+#: src/reuse/_util.py:570
 msgid "can't open '{}'"
 msgstr "nelze otevřít '{}'"
 
-#: src/reuse/_util.py:568
+#: src/reuse/_util.py:575
 msgid "can't write to directory '{}'"
 msgstr "nelze zapisovat do adresáře '{}'"
 
-#: src/reuse/_util.py:587
+#: src/reuse/_util.py:594
 msgid "can't read or write '{}'"
 msgstr "nelze číst ani zapisovat '{}'"
 
-#: src/reuse/_util.py:597
+#: src/reuse/_util.py:604
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' není platný výraz SPDX, přeruší se"
 
-#: src/reuse/_util.py:625
+#: src/reuse/_util.py:632
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' není platný identifikátor licence SPDX."
 
-#: src/reuse/_util.py:632
+#: src/reuse/_util.py:639
 msgid "Did you mean:"
 msgstr "Měl jste na mysli:"
 
-#: src/reuse/_util.py:639
+#: src/reuse/_util.py:646
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -442,7 +442,8 @@ msgstr "nelze použít --output s více než jednou licencí"
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
-msgstr "{attr_name} musí být {type_name} (mít {value}, který je {value_class})."
+msgstr ""
+"{attr_name} musí být {type_name} (mít {value}, který je {value_class})."
 
 #: src/reuse/global_licensing.py:122
 #, python-brace-format
@@ -675,8 +676,8 @@ msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
-"'.reuse/dep5' je zastaralý. Místo toho doporučujeme používat soubor "
-"REUSE.toml. Pro konverzi použijte `reuse convert-dep5`."
+"'.reuse/dep5' je zastaralý. Místo toho doporučujeme používat soubor REUSE."
+"toml. Pro konverzi použijte `reuse convert-dep5`."
 
 #: src/reuse/project.py:348
 #, python-brace-format

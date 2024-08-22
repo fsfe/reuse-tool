@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-08 08:43+0000\n"
+"POT-Creation-Date: 2024-08-22 09:37+0000\n"
 "PO-Revision-Date: 2024-07-07 21:10+0000\n"
 "Last-Translator: Anthony Loiseau <anthony@loiseau.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -87,7 +87,7 @@ msgstr "une des options --contributor, --copyright ou --license est nécessaire"
 msgid "template {template} could not be found"
 msgstr "le modèle {template} est introuvable"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:574
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:581
 msgid "can't write to '{}'"
 msgstr "écriture impossible dans '{}'"
 
@@ -350,12 +350,12 @@ msgstr ""
 "'{path}' ne peut pas être traité. Nous avons reçu le message d'erreur "
 "suivant : {message}"
 
-#: src/reuse/_util.py:369 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:376 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Analyse de la syntaxe de '{expression}' impossible"
 
-#: src/reuse/_util.py:425
+#: src/reuse/_util.py:432
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
@@ -363,39 +363,39 @@ msgstr ""
 "'{path}' contient une expression SPDX qui ne peut pas être analysée : le "
 "fichier est ignoré"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:564
 msgid "'{}' is not a file"
 msgstr "'{}' n'est pas un fichier"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:567
 msgid "'{}' is not a directory"
 msgstr "'{}' n'est pas un répertoire"
 
-#: src/reuse/_util.py:563
+#: src/reuse/_util.py:570
 msgid "can't open '{}'"
 msgstr "'{}' ne peut être ouvert"
 
-#: src/reuse/_util.py:568
+#: src/reuse/_util.py:575
 msgid "can't write to directory '{}'"
 msgstr "écriture impossible dans le répertoire '{}'"
 
-#: src/reuse/_util.py:587
+#: src/reuse/_util.py:594
 msgid "can't read or write '{}'"
 msgstr "lecture ou écriture impossible pour '{}'"
 
-#: src/reuse/_util.py:597
+#: src/reuse/_util.py:604
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' n'est pas une expression SPDX valide, abandon"
 
-#: src/reuse/_util.py:625
+#: src/reuse/_util.py:632
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' n'est pas un identifiant de licence SPDX valide."
 
-#: src/reuse/_util.py:632
+#: src/reuse/_util.py:639
 msgid "Did you mean:"
 msgstr "Vouliez-vous dire :"
 
-#: src/reuse/_util.py:639
+#: src/reuse/_util.py:646
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-08 08:43+0000\n"
+"POT-Creation-Date: 2024-08-22 09:37+0000\n"
 "PO-Revision-Date: 2023-09-28 07:03+0000\n"
 "Last-Translator: \"T. E. Kalaycı\" <tekrei@tutanota.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -82,7 +82,7 @@ msgstr "--contributor, --copyright veya --license seçenekleri gereklidir"
 msgid "template {template} could not be found"
 msgstr "{template} şablonu bulunamıyor"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:574
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:581
 msgid "can't write to '{}'"
 msgstr "'{}' yazılamıyor"
 
@@ -323,50 +323,50 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:369 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:376 src/reuse/global_licensing.py:218
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "'{expression}' çözümlenemiyor"
 
-#: src/reuse/_util.py:425
+#: src/reuse/_util.py:432
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr "'{path}' çözümlenemeyen bir SPDX ifadesine sahip, dosya atlanıyor"
 
-#: src/reuse/_util.py:557
+#: src/reuse/_util.py:564
 msgid "'{}' is not a file"
 msgstr "'{}' bir dosya değil"
 
-#: src/reuse/_util.py:560
+#: src/reuse/_util.py:567
 msgid "'{}' is not a directory"
 msgstr "'{}' bir dizin değil"
 
-#: src/reuse/_util.py:563
+#: src/reuse/_util.py:570
 msgid "can't open '{}'"
 msgstr "'{}' açılamıyor"
 
-#: src/reuse/_util.py:568
+#: src/reuse/_util.py:575
 msgid "can't write to directory '{}'"
 msgstr "'{}' dizinine yazılamıyor"
 
-#: src/reuse/_util.py:587
+#: src/reuse/_util.py:594
 msgid "can't read or write '{}'"
 msgstr "'{}' okunamıyor veya yazılamıyor"
 
-#: src/reuse/_util.py:597
+#: src/reuse/_util.py:604
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' geçerli bir SPDX ifadesi değil, iptal ediliyor"
 
-#: src/reuse/_util.py:625
+#: src/reuse/_util.py:632
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' geçerli bir SPDX Lisans Kimliği değil."
 
-#: src/reuse/_util.py:632
+#: src/reuse/_util.py:639
 msgid "Did you mean:"
 msgstr "Şunu mu kastettiniz:"
 
-#: src/reuse/_util.py:639
+#: src/reuse/_util.py:646
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
