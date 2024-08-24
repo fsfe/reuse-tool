@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-22 09:37+0000\n"
-"PO-Revision-Date: 2024-05-25 05:09+0000\n"
+"PO-Revision-Date: 2024-08-25 06:09+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "ru/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.7.1-dev\n"
 
 #: src/reuse/_annotate.py:74
 #, python-brace-format
@@ -121,9 +121,8 @@ msgid "comment style to use, optional"
 msgstr "стиль комментария, который следует использовать, необязательно"
 
 #: src/reuse/_annotate.py:417
-#, fuzzy
 msgid "copyright prefix to use, optional"
-msgstr "стиль авторского права, который будет использоваться, необязательно"
+msgstr "используемый префикс авторского права, необязательно"
 
 #: src/reuse/_annotate.py:430
 msgid "name of template to use, optional"
@@ -507,9 +506,8 @@ msgid "formats output as plain text"
 msgstr "Форматирует вывод в виде обычного текста"
 
 #: src/reuse/lint.py:45
-#, fuzzy
 msgid "formats output as errors per line"
-msgstr "Форматирует вывод в виде обычного текста"
+msgstr "Форматирует вывод в виде ошибок на строку"
 
 #: src/reuse/lint.py:64
 msgid "BAD LICENSES"
@@ -632,42 +630,42 @@ msgstr "РЕКОМЕНДАЦИИ"
 #: src/reuse/lint.py:289
 #, python-brace-format
 msgid "{path}: bad license {lic}\n"
-msgstr ""
+msgstr "{path}: плохая лицензия {lic}\n"
 
 #: src/reuse/lint.py:296
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{lic_path}: deprecated license\n"
-msgstr "Утраченные лицензии:"
+msgstr "{lic_path}: устаревшая лицензия\n"
 
 #: src/reuse/lint.py:303
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{lic_path}: license without file extension\n"
-msgstr "Лицензии без расширения файла:"
+msgstr "{lic_path}: лицензия без расширения файла\n"
 
 #: src/reuse/lint.py:312
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{lic_path}: unused license\n"
-msgstr "Неиспользованные лицензии:"
+msgstr "{lic_path}: неиспользуемая лицензия\n"
 
 #: src/reuse/lint.py:319
 #, python-brace-format
 msgid "{path}: missing license {lic}\n"
-msgstr ""
+msgstr "{path}: отсутствует лицензия {lic}\n"
 
 #: src/reuse/lint.py:326
 #, python-brace-format
 msgid "{path}: read error\n"
-msgstr ""
+msgstr "{path}: ошибка чтения\n"
 
 #: src/reuse/lint.py:330
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path}: no license identifier\n"
-msgstr "'{}' не является действительным идентификатором лицензии SPDX."
+msgstr "{path}: нет идентификатора лицензии\n"
 
 #: src/reuse/lint.py:334
 #, python-brace-format
 msgid "{path}: no copyright notice\n"
-msgstr ""
+msgstr "{path}: нет уведомления об авторских правах\n"
 
 #: src/reuse/project.py:262
 #, python-brace-format
