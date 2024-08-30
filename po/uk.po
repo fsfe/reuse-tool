@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-22 09:37+0000\n"
-"PO-Revision-Date: 2024-07-02 21:10+0000\n"
-"Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"PO-Revision-Date: 2024-08-31 21:09+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: src/reuse/_annotate.py:74
 #, python-brace-format
@@ -267,7 +267,7 @@ msgstr "завантажити ліцензію та розмістити її �
 
 #: src/reuse/_main.py:142
 msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "Завантажте ліцензію та помістіть її в папку LICENSES/."
+msgstr "Завантажте ліцензію та помістіть її в директорію LICENSES/."
 
 #: src/reuse/_main.py:151
 msgid "list all non-compliant files"
@@ -332,8 +332,8 @@ msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
-"'{path}' не вдалося розібрати. Ми отримали наступне повідомлення про "
-"помилку: {message}"
+"'{path}' не вдалося розібрати. Ми отримали таке повідомлення про помилку: "
+"{message}"
 
 #: src/reuse/_util.py:376 src/reuse/global_licensing.py:218
 #, python-brace-format
@@ -455,7 +455,7 @@ msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
-"Елемент у колекції {attr_name} має бути {type_name} (отримав {item_value}, "
+"Елемент у колекції {attr_name} має бути {type_name} (отримано {item_value}, "
 "що є {item_class})."
 
 #: src/reuse/global_licensing.py:133
@@ -617,7 +617,7 @@ msgstr "РЕКОМЕНДАЦІЇ"
 #: src/reuse/lint.py:289
 #, python-brace-format
 msgid "{path}: bad license {lic}\n"
-msgstr "{path}: bad license {lic}\n"
+msgstr "{path}: погана ліцензія {lic}\n"
 
 #: src/reuse/lint.py:296
 #, python-brace-format
@@ -637,7 +637,7 @@ msgstr "{lic_path}: невикористана ліцензія\n"
 #: src/reuse/lint.py:319
 #, python-brace-format
 msgid "{path}: missing license {lic}\n"
-msgstr "{path}: зникла ліцензія {lic}\n"
+msgstr "{path}: пропущена ліцензія {lic}\n"
 
 #: src/reuse/lint.py:326
 #, python-brace-format
