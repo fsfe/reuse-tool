@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-22 09:37+0000\n"
-"PO-Revision-Date: 2024-08-31 21:09+0000\n"
+"PO-Revision-Date: 2024-09-03 09:09+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
 "reuse-tool/uk/>\n"
@@ -95,9 +95,8 @@ msgid ""
 "The following files do not have a recognised file extension. Please use --"
 "style, --force-dot-license, --fallback-dot-license, or --skip-unrecognised:"
 msgstr ""
-"Наступні файли не мають розпізнаного файлового розширення. Будь ласка, "
-"використовуйте --style, --force-dot-license, --fallback-dot-license або --"
-"skip-unrecognised:"
+"Ці файли не мають розпізнаного файлового розширення. Використовуйте --style, "
+"--force-dot-license, --fallback-dot-license або --skip-unrecognised:"
 
 #: src/reuse/_annotate.py:382
 msgid "copyright statement, repeatable"
@@ -663,7 +662,7 @@ msgstr "'{path}' покрито за рахунок {global_path}"
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
-msgstr "'{path}' покрито виключно файлом REUSE.toml. Не читаючи вміст файлу."
+msgstr "'{path}' покрито виключно файлом REUSE.toml. Зміст файлу не читається."
 
 #: src/reuse/project.py:277
 #, python-brace-format
