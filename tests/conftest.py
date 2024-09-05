@@ -28,6 +28,7 @@ import pytest
 from jinja2 import Environment
 
 os.environ["LC_ALL"] = "C"
+os.environ["LANGUAGE"] = ""
 
 # A trick that tries to import the installed version of reuse. If that doesn't
 # work, import from the src directory. If that also doesn't work (for some
