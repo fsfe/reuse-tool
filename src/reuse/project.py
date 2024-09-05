@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2023 Matthias Riße
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2024 Linnea Gräf
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -251,7 +252,7 @@ class Project:
 
         # Search the global licensing file for REUSE information.
         if self.global_licensing:
-            relpath = self.relative_from_root(path)
+            relpath = self.relative_from_root(original_path)
             global_results = defaultdict(
                 list, self.global_licensing.reuse_info_of(relpath)
             )
