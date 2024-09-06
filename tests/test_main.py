@@ -391,8 +391,8 @@ class TestLintFile:
     def test_path_outside_project(self, empty_directory, capsys):
         """A file can't be outside the project."""
         with pytest.raises(SystemExit):
-            main(["lint-file", "/"])
-        assert "'/' is not in" in capsys.readouterr().err
+            main(["lint-file", ".."])
+        assert "'..' is not in" in capsys.readouterr().err
 
     def test_file_not_exists(self, empty_directory, capsys):
         """A file must exist."""
