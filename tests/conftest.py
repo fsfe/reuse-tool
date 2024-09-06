@@ -167,25 +167,6 @@ def fake_repository(tmpdir_factory) -> Path:
     # Get rid of those pesky pyc files.
     shutil.rmtree(directory / "src/__pycache__", ignore_errors=True)
 
-    # Adding this here to avoid conflict in main project.
-    (directory / "src/exception.py").write_text(
-        "SPDX-FileCopyrightText: 2017 Jane Doe\n"
-        "SPDX-License-Identifier: GPL-3.0-or-later WITH Autoconf-exception-3.0",
-        encoding="utf-8",
-    )
-    (directory / "src/custom.py").write_text(
-        "SPDX-FileCopyrightText: 2017 Jane Doe\n"
-        "SPDX-License-Identifier: LicenseRef-custom",
-        encoding="utf-8",
-    )
-    (directory / "src/multiple_licenses.rs").write_text(
-        "SPDX-FileCopyrightText: 2022 Jane Doe\n"
-        "SPDX-License-Identifier: GPL-3.0-or-later\n"
-        "SPDX-License-Identifier: Apache-2.0 OR CC0-1.0"
-        " WITH Autoconf-exception-3.0\n",
-        encoding="utf-8",
-    )
-
     os.chdir(directory)
     return directory
 
