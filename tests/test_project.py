@@ -321,7 +321,7 @@ class TestSubsetFiles:
     def test_two(self, fake_repository):
         """Yield multiple specified files."""
         project = Project.from_directory(fake_repository)
-        result = list(
+        result = set(
             project.subset_files(
                 {
                     fake_repository / "src/custom.py",
@@ -329,10 +329,10 @@ class TestSubsetFiles:
                 }
             )
         )
-        assert result == [
+        assert result == {
             fake_repository / "src/custom.py",
             fake_repository / "src/exception.py",
-        ]
+        }
 
     def test_non_existent(self, fake_repository):
         """If a file does not exist, don't yield it."""
