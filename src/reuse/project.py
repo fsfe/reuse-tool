@@ -45,6 +45,7 @@ from ._util import (
     _LICENSEREF_PATTERN,
     StrPath,
     _determine_license_path,
+    is_relative_to,
     relative_from_root,
     reuse_info_of_file,
 )
@@ -191,7 +192,7 @@ class Project:
             for dir_ in list(dirs):
                 the_dir = root / dir_
                 if subset_files is not None and not any(
-                    file_.is_relative_to(the_dir.resolve())
+                    is_relative_to(file_, the_dir.resolve())
                     for file_ in subset_files
                 ):
                     continue
