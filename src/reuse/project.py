@@ -18,7 +18,18 @@ import warnings
 from collections import defaultdict
 from gettext import gettext as _
 from pathlib import Path
-from typing import DefaultDict, Dict, Iterator, List, NamedTuple, Optional, Type
+from typing import (
+    Collection,
+    DefaultDict,
+    Dict,
+    Iterator,
+    List,
+    NamedTuple,
+    Optional,
+    Set,
+    Type,
+    cast,
+)
 
 from binaryornot.check import is_binary
 
@@ -158,25 +169,55 @@ class Project:
 
         return project
 
-    def specific_files(
-        self, files: Optional[List], directory: Optional[StrPath] = None
+    def _iter_files(
+        self,
+        directory: Optional[StrPath] = None,
+        subset_files: Optional[Collection[StrPath]] = None,
     ) -> Iterator[Path]:
-        """Yield all files in the specified file list within a directory.
-
-        The files that are not yielded are:
-
-        - Files ignored by VCS (e.g., see .gitignore)
-
-        - Files matching IGNORE_*_PATTERNS.
-        """
+        # pylint: disable=too-many-branches
         if directory is None:
             directory = self.root
         directory = Path(directory)
+        if subset_files is not None:
+            subset_files = cast(
+                Set[Path], {Path(file_).resolve() for file_ in subset_files}
+            )
 
-        if files is not None:
+        for root_str, dirs, files in os.walk(directory):
+            root = Path(root_str)
+            _LOGGER.debug("currently walking in '%s'", root)
+
+            # Don't walk ignored directories
+            for dir_ in list(dirs):
+                the_dir = root / dir_
+                if subset_files is not None and not any(
+                    file_.is_relative_to(the_dir.resolve())
+                    for file_ in subset_files
+                ):
+                    continue
+                if self._is_path_ignored(the_dir):
+                    _LOGGER.debug("ignoring '%s'", the_dir)
+                    dirs.remove(dir_)
+                elif the_dir.is_symlink():
+                    _LOGGER.debug("skipping symlink '%s'", the_dir)
+                    dirs.remove(dir_)
+                elif (
+                    not self.include_submodules
+                    and self.vcs_strategy.is_submodule(the_dir)
+                ):
+                    _LOGGER.info(
+                        "ignoring '%s' because it is a submodule", the_dir
+                    )
+                    dirs.remove(dir_)
+
             # Filter files.
             for file_ in files:
-                the_file = directory / file_
+                the_file = root / file_
+                if (
+                    subset_files is not None
+                    and the_file.resolve() not in subset_files
+                ):
+                    continue
                 if self._is_path_ignored(the_file):
                     _LOGGER.debug("ignoring '%s'", the_file)
                     continue
@@ -196,56 +237,38 @@ class Project:
     def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
 
-        The files that are not yielded are:
+        The files that are not yielded are those explicitly ignored by the REUSE
+        Specification. That means:
 
-        - Files ignored by VCS (e.g., see .gitignore)
+        - LICENSE/COPYING files.
+        - VCS directories.
+        - .license files.
+        - .spdx files.
+        - Files ignored by VCS.
+        - Symlinks.
+        - Submodules (depending on the value of :attr:`include_submodules`).
+        - Meson subprojects (depending on the value of
+              :attr:`include_meson_subprojects`).
+        - 0-sized files.
 
-        - Files/directories matching IGNORE_*_PATTERNS.
+        Args:
+            directory: The directory in which to search.
         """
-        if directory is None:
-            directory = self.root
-        directory = Path(directory)
+        return self._iter_files(directory=directory)
 
-        for root_str, dirs, files in os.walk(directory):
-            root = Path(root_str)
-            _LOGGER.debug("currently walking in '%s'", root)
+    def subset_files(
+        self, files: Collection[StrPath], directory: Optional[StrPath] = None
+    ) -> Iterator[Path]:
+        """Like :meth:`all_files`, but all files that are not in *files* are
+        filtered out.
 
-            # Don't walk ignored directories
-            for dir_ in list(dirs):
-                the_dir = root / dir_
-                if self._is_path_ignored(the_dir):
-                    _LOGGER.debug("ignoring '%s'", the_dir)
-                    dirs.remove(dir_)
-                elif the_dir.is_symlink():
-                    _LOGGER.debug("skipping symlink '%s'", the_dir)
-                    dirs.remove(dir_)
-                elif (
-                    not self.include_submodules
-                    and self.vcs_strategy.is_submodule(the_dir)
-                ):
-                    _LOGGER.info(
-                        "ignoring '%s' because it is a submodule", the_dir
-                    )
-                    dirs.remove(dir_)
-
-            # Filter files.
-            for file_ in files:
-                the_file = root / file_
-                if self._is_path_ignored(the_file):
-                    _LOGGER.debug("ignoring '%s'", the_file)
-                    continue
-                if the_file.is_symlink():
-                    _LOGGER.debug("skipping symlink '%s'", the_file)
-                    continue
-                # Suppressing this error because I simply don't want to deal
-                # with that here.
-                with contextlib.suppress(OSError):
-                    if the_file.stat().st_size == 0:
-                        _LOGGER.debug("skipping 0-sized file '%s'", the_file)
-                        continue
-
-                _LOGGER.debug("yielding '%s'", the_file)
-                yield the_file
+        Args:
+            files: A collection of paths relative to the current working
+                directory. Any files that are not in this collection are not
+                yielded.
+            directory: The directory in which to search.
+        """
+        return self._iter_files(directory=directory, subset_files=files)
 
     def reuse_info_of(self, path: StrPath) -> List[ReuseInfo]:
         """Return REUSE info of *path*.

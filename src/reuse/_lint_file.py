@@ -9,11 +9,13 @@ reading the reports and printing some conclusions.
 import sys
 from argparse import ArgumentParser, Namespace
 from gettext import gettext as _
+from pathlib import Path
 from typing import IO
 
-from .lint import format_json, format_lines, format_plain
+from ._util import PathType
+from .lint import format_lines_subset
 from .project import Project
-from .report import ProjectReport
+from .report import ProjectSubsetReport
 
 
 def add_arguments(parser: ArgumentParser) -> None:
@@ -23,39 +25,33 @@ def add_arguments(parser: ArgumentParser) -> None:
         "-q", "--quiet", action="store_true", help=_("prevents output")
     )
     mutex_group.add_argument(
-        "-j", "--json", action="store_true", help=_("formats output as JSON")
-    )
-    mutex_group.add_argument(
-        "-p",
-        "--plain",
-        action="store_true",
-        help=_("formats output as plain text"),
-    )
-    mutex_group.add_argument(
         "-l",
         "--lines",
         action="store_true",
-        help=_("formats output as errors per line"),
+        help=_("formats output as errors per line (default)"),
     )
-    parser.add_argument("files", nargs="*")
+    parser.add_argument("files", action="store", nargs="*", type=PathType("r"))
 
 
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """List all non-compliant files from specified file list."""
-    report = ProjectReport.generate(
+    subset_files = {Path(file_) for file_ in args.files}
+    for file_ in subset_files:
+        if not file_.resolve().is_relative_to(project.root.resolve()):
+            args.parser.error(
+                _("'{file}' is not inside of '{root}'").format(
+                    file=file_, root=project.root
+                )
+            )
+    report = ProjectSubsetReport.generate(
         project,
-        do_checksum=False,
-        file_list=args.files,
+        subset_files,
         multiprocessing=not args.no_multiprocessing,
     )
 
     if args.quiet:
         pass
-    elif args.json:
-        out.write(format_json(report))
-    elif args.lines:
-        out.write(format_lines(report))
     else:
-        out.write(format_plain(report))
+        out.write(format_lines_subset(report))
 
     return 0 if report.is_compliant else 1

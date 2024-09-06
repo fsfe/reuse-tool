@@ -17,7 +17,7 @@ from conftest import cpython, posix
 
 from reuse import SourceType
 from reuse.project import Project
-from reuse.report import FileReport, ProjectReport
+from reuse.report import FileReport, ProjectReport, ProjectSubsetReport
 
 # REUSE-IgnoreStart
 
@@ -278,9 +278,7 @@ class TestGenerateProjectReport:
         assert not result.read_errors
         assert result.file_reports
 
-    def test__licenses_without_extension(
-        self, fake_repository, multiprocessing
-    ):
+    def test_licenses_without_extension(self, fake_repository, multiprocessing):
         """Licenses without extension are detected."""
         (fake_repository / "LICENSES/CC0-1.0.txt").rename(
             fake_repository / "LICENSES/CC0-1.0"
@@ -476,6 +474,69 @@ class TestGenerateProjectReport:
         assert len(infos) == 2
         assert file_report.copyright == "Jane Doe"
         assert file_report.licenses_in_file == ["0BSD"]
+
+
+class TestProjectSubsetReport:
+    """Tests for ProjectSubsetReport."""
+
+    def test_simple(self, fake_repository, multiprocessing):
+        """Simple generate test."""
+        project = Project.from_directory(fake_repository)
+        result = ProjectSubsetReport.generate(
+            project,
+            {fake_repository / "src/custom.py"},
+            multiprocessing=multiprocessing,
+        )
+
+        assert not result.missing_licenses
+        assert not result.read_errors
+        assert not result.files_without_licenses
+        assert not result.files_without_copyright
+        assert len(result.file_reports) == 1
+
+    @cpython
+    @posix
+    def test_read_error(self, fake_repository, multiprocessing):
+        """Files that cannot be read are added to the read error list."""
+        (fake_repository / "bad").write_text("foo")
+        (fake_repository / "bad").chmod(0o000)
+
+        project = Project.from_directory(fake_repository)
+        result = ProjectSubsetReport.generate(
+            project, {fake_repository / "bad"}, multiprocessing=multiprocessing
+        )
+
+        # pylint: disable=superfluous-parens
+        assert (fake_repository / "bad") in result.read_errors
+
+    def test_missing_license(self, fake_repository, multiprocessing):
+        """Missing licenses are detected."""
+        (fake_repository / "LICENSES/GPL-3.0-or-later.txt").unlink()
+
+        project = Project.from_directory(fake_repository)
+        result = ProjectSubsetReport.generate(
+            project,
+            {fake_repository / "src/exception.py"},
+            multiprocessing=multiprocessing,
+        )
+
+        assert result.missing_licenses == {
+            "GPL-3.0-or-later": {fake_repository / "src/exception.py"}
+        }
+
+    def test_missing_copyright_license(self, empty_directory, multiprocessing):
+        """Missing copyright and license is detected."""
+        (empty_directory / "foo.py").write_text("foo")
+        project = Project.from_directory(empty_directory)
+        result = ProjectSubsetReport.generate(
+            project,
+            {empty_directory / "foo.py"},
+            multiprocessing=multiprocessing,
+        )
+
+        # pylint: disable=superfluous-parens
+        assert (empty_directory / "foo.py") in result.files_without_copyright
+        assert (empty_directory / "foo.py") in result.files_without_licenses
 
 
 def test_bill_of_materials(fake_repository, multiprocessing):

@@ -309,6 +309,77 @@ def test_all_files_pijul_ignored_contains_newline(pijul_repository):
     assert Path("hello\nworld.pyc").absolute() not in project.all_files()
 
 
+class TestSubsetFiles:
+    """Tests for subset_files."""
+
+    def test_single(self, fake_repository):
+        """Only yield the single specified file."""
+        project = Project.from_directory(fake_repository)
+        result = list(project.subset_files({fake_repository / "src/custom.py"}))
+        assert result == [fake_repository / "src/custom.py"]
+
+    def test_two(self, fake_repository):
+        """Yield multiple specified files."""
+        project = Project.from_directory(fake_repository)
+        result = list(
+            project.subset_files(
+                {
+                    fake_repository / "src/custom.py",
+                    fake_repository / "src/exception.py",
+                }
+            )
+        )
+        assert result == [
+            fake_repository / "src/custom.py",
+            fake_repository / "src/exception.py",
+        ]
+
+    def test_non_existent(self, fake_repository):
+        """If a file does not exist, don't yield it."""
+        project = Project.from_directory(fake_repository)
+        result = list(
+            project.subset_files(
+                {
+                    fake_repository / "src/custom.py",
+                    fake_repository / "not_exist.py",
+                    fake_repository / "also/does/not/exist.py",
+                }
+            )
+        )
+        assert result == [fake_repository / "src/custom.py"]
+
+    def test_outside_cwd(self, fake_repository):
+        """If a file is outside of the project, don't yield it."""
+        project = Project.from_directory(fake_repository)
+        result = list(
+            project.subset_files(
+                {
+                    fake_repository / "src/custom.py",
+                    (fake_repository / "../outside.py").resolve(),
+                }
+            )
+        )
+        assert result == [fake_repository / "src/custom.py"]
+
+    def test_empty(self, fake_repository):
+        """If no files are provided, yield nothing."""
+        project = Project.from_directory(fake_repository)
+        result = list(project.subset_files(set()))
+        assert not result
+
+    def test_list_arg(self, fake_repository):
+        """Also accepts a list argument."""
+        project = Project.from_directory(fake_repository)
+        result = list(project.subset_files([fake_repository / "src/custom.py"]))
+        assert result == [fake_repository / "src/custom.py"]
+
+    def test_relative_path(self, fake_repository):
+        """Also handles relative paths."""
+        project = Project.from_directory(fake_repository)
+        result = list(project.subset_files({"src/custom.py"}))
+        assert result == [fake_repository / "src/custom.py"]
+
+
 def test_reuse_info_of_file_does_not_exist(fake_repository):
     """Raise FileNotFoundError when asking for the REUSE info of a file that
     does not exist.

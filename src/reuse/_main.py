@@ -21,10 +21,10 @@ from . import (
     __REUSE_version__,
     __version__,
     _annotate,
+    _lint_file,
     convert_dep5,
     download,
     lint,
-    lint_file,
     spdx,
     supported_licenses,
 )
@@ -178,8 +178,8 @@ def parser() -> argparse.ArgumentParser:
     add_command(
         subparsers,
         "lint-file",
-        lint_file.add_arguments,
-        lint_file.run,
+        _lint_file.add_arguments,
+        _lint_file.run,
         help=_("list non-compliant files from specified list of files"),
     )
 
