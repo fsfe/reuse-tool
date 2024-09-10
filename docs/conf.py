@@ -31,7 +31,7 @@ try:
     # The full version, including alpha/beta/rc tags.
     release = get_version("reuse")
 except PackageNotFoundError:
-    release = "3.0.2"
+    release = "4.0.3"
 
 # The short X.Y.Z version.
 version = ".".join(release.split(".")[:3])
@@ -116,6 +116,14 @@ man_pages = [
         1,
     ),
     (
+        "man/reuse-lint-file",
+        "reuse-lint-file",
+        "Verify whether the specified files are compliant with the REUSE"
+        " Specification",
+        "Free Software Foundation Europe",
+        1,
+    ),
+    (
         "man/reuse-spdx",
         "reuse-spdx",
         "Generate SPDX bill of materials",
@@ -130,6 +138,11 @@ man_pages = [
         1,
     ),
 ]
+manpages_url = (
+    "https://reuse.readthedocs.io/en/v{version}/man/{page}.html".format(
+        version=version, page="{page}"
+    )
+)
 
 # -- Custom ------------------------------------------------------------------
 

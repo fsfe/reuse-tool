@@ -367,6 +367,54 @@ def test_lint_no_multiprocessing(fake_repository, stringio, multiprocessing):
     assert ":-)" in stringio.getvalue()
 
 
+class TestLintFile:
+    """Tests for lint-file."""
+
+    def test_simple(self, fake_repository, stringio):
+        """A simple test to make sure it works."""
+        result = main(["lint-file", "src/custom.py"], out=stringio)
+        assert result == 0
+        assert not stringio.getvalue()
+
+    def test_no_copyright_licensing(self, fake_repository, stringio):
+        """A file is correctly spotted when it has no copyright or licensing
+        info.
+        """
+        (fake_repository / "foo.py").write_text("foo")
+        result = main(["lint-file", "foo.py"], out=stringio)
+        assert result == 1
+        output = stringio.getvalue()
+        assert "foo.py" in output
+        assert "no license identifier" in output
+        assert "no copyright notice" in output
+
+    def test_path_outside_project(self, empty_directory, capsys):
+        """A file can't be outside the project."""
+        with pytest.raises(SystemExit):
+            main(["lint-file", ".."])
+        assert "'..' is not in" in capsys.readouterr().err
+
+    def test_file_not_exists(self, empty_directory, capsys):
+        """A file must exist."""
+        with pytest.raises(SystemExit):
+            main(["lint-file", "foo.py"])
+        assert "can't open 'foo.py'" in capsys.readouterr().err
+
+    def test_ignored_file(self, fake_repository, stringio):
+        """A corner case where a specified file is ignored. It isn't checked at
+        all.
+        """
+        (fake_repository / "COPYING").write_text("foo")
+        result = main(["lint-file", "COPYING"], out=stringio)
+        assert result == 0
+
+    def test_file_covered_by_toml(self, fake_repository_reuse_toml, stringio):
+        """If a file is covered by REUSE.toml, use its infos."""
+        (fake_repository_reuse_toml / "doc/foo.md").write_text("foo")
+        result = main(["lint-file", "doc/foo.md"], out=stringio)
+        assert result == 0
+
+
 @freeze_time("2024-04-08T17:34:00Z")
 def test_spdx(fake_repository, stringio):
     """Compile to an SPDX document."""

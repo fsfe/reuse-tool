@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2024 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2024 Kerry McAdams <github@klmcadams>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -20,6 +21,7 @@ from . import (
     __REUSE_version__,
     __version__,
     _annotate,
+    _lint_file,
     convert_dep5,
     download,
     lint,
@@ -171,6 +173,14 @@ def parser() -> argparse.ArgumentParser:
                 " information?"
             ).format(reuse_version=__REUSE_version__)
         ),
+    )
+
+    add_command(
+        subparsers,
+        "lint-file",
+        _lint_file.add_arguments,
+        _lint_file.run,
+        help=_("list non-compliant files from specified list of files"),
     )
 
     add_command(

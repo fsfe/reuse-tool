@@ -3,6 +3,8 @@
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2024 Kerry McAdams <github@klmcadams>
+# SPDX-FileCopyrightText: 2024 Sebastien Morais <github@SMoraisAnsys>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,7 +21,18 @@ from hashlib import md5
 from io import StringIO
 from os import cpu_count
 from pathlib import Path, PurePath
-from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Set, cast
+from typing import (
+    Any,
+    Collection,
+    Dict,
+    Iterable,
+    List,
+    NamedTuple,
+    Optional,
+    Protocol,
+    Set,
+    cast,
+)
 from uuid import uuid4
 
 from . import __REUSE_version__, __version__
@@ -98,6 +111,77 @@ class _MultiprocessingResult(NamedTuple):
     path: StrPath
     report: Optional["FileReport"]
     error: Optional[Exception]
+
+
+def _generate_file_reports(
+    project: Project,
+    do_checksum: bool = True,
+    subset_files: Optional[Collection[StrPath]] = None,
+    multiprocessing: bool = cpu_count() > 1,  # type: ignore
+    add_license_concluded: bool = False,
+) -> Iterable[_MultiprocessingResult]:
+    """Create a :class:`FileReport` for every file in the project, filtered
+    by *subset_files*.
+    """
+    container = _MultiprocessingContainer(
+        project, do_checksum, add_license_concluded
+    )
+
+    files = (
+        project.subset_files(subset_files)
+        if subset_files is not None
+        else project.all_files()
+    )
+    if multiprocessing:
+        with mp.Pool() as pool:
+            results: Iterable[_MultiprocessingResult] = pool.map(
+                container, files
+            )
+        pool.join()
+    else:
+        results = map(container, files)
+    return results
+
+
+def _process_error(error: Exception, path: StrPath) -> None:
+    # Facilitate better debugging by being able to quit the program.
+    if isinstance(error, bdb.BdbQuit):
+        raise bdb.BdbQuit() from error
+    if isinstance(error, (OSError, UnicodeError)):
+        _LOGGER.error(
+            _("Could not read '{path}'").format(path=path),
+            exc_info=error,
+        )
+    else:
+        _LOGGER.error(
+            _("Unexpected error occurred while parsing '{path}'").format(
+                path=path
+            ),
+            exc_info=error,
+        )
+
+
+class ProjectReportSubsetProtocol(Protocol):
+    """A :class:`Protocol` that defines a subset of functionality of
+    :class:`ProjectReport`, implemented by :class:`ProjectSubsetReport`.
+    """
+
+    path: StrPath
+    missing_licenses: Dict[str, Set[Path]]
+    read_errors: Set[Path]
+    file_reports: Set["FileReport"]
+
+    @property
+    def files_without_licenses(self) -> Set[Path]:
+        """Set of paths that have no licensing information."""
+
+    @property
+    def files_without_copyright(self) -> Set[Path]:
+        """Set of paths that have no copyright information."""
+
+    @property
+    def is_compliant(self) -> bool:
+        """Whether the report subset is compliant with the REUSE Spec."""
 
 
 class ProjectReport:  # pylint: disable=too-many-instance-attributes
@@ -279,7 +363,16 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         multiprocessing: bool = cpu_count() > 1,  # type: ignore
         add_license_concluded: bool = False,
     ) -> "ProjectReport":
-        """Generate a ProjectReport from a Project."""
+        """Generate a :class:`ProjectReport` from a :class:`Project`.
+
+        Args:
+            project: The :class:`Project` to lint.
+            do_checksum: Generate a checksum of every file. If this is
+                :const:`False`, generate a random checksum for every file.
+            multiprocessing: Whether to use multiprocessing.
+            add_license_concluded: Whether to aggregate all found SPDX
+                expressions into a concluded license.
+        """
         project_report = cls(do_checksum=do_checksum)
         project_report.path = project.root
         project_report.licenses = project.licenses
@@ -287,39 +380,18 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             project.licenses_without_extension
         )
 
-        container = _MultiprocessingContainer(
-            project, do_checksum, add_license_concluded
+        results = _generate_file_reports(
+            project,
+            do_checksum=do_checksum,
+            multiprocessing=multiprocessing,
+            add_license_concluded=add_license_concluded,
         )
-
-        if multiprocessing:
-            with mp.Pool() as pool:
-                results: Iterable[_MultiprocessingResult] = pool.map(
-                    container, project.all_files()
-                )
-            pool.join()
-        else:
-            results = map(container, project.all_files())
-
         for result in results:
             if result.error:
-                # Facilitate better debugging by being able to quit the program.
-                if isinstance(result.error, bdb.BdbQuit):
-                    raise bdb.BdbQuit() from result.error
-                if isinstance(result.error, (OSError, UnicodeError)):
-                    _LOGGER.error(
-                        _("Could not read '{path}'").format(path=result.path),
-                        exc_info=result.error,
-                    )
-                    project_report.read_errors.add(Path(result.path))
-                    continue
-                _LOGGER.error(
-                    _(
-                        "Unexpected error occurred while parsing '{path}'"
-                    ).format(path=result.path),
-                    exc_info=result.error,
-                )
+                _process_error(result.error, result.path)
                 project_report.read_errors.add(Path(result.path))
                 continue
+
             file_report = cast(FileReport, result.report)
 
             # File report.
@@ -508,6 +580,86 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             )
 
         return recommendations
+
+
+class ProjectSubsetReport:
+    """Like a :class:`ProjectReport`, but for a subset of the files using a
+    subset of features.
+    """
+
+    def __init__(self) -> None:
+        self.path: StrPath = ""
+        self.missing_licenses: Dict[str, Set[Path]] = {}
+        self.read_errors: Set[Path] = set()
+        self.file_reports: Set[FileReport] = set()
+
+    @classmethod
+    def generate(
+        cls,
+        project: Project,
+        subset_files: Collection[StrPath],
+        multiprocessing: bool = cpu_count() > 1,  # type: ignore
+    ) -> "ProjectSubsetReport":
+        """Generate a :class:`ProjectSubsetReport` from a :class:`Project`.
+
+        Args:
+            project: The :class:`Project` to lint.
+            subset_files: Only lint the files in this list.
+            multiprocessing: Whether to use multiprocessing.
+        """
+        subset_report = cls()
+        subset_report.path = project.root
+        results = _generate_file_reports(
+            project,
+            do_checksum=False,
+            subset_files=subset_files,
+            multiprocessing=multiprocessing,
+            add_license_concluded=False,
+        )
+        for result in results:
+            if result.error:
+                _process_error(result.error, result.path)
+                subset_report.read_errors.add(Path(result.path))
+                continue
+
+            file_report = cast(FileReport, result.report)
+            subset_report.file_reports.add(file_report)
+
+            for missing_license in file_report.missing_licenses:
+                subset_report.missing_licenses.setdefault(
+                    missing_license, set()
+                ).add(file_report.path)
+        return subset_report
+
+    @property
+    def files_without_licenses(self) -> Set[Path]:
+        """Set of paths that have no licensing information."""
+        return {
+            file_report.path
+            for file_report in self.file_reports
+            if not file_report.licenses_in_file
+        }
+
+    @property
+    def files_without_copyright(self) -> Set[Path]:
+        """Set of paths that have no copyright information."""
+        return {
+            file_report.path
+            for file_report in self.file_reports
+            if not file_report.copyright
+        }
+
+    @property
+    def is_compliant(self) -> bool:
+        """Whether the report subset is compliant with the REUSE Spec."""
+        return not any(
+            (
+                self.missing_licenses,
+                self.files_without_copyright,
+                self.files_without_licenses,
+                self.read_errors,
+            )
+        )
 
 
 class FileReport:  # pylint: disable=too-many-instance-attributes

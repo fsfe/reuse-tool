@@ -3,10 +3,18 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 - id: reuse
-  name: reuse
+  name: reuse lint
   entry: reuse
   args: ["lint"]
   language: python
   pass_filenames: false
   description:
-    "Lint the project directory for compliance with the REUSE Specification"
+    "Lint the project directory for compliance with the REUSE Specification."
+
+- id: reuse-lint-file
+  name: reuse lint-file
+  entry: reuse
+  args: ["lint-file"]
+  language: python
+  description:
+    "Lint the changed files for compliance with the REUSE Specification."

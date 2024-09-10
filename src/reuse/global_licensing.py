@@ -6,7 +6,6 @@
 
 # mypy: disable-error-code=attr-defined
 
-import contextlib
 import logging
 import re
 from abc import ABC, abstractmethod
@@ -40,7 +39,7 @@ from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
 from . import ReuseInfo, SourceType
-from ._util import _LICENSING, StrPath
+from ._util import _LICENSING, StrPath, is_relative_to
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -555,9 +554,7 @@ class NestedReuseTOML(GlobalLicensing):
         found = []
         for toml in self.reuse_tomls:
             # TODO: When Python 3.8 is dropped, use is_relative_to instead.
-            with contextlib.suppress(ValueError):
-                PurePath(path).relative_to(toml.directory)
-                # No error.
+            if is_relative_to(PurePath(path), toml.directory):
                 found.append(toml)
         # Sort from topmost to deepest directory.
         found.sort(key=lambda toml: toml.directory.parts)

@@ -14,7 +14,7 @@
 
 """Misc. utilities for reuse."""
 
-
+import contextlib
 import logging
 import os
 import re
@@ -29,7 +29,7 @@ from hashlib import sha1
 from inspect import cleandoc
 from itertools import chain
 from os import PathLike
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import (
     IO,
     Any,
@@ -663,6 +663,15 @@ def detect_line_endings(text: str) -> str:
 def cleandoc_nl(text: str) -> str:
     """Like :func:`inspect.cleandoc`, but with a newline at the end."""
     return cleandoc(text) + "\n"
+
+
+def is_relative_to(path: PurePath, target: PurePath) -> bool:
+    """Like Path.is_relative_to, but working for Python <3.9."""
+    # TODO: When Python 3.8 is dropped, remove this function.
+    with contextlib.suppress(ValueError):
+        path.relative_to(target)
+        return True
+    return False
 
 
 # REUSE-IgnoreEnd

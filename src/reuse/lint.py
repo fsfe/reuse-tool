@@ -20,7 +20,7 @@ from typing import IO, Any, Optional
 
 from . import __REUSE_version__
 from .project import Project
-from .report import ProjectReport
+from .report import ProjectReport, ProjectReportSubsetProtocol
 
 
 def add_arguments(parser: ArgumentParser) -> None:
@@ -36,7 +36,7 @@ def add_arguments(parser: ArgumentParser) -> None:
         "-p",
         "--plain",
         action="store_true",
-        help=_("formats output as plain text"),
+        help=_("formats output as plain text (default)"),
     )
     mutex_group.add_argument(
         "-l",
@@ -264,13 +264,43 @@ def format_json(report: ProjectReport) -> str:
     )
 
 
-def format_lines(report: ProjectReport) -> str:
-    """Formats data dictionary as plaintext strings to be printed to sys.stdout
-    Sorting of output is not guaranteed.
-    Symbolic links can result in multiple entries per file.
+def format_lines_subset(report: ProjectReportSubsetProtocol) -> str:
+    """Formats a subset of a report, namely missing licenses, read errors, files
+    without licenses, and files without copyright.
 
     Args:
-        report: ProjectReport data
+        report: A populated report.
+    """
+    output = StringIO()
+
+    # Missing licenses
+    for lic, files in sorted(report.missing_licenses.items()):
+        for path in sorted(files):
+            output.write(
+                _("{path}: missing license {lic}\n").format(path=path, lic=lic)
+            )
+
+    # Read errors
+    for path in sorted(report.read_errors):
+        output.write(_("{path}: read error\n").format(path=path))
+
+    # Without licenses
+    for path in report.files_without_licenses:
+        output.write(_("{path}: no license identifier\n").format(path=path))
+
+    # Without copyright
+    for path in report.files_without_copyright:
+        output.write(_("{path}: no copyright notice\n").format(path=path))
+
+    return output.getvalue()
+
+
+def format_lines(report: ProjectReport) -> str:
+    """Formats report as plaintext strings to be printed to sys.stdout. Sorting
+    of output is not guaranteed.
+
+    Args:
+        report: A populated report.
 
     Returns:
         String (in plaintext) that can be output to sys.stdout
@@ -281,6 +311,7 @@ def format_lines(report: ProjectReport) -> str:
         """Resolve a license identifier to a license path."""
         return report.licenses.get(lic)
 
+    subset_output = ""
     if not report.is_compliant:
         # Bad licenses
         for lic, files in sorted(report.bad_licenses.items()):
@@ -312,28 +343,10 @@ def format_lines(report: ProjectReport) -> str:
                 _("{lic_path}: unused license\n").format(lic_path=lic_path)
             )
 
-        # Missing licenses
-        for lic, files in sorted(report.missing_licenses.items()):
-            for path in sorted(files):
-                output.write(
-                    _("{path}: missing license {lic}\n").format(
-                        path=path, lic=lic
-                    )
-                )
+        # Everything else.
+        subset_output = format_lines_subset(report)
 
-        # Read errors
-        for path in sorted(report.read_errors):
-            output.write(_("{path}: read error\n").format(path=path))
-
-        # Without licenses
-        for path in report.files_without_licenses:
-            output.write(_("{path}: no license identifier\n").format(path=path))
-
-        # Without copyright
-        for path in report.files_without_copyright:
-            output.write(_("{path}: no copyright notice\n").format(path=path))
-
-    return output.getvalue()
+    return output.getvalue() + subset_output
 
 
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:

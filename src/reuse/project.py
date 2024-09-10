@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2023 Matthias Riße
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
+# SPDX-FileCopyrightText: 2024 Kerry McAdams <github@klmcadams>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,7 +18,18 @@ import warnings
 from collections import defaultdict
 from gettext import gettext as _
 from pathlib import Path
-from typing import DefaultDict, Dict, Iterator, List, NamedTuple, Optional, Type
+from typing import (
+    Collection,
+    DefaultDict,
+    Dict,
+    Iterator,
+    List,
+    NamedTuple,
+    Optional,
+    Set,
+    Type,
+    cast,
+)
 
 from binaryornot.check import is_binary
 
@@ -33,6 +45,7 @@ from ._util import (
     _LICENSEREF_PATTERN,
     StrPath,
     _determine_license_path,
+    is_relative_to,
     relative_from_root,
     reuse_info_of_file,
 )
@@ -157,18 +170,19 @@ class Project:
 
         return project
 
-    def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
-        """Yield all files in *directory* and its subdirectories.
-
-        The files that are not yielded are:
-
-        - Files ignored by VCS (e.g., see .gitignore)
-
-        - Files/directories matching IGNORE_*_PATTERNS.
-        """
+    def _iter_files(
+        self,
+        directory: Optional[StrPath] = None,
+        subset_files: Optional[Collection[StrPath]] = None,
+    ) -> Iterator[Path]:
+        # pylint: disable=too-many-branches
         if directory is None:
             directory = self.root
         directory = Path(directory)
+        if subset_files is not None:
+            subset_files = cast(
+                Set[Path], {Path(file_).resolve() for file_ in subset_files}
+            )
 
         for root_str, dirs, files in os.walk(directory):
             root = Path(root_str)
@@ -177,6 +191,11 @@ class Project:
             # Don't walk ignored directories
             for dir_ in list(dirs):
                 the_dir = root / dir_
+                if subset_files is not None and not any(
+                    is_relative_to(file_, the_dir.resolve())
+                    for file_ in subset_files
+                ):
+                    continue
                 if self._is_path_ignored(the_dir):
                     _LOGGER.debug("ignoring '%s'", the_dir)
                     dirs.remove(dir_)
@@ -195,6 +214,11 @@ class Project:
             # Filter files.
             for file_ in files:
                 the_file = root / file_
+                if (
+                    subset_files is not None
+                    and the_file.resolve() not in subset_files
+                ):
+                    continue
                 if self._is_path_ignored(the_file):
                     _LOGGER.debug("ignoring '%s'", the_file)
                     continue
@@ -210,6 +234,42 @@ class Project:
 
                 _LOGGER.debug("yielding '%s'", the_file)
                 yield the_file
+
+    def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
+        """Yield all files in *directory* and its subdirectories.
+
+        The files that are not yielded are those explicitly ignored by the REUSE
+        Specification. That means:
+
+        - LICENSE/COPYING files.
+        - VCS directories.
+        - .license files.
+        - .spdx files.
+        - Files ignored by VCS.
+        - Symlinks.
+        - Submodules (depending on the value of :attr:`include_submodules`).
+        - Meson subprojects (depending on the value of
+              :attr:`include_meson_subprojects`).
+        - 0-sized files.
+
+        Args:
+            directory: The directory in which to search.
+        """
+        return self._iter_files(directory=directory)
+
+    def subset_files(
+        self, files: Collection[StrPath], directory: Optional[StrPath] = None
+    ) -> Iterator[Path]:
+        """Like :meth:`all_files`, but all files that are not in *files* are
+        filtered out.
+
+        Args:
+            files: A collection of paths relative to the current working
+                directory. Any files that are not in this collection are not
+                yielded.
+            directory: The directory in which to search.
+        """
+        return self._iter_files(directory=directory, subset_files=files)
 
     def reuse_info_of(self, path: StrPath) -> List[ReuseInfo]:
         """Return REUSE info of *path*.

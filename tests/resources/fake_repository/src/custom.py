@@ -1,1 +1,3 @@
-# This file is overridden by the fake_repository fixture.
+# SPDX-FileCopyrightText: 2017 Jane Doe
+#
+# SPDX-License-Identifier: LicenseRef-custom

@@ -247,7 +247,7 @@ Git. This uses [pre-commit](https://pre-commit.com/). Once you
 ```yaml
 repos:
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v3.0.2
+    rev: v4.0.3
     hooks:
       - id: reuse
 ```
@@ -255,6 +255,17 @@ repos:
 Then run `pre-commit install`. Now, every time you commit, `reuse lint` is run
 in the background, and will prevent your commit from going through if there was
 an error.
+
+If you instead want to only lint files that were changed in your commit, you can
+use the following configuration:
+
+```yaml
+repos:
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v4.0.3
+    hooks:
+      - id: reuse-lint-file
+```
 
 ## Maintainers
 
