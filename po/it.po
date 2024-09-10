@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-22 09:37+0000\n"
+"POT-Creation-Date: 2024-09-10 10:35+0000\n"
 "PO-Revision-Date: 2023-02-18 10:24+0000\n"
 "Last-Translator: \"J. Lavoie\" <j.lavoie@net-c.ca>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -174,7 +174,24 @@ msgstr ""
 "'{path}' è un file binario, occorre utilizzare '{new_path}' per "
 "l'intestazione"
 
-#: src/reuse/_main.py:39
+#: src/reuse/_lint_file.py:25 src/reuse/lint.py:30
+msgid "prevents output"
+msgstr ""
+
+#: src/reuse/_lint_file.py:31
+msgid "formats output as errors per line (default)"
+msgstr ""
+
+#: src/reuse/_lint_file.py:38
+msgid "files to lint"
+msgstr ""
+
+#: src/reuse/_lint_file.py:48
+#, python-brace-format
+msgid "'{file}' is not inside of '{root}'"
+msgstr ""
+
+#: src/reuse/_main.py:41
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
@@ -184,7 +201,7 @@ msgstr ""
 "<https://reuse.software/> per maggiori informazioni, e <https://reuse."
 "readthedocs.io/> per accedere alla documentazione in linea."
 
-#: src/reuse/_main.py:45
+#: src/reuse/_main.py:47
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
@@ -192,11 +209,11 @@ msgstr ""
 "Questa versione di reuse è compatibile con la versione {} della Specifica "
 "REUSE."
 
-#: src/reuse/_main.py:48
+#: src/reuse/_main.py:50
 msgid "Support the FSFE's work:"
 msgstr "Sostieni il lavoro della FSFE:"
 
-#: src/reuse/_main.py:52
+#: src/reuse/_main.py:54
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
@@ -207,46 +224,46 @@ msgstr ""
 "necessario. Prendi in considerazione di fare una donazione su <https://fsfe."
 "org/donate/>."
 
-#: src/reuse/_main.py:75
+#: src/reuse/_main.py:77
 msgid "enable debug statements"
 msgstr "abilita le istruzioni di debug"
 
-#: src/reuse/_main.py:80
+#: src/reuse/_main.py:82
 msgid "hide deprecation warnings"
 msgstr ""
 
-#: src/reuse/_main.py:85
+#: src/reuse/_main.py:87
 msgid "do not skip over Git submodules"
 msgstr "non omettere i sottomoduli Git"
 
-#: src/reuse/_main.py:90
+#: src/reuse/_main.py:92
 #, fuzzy
 msgid "do not skip over Meson subprojects"
 msgstr "non omettere i sottomoduli Git"
 
-#: src/reuse/_main.py:95
+#: src/reuse/_main.py:97
 msgid "do not use multiprocessing"
 msgstr "non utilizzare il multiprocessing"
 
-#: src/reuse/_main.py:102
+#: src/reuse/_main.py:104
 msgid "define root of project"
 msgstr "impostare la directory principale del progetto"
 
-#: src/reuse/_main.py:107
+#: src/reuse/_main.py:109
 msgid "show program's version number and exit"
 msgstr "mostra la versione del programma ed esce"
 
-#: src/reuse/_main.py:111
+#: src/reuse/_main.py:113
 msgid "subcommands"
 msgstr "sottocomandi"
 
-#: src/reuse/_main.py:118
+#: src/reuse/_main.py:120
 msgid "add copyright and licensing into the header of files"
 msgstr ""
 "aggiunge le informazioni sul copyright e sulla licenza nell'intestazione dei "
 "file"
 
-#: src/reuse/_main.py:121
+#: src/reuse/_main.py:123
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -257,20 +274,20 @@ msgid ""
 "but are not copyright holder of the given files."
 msgstr ""
 
-#: src/reuse/_main.py:140
+#: src/reuse/_main.py:142
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "scarica una licenza e salvala nella directory LICENSES/"
 
-#: src/reuse/_main.py:142
+#: src/reuse/_main.py:144
 #, fuzzy
 msgid "Download a license and place it in the LICENSES/ directory."
 msgstr "scarica una licenza e salvala nella directory LICENSES/"
 
-#: src/reuse/_main.py:151
+#: src/reuse/_main.py:153
 msgid "list all non-compliant files"
 msgstr "lista dei file non conformi"
 
-#: src/reuse/_main.py:154
+#: src/reuse/_main.py:156
 #, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
@@ -307,31 +324,35 @@ msgstr ""
 "\n"
 "- Tutti i file hanno informazioni valide sul copyright e sulla licenza?"
 
-#: src/reuse/_main.py:181
+#: src/reuse/_main.py:183
+msgid "list non-compliant files from specified list of files"
+msgstr ""
+
+#: src/reuse/_main.py:191
 msgid "print the project's bill of materials in SPDX format"
 msgstr "stampa l'elenco dei componenti del progetto in formato SPDX"
 
-#: src/reuse/_main.py:189
+#: src/reuse/_main.py:199
 msgid "list all supported SPDX licenses"
 msgstr ""
 
-#: src/reuse/_main.py:198
+#: src/reuse/_main.py:208
 msgid "convert .reuse/dep5 to REUSE.toml"
 msgstr ""
 
-#: src/reuse/_main.py:263
+#: src/reuse/_main.py:273
 #, python-brace-format
 msgid "'{path}' could not be decoded as UTF-8."
 msgstr ""
 
-#: src/reuse/_main.py:269
+#: src/reuse/_main.py:279
 #, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
 
-#: src/reuse/_util.py:376 src/reuse/global_licensing.py:218
+#: src/reuse/_util.py:376 src/reuse/global_licensing.py:217
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Non è possibile parsificare '{expression}'"
@@ -438,30 +459,30 @@ msgstr "sono richiesti i seguenti parametri: license"
 msgid "cannot use --output with more than one license"
 msgstr "non puoi usare --output con più di una licenza"
 
-#: src/reuse/global_licensing.py:109
+#: src/reuse/global_licensing.py:108
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:122
+#: src/reuse/global_licensing.py:121
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:133
+#: src/reuse/global_licensing.py:132
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr ""
 
-#: src/reuse/global_licensing.py:156
+#: src/reuse/global_licensing.py:155
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:179
+#: src/reuse/global_licensing.py:178
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -473,16 +494,12 @@ msgstr ""
 "nel commento generato mancano le linee sul copyright o le espressioni di "
 "licenza"
 
-#: src/reuse/lint.py:30
-msgid "prevents output"
-msgstr ""
-
 #: src/reuse/lint.py:33
 msgid "formats output as JSON"
 msgstr ""
 
 #: src/reuse/lint.py:39
-msgid "formats output as plain text"
+msgid "formats output as plain text (default)"
 msgstr ""
 
 #: src/reuse/lint.py:45
@@ -612,88 +629,88 @@ msgstr ""
 msgid "RECOMMENDATIONS"
 msgstr ""
 
-#: src/reuse/lint.py:289
-#, python-brace-format
-msgid "{path}: bad license {lic}\n"
-msgstr ""
-
-#: src/reuse/lint.py:296
-#, fuzzy, python-brace-format
-msgid "{lic_path}: deprecated license\n"
-msgstr "Licenze obsolete:"
-
-#: src/reuse/lint.py:303
-#, fuzzy, python-brace-format
-msgid "{lic_path}: license without file extension\n"
-msgstr "Licenze senza estensione del file:"
-
-#: src/reuse/lint.py:312
-#, fuzzy, python-brace-format
-msgid "{lic_path}: unused license\n"
-msgstr "Licenze non utilizzate:"
-
-#: src/reuse/lint.py:319
+#: src/reuse/lint.py:280
 #, python-brace-format
 msgid "{path}: missing license {lic}\n"
 msgstr ""
 
-#: src/reuse/lint.py:326
+#: src/reuse/lint.py:285
 #, python-brace-format
 msgid "{path}: read error\n"
 msgstr ""
 
-#: src/reuse/lint.py:330
+#: src/reuse/lint.py:289
 #, fuzzy, python-brace-format
 msgid "{path}: no license identifier\n"
 msgstr "'{}' non è un valido Identificativo di Licenza SPDX."
 
-#: src/reuse/lint.py:334
+#: src/reuse/lint.py:293
 #, python-brace-format
 msgid "{path}: no copyright notice\n"
 msgstr ""
 
-#: src/reuse/project.py:262
+#: src/reuse/lint.py:320
+#, python-brace-format
+msgid "{path}: bad license {lic}\n"
+msgstr ""
+
+#: src/reuse/lint.py:327
+#, fuzzy, python-brace-format
+msgid "{lic_path}: deprecated license\n"
+msgstr "Licenze obsolete:"
+
+#: src/reuse/lint.py:334
+#, fuzzy, python-brace-format
+msgid "{lic_path}: license without file extension\n"
+msgstr "Licenze senza estensione del file:"
+
+#: src/reuse/lint.py:343
+#, fuzzy, python-brace-format
+msgid "{lic_path}: unused license\n"
+msgstr "Licenze non utilizzate:"
+
+#: src/reuse/project.py:322
 #, fuzzy, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' verificato da .reuse/dep5"
 
-#: src/reuse/project.py:270
+#: src/reuse/project.py:330
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
 
-#: src/reuse/project.py:277
+#: src/reuse/project.py:337
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
 "information."
 msgstr ""
 
-#: src/reuse/project.py:334
+#: src/reuse/project.py:394
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
 
-#: src/reuse/project.py:348
+#: src/reuse/project.py:408
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
 
-#: src/reuse/project.py:414
+#: src/reuse/project.py:474
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "determinazione dell'identificativo di '{path}'"
 
-#: src/reuse/project.py:422
+#: src/reuse/project.py:482
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} non ha l'estensione del file"
 
-#: src/reuse/project.py:432
+#: src/reuse/project.py:492
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -706,7 +723,7 @@ msgstr ""
 "licenze elencate su <https://spdx.org/licenses/> o che inizi con "
 "'LicenseRef-', e che abbia un'estensione del file."
 
-#: src/reuse/project.py:444
+#: src/reuse/project.py:504
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -714,23 +731,23 @@ msgstr ""
 "{identifier} è l'Identificativo di Licenza SPDX sia di {path} che di "
 "{other_path}"
 
-#: src/reuse/project.py:483
+#: src/reuse/project.py:543
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
 msgstr ""
 
-#: src/reuse/report.py:310
+#: src/reuse/report.py:152
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Non è possibile leggere '{path}'"
 
-#: src/reuse/report.py:317
+#: src/reuse/report.py:157
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Errore sconosciuto durante la parsificazione di '{path}'"
 
-#: src/reuse/report.py:438
+#: src/reuse/report.py:510
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -738,7 +755,7 @@ msgid ""
 "custom licenses: https://reuse.software/faq/#custom-license"
 msgstr ""
 
-#: src/reuse/report.py:449
+#: src/reuse/report.py:521
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -747,14 +764,14 @@ msgid ""
 "#deprecated>"
 msgstr ""
 
-#: src/reuse/report.py:460
+#: src/reuse/report.py:532
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
 "the file(s) accordingly."
 msgstr ""
 
-#: src/reuse/report.py:469
+#: src/reuse/report.py:541
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -763,7 +780,7 @@ msgid ""
 "licenses (starting with 'LicenseRef-'), you need to add these files yourself."
 msgstr ""
 
-#: src/reuse/report.py:481
+#: src/reuse/report.py:553
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -772,14 +789,14 @@ msgid ""
 "is licensed as such."
 msgstr ""
 
-#: src/reuse/report.py:492
+#: src/reuse/report.py:564
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
 "files at the top of the output as part of the logged error messages."
 msgstr ""
 
-#: src/reuse/report.py:501
+#: src/reuse/report.py:573
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
