@@ -5,100 +5,45 @@
   SPDX-License-Identifier: CC-BY-SA-4.0
 
 reuse-lint-file
-================
+===============
 
 Synopsis
 --------
 
-**reuse lint-file** [*options*]
+**reuse lint-file** [*options*] [*file* ...]
 
 Description
 -----------
 
-:program:`reuse-lint-file` verifies whether a file in a project is compliant with the REUSE
-Specification located at `<https://reuse.software/spec>`_.
+:program:`reuse-lint-file` verifies whether the specified files are compliant
+with the REUSE Specification located at `<https://reuse.software/spec>`_. It
+runs the linter from :manpage:`reuse-lint(1)` against a subset of files, using a
+subset of criteria.
+
+Files that are ignored by :program:`reuse-lint` are also ignored by
+:program:`reuse-lint-file`, even if specified.
 
 Criteria
 --------
 
-These are the criteria that the linter checks against.
+The criteria are the same as used in :manpage:`reuse-lint(1)`, but using only a
+subset:
 
-Bad licenses
-~~~~~~~~~~~~
-
-Licenses that are found in ``LICENSES/`` that are not found in the SPDX License
-List or do not start with ``LicenseRef-`` are bad licenses.
-
-Deprecated licenses
-~~~~~~~~~~~~~~~~~~~
-
-Licenses whose SPDX License Identifier has been deprecated by SPDX.
-
-Licenses without file extension
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-These are licenses whose file names are a valid SPDX License Identifier, but
-which do not have a file extension.
-
-Missing licenses
-~~~~~~~~~~~~~~~~
-
-A license which is referred to in a comment header, but which is not found in
-the ``LICENSES/`` directory.
-
-Unused licenses
-~~~~~~~~~~~~~~~
-
-A license found in the ``LICENSES/`` directory, but which is not referred to in
-any comment header.
-
-Read errors
-~~~~~~~~~~~
-
-Not technically a criterion, but files that cannot be read by the operating
-system are read errors, and need to be fixed.
-
-Files without copyright and license information
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Every file needs to have copyright and licensing information associated with it.
-The REUSE Specification details several ways of doing it. By and large, these
-are the methods:
-
-- Placing tags in the header of the file.
-- Placing tags in a ``.license`` file adjacent to the file.
-- Putting the information in the ``REUSE.toml`` file.
-- Putting the information in the ``.reuse/dep5`` file. (Deprecated)
-
-If a file is found that does not have copyright and/or license information
-associated with it, then the project is not compliant.
+- Missing licenses.
+- Read errors.
+- Files without copyright and license information.
 
 Options
 -------
-
-.. option:: <file>
-
-  File(s) that are linted. For example, ``reuse lint-file src/reuse/lint_file.py src/reuse/download.py``.
 
 .. option:: -q, --quiet
 
   Do not print anything to STDOUT.
 
-..
-  TODO: specify the JSON output.
-
-.. option:: -j, --json
-
-  Output the results of the lint as JSON.
-
-.. option:: -p, --plain
-
-  Output the results of the lint as descriptive text. The text is valid
-  Markdown.
-
 .. option:: -l, --lines
 
-  Output one line per error, prefixed by the file path.
+  Output one line per error, prefixed by the file path. This option is the
+  default.
 
 .. option:: -h, --help
 

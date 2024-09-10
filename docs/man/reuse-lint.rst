@@ -90,7 +90,7 @@ Options
 .. option:: -p, --plain
 
   Output the results of the lint as descriptive text. The text is valid
-  Markdown.
+  Markdown. This option is the default.
 
 .. option:: -l, --lines
 

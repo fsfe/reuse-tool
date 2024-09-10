@@ -30,7 +30,13 @@ def add_arguments(parser: ArgumentParser) -> None:
         action="store_true",
         help=_("formats output as errors per line (default)"),
     )
-    parser.add_argument("files", action="store", nargs="*", type=PathType("r"))
+    parser.add_argument(
+        "files",
+        action="store",
+        nargs="*",
+        type=PathType("r"),
+        help=_("files to lint"),
+    )
 
 
 def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
