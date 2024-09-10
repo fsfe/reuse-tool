@@ -64,8 +64,9 @@ _IGNORE_MESON_PARENT_DIR_PATTERNS = [
 ]
 
 _IGNORE_FILE_PATTERNS = [
-    re.compile(r"^LICENSE(\..*)?$"),
-    re.compile(r"^COPYING(\..*)?$"),
+    # LICENSE, LICENSE-MIT, LICENSE.txt
+    re.compile(r"^LICEN[CS]E([-\.].*)?$"),
+    re.compile(r"^COPYING([-\.].*)?$"),
     # ".git" as file happens in submodules
     re.compile(r"^\.git$"),
     re.compile(r"^\.hgtags$"),
