@@ -36,7 +36,7 @@ except PackageNotFoundError:
 __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
 __license__ = "Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
-__REUSE_version__ = "3.2"
+__REUSE_version__ = "3.3"
 
 _LOGGER = logging.getLogger(__name__)
 
