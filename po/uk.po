@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-10 10:35+0000\n"
-"PO-Revision-Date: 2024-09-03 09:09+0000\n"
+"PO-Revision-Date: 2024-09-11 19:09+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -179,18 +179,17 @@ msgid "prevents output"
 msgstr "запобігає виводу"
 
 #: src/reuse/_lint_file.py:31
-#, fuzzy
 msgid "formats output as errors per line (default)"
-msgstr "форматує вивід у вигляді помилок на рядок"
+msgstr "форматує вивід у вигляді помилок на рядок (усталено)"
 
 #: src/reuse/_lint_file.py:38
 msgid "files to lint"
-msgstr ""
+msgstr "файли для перевірки"
 
 #: src/reuse/_lint_file.py:48
 #, python-brace-format
 msgid "'{file}' is not inside of '{root}'"
-msgstr ""
+msgstr "'{file}' не розміщено в '{root}'"
 
 #: src/reuse/_main.py:41
 msgid ""
@@ -328,7 +327,7 @@ msgstr ""
 
 #: src/reuse/_main.py:183
 msgid "list non-compliant files from specified list of files"
-msgstr ""
+msgstr "список невідповідних файлів із вказаного списку файлів"
 
 #: src/reuse/_main.py:191
 msgid "print the project's bill of materials in SPDX format"
@@ -508,9 +507,8 @@ msgid "formats output as JSON"
 msgstr "форматує вивід як JSON"
 
 #: src/reuse/lint.py:39
-#, fuzzy
 msgid "formats output as plain text (default)"
-msgstr "форматує вивід як звичайний текст"
+msgstr "форматує вивід як звичайний текст (усталено)"
 
 #: src/reuse/lint.py:45
 msgid "formats output as errors per line"
