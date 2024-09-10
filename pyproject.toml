@@ -122,6 +122,12 @@ push = false
 "src/reuse/__init__.py" = [
     '__version__ = "{pep440_version}"$',
 ]
+"docs/conf.py" = [
+    'release = "{pep440_version}"$',
+]
+"README.md" = [
+    'rev: {version}$',
+]
 
 [tool.protokolo]
 changelog = "CHANGELOG.md"
