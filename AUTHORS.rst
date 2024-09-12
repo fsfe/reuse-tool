@@ -40,7 +40,6 @@ Contributors
 - flow <adolflow@sindominio.net>
 - pd <euklade@gmail.com>
 - Roberto Bauglir <bauglir@fsfe.org>
-- T. E. Kalayci <tekrei@member.fsf.org>
 - John Mulligan <jmulligan@redhat.com>
 - Kevin Broch <kbroch@rivosinc.com>
 - Benoit Rolandeau <benoit.rolandeau@allcircuits.com>
@@ -141,7 +140,6 @@ Contributors
 - Ryan Schmidt <git@ryandesign.com>
 - Sebastian Crane <seabass@fsfe.org>
 - Sebastien Morais <github@SMoraisAnsys>
-- T. E. Kalaycı <tekrei@tutanota.com>
 - Vishesh Handa <me@vhanda.in>
 - Vlad-Stefan Harbuz <vlad@vladh.net>
 - Yaman Qalieh <ybq987@gmail.com>
