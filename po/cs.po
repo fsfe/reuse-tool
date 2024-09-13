@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-10 10:35+0000\n"
-"PO-Revision-Date: 2024-08-17 00:09+0000\n"
+"PO-Revision-Date: 2024-09-14 10:09+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.7\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: src/reuse/_annotate.py:74
 #, python-brace-format
@@ -178,18 +178,17 @@ msgid "prevents output"
 msgstr "brání výstupu"
 
 #: src/reuse/_lint_file.py:31
-#, fuzzy
 msgid "formats output as errors per line (default)"
-msgstr "formátuje výstup jako chyby na řádek"
+msgstr "formátuje výstup jako chyby na řádek (výchozí)"
 
 #: src/reuse/_lint_file.py:38
 msgid "files to lint"
-msgstr ""
+msgstr "soubory do lint"
 
 #: src/reuse/_lint_file.py:48
 #, python-brace-format
 msgid "'{file}' is not inside of '{root}'"
-msgstr ""
+msgstr "'{file}' není uvnitř '{root}'"
 
 #: src/reuse/_main.py:41
 msgid ""
@@ -325,7 +324,7 @@ msgstr ""
 
 #: src/reuse/_main.py:183
 msgid "list non-compliant files from specified list of files"
-msgstr ""
+msgstr "seznam nevyhovujících souborů ze zadaného seznamu souborů"
 
 #: src/reuse/_main.py:191
 msgid "print the project's bill of materials in SPDX format"
@@ -504,9 +503,8 @@ msgid "formats output as JSON"
 msgstr "formátuje výstup jako JSON"
 
 #: src/reuse/lint.py:39
-#, fuzzy
 msgid "formats output as plain text (default)"
-msgstr "formátuje výstup jako prostý text"
+msgstr "formátuje výstup jako prostý text (výchozí)"
 
 #: src/reuse/lint.py:45
 msgid "formats output as errors per line"
@@ -673,7 +671,7 @@ msgstr "{lic_path}: nepoužitá licence\n"
 #: src/reuse/project.py:322
 #, python-brace-format
 msgid "'{path}' covered by {global_path}"
-msgstr "'{path}' zahrnuto v  {global_path}"
+msgstr "'{path}' zahrnuto v {global_path}"
 
 #: src/reuse/project.py:330
 #, python-brace-format
