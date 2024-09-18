@@ -21,14 +21,11 @@ from typing import (
     Collection,
     DefaultDict,
     Dict,
-    Generator,
     Iterator,
     List,
     NamedTuple,
     Optional,
-    Set,
     Type,
-    cast,
 )
 
 import attrs
@@ -40,7 +37,6 @@ from ._util import (
     _LICENSEREF_PATTERN,
     StrPath,
     _determine_license_path,
-    is_relative_to,
     relative_from_root,
     reuse_info_of_file,
 )

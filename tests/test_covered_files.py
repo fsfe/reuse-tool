@@ -113,10 +113,11 @@ class TestIterFiles:
         subprojects_dir.mkdir()
         libfoo_dir = subprojects_dir / "libfoo"
         libfoo_dir.mkdir()
-        (libfoo_dir / "bar.py").write_text("pass")
+        bar_file = libfoo_dir / "bar.py"
+        bar_file.write_text("pass")
 
-        assert (libfoo_dir / "bar.py") not in iter_files(empty_directory)
-        assert (libfoo_dir / "bar.py") in iter_files(
+        assert bar_file not in iter_files(empty_directory)
+        assert bar_file in iter_files(
             empty_directory, include_meson_subprojects=True
         )
 
@@ -260,7 +261,7 @@ class TestAllFilesGit:
         )
 
     def test_submodule_is_ignored(self, submodule_repository):
-        """If a submodule is ignored, iter_files should not raise an Exception"""
+        """If a submodule is ignored, iter_files shouldn't raise an Exception"""
         (submodule_repository / "submodule/foo.py").write_text("foo")
         gitignore = submodule_repository / ".gitignore"
         contents = gitignore.read_text()
