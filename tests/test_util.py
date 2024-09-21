@@ -18,10 +18,11 @@ from pathlib import Path
 
 import pytest
 from boolean.boolean import ParseError
-from conftest import no_root, posix
 
 from reuse import _util
 from reuse._util import _LICENSING
+
+from .conftest import no_root, posix
 
 # REUSE-IgnoreStart
 

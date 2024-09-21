@@ -15,7 +15,6 @@ from inspect import cleandoc
 from pathlib import Path
 
 import pytest
-from conftest import RESOURCES_DIRECTORY, posix
 from license_expression import LicenseSymbol
 
 from reuse import ReuseInfo, SourceType
@@ -26,6 +25,8 @@ from reuse.global_licensing import (
     ReuseDep5,
 )
 from reuse.project import GlobalLicensingConflict, Project
+
+from .conftest import RESOURCES_DIRECTORY, posix
 
 # REUSE-IgnoreStart
 
