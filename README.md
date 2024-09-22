@@ -267,6 +267,16 @@ repos:
       - id: reuse-lint-file
 ```
 
+### Shell completion
+
+You can generate a shell completion script with `reuse --print-completion bash`.
+Replace 'bash' as needed. You must place the printed text in a file dictated by
+your shell to benefit from completions.
+
+This functionality depends on `shtab`, which is an optional dependency. To
+benefit from this feature, install reuse with the `completion` extra, like
+`pipx install reuse[completion]`.
+
 ## Maintainers
 
 - Carmen Bianca Bakker <carmenbianca@fsfe.org>

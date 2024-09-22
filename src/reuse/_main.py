@@ -3,18 +3,21 @@
 # SPDX-FileCopyrightText: 2024 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 # SPDX-FileCopyrightText: 2024 Kerry McAdams <github@klmcadams>
+# SPDX-FileCopyrightText: 2024 Emil Velikov <emil.l.velikov@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Entry functions for reuse."""
 
 import argparse
+import contextlib
 import logging
 import os
 import sys
 import warnings
 from gettext import gettext as _
 from pathlib import Path
+from types import ModuleType
 from typing import IO, Callable, Optional, Type, cast
 
 from . import (
@@ -33,6 +36,10 @@ from ._util import PathType, setup_logging
 from .global_licensing import GlobalLicensingParseError
 from .project import GlobalLicensingConflict, Project
 from .vcs import find_root
+
+shtab: Optional[ModuleType] = None
+with contextlib.suppress(ImportError):
+    import shtab  # type: ignore[no-redef,import-not-found]
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -103,6 +110,9 @@ def parser() -> argparse.ArgumentParser:
         type=PathType("r", force_directory=True),
         help=_("define root of project"),
     )
+    if shtab:
+        # This is magic. Running `reuse -s bash` now prints bash completions.
+        shtab.add_argument_to(parser, ["-s", "--print-completion"])
     parser.add_argument(
         "--version",
         action="store_true",
