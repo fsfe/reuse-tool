@@ -1,6 +1,7 @@
 ..
   SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
   SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+  SPDX-FileCopyrightText: 2024 Emil Velikov <emil.l.velikov@gmail.com>
 
   SPDX-License-Identifier: CC-BY-SA-4.0
 
@@ -76,6 +77,17 @@ Options
   Set the root of the project to PATH. Normally this defaults to the root of the
   current working directory's VCS repository, or to the current working
   directory.
+
+.. option:: -s, --print-completion SHELL
+
+  Print a static shell completion script for the given shell and exit. You must
+  place the printed text in a file dictated by your shell before the completions
+  will function. For Bash, this file is
+  ``${XDG_DATA_HOME}/bash-completion/reuse``.
+
+  This option depends on ``shtab``, which is an optional dependency of
+  :program:`reuse`. The supported shells depend on your installed version of
+  ``shtab``.
 
 .. option:: -h, --help
 
