@@ -257,6 +257,11 @@ class TestAnnotationsItemMatches:
         assert item.matches("src/foo.py")
         assert item.matches(".foo/bar")
 
+    def test_asterisk_slash(self):
+        """Handle asterisk slash."""
+        item = AnnotationsItem(paths=[r"*/file"])
+        assert item.matches("foo/file")
+
     def test_escape_asterisk(self):
         """Handle escape asterisk."""
         item = AnnotationsItem(paths=[r"\*.py"])
@@ -293,6 +298,7 @@ class TestAnnotationsItemMatches:
         """Handle escape escape asterisk."""
         item = AnnotationsItem(paths=[r"\\*.py"])
         assert item.matches(r"\foo.py")
+        assert not item.matches(r"foo.py")
 
     def test_asterisk_asterisk_asterisk(self):
         """Handle asterisk asterisk asterisk."""

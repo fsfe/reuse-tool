@@ -352,6 +352,7 @@ class AnnotationsItem:
 
     def __attrs_post_init__(self) -> None:
         def translate(path: str) -> str:
+            # pylint: disable=too-many-branches
             blocks = []
             escaping = False
             globstar = False
@@ -360,7 +361,7 @@ class AnnotationsItem:
                 if char == "\\":
                     if prev_char == "\\" and escaping:
                         escaping = False
-                        blocks.append(r"\\")
+                        blocks.append("\\\\")
                     else:
                         escaping = True
                 elif char == "*":
@@ -372,6 +373,8 @@ class AnnotationsItem:
                         blocks.append(r".*")
                 elif char == "/":
                     if not globstar:
+                        if prev_char == "*":
+                            blocks.append("[^/]*")
                         blocks.append("/")
                     escaping = False
                 else:
