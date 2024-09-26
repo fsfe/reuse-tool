@@ -22,7 +22,7 @@ import sys
 from argparse import SUPPRESS, ArgumentParser, Namespace
 from gettext import gettext as _
 from pathlib import Path
-from typing import IO, Iterable, Optional, Set, Tuple, Type, cast
+from typing import IO, Iterable, Optional, Type, cast
 
 from binaryornot.check import is_binary
 from jinja2 import Environment, FileSystemLoader, Template
@@ -232,13 +232,13 @@ def test_mandatory_option_required(args: Namespace) -> None:
         )
 
 
-def all_paths(args: Namespace, project: Project) -> Set[Path]:
+def all_paths(args: Namespace, project: Project) -> set[Path]:
     """Return a set of all provided paths, converted into .license paths if they
     exist. If recursive is enabled, all files belonging to *project* are also
     added.
     """
     if args.recursive:
-        paths: Set[Path] = set()
+        paths: set[Path] = set()
         all_files = [path.resolve() for path in project.all_files()]
         for path in args.path:
             if path.is_file():
@@ -256,7 +256,7 @@ def all_paths(args: Namespace, project: Project) -> Set[Path]:
 
 def get_template(
     args: Namespace, project: Project
-) -> Tuple[Optional[Template], bool]:
+) -> tuple[Optional[Template], bool]:
     """If a template is specified on the CLI, find and return it, including
     whether it is a 'commented' template.
 

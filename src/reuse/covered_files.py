@@ -12,14 +12,14 @@ import contextlib
 import logging
 import os
 from pathlib import Path
-from typing import Collection, Generator, Optional, Set, cast
+from typing import Collection, Generator, Optional, cast
 
 from . import (
     _IGNORE_DIR_PATTERNS,
     _IGNORE_FILE_PATTERNS,
     _IGNORE_MESON_PARENT_DIR_PATTERNS,
 )
-from ._util import StrPath, is_relative_to
+from ._util import StrPath
 from .vcs import VCSStrategy
 
 _LOGGER = logging.getLogger(__name__)
@@ -60,8 +60,7 @@ def is_path_ignored(
 
     elif path.is_dir():
         if subset_files is not None and not any(
-            is_relative_to(Path(file_), path.resolve())
-            for file_ in subset_files
+            Path(file_).is_relative_to(path.resolve()) for file_ in subset_files
         ):
             return True
         for pattern in _IGNORE_DIR_PATTERNS:
@@ -102,7 +101,7 @@ def iter_files(
     directory = Path(directory)
     if subset_files is not None:
         subset_files = cast(
-            Set[Path], {Path(file_).resolve() for file_ in subset_files}
+            set[Path], {Path(file_).resolve() for file_ in subset_files}
         )
 
     for root_str, dirs, files in os.walk(directory):

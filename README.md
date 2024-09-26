@@ -20,7 +20,7 @@ recommendations.
 - Source code: <https://github.com/fsfe/reuse-tool>
 - PyPI: <https://pypi.python.org/pypi/reuse>
 - REUSE: 3.3
-- Python: 3.8+
+- Python: 3.9+
 
 ## Table of contents
 

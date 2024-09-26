@@ -15,7 +15,7 @@ import os
 from abc import ABC, abstractmethod
 from inspect import isclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Generator, Optional, Set, Type
+from typing import TYPE_CHECKING, Generator, Optional, Type
 
 from ._util import (
     GIT_EXE,
@@ -99,7 +99,7 @@ class VCSStrategyGit(VCSStrategy):
         self._all_ignored_files = self._find_all_ignored_files()
         self._submodules = self._find_submodules()
 
-    def _find_all_ignored_files(self) -> Set[Path]:
+    def _find_all_ignored_files(self) -> set[Path]:
         """Return a set of all files ignored by git. If a whole directory is
         ignored, don't return all files inside of it.
         """
@@ -121,7 +121,7 @@ class VCSStrategyGit(VCSStrategy):
         all_files = result.stdout.decode("utf-8").split("\0")
         return {Path(file_) for file_ in all_files}
 
-    def _find_submodules(self) -> Set[Path]:
+    def _find_submodules(self) -> set[Path]:
         command = [
             str(self.EXE),
             "config",
@@ -191,7 +191,7 @@ class VCSStrategyHg(VCSStrategy):
             raise FileNotFoundError("Could not find binary for Mercurial")
         self._all_ignored_files = self._find_all_ignored_files()
 
-    def _find_all_ignored_files(self) -> Set[Path]:
+    def _find_all_ignored_files(self) -> set[Path]:
         """Return a set of all files ignored by mercurial. If a whole directory
         is ignored, don't return all files inside of it.
         """
@@ -258,7 +258,7 @@ class VCSStrategyJujutsu(VCSStrategy):
             raise FileNotFoundError("Could not find binary for Jujutsu")
         self._all_tracked_files = self._find_all_tracked_files()
 
-    def _find_all_tracked_files(self) -> Set[Path]:
+    def _find_all_tracked_files(self) -> set[Path]:
         """
         Return a set of all files tracked in the current jj revision
         """
@@ -323,7 +323,7 @@ class VCSStrategyPijul(VCSStrategy):
             raise FileNotFoundError("Could not find binary for Pijul")
         self._all_tracked_files = self._find_all_tracked_files()
 
-    def _find_all_tracked_files(self) -> Set[Path]:
+    def _find_all_tracked_files(self) -> set[Path]:
         """Return a set of all files tracked by pijul."""
         command = [str(self.EXE), "list"]
         result = execute_command(command, _LOGGER, cwd=self.root)

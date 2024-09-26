@@ -17,16 +17,7 @@ import warnings
 from collections import defaultdict
 from gettext import gettext as _
 from pathlib import Path
-from typing import (
-    Collection,
-    DefaultDict,
-    Dict,
-    Iterator,
-    List,
-    NamedTuple,
-    Optional,
-    Type,
-)
+from typing import Collection, Iterator, NamedTuple, Optional, Type
 
 import attrs
 from binaryornot.check import is_binary
@@ -81,10 +72,10 @@ class Project:
     global_licensing: Optional[GlobalLicensing] = None
 
     # TODO: I want to get rid of these, or somehow refactor this mess.
-    license_map: Dict[str, Dict] = attrs.field()
-    licenses: Dict[str, Path] = attrs.field(factory=dict)
+    license_map: dict[str, dict] = attrs.field()
+    licenses: dict[str, Path] = attrs.field(factory=dict)
 
-    licenses_without_extension: Dict[str, Path] = attrs.field(
+    licenses_without_extension: dict[str, Path] = attrs.field(
         init=False, factory=dict
     )
 
@@ -93,7 +84,7 @@ class Project:
         return VCSStrategyNone(self.root)
 
     @license_map.default
-    def _default_license_map(self) -> Dict[str, Dict]:
+    def _default_license_map(self) -> dict[str, dict]:
         license_map = LICENSE_MAP.copy()
         license_map.update(EXCEPTION_MAP)
         return license_map
@@ -218,7 +209,7 @@ class Project:
             vcs_strategy=self.vcs_strategy,
         )
 
-    def reuse_info_of(self, path: StrPath) -> List[ReuseInfo]:
+    def reuse_info_of(self, path: StrPath) -> list[ReuseInfo]:
         """Return REUSE info of *path*.
 
         This function will return any REUSE information that it can find: from
@@ -250,11 +241,11 @@ class Project:
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in ReuseInfo
-        global_results: "DefaultDict[PrecedenceType, List[ReuseInfo]]" = (
+        global_results: defaultdict[PrecedenceType, list[ReuseInfo]] = (
             defaultdict(list)
         )
         file_result = ReuseInfo()
-        result: List[ReuseInfo] = []
+        result: list[ReuseInfo] = []
 
         # Search the global licensing file for REUSE information.
         if self.global_licensing:
@@ -327,7 +318,7 @@ class Project:
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
         vcs_strategy: Optional[VCSStrategy] = None,
-    ) -> List[GlobalLicensingFound]:
+    ) -> list[GlobalLicensingFound]:
         """Find the path and corresponding class of a project directory's
         :class:`GlobalLicensing`.
 
@@ -335,7 +326,7 @@ class Project:
             GlobalLicensingConflict: if more than one global licensing config
                 file is present.
         """
-        candidates: List[GlobalLicensingFound] = []
+        candidates: list[GlobalLicensingFound] = []
         dep5_path = root / ".reuse/dep5"
         if (dep5_path).exists():
             # Sneaky workaround to not print this warning.
@@ -377,7 +368,7 @@ class Project:
 
     @classmethod
     def _global_licensing_from_found(
-        cls, found: List[GlobalLicensingFound], root: StrPath
+        cls, found: list[GlobalLicensingFound], root: StrPath
     ) -> GlobalLicensing:
         if len(found) == 1 and found[0].cls == ReuseDep5:
             return ReuseDep5.from_file(found[0].path)
@@ -403,12 +394,12 @@ class Project:
             f"Could not find SPDX License Identifier for {path}"
         )
 
-    def _find_licenses(self) -> Dict[str, Path]:
+    def _find_licenses(self) -> dict[str, Path]:
         """Return a dictionary of all licenses in the project, with their SPDX
         identifiers as names and paths as values.
         """
         # TODO: This method does more than one thing. We ought to simplify it.
-        license_files: Dict[str, Path] = {}
+        license_files: dict[str, Path] = {}
 
         directory = str(self.root / "LICENSES/**")
         for path_str in glob.iglob(directory, recursive=True):

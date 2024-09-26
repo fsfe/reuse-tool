@@ -12,7 +12,7 @@ from gettext import gettext as _
 from pathlib import Path
 from typing import IO
 
-from ._util import PathType, is_relative_to
+from ._util import PathType
 from .lint import format_lines_subset
 from .project import Project
 from .report import ProjectSubsetReport
@@ -43,7 +43,7 @@ def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
     """List all non-compliant files from specified file list."""
     subset_files = {Path(file_) for file_ in args.files}
     for file_ in subset_files:
-        if not is_relative_to(file_.resolve(), project.root.resolve()):
+        if not file_.resolve().is_relative_to(project.root.resolve()):
             args.parser.error(
                 _("'{file}' is not inside of '{root}'").format(
                     file=file_, root=project.root
