@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 10:35+0000\n"
+"POT-Creation-Date: 2024-09-26 09:32+0000\n"
 "PO-Revision-Date: 2024-09-14 10:09+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -340,11 +340,6 @@ msgstr "Převeďte .reuse/dep5 do REUSE.toml"
 
 #: src/reuse/_main.py:273
 #, python-brace-format
-msgid "'{path}' could not be decoded as UTF-8."
-msgstr "'{path}' se nepodařilo dekódovat jako UTF-8."
-
-#: src/reuse/_main.py:279
-#, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
@@ -352,7 +347,7 @@ msgstr ""
 "'{path}' se nepodařilo zpracovat. Obdrželi jsme následující chybové hlášení: "
 "{message}"
 
-#: src/reuse/_util.py:376 src/reuse/global_licensing.py:217
+#: src/reuse/_util.py:376 src/reuse/global_licensing.py:228
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Nepodařilo se analyzovat '{expression}'"
@@ -459,14 +454,14 @@ msgstr "jsou vyžadovány tyto argumenty: licence"
 msgid "cannot use --output with more than one license"
 msgstr "nelze použít --output s více než jednou licencí"
 
-#: src/reuse/global_licensing.py:108
+#: src/reuse/global_licensing.py:115
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
 "{attr_name} musí být {type_name} (mít {value}, který je {value_class})."
 
-#: src/reuse/global_licensing.py:121
+#: src/reuse/global_licensing.py:129
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
@@ -475,17 +470,17 @@ msgstr ""
 "Položka v kolekci {attr_name} musí být {type_name} (mít {item_value}, která "
 "je {item_class})."
 
-#: src/reuse/global_licensing.py:132
+#: src/reuse/global_licensing.py:141
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr "{attr_name} nesmí být prázdný."
 
-#: src/reuse/global_licensing.py:155
+#: src/reuse/global_licensing.py:165
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr "{name} musí být {type} (má {value}, která je {value_type})."
 
-#: src/reuse/global_licensing.py:178
+#: src/reuse/global_licensing.py:189
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -668,18 +663,18 @@ msgstr "{lic_path}: licence bez přípony souboru\n"
 msgid "{lic_path}: unused license\n"
 msgstr "{lic_path}: nepoužitá licence\n"
 
-#: src/reuse/project.py:322
+#: src/reuse/project.py:269
 #, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' zahrnuto v {global_path}"
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:277
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr "'{path}' je zahrnuta výhradně v REUSE.toml. Nečte obsah souboru."
 
-#: src/reuse/project.py:337
+#: src/reuse/project.py:284
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -688,7 +683,7 @@ msgstr ""
 "'{path}' byl rozpoznán jako binární soubor; v jeho obsahu nebyly hledány "
 "informace o REUSE."
 
-#: src/reuse/project.py:394
+#: src/reuse/project.py:345
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
@@ -696,7 +691,7 @@ msgstr ""
 "'.reuse/dep5' je zastaralý. Místo toho doporučujeme používat soubor REUSE."
 "toml. Pro konverzi použijte `reuse convert-dep5`."
 
-#: src/reuse/project.py:408
+#: src/reuse/project.py:366
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
@@ -705,17 +700,17 @@ msgstr ""
 "Nalezeno '{new_path}' i '{old_path}'. Oba soubory nelze uchovávat současně, "
 "nejsou vzájemně kompatibilní."
 
-#: src/reuse/project.py:474
+#: src/reuse/project.py:425
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "určující identifikátor '{path}'"
 
-#: src/reuse/project.py:482
+#: src/reuse/project.py:433
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} nemá příponu souboru"
 
-#: src/reuse/project.py:492
+#: src/reuse/project.py:443
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -728,14 +723,14 @@ msgstr ""
 "adrese <https://spdx.org/licenses/> nebo zda začíná znakem 'LicenseRef-' a "
 "zda má příponu souboru."
 
-#: src/reuse/project.py:504
+#: src/reuse/project.py:455
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} je identifikátor licence SPDX jak {path}, tak {other_path}"
 
-#: src/reuse/project.py:543
+#: src/reuse/project.py:494
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -1029,6 +1024,10 @@ msgstr "neplatná volba: %(value)r (vyberte z %(choices)s)"
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: chyba: %(message)s\n"
+
+#, python-brace-format
+#~ msgid "'{path}' could not be decoded as UTF-8."
+#~ msgstr "'{path}' se nepodařilo dekódovat jako UTF-8."
 
 #~ msgid "initialize REUSE project"
 #~ msgstr "inicializace projektu REUSE"

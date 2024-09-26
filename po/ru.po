@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 10:35+0000\n"
+"POT-Creation-Date: 2024-09-26 09:32+0000\n"
 "PO-Revision-Date: 2024-08-25 06:09+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -353,11 +353,6 @@ msgstr "Преобразование .reuse/dep5 в REUSE.toml"
 
 #: src/reuse/_main.py:273
 #, python-brace-format
-msgid "'{path}' could not be decoded as UTF-8."
-msgstr "'{path}' не может быть декодирован как UTF-8."
-
-#: src/reuse/_main.py:279
-#, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
@@ -365,7 +360,7 @@ msgstr ""
 "'{path}' не может быть разобран. Мы получили следующее сообщение об ошибке: "
 "{message}"
 
-#: src/reuse/_util.py:376 src/reuse/global_licensing.py:217
+#: src/reuse/_util.py:376 src/reuse/global_licensing.py:228
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Не удалось разобрать '{expression}'"
@@ -473,7 +468,7 @@ msgstr "необходимы следующие аргументы: лиценз
 msgid "cannot use --output with more than one license"
 msgstr "Невозможно использовать --output с более чем одной лицензией"
 
-#: src/reuse/global_licensing.py:108
+#: src/reuse/global_licensing.py:115
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
@@ -481,7 +476,7 @@ msgstr ""
 "{attr_name} должно быть {type_name} (получено {value}, которое является "
 "{value_class})."
 
-#: src/reuse/global_licensing.py:121
+#: src/reuse/global_licensing.py:129
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
@@ -490,18 +485,18 @@ msgstr ""
 "Элемент в коллекции {attr_name} должен быть {type_name} (получил "
 "{item_value}, который является {item_class})."
 
-#: src/reuse/global_licensing.py:132
+#: src/reuse/global_licensing.py:141
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr "{attr_name} не должно быть пустым."
 
-#: src/reuse/global_licensing.py:155
+#: src/reuse/global_licensing.py:165
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr ""
 "{name} должно быть {type} (получено {value}, которое является {value_type})."
 
-#: src/reuse/global_licensing.py:178
+#: src/reuse/global_licensing.py:189
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -686,19 +681,19 @@ msgstr "{lic_path}: лицензия без расширения файла\n"
 msgid "{lic_path}: unused license\n"
 msgstr "{lic_path}: неиспользуемая лицензия\n"
 
-#: src/reuse/project.py:322
+#: src/reuse/project.py:269
 #, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' покрыт {global_path}"
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:277
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
 "'{path}' покрывается исключительно REUSE.toml. Не читать содержимое файла."
 
-#: src/reuse/project.py:337
+#: src/reuse/project.py:284
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -707,7 +702,7 @@ msgstr ""
 "'{path}' был обнаружен как двоичный файл; поиск информации о REUSE в его "
 "содержимом не производится."
 
-#: src/reuse/project.py:394
+#: src/reuse/project.py:345
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
@@ -715,7 +710,7 @@ msgstr ""
 "'.reuse/dep5' является устаревшим. Вместо него рекомендуется использовать "
 "REUSE.toml. Для преобразования используйте `reuse convert-dep5`."
 
-#: src/reuse/project.py:408
+#: src/reuse/project.py:366
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
@@ -724,17 +719,17 @@ msgstr ""
 "Найдены оба файла '{new_path}' и '{old_path}'. Вы не можете хранить оба "
 "файла одновременно; они несовместимы."
 
-#: src/reuse/project.py:474
+#: src/reuse/project.py:425
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "определяющий идентификатор '{path}'"
 
-#: src/reuse/project.py:482
+#: src/reuse/project.py:433
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "У {path} нет расширения файла"
 
-#: src/reuse/project.py:492
+#: src/reuse/project.py:443
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -747,14 +742,14 @@ msgstr ""
 "<https://spdx.org/licenses/> или что она начинается с 'LicenseRef-' и имеет "
 "расширение файла."
 
-#: src/reuse/project.py:504
+#: src/reuse/project.py:455
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} - это идентификатор лицензии SPDX для {path} и {other_path}"
 
-#: src/reuse/project.py:543
+#: src/reuse/project.py:494
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -1068,6 +1063,10 @@ msgstr "Неверный выбор: %(value)r (выберите из %(choices)
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: ошибка: %(message)s\n"
+
+#, python-brace-format
+#~ msgid "'{path}' could not be decoded as UTF-8."
+#~ msgstr "'{path}' не может быть декодирован как UTF-8."
 
 #, python-brace-format
 #~ msgid ""

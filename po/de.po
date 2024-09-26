@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 10:35+0000\n"
+"POT-Creation-Date: 2024-09-26 09:32+0000\n"
 "PO-Revision-Date: 2024-07-08 08:43+0000\n"
 "Last-Translator: stexandev <stefan.hynek@uni-goettingen.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -341,11 +341,6 @@ msgstr ""
 
 #: src/reuse/_main.py:273
 #, fuzzy, python-brace-format
-msgid "'{path}' could not be decoded as UTF-8."
-msgstr "'{dep5}' konnte nicht als UTF-8 decodiert werden."
-
-#: src/reuse/_main.py:279
-#, fuzzy, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
@@ -353,7 +348,7 @@ msgstr ""
 "'{dep5}' konnte nicht geparst werden. Wir erhielten folgende Fehlermeldung: "
 "{message}"
 
-#: src/reuse/_util.py:376 src/reuse/global_licensing.py:217
+#: src/reuse/_util.py:376 src/reuse/global_licensing.py:228
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Kann '{expression}' nicht parsen"
@@ -460,30 +455,30 @@ msgstr "Die folgenden Argumente sind erforderlich: license"
 msgid "cannot use --output with more than one license"
 msgstr "Kann --output nicht mit mehr als einer Lizenz verwenden"
 
-#: src/reuse/global_licensing.py:108
+#: src/reuse/global_licensing.py:115
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:121
+#: src/reuse/global_licensing.py:129
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:132
+#: src/reuse/global_licensing.py:141
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr ""
 
-#: src/reuse/global_licensing.py:155
+#: src/reuse/global_licensing.py:165
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:178
+#: src/reuse/global_licensing.py:189
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -671,18 +666,18 @@ msgstr "Lizenzen ohne Dateiendung:"
 msgid "{lic_path}: unused license\n"
 msgstr "Unbenutzte Lizenzen:"
 
-#: src/reuse/project.py:322
+#: src/reuse/project.py:269
 #, fuzzy, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' abgedeckt durch .reuse/dep5"
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:277
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
 
-#: src/reuse/project.py:337
+#: src/reuse/project.py:284
 #, fuzzy, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -692,30 +687,30 @@ msgstr ""
 "unkommentierbar gekennzeichnet; suche ihre Inhalte nicht nach REUSE-"
 "Informationen."
 
-#: src/reuse/project.py:394
+#: src/reuse/project.py:345
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
 
-#: src/reuse/project.py:408
+#: src/reuse/project.py:366
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
 
-#: src/reuse/project.py:474
+#: src/reuse/project.py:425
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "erkenne Identifikator von '{path}'"
 
-#: src/reuse/project.py:482
+#: src/reuse/project.py:433
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} hat keine Dateiendung"
 
-#: src/reuse/project.py:492
+#: src/reuse/project.py:443
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -728,14 +723,14 @@ msgstr ""
 "Lizenzliste unter <https://spdx.org/licenses/> steht oder mit 'LicenseRef-' "
 "beginnt und eine Dateiendung hat."
 
-#: src/reuse/project.py:504
+#: src/reuse/project.py:455
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} ist der SPDX-Lizenz-Identifikator von {path} und {other_path}"
 
-#: src/reuse/project.py:543
+#: src/reuse/project.py:494
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -1020,6 +1015,10 @@ msgstr "ungültige Auswahl: %(value)r (wähle von %(choices)s)"
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: Fehler: %(message)s\n"
+
+#, fuzzy, python-brace-format
+#~ msgid "'{path}' could not be decoded as UTF-8."
+#~ msgstr "'{dep5}' konnte nicht als UTF-8 decodiert werden."
 
 #, fuzzy, python-brace-format
 #~ msgid ""
