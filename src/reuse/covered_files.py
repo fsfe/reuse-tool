@@ -30,6 +30,7 @@ def is_path_ignored(
     subset_files: Optional[Collection[StrPath]] = None,
     include_submodules: bool = False,
     include_meson_subprojects: bool = False,
+    include_reuse_tomls: bool = False,
     vcs_strategy: Optional[VCSStrategy] = None,
 ) -> bool:
     """Is *path* ignored by some mechanism?"""
@@ -46,7 +47,9 @@ def is_path_ignored(
         if subset_files is not None and path.resolve() not in subset_files:
             return True
         for pattern in _IGNORE_FILE_PATTERNS:
-            if pattern.match(name):
+            if pattern.match(name) and (
+                name != "REUSE.toml" or not include_reuse_tomls
+            ):
                 return True
         # Suppressing this error because I simply don't want to deal
         # with that here.
@@ -90,6 +93,7 @@ def iter_files(
     subset_files: Optional[Collection[StrPath]] = None,
     include_submodules: bool = False,
     include_meson_subprojects: bool = False,
+    include_reuse_tomls: bool = False,
     vcs_strategy: Optional[VCSStrategy] = None,
 ) -> Generator[Path, None, None]:
     """Yield all Covered Files in *directory* and its subdirectories according
@@ -113,6 +117,7 @@ def iter_files(
                 subset_files=subset_files,
                 include_submodules=include_submodules,
                 include_meson_subprojects=include_meson_subprojects,
+                include_reuse_tomls=include_reuse_tomls,
                 vcs_strategy=vcs_strategy,
             ):
                 _LOGGER.debug("ignoring '%s'", the_dir)
@@ -126,6 +131,7 @@ def iter_files(
                 subset_files=subset_files,
                 include_submodules=include_submodules,
                 include_meson_subprojects=include_meson_subprojects,
+                include_reuse_tomls=include_reuse_tomls,
                 vcs_strategy=vcs_strategy,
             ):
                 _LOGGER.debug("ignoring '%s'", the_file)

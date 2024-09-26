@@ -121,6 +121,12 @@ class TestIterFiles:
             empty_directory, include_meson_subprojects=True
         )
 
+    def test_reuse_toml_ignored(self, empty_directory):
+        """REUSE.toml is ignored."""
+        (empty_directory / "REUSE.toml").write_text("version = 1")
+        assert not list(iter_files(empty_directory))
+        assert list(iter_files(empty_directory, include_reuse_tomls=True))
+
 
 class TestIterFilesSubet:
     """Tests for  subset_files in iter_files."""
