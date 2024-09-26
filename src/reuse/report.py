@@ -59,7 +59,7 @@ class _MultiprocessingContainer:
             # pickled.
             new_project = Project(
                 project.root,
-                vcs_strategy=project.vcs_strategy.__class__,
+                vcs_strategy=project.vcs_strategy,
                 license_map=project.license_map,
                 licenses=project.licenses.copy(),
                 # TODO: adjust this method/class to account for REUSE.toml as

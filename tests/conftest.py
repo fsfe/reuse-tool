@@ -66,6 +66,8 @@ cpython = pytest.mark.skipif(
     sys.implementation.name != "cpython", reason="only CPython supported"
 )
 git = pytest.mark.skipif(not GIT_EXE, reason="requires git")
+hg = pytest.mark.skipif(not HG_EXE, reason="requires mercurial")
+pijul = pytest.mark.skipif(not PIJUL_EXE, reason="requires pijul")
 no_root = pytest.mark.xfail(is_root, reason="fails when user is root")
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 
@@ -397,6 +399,35 @@ def submodule_repository(
     (git_repository / ".gitmodules.license").write_text(header)
 
     return git_repository
+
+
+@pytest.fixture()
+def subproject_repository(fake_repository: Path) -> Path:
+    """Add a Meson subproject to the fake repo."""
+    (fake_repository / "meson.build").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
+            """
+        )
+    )
+    subprojects_dir = fake_repository / "subprojects"
+    subprojects_dir.mkdir()
+    libfoo_dir = subprojects_dir / "libfoo"
+    libfoo_dir.mkdir()
+    # ./subprojects/foo.wrap has license and linter succeeds
+    (subprojects_dir / "foo.wrap").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2022 Jane Doe
+            SPDX-License-Identifier: CC0-1.0
+            """
+        )
+    )
+    # ./subprojects/libfoo/foo.c misses license but is ignored
+    (libfoo_dir / "foo.c").write_text("foo")
+    return fake_repository
 
 
 @pytest.fixture(scope="session")

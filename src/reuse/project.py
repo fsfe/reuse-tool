@@ -9,7 +9,6 @@
 
 """Module that contains the central Project class."""
 
-import contextlib
 import errno
 import glob
 import logging
@@ -26,34 +25,28 @@ from typing import (
     List,
     NamedTuple,
     Optional,
-    Set,
     Type,
-    cast,
 )
 
+import attrs
 from binaryornot.check import is_binary
 
-from . import (
-    _IGNORE_DIR_PATTERNS,
-    _IGNORE_FILE_PATTERNS,
-    _IGNORE_MESON_PARENT_DIR_PATTERNS,
-    IdentifierNotFound,
-    ReuseInfo,
-)
+from . import IdentifierNotFound, ReuseInfo
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _LICENSEREF_PATTERN,
     StrPath,
     _determine_license_path,
-    is_relative_to,
     relative_from_root,
     reuse_info_of_file,
 )
+from .covered_files import iter_files
 from .global_licensing import (
     GlobalLicensing,
     NestedReuseTOML,
     PrecedenceType,
     ReuseDep5,
+    ReuseTOML,
 )
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
@@ -71,42 +64,39 @@ class GlobalLicensingFound(NamedTuple):
     cls: Type[GlobalLicensing]
 
 
+# TODO: The information (root, include_submodules, include_meson_subprojects,
+# vcs_strategy) is passed to SO MANY PLACES. Maybe Project should be simplified
+# to contain exclusively those values, or maybe these values should be extracted
+# out of Project to simplify passing this information around.
+@attrs.define
 class Project:
     """Simple object that holds the project's root, which is necessary for many
     interactions.
     """
 
-    # pylint: disable=too-many-arguments
-    def __init__(
-        self,
-        root: StrPath,
-        vcs_strategy: Optional[Type[VCSStrategy]] = None,
-        license_map: Optional[Dict[str, Dict]] = None,
-        licenses: Optional[Dict[str, Path]] = None,
-        global_licensing: Optional[GlobalLicensing] = None,
-        include_submodules: bool = False,
-        include_meson_subprojects: bool = False,
-    ):
-        self.root = Path(root)
+    root: Path = attrs.field(converter=Path)
+    include_submodules: bool = False
+    include_meson_subprojects: bool = False
+    vcs_strategy: VCSStrategy = attrs.field()
+    global_licensing: Optional[GlobalLicensing] = None
 
-        if vcs_strategy is None:
-            vcs_strategy = VCSStrategyNone
-        self.vcs_strategy = vcs_strategy(self)
+    # TODO: I want to get rid of these, or somehow refactor this mess.
+    license_map: Dict[str, Dict] = attrs.field()
+    licenses: Dict[str, Path] = attrs.field(factory=dict)
 
-        if license_map is None:
-            license_map = LICENSE_MAP
-        self.license_map = license_map.copy()
-        self.license_map.update(EXCEPTION_MAP)
-        self.licenses_without_extension: Dict[str, Path] = {}
+    licenses_without_extension: Dict[str, Path] = attrs.field(
+        init=False, factory=dict
+    )
 
-        if licenses is None:
-            licenses = {}
-        self.licenses = licenses
+    @vcs_strategy.default
+    def _default_vcs_strategy(self) -> VCSStrategy:
+        return VCSStrategyNone(self.root)
 
-        self.global_licensing = global_licensing
-
-        self.include_submodules = include_submodules
-        self.include_meson_subprojects = include_meson_subprojects
+    @license_map.default
+    def _default_license_map(self) -> Dict[str, Dict]:
+        license_map = LICENSE_MAP.copy()
+        license_map.update(EXCEPTION_MAP)
+        return license_map
 
     @classmethod
     def from_directory(
@@ -150,9 +140,16 @@ class Project:
         vcs_strategy = cls._detect_vcs_strategy(root)
 
         global_licensing: Optional[GlobalLicensing] = None
-        found = cls.find_global_licensing(root)
+        found = cls.find_global_licensing(
+            root,
+            include_submodules=include_submodules,
+            include_meson_subprojects=include_meson_subprojects,
+            vcs_strategy=vcs_strategy,
+        )
         if found:
-            global_licensing = found.cls.from_file(found.path)
+            global_licensing = cls._global_licensing_from_found(
+                found, str(root)
+            )
 
         project = cls(
             root,
@@ -169,71 +166,6 @@ class Project:
         project.licenses = project._find_licenses()
 
         return project
-
-    def _iter_files(
-        self,
-        directory: Optional[StrPath] = None,
-        subset_files: Optional[Collection[StrPath]] = None,
-    ) -> Iterator[Path]:
-        # pylint: disable=too-many-branches
-        if directory is None:
-            directory = self.root
-        directory = Path(directory)
-        if subset_files is not None:
-            subset_files = cast(
-                Set[Path], {Path(file_).resolve() for file_ in subset_files}
-            )
-
-        for root_str, dirs, files in os.walk(directory):
-            root = Path(root_str)
-            _LOGGER.debug("currently walking in '%s'", root)
-
-            # Don't walk ignored directories
-            for dir_ in list(dirs):
-                the_dir = root / dir_
-                if subset_files is not None and not any(
-                    is_relative_to(file_, the_dir.resolve())
-                    for file_ in subset_files
-                ):
-                    continue
-                if self._is_path_ignored(the_dir):
-                    _LOGGER.debug("ignoring '%s'", the_dir)
-                    dirs.remove(dir_)
-                elif the_dir.is_symlink():
-                    _LOGGER.debug("skipping symlink '%s'", the_dir)
-                    dirs.remove(dir_)
-                elif (
-                    not self.include_submodules
-                    and self.vcs_strategy.is_submodule(the_dir)
-                ):
-                    _LOGGER.info(
-                        "ignoring '%s' because it is a submodule", the_dir
-                    )
-                    dirs.remove(dir_)
-
-            # Filter files.
-            for file_ in files:
-                the_file = root / file_
-                if (
-                    subset_files is not None
-                    and the_file.resolve() not in subset_files
-                ):
-                    continue
-                if self._is_path_ignored(the_file):
-                    _LOGGER.debug("ignoring '%s'", the_file)
-                    continue
-                if the_file.is_symlink():
-                    _LOGGER.debug("skipping symlink '%s'", the_file)
-                    continue
-                # Suppressing this error because I simply don't want to deal
-                # with that here.
-                with contextlib.suppress(OSError):
-                    if the_file.stat().st_size == 0:
-                        _LOGGER.debug("skipping 0-sized file '%s'", the_file)
-                        continue
-
-                _LOGGER.debug("yielding '%s'", the_file)
-                yield the_file
 
     def all_files(self, directory: Optional[StrPath] = None) -> Iterator[Path]:
         """Yield all files in *directory* and its subdirectories.
@@ -255,7 +187,14 @@ class Project:
         Args:
             directory: The directory in which to search.
         """
-        return self._iter_files(directory=directory)
+        if directory is None:
+            directory = self.root
+        return iter_files(
+            directory,
+            include_submodules=self.include_submodules,
+            include_meson_subprojects=self.include_meson_subprojects,
+            vcs_strategy=self.vcs_strategy,
+        )
 
     def subset_files(
         self, files: Collection[StrPath], directory: Optional[StrPath] = None
@@ -269,7 +208,15 @@ class Project:
                 yielded.
             directory: The directory in which to search.
         """
-        return self._iter_files(directory=directory, subset_files=files)
+        if directory is None:
+            directory = self.root
+        return iter_files(
+            directory=directory,
+            subset_files=files,
+            include_submodules=self.include_submodules,
+            include_meson_subprojects=self.include_meson_subprojects,
+            vcs_strategy=self.vcs_strategy,
+        )
 
     def reuse_info_of(self, path: StrPath) -> List[ReuseInfo]:
         """Return REUSE info of *path*.
@@ -375,8 +322,12 @@ class Project:
 
     @classmethod
     def find_global_licensing(
-        cls, root: Path
-    ) -> Optional[GlobalLicensingFound]:
+        cls,
+        root: Path,
+        include_submodules: bool = False,
+        include_meson_subprojects: bool = False,
+        vcs_strategy: Optional[VCSStrategy] = None,
+    ) -> List[GlobalLicensingFound]:
         """Find the path and corresponding class of a project directory's
         :class:`GlobalLicensing`.
 
@@ -384,7 +335,7 @@ class Project:
             GlobalLicensingConflict: if more than one global licensing config
                 file is present.
         """
-        candidate: Optional[GlobalLicensingFound] = None
+        candidates: List[GlobalLicensingFound] = []
         dep5_path = root / ".reuse/dep5"
         if (dep5_path).exists():
             # Sneaky workaround to not print this warning.
@@ -397,44 +348,44 @@ class Project:
                     ),
                     PendingDeprecationWarning,
                 )
-            candidate = GlobalLicensingFound(dep5_path, ReuseDep5)
-        toml_path = None
-        with contextlib.suppress(StopIteration):
-            toml_path = next(root.rglob("**/REUSE.toml"))
-        if toml_path is not None:
-            if candidate is not None:
+            candidates = [GlobalLicensingFound(dep5_path, ReuseDep5)]
+
+        reuse_toml_candidates = [
+            GlobalLicensingFound(path, ReuseTOML)
+            for path in NestedReuseTOML.find_reuse_tomls(
+                root,
+                include_submodules=include_submodules,
+                include_meson_subprojects=include_meson_subprojects,
+                vcs_strategy=vcs_strategy,
+            )
+        ]
+        if reuse_toml_candidates:
+            if candidates:
                 raise GlobalLicensingConflict(
                     _(
                         "Found both '{new_path}' and '{old_path}'. You"
                         " cannot keep both files simultaneously; they are"
                         " not intercompatible."
-                    ).format(new_path=toml_path, old_path=dep5_path)
+                    ).format(
+                        new_path=reuse_toml_candidates[0].path,
+                        old_path=dep5_path,
+                    )
                 )
-            candidate = GlobalLicensingFound(root, NestedReuseTOML)
-        return candidate
+            candidates = reuse_toml_candidates
 
-    def _is_path_ignored(self, path: Path) -> bool:
-        """Is *path* ignored by some mechanism?"""
-        name = path.name
-        parent_parts = path.parent.parts
-        parent_dir = parent_parts[-1] if len(parent_parts) > 0 else ""
-        if path.is_file():
-            for pattern in _IGNORE_FILE_PATTERNS:
-                if pattern.match(name):
-                    return True
-        elif path.is_dir():
-            for pattern in _IGNORE_DIR_PATTERNS:
-                if pattern.match(name):
-                    return True
-            if not self.include_meson_subprojects:
-                for pattern in _IGNORE_MESON_PARENT_DIR_PATTERNS:
-                    if pattern.match(parent_dir):
-                        return True
+        return candidates
 
-        if self.vcs_strategy.is_ignored(path):
-            return True
-
-        return False
+    @classmethod
+    def _global_licensing_from_found(
+        cls, found: List[GlobalLicensingFound], root: StrPath
+    ) -> GlobalLicensing:
+        if len(found) == 1 and found[0].cls == ReuseDep5:
+            return ReuseDep5.from_file(found[0].path)
+        # This is an impossible scenario at time of writing.
+        if not all(item.cls == ReuseTOML for item in found):
+            raise NotImplementedError()
+        tomls = [ReuseTOML.from_file(item.path) for item in found]
+        return NestedReuseTOML(reuse_tomls=tomls, source=str(root))
 
     def _identifier_of_license(self, path: Path) -> str:
         """Figure out the SPDX License identifier of a license given its path.
@@ -530,13 +481,13 @@ class Project:
         return license_files
 
     @classmethod
-    def _detect_vcs_strategy(cls, root: StrPath) -> Type[VCSStrategy]:
+    def _detect_vcs_strategy(cls, root: StrPath) -> VCSStrategy:
         """For each supported VCS, check if the software is available and if the
         directory is a repository. If not, return :class:`VCSStrategyNone`.
         """
         for strategy in all_vcs_strategies():
             if strategy.EXE and strategy.in_repo(root):
-                return strategy
+                return strategy(root)
 
         _LOGGER.info(
             _(
@@ -544,4 +495,4 @@ class Project:
                 " software is not installed"
             ).format(root)
         )
-        return VCSStrategyNone
+        return VCSStrategyNone(root)

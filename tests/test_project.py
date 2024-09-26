@@ -13,17 +13,19 @@ import shutil
 import warnings
 from inspect import cleandoc
 from pathlib import Path
+from unittest import mock
 
 import pytest
-from conftest import RESOURCES_DIRECTORY, posix
+from conftest import RESOURCES_DIRECTORY
 from license_expression import LicenseSymbol
 
 from reuse import ReuseInfo, SourceType
 from reuse._util import _LICENSING
+from reuse.covered_files import iter_files
 from reuse.global_licensing import (
     GlobalLicensingParseError,
-    NestedReuseTOML,
     ReuseDep5,
+    ReuseTOML,
 )
 from reuse.project import GlobalLicensingConflict, Project
 
@@ -49,345 +51,72 @@ def test_project_conflicting_global_licensing(empty_directory):
     """
     (empty_directory / "REUSE.toml").write_text("version = 1")
     (empty_directory / ".reuse").mkdir()
-    (empty_directory / ".reuse/dep5").touch()
+    shutil.copy(RESOURCES_DIRECTORY / "dep5", empty_directory / ".reuse/dep5")
     with pytest.raises(GlobalLicensingConflict):
         Project.from_directory(empty_directory)
 
 
-def test_all_files(empty_directory):
-    """Given a directory with some files, yield all files."""
-    (empty_directory / "foo").write_text("foo")
-    (empty_directory / "bar").write_text("foo")
+class TestProjectAllFiles:
+    """Test Project.all_files."""
 
-    project = Project.from_directory(empty_directory)
-    assert {file_.name for file_ in project.all_files()} == {"foo", "bar"}
+    def test_with_mock(self, monkeypatch, empty_directory):
+        """Instead of testing the entire behaviour, just test that a mock is
+        called and its value is returned.
+        """
+        mock_iter_files = mock.create_autospec(iter_files)
+        mock_iter_files.return_value = "foo"
+        monkeypatch.setattr("reuse.project.iter_files", mock_iter_files)
 
+        project = Project.from_directory(empty_directory)
+        result = project.all_files(empty_directory)
+        assert result == "foo"
 
-def test_all_files_ignore_dot_license(empty_directory):
-    """When file and file.license are present, only yield file."""
-    (empty_directory / "foo").write_text("foo")
-    (empty_directory / "foo.license").write_text("foo")
-
-    project = Project.from_directory(empty_directory)
-    assert {file_.name for file_ in project.all_files()} == {"foo"}
-
-
-def test_all_files_ignore_cal_license(empty_directory):
-    """CAL licenses contain SPDX tags referencing themselves. They should be
-    skipped.
-    """
-    (empty_directory / "CAL-1.0").write_text("foo")
-    (empty_directory / "CAL-1.0.txt").write_text("foo")
-    (empty_directory / "CAL-1.0-Combined-Work-Exception").write_text("foo")
-    (empty_directory / "CAL-1.0-Combined-Work-Exception.txt").write_text("foo")
-
-    project = Project.from_directory(empty_directory)
-    assert not list(project.all_files())
-
-
-def test_all_files_ignore_shl_license(empty_directory):
-    """SHL-2.1 contains an SPDX tag referencing itself. It should be skipped."""
-    (empty_directory / "SHL-2.1").write_text("foo")
-    (empty_directory / "SHL-2.1.txt").write_text("foo")
-
-    project = Project.from_directory(empty_directory)
-    assert not list(project.all_files())
-
-
-def test_all_files_ignore_git(empty_directory):
-    """When the git directory is present, ignore it."""
-    (empty_directory / ".git").mkdir()
-    (empty_directory / ".git/config").write_text("foo")
-
-    project = Project.from_directory(empty_directory)
-    assert not list(project.all_files())
-
-
-def test_all_files_ignore_hg(empty_directory):
-    """When the hg directory is present, ignore it."""
-    (empty_directory / ".hg").mkdir()
-    (empty_directory / ".hg/config").write_text("foo")
-
-    project = Project.from_directory(empty_directory)
-    assert not list(project.all_files())
-
-
-def test_all_files_ignore_license_copying(empty_directory):
-    """When there are files named LICENSE, LICENSE.ext, LICENSE-MIT, COPYING,
-    COPYING.ext, or COPYING-MIT, ignore them.
-    """
-    (empty_directory / "LICENSE").write_text("foo")
-    (empty_directory / "LICENSE.txt").write_text("foo")
-    (empty_directory / "LICENSE-MIT").write_text("foo")
-    (empty_directory / "COPYING").write_text("foo")
-    (empty_directory / "COPYING.txt").write_text("foo")
-    (empty_directory / "COPYING-MIT").write_text("foo")
-
-    project = Project.from_directory(empty_directory)
-    assert not list(project.all_files())
-
-
-def test_all_files_ignore_uk_license(empty_directory):
-    """Ignore UK spelling of licence."""
-    (empty_directory / "LICENCE").write_text("foo")
-
-    project = Project.from_directory(empty_directory)
-    assert not list(project.all_files())
-
-
-def test_all_files_not_ignore_license_copying_no_ext(empty_directory):
-    """Do not ignore files that start with LICENSE or COPYING and are followed
-    by some non-extension text.
-    """
-    (empty_directory / "LICENSE_README.md").write_text("foo")
-    (empty_directory / "COPYING2").write_text("foo")
-
-    project = Project.from_directory(empty_directory)
-    assert len(list(project.all_files())) == 2
-
-
-@posix
-def test_all_files_symlinks(empty_directory):
-    """All symlinks must be ignored."""
-    (empty_directory / "blob").write_text("foo")
-    (empty_directory / "blob.license").write_text(
-        cleandoc(
-            """
-            SPDX-FileCopyrightText: Jane Doe
-
-            SPDX-License-Identifier: GPL-3.0-or-later
-            """
+        mock_iter_files.assert_called_once_with(
+            empty_directory,
+            include_submodules=project.include_submodules,
+            include_meson_subprojects=project.include_meson_subprojects,
+            vcs_strategy=project.vcs_strategy,
         )
-    )
-    (empty_directory / "symlink").symlink_to("blob")
-    project = Project.from_directory(empty_directory)
-    assert Path("symlink").absolute() not in project.all_files()
 
+    def test_with_mock_implicit_dir(self, monkeypatch, empty_directory):
+        """If no argument is given to Project.iter_files, project.root is
+        implied.
+        """
+        mock_iter_files = mock.create_autospec(iter_files)
+        mock_iter_files.return_value = "foo"
+        monkeypatch.setattr("reuse.project.iter_files", mock_iter_files)
 
-def test_all_files_ignore_zero_sized(empty_directory):
-    """Empty files should be skipped."""
-    (empty_directory / "foo").touch()
+        project = Project.from_directory(empty_directory)
+        result = project.all_files()
+        assert result == "foo"
 
-    project = Project.from_directory(empty_directory)
-    assert Path("foo").absolute() not in project.all_files()
-
-
-def test_all_files_git_ignored(git_repository):
-    """Given a Git repository where some files are ignored, do not yield those
-    files.
-    """
-    project = Project.from_directory(git_repository)
-    assert Path("build/hello.py").absolute() not in project.all_files()
-
-
-def test_all_files_git_ignored_different_cwd(git_repository):
-    """Given a Git repository where some files are ignored, do not yield those
-    files.
-
-    Be in a different CWD during the above.
-    """
-    os.chdir(git_repository / "LICENSES")
-    project = Project.from_directory(git_repository)
-    assert Path("build/hello.py").absolute() not in project.all_files()
-
-
-def test_all_files_git_ignored_contains_space(git_repository):
-    """Files that contain spaces are also ignored."""
-    (git_repository / "I contain spaces.pyc").write_text("foo")
-    project = Project.from_directory(git_repository)
-    assert Path("I contain spaces.pyc").absolute() not in project.all_files()
-
-
-@posix
-def test_all_files_git_ignored_contains_newline(git_repository):
-    """Files that contain newlines are also ignored."""
-    (git_repository / "hello\nworld.pyc").write_text("foo")
-    project = Project.from_directory(git_repository)
-    assert Path("hello\nworld.pyc").absolute() not in project.all_files()
-
-
-def test_all_files_submodule_is_ignored(submodule_repository):
-    """If a submodule is ignored, all_files should not raise an Exception."""
-    (submodule_repository / "submodule/foo.py").write_text("foo")
-    gitignore = submodule_repository / ".gitignore"
-    contents = gitignore.read_text()
-    contents += "\nsubmodule/\n"
-    gitignore.write_text(contents)
-    project = Project.from_directory(submodule_repository)
-    assert Path("submodule/foo.py").absolute() not in project.all_files()
-
-
-def test_all_files_hg_ignored(hg_repository):
-    """Given a mercurial repository where some files are ignored, do not yield
-    those files.
-    """
-    project = Project.from_directory(hg_repository)
-    assert Path("build/hello.py").absolute() not in project.all_files()
-
-
-def test_all_files_hg_ignored_different_cwd(hg_repository):
-    """Given a mercurial repository where some files are ignored, do not yield
-    those files.
-
-    Be in a different CWD during the above.
-    """
-    os.chdir(hg_repository / "LICENSES")
-    project = Project.from_directory(hg_repository)
-    assert Path("build/hello.py").absolute() not in project.all_files()
-
-
-def test_all_files_hg_ignored_contains_space(hg_repository):
-    """File names that contain spaces are also ignored."""
-    (hg_repository / "I contain spaces.pyc").touch()
-    project = Project.from_directory(hg_repository)
-    assert Path("I contain spaces.pyc").absolute() not in project.all_files()
-
-
-@posix
-def test_all_files_hg_ignored_contains_newline(hg_repository):
-    """File names that contain newlines are also ignored."""
-    (hg_repository / "hello\nworld.pyc").touch()
-    project = Project.from_directory(hg_repository)
-    assert Path("hello\nworld.pyc").absolute() not in project.all_files()
-
-
-def test_all_files_jujutsu_ignored(jujutsu_repository):
-    """Given a jujutsu repository where some files are ignored, do not yield
-    those files.
-    """
-    project = Project.from_directory(jujutsu_repository)
-    assert Path("build/hello.py").absolute() not in project.all_files()
-
-
-def test_all_files_jujutsu_ignored_different_cwd(jujutsu_repository):
-    """Given a jujutsu repository where some files are ignored, do not yield
-    those files.
-
-    Be in a different CWD during the above.
-    """
-    os.chdir(jujutsu_repository / "LICENSES")
-    project = Project.from_directory(jujutsu_repository)
-    assert Path("build/hello.py").absolute() not in project.all_files()
-
-
-def test_all_files_jujutsu_ignored_contains_space(jujutsu_repository):
-    """File names that contain spaces are also ignored."""
-    (jujutsu_repository / "I contain spaces.pyc").touch()
-    project = Project.from_directory(jujutsu_repository)
-    assert Path("I contain spaces.pyc").absolute() not in project.all_files()
-
-
-@posix
-def test_all_files_jujutsu_ignored_contains_newline(jujutsu_repository):
-    """File names that contain newlines are also ignored."""
-    (jujutsu_repository / "hello\nworld.pyc").touch()
-    project = Project.from_directory(jujutsu_repository)
-    assert Path("hello\nworld.pyc").absolute() not in project.all_files()
-
-
-def test_all_files_pijul_ignored(pijul_repository):
-    """Given a pijul repository where some files are ignored, do not yield
-    those files.
-    """
-    project = Project.from_directory(pijul_repository)
-    assert Path("build/hello.py").absolute() not in project.all_files()
-
-
-def test_all_files_pijul_ignored_different_cwd(pijul_repository):
-    """Given a pijul repository where some files are ignored, do not yield
-    those files.
-
-    Be in a different CWD during the above.
-    """
-    os.chdir(pijul_repository / "LICENSES")
-    project = Project.from_directory(pijul_repository)
-    assert Path("build/hello.py").absolute() not in project.all_files()
-
-
-def test_all_files_pijul_ignored_contains_space(pijul_repository):
-    """File names that contain spaces are also ignored."""
-    (pijul_repository / "I contain spaces.pyc").touch()
-    project = Project.from_directory(pijul_repository)
-    assert Path("I contain spaces.pyc").absolute() not in project.all_files()
-
-
-@posix
-def test_all_files_pijul_ignored_contains_newline(pijul_repository):
-    """File names that contain newlines are also ignored."""
-    (pijul_repository / "hello\nworld.pyc").touch()
-    project = Project.from_directory(pijul_repository)
-    assert Path("hello\nworld.pyc").absolute() not in project.all_files()
-
-
-class TestSubsetFiles:
-    """Tests for subset_files."""
-
-    def test_single(self, fake_repository):
-        """Only yield the single specified file."""
-        project = Project.from_directory(fake_repository)
-        result = list(project.subset_files({fake_repository / "src/custom.py"}))
-        assert result == [fake_repository / "src/custom.py"]
-
-    def test_two(self, fake_repository):
-        """Yield multiple specified files."""
-        project = Project.from_directory(fake_repository)
-        result = set(
-            project.subset_files(
-                {
-                    fake_repository / "src/custom.py",
-                    fake_repository / "src/exception.py",
-                }
-            )
+        mock_iter_files.assert_called_once_with(
+            empty_directory,
+            include_submodules=project.include_submodules,
+            include_meson_subprojects=project.include_meson_subprojects,
+            vcs_strategy=project.vcs_strategy,
         )
-        assert result == {
-            fake_repository / "src/custom.py",
-            fake_repository / "src/exception.py",
-        }
 
-    def test_non_existent(self, fake_repository):
-        """If a file does not exist, don't yield it."""
-        project = Project.from_directory(fake_repository)
-        result = list(
-            project.subset_files(
-                {
-                    fake_repository / "src/custom.py",
-                    fake_repository / "not_exist.py",
-                    fake_repository / "also/does/not/exist.py",
-                }
-            )
+    def test_with_mock_includes(self, monkeypatch, empty_directory):
+        """include_submodules and include_meson_subprojects are true."""
+        mock_iter_files = mock.create_autospec(iter_files)
+        mock_iter_files.return_value = "foo"
+        monkeypatch.setattr("reuse.project.iter_files", mock_iter_files)
+
+        project = Project.from_directory(
+            empty_directory,
+            include_submodules=True,
+            include_meson_subprojects=True,
         )
-        assert result == [fake_repository / "src/custom.py"]
+        result = project.all_files()
+        assert result == "foo"
 
-    def test_outside_cwd(self, fake_repository):
-        """If a file is outside of the project, don't yield it."""
-        project = Project.from_directory(fake_repository)
-        result = list(
-            project.subset_files(
-                {
-                    fake_repository / "src/custom.py",
-                    (fake_repository / "../outside.py").resolve(),
-                }
-            )
+        mock_iter_files.assert_called_once_with(
+            empty_directory,
+            include_submodules=project.include_submodules,
+            include_meson_subprojects=project.include_meson_subprojects,
+            vcs_strategy=project.vcs_strategy,
         )
-        assert result == [fake_repository / "src/custom.py"]
-
-    def test_empty(self, fake_repository):
-        """If no files are provided, yield nothing."""
-        project = Project.from_directory(fake_repository)
-        result = list(project.subset_files(set()))
-        assert not result
-
-    def test_list_arg(self, fake_repository):
-        """Also accepts a list argument."""
-        project = Project.from_directory(fake_repository)
-        result = list(project.subset_files([fake_repository / "src/custom.py"]))
-        assert result == [fake_repository / "src/custom.py"]
-
-    def test_relative_path(self, fake_repository):
-        """Also handles relative paths."""
-        project = Project.from_directory(fake_repository)
-        result = list(project.subset_files({"src/custom.py"}))
-        assert result == [fake_repository / "src/custom.py"]
 
 
 def test_reuse_info_of_file_does_not_exist(fake_repository):
@@ -838,8 +567,10 @@ def test_find_global_licensing_dep5(fake_repository_dep5):
     """Find the dep5 file. Also output a PendingDeprecationWarning."""
     with warnings.catch_warnings(record=True) as caught_warnings:
         result = Project.find_global_licensing(fake_repository_dep5)
-        assert result.path == fake_repository_dep5 / ".reuse/dep5"
-        assert result.cls == ReuseDep5
+        assert len(result) == 1
+        dep5 = result[0]
+        assert dep5.path == fake_repository_dep5 / ".reuse/dep5"
+        assert dep5.cls == ReuseDep5
 
         assert len(caught_warnings) == 1
         assert issubclass(
@@ -850,19 +581,30 @@ def test_find_global_licensing_dep5(fake_repository_dep5):
 def test_find_global_licensing_reuse_toml(fake_repository_reuse_toml):
     """Find the REUSE.toml file."""
     result = Project.find_global_licensing(fake_repository_reuse_toml)
-    assert result.path == fake_repository_reuse_toml / "."
-    assert result.cls == NestedReuseTOML
+    assert len(result) == 1
+    toml = result[0]
+    assert toml.path == fake_repository_reuse_toml / "REUSE.toml"
+    assert toml.cls == ReuseTOML
+
+
+def test_find_global_licensing_reuse_toml_multiple(fake_repository_reuse_toml):
+    """Find multiple REUSE.tomls."""
+    (fake_repository_reuse_toml / "src/REUSE.toml").write_text("version = 1")
+    result = Project.find_global_licensing(fake_repository_reuse_toml)
+    assert len(result) == 2
+    assert result[0].path == fake_repository_reuse_toml / "REUSE.toml"
+    assert result[1].path == fake_repository_reuse_toml / "src/REUSE.toml"
 
 
 def test_find_global_licensing_none(empty_directory):
     """Find no file."""
     result = Project.find_global_licensing(empty_directory)
-    assert result is None
+    assert not result
 
 
 def test_find_global_licensing_conflict(fake_repository_dep5):
     """Expect an error on a conflict"""
-    (fake_repository_dep5 / "REUSE.toml").touch()
+    (fake_repository_dep5 / "REUSE.toml").write_text("version = 1")
     with pytest.raises(GlobalLicensingConflict):
         Project.find_global_licensing(fake_repository_dep5)
 

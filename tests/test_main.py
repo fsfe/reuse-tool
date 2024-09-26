@@ -150,89 +150,34 @@ def test_lint_submodule_included_fail(submodule_repository, stringio):
 
 def test_lint_meson_subprojects(fake_repository, stringio):
     """Verify that subprojects are ignored."""
-    (fake_repository / "meson.build").write_text(
-        cleandoc(
-            """
-            SPDX-FileCopyrightText: 2022 Jane Doe
-            SPDX-License-Identifier: CC0-1.0
-            """
-        )
-    )
-    subprojects_dir = fake_repository / "subprojects"
-    subprojects_dir.mkdir()
-    libfoo_dir = subprojects_dir / "libfoo"
-    libfoo_dir.mkdir()
-    # ./subprojects/foo.wrap has license and linter succeeds
-    (subprojects_dir / "foo.wrap").write_text(
-        cleandoc(
-            """
-            SPDX-FileCopyrightText: 2022 Jane Doe
-            SPDX-License-Identifier: CC0-1.0
-            """
-        )
-    )
-    # ./subprojects/libfoo/foo.c misses license but is ignored
-    (libfoo_dir / "foo.c").write_text("foo")
     result = main(["lint"], out=stringio)
 
     assert result == 0
     assert ":-)" in stringio.getvalue()
 
 
-def test_lint_meson_subprojects_fail(fake_repository, stringio):
+def test_lint_meson_subprojects_fail(subproject_repository, stringio):
     """Verify that files in './subprojects' are not ignored."""
-    (fake_repository / "meson.build").write_text(
-        cleandoc(
-            """
-            SPDX-FileCopyrightText: 2022 Jane Doe
-            SPDX-License-Identifier: CC0-1.0
-            """
-        )
-    )
-    subprojects_dir = fake_repository / "subprojects"
-    subprojects_dir.mkdir()
     # ./subprojects/foo.wrap misses license and linter fails
-    (subprojects_dir / "foo.wrap").write_text("foo")
+    (subproject_repository / "subprojects/foo.wrap").write_text("foo")
     result = main(["lint"], out=stringio)
 
     assert result == 1
     assert ":-(" in stringio.getvalue()
 
 
-def test_lint_meson_subprojects_included_fail(fake_repository, stringio):
+def test_lint_meson_subprojects_included_fail(subproject_repository, stringio):
     """When Meson subprojects are included, fail on errors."""
-    (fake_repository / "meson.build").write_text(
-        cleandoc(
-            """
-            SPDX-FileCopyrightText: 2022 Jane Doe
-            SPDX-License-Identifier: CC0-1.0
-            """
-        )
-    )
-    libfoo_dir = fake_repository / "subprojects/libfoo"
-    libfoo_dir.mkdir(parents=True)
-    # ./subprojects/libfoo/foo.c misses license and linter fails
-    (libfoo_dir / "foo.c").write_text("foo")
     result = main(["--include-meson-subprojects", "lint"], out=stringio)
 
     assert result == 1
     assert ":-(" in stringio.getvalue()
 
 
-def test_lint_meson_subprojects_included(fake_repository, stringio):
+def test_lint_meson_subprojects_included(subproject_repository, stringio):
     """Successfully lint when Meson subprojects are included."""
-    (fake_repository / "meson.build").write_text(
-        cleandoc(
-            """
-            SPDX-FileCopyrightText: 2022 Jane Doe
-            SPDX-License-Identifier: CC0-1.0
-            """
-        )
-    )
-    libfoo_dir = fake_repository / "subprojects/libfoo"
-    libfoo_dir.mkdir(parents=True)
     # ./subprojects/libfoo/foo.c has license and linter succeeds
-    (libfoo_dir / "foo.c").write_text(
+    (subproject_repository / "subprojects/libfoo/foo.c").write_text(
         cleandoc(
             """
             SPDX-FileCopyrightText: 2022 Jane Doe
@@ -272,7 +217,10 @@ def test_lint_dep5_decode_error(fake_repository_dep5, capsys):
     )
     with pytest.raises(SystemExit):
         main(["lint"])
-    assert "could not be decoded" in capsys.readouterr().err
+    error = capsys.readouterr().err
+    assert str(fake_repository_dep5 / ".reuse/dep5") in error
+    assert "could not be parsed" in error
+    assert "'utf-8' codec can't decode byte" in error
 
 
 def test_lint_dep5_parse_error(fake_repository_dep5, capsys):
@@ -280,7 +228,38 @@ def test_lint_dep5_parse_error(fake_repository_dep5, capsys):
     (fake_repository_dep5 / ".reuse/dep5").write_text("foo")
     with pytest.raises(SystemExit):
         main(["lint"])
-    assert "could not be parsed" in capsys.readouterr().err
+    error = capsys.readouterr().err
+    assert str(fake_repository_dep5 / ".reuse/dep5") in error
+    assert "could not be parsed" in error
+
+
+def test_lint_toml_parse_error_version(fake_repository_reuse_toml, capsys):
+    """If version has the wrong type, print an error."""
+    (fake_repository_reuse_toml / "REUSE.toml").write_text("version = 'a'")
+    with pytest.raises(SystemExit):
+        main(["lint"])
+    error = capsys.readouterr().err
+    assert str(fake_repository_reuse_toml / "REUSE.toml") in error
+    assert "could not be parsed" in error
+
+
+def test_lint_toml_parse_error_annotation(fake_repository_reuse_toml, capsys):
+    """If there is an error in an annotation, print an error."""
+    (fake_repository_reuse_toml / "REUSE.toml").write_text(
+        cleandoc_nl(
+            """
+            version = 1
+
+            [[annotations]]
+            path = 1
+            """
+        )
+    )
+    with pytest.raises(SystemExit):
+        main(["lint"])
+    error = capsys.readouterr().err
+    assert str(fake_repository_reuse_toml / "REUSE.toml") in error
+    assert "could not be parsed" in error
 
 
 def test_lint_json(fake_repository, stringio):

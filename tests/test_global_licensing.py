@@ -25,6 +25,7 @@ from reuse.global_licensing import (
     ReuseDep5,
     ReuseTOML,
 )
+from reuse.vcs import VCSStrategyGit
 
 # REUSE-IgnoreStart
 
@@ -346,33 +347,37 @@ class TestReuseTOMLValidators:
 
     def test_version_not_int(self, annotations_item):
         """Version must be an int"""
-        with pytest.raises(GlobalLicensingParseTypeError):
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(
                 version=1.2, source="REUSE.toml", annotations=[annotations_item]
             )
+        assert exc_info.value.source == "REUSE.toml"
 
     def test_source_not_str(self, annotations_item):
         """Source must be a str."""
-        with pytest.raises(GlobalLicensingParseTypeError):
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(version=1, source=123, annotations=[annotations_item])
+        assert exc_info.value.source == 123
 
     def test_annotations_must_be_list(self, annotations_item):
         """Annotations must be in a list, not any other collection."""
         # TODO: Technically we could change this to 'any collection that is
         # ordered', but let's not split hairs.
-        with pytest.raises(GlobalLicensingParseTypeError):
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(
                 version=1,
                 source="REUSE.toml",
                 annotations=iter([annotations_item]),
             )
+        assert exc_info.value.source == "REUSE.toml"
 
     def test_annotations_must_be_object(self):
         """Annotations must be AnnotationsItem objects."""
-        with pytest.raises(GlobalLicensingParseTypeError):
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(
                 version=1, source="REUSE.toml", annotations=[{"foo": "bar"}]
             )
+        assert exc_info.value.source == "REUSE.toml"
 
 
 class TestReuseTOMLFromDict:
@@ -426,6 +431,24 @@ class TestReuseTOMLFromDict:
                 },
                 "REUSE.toml",
             )
+
+    def test_annotations_error(self):
+        """If there is an error in the annotations, the error get ReuseTOML's
+        source.
+        """
+        with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
+            ReuseTOML.from_dict(
+                {
+                    "version": 1,
+                    "annotations": [
+                        {
+                            "path": {1},
+                        }
+                    ],
+                },
+                "REUSE.toml",
+            )
+        assert exc_info.value.source == "REUSE.toml"
 
 
 class TestReuseTOMLFromToml:
@@ -699,17 +722,81 @@ class TestNestedReuseTOMLFindReuseTomls:
         """Find a single REUSE.toml deeper in the directory tree."""
         (empty_directory / "src").mkdir()
         path = empty_directory / "src/REUSE.toml"
-        path.touch()
+        path.write_text("version = 1")
         result = NestedReuseTOML.find_reuse_tomls(empty_directory)
         assert list(result) == [path]
 
     def test_multiple(self, fake_repository_reuse_toml):
         """Find multiple REUSE.tomls."""
-        (fake_repository_reuse_toml / "src/REUSE.toml").touch()
+        (fake_repository_reuse_toml / "src/REUSE.toml").write_text(
+            "version = 1"
+        )
         result = NestedReuseTOML.find_reuse_tomls(fake_repository_reuse_toml)
         assert set(result) == {
             fake_repository_reuse_toml / "REUSE.toml",
             fake_repository_reuse_toml / "src/REUSE.toml",
+        }
+
+    def test_with_vcs_strategy(self, git_repository):
+        """Ignore the correct files ignored by the repository."""
+        (git_repository / "REUSE.toml").write_text("version = 1")
+        (git_repository / "build/REUSE.toml").write_text("version =1")
+        (git_repository / "src/REUSE.toml").write_text("version = 1")
+
+        result = NestedReuseTOML.find_reuse_tomls(
+            git_repository, vcs_strategy=VCSStrategyGit(git_repository)
+        )
+        assert set(result) == {
+            git_repository / "REUSE.toml",
+            git_repository / "src/REUSE.toml",
+        }
+
+    def test_includes_submodule(self, submodule_repository):
+        """include_submodules is correctly implemented."""
+        (submodule_repository / "REUSE.toml").write_text("version = 1")
+        (submodule_repository / "submodule/REUSE.toml").write_text(
+            "version = 1"
+        )
+
+        result_without = NestedReuseTOML.find_reuse_tomls(
+            submodule_repository,
+            vcs_strategy=VCSStrategyGit(submodule_repository),
+        )
+        assert set(result_without) == {submodule_repository / "REUSE.toml"}
+
+        result_with = NestedReuseTOML.find_reuse_tomls(
+            submodule_repository,
+            include_submodules=True,
+            vcs_strategy=VCSStrategyGit(submodule_repository),
+        )
+        assert set(result_with) == {
+            submodule_repository / "REUSE.toml",
+            submodule_repository / "submodule/REUSE.toml",
+        }
+
+    def test_includes_meson_subprojects(self, subproject_repository):
+        """include_meson_subprojects is correctly implemented."""
+        (subproject_repository / "REUSE.toml").write_text("version = 1")
+        (subproject_repository / "subprojects/REUSE.toml").write_text(
+            "version = 1"
+        )
+        (subproject_repository / "subprojects/libfoo/REUSE.toml").write_text(
+            "version = 1"
+        )
+
+        result_without = NestedReuseTOML.find_reuse_tomls(subproject_repository)
+        assert set(result_without) == {
+            subproject_repository / "REUSE.toml",
+            subproject_repository / "subprojects/REUSE.toml",
+        }
+
+        result_with = NestedReuseTOML.find_reuse_tomls(
+            subproject_repository, include_meson_subprojects=True
+        )
+        assert set(result_with) == {
+            subproject_repository / "REUSE.toml",
+            subproject_repository / "subprojects/REUSE.toml",
+            subproject_repository / "subprojects/libfoo/REUSE.toml",
         }
 
 
@@ -1032,14 +1119,19 @@ class TestReuseDep5FromFile:
         shutil.copy(
             RESOURCES_DIRECTORY / "fsfe.png", fake_repository_dep5 / "fsfe.png"
         )
-        with pytest.raises(UnicodeDecodeError):
+        with pytest.raises(GlobalLicensingParseError) as exc_info:
             ReuseDep5.from_file(fake_repository_dep5 / "fsfe.png")
+        error = exc_info.value
+        assert error.source == str(fake_repository_dep5 / "fsfe.png")
+        assert "'utf-8' codec can't decode byte" in str(error)
 
     def test_parse_error(self, empty_directory):
         """Raise GlobalLicensingParseError on parse error."""
         (empty_directory / "foo").write_text("foo")
-        with pytest.raises(GlobalLicensingParseError):
+        with pytest.raises(GlobalLicensingParseError) as exc_info:
             ReuseDep5.from_file(empty_directory / "foo")
+        error = exc_info.value
+        assert error.source == str(empty_directory / "foo")
 
     def test_double_copyright_parse_error(self, empty_directory):
         """Raise GlobalLicensingParseError on double Copyright lines."""
@@ -1058,8 +1150,10 @@ class TestReuseDep5FromFile:
                 """
             )
         )
-        with pytest.raises(GlobalLicensingParseError):
+        with pytest.raises(GlobalLicensingParseError) as exc_info:
             ReuseDep5.from_file(empty_directory / "foo")
+        error = exc_info.value
+        assert error.source == str(empty_directory / "foo")
 
 
 def test_reuse_dep5_reuse_info_of(reuse_dep5):

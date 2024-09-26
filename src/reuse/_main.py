@@ -31,7 +31,7 @@ from . import (
 from ._format import INDENT, fill_all, fill_paragraph
 from ._util import PathType, setup_logging
 from .global_licensing import GlobalLicensingParseError
-from .project import GlobalLicensingConflict, GlobalLicensingFound, Project
+from .project import GlobalLicensingConflict, Project
 from .vcs import find_root
 
 _LOGGER = logging.getLogger(__name__)
@@ -267,18 +267,12 @@ def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
         project = Project.from_directory(root)
     # FileNotFoundError and NotADirectoryError don't need to be caught because
     # argparse already made sure of these things.
-    except UnicodeDecodeError:
-        found = cast(GlobalLicensingFound, Project.find_global_licensing(root))
-        main_parser.error(
-            _("'{path}' could not be decoded as UTF-8.").format(path=found.path)
-        )
     except GlobalLicensingParseError as error:
-        found = cast(GlobalLicensingFound, Project.find_global_licensing(root))
         main_parser.error(
             _(
                 "'{path}' could not be parsed. We received the following error"
                 " message: {message}"
-            ).format(path=found.path, message=str(error))
+            ).format(path=error.source, message=str(error))
         )
     except GlobalLicensingConflict as error:
         main_parser.error(str(error))

@@ -38,8 +38,10 @@ from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
-from . import ReuseInfo, SourceType
+from . import ReuseException, ReuseInfo, SourceType
 from ._util import _LICENSING, StrPath, is_relative_to
+from .covered_files import iter_files
+from .vcs import VCSStrategy
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -65,13 +67,17 @@ class PrecedenceType(Enum):
     OVERRIDE = "override"
 
 
-class GlobalLicensingParseError(Exception):
+class GlobalLicensingParseError(ReuseException):
     """An exception representing any kind of error that occurs when trying to
     parse a :class:`GlobalLicensing` file.
     """
 
+    def __init__(self, *args: Any, source: Optional[str] = None):
+        super().__init__(*args)
+        self.source = source
 
-class GlobalLicensingParseTypeError(TypeError, GlobalLicensingParseError):
+
+class GlobalLicensingParseTypeError(GlobalLicensingParseError, TypeError):
     """An exception representing a type error while trying to parse a
     :class:`GlobalLicensing` file.
     """
@@ -101,6 +107,7 @@ class _CollectionOfValidator:
             attr_name = instance.TOML_KEYS[attribute.name]
         else:
             attr_name = attribute.name
+        source = getattr(instance, "source", None)
 
         if not isinstance(value, self.collection_type):
             raise GlobalLicensingParseTypeError(
@@ -112,7 +119,8 @@ class _CollectionOfValidator:
                     type_name=self.collection_type.__name__,
                     value=repr(value),
                     value_class=repr(value.__class__),
-                )
+                ),
+                source=source,
             )
         for item in value:
             if not isinstance(item, self.value_type):
@@ -125,13 +133,15 @@ class _CollectionOfValidator:
                         type_name=self.value_type.__name__,
                         item_value=repr(item),
                         item_class=repr(item.__class__),
-                    )
+                    ),
+                    source=source,
                 )
         if not self.optional and not value:
             raise GlobalLicensingParseValueError(
                 _("{attr_name} must not be empty.").format(
-                    attr_name=repr(attr_name)
-                )
+                    attr_name=repr(attr_name),
+                ),
+                source=source,
             )
 
 
@@ -159,7 +169,8 @@ class _InstanceOfValidator(_AttrInstanceOfValidator):
                     type=repr(error.args[2].__name__),
                     value=repr(error.args[3]),
                     value_type=repr(error.args[3].__class__),
-                )
+                ),
+                source=getattr(inst, "source", None),
             ) from error
 
 
@@ -172,7 +183,7 @@ def _instance_of(
 def _str_to_global_precedence(value: Any) -> PrecedenceType:
     try:
         return PrecedenceType(value)
-    except ValueError as err:
+    except ValueError as error:
         raise GlobalLicensingParseValueError(
             _(
                 "The value of 'precedence' must be one of {precedence_vals}"
@@ -183,7 +194,7 @@ def _str_to_global_precedence(value: Any) -> PrecedenceType:
                 ),
                 received=repr(value),
             )
-        ) from err
+        ) from error
 
 
 @overload
@@ -231,13 +242,12 @@ class GlobalLicensing(ABC):
 
     @classmethod
     @abstractmethod
-    def from_file(cls, path: StrPath) -> "GlobalLicensing":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "GlobalLicensing":
         """Parse the file and create a :class:`GlobalLicensing` object from its
         contents.
 
         Raises:
             FileNotFoundError: file doesn't exist.
-            UnicodeDecodeError: could not decode file as UTF-8.
             OSError: some other error surrounding I/O.
             GlobalLicensingParseError: file could not be parsed.
         """
@@ -261,18 +271,22 @@ class ReuseDep5(GlobalLicensing):
     dep5_copyright: Copyright
 
     @classmethod
-    def from_file(cls, path: StrPath) -> "ReuseDep5":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "ReuseDep5":
         path = Path(path)
         try:
             with path.open(encoding="utf-8") as fp:
                 return cls(str(path), Copyright(fp))
-        except UnicodeDecodeError:
-            raise
+        except UnicodeDecodeError as error:
+            raise GlobalLicensingParseError(
+                str(error), source=str(path)
+            ) from error
         # TODO: Remove ValueError once
         # <https://salsa.debian.org/python-debian-team/python-debian/-/merge_requests/123>
         # is closed
         except (DebianError, ValueError) as error:
-            raise GlobalLicensingParseError(str(error)) from error
+            raise GlobalLicensingParseError(
+                str(error), source=str(path)
+            ) from error
 
     def reuse_info_of(
         self, path: StrPath
@@ -418,10 +432,14 @@ class ReuseTOML(GlobalLicensing):
         new_dict["source"] = source
 
         annotation_dicts = values.get("annotations", [])
-        annotations = [
-            AnnotationsItem.from_dict(annotation)
-            for annotation in annotation_dicts
-        ]
+        try:
+            annotations = [
+                AnnotationsItem.from_dict(annotation)
+                for annotation in annotation_dicts
+            ]
+        except GlobalLicensingParseError as error:
+            error.source = source
+            raise error from error
 
         new_dict["annotations"] = annotations
 
@@ -433,13 +451,20 @@ class ReuseTOML(GlobalLicensing):
         try:
             tomldict = tomlkit.loads(toml)
         except tomlkit.exceptions.TOMLKitError as error:
-            raise GlobalLicensingParseError(str(error)) from error
+            raise GlobalLicensingParseError(
+                str(error), source=source
+            ) from error
         return cls.from_dict(tomldict, source)
 
     @classmethod
-    def from_file(cls, path: StrPath) -> "ReuseTOML":
-        with Path(path).open(encoding="utf-8") as fp:
-            return cls.from_toml(fp.read(), str(path))
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "ReuseTOML":
+        try:
+            with Path(path).open(encoding="utf-8") as fp:
+                return cls.from_toml(fp.read(), str(path))
+        except UnicodeDecodeError as error:
+            raise GlobalLicensingParseError(
+                str(error), source=str(path)
+            ) from error
 
     def find_annotations_item(self, path: StrPath) -> Optional[AnnotationsItem]:
         """Find a :class:`AnnotationsItem` that matches *path*. The latest match
@@ -483,11 +508,21 @@ class NestedReuseTOML(GlobalLicensing):
     reuse_tomls: List[ReuseTOML] = attrs.field()
 
     @classmethod
-    def from_file(cls, path: StrPath) -> "GlobalLicensing":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "GlobalLicensing":
         """TODO: *path* is a directory instead of a file."""
+        include_submodules: bool = kwargs.get("include_submodules", False)
+        include_meson_subprojects: bool = kwargs.get(
+            "include_meson_subprojects", False
+        )
+        vcs_strategy: Optional[VCSStrategy] = kwargs.get("vcs_strategy")
         tomls = [
             ReuseTOML.from_file(toml_path)
-            for toml_path in cls.find_reuse_tomls(path)
+            for toml_path in cls.find_reuse_tomls(
+                path,
+                include_submodules=include_submodules,
+                include_meson_subprojects=include_meson_subprojects,
+                vcs_strategy=vcs_strategy,
+            )
         ]
         return cls(reuse_tomls=tomls, source=str(path))
 
@@ -546,9 +581,24 @@ class NestedReuseTOML(GlobalLicensing):
         return dict(result)
 
     @classmethod
-    def find_reuse_tomls(cls, path: StrPath) -> Generator[Path, None, None]:
+    def find_reuse_tomls(
+        cls,
+        path: StrPath,
+        include_submodules: bool = False,
+        include_meson_subprojects: bool = False,
+        vcs_strategy: Optional[VCSStrategy] = None,
+    ) -> Generator[Path, None, None]:
         """Find all REUSE.toml files in *path*."""
-        return Path(path).rglob("**/REUSE.toml")
+        return (
+            item
+            for item in iter_files(
+                path,
+                include_submodules=include_submodules,
+                include_meson_subprojects=include_meson_subprojects,
+                vcs_strategy=vcs_strategy,
+            )
+            if item.name == "REUSE.toml"
+        )
 
     def _find_relevant_tomls(self, path: StrPath) -> List[ReuseTOML]:
         found = []
