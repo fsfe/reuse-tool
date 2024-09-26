@@ -14,7 +14,6 @@
 
 """Misc. utilities for reuse."""
 
-import contextlib
 import logging
 import os
 import re
@@ -29,20 +28,8 @@ from hashlib import sha1
 from inspect import cleandoc
 from itertools import chain
 from os import PathLike
-from pathlib import Path, PurePath
-from typing import (
-    IO,
-    Any,
-    BinaryIO,
-    Dict,
-    Iterator,
-    List,
-    Optional,
-    Set,
-    Type,
-    Union,
-    cast,
-)
+from pathlib import Path
+from typing import IO, Any, BinaryIO, Iterator, Optional, Type, Union, cast
 
 from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError, Licensing
@@ -57,8 +44,7 @@ from .comment import (
     _all_style_classes,
 )
 
-# TODO: When removing Python 3.8 support, use PathLike[str]
-StrPath = Union[str, PathLike]
+StrPath = Union[str, PathLike[str]]
 
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
@@ -109,7 +95,7 @@ _CONTRIBUTOR_PATTERN = re.compile(
     r"^(.*?)SPDX-FileContributor:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
 )
 # The keys match the relevant attributes of ReuseInfo.
-_SPDX_TAGS: Dict[str, re.Pattern] = {
+_SPDX_TAGS: dict[str, re.Pattern] = {
     "spdx_expressions": _LICENSE_IDENTIFIER_PATTERN,
     "contributor_lines": _CONTRIBUTOR_PATTERN,
 }
@@ -171,7 +157,7 @@ def setup_logging(level: int = logging.WARNING) -> None:
 
 
 def execute_command(
-    command: List[str],
+    command: list[str],
     logger: logging.Logger,
     cwd: Optional[StrPath] = None,
     **kwargs: Any,
@@ -251,9 +237,9 @@ def _determine_license_suffix_path(path: StrPath) -> Path:
     return Path(f"{path}.license")
 
 
-def _parse_copyright_year(year: Optional[str]) -> List[str]:
+def _parse_copyright_year(year: Optional[str]) -> list[str]:
     """Parse copyright years and return list."""
-    ret: List[str] = []
+    ret: list[str] = []
     if not year:
         return ret
     if re.match(r"\d{4}$", year):
@@ -295,7 +281,7 @@ def _has_style(path: Path) -> bool:
     return _get_comment_style(path) is not None
 
 
-def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
+def merge_copyright_lines(copyright_lines: set[str]) -> set[str]:
     """Parse all copyright lines and merge identical statements making years
     into a range.
 
@@ -339,7 +325,7 @@ def merge_copyright_lines(copyright_lines: Set[str]) -> Set[str]:
                 break
 
         # get year range if any
-        years: List[str] = []
+        years: list[str] = []
         for copy in copyright_list:
             years += copy["year"]
 
@@ -362,7 +348,7 @@ def extract_reuse_info(text: str) -> ReuseInfo:
         ParseError: if an SPDX expression could not be parsed.
     """
     text = filter_ignore_block(text)
-    spdx_tags: Dict[str, Set[str]] = {}
+    spdx_tags: dict[str, set[str]] = {}
     for tag, pattern in _SPDX_TAGS.items():
         spdx_tags[tag] = set(find_spdx_tag(text, pattern))
     # License expressions and copyright matches are special cases.
@@ -605,9 +591,9 @@ def spdx_identifier(text: str) -> Expression:
         ) from error
 
 
-def similar_spdx_identifiers(identifier: str) -> List[str]:
+def similar_spdx_identifiers(identifier: str) -> list[str]:
     """Given an incorrect SPDX identifier, return a list of similar ones."""
-    suggestions: List[str] = []
+    suggestions: list[str] = []
     if identifier in ALL_NON_DEPRECATED_MAP:
         return suggestions
 
@@ -663,15 +649,6 @@ def detect_line_endings(text: str) -> str:
 def cleandoc_nl(text: str) -> str:
     """Like :func:`inspect.cleandoc`, but with a newline at the end."""
     return cleandoc(text) + "\n"
-
-
-def is_relative_to(path: PurePath, target: PurePath) -> bool:
-    """Like Path.is_relative_to, but working for Python <3.9."""
-    # TODO: When Python 3.8 is dropped, remove this function.
-    with contextlib.suppress(ValueError):
-        path.relative_to(target)
-        return True
-    return False
 
 
 # REUSE-IgnoreEnd

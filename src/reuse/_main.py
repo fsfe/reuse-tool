@@ -15,7 +15,7 @@ import sys
 import warnings
 from gettext import gettext as _
 from pathlib import Path
-from typing import IO, Callable, List, Optional, Type, cast
+from typing import IO, Callable, Optional, Type, cast
 
 from . import (
     __REUSE_version__,
@@ -219,7 +219,7 @@ def add_command(  # pylint: disable=too-many-arguments,redefined-builtin
     formatter_class: Optional[Type[argparse.HelpFormatter]] = None,
     description: Optional[str] = None,
     help: Optional[str] = None,
-    aliases: Optional[List[str]] = None,
+    aliases: Optional[list[str]] = None,
 ) -> None:
     """Add a subparser for a command."""
     if formatter_class is None:
@@ -236,10 +236,10 @@ def add_command(  # pylint: disable=too-many-arguments,redefined-builtin
     subparser.set_defaults(parser=subparser)
 
 
-def main(args: Optional[List[str]] = None, out: IO[str] = sys.stdout) -> int:
+def main(args: Optional[list[str]] = None, out: IO[str] = sys.stdout) -> int:
     """Main entry function."""
     if args is None:
-        args = cast(List[str], sys.argv[1:])
+        args = cast(list[str], sys.argv[1:])
 
     main_parser = parser()
     parsed_args = main_parser.parse_args(args)

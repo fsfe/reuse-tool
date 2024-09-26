@@ -17,7 +17,7 @@
 import logging
 import re
 from gettext import gettext as _
-from typing import NamedTuple, Optional, Sequence, Tuple, Type, cast
+from typing import NamedTuple, Optional, Sequence, Type, cast
 
 from boolean.boolean import ParseError
 from jinja2 import Environment, PackageLoader, Template
@@ -206,7 +206,7 @@ def _find_first_spdx_comment(
     raise MissingReuseInfo()
 
 
-def _extract_shebang(prefix: str, text: str) -> Tuple[str, str]:
+def _extract_shebang(prefix: str, text: str) -> tuple[str, str]:
     """Remove all lines that start with the shebang prefix from *text*. Return a
     tuple of (shebang, reduced_text).
     """

@@ -23,7 +23,7 @@ import re
 from dataclasses import dataclass, field
 from enum import Enum
 from importlib.metadata import PackageNotFoundError, version
-from typing import Any, Dict, NamedTuple, Optional, Set, Type
+from typing import Any, Optional
 
 from boolean.boolean import Expression
 
@@ -108,9 +108,9 @@ class SourceType(Enum):
 class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""
 
-    spdx_expressions: Set[Expression] = field(default_factory=set)
-    copyright_lines: Set[str] = field(default_factory=set)
-    contributor_lines: Set[str] = field(default_factory=set)
+    spdx_expressions: set[Expression] = field(default_factory=set)
+    copyright_lines: set[str] = field(default_factory=set)
+    contributor_lines: set[str] = field(default_factory=set)
     path: Optional[str] = None
     source_path: Optional[str] = None
     source_type: Optional[SourceType] = None
@@ -134,10 +134,10 @@ class ReuseInfo:
         return self.__class__(**new_kwargs)  # type: ignore
 
     def union(self, value: "ReuseInfo") -> "ReuseInfo":
-        """Return a new instance of ReuseInfo where all Set attributes are equal
+        """Return a new instance of ReuseInfo where all set attributes are equal
         to the union of the set in *self* and the set in *value*.
 
-        All non-Set attributes are set to their values in *self*.
+        All non-set attributes are set to their values in *self*.
 
         >>> one = ReuseInfo(copyright_lines={"Jane Doe"}, source_path="foo.py")
         >>> two = ReuseInfo(copyright_lines={"John Doe"}, source_path="bar.py")

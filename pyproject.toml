@@ -52,7 +52,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 Jinja2 = ">=3.0.0"
 binaryornot = ">=0.4.4"
 "boolean.py" = ">=3.8"

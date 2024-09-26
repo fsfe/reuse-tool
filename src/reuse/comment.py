@@ -29,7 +29,7 @@ import logging
 import operator
 import re
 from textwrap import dedent
-from typing import List, NamedTuple, Optional, Type
+from typing import NamedTuple, Optional, Type
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -65,7 +65,7 @@ class CommentStyle:
     INDENT_BEFORE_MIDDLE = ""
     INDENT_AFTER_MIDDLE = ""
     INDENT_BEFORE_END = ""
-    SHEBANGS: List[str] = []
+    SHEBANGS: list[str] = []
 
     @classmethod
     def can_handle_single(cls) -> bool:
@@ -162,10 +162,9 @@ class CommentStyle:
         result_lines = []
 
         for line in text.splitlines():
-            # TODO: When Python 3.8 is dropped, consider using str.removeprefix
             if cls.SINGLE_LINE_REGEXP:
                 if match := cls.SINGLE_LINE_REGEXP.match(line):
-                    line = line.lstrip(match.group(0))
+                    line = line.removeprefix(match.group(0))
                     result_lines.append(line)
                     continue
 
@@ -173,7 +172,7 @@ class CommentStyle:
                 raise CommentParseError(
                     f"'{line}' does not start with a comment marker"
                 )
-            line = line.lstrip(cls.SINGLE_LINE)
+            line = line.removeprefix(cls.SINGLE_LINE)
             result_lines.append(line)
 
         result = "\n".join(result_lines)
@@ -909,7 +908,7 @@ FILENAME_COMMENT_STYLE_MAP_LOWERCASE = {
 }
 
 
-def _all_style_classes() -> List[Type[CommentStyle]]:
+def _all_style_classes() -> list[Type[CommentStyle]]:
     """Return a list of all defined style classes, excluding the base class."""
     result = []
     for key, value in globals().items():

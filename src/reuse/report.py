@@ -24,13 +24,10 @@ from pathlib import Path, PurePath
 from typing import (
     Any,
     Collection,
-    Dict,
     Iterable,
-    List,
     NamedTuple,
     Optional,
     Protocol,
-    Set,
     cast,
 )
 from uuid import uuid4
@@ -167,16 +164,16 @@ class ProjectReportSubsetProtocol(Protocol):
     """
 
     path: StrPath
-    missing_licenses: Dict[str, Set[Path]]
-    read_errors: Set[Path]
-    file_reports: Set["FileReport"]
+    missing_licenses: dict[str, set[Path]]
+    read_errors: set[Path]
+    file_reports: set["FileReport"]
 
     @property
-    def files_without_licenses(self) -> Set[Path]:
+    def files_without_licenses(self) -> set[Path]:
         """Set of paths that have no licensing information."""
 
     @property
-    def files_without_copyright(self) -> Set[Path]:
+    def files_without_copyright(self) -> set[Path]:
         """Set of paths that have no copyright information."""
 
     @property
@@ -189,23 +186,23 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
 
     def __init__(self, do_checksum: bool = True):
         self.path: StrPath = ""
-        self.licenses: Dict[str, Path] = {}
-        self.missing_licenses: Dict[str, Set[Path]] = {}
-        self.bad_licenses: Dict[str, Set[Path]] = {}
-        self.deprecated_licenses: Set[str] = set()
-        self.read_errors: Set[Path] = set()
-        self.file_reports: Set[FileReport] = set()
-        self.licenses_without_extension: Dict[str, Path] = {}
+        self.licenses: dict[str, Path] = {}
+        self.missing_licenses: dict[str, set[Path]] = {}
+        self.bad_licenses: dict[str, set[Path]] = {}
+        self.deprecated_licenses: set[str] = set()
+        self.read_errors: set[Path] = set()
+        self.file_reports: set[FileReport] = set()
+        self.licenses_without_extension: dict[str, Path] = {}
 
         self.do_checksum = do_checksum
 
-        self._unused_licenses: Optional[Set[str]] = None
-        self._used_licenses: Optional[Set[str]] = None
-        self._files_without_licenses: Optional[Set[Path]] = None
-        self._files_without_copyright: Optional[Set[Path]] = None
+        self._unused_licenses: Optional[set[str]] = None
+        self._used_licenses: Optional[set[str]] = None
+        self._files_without_licenses: Optional[set[Path]] = None
+        self._files_without_copyright: Optional[set[Path]] = None
         self._is_compliant: Optional[bool] = None
 
-    def to_dict_lint(self) -> Dict[str, Any]:
+    def to_dict_lint(self) -> dict[str, Any]:
         """Collects and formats data relevant to linting from report and returns
         it as a dictionary.
 
@@ -213,7 +210,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
             Dictionary containing data from the ProjectReport object.
         """
         # Setup report data container
-        data: Dict[str, Any] = {
+        data: dict[str, Any] = {
             "non_compliant": {
                 "missing_licenses": self.missing_licenses,
                 "unused_licenses": [str(file) for file in self.unused_licenses],
@@ -419,7 +416,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return project_report
 
     @property
-    def used_licenses(self) -> Set[str]:
+    def used_licenses(self) -> set[str]:
         """Set of license identifiers that are found in file reports."""
         if self._used_licenses is not None:
             return self._used_licenses
@@ -432,7 +429,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return self._used_licenses
 
     @property
-    def unused_licenses(self) -> Set[str]:
+    def unused_licenses(self) -> set[str]:
         """Set of license identifiers that are not found in any file report."""
         if self._unused_licenses is not None:
             return self._unused_licenses
@@ -450,7 +447,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return self._unused_licenses
 
     @property
-    def files_without_licenses(self) -> Set[Path]:
+    def files_without_licenses(self) -> set[Path]:
         """Set of paths that have no licensing information."""
         if self._files_without_licenses is not None:
             return self._files_without_licenses
@@ -464,7 +461,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return self._files_without_licenses
 
     @property
-    def files_without_copyright(self) -> Set[Path]:
+    def files_without_copyright(self) -> set[Path]:
         """Set of paths that have no copyright information."""
         if self._files_without_copyright is not None:
             return self._files_without_copyright
@@ -499,7 +496,7 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         return self._is_compliant
 
     @property
-    def recommendations(self) -> List[str]:
+    def recommendations(self) -> list[str]:
         """Generate help for next steps based on found REUSE issues"""
         recommendations = []
 
@@ -589,9 +586,9 @@ class ProjectSubsetReport:
 
     def __init__(self) -> None:
         self.path: StrPath = ""
-        self.missing_licenses: Dict[str, Set[Path]] = {}
-        self.read_errors: Set[Path] = set()
-        self.file_reports: Set[FileReport] = set()
+        self.missing_licenses: dict[str, set[Path]] = {}
+        self.read_errors: set[Path] = set()
+        self.file_reports: set[FileReport] = set()
 
     @classmethod
     def generate(
@@ -632,7 +629,7 @@ class ProjectSubsetReport:
         return subset_report
 
     @property
-    def files_without_licenses(self) -> Set[Path]:
+    def files_without_licenses(self) -> set[Path]:
         """Set of paths that have no licensing information."""
         return {
             file_report.path
@@ -641,7 +638,7 @@ class ProjectSubsetReport:
         }
 
     @property
-    def files_without_copyright(self) -> Set[Path]:
+    def files_without_copyright(self) -> set[Path]:
         """Set of paths that have no copyright information."""
         return {
             file_report.path
@@ -670,24 +667,22 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
         self.path = Path(path)
         self.do_checksum = do_checksum
 
-        self.reuse_infos: List[ReuseInfo] = []
+        self.reuse_infos: list[ReuseInfo] = []
 
         self.spdx_id: Optional[str] = None
         self.chk_sum: Optional[str] = None
-        self.licenses_in_file: List[str] = []
+        self.licenses_in_file: list[str] = []
         self.license_concluded: str = ""
         self.copyright: str = ""
 
-        self.bad_licenses: Set[str] = set()
-        self.missing_licenses: Set[str] = set()
+        self.bad_licenses: set[str] = set()
+        self.missing_licenses: set[str] = set()
 
-    def to_dict_lint(self) -> Dict[str, Any]:
+    def to_dict_lint(self) -> dict[str, Any]:
         """Turn the report into a json-like dictionary with exclusively
         information relevant for linting.
         """
         return {
-            # This gets rid of the './' prefix. In Python 3.9, use
-            # str.removeprefix.
             "path": PurePath(self.name).as_posix(),
             "copyrights": [
                 {
