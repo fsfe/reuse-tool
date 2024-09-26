@@ -298,6 +298,7 @@ class TestAnnotationsItemMatches:
         """Handle escape escape asterisk."""
         item = AnnotationsItem(paths=[r"\\*.py"])
         assert item.matches(r"\foo.py")
+        assert not item.matches(r"foo.py")
 
     def test_asterisk_asterisk_asterisk(self):
         """Handle asterisk asterisk asterisk."""

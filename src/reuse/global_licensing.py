@@ -361,7 +361,7 @@ class AnnotationsItem:
                 if char == "\\":
                     if prev_char == "\\" and escaping:
                         escaping = False
-                        blocks.append(r"\\")
+                        blocks.append("\\\\")
                     else:
                         escaping = True
                 elif char == "*":
