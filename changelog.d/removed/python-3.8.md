@@ -1,0 +1,1 @@
+- Python 3.8 support removed. (#1080)
