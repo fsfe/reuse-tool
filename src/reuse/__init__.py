@@ -16,6 +16,9 @@ nevertheless, and we (the maintainers) do make some efforts to not needlessly
 change the public API.
 """
 
+# TODO: When Python 3.9 is dropped, consider using `type | None` instead of
+# `Optional[type]`.
+
 import gettext
 import logging
 import os
