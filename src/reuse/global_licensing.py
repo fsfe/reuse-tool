@@ -46,6 +46,14 @@ _T = TypeVar("_T")
 #: Current version of REUSE.toml.
 REUSE_TOML_VERSION = 1
 
+#: Relation between Python attribute names and TOML keys.
+_TOML_KEYS = {
+    "paths": "path",
+    "precedence": "precedence",
+    "copyright_lines": "SPDX-FileCopyrightText",
+    "spdx_expressions": "SPDX-License-Identifier",
+}
+
 
 class PrecedenceType(Enum):
     """An enum of behaviours surrounding order of precedence for entries in a
@@ -99,8 +107,8 @@ class _CollectionOfValidator:
     ) -> None:
         # This is a hack to display the TOML's key names instead of the Python
         # attributes.
-        if hasattr(instance, "TOML_KEYS"):
-            attr_name = instance.TOML_KEYS[attribute.name]
+        if isinstance(instance, AnnotationsItem):
+            attr_name = _TOML_KEYS[attribute.name]
         else:
             attr_name = attribute.name
         source = getattr(instance, "source", None)
@@ -319,13 +327,6 @@ class AnnotationsItem:
     REUSE.toml.
     """
 
-    TOML_KEYS = {
-        "paths": "path",
-        "precedence": "precedence",
-        "copyright_lines": "SPDX-FileCopyrightText",
-        "spdx_expressions": "SPDX-License-Identifier",
-    }
-
     paths: set[str] = attrs.field(
         converter=_str_to_set,
         validator=_validate_collection_of(set, str, optional=False),
@@ -395,15 +396,13 @@ class AnnotationsItem:
         key-value pairs for an [[annotations]] table in REUSE.toml.
         """
         new_dict = {}
-        new_dict["paths"] = values.get(cls.TOML_KEYS["paths"])
-        precedence = values.get(cls.TOML_KEYS["precedence"])
+        new_dict["paths"] = values.get(_TOML_KEYS["paths"])
+        precedence = values.get(_TOML_KEYS["precedence"])
         if precedence is not None:
             new_dict["precedence"] = precedence
-        new_dict["copyright_lines"] = values.get(
-            cls.TOML_KEYS["copyright_lines"]
-        )
+        new_dict["copyright_lines"] = values.get(_TOML_KEYS["copyright_lines"])
         new_dict["spdx_expressions"] = values.get(
-            cls.TOML_KEYS["spdx_expressions"]
+            _TOML_KEYS["spdx_expressions"]
         )
         return cls(**new_dict)  # type: ignore
 
