@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-26 09:32+0000\n"
+"POT-Creation-Date: 2024-09-30 13:59+0000\n"
 "PO-Revision-Date: 2024-09-14 10:09+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -86,7 +86,7 @@ msgstr "je vyžadována možnost --contributor, --copyright nebo --license"
 msgid "template {template} could not be found"
 msgstr "šablonu {template} se nepodařilo najít"
 
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:581
+#: src/reuse/_annotate.py:341 src/reuse/_util.py:567
 msgid "can't write to '{}'"
 msgstr "nelze zapisovat do '{}'"
 
@@ -190,7 +190,7 @@ msgstr "soubory do lint"
 msgid "'{file}' is not inside of '{root}'"
 msgstr "'{file}' není uvnitř '{root}'"
 
-#: src/reuse/_main.py:41
+#: src/reuse/_main.py:48
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
@@ -200,17 +200,17 @@ msgstr ""
 "naleznete na adrese <https://reuse.software/> a online dokumentaci na adrese "
 "<https://reuse.readthedocs.io/>."
 
-#: src/reuse/_main.py:47
+#: src/reuse/_main.py:54
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr "Tato verze reuse je kompatibilní s verzí {} specifikace REUSE."
 
-#: src/reuse/_main.py:50
+#: src/reuse/_main.py:57
 msgid "Support the FSFE's work:"
 msgstr "Podpořte činnost FSFE:"
 
-#: src/reuse/_main.py:54
+#: src/reuse/_main.py:61
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
@@ -220,43 +220,43 @@ msgstr ""
 "práci pro svobodný software všude tam, kde je to nutné. Zvažte prosím "
 "možnost přispět na <https://fsfe.org/donate/>."
 
-#: src/reuse/_main.py:77
+#: src/reuse/_main.py:84
 msgid "enable debug statements"
 msgstr "povolit příkazy pro ladění"
 
-#: src/reuse/_main.py:82
+#: src/reuse/_main.py:89
 msgid "hide deprecation warnings"
 msgstr "skrýt varování o zastarání"
 
-#: src/reuse/_main.py:87
+#: src/reuse/_main.py:94
 msgid "do not skip over Git submodules"
 msgstr "nepřeskakovat submoduly systému Git"
 
-#: src/reuse/_main.py:92
+#: src/reuse/_main.py:99
 msgid "do not skip over Meson subprojects"
 msgstr "nepřeskakovat podprojekty Meson"
 
-#: src/reuse/_main.py:97
+#: src/reuse/_main.py:104
 msgid "do not use multiprocessing"
 msgstr "nepoužívat multiprocessing"
 
-#: src/reuse/_main.py:104
+#: src/reuse/_main.py:111
 msgid "define root of project"
 msgstr "definovat kořen projektu"
 
-#: src/reuse/_main.py:109
+#: src/reuse/_main.py:119
 msgid "show program's version number and exit"
 msgstr "zobrazit číslo verze programu a ukončit jej"
 
-#: src/reuse/_main.py:113
+#: src/reuse/_main.py:123
 msgid "subcommands"
 msgstr "dílčí příkazy"
 
-#: src/reuse/_main.py:120
+#: src/reuse/_main.py:130
 msgid "add copyright and licensing into the header of files"
 msgstr "přidání autorských práv a licencí do záhlaví souborů"
 
-#: src/reuse/_main.py:123
+#: src/reuse/_main.py:133
 msgid ""
 "Add copyright and licensing into the header of one or more files.\n"
 "\n"
@@ -274,20 +274,20 @@ msgstr ""
 "Pomocí parametru --contributor můžete určit osoby nebo subjekty, které "
 "přispěly, ale nejsou držiteli autorských práv daných souborů."
 
-#: src/reuse/_main.py:142
+#: src/reuse/_main.py:152
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "stáhněte si licenci a umístěte ji do adresáře LICENSES/"
 
-#: src/reuse/_main.py:144
+#: src/reuse/_main.py:154
 msgid "Download a license and place it in the LICENSES/ directory."
 msgstr "Stáhněte si licenci a umístěte ji do adresáře LICENSES/."
 
-#: src/reuse/_main.py:153
+#: src/reuse/_main.py:163
 msgid "list all non-compliant files"
 msgstr "seznam všech nevyhovujících souborů"
 
-#: src/reuse/_main.py:156
-#, python-brace-format
+#: src/reuse/_main.py:166
+#, fuzzy, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
 "the REUSE Specification. You can find the latest version of the "
@@ -298,11 +298,18 @@ msgid ""
 "- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
 "project?\n"
 "\n"
+"- Are there any deprecated licenses in the project?\n"
+"\n"
+"- Are there any license files in the LICENSES/ directory without file "
+"extension?\n"
+"\n"
 "- Are any licenses referred to inside of the project, but not included in "
 "the LICENSES/ directory?\n"
 "\n"
 "- Are any licenses included in the LICENSES/ directory that are not used "
 "inside of the project?\n"
+"\n"
+"- Are there any read errors?\n"
 "\n"
 "- Do all files have valid copyright and licensing information?"
 msgstr ""
@@ -322,23 +329,46 @@ msgstr ""
 "\n"
 "- Mají všechny soubory platné informace o autorských právech a licencích?"
 
-#: src/reuse/_main.py:183
+#: src/reuse/_main.py:202
+msgid ""
+"Lint individual files. The specified files are checked for the presence of "
+"copyright and licensing information, and whether  the found licenses are "
+"included in the LICENSES/ directory."
+msgstr ""
+
+#: src/reuse/_main.py:208
 msgid "list non-compliant files from specified list of files"
 msgstr "seznam nevyhovujících souborů ze zadaného seznamu souborů"
 
-#: src/reuse/_main.py:191
+#: src/reuse/_main.py:217
+#, fuzzy
+msgid "Generate an SPDX bill of materials in RDF format."
+msgstr "vytisknout výkaz materiálu projektu ve formátu SPDX"
+
+#: src/reuse/_main.py:219
 msgid "print the project's bill of materials in SPDX format"
 msgstr "vytisknout výkaz materiálu projektu ve formátu SPDX"
 
-#: src/reuse/_main.py:199
+#: src/reuse/_main.py:228
+msgid "List all non-deprecated SPDX licenses from the official list."
+msgstr ""
+
+#: src/reuse/_main.py:230
 msgid "list all supported SPDX licenses"
 msgstr "seznam všech podporovaných licencí SPDX"
 
-#: src/reuse/_main.py:208
+#: src/reuse/_main.py:241
+msgid ""
+"Convert .reuse/dep5 into a REUSE.toml file in your project root. The "
+"generated file is semantically identical. The .reuse/dep5 file is "
+"subsequently deleted."
+msgstr ""
+
+#: src/reuse/_main.py:246
 msgid "convert .reuse/dep5 to REUSE.toml"
 msgstr "Převeďte .reuse/dep5 do REUSE.toml"
 
-#: src/reuse/_main.py:273
+#: src/reuse/_main.py:311
 #, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
@@ -347,51 +377,51 @@ msgstr ""
 "'{path}' se nepodařilo zpracovat. Obdrželi jsme následující chybové hlášení: "
 "{message}"
 
-#: src/reuse/_util.py:376 src/reuse/global_licensing.py:228
+#: src/reuse/_util.py:362 src/reuse/global_licensing.py:232
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Nepodařilo se analyzovat '{expression}'"
 
-#: src/reuse/_util.py:432
+#: src/reuse/_util.py:418
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 "'{path}' obsahuje výraz SPDX, který nelze analyzovat a soubor se přeskočí"
 
-#: src/reuse/_util.py:564
+#: src/reuse/_util.py:550
 msgid "'{}' is not a file"
 msgstr "'{}' není soubor"
 
-#: src/reuse/_util.py:567
+#: src/reuse/_util.py:553
 msgid "'{}' is not a directory"
 msgstr "'{}' není adresář"
 
-#: src/reuse/_util.py:570
+#: src/reuse/_util.py:556
 msgid "can't open '{}'"
 msgstr "nelze otevřít '{}'"
 
-#: src/reuse/_util.py:575
+#: src/reuse/_util.py:561
 msgid "can't write to directory '{}'"
 msgstr "nelze zapisovat do adresáře '{}'"
 
-#: src/reuse/_util.py:594
+#: src/reuse/_util.py:580
 msgid "can't read or write '{}'"
 msgstr "nelze číst ani zapisovat '{}'"
 
-#: src/reuse/_util.py:604
+#: src/reuse/_util.py:590
 msgid "'{}' is not a valid SPDX expression, aborting"
 msgstr "'{}' není platný výraz SPDX, přeruší se"
 
-#: src/reuse/_util.py:632
+#: src/reuse/_util.py:618
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' není platný identifikátor licence SPDX."
 
-#: src/reuse/_util.py:639
+#: src/reuse/_util.py:625
 msgid "Did you mean:"
 msgstr "Měl jste na mysli:"
 
-#: src/reuse/_util.py:646
+#: src/reuse/_util.py:632
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -454,14 +484,14 @@ msgstr "jsou vyžadovány tyto argumenty: licence"
 msgid "cannot use --output with more than one license"
 msgstr "nelze použít --output s více než jednou licencí"
 
-#: src/reuse/global_licensing.py:115
+#: src/reuse/global_licensing.py:119
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
 "{attr_name} musí být {type_name} (mít {value}, který je {value_class})."
 
-#: src/reuse/global_licensing.py:129
+#: src/reuse/global_licensing.py:133
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
@@ -470,17 +500,17 @@ msgstr ""
 "Položka v kolekci {attr_name} musí být {type_name} (mít {item_value}, která "
 "je {item_class})."
 
-#: src/reuse/global_licensing.py:141
+#: src/reuse/global_licensing.py:145
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr "{attr_name} nesmí být prázdný."
 
-#: src/reuse/global_licensing.py:165
+#: src/reuse/global_licensing.py:169
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr "{name} musí být {type} (má {value}, která je {value_type})."
 
-#: src/reuse/global_licensing.py:189
+#: src/reuse/global_licensing.py:193
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -663,18 +693,18 @@ msgstr "{lic_path}: licence bez přípony souboru\n"
 msgid "{lic_path}: unused license\n"
 msgstr "{lic_path}: nepoužitá licence\n"
 
-#: src/reuse/project.py:269
+#: src/reuse/project.py:260
 #, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' zahrnuto v {global_path}"
 
-#: src/reuse/project.py:277
+#: src/reuse/project.py:268
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr "'{path}' je zahrnuta výhradně v REUSE.toml. Nečte obsah souboru."
 
-#: src/reuse/project.py:284
+#: src/reuse/project.py:275
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -683,7 +713,7 @@ msgstr ""
 "'{path}' byl rozpoznán jako binární soubor; v jeho obsahu nebyly hledány "
 "informace o REUSE."
 
-#: src/reuse/project.py:345
+#: src/reuse/project.py:336
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
@@ -691,7 +721,7 @@ msgstr ""
 "'.reuse/dep5' je zastaralý. Místo toho doporučujeme používat soubor REUSE."
 "toml. Pro konverzi použijte `reuse convert-dep5`."
 
-#: src/reuse/project.py:366
+#: src/reuse/project.py:357
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
@@ -700,17 +730,17 @@ msgstr ""
 "Nalezeno '{new_path}' i '{old_path}'. Oba soubory nelze uchovávat současně, "
 "nejsou vzájemně kompatibilní."
 
-#: src/reuse/project.py:425
+#: src/reuse/project.py:416
 #, python-brace-format
 msgid "determining identifier of '{path}'"
 msgstr "určující identifikátor '{path}'"
 
-#: src/reuse/project.py:433
+#: src/reuse/project.py:424
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} nemá příponu souboru"
 
-#: src/reuse/project.py:443
+#: src/reuse/project.py:434
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -723,14 +753,14 @@ msgstr ""
 "adrese <https://spdx.org/licenses/> nebo zda začíná znakem 'LicenseRef-' a "
 "zda má příponu souboru."
 
-#: src/reuse/project.py:455
+#: src/reuse/project.py:446
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} je identifikátor licence SPDX jak {path}, tak {other_path}"
 
-#: src/reuse/project.py:494
+#: src/reuse/project.py:485
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -738,17 +768,17 @@ msgstr ""
 "projekt '{}' není úložištěm VCS nebo není nainstalován požadovaný software "
 "VCS"
 
-#: src/reuse/report.py:152
+#: src/reuse/report.py:149
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Nepodařilo se načíst '{path}'"
 
-#: src/reuse/report.py:157
+#: src/reuse/report.py:154
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Při analýze souboru '{path}' došlo k neočekávané chybě"
 
-#: src/reuse/report.py:510
+#: src/reuse/report.py:507
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -761,7 +791,7 @@ msgstr ""
 "Často kladené otázky o vlastních licencích: https://reuse.software/faq/"
 "#custom-license"
 
-#: src/reuse/report.py:521
+#: src/reuse/report.py:518
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -774,7 +804,7 @@ msgstr ""
 "reuse/dep5' byla v SPDX zastaralá. Aktuální seznam a příslušné doporučené "
 "nové identifikátory naleznete zde: <https://spdx.org/licenses/#deprecated>"
 
-#: src/reuse/report.py:532
+#: src/reuse/report.py:529
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -784,7 +814,7 @@ msgstr ""
 "adresáři 'LICENSES' nemá příponu '.txt'. Soubor(y) odpovídajícím způsobem "
 "přejmenujte."
 
-#: src/reuse/report.py:541
+#: src/reuse/report.py:538
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -799,7 +829,7 @@ msgstr ""
 "--all' a získat všechny chybějící. Pro vlastní licence (začínající na "
 "'LicenseRef-') musíte tyto soubory přidat sami."
 
-#: src/reuse/report.py:553
+#: src/reuse/report.py:550
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -813,7 +843,7 @@ msgstr ""
 "buď správně označili, nebo nepoužitý licenční text odstranili, pokud jste si "
 "jisti, že žádný soubor nebo kousek kódu není takto licencován."
 
-#: src/reuse/report.py:564
+#: src/reuse/report.py:561
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -823,7 +853,7 @@ msgstr ""
 "adresáři. Zkontrolujte oprávnění souboru. Postižené soubory najdete v horní "
 "části výstupu jako součást zaznamenaných chybových hlášení."
 
-#: src/reuse/report.py:573
+#: src/reuse/report.py:570
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
