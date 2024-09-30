@@ -188,10 +188,11 @@ short summary:
 - `annotate` --- Add copyright and/or licensing information to the header of a
   file.
 - `download` --- Download the specified license into the `LICENSES/` directory.
-- `init` --- Set up the project for REUSE compliance.
 - `lint` --- Verify the project for REUSE compliance.
+- `lint-file` --- Verify REUSE compliance of individual files.
 - `spdx` --- Generate an SPDX Document of all files in the project.
 - `supported-licenses` --- Prints all licenses supported by REUSE.
+- `convert-dep5` --- Convert .reuse/dep5 to REUSE.toml.
 
 ### Example demo
 
