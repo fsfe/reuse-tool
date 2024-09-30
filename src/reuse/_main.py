@@ -173,11 +173,18 @@ def parser() -> argparse.ArgumentParser:
                 "- Are there any bad (unrecognised, not compliant with SPDX)"
                 " licenses in the project?\n"
                 "\n"
+                "- Are there any deprecated licenses in the project?\n"
+                "\n"
+                "- Are there any license files in the LICENSES/ directory"
+                " without file extension?\n"
+                "\n"
                 "- Are any licenses referred to inside of the project, but"
                 " not included in the LICENSES/ directory?\n"
                 "\n"
                 "- Are any licenses included in the LICENSES/ directory that"
                 " are not used inside of the project?\n"
+                "\n"
+                "- Are there any read errors?\n"
                 "\n"
                 "- Do all files have valid copyright and licensing"
                 " information?"
@@ -190,6 +197,14 @@ def parser() -> argparse.ArgumentParser:
         "lint-file",
         _lint_file.add_arguments,
         _lint_file.run,
+        description=fill_all(
+            _(
+                "Lint individual files. The specified files are checked for"
+                " the presence of copyright and licensing information, and"
+                " whether  the found licenses are included in the LICENSES/"
+                " directory."
+            )
+        ),
         help=_("list non-compliant files from specified list of files"),
     )
 
@@ -198,6 +213,9 @@ def parser() -> argparse.ArgumentParser:
         "spdx",
         spdx.add_arguments,
         spdx.run,
+        description=fill_all(
+            _("Generate an SPDX bill of materials in RDF format.")
+        ),
         help=_("print the project's bill of materials in SPDX format"),
     )
 
@@ -206,6 +224,9 @@ def parser() -> argparse.ArgumentParser:
         "supported-licenses",
         supported_licenses.add_arguments,
         supported_licenses.run,
+        description=fill_all(
+            _("List all non-deprecated SPDX licenses from the official list.")
+        ),
         help=_("list all supported SPDX licenses"),
         aliases=["supported-licences"],
     )
@@ -215,6 +236,13 @@ def parser() -> argparse.ArgumentParser:
         "convert-dep5",
         convert_dep5.add_arguments,
         convert_dep5.run,
+        description=fill_all(
+            _(
+                "Convert .reuse/dep5 into a REUSE.toml file in your project"
+                " root. The generated file is semantically identical. The"
+                " .reuse/dep5 file is subsequently deleted."
+            )
+        ),
         help=_("convert .reuse/dep5 to REUSE.toml"),
     )
 
