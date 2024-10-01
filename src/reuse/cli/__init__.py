@@ -2,4 +2,4 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from . import convert_dep5, main, spdx
+from . import convert_dep5, main, spdx, supported_licenses
