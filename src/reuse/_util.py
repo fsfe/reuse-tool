@@ -633,6 +633,7 @@ def print_incorrect_spdx_identifier(
             "SPDX License Identifiers."
         )
     )
+    out.write("\n")
 
 
 def detect_line_endings(text: str) -> str:
