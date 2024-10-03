@@ -259,6 +259,7 @@ def _contains_snippet(binary_file: BinaryIO) -> bool:
     return False
 
 
+# FIXME: move to comment.py
 def _get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
     """Return value of CommentStyle detected for *path* or None."""
     path = Path(path)

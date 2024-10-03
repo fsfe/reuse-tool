@@ -8,7 +8,10 @@ from dataclasses import dataclass
 from typing import Any, Mapping, Optional
 
 import click
+from boolean.boolean import Expression, ParseError
+from license_expression import ExpressionError
 
+from .._util import _LICENSING
 from ..i18n import _
 from ..project import Project
 
@@ -57,3 +60,13 @@ class MutexOption(click.Option):
                 )
             )
         return super().handle_parse_result(ctx, opts, args)
+
+
+def spdx_identifier(text: str) -> Expression:
+    """factory for creating SPDX expressions."""
+    try:
+        return _LICENSING.parse(text)
+    except (ExpressionError, ParseError) as error:
+        raise click.UsageError(
+            _("'{}' is not a valid SPDX expression.").format(text)
+        ) from error

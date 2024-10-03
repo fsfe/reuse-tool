@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from . import (
+    annotate,
     convert_dep5,
     download,
     lint,
