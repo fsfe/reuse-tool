@@ -23,6 +23,10 @@ jobs:
           # exception to the branch protection, so we'll use that account's
           # token to push to the main branch.
           token: ${{ secrets.FSFE_SYSTEM_TOKEN }}
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
       - name: Install gettext and wlc
         run: sudo apt-get install -y gettext wlc
       # We mostly install reuse to install the click dependency.
