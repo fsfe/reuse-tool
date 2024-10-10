@@ -10,13 +10,13 @@ the reports and printing some conclusions.
 """
 
 import json
-from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
 from typing import Any, Optional
 
 from . import __REUSE_version__
+from .i18n import _
 from .report import ProjectReport, ProjectReportSubsetProtocol
 
 

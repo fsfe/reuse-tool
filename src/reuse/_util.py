@@ -20,7 +20,6 @@ import re
 import shutil
 import subprocess
 from collections import Counter
-from gettext import gettext as _
 from hashlib import sha1
 from inspect import cleandoc
 from itertools import chain
@@ -39,6 +38,7 @@ from .comment import (
     UncommentableCommentStyle,
     _all_style_classes,
 )
+from .i18n import _
 
 StrPath = Union[str, PathLike[str]]
 

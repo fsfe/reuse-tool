@@ -16,7 +16,6 @@ import datetime
 import logging
 import multiprocessing as mp
 import random
-from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
 from os import cpu_count
@@ -35,6 +34,7 @@ from uuid import uuid4
 from . import __REUSE_version__, __version__
 from ._util import _LICENSEREF_PATTERN, _LICENSING, StrPath, _checksum
 from .global_licensing import ReuseDep5
+from .i18n import _
 from .project import Project, ReuseInfo
 
 _LOGGER = logging.getLogger(__name__)

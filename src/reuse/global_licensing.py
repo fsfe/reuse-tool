@@ -11,7 +11,6 @@ import re
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from enum import Enum
-from gettext import gettext as _
 from pathlib import Path, PurePath
 from typing import (
     Any,
@@ -37,6 +36,7 @@ from license_expression import ExpressionError
 from . import ReuseException, ReuseInfo, SourceType
 from ._util import _LICENSING, StrPath
 from .covered_files import iter_files
+from .i18n import _
 from .vcs import VCSStrategy
 
 _LOGGER = logging.getLogger(__name__)

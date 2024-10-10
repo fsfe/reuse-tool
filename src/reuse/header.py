@@ -16,7 +16,6 @@
 
 import logging
 import re
-from gettext import gettext as _
 from typing import NamedTuple, Optional, Sequence, Type, cast
 
 from boolean.boolean import ParseError
@@ -36,6 +35,7 @@ from .comment import (
     EmptyCommentStyle,
     PythonCommentStyle,
 )
+from .i18n import _
 
 _LOGGER = logging.getLogger(__name__)
 

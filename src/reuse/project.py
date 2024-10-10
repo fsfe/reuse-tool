@@ -15,7 +15,6 @@ import logging
 import os
 import warnings
 from collections import defaultdict
-from gettext import gettext as _
 from pathlib import Path
 from typing import Collection, Iterator, NamedTuple, Optional, Type
 
@@ -39,6 +38,7 @@ from .global_licensing import (
     ReuseDep5,
     ReuseTOML,
 )
+from .i18n import _
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
 _LOGGER = logging.getLogger(__name__)

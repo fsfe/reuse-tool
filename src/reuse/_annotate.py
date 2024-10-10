@@ -17,7 +17,6 @@
 
 import logging
 import sys
-from gettext import gettext as _
 from typing import IO, Optional, Type, cast
 
 from jinja2 import Environment, FileSystemLoader, Template
@@ -38,6 +37,7 @@ from .comment import (
     EmptyCommentStyle,
 )
 from .header import MissingReuseInfo, add_new_header, find_and_replace_header
+from .i18n import _
 from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
