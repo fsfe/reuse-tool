@@ -99,8 +99,7 @@ pyls-isort = "*"
 python-lsp-black = "*"
 
 [tool.poetry.scripts]
-reuse = 'reuse._main:main'
-reuse2 = "reuse.cli.main:main"
+reuse = "reuse.cli.main:main"
 
 [tool.poetry.build]
 generate-setup-file = false

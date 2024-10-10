@@ -11,14 +11,11 @@
 """Tests for reuse._util"""
 
 import os
-from argparse import ArgumentTypeError
 from inspect import cleandoc
 from io import BytesIO
-from pathlib import Path
 
 import pytest
 from boolean.boolean import ParseError
-from conftest import no_root, posix
 
 from reuse import _util
 from reuse._util import _LICENSING
@@ -489,138 +486,6 @@ def test_make_copyright_line_multine_error():
         _util.make_copyright_line("hello\nworld")
 
 
-# pylint: disable=unused-argument
-
-
-def test_pathtype_read_simple(fake_repository):
-    """Get a Path to a readable file."""
-    result = _util.PathType("r")("src/source_code.py")
-
-    assert result == Path("src/source_code.py")
-
-
-def test_pathtype_read_directory(fake_repository):
-    """Get a Path to a readable directory."""
-    result = _util.PathType("r")("src")
-
-    assert result == Path("src")
-
-
-def test_pathtype_read_directory_force_file(fake_repository):
-    """Cannot read a directory when a file is forced."""
-    with pytest.raises(ArgumentTypeError):
-        _util.PathType("r", force_file=True)("src")
-
-
-@no_root
-@posix
-def test_pathtype_read_not_readable(fake_repository):
-    """Cannot read a nonreadable file."""
-    try:
-        os.chmod("src/source_code.py", 0o000)
-
-        with pytest.raises(ArgumentTypeError):
-            _util.PathType("r")("src/source_code.py")
-    finally:
-        os.chmod("src/source_code.py", 0o777)
-
-
-def test_pathtype_read_not_exists(empty_directory):
-    """Cannot read a file that does not exist."""
-    with pytest.raises(ArgumentTypeError):
-        _util.PathType("r")("foo.py")
-
-
-def test_pathtype_read_write_not_exists(empty_directory):
-    """Cannot read/write a file that does not exist."""
-    with pytest.raises(ArgumentTypeError):
-        _util.PathType("r+")("foo.py")
-
-
-@no_root
-@posix
-def test_pathtype_read_write_only_write(empty_directory):
-    """A write-only file loaded with read/write needs both permissions."""
-    path = Path("foo.py")
-    path.touch()
-
-    try:
-        path.chmod(0o222)
-
-        with pytest.raises(ArgumentTypeError):
-            _util.PathType("r+")("foo.py")
-    finally:
-        path.chmod(0o777)
-
-
-@no_root
-@posix
-def test_pathtype_read_write_only_read(empty_directory):
-    """A read-only file loaded with read/write needs both permissions."""
-    path = Path("foo.py")
-    path.touch()
-
-    try:
-        path.chmod(0o444)
-
-        with pytest.raises(ArgumentTypeError):
-            _util.PathType("r+")("foo.py")
-    finally:
-        path.chmod(0o777)
-
-
-def test_pathtype_write_not_exists(empty_directory):
-    """Get a Path for a file that does not exist."""
-    result = _util.PathType("w")("foo.py")
-
-    assert result == Path("foo.py")
-
-
-def test_pathtype_write_exists(fake_repository):
-    """Get a Path for a file that exists."""
-    result = _util.PathType("w")("src/source_code.py")
-
-    assert result == Path("src/source_code.py")
-
-
-def test_pathtype_write_directory(fake_repository):
-    """Cannot write to directory."""
-    with pytest.raises(ArgumentTypeError):
-        _util.PathType("w")("src")
-
-
-@no_root
-@posix
-def test_pathtype_write_exists_but_not_writeable(fake_repository):
-    """Cannot get Path of file that exists but isn't writeable."""
-    os.chmod("src/source_code.py", 0o000)
-
-    with pytest.raises(ArgumentTypeError):
-        _util.PathType("w")("src/source_code.py")
-
-    os.chmod("src/source_code.py", 0o777)
-
-
-@no_root
-@posix
-def test_pathtype_write_not_exist_but_directory_not_writeable(fake_repository):
-    """Cannot get Path of file that does not exist but directory isn't
-    writeable.
-    """
-    os.chmod("src", 0o000)
-
-    with pytest.raises(ArgumentTypeError):
-        _util.PathType("w")("src/foo.py")
-
-    os.chmod("src", 0o777)
-
-
-def test_pathtype_invalid_mode(empty_directory):
-    """Only valid modes are 'r' and 'w'."""
-    with pytest.raises(ValueError):
-        _util.PathType("o")
-
-
 def test_decoded_text_from_binary_simple():
     """A unicode string encoded as bytes object decodes back correctly."""
     text = "Hello, world ☺"
@@ -640,22 +505,6 @@ def test_decoded_text_from_binary_crlf():
     text = "Hello\r\nworld"
     encoded = text.encode("utf-8")
     assert _util.decoded_text_from_binary(BytesIO(encoded)) == "Hello\nworld"
-
-
-def test_similar_spdx_identifiers_typo():
-    """Given a misspelt SPDX License Identifier, suggest a better one."""
-    result = _util.similar_spdx_identifiers("GPL-3.0-or-lter")
-
-    assert "GPL-3.0-or-later" in result
-    assert "AGPL-3.0-or-later" in result
-    assert "LGPL-3.0-or-later" in result
-
-
-def test_similar_spdx_identifiers_prefix():
-    """Given an incomplete SPDX License Identifier, suggest a better one."""
-    result = _util.similar_spdx_identifiers("CC0")
-
-    assert "CC0-1.0" in result
 
 
 def test_detect_line_endings_windows():

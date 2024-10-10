@@ -19,10 +19,7 @@ import os
 import re
 import shutil
 import subprocess
-import sys
-from argparse import ArgumentTypeError
 from collections import Counter
-from difflib import SequenceMatcher
 from gettext import gettext as _
 from hashlib import sha1
 from inspect import cleandoc
@@ -31,11 +28,10 @@ from os import PathLike
 from pathlib import Path
 from typing import IO, Any, BinaryIO, Iterator, Optional, Type, Union, cast
 
-from boolean.boolean import Expression, ParseError
+from boolean.boolean import ParseError
 from license_expression import ExpressionError, Licensing
 
 from . import ReuseInfo, SourceType
-from ._licenses import ALL_NON_DEPRECATED_MAP
 from .comment import (
     EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
     FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
@@ -523,118 +519,6 @@ def _checksum(path: StrPath) -> str:
             file_sha1.update(chunk)
 
     return file_sha1.hexdigest()
-
-
-class PathType:
-    """Factory for creating Paths"""
-
-    def __init__(
-        self,
-        mode: str = "r",
-        force_file: bool = False,
-        force_directory: bool = False,
-    ):
-        if mode in ("r", "r+", "w"):
-            self._mode = mode
-        else:
-            raise ValueError(f"mode='{mode}' is not valid")
-        self._force_file = force_file
-        self._force_directory = force_directory
-        if self._force_file and self._force_directory:
-            raise ValueError(
-                "'force_file' and 'force_directory' cannot both be True"
-            )
-
-    def _check_read(self, path: Path) -> None:
-        if path.exists() and os.access(path, os.R_OK):
-            if self._force_file and not path.is_file():
-                raise ArgumentTypeError(_("'{}' is not a file").format(path))
-            if self._force_directory and not path.is_dir():
-                raise ArgumentTypeError(
-                    _("'{}' is not a directory").format(path)
-                )
-            return
-        raise ArgumentTypeError(_("can't open '{}'").format(path))
-
-    def _check_write(self, path: Path) -> None:
-        if path.is_dir():
-            raise ArgumentTypeError(
-                _("can't write to directory '{}'").format(path)
-            )
-        if path.exists() and os.access(path, os.W_OK):
-            return
-        if not path.exists() and os.access(path.parent, os.W_OK):
-            return
-        raise ArgumentTypeError(_("can't write to '{}'").format(path))
-
-    def __call__(self, string: str) -> Path:
-        path = Path(string)
-
-        try:
-            if self._mode in ("r", "r+"):
-                self._check_read(path)
-            if self._mode in ("w", "r+"):
-                self._check_write(path)
-            return path
-        except OSError as error:
-            raise ArgumentTypeError(
-                _("can't read or write '{}'").format(path)
-            ) from error
-
-
-def spdx_identifier(text: str) -> Expression:
-    """argparse factory for creating SPDX expressions."""
-    try:
-        return _LICENSING.parse(text)
-    except (ExpressionError, ParseError) as error:
-        raise ArgumentTypeError(
-            _("'{}' is not a valid SPDX expression, aborting").format(text)
-        ) from error
-
-
-def similar_spdx_identifiers(identifier: str) -> list[str]:
-    """Given an incorrect SPDX identifier, return a list of similar ones."""
-    suggestions: list[str] = []
-    if identifier in ALL_NON_DEPRECATED_MAP:
-        return suggestions
-
-    for valid_identifier in ALL_NON_DEPRECATED_MAP:
-        distance = SequenceMatcher(
-            a=identifier.lower(), b=valid_identifier[: len(identifier)].lower()
-        ).ratio()
-        if distance > 0.75:
-            suggestions.append(valid_identifier)
-    suggestions = sorted(suggestions)
-
-    return suggestions
-
-
-def print_incorrect_spdx_identifier(
-    identifier: str, out: IO[str] = sys.stdout
-) -> None:
-    """Print out that *identifier* is not valid, and follow up with some
-    suggestions.
-    """
-    out.write(
-        _("'{}' is not a valid SPDX License Identifier.").format(identifier)
-    )
-    out.write("\n")
-
-    suggestions = similar_spdx_identifiers(identifier)
-    if suggestions:
-        out.write("\n")
-        out.write(_("Did you mean:"))
-        out.write("\n")
-        for suggestion in suggestions:
-            out.write(f"* {suggestion}\n")
-        out.write("\n")
-    out.write(
-        _(
-            "See <https://spdx.org/licenses/> for a list of valid "
-            "SPDX License Identifiers."
-        )
-    )
-    out.write("\n")
 
 
 def detect_line_endings(text: str) -> str:
