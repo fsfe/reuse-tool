@@ -11,7 +11,7 @@ import os
 import shutil
 import urllib.request
 from pathlib import Path
-from typing import Optional, cast
+from typing import Optional
 from urllib.error import URLError
 from urllib.parse import urljoin
 
@@ -53,8 +53,10 @@ def download_license(spdx_identifier: str) -> str:
 def _path_to_license_file(spdx_identifier: str, project: Project) -> Path:
     root: Optional[Path] = project.root
     # Hack
-    if cast(Path, root).name == "LICENSES" and isinstance(
-        project.vcs_strategy, VCSStrategyNone
+    if (
+        root
+        and root.name == "LICENSES"
+        and isinstance(project.vcs_strategy, VCSStrategyNone)
     ):
         root = None
 
