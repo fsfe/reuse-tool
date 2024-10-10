@@ -18,7 +18,7 @@ from ..i18n import _
 from ..lint import format_json, format_lines, format_plain
 from ..project import Project
 from ..report import ProjectReport
-from .common import ClickObj, MutexOption
+from .common import ClickObj, MutexOption, requires_project
 from .main import main
 
 _OUTPUT_MUTEX = ["quiet", "json", "plain", "lines"]
@@ -61,6 +61,7 @@ _HELP = (
 )
 
 
+@requires_project
 @main.command(name="lint", help=_HELP)
 @click.option(
     "--quiet",
@@ -98,6 +99,7 @@ _HELP = (
 def lint(
     obj: ClickObj, quiet: bool, json: bool, plain: bool, lines: bool
 ) -> None:
+    # pylint: disable=missing-function-docstring
     report = ProjectReport.generate(
         cast(Project, obj.project),
         do_checksum=False,

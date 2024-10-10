@@ -44,7 +44,7 @@ from ..comment import (
 )
 from ..i18n import _
 from ..project import Project
-from .common import ClickObj, MutexOption, spdx_identifier
+from .common import ClickObj, MutexOption, requires_project, spdx_identifier
 from .main import main
 
 _LOGGER = logging.getLogger(__name__)
@@ -284,6 +284,7 @@ _HELP = (
 )
 
 
+@requires_project
 @main.command(name="annotate", help=_HELP)
 @click.option(
     "--copyright",
@@ -323,7 +324,7 @@ _HELP = (
     "--style",
     "-s",
     cls=MutexOption,
-    mutually_exclusive=["skip_unrecognised"],  # FIXME: test
+    mutually_exclusive=["skip_unrecognised"],
     type=click.Choice(list(NAME_STYLE_MAP)),
     help=_("Comment style to use."),
 )
@@ -359,8 +360,6 @@ _HELP = (
 @click.option(
     "--single-line",
     cls=MutexOption,
-    # FIXME: This results in an ugly error message that shows 'multi_line'
-    # instead of '--multi-line'.
     mutually_exclusive=_LINE_MUTEX,
     is_flag=True,
     help=_("Force single-line comment style."),
@@ -407,7 +406,6 @@ _HELP = (
 @click.option(
     "--skip-unrecognized",
     "skip_unrecognised",
-    # FIXME: test if mutex is applied.
     is_flag=True,
     hidden=True,
 )
@@ -444,6 +442,7 @@ def annotate(
     skip_existing: bool,
     paths: Sequence[Path],
 ) -> None:
+    # pylint: disable=too-many-arguments,too-many-locals,missing-function-docstring
     project = cast(Project, obj.project)
 
     test_mandatory_option_required(copyrights, licenses, contributors)

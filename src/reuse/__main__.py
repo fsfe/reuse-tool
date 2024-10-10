@@ -4,9 +4,8 @@
 
 """Entry module for reuse."""
 
-import sys
-
 if __name__ == "__main__":
-    from ._main import main
+    from .cli.main import main
 
-    sys.exit(main())
+    # pylint: disable=no-value-for-parameter
+    main()

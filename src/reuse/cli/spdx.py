@@ -7,16 +7,16 @@
 
 import contextlib
 import logging
-from typing import Optional, cast
 import sys
+from typing import Optional, cast
 
 import click
 
-from ..project import Project
 from .. import _IGNORE_SPDX_PATTERNS
-from ..report import ProjectReport
 from ..i18n import _
-from .common import ClickObj
+from ..project import Project
+from ..report import ProjectReport
+from .common import ClickObj, requires_project
 from .main import main
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,6 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 _HELP = _("Generate an SPDX bill of materials.")
 
 
+@requires_project
 @main.command(name="spdx", help=_HELP)
 @click.option(
     "--output",
@@ -68,6 +69,8 @@ def spdx(
     creator_person: Optional[str],
     creator_organization: Optional[str],
 ) -> None:
+    # pylint: disable=missing-function-docstring
+
     # The SPDX spec mandates that a creator must be specified when a license
     # conclusion is made, so here we enforce that. More context:
     # https://github.com/fsfe/reuse-tool/issues/586#issuecomment-1310425706

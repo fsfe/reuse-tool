@@ -15,6 +15,8 @@ from freezegun import freeze_time
 
 from reuse.cli.main import main
 
+# pylint: disable=unused-argument
+
 
 class TestSpdx:
     """Tests for spdx."""

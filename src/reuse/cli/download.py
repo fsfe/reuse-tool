@@ -20,7 +20,7 @@ from ..i18n import _
 from ..project import Project
 from ..report import ProjectReport
 from ..types import StrPath
-from .common import ClickObj, MutexOption
+from .common import ClickObj, MutexOption, requires_project
 from .main import main
 
 _LOGGER = logging.getLogger(__name__)
@@ -113,6 +113,7 @@ _HELP = (
 )
 
 
+@requires_project
 @main.command(name="download", help=_HELP)
 @click.option(
     "--all",
@@ -152,7 +153,7 @@ def download(
     output: Optional[Path],
     source: Optional[Path],
 ) -> None:
-
+    # pylint: disable=missing-function-docstring
     if all_ and license_:
         raise click.UsageError(
             _(

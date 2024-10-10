@@ -17,7 +17,7 @@ from ..i18n import _
 from ..lint import format_lines_subset
 from ..project import Project
 from ..report import ProjectSubsetReport
-from .common import ClickObj, MutexOption
+from .common import ClickObj, MutexOption, requires_project
 from .main import main
 
 _OUTPUT_MUTEX = ["quiet", "lines"]
@@ -29,6 +29,7 @@ _HELP = _(
 )
 
 
+@requires_project
 @main.command(name="lint-file", help=_HELP)
 @click.option(
     "--quiet",
@@ -56,6 +57,7 @@ _HELP = _(
 def lint_file(
     obj: ClickObj, quiet: bool, lines: bool, files: Collection[Path]
 ) -> None:
+    # pylint: disable=missing-function-docstring
     project = cast(Project, obj.project)
     subset_files = {Path(file_) for file_ in files}
     for file_ in subset_files:

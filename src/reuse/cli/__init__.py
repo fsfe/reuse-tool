@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+"""All command-line functionality."""
+
 from . import (
     annotate,
     convert_dep5,

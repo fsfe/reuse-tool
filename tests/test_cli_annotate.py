@@ -621,7 +621,12 @@ class TestAnnotate:
         assert result.exit_code == 0
         assert "Skipped unrecognised file 'foo.foo'" in result.output
 
-    def test_skip_unrecognised_and_style_mutex(self, fake_repository):
+    @pytest.mark.parametrize(
+        "skip_unrecognised", ["--skip-unrecognised", "--skip-unrecognized"]
+    )
+    def test_skip_unrecognised_and_style_mutex(
+        self, fake_repository, skip_unrecognised
+    ):
         """--skip-unrecognised and --style are mutually exclusive."""
         simple_file = fake_repository / "foo.foo"
         simple_file.write_text("pass")
@@ -635,7 +640,7 @@ class TestAnnotate:
                 "--copyright",
                 "Jane Doe",
                 "--style=c",
-                "--skip-unrecognised",
+                skip_unrecognised,
                 "foo.foo",
             ],
         )

@@ -17,6 +17,7 @@ _HELP = _("List all licenses on the SPDX License List.")
 
 @main.command(name="supported-licenses", help=_HELP)
 def supported_licenses() -> None:
+    # pylint: disable=missing-function-docstring
     licenses = _load_license_list(_LICENSES)[1]
 
     for license_id, license_info in licenses.items():

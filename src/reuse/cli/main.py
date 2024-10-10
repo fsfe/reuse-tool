@@ -74,7 +74,8 @@ _HELP = (
     + "\n\n"
     + _("Support the FSFE's work:")
     + "\n\n"
-    # FIXME: Indent this.
+    # Indent next paragraph.
+    + "   "
     + _(
         "Donations are critical to our strength and autonomy. They enable us"
         " to continue working for Free Software wherever necessary. Please"
@@ -133,6 +134,7 @@ def main(
     no_multiprocessing: bool,
     root: Optional[Path],
 ) -> None:
+    # pylint: disable=missing-function-docstring,too-many-arguments
     setup_logging(level=logging.DEBUG if debug else logging.WARNING)
 
     # Very stupid workaround to not print a DEP5 deprecation warning in the
@@ -143,29 +145,31 @@ def main(
     if not suppress_deprecation:
         warnings.filterwarnings("default", module="reuse")
 
-    # FIXME: Not needed for all subcommands.
-    if root is None:
-        root = find_root()
-    if root is None:
-        root = Path.cwd()
+    project: Optional[Project] = None
+    if ctx.invoked_subcommand:
+        cmd = main.get_command(ctx, ctx.invoked_subcommand)
+        if getattr(cmd, "requires_project", False):
+            if root is None:
+                root = find_root()
+            if root is None:
+                root = Path.cwd()
 
-    # FIXME: Not needed for all subcommands.
-    try:
-        project = Project.from_directory(root)
-    # FileNotFoundError and NotADirectoryError don't need to be caught because
-    # argparse already made sure of these things.
-    except GlobalLicensingParseError as error:
-        raise click.UsageError(
-            _(
-                "'{path}' could not be parsed. We received the following error"
-                " message: {message}"
-            ).format(path=error.source, message=str(error))
-        ) from error
+            try:
+                project = Project.from_directory(root)
+            # FileNotFoundError and NotADirectoryError don't need to be caught
+            # because argparse already made sure of these things.
+            except GlobalLicensingParseError as error:
+                raise click.UsageError(
+                    _(
+                        "'{path}' could not be parsed. We received the"
+                        " following error message: {message}"
+                    ).format(path=error.source, message=str(error))
+                ) from error
 
-    except (GlobalLicensingConflict, OSError) as error:
-        raise click.UsageError(str(error)) from error
-    project.include_submodules = include_submodules
-    project.include_meson_subprojects = include_meson_subprojects
+            except (GlobalLicensingConflict, OSError) as error:
+                raise click.UsageError(str(error)) from error
+            project.include_submodules = include_submodules
+            project.include_meson_subprojects = include_meson_subprojects
 
     ctx.obj = ClickObj(
         no_multiprocessing=no_multiprocessing,

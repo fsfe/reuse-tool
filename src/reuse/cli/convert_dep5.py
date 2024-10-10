@@ -13,7 +13,7 @@ from ..convert_dep5 import toml_from_dep5
 from ..global_licensing import ReuseDep5
 from ..i18n import _
 from ..project import Project
-from .common import ClickObj
+from .common import ClickObj, requires_project
 from .main import main
 
 _HELP = _(
@@ -23,9 +23,11 @@ _HELP = _(
 )
 
 
+@requires_project
 @main.command(name="convert-dep5", help=_HELP)
 @click.pass_obj
 def convert_dep5(obj: ClickObj) -> None:
+    # pylint: disable=missing-function-docstring
     project = cast(Project, obj.project)
     if not (project.root / ".reuse/dep5").exists():
         raise click.UsageError(_("no '.reuse/dep5' file"))

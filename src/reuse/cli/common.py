@@ -5,7 +5,7 @@
 """Utilities that are common to multiple CLI commands."""
 
 from dataclasses import dataclass
-from typing import Any, Mapping, Optional
+from typing import Any, Callable, Mapping, Optional, TypeVar
 
 import click
 from boolean.boolean import Expression, ParseError
@@ -14,6 +14,16 @@ from license_expression import ExpressionError
 from .._util import _LICENSING
 from ..i18n import _
 from ..project import Project
+
+F = TypeVar("F", bound=Callable)
+
+
+def requires_project(f: F) -> F:
+    """A decorator to mark subcommands that require a :class:`Project` object.
+    Make sure to apply this decorator _first_.
+    """
+    setattr(f, "requires_project", True)
+    return f
 
 
 @dataclass(frozen=True)

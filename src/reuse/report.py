@@ -143,8 +143,8 @@ def _generate_file_reports(
 
 def _process_error(error: Exception, path: StrPath) -> None:
     # Facilitate better debugging by being able to quit the program.
-    if isinstance(error, bdb.BdbQuit):
-        raise bdb.BdbQuit() from error
+    if isinstance(error, (bdb.BdbQuit, KeyboardInterrupt)):
+        raise error
     if isinstance(error, (OSError, UnicodeError)):
         _LOGGER.error(
             _("Could not read '{path}'").format(path=path),

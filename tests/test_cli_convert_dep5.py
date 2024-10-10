@@ -11,6 +11,8 @@ from click.testing import CliRunner
 from reuse._util import cleandoc_nl
 from reuse.cli.main import main
 
+# pylint: disable=unused-argument
+
 
 class TestConvertDep5:
     """Tests for convert-dep5."""
