@@ -24,9 +24,7 @@ from jinja2.exceptions import TemplateNotFound
 
 from . import ReuseInfo
 from ._util import (
-    StrPath,
     _determine_license_suffix_path,
-    _get_comment_style,
     contains_reuse_info,
     detect_line_endings,
 )
@@ -35,10 +33,12 @@ from .comment import (
     CommentCreateError,
     CommentStyle,
     EmptyCommentStyle,
+    get_comment_style,
 )
 from .header import MissingReuseInfo, add_new_header, find_and_replace_header
 from .i18n import _
 from .project import Project
+from .types import StrPath
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -89,7 +89,7 @@ def add_header_to_file(
         cast(str, style)
     )
     if comment_style is None:
-        comment_style = _get_comment_style(path)
+        comment_style = get_comment_style(path)
     if comment_style is None:
         if skip_unrecognised:
             out.write(_("Skipped unrecognised file '{path}'").format(path=path))

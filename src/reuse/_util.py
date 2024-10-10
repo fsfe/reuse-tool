@@ -23,24 +23,16 @@ from collections import Counter
 from hashlib import sha1
 from inspect import cleandoc
 from itertools import chain
-from os import PathLike
 from pathlib import Path
-from typing import IO, Any, BinaryIO, Iterator, Optional, Type, Union, cast
+from typing import IO, Any, BinaryIO, Iterator, Optional, Union
 
 from boolean.boolean import ParseError
 from license_expression import ExpressionError, Licensing
 
 from . import ReuseInfo, SourceType
-from .comment import (
-    EXTENSION_COMMENT_STYLE_MAP_LOWERCASE,
-    FILENAME_COMMENT_STYLE_MAP_LOWERCASE,
-    CommentStyle,
-    UncommentableCommentStyle,
-    _all_style_classes,
-)
+from .comment import _all_style_classes  # TODO: This import is not ideal here.
 from .i18n import _
-
-StrPath = Union[str, PathLike[str]]
+from .types import StrPath
 
 GIT_EXE = shutil.which("git")
 HG_EXE = shutil.which("hg")
@@ -253,29 +245,6 @@ def _contains_snippet(binary_file: BinaryIO) -> bool:
     if SPDX_SNIPPET_INDICATOR in content:
         return True
     return False
-
-
-# FIXME: move to comment.py
-def _get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
-    """Return value of CommentStyle detected for *path* or None."""
-    path = Path(path)
-    style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
-    if style is None:
-        style = cast(
-            Optional[Type[CommentStyle]],
-            EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower()),
-        )
-    return style
-
-
-def _is_uncommentable(path: Path) -> bool:
-    """*path*'s extension has the UncommentableCommentStyle."""
-    return _get_comment_style(path) == UncommentableCommentStyle
-
-
-def _has_style(path: Path) -> bool:
-    """*path*'s extension has a CommentStyle."""
-    return _get_comment_style(path) is not None
 
 
 def merge_copyright_lines(copyright_lines: set[str]) -> set[str]:

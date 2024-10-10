@@ -33,12 +33,15 @@ from .._util import (
     _COPYRIGHT_PREFIXES,
     _determine_license_path,
     _determine_license_suffix_path,
-    _get_comment_style,
-    _has_style,
-    _is_uncommentable,
     make_copyright_line,
 )
-from ..comment import NAME_STYLE_MAP, CommentStyle
+from ..comment import (
+    NAME_STYLE_MAP,
+    CommentStyle,
+    get_comment_style,
+    has_style,
+    is_uncommentable,
+)
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
@@ -110,7 +113,7 @@ def verify_paths_comment_style(
         unrecognised_files: set[Path] = set()
 
         for path in paths:
-            if not _has_style(path):
+            if not has_style(path):
                 unrecognised_files.add(path)
 
         if unrecognised_files:
@@ -140,7 +143,7 @@ def verify_paths_line_handling(
         if forced_style is not None:
             style = NAME_STYLE_MAP.get(forced_style)
         if style is None:
-            style = _get_comment_style(path)
+            style = get_comment_style(path)
         # This shouldn't happen because of prior tests, so let's not bother with
         # this case.
         if style is None:
@@ -255,9 +258,14 @@ def get_reuse_info(
         contributor_lines=set(contributors),
     )
 
+
 _YEAR_MUTEX = ["years", "exclude_year"]
 _LINE_MUTEX = ["single_line", "multi_line"]
-_STYLE_MUTEX = ["force_dot_license", "fallback_dot_license", "skip_unrecognised"]
+_STYLE_MUTEX = [
+    "force_dot_license",
+    "fallback_dot_license",
+    "skip_unrecognised",
+]
 
 _HELP = (
     _("Add copyright and licensing into the header of one or more" " files.")
@@ -454,7 +462,7 @@ def annotate(
     result = 0
     for path in paths:
         binary = is_binary(str(path))
-        if binary or _is_uncommentable(path) or force_dot_license:
+        if binary or is_uncommentable(path) or force_dot_license:
             new_path = _determine_license_suffix_path(path)
             if binary:
                 _LOGGER.info(

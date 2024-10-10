@@ -15,11 +15,11 @@ from urllib.error import URLError
 import click
 
 from .._licenses import ALL_NON_DEPRECATED_MAP
-from .._util import StrPath
 from ..download import _path_to_license_file, put_license_in_file
 from ..i18n import _
 from ..project import Project
 from ..report import ProjectReport
+from ..types import StrPath
 from .common import ClickObj, MutexOption
 from .main import main
 

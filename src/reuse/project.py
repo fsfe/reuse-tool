@@ -25,7 +25,6 @@ from . import IdentifierNotFound, ReuseInfo
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _LICENSEREF_PATTERN,
-    StrPath,
     _determine_license_path,
     relative_from_root,
     reuse_info_of_file,
@@ -39,6 +38,7 @@ from .global_licensing import (
     ReuseTOML,
 )
 from .i18n import _
+from .types import StrPath
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
 _LOGGER = logging.getLogger(__name__)

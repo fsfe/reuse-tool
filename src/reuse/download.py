@@ -15,8 +15,9 @@ from typing import Optional, cast
 from urllib.error import URLError
 from urllib.parse import urljoin
 
-from ._util import _LICENSEREF_PATTERN, StrPath, find_licenses_directory
+from ._util import _LICENSEREF_PATTERN, find_licenses_directory
 from .project import Project
+from .types import StrPath
 from .vcs import VCSStrategyNone
 
 _LOGGER = logging.getLogger(__name__)

@@ -34,9 +34,10 @@ from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
 from . import ReuseException, ReuseInfo, SourceType
-from ._util import _LICENSING, StrPath
+from ._util import _LICENSING
 from .covered_files import iter_files
 from .i18n import _
+from .types import StrPath
 from .vcs import VCSStrategy
 
 _LOGGER = logging.getLogger(__name__)

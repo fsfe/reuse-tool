@@ -19,7 +19,7 @@ from . import (
     _IGNORE_FILE_PATTERNS,
     _IGNORE_MESON_PARENT_DIR_PATTERNS,
 )
-from ._util import StrPath
+from .types import StrPath
 from .vcs import VCSStrategy
 
 _LOGGER = logging.getLogger(__name__)

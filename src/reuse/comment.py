@@ -28,8 +28,11 @@ headers, in any case.
 import logging
 import operator
 import re
+from pathlib import Path
 from textwrap import dedent
-from typing import NamedTuple, Optional, Type
+from typing import NamedTuple, Optional, Type, cast
+
+from .types import StrPath
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -923,3 +926,25 @@ _result.remove(UncommentableCommentStyle)
 
 #: A map of human-friendly names against style classes.
 NAME_STYLE_MAP = {style.SHORTHAND: style for style in _result}
+
+
+def get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
+    """Return value of CommentStyle detected for *path* or None."""
+    path = Path(path)
+    style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
+    if style is None:
+        style = cast(
+            Optional[Type[CommentStyle]],
+            EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower()),
+        )
+    return style
+
+
+def is_uncommentable(path: Path) -> bool:
+    """*path*'s extension has the UncommentableCommentStyle."""
+    return get_comment_style(path) == UncommentableCommentStyle
+
+
+def has_style(path: Path) -> bool:
+    """*path*'s extension has a CommentStyle."""
+    return get_comment_style(path) is not None
