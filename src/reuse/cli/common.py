@@ -106,7 +106,7 @@ class MutexOption(click.Option):
 
 
 def spdx_identifier(text: str) -> Expression:
-    """factory for creating SPDX expressions."""
+    """Factory for creating SPDX expressions."""
     try:
         return _LICENSING.parse(text)
     except (ExpressionError, ParseError) as error:
