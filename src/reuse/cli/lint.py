@@ -10,16 +10,14 @@
 """Click code for lint subcommand."""
 
 import sys
-from typing import cast
 
 import click
 
 from .. import __REUSE_version__
 from ..i18n import _
 from ..lint import format_json, format_lines, format_plain
-from ..project import Project
 from ..report import ProjectReport
-from .common import ClickObj, MutexOption, requires_project
+from .common import ClickObj, MutexOption
 from .main import main
 
 _OUTPUT_MUTEX = ["quiet", "json", "plain", "lines"]
@@ -62,7 +60,6 @@ _HELP = (
 )
 
 
-@requires_project
 @main.command(name="lint", help=_HELP)
 @click.option(
     "--quiet",
@@ -102,7 +99,7 @@ def lint(
 ) -> None:
     # pylint: disable=missing-function-docstring
     report = ProjectReport.generate(
-        cast(Project, obj.project),
+        obj.project,
         do_checksum=False,
         multiprocessing=not obj.no_multiprocessing,
     )

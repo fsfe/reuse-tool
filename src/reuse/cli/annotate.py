@@ -44,7 +44,7 @@ from ..comment import (
 )
 from ..i18n import _
 from ..project import Project
-from .common import ClickObj, MutexOption, requires_project, spdx_identifier
+from .common import ClickObj, MutexOption, spdx_identifier
 from .main import main
 
 _LOGGER = logging.getLogger(__name__)
@@ -285,7 +285,6 @@ _HELP = (
 )
 
 
-@requires_project
 @main.command(name="annotate", help=_HELP)
 @click.option(
     "--copyright",
@@ -449,7 +448,7 @@ def annotate(
     paths: Sequence[Path],
 ) -> None:
     # pylint: disable=too-many-arguments,too-many-locals,missing-function-docstring
-    project = cast(Project, obj.project)
+    project = obj.project
 
     test_mandatory_option_required(copyrights, licenses, contributors)
     paths = all_paths(paths, recursive, project)
