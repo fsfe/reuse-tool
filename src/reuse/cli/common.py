@@ -4,34 +4,67 @@
 
 """Utilities that are common to multiple CLI commands."""
 
-from dataclasses import dataclass
-from typing import Any, Callable, Mapping, Optional, TypeVar
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Mapping, Optional
 
 import click
 from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError
 
 from .._util import _LICENSING
+from ..global_licensing import GlobalLicensingParseError
 from ..i18n import _
-from ..project import Project
-
-F = TypeVar("F", bound=Callable)
-
-
-def requires_project(f: F) -> F:
-    """A decorator to mark subcommands that require a :class:`Project` object.
-    Make sure to apply this decorator _first_.
-    """
-    setattr(f, "requires_project", True)
-    return f
+from ..project import GlobalLicensingConflict, Project
+from ..vcs import find_root
 
 
-@dataclass(frozen=True)
+@dataclass()
 class ClickObj:
     """A dataclass holding necessary context and options."""
 
-    no_multiprocessing: bool
-    project: Optional[Project]
+    root: Optional[Path] = None
+    include_submodules: bool = False
+    include_meson_subprojects: bool = False
+    no_multiprocessing: bool = True
+
+    _project: Optional[Project] = field(
+        default=None, init=False, repr=False, compare=False
+    )
+
+    @property
+    def project(self) -> Project:
+        """Generate a project object on demand, and cache it."""
+        if self._project:
+            return self._project
+
+        root = self.root
+        if root is None:
+            root = find_root()
+        if root is None:
+            root = Path.cwd()
+
+        try:
+            project = Project.from_directory(
+                root,
+                include_submodules=self.include_submodules,
+                include_meson_subprojects=self.include_meson_subprojects,
+            )
+        # FileNotFoundError and NotADirectoryError don't need to be caught
+        # because argparse already made sure of these things.
+        except GlobalLicensingParseError as error:
+            raise click.UsageError(
+                _(
+                    "'{path}' could not be parsed. We received the"
+                    " following error message: {message}"
+                ).format(path=error.source, message=str(error))
+            ) from error
+
+        except (GlobalLicensingConflict, OSError) as error:
+            raise click.UsageError(str(error)) from error
+
+        self._project = project
+        return project
 
 
 class MutexOption(click.Option):

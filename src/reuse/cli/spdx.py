@@ -8,15 +8,14 @@
 import contextlib
 import logging
 import sys
-from typing import Optional, cast
+from typing import Optional
 
 import click
 
 from .. import _IGNORE_SPDX_PATTERNS
 from ..i18n import _
-from ..project import Project
 from ..report import ProjectReport
-from .common import ClickObj, requires_project
+from .common import ClickObj
 from .main import main
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,7 +23,6 @@ _LOGGER = logging.getLogger(__name__)
 _HELP = _("Generate an SPDX bill of materials.")
 
 
-@requires_project
 @main.command(name="spdx", help=_HELP)
 @click.option(
     "--output",
@@ -103,7 +101,7 @@ def spdx(
         )
 
     report = ProjectReport.generate(
-        cast(Project, obj.project),
+        obj.project,
         multiprocessing=not obj.no_multiprocessing,
         add_license_concluded=add_license_concluded,
     )

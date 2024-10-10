@@ -9,7 +9,7 @@ import logging
 import sys
 from difflib import SequenceMatcher
 from pathlib import Path
-from typing import IO, Collection, Optional, cast
+from typing import IO, Collection, Optional
 from urllib.error import URLError
 
 import click
@@ -17,10 +17,9 @@ import click
 from .._licenses import ALL_NON_DEPRECATED_MAP
 from ..download import _path_to_license_file, put_license_in_file
 from ..i18n import _
-from ..project import Project
 from ..report import ProjectReport
 from ..types import StrPath
-from .common import ClickObj, MutexOption, requires_project
+from .common import ClickObj, MutexOption
 from .main import main
 
 _LOGGER = logging.getLogger(__name__)
@@ -113,7 +112,6 @@ _HELP = (
 )
 
 
-@requires_project
 @main.command(name="download", help=_HELP)
 @click.option(
     "--all",
@@ -166,9 +164,7 @@ def download(
 
     if all_:
         # TODO: This is fairly inefficient, but gets the job done.
-        report = ProjectReport.generate(
-            cast(Project, obj.project), do_checksum=False
-        )
+        report = ProjectReport.generate(obj.project, do_checksum=False)
         licenses = report.missing_licenses.keys()
 
     if len(licenses) > 1 and output:

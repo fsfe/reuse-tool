@@ -21,10 +21,7 @@ from click.formatting import wrap_text
 
 from .. import __REUSE_version__
 from .._util import setup_logging
-from ..global_licensing import GlobalLicensingParseError
 from ..i18n import _
-from ..project import GlobalLicensingConflict, Project
-from ..vcs import find_root
 from .common import ClickObj
 
 _PACKAGE_PATH = os.path.dirname(__file__)
@@ -146,33 +143,9 @@ def main(
     if not suppress_deprecation:
         warnings.filterwarnings("default", module="reuse")
 
-    project: Optional[Project] = None
-    if ctx.invoked_subcommand:
-        cmd = main.get_command(ctx, ctx.invoked_subcommand)
-        if getattr(cmd, "requires_project", False):
-            if root is None:
-                root = find_root()
-            if root is None:
-                root = Path.cwd()
-
-            try:
-                project = Project.from_directory(root)
-            # FileNotFoundError and NotADirectoryError don't need to be caught
-            # because argparse already made sure of these things.
-            except GlobalLicensingParseError as error:
-                raise click.UsageError(
-                    _(
-                        "'{path}' could not be parsed. We received the"
-                        " following error message: {message}"
-                    ).format(path=error.source, message=str(error))
-                ) from error
-
-            except (GlobalLicensingConflict, OSError) as error:
-                raise click.UsageError(str(error)) from error
-            project.include_submodules = include_submodules
-            project.include_meson_subprojects = include_meson_subprojects
-
     ctx.obj = ClickObj(
+        root=root,
+        include_submodules=include_submodules,
+        include_meson_subprojects=include_meson_subprojects,
         no_multiprocessing=no_multiprocessing,
-        project=project,
     )
