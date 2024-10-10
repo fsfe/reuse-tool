@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 13:59+0000\n"
+"POT-Creation-Date: 2024-10-10 16:26+0000\n"
 "PO-Revision-Date: 2024-09-14 10:09+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -20,42 +20,27 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Generator: Weblate 5.8-dev\n"
 
-#: src/reuse/_annotate.py:74
-#, python-brace-format
-msgid ""
-"'{path}' does not support single-line comments, please do not use --single-"
-"line"
-msgstr ""
-"'{path}' nepodporuje jednořádkové komentáře, nepoužívejte prosím --single-"
-"line"
-
-#: src/reuse/_annotate.py:81
-#, python-brace-format
-msgid ""
-"'{path}' does not support multi-line comments, please do not use --multi-line"
-msgstr "'{path}' nepodporuje víceřádkové komentáře, nepoužívejte --multi-line"
-
-#: src/reuse/_annotate.py:136
+#: src/reuse/_annotate.py:95
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
 msgstr "Přeskočen nerozpoznaný soubor '{path}'"
 
-#: src/reuse/_annotate.py:142
+#: src/reuse/_annotate.py:101
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
 msgstr "'{path}' není rozpoznán; vytváří se '{path}.license'"
 
-#: src/reuse/_annotate.py:158
+#: src/reuse/_annotate.py:117
 #, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
 msgstr "Přeskočený soubor '{path}' již obsahuje informace REUSE"
 
-#: src/reuse/_annotate.py:192
+#: src/reuse/_annotate.py:151
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr "Chyba: Nepodařilo se vytvořit komentář pro '{path}'"
 
-#: src/reuse/_annotate.py:199
+#: src/reuse/_annotate.py:158
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -67,431 +52,31 @@ msgstr ""
 "Nepodařilo se zapsat novou hlavičku."
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:210
+#: src/reuse/_annotate.py:169
 #, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr "Úspěšně změněna hlavička {path}"
 
-#: src/reuse/_annotate.py:221
-msgid "--skip-unrecognised has no effect when used together with --style"
-msgstr ""
-"--skip-unrecognised nemá žádný účinek, pokud se použije společně s --style"
-
-#: src/reuse/_annotate.py:231
-msgid "option --contributor, --copyright or --license is required"
-msgstr "je vyžadována možnost --contributor, --copyright nebo --license"
-
-#: src/reuse/_annotate.py:272
-#, python-brace-format
-msgid "template {template} could not be found"
-msgstr "šablonu {template} se nepodařilo najít"
-
-#: src/reuse/_annotate.py:341 src/reuse/_util.py:567
-msgid "can't write to '{}'"
-msgstr "nelze zapisovat do '{}'"
-
-#: src/reuse/_annotate.py:366
-msgid ""
-"The following files do not have a recognised file extension. Please use --"
-"style, --force-dot-license, --fallback-dot-license, or --skip-unrecognised:"
-msgstr ""
-"Následující soubory nemají rozpoznanou příponu. Použijte --style, --force-"
-"dot-license, --fallback-dot-license nebo --skip-unrecognised:"
-
-#: src/reuse/_annotate.py:382
-msgid "copyright statement, repeatable"
-msgstr "prohlášení o autorských právech, opakovatelné"
-
-#: src/reuse/_annotate.py:389
-msgid "SPDX Identifier, repeatable"
-msgstr "Identifikátor SPDX, opakovatelný"
-
-#: src/reuse/_annotate.py:395
-msgid "file contributor, repeatable"
-msgstr "přispěvatel souboru, opakovatelný"
-
-#: src/reuse/_annotate.py:403
-msgid "year of copyright statement, optional"
-msgstr "rok vydání prohlášení o autorských právech, nepovinné"
-
-#: src/reuse/_annotate.py:411
-msgid "comment style to use, optional"
-msgstr "styl komentáře, který se má použít, nepovinné"
-
-#: src/reuse/_annotate.py:417
-msgid "copyright prefix to use, optional"
-msgstr "předpona autorských práv, která se má použít, nepovinné"
-
-#: src/reuse/_annotate.py:430
-msgid "name of template to use, optional"
-msgstr "název šablony, která se má použít, nepovinné"
-
-#: src/reuse/_annotate.py:435
-msgid "do not include year in statement"
-msgstr "neuvádět rok v prohlášení"
-
-#: src/reuse/_annotate.py:440
-msgid "merge copyright lines if copyright statements are identical"
-msgstr ""
-"sloučit řádky s autorskými právy, pokud jsou prohlášení o autorských právech "
-"totožná"
-
-#: src/reuse/_annotate.py:446
-msgid "force single-line comment style, optional"
-msgstr "vynutit jednořádkový styl komentáře, nepovinné"
-
-#: src/reuse/_annotate.py:451
-msgid "force multi-line comment style, optional"
-msgstr "vynutit víceřádkový styl komentáře, nepovinné"
-
-#: src/reuse/_annotate.py:458
-msgid "add headers to all files under specified directories recursively"
-msgstr "zpětně přidat hlavičky ke všem souborům v zadaných adresářích"
-
-#: src/reuse/_annotate.py:465
-msgid "do not replace the first header in the file; just add a new one"
-msgstr "nenahrazovat první hlavičku v souboru, ale přidat novou"
-
-#: src/reuse/_annotate.py:473
-msgid "always write a .license file instead of a header inside the file"
-msgstr "místo hlavičky uvnitř souboru vždy zapsat soubor .license"
-
-#: src/reuse/_annotate.py:480
-msgid "write a .license file to files with unrecognised comment styles"
-msgstr "zapsat soubor .license do souborů s nerozpoznanými styly komentářů"
-
-#: src/reuse/_annotate.py:486
-msgid "skip files with unrecognised comment styles"
-msgstr "přeskočit soubory s nerozpoznanými styly komentářů"
-
-#: src/reuse/_annotate.py:497
-msgid "skip files that already contain REUSE information"
-msgstr "přeskočit soubory, které již obsahují informace REUSE"
-
-#: src/reuse/_annotate.py:532
-#, python-brace-format
-msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
-msgstr "'{path}' je binární soubor, proto použijte '{new_path}' pro hlavičku"
-
-#: src/reuse/_lint_file.py:25 src/reuse/lint.py:30
-msgid "prevents output"
-msgstr "brání výstupu"
-
-#: src/reuse/_lint_file.py:31
-msgid "formats output as errors per line (default)"
-msgstr "formátuje výstup jako chyby na řádek (výchozí)"
-
-#: src/reuse/_lint_file.py:38
-msgid "files to lint"
-msgstr "soubory do lint"
-
-#: src/reuse/_lint_file.py:48
-#, python-brace-format
-msgid "'{file}' is not inside of '{root}'"
-msgstr "'{file}' není uvnitř '{root}'"
-
-#: src/reuse/_main.py:48
-msgid ""
-"reuse is a tool for compliance with the REUSE recommendations. See <https://"
-"reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
-"for the online documentation."
-msgstr ""
-"reuse je nástrojem pro dodržování doporučení REUSE. Další informace "
-"naleznete na adrese <https://reuse.software/> a online dokumentaci na adrese "
-"<https://reuse.readthedocs.io/>."
-
-#: src/reuse/_main.py:54
-msgid ""
-"This version of reuse is compatible with version {} of the REUSE "
-"Specification."
-msgstr "Tato verze reuse je kompatibilní s verzí {} specifikace REUSE."
-
-#: src/reuse/_main.py:57
-msgid "Support the FSFE's work:"
-msgstr "Podpořte činnost FSFE:"
-
-#: src/reuse/_main.py:61
-msgid ""
-"Donations are critical to our strength and autonomy. They enable us to "
-"continue working for Free Software wherever necessary. Please consider "
-"making a donation at <https://fsfe.org/donate/>."
-msgstr ""
-"Dary jsou pro naši sílu a nezávislost zásadní. Umožňují nám pokračovat v "
-"práci pro svobodný software všude tam, kde je to nutné. Zvažte prosím "
-"možnost přispět na <https://fsfe.org/donate/>."
-
-#: src/reuse/_main.py:84
-msgid "enable debug statements"
-msgstr "povolit příkazy pro ladění"
-
-#: src/reuse/_main.py:89
-msgid "hide deprecation warnings"
-msgstr "skrýt varování o zastarání"
-
-#: src/reuse/_main.py:94
-msgid "do not skip over Git submodules"
-msgstr "nepřeskakovat submoduly systému Git"
-
-#: src/reuse/_main.py:99
-msgid "do not skip over Meson subprojects"
-msgstr "nepřeskakovat podprojekty Meson"
-
-#: src/reuse/_main.py:104
-msgid "do not use multiprocessing"
-msgstr "nepoužívat multiprocessing"
-
-#: src/reuse/_main.py:111
-msgid "define root of project"
-msgstr "definovat kořen projektu"
-
-#: src/reuse/_main.py:119
-msgid "show program's version number and exit"
-msgstr "zobrazit číslo verze programu a ukončit jej"
-
-#: src/reuse/_main.py:123
-msgid "subcommands"
-msgstr "dílčí příkazy"
-
-#: src/reuse/_main.py:130
-msgid "add copyright and licensing into the header of files"
-msgstr "přidání autorských práv a licencí do záhlaví souborů"
-
-#: src/reuse/_main.py:133
-msgid ""
-"Add copyright and licensing into the header of one or more files.\n"
-"\n"
-"By using --copyright and --license, you can specify which copyright holders "
-"and licenses to add to the headers of the given files.\n"
-"\n"
-"By using --contributor, you can specify people or entity that contributed "
-"but are not copyright holder of the given files."
-msgstr ""
-"Přidání autorských práv a licencí do záhlaví jednoho nebo více souborů.\n"
-"\n"
-"Pomocí parametrů --copyright a --license můžete určit, kteří držitelé "
-"autorských práv a licencí mají být přidáni do záhlaví daných souborů.\n"
-"\n"
-"Pomocí parametru --contributor můžete určit osoby nebo subjekty, které "
-"přispěly, ale nejsou držiteli autorských práv daných souborů."
-
-#: src/reuse/_main.py:152
-msgid "download a license and place it in the LICENSES/ directory"
-msgstr "stáhněte si licenci a umístěte ji do adresáře LICENSES/"
-
-#: src/reuse/_main.py:154
-msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "Stáhněte si licenci a umístěte ji do adresáře LICENSES/."
-
-#: src/reuse/_main.py:163
-msgid "list all non-compliant files"
-msgstr "seznam všech nevyhovujících souborů"
-
-#: src/reuse/_main.py:166
-#, fuzzy, python-brace-format
-msgid ""
-"Lint the project directory for compliance with version {reuse_version} of "
-"the REUSE Specification. You can find the latest version of the "
-"specification at <https://reuse.software/spec/>.\n"
-"\n"
-"Specifically, the following criteria are checked:\n"
-"\n"
-"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
-"project?\n"
-"\n"
-"- Are there any deprecated licenses in the project?\n"
-"\n"
-"- Are there any license files in the LICENSES/ directory without file "
-"extension?\n"
-"\n"
-"- Are any licenses referred to inside of the project, but not included in "
-"the LICENSES/ directory?\n"
-"\n"
-"- Are any licenses included in the LICENSES/ directory that are not used "
-"inside of the project?\n"
-"\n"
-"- Are there any read errors?\n"
-"\n"
-"- Do all files have valid copyright and licensing information?"
-msgstr ""
-"Zkontrolujte soulad adresáře projektu s verzí {reuse_version} specifikace "
-"REUSE. Nejnovější verzi specifikace najdete na adrese <https://reuse."
-"software/spec/>.\n"
-"\n"
-"Konkrétně se kontrolují následující kritéria:\n"
-"\n"
-"- Jsou v projektu nějaké špatné (nerozpoznané, nevyhovující SPDX) licence?\n"
-"\n"
-"- Jsou uvnitř projektu nějaké licence, na které se odkazuje, ale nejsou "
-"obsaženy v adresáři LICENSES/?\n"
-"\n"
-"- Jsou v adresáři LICENSES/ obsaženy licence, které se uvnitř projektu "
-"nepoužívají?\n"
-"\n"
-"- Mají všechny soubory platné informace o autorských právech a licencích?"
-
-#: src/reuse/_main.py:202
-msgid ""
-"Lint individual files. The specified files are checked for the presence of "
-"copyright and licensing information, and whether  the found licenses are "
-"included in the LICENSES/ directory."
-msgstr ""
-
-#: src/reuse/_main.py:208
-msgid "list non-compliant files from specified list of files"
-msgstr "seznam nevyhovujících souborů ze zadaného seznamu souborů"
-
-#: src/reuse/_main.py:217
-#, fuzzy
-msgid "Generate an SPDX bill of materials in RDF format."
-msgstr "vytisknout výkaz materiálu projektu ve formátu SPDX"
-
-#: src/reuse/_main.py:219
-msgid "print the project's bill of materials in SPDX format"
-msgstr "vytisknout výkaz materiálu projektu ve formátu SPDX"
-
-#: src/reuse/_main.py:228
-msgid "List all non-deprecated SPDX licenses from the official list."
-msgstr ""
-
-#: src/reuse/_main.py:230
-msgid "list all supported SPDX licenses"
-msgstr "seznam všech podporovaných licencí SPDX"
-
-#: src/reuse/_main.py:241
-msgid ""
-"Convert .reuse/dep5 into a REUSE.toml file in your project root. The "
-"generated file is semantically identical. The .reuse/dep5 file is "
-"subsequently deleted."
-msgstr ""
-
-#: src/reuse/_main.py:246
-msgid "convert .reuse/dep5 to REUSE.toml"
-msgstr "Převeďte .reuse/dep5 do REUSE.toml"
-
-#: src/reuse/_main.py:311
-#, python-brace-format
-msgid ""
-"'{path}' could not be parsed. We received the following error message: "
-"{message}"
-msgstr ""
-"'{path}' se nepodařilo zpracovat. Obdrželi jsme následující chybové hlášení: "
-"{message}"
-
-#: src/reuse/_util.py:362 src/reuse/global_licensing.py:232
+#: src/reuse/_util.py:328 src/reuse/global_licensing.py:233
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Nepodařilo se analyzovat '{expression}'"
 
-#: src/reuse/_util.py:418
+#: src/reuse/_util.py:384
 #, python-brace-format
 msgid ""
 "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
 msgstr ""
 "'{path}' obsahuje výraz SPDX, který nelze analyzovat a soubor se přeskočí"
 
-#: src/reuse/_util.py:550
-msgid "'{}' is not a file"
-msgstr "'{}' není soubor"
-
-#: src/reuse/_util.py:553
-msgid "'{}' is not a directory"
-msgstr "'{}' není adresář"
-
-#: src/reuse/_util.py:556
-msgid "can't open '{}'"
-msgstr "nelze otevřít '{}'"
-
-#: src/reuse/_util.py:561
-msgid "can't write to directory '{}'"
-msgstr "nelze zapisovat do adresáře '{}'"
-
-#: src/reuse/_util.py:580
-msgid "can't read or write '{}'"
-msgstr "nelze číst ani zapisovat '{}'"
-
-#: src/reuse/_util.py:590
-msgid "'{}' is not a valid SPDX expression, aborting"
-msgstr "'{}' není platný výraz SPDX, přeruší se"
-
-#: src/reuse/_util.py:618
-msgid "'{}' is not a valid SPDX License Identifier."
-msgstr "'{}' není platný identifikátor licence SPDX."
-
-#: src/reuse/_util.py:625
-msgid "Did you mean:"
-msgstr "Měl jste na mysli:"
-
-#: src/reuse/_util.py:632
-msgid ""
-"See <https://spdx.org/licenses/> for a list of valid SPDX License "
-"Identifiers."
-msgstr ""
-"Seznam platných identifikátorů licence SPDX naleznete na adrese <https://"
-"spdx.org/licenses/>."
-
-#: src/reuse/convert_dep5.py:118
-msgid "no '.reuse/dep5' file"
-msgstr "žádný soubor '.reuse/dep5'"
-
-#: src/reuse/download.py:130
-msgid "SPDX License Identifier of license"
-msgstr "Licence SPDX Identifikátor licence"
-
-#: src/reuse/download.py:135
-msgid "download all missing licenses detected in the project"
-msgstr "stáhnout všechny chybějící licence zjištěné v projektu"
-
-#: src/reuse/download.py:145
-msgid ""
-"source from which to copy custom LicenseRef- licenses, either a directory "
-"that contains the file or the file itself"
-msgstr ""
-"zdroj, ze kterého se kopírují vlastní licence LicenseRef- nebo adresář, "
-"který soubor obsahuje, nebo samotný soubor"
-
-#: src/reuse/download.py:156
-#, python-brace-format
-msgid "Error: {spdx_identifier} already exists."
-msgstr "Chyba: {spdx_identifier} již existuje."
-
-#: src/reuse/download.py:163
-#, python-brace-format
-msgid "Error: {path} does not exist."
-msgstr "Chyba: {path} neexistuje."
-
-#: src/reuse/download.py:166
-msgid "Error: Failed to download license."
-msgstr "Chyba: Nepodařilo se stáhnout licenci."
-
-#: src/reuse/download.py:171
-msgid "Is your internet connection working?"
-msgstr "Funguje vaše internetové připojení?"
-
-#: src/reuse/download.py:176
-#, python-brace-format
-msgid "Successfully downloaded {spdx_identifier}."
-msgstr "Úspěšně stažen {spdx_identifier}."
-
-#: src/reuse/download.py:189
-msgid "--output has no effect when used together with --all"
-msgstr "--output nemá žádný účinek, pokud se použije společně s --all"
-
-#: src/reuse/download.py:193
-msgid "the following arguments are required: license"
-msgstr "jsou vyžadovány tyto argumenty: licence"
-
-#: src/reuse/download.py:195
-msgid "cannot use --output with more than one license"
-msgstr "nelze použít --output s více než jednou licencí"
-
-#: src/reuse/global_licensing.py:119
+#: src/reuse/global_licensing.py:120
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
 "{attr_name} musí být {type_name} (mít {value}, který je {value_class})."
 
-#: src/reuse/global_licensing.py:133
+#: src/reuse/global_licensing.py:134
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
@@ -500,17 +85,17 @@ msgstr ""
 "Položka v kolekci {attr_name} musí být {type_name} (mít {item_value}, která "
 "je {item_class})."
 
-#: src/reuse/global_licensing.py:145
+#: src/reuse/global_licensing.py:146
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr "{attr_name} nesmí být prázdný."
 
-#: src/reuse/global_licensing.py:169
+#: src/reuse/global_licensing.py:170
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr "{name} musí být {type} (má {value}, která je {value_type})."
 
-#: src/reuse/global_licensing.py:193
+#: src/reuse/global_licensing.py:194
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -523,172 +108,160 @@ msgstr ""
 "ve vygenerovaném komentáři chybí řádky s autorskými právy nebo licenční "
 "výrazy"
 
-#: src/reuse/lint.py:33
-msgid "formats output as JSON"
-msgstr "formátuje výstup jako JSON"
-
-#: src/reuse/lint.py:39
-msgid "formats output as plain text (default)"
-msgstr "formátuje výstup jako prostý text (výchozí)"
-
-#: src/reuse/lint.py:45
-msgid "formats output as errors per line"
-msgstr "formátuje výstup jako chyby na řádek"
-
-#: src/reuse/lint.py:64
+#: src/reuse/lint.py:38
 msgid "BAD LICENSES"
 msgstr "NEVHODNÉ LICENCE"
 
-#: src/reuse/lint.py:66 src/reuse/lint.py:95
+#: src/reuse/lint.py:40 src/reuse/lint.py:69
 msgid "'{}' found in:"
 msgstr "'{}' nalezeno v:"
 
-#: src/reuse/lint.py:73
+#: src/reuse/lint.py:47
 msgid "DEPRECATED LICENSES"
 msgstr "ZASTARALÉ LICENCE"
 
-#: src/reuse/lint.py:75
+#: src/reuse/lint.py:49
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "Následující licence jsou v SPDX zrušeny:"
 
-#: src/reuse/lint.py:83
+#: src/reuse/lint.py:57
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "LICENCE BEZ KONCOVKY SOUBORU"
 
-#: src/reuse/lint.py:85
+#: src/reuse/lint.py:59
 msgid "The following licenses have no file extension:"
 msgstr "Následující licence nemají příponu souboru:"
 
-#: src/reuse/lint.py:93
+#: src/reuse/lint.py:67
 msgid "MISSING LICENSES"
 msgstr "CHYBĚJÍCÍ LICENCE"
 
-#: src/reuse/lint.py:102
+#: src/reuse/lint.py:76
 msgid "UNUSED LICENSES"
 msgstr "NEPOUŽITÉ LICENCE"
 
-#: src/reuse/lint.py:103
+#: src/reuse/lint.py:77
 msgid "The following licenses are not used:"
 msgstr "Následující licence nejsou používány:"
 
-#: src/reuse/lint.py:110
+#: src/reuse/lint.py:84
 msgid "READ ERRORS"
 msgstr "CHYBY ČTENÍ"
 
-#: src/reuse/lint.py:111
+#: src/reuse/lint.py:85
 msgid "Could not read:"
 msgstr "Nelze načíst:"
 
-#: src/reuse/lint.py:132
+#: src/reuse/lint.py:106
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "CHYBĚJÍCÍ INFORMACE O AUTORSKÝCH PRÁVECH A LICENCÍCH"
 
-#: src/reuse/lint.py:138
+#: src/reuse/lint.py:112
 msgid "The following files have no copyright and licensing information:"
 msgstr ""
 "Následující soubory neobsahují žádné informace o autorských právech a "
 "licencích:"
 
-#: src/reuse/lint.py:149
+#: src/reuse/lint.py:123
 msgid "The following files have no copyright information:"
 msgstr "Následující soubory nemají žádné informace o autorských právech:"
 
-#: src/reuse/lint.py:158
+#: src/reuse/lint.py:132
 msgid "The following files have no licensing information:"
 msgstr "Následující soubory neobsahují žádné licenční informace:"
 
-#: src/reuse/lint.py:166
+#: src/reuse/lint.py:140
 msgid "SUMMARY"
 msgstr "SHRNUTÍ"
 
-#: src/reuse/lint.py:171
+#: src/reuse/lint.py:145
 msgid "Bad licenses:"
 msgstr "Neplatné licence:"
 
-#: src/reuse/lint.py:172
+#: src/reuse/lint.py:146
 msgid "Deprecated licenses:"
 msgstr "Zastaralé licence:"
 
-#: src/reuse/lint.py:173
+#: src/reuse/lint.py:147
 msgid "Licenses without file extension:"
 msgstr "Licence bez přípony souboru:"
 
-#: src/reuse/lint.py:176
+#: src/reuse/lint.py:150
 msgid "Missing licenses:"
 msgstr "Chybějící licence:"
 
-#: src/reuse/lint.py:177
+#: src/reuse/lint.py:151
 msgid "Unused licenses:"
 msgstr "Nepoužité licence:"
 
-#: src/reuse/lint.py:178
+#: src/reuse/lint.py:152
 msgid "Used licenses:"
 msgstr "Použité licence:"
 
-#: src/reuse/lint.py:179
+#: src/reuse/lint.py:153
 msgid "Read errors:"
 msgstr "Chyby čtení:"
 
-#: src/reuse/lint.py:181
+#: src/reuse/lint.py:155
 msgid "Files with copyright information:"
 msgstr "Soubory s informacemi o autorských právech:"
 
-#: src/reuse/lint.py:185
+#: src/reuse/lint.py:159
 msgid "Files with license information:"
 msgstr "Soubory s licenčními informacemi:"
 
-#: src/reuse/lint.py:202
+#: src/reuse/lint.py:176
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr "Gratulujeme! Váš projekt je v souladu s verzí {} specifikace REUSE :-)"
 
-#: src/reuse/lint.py:209
+#: src/reuse/lint.py:183
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr "Váš projekt bohužel není v souladu s verzí {} specifikace REUSE :-("
 
-#: src/reuse/lint.py:216
+#: src/reuse/lint.py:190
 msgid "RECOMMENDATIONS"
 msgstr "DOPORUČENÍ"
 
-#: src/reuse/lint.py:280
+#: src/reuse/lint.py:254
 #, python-brace-format
 msgid "{path}: missing license {lic}\n"
 msgstr "{path}: chybí licence {lic}\n"
 
-#: src/reuse/lint.py:285
+#: src/reuse/lint.py:259
 #, python-brace-format
 msgid "{path}: read error\n"
 msgstr "{path}: chyba čtení\n"
 
-#: src/reuse/lint.py:289
+#: src/reuse/lint.py:263
 #, python-brace-format
 msgid "{path}: no license identifier\n"
 msgstr "{path}: žádný identifikátor licence\n"
 
-#: src/reuse/lint.py:293
+#: src/reuse/lint.py:267
 #, python-brace-format
 msgid "{path}: no copyright notice\n"
 msgstr "{path}: žádné upozornění na autorská práva\n"
 
-#: src/reuse/lint.py:320
+#: src/reuse/lint.py:294
 #, python-brace-format
 msgid "{path}: bad license {lic}\n"
 msgstr "{path}: špatná licence {lic}\n"
 
-#: src/reuse/lint.py:327
+#: src/reuse/lint.py:301
 #, python-brace-format
 msgid "{lic_path}: deprecated license\n"
 msgstr "{lic_path}: zastaralá licence\n"
 
-#: src/reuse/lint.py:334
+#: src/reuse/lint.py:308
 #, python-brace-format
 msgid "{lic_path}: license without file extension\n"
 msgstr "{lic_path}: licence bez přípony souboru\n"
 
-#: src/reuse/lint.py:343
+#: src/reuse/lint.py:317
 #, python-brace-format
 msgid "{lic_path}: unused license\n"
 msgstr "{lic_path}: nepoužitá licence\n"
@@ -768,17 +341,17 @@ msgstr ""
 "projekt '{}' není úložištěm VCS nebo není nainstalován požadovaný software "
 "VCS"
 
-#: src/reuse/report.py:149
+#: src/reuse/report.py:150
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Nepodařilo se načíst '{path}'"
 
-#: src/reuse/report.py:154
+#: src/reuse/report.py:155
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Při analýze souboru '{path}' došlo k neočekávané chybě"
 
-#: src/reuse/report.py:507
+#: src/reuse/report.py:508
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -791,7 +364,7 @@ msgstr ""
 "Často kladené otázky o vlastních licencích: https://reuse.software/faq/"
 "#custom-license"
 
-#: src/reuse/report.py:518
+#: src/reuse/report.py:519
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -804,7 +377,7 @@ msgstr ""
 "reuse/dep5' byla v SPDX zastaralá. Aktuální seznam a příslušné doporučené "
 "nové identifikátory naleznete zde: <https://spdx.org/licenses/#deprecated>"
 
-#: src/reuse/report.py:529
+#: src/reuse/report.py:530
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -814,7 +387,7 @@ msgstr ""
 "adresáři 'LICENSES' nemá příponu '.txt'. Soubor(y) odpovídajícím způsobem "
 "přejmenujte."
 
-#: src/reuse/report.py:538
+#: src/reuse/report.py:539
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -829,7 +402,7 @@ msgstr ""
 "--all' a získat všechny chybějící. Pro vlastní licence (začínající na "
 "'LicenseRef-') musíte tyto soubory přidat sami."
 
-#: src/reuse/report.py:550
+#: src/reuse/report.py:551
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -843,7 +416,7 @@ msgstr ""
 "buď správně označili, nebo nepoužitý licenční text odstranili, pokud jste si "
 "jisti, že žádný soubor nebo kousek kódu není takto licencován."
 
-#: src/reuse/report.py:561
+#: src/reuse/report.py:562
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -853,7 +426,7 @@ msgstr ""
 "adresáři. Zkontrolujte oprávnění souboru. Postižené soubory najdete v horní "
 "části výstupu jako součást zaznamenaných chybových hlášení."
 
-#: src/reuse/report.py:570
+#: src/reuse/report.py:571
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
@@ -868,192 +441,759 @@ msgstr ""
 "jsou vysvětleny další způsoby, jak to provést: <https://reuse.software/"
 "tutorial/>"
 
-#: src/reuse/spdx.py:32
-msgid ""
-"populate the LicenseConcluded field; note that reuse cannot guarantee the "
-"field is accurate"
-msgstr ""
-"vyplňte pole LicenseConcluded; upozorňujeme, že opětovné použití nemůže "
-"zaručit, že pole bude přesné"
-
-#: src/reuse/spdx.py:39
-msgid "name of the person signing off on the SPDX report"
-msgstr "jméno osoby podepisující zprávu SPDX"
-
-#: src/reuse/spdx.py:44
-msgid "name of the organization signing off on the SPDX report"
-msgstr "název organizace, která podepsala zprávu SPDX"
-
-#: src/reuse/spdx.py:60
-msgid ""
-"error: --creator-person=NAME or --creator-organization=NAME required when --"
-"add-license-concluded is provided"
-msgstr ""
-"chyba: --creator-person=NAME nebo --creator-organization=NAME je vyžadováno "
-"při zadání parametru --add-licence-concluded"
-
-#: src/reuse/spdx.py:75
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:518
 #, python-brace-format
-msgid ""
-"'{path}' does not match a common SPDX file pattern. Find the suggested "
-"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
-"standard-data-format-requirements"
+msgid "{editor}: Editing failed"
 msgstr ""
-"'{path}' neodpovídá běžnému vzoru souboru SPDX. Navrhované konvence pro "
-"pojmenování najdete zde: https://spdx.github.io/spdx-spec/conformance/#44-"
-"standard-data-format-requirements"
 
-#: /usr/lib/python3.10/argparse.py:308
-msgid "usage: "
-msgstr "použití: "
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:522
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:880
-msgid ".__call__() not defined"
-msgstr ".__call__() není definováno"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1120
+msgid "Aborted!"
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:1223
-#, python-format
-msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
-msgstr "neznámý parser %(parser_name)r (volby: %(choices)s)"
-
-#: /usr/lib/python3.10/argparse.py:1283
-#, python-format
-msgid "argument \"-\" with mode %r"
-msgstr "argument \"-\" s režimem %r"
-
-#: /usr/lib/python3.10/argparse.py:1292
-#, python-format
-msgid "can't open '%(filename)s': %(error)s"
-msgstr "nelze otevřít '%(filename)s': %(error)s"
-
-#: /usr/lib/python3.10/argparse.py:1501
-#, python-format
-msgid "cannot merge actions - two groups are named %r"
-msgstr "nelze sloučit akce - dvě skupiny se jmenují %r"
-
-#: /usr/lib/python3.10/argparse.py:1539
-msgid "'required' is an invalid argument for positionals"
-msgstr "'required' je neplatný argument pro pozicionály"
-
-#: /usr/lib/python3.10/argparse.py:1561
-#, python-format
-msgid ""
-"invalid option string %(option)r: must start with a character "
-"%(prefix_chars)r"
-msgstr "neplatný řetězec %(option)r: musí začínat znakem %(prefix_chars)r"
-
-#: /usr/lib/python3.10/argparse.py:1579
-#, python-format
-msgid "dest= is required for options like %r"
-msgstr "dest= je vyžadováno pro možnosti jako %r"
-
-#: /usr/lib/python3.10/argparse.py:1596
-#, python-format
-msgid "invalid conflict_resolution value: %r"
-msgstr "neplatná hodnota conflict_resolution: %r"
-
-#: /usr/lib/python3.10/argparse.py:1614
-#, python-format
-msgid "conflicting option string: %s"
-msgid_plural "conflicting option strings: %s"
-msgstr[0] "konfliktní volitelný řetězec: %s"
-msgstr[1] "konfliktní volitelné řetězce: %s"
-msgstr[2] "konfliktních volitelných řetězců: %s"
-
-#: /usr/lib/python3.10/argparse.py:1680
-msgid "mutually exclusive arguments must be optional"
-msgstr "vzájemně se vylučující argumenty musí být nepovinné"
-
-#: /usr/lib/python3.10/argparse.py:1748
-msgid "positional arguments"
-msgstr "poziční argumenty"
-
-#: /usr/lib/python3.10/argparse.py:1749
-msgid "options"
-msgstr "možnosti"
-
-#: /usr/lib/python3.10/argparse.py:1764
-msgid "show this help message and exit"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1309
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:559
+#, fuzzy
+msgid "Show this message and exit."
 msgstr "zobrazit tuto nápovědu a ukončit"
 
-#: /usr/lib/python3.10/argparse.py:1795
-msgid "cannot have multiple subparser arguments"
-msgstr "nemůže mít více argumentů dílčího parseru"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1340
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1370
+#, fuzzy, python-brace-format
+msgid "(Deprecated) {text}"
+msgstr "Zastaralé licence:"
 
-#: /usr/lib/python3.10/argparse.py:1847 /usr/lib/python3.10/argparse.py:2362
-#, python-format
-msgid "unrecognized arguments: %s"
-msgstr "neuznané argumenty: %s"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1387
+#, fuzzy
+msgid "Options"
+msgstr "možnosti"
 
-#: /usr/lib/python3.10/argparse.py:1948
-#, python-format
-msgid "not allowed with argument %s"
-msgstr "není povoleno s argumentem %s"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1413
+#, fuzzy, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] "očekávaný jeden argument"
+msgstr[1] "očekávaný jeden argument"
+msgstr[2] "očekávaný jeden argument"
 
-#: /usr/lib/python3.10/argparse.py:1998 /usr/lib/python3.10/argparse.py:2012
-#, python-format
-msgid "ignored explicit argument %r"
-msgstr "ignoroval explicitní argument %r"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1429
+msgid "DeprecationWarning: The command {name!r} is deprecated."
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:2119
-#, python-format
-msgid "the following arguments are required: %s"
-msgstr "jsou vyžadovány následující argumenty: %s"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1636
+#, fuzzy
+msgid "Commands"
+msgstr "dílčí příkazy"
 
-#: /usr/lib/python3.10/argparse.py:2134
-#, python-format
-msgid "one of the arguments %s is required"
-msgstr "jeden z argumentů %s je povinný"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1668
+#, fuzzy
+msgid "Missing command."
+msgstr "Chybějící licence:"
 
-#: /usr/lib/python3.10/argparse.py:2177
-msgid "expected one argument"
-msgstr "očekávaný jeden argument"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1746
+msgid "No such command {name!r}."
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:2178
-msgid "expected at most one argument"
-msgstr "očekává se nejvýše jeden argument"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2310
+msgid "Value must be an iterable."
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:2179
-msgid "expected at least one argument"
-msgstr "očekává se alespoň jeden argument"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2331
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: /usr/lib/python3.10/argparse.py:2183
-#, python-format
-msgid "expected %s argument"
-msgid_plural "expected %s arguments"
-msgstr[0] "očekáván %s argument"
-msgstr[1] "očekávány %s argumenty"
-msgstr[2] "očekáváno %s argumentů"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2778
+#, python-brace-format
+msgid "env var: {var}"
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:2241
-#, python-format
-msgid "ambiguous option: %(option)s could match %(matches)s"
-msgstr "nejednoznačná možnost: %(option)s by mohlo odpovídat %(matches)s"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2808
+msgid "(dynamic)"
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:2305
-#, python-format
-msgid "unexpected option string: %s"
-msgstr "neočekávaný volitelný řetězec: %s"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2821
+#, python-brace-format
+msgid "default: {default}"
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:2502
-#, python-format
-msgid "%r is not callable"
-msgstr "%r nelze volat"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2834
+msgid "required"
+msgstr ""
 
-#: /usr/lib/python3.10/argparse.py:2519
-#, python-format
-msgid "invalid %(type)s value: %(value)r"
-msgstr "neplatná hodnota %(type)s: %(value)r"
-
-#: /usr/lib/python3.10/argparse.py:2530
-#, python-format
-msgid "invalid choice: %(value)r (choose from %(choices)s)"
-msgstr "neplatná volba: %(value)r (vyberte z %(choices)s)"
-
-#: /usr/lib/python3.10/argparse.py:2606
-#, python-format
-msgid "%(prog)s: error: %(message)s\n"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:465
+#, fuzzy, python-format
+msgid "%(prog)s, version %(version)s"
 msgstr "%(prog)s: chyba: %(message)s\n"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:528
+#, fuzzy
+msgid "Show the version and exit."
+msgstr "zobrazit tuto nápovědu a ukončit"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:44
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:80
+#, python-brace-format
+msgid "Error: {message}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:72
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:121
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:123
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:179
+#, fuzzy
+msgid "Missing argument"
+msgstr "poziční argumenty"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:181
+#, fuzzy
+msgid "Missing option"
+msgstr "Chybějící licence:"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:183
+msgid "Missing parameter"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:185
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:192
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:212
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:224
+#, fuzzy, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] "Měl jste na mysli:"
+msgstr[1] "Měl jste na mysli:"
+msgstr[2] "Měl jste na mysli:"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:262
+msgid "unknown error"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:269
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:231
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:413
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:474
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:319
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
+msgid "Repeat for confirmation"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:174
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:176
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:187
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:243
+msgid "Error: invalid input"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:773
+msgid "Press any key to continue..."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:266
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:298
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:392
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:414
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:470
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:611
+msgid "{value!r} is not a valid boolean."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:635
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:822
+msgid "file"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:824
+msgid "directory"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:826
+msgid "path"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:877
+#, fuzzy
+msgid "{name} {filename!r} does not exist."
+msgstr "Chyba: {path} neexistuje."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:886
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:894
+#, fuzzy, python-brace-format
+msgid "{name} '{filename}' is a directory."
+msgstr "'{}' není adresář"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:903
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:912
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:921
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:988
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, python-brace-format
+#~ msgid ""
+#~ "'{path}' does not support single-line comments, please do not use --"
+#~ "single-line"
+#~ msgstr ""
+#~ "'{path}' nepodporuje jednořádkové komentáře, nepoužívejte prosím --single-"
+#~ "line"
+
+#, python-brace-format
+#~ msgid ""
+#~ "'{path}' does not support multi-line comments, please do not use --multi-"
+#~ "line"
+#~ msgstr ""
+#~ "'{path}' nepodporuje víceřádkové komentáře, nepoužívejte --multi-line"
+
+#~ msgid "--skip-unrecognised has no effect when used together with --style"
+#~ msgstr ""
+#~ "--skip-unrecognised nemá žádný účinek, pokud se použije společně s --style"
+
+#~ msgid "option --contributor, --copyright or --license is required"
+#~ msgstr "je vyžadována možnost --contributor, --copyright nebo --license"
+
+#, python-brace-format
+#~ msgid "template {template} could not be found"
+#~ msgstr "šablonu {template} se nepodařilo najít"
+
+#~ msgid "can't write to '{}'"
+#~ msgstr "nelze zapisovat do '{}'"
+
+#~ msgid ""
+#~ "The following files do not have a recognised file extension. Please use --"
+#~ "style, --force-dot-license, --fallback-dot-license, or --skip-"
+#~ "unrecognised:"
+#~ msgstr ""
+#~ "Následující soubory nemají rozpoznanou příponu. Použijte --style, --force-"
+#~ "dot-license, --fallback-dot-license nebo --skip-unrecognised:"
+
+#~ msgid "copyright statement, repeatable"
+#~ msgstr "prohlášení o autorských právech, opakovatelné"
+
+#~ msgid "SPDX Identifier, repeatable"
+#~ msgstr "Identifikátor SPDX, opakovatelný"
+
+#~ msgid "file contributor, repeatable"
+#~ msgstr "přispěvatel souboru, opakovatelný"
+
+#~ msgid "year of copyright statement, optional"
+#~ msgstr "rok vydání prohlášení o autorských právech, nepovinné"
+
+#~ msgid "comment style to use, optional"
+#~ msgstr "styl komentáře, který se má použít, nepovinné"
+
+#~ msgid "copyright prefix to use, optional"
+#~ msgstr "předpona autorských práv, která se má použít, nepovinné"
+
+#~ msgid "name of template to use, optional"
+#~ msgstr "název šablony, která se má použít, nepovinné"
+
+#~ msgid "do not include year in statement"
+#~ msgstr "neuvádět rok v prohlášení"
+
+#~ msgid "merge copyright lines if copyright statements are identical"
+#~ msgstr ""
+#~ "sloučit řádky s autorskými právy, pokud jsou prohlášení o autorských "
+#~ "právech totožná"
+
+#~ msgid "force single-line comment style, optional"
+#~ msgstr "vynutit jednořádkový styl komentáře, nepovinné"
+
+#~ msgid "force multi-line comment style, optional"
+#~ msgstr "vynutit víceřádkový styl komentáře, nepovinné"
+
+#~ msgid "add headers to all files under specified directories recursively"
+#~ msgstr "zpětně přidat hlavičky ke všem souborům v zadaných adresářích"
+
+#~ msgid "do not replace the first header in the file; just add a new one"
+#~ msgstr "nenahrazovat první hlavičku v souboru, ale přidat novou"
+
+#~ msgid "always write a .license file instead of a header inside the file"
+#~ msgstr "místo hlavičky uvnitř souboru vždy zapsat soubor .license"
+
+#~ msgid "write a .license file to files with unrecognised comment styles"
+#~ msgstr "zapsat soubor .license do souborů s nerozpoznanými styly komentářů"
+
+#~ msgid "skip files with unrecognised comment styles"
+#~ msgstr "přeskočit soubory s nerozpoznanými styly komentářů"
+
+#~ msgid "skip files that already contain REUSE information"
+#~ msgstr "přeskočit soubory, které již obsahují informace REUSE"
+
+#, python-brace-format
+#~ msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
+#~ msgstr ""
+#~ "'{path}' je binární soubor, proto použijte '{new_path}' pro hlavičku"
+
+#~ msgid "prevents output"
+#~ msgstr "brání výstupu"
+
+#~ msgid "formats output as errors per line (default)"
+#~ msgstr "formátuje výstup jako chyby na řádek (výchozí)"
+
+#~ msgid "files to lint"
+#~ msgstr "soubory do lint"
+
+#, python-brace-format
+#~ msgid "'{file}' is not inside of '{root}'"
+#~ msgstr "'{file}' není uvnitř '{root}'"
+
+#~ msgid ""
+#~ "reuse is a tool for compliance with the REUSE recommendations. See "
+#~ "<https://reuse.software/> for more information, and <https://reuse."
+#~ "readthedocs.io/> for the online documentation."
+#~ msgstr ""
+#~ "reuse je nástrojem pro dodržování doporučení REUSE. Další informace "
+#~ "naleznete na adrese <https://reuse.software/> a online dokumentaci na "
+#~ "adrese <https://reuse.readthedocs.io/>."
+
+#~ msgid ""
+#~ "This version of reuse is compatible with version {} of the REUSE "
+#~ "Specification."
+#~ msgstr "Tato verze reuse je kompatibilní s verzí {} specifikace REUSE."
+
+#~ msgid "Support the FSFE's work:"
+#~ msgstr "Podpořte činnost FSFE:"
+
+#~ msgid ""
+#~ "Donations are critical to our strength and autonomy. They enable us to "
+#~ "continue working for Free Software wherever necessary. Please consider "
+#~ "making a donation at <https://fsfe.org/donate/>."
+#~ msgstr ""
+#~ "Dary jsou pro naši sílu a nezávislost zásadní. Umožňují nám pokračovat v "
+#~ "práci pro svobodný software všude tam, kde je to nutné. Zvažte prosím "
+#~ "možnost přispět na <https://fsfe.org/donate/>."
+
+#~ msgid "enable debug statements"
+#~ msgstr "povolit příkazy pro ladění"
+
+#~ msgid "hide deprecation warnings"
+#~ msgstr "skrýt varování o zastarání"
+
+#~ msgid "do not skip over Git submodules"
+#~ msgstr "nepřeskakovat submoduly systému Git"
+
+#~ msgid "do not skip over Meson subprojects"
+#~ msgstr "nepřeskakovat podprojekty Meson"
+
+#~ msgid "do not use multiprocessing"
+#~ msgstr "nepoužívat multiprocessing"
+
+#~ msgid "define root of project"
+#~ msgstr "definovat kořen projektu"
+
+#~ msgid "show program's version number and exit"
+#~ msgstr "zobrazit číslo verze programu a ukončit jej"
+
+#~ msgid "add copyright and licensing into the header of files"
+#~ msgstr "přidání autorských práv a licencí do záhlaví souborů"
+
+#~ msgid ""
+#~ "Add copyright and licensing into the header of one or more files.\n"
+#~ "\n"
+#~ "By using --copyright and --license, you can specify which copyright "
+#~ "holders and licenses to add to the headers of the given files.\n"
+#~ "\n"
+#~ "By using --contributor, you can specify people or entity that contributed "
+#~ "but are not copyright holder of the given files."
+#~ msgstr ""
+#~ "Přidání autorských práv a licencí do záhlaví jednoho nebo více souborů.\n"
+#~ "\n"
+#~ "Pomocí parametrů --copyright a --license můžete určit, kteří držitelé "
+#~ "autorských práv a licencí mají být přidáni do záhlaví daných souborů.\n"
+#~ "\n"
+#~ "Pomocí parametru --contributor můžete určit osoby nebo subjekty, které "
+#~ "přispěly, ale nejsou držiteli autorských práv daných souborů."
+
+#~ msgid "download a license and place it in the LICENSES/ directory"
+#~ msgstr "stáhněte si licenci a umístěte ji do adresáře LICENSES/"
+
+#~ msgid "Download a license and place it in the LICENSES/ directory."
+#~ msgstr "Stáhněte si licenci a umístěte ji do adresáře LICENSES/."
+
+#~ msgid "list all non-compliant files"
+#~ msgstr "seznam všech nevyhovujících souborů"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "Lint the project directory for compliance with version {reuse_version} of "
+#~ "the REUSE Specification. You can find the latest version of the "
+#~ "specification at <https://reuse.software/spec/>.\n"
+#~ "\n"
+#~ "Specifically, the following criteria are checked:\n"
+#~ "\n"
+#~ "- Are there any bad (unrecognised, not compliant with SPDX) licenses in "
+#~ "the project?\n"
+#~ "\n"
+#~ "- Are there any deprecated licenses in the project?\n"
+#~ "\n"
+#~ "- Are there any license files in the LICENSES/ directory without file "
+#~ "extension?\n"
+#~ "\n"
+#~ "- Are any licenses referred to inside of the project, but not included in "
+#~ "the LICENSES/ directory?\n"
+#~ "\n"
+#~ "- Are any licenses included in the LICENSES/ directory that are not used "
+#~ "inside of the project?\n"
+#~ "\n"
+#~ "- Are there any read errors?\n"
+#~ "\n"
+#~ "- Do all files have valid copyright and licensing information?"
+#~ msgstr ""
+#~ "Zkontrolujte soulad adresáře projektu s verzí {reuse_version} specifikace "
+#~ "REUSE. Nejnovější verzi specifikace najdete na adrese <https://reuse."
+#~ "software/spec/>.\n"
+#~ "\n"
+#~ "Konkrétně se kontrolují následující kritéria:\n"
+#~ "\n"
+#~ "- Jsou v projektu nějaké špatné (nerozpoznané, nevyhovující SPDX) "
+#~ "licence?\n"
+#~ "\n"
+#~ "- Jsou uvnitř projektu nějaké licence, na které se odkazuje, ale nejsou "
+#~ "obsaženy v adresáři LICENSES/?\n"
+#~ "\n"
+#~ "- Jsou v adresáři LICENSES/ obsaženy licence, které se uvnitř projektu "
+#~ "nepoužívají?\n"
+#~ "\n"
+#~ "- Mají všechny soubory platné informace o autorských právech a licencích?"
+
+#~ msgid "list non-compliant files from specified list of files"
+#~ msgstr "seznam nevyhovujících souborů ze zadaného seznamu souborů"
+
+#, fuzzy
+#~ msgid "Generate an SPDX bill of materials in RDF format."
+#~ msgstr "vytisknout výkaz materiálu projektu ve formátu SPDX"
+
+#~ msgid "print the project's bill of materials in SPDX format"
+#~ msgstr "vytisknout výkaz materiálu projektu ve formátu SPDX"
+
+#~ msgid "list all supported SPDX licenses"
+#~ msgstr "seznam všech podporovaných licencí SPDX"
+
+#~ msgid "convert .reuse/dep5 to REUSE.toml"
+#~ msgstr "Převeďte .reuse/dep5 do REUSE.toml"
+
+#, python-brace-format
+#~ msgid ""
+#~ "'{path}' could not be parsed. We received the following error message: "
+#~ "{message}"
+#~ msgstr ""
+#~ "'{path}' se nepodařilo zpracovat. Obdrželi jsme následující chybové "
+#~ "hlášení: {message}"
+
+#~ msgid "'{}' is not a file"
+#~ msgstr "'{}' není soubor"
+
+#~ msgid "can't open '{}'"
+#~ msgstr "nelze otevřít '{}'"
+
+#~ msgid "can't write to directory '{}'"
+#~ msgstr "nelze zapisovat do adresáře '{}'"
+
+#~ msgid "can't read or write '{}'"
+#~ msgstr "nelze číst ani zapisovat '{}'"
+
+#~ msgid "'{}' is not a valid SPDX expression, aborting"
+#~ msgstr "'{}' není platný výraz SPDX, přeruší se"
+
+#~ msgid "'{}' is not a valid SPDX License Identifier."
+#~ msgstr "'{}' není platný identifikátor licence SPDX."
+
+#~ msgid ""
+#~ "See <https://spdx.org/licenses/> for a list of valid SPDX License "
+#~ "Identifiers."
+#~ msgstr ""
+#~ "Seznam platných identifikátorů licence SPDX naleznete na adrese <https://"
+#~ "spdx.org/licenses/>."
+
+#~ msgid "no '.reuse/dep5' file"
+#~ msgstr "žádný soubor '.reuse/dep5'"
+
+#~ msgid "SPDX License Identifier of license"
+#~ msgstr "Licence SPDX Identifikátor licence"
+
+#~ msgid "download all missing licenses detected in the project"
+#~ msgstr "stáhnout všechny chybějící licence zjištěné v projektu"
+
+#~ msgid ""
+#~ "source from which to copy custom LicenseRef- licenses, either a directory "
+#~ "that contains the file or the file itself"
+#~ msgstr ""
+#~ "zdroj, ze kterého se kopírují vlastní licence LicenseRef- nebo adresář, "
+#~ "který soubor obsahuje, nebo samotný soubor"
+
+#, python-brace-format
+#~ msgid "Error: {spdx_identifier} already exists."
+#~ msgstr "Chyba: {spdx_identifier} již existuje."
+
+#~ msgid "Error: Failed to download license."
+#~ msgstr "Chyba: Nepodařilo se stáhnout licenci."
+
+#~ msgid "Is your internet connection working?"
+#~ msgstr "Funguje vaše internetové připojení?"
+
+#, python-brace-format
+#~ msgid "Successfully downloaded {spdx_identifier}."
+#~ msgstr "Úspěšně stažen {spdx_identifier}."
+
+#~ msgid "--output has no effect when used together with --all"
+#~ msgstr "--output nemá žádný účinek, pokud se použije společně s --all"
+
+#~ msgid "the following arguments are required: license"
+#~ msgstr "jsou vyžadovány tyto argumenty: licence"
+
+#~ msgid "cannot use --output with more than one license"
+#~ msgstr "nelze použít --output s více než jednou licencí"
+
+#~ msgid "formats output as JSON"
+#~ msgstr "formátuje výstup jako JSON"
+
+#~ msgid "formats output as plain text (default)"
+#~ msgstr "formátuje výstup jako prostý text (výchozí)"
+
+#~ msgid "formats output as errors per line"
+#~ msgstr "formátuje výstup jako chyby na řádek"
+
+#~ msgid ""
+#~ "populate the LicenseConcluded field; note that reuse cannot guarantee the "
+#~ "field is accurate"
+#~ msgstr ""
+#~ "vyplňte pole LicenseConcluded; upozorňujeme, že opětovné použití nemůže "
+#~ "zaručit, že pole bude přesné"
+
+#~ msgid "name of the person signing off on the SPDX report"
+#~ msgstr "jméno osoby podepisující zprávu SPDX"
+
+#~ msgid "name of the organization signing off on the SPDX report"
+#~ msgstr "název organizace, která podepsala zprávu SPDX"
+
+#~ msgid ""
+#~ "error: --creator-person=NAME or --creator-organization=NAME required when "
+#~ "--add-license-concluded is provided"
+#~ msgstr ""
+#~ "chyba: --creator-person=NAME nebo --creator-organization=NAME je "
+#~ "vyžadováno při zadání parametru --add-licence-concluded"
+
+#, python-brace-format
+#~ msgid ""
+#~ "'{path}' does not match a common SPDX file pattern. Find the suggested "
+#~ "naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
+#~ "standard-data-format-requirements"
+#~ msgstr ""
+#~ "'{path}' neodpovídá běžnému vzoru souboru SPDX. Navrhované konvence pro "
+#~ "pojmenování najdete zde: https://spdx.github.io/spdx-spec/conformance/#44-"
+#~ "standard-data-format-requirements"
+
+#~ msgid "usage: "
+#~ msgstr "použití: "
+
+#~ msgid ".__call__() not defined"
+#~ msgstr ".__call__() není definováno"
+
+#, python-format
+#~ msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
+#~ msgstr "neznámý parser %(parser_name)r (volby: %(choices)s)"
+
+#, python-format
+#~ msgid "argument \"-\" with mode %r"
+#~ msgstr "argument \"-\" s režimem %r"
+
+#, python-format
+#~ msgid "can't open '%(filename)s': %(error)s"
+#~ msgstr "nelze otevřít '%(filename)s': %(error)s"
+
+#, python-format
+#~ msgid "cannot merge actions - two groups are named %r"
+#~ msgstr "nelze sloučit akce - dvě skupiny se jmenují %r"
+
+#~ msgid "'required' is an invalid argument for positionals"
+#~ msgstr "'required' je neplatný argument pro pozicionály"
+
+#, python-format
+#~ msgid ""
+#~ "invalid option string %(option)r: must start with a character "
+#~ "%(prefix_chars)r"
+#~ msgstr "neplatný řetězec %(option)r: musí začínat znakem %(prefix_chars)r"
+
+#, python-format
+#~ msgid "dest= is required for options like %r"
+#~ msgstr "dest= je vyžadováno pro možnosti jako %r"
+
+#, python-format
+#~ msgid "invalid conflict_resolution value: %r"
+#~ msgstr "neplatná hodnota conflict_resolution: %r"
+
+#, python-format
+#~ msgid "conflicting option string: %s"
+#~ msgid_plural "conflicting option strings: %s"
+#~ msgstr[0] "konfliktní volitelný řetězec: %s"
+#~ msgstr[1] "konfliktní volitelné řetězce: %s"
+#~ msgstr[2] "konfliktních volitelných řetězců: %s"
+
+#~ msgid "mutually exclusive arguments must be optional"
+#~ msgstr "vzájemně se vylučující argumenty musí být nepovinné"
+
+#~ msgid "cannot have multiple subparser arguments"
+#~ msgstr "nemůže mít více argumentů dílčího parseru"
+
+#, python-format
+#~ msgid "unrecognized arguments: %s"
+#~ msgstr "neuznané argumenty: %s"
+
+#, python-format
+#~ msgid "not allowed with argument %s"
+#~ msgstr "není povoleno s argumentem %s"
+
+#, python-format
+#~ msgid "ignored explicit argument %r"
+#~ msgstr "ignoroval explicitní argument %r"
+
+#, python-format
+#~ msgid "the following arguments are required: %s"
+#~ msgstr "jsou vyžadovány následující argumenty: %s"
+
+#, python-format
+#~ msgid "one of the arguments %s is required"
+#~ msgstr "jeden z argumentů %s je povinný"
+
+#~ msgid "expected at most one argument"
+#~ msgstr "očekává se nejvýše jeden argument"
+
+#~ msgid "expected at least one argument"
+#~ msgstr "očekává se alespoň jeden argument"
+
+#, python-format
+#~ msgid "expected %s argument"
+#~ msgid_plural "expected %s arguments"
+#~ msgstr[0] "očekáván %s argument"
+#~ msgstr[1] "očekávány %s argumenty"
+#~ msgstr[2] "očekáváno %s argumentů"
+
+#, python-format
+#~ msgid "ambiguous option: %(option)s could match %(matches)s"
+#~ msgstr "nejednoznačná možnost: %(option)s by mohlo odpovídat %(matches)s"
+
+#, python-format
+#~ msgid "unexpected option string: %s"
+#~ msgstr "neočekávaný volitelný řetězec: %s"
+
+#, python-format
+#~ msgid "%r is not callable"
+#~ msgstr "%r nelze volat"
+
+#, python-format
+#~ msgid "invalid %(type)s value: %(value)r"
+#~ msgstr "neplatná hodnota %(type)s: %(value)r"
+
+#, python-format
+#~ msgid "invalid choice: %(value)r (choose from %(choices)s)"
+#~ msgstr "neplatná volba: %(value)r (vyberte z %(choices)s)"
 
 #, python-brace-format
 #~ msgid "'{path}' could not be decoded as UTF-8."
