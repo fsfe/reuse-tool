@@ -21,7 +21,7 @@ import sys
 from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
-from typing import Generator
+from typing import Generator, Optional
 from unittest.mock import create_autospec
 
 import pytest
@@ -110,12 +110,34 @@ def git_exe() -> str:
     return str(GIT_EXE)
 
 
+@pytest.fixture(params=[True, False])
+def optional_git_exe(
+    request, monkeypatch
+) -> Generator[Optional[str], None, None]:
+    """Run the test with or without git."""
+    exe = GIT_EXE if request.param else ""
+    monkeypatch.setattr("reuse.vcs.GIT_EXE", exe)
+    monkeypatch.setattr("reuse._util.GIT_EXE", exe)
+    yield exe
+
+
 @pytest.fixture()
 def hg_exe() -> str:
     """Run the test with mercurial (hg)."""
     if not HG_EXE:
         pytest.skip("cannot run this test without mercurial")
     return str(HG_EXE)
+
+
+@pytest.fixture(params=[True, False])
+def optional_hg_exe(
+    request, monkeypatch
+) -> Generator[Optional[str], None, None]:
+    """Run the test with or without mercurial."""
+    exe = HG_EXE if request.param else ""
+    monkeypatch.setattr("reuse.vcs.HG_EXE", exe)
+    monkeypatch.setattr("reuse._util.HG_EXE", exe)
+    yield exe
 
 
 @pytest.fixture()
@@ -126,12 +148,34 @@ def jujutsu_exe() -> str:
     return str(JUJUTSU_EXE)
 
 
+@pytest.fixture(params=[True, False])
+def optional_jujutsu_exe(
+    request, monkeypatch
+) -> Generator[Optional[str], None, None]:
+    """Run the test with or without Jujutsu."""
+    exe = JUJUTSU_EXE if request.param else ""
+    monkeypatch.setattr("reuse.vcs.JUJUTSU_EXE", exe)
+    monkeypatch.setattr("reuse._util.JUJUTSU_EXE", exe)
+    yield exe
+
+
 @pytest.fixture()
 def pijul_exe() -> str:
     """Run the test with Pijul."""
     if not PIJUL_EXE:
         pytest.skip("cannot run this test without pijul")
     return str(PIJUL_EXE)
+
+
+@pytest.fixture(params=[True, False])
+def optional_pijul_exe(
+    request, monkeypatch
+) -> Generator[Optional[str], None, None]:
+    """Run the test with or without Pijul."""
+    exe = PIJUL_EXE if request.param else ""
+    monkeypatch.setattr("reuse.vcs.PIJUL_EXE", exe)
+    monkeypatch.setattr("reuse._util.PIJUL_EXE", exe)
+    yield exe
 
 
 @pytest.fixture(params=[True, False])

@@ -1,1 +1,0 @@
-- Added `--print-completion` using a new `shtab` optional dependency. (#1076)

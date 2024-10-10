@@ -16,7 +16,6 @@ import datetime
 import logging
 import multiprocessing as mp
 import random
-from gettext import gettext as _
 from hashlib import md5
 from io import StringIO
 from os import cpu_count
@@ -33,9 +32,11 @@ from typing import (
 from uuid import uuid4
 
 from . import __REUSE_version__, __version__
-from ._util import _LICENSEREF_PATTERN, _LICENSING, StrPath, _checksum
+from ._util import _LICENSEREF_PATTERN, _LICENSING, _checksum
 from .global_licensing import ReuseDep5
+from .i18n import _
 from .project import Project, ReuseInfo
+from .types import StrPath
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -142,8 +143,8 @@ def _generate_file_reports(
 
 def _process_error(error: Exception, path: StrPath) -> None:
     # Facilitate better debugging by being able to quit the program.
-    if isinstance(error, bdb.BdbQuit):
-        raise bdb.BdbQuit() from error
+    if isinstance(error, (bdb.BdbQuit, KeyboardInterrupt)):
+        raise error
     if isinstance(error, (OSError, UnicodeError)):
         _LOGGER.error(
             _("Could not read '{path}'").format(path=path),

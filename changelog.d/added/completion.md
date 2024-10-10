@@ -1,0 +1,1 @@
+- Added shell completion via `click`. (#1084)

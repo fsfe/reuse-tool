@@ -25,6 +25,6 @@ full name of the license, and an URL to the license.
 Options
 -------
 
-.. option:: -h, --help
+.. option:: --help
 
   Display help and exit.

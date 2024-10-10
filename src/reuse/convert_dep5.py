@@ -5,16 +5,12 @@
 """Logic to convert a .reuse/dep5 file to a REUSE.toml file."""
 
 import re
-import sys
-from argparse import ArgumentParser, Namespace
-from gettext import gettext as _
-from typing import IO, Any, Iterable, Optional, TypeVar, Union, cast
+from typing import Any, Iterable, Optional, TypeVar, Union, cast
 
 import tomlkit
 from debian.copyright import Copyright, FilesParagraph, Header
 
-from .global_licensing import REUSE_TOML_VERSION, ReuseDep5
-from .project import Project
+from .global_licensing import REUSE_TOML_VERSION
 
 _SINGLE_ASTERISK_PATTERN = re.compile(r"(?<!\*)\*(?!\*)")
 
@@ -103,24 +99,3 @@ def toml_from_dep5(dep5: Copyright) -> str:
     result.update(header)
     result["annotations"] = annotations
     return tomlkit.dumps(result)
-
-
-# pylint: disable=unused-argument
-def add_arguments(parser: ArgumentParser) -> None:
-    """Add arguments to parser."""
-    # Nothing to do.
-
-
-# pylint: disable=unused-argument
-def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
-    """Convert .reuse/dep5 to REUSE.toml."""
-    if not (project.root / ".reuse/dep5").exists():
-        args.parser.error(_("no '.reuse/dep5' file"))
-
-    text = toml_from_dep5(
-        cast(ReuseDep5, project.global_licensing).dep5_copyright
-    )
-    (project.root / "REUSE.toml").write_text(text)
-    (project.root / ".reuse/dep5").unlink()
-
-    return 0

@@ -62,7 +62,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 apidoc_module_dir = str(ROOT_DIR / "src/reuse")
 # apidoc_output_dir = "api"
-# apidoc_excluded_paths = []
+apidoc_excluded_paths = ["cli"]
 apidoc_separate_modules = True
 apidoc_toc_file = False
 apidoc_extra_args = ["--maxdepth", "2"]

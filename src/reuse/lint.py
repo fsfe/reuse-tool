@@ -10,40 +10,14 @@ the reports and printing some conclusions.
 """
 
 import json
-import sys
-from argparse import ArgumentParser, Namespace
-from gettext import gettext as _
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
-from typing import IO, Any, Optional
+from typing import Any, Optional
 
 from . import __REUSE_version__
-from .project import Project
+from .i18n import _
 from .report import ProjectReport, ProjectReportSubsetProtocol
-
-
-def add_arguments(parser: ArgumentParser) -> None:
-    """Add arguments to parser."""
-    mutex_group = parser.add_mutually_exclusive_group()
-    mutex_group.add_argument(
-        "-q", "--quiet", action="store_true", help=_("prevents output")
-    )
-    mutex_group.add_argument(
-        "-j", "--json", action="store_true", help=_("formats output as JSON")
-    )
-    mutex_group.add_argument(
-        "-p",
-        "--plain",
-        action="store_true",
-        help=_("formats output as plain text (default)"),
-    )
-    mutex_group.add_argument(
-        "-l",
-        "--lines",
-        action="store_true",
-        help=_("formats output as errors per line"),
-    )
 
 
 # pylint: disable=too-many-branches,too-many-statements,too-many-locals
@@ -347,21 +321,3 @@ def format_lines(report: ProjectReport) -> str:
         subset_output = format_lines_subset(report)
 
     return output.getvalue() + subset_output
-
-
-def run(args: Namespace, project: Project, out: IO[str] = sys.stdout) -> int:
-    """List all non-compliant files."""
-    report = ProjectReport.generate(
-        project, do_checksum=False, multiprocessing=not args.no_multiprocessing
-    )
-
-    if args.quiet:
-        pass
-    elif args.json:
-        out.write(format_json(report))
-    elif args.lines:
-        out.write(format_lines(report))
-    else:
-        out.write(format_plain(report))
-
-    return 0 if report.is_compliant else 1

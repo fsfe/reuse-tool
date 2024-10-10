@@ -46,22 +46,22 @@ Mandatory options
 -----------------
 
 At least *one* among the following options is required. They contain the
-information which the tool will add to the file(s).
+information which the tool will add to the file(s). You can repeat these
+options.
 
 .. option:: -c, --copyright COPYRIGHT
 
   A copyright holder. This does not contain the year or the copyright prefix.
   See :option:`--year` and :option:`--copyright-prefix` for the year and prefix.
-  This option can be repeated.
 
 .. option:: -l, --license LICENSE
 
-  An SPDX license identifier. This option can be repeated.
+  An SPDX license identifier.
 
 .. option:: --contributor CONTRIBUTOR
 
   A name of a contributor. The contributor will be added via the
-  ``SPDX-FileContributor:`` tag. This option can be repeated.
+  ``SPDX-FileContributor:`` tag.
 
 Other options
 -------------
@@ -143,7 +143,7 @@ Other options
   Instead of aborting when a file extension does not have an associated comment
   style, skip those files.
 
-.. option:: -h, --help
+.. option:: --help
 
   Display help and exit.
 

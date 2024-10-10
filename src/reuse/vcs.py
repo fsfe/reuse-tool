@@ -22,10 +22,10 @@ from ._util import (
     HG_EXE,
     JUJUTSU_EXE,
     PIJUL_EXE,
-    StrPath,
     execute_command,
     relative_from_root,
 )
+from .types import StrPath
 
 if TYPE_CHECKING:
     from .project import Project

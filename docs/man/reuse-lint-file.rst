@@ -45,6 +45,6 @@ Options
   Output one line per error, prefixed by the file path. This option is the
   default.
 
-.. option:: -h, --help
+.. option:: --help
 
   Display help and exit.

@@ -270,13 +270,18 @@ repos:
 
 ### Shell completion
 
-You can generate a shell completion script with `reuse --print-completion bash`.
-Replace 'bash' as needed. You must place the printed text in a file dictated by
-your shell to benefit from completions.
+In order to enable shell completion, you need to generate the shell completion
+script. You do this with `_REUSE_COMPLETE=bash_source reuse`. Replace `bash`
+with `zsh` or `fish` as needed, or any other shells supported by the
+Python`click` library. You can then source the output in your shell rc file,
+like so (e.g.`~/.bashrc`):
 
-This functionality depends on `shtab`, which is an optional dependency. To
-benefit from this feature, install reuse with the `completion` extra, like
-`pipx install reuse[completion]`.
+```bash
+eval "$(_REUSE__COMPLETE=bash_source reuse)"
+```
+
+Alternatively, you can place the generated completion script in
+`${XDG_DATA_HOME}/bash-completion/completions/reuse`.
 
 ## Maintainers
 

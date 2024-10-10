@@ -25,6 +25,9 @@ jobs:
           token: ${{ secrets.FSFE_SYSTEM_TOKEN }}
       - name: Install gettext and wlc
         run: sudo apt-get install -y gettext wlc
+      # We mostly install reuse to install the click dependency.
+      - name: Install reuse
+        run: poetry install --no-interaction --only main
       - name: Lock Weblate
         run: |
           wlc --url https://hosted.weblate.org/api/ --key ${{secrets.WEBLATE_KEY }} lock fsfe/reuse-tool
@@ -34,7 +37,7 @@ jobs:
       - name: Pull Weblate translations
         run: git pull origin main
       - name: Create .pot file
-        run: make create-pot
+        run: poetry run make create-pot
       # Normally, POT-Creation-Date changes in two locations. Check if the diff
       # includes more than just those two lines.
       - name: Check if sufficient lines were changed

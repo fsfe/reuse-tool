@@ -15,7 +15,6 @@ import logging
 import os
 import warnings
 from collections import defaultdict
-from gettext import gettext as _
 from pathlib import Path
 from typing import Collection, Iterator, NamedTuple, Optional, Type
 
@@ -26,7 +25,6 @@ from . import IdentifierNotFound, ReuseInfo
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _LICENSEREF_PATTERN,
-    StrPath,
     _determine_license_path,
     relative_from_root,
     reuse_info_of_file,
@@ -39,6 +37,8 @@ from .global_licensing import (
     ReuseDep5,
     ReuseTOML,
 )
+from .i18n import _
+from .types import StrPath
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
 _LOGGER = logging.getLogger(__name__)
