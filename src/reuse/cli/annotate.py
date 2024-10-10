@@ -155,14 +155,14 @@ def verify_paths_line_handling(
                 _(
                     "'{path}' does not support single-line comments, please"
                     " do not use '--single-line'."
-                ).format(path=path)
+                ).format(path=path.as_posix())
             )
         if multi_line and not style.can_handle_multi():
             raise click.UsageError(
                 _(
                     "'{path}' does not support multi-line comments, please"
                     " do not use '--multi-line'."
-                ).format(path=path)
+                ).format(path=path.as_posix())
             )
 
 

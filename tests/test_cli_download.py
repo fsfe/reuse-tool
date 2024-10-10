@@ -36,7 +36,7 @@ class TestDownload:
 
         assert result.exit_code == 0
         mock_put_license_in_file.assert_called_with(
-            "0BSD", Path("LICENSES/0BSD.txt").resolve(), source=None
+            "0BSD", Path(os.path.realpath("LICENSES/0BSD.txt")), source=None
         )
 
     def test_all_and_license_mutually_exclusive(self, empty_directory):

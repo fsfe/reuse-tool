@@ -12,6 +12,7 @@
 
 import stat
 from inspect import cleandoc
+from pathlib import PurePath
 
 import pytest
 from click.testing import CliRunner
@@ -1524,7 +1525,7 @@ class TestAnnotate:
             "The following files do not have a recognised file extension"
             in result.output
         )
-        assert "baz/bar.unknown" in result.output
+        assert str(PurePath("baz/bar.unknown")) in result.output
         assert "foo.py" not in result.output
         assert "Jane Doe" not in (fake_repository / "baz/foo.py").read_text()
 
