@@ -97,6 +97,6 @@ Options
 
   Output one line per error, prefixed by the file path.
 
-.. option:: -h, --help
+.. option:: --help
 
   Display help and exit.

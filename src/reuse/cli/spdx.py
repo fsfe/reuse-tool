@@ -81,8 +81,8 @@ def spdx(
     ):
         raise click.UsageError(
             _(
-                "--creator-person=NAME or --creator-organization=NAME"
-                " required when --add-license-concluded is provided"
+                "'--creator-person' or '--creator-organization'"
+                " is required when '--add-license-concluded' is provided."
             )
         )
 

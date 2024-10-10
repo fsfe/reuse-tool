@@ -23,9 +23,9 @@ from .main import main
 _OUTPUT_MUTEX = ["quiet", "lines"]
 
 _HELP = _(
-    "Lint individual files. The specified FILEs are checked for the presence"
-    " of copyright and licensing information, and whether the found licenses"
-    " are included in the LICENSES/ directory."
+    "Lint individual files for REUSE compliance. The specified FILEs are"
+    " checked for the presence of copyright and licensing information, and"
+    " whether the found licenses are included in the LICENSES/ directory."
 )
 
 
@@ -63,7 +63,7 @@ def lint_file(
     for file_ in subset_files:
         if not file_.resolve().is_relative_to(project.root.resolve()):
             raise click.UsageError(
-                _("'{file}' is not inside of '{root}'").format(
+                _("'{file}' is not inside of '{root}'.").format(
                     file=file_, root=project.root
                 )
             )

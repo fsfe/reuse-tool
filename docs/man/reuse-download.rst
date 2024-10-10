@@ -36,11 +36,11 @@ Options
   If downloading a single file, output it to a specific file instead of putting
   it in a detected ``LICENSES/`` directory.
 
-.. option:: --source SOURCE
+.. option:: --source PATH
 
   Specify a source from which to copy custom ``LicenseRef-`` files. This can be
   a directory containing such file, or a path to the file itself.
 
-.. option:: -h, --help
+.. option:: --help
 
   Display help and exit.

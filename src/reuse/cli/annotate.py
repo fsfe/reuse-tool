@@ -121,8 +121,9 @@ def verify_paths_comment_style(
                 "{}\n\n{}".format(
                     _(
                         "The following files do not have a recognised file"
-                        " extension. Please use --style, --force-dot-license,"
-                        " --fallback-dot-license, or --skip-unrecognised:"
+                        " extension. Please use '--style',"
+                        " '--force-dot-license', '--fallback-dot-license', or"
+                        " '--skip-unrecognised':"
                     ),
                     "\n".join(str(path) for path in unrecognised_files),
                 )
@@ -153,14 +154,14 @@ def verify_paths_line_handling(
             raise click.UsageError(
                 _(
                     "'{path}' does not support single-line comments, please"
-                    " do not use --single-line"
+                    " do not use '--single-line'."
                 ).format(path=path)
             )
         if multi_line and not style.can_handle_multi():
             raise click.UsageError(
                 _(
                     "'{path}' does not support multi-line comments, please"
-                    " do not use --multi-line"
+                    " do not use '--multi-line'."
                 ).format(path=path)
             )
 
@@ -268,7 +269,7 @@ _STYLE_MUTEX = [
 ]
 
 _HELP = (
-    _("Add copyright and licensing into the header of one or more" " files.")
+    _("Add copyright and licensing into the headers of files.")
     + "\n\n"
     + _(
         "By using --copyright and --license, you can specify which"
@@ -290,9 +291,10 @@ _HELP = (
     "--copyright",
     "-c",
     "copyrights",
+    metavar=_("COPYRIGHT"),
     type=str,
     multiple=True,
-    help=_("Copyright statement."),
+    help=_("Copyright statement, repeatable."),
 )
 @click.option(
     "--license",
@@ -301,21 +303,24 @@ _HELP = (
     metavar=_("SPDX_IDENTIFIER"),
     type=spdx_identifier,
     multiple=True,
-    help=_("SPDX License Identifier."),
+    help=_("SPDX License Identifier, repeatable."),
 )
 @click.option(
     "--contributor",
     "contributors",
+    metavar=_("CONTRIBUTOR"),
     type=str,
     multiple=True,
-    help=_("File contributor."),
+    help=_("File contributor, repeatable."),
 )
 @click.option(
     "--year",
     "-y",
     "years",
+    metavar=_("YEAR"),
     cls=MutexOption,
     mutually_exclusive=_YEAR_MUTEX,
+    # TODO: This multiple behaviour is kind of word. Let's redo it.
     multiple=True,
     type=str,
     help=_("Year of copyright statement."),
@@ -342,6 +347,7 @@ _HELP = (
     "--template",
     "-t",
     "template_str",
+    metavar=_("TEMPLATE"),
     type=str,
     help=_("Name of template to use."),
 )

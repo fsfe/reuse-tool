@@ -30,7 +30,7 @@ def convert_dep5(obj: ClickObj) -> None:
     # pylint: disable=missing-function-docstring
     project = cast(Project, obj.project)
     if not (project.root / ".reuse/dep5").exists():
-        raise click.UsageError(_("no '.reuse/dep5' file"))
+        raise click.UsageError(_("No '.reuse/dep5' file."))
 
     text = toml_from_dep5(
         cast(ReuseDep5, project.global_licensing).dep5_copyright

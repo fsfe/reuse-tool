@@ -21,7 +21,7 @@ functionally equivalent ``REUSE.toml`` file in the root of the project. The
 Options
 -------
 
-.. option:: -h, --help
+.. option:: --help
 
   Display help and exit.
 

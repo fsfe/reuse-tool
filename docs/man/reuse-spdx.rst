@@ -41,6 +41,6 @@ Options
 
   Name of the creator (organization) of the bill of materials.
 
-.. option:: -h, --help
+.. option:: --help
 
   Display help and exit.

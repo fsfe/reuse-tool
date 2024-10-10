@@ -136,7 +136,7 @@ _HELP = (
     type=click.Path(exists=True, readable=True, path_type=Path),
     help=_(
         "Source from which to copy custom LicenseRef- licenses, either"
-        " a directory that contains the file or the file itself"
+        " a directory that contains the file or the file itself."
     ),
 )
 @click.argument(

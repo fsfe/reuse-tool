@@ -14,6 +14,7 @@ from typing import cast
 
 import click
 
+from .. import __REUSE_version__
 from ..i18n import _
 from ..lint import format_json, format_lines, format_plain
 from ..project import Project
@@ -25,11 +26,11 @@ _OUTPUT_MUTEX = ["quiet", "json", "plain", "lines"]
 
 _HELP = (
     _(
-        "Lint the project directory for compliance with"
-        " version {reuse_version} of the REUSE Specification. You can"
-        " find the latest version of the specification at"
-        " <https://reuse.software/spec/>."
-    )
+        "Lint the project directory for REUSE compliance. This version of the"
+        " tool checks against version {reuse_version} of the REUSE"
+        " Specification. You can find the latest version of the specification"
+        " at <https://reuse.software/spec/>."
+    ).format(reuse_version=__REUSE_version__)
     + "\n\n"
     + _("Specifically, the following criteria are checked:")
     + "\n\n"

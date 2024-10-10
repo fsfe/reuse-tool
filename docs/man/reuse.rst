@@ -78,18 +78,7 @@ Options
   current working directory's VCS repository, or to the current working
   directory.
 
-.. option:: -s, --print-completion SHELL
-
-  Print a static shell completion script for the given shell and exit. You must
-  place the printed text in a file dictated by your shell before the completions
-  will function. For Bash, this file is
-  ``${XDG_DATA_HOME}/bash-completion/reuse``.
-
-  This option depends on ``shtab``, which is an optional dependency of
-  :program:`reuse`. The supported shells depend on your installed version of
-  ``shtab``.
-
-.. option:: -h, --help
+.. option::  --help
 
   Display help and exit. If no command is provided, this option is implied.
 
@@ -111,6 +100,9 @@ Commands
 
 :manpage:`reuse-lint(1)`
   Verify whether a project is compliant with the REUSE Specification.
+
+:manpage:`reuse-lint-file(1)`
+  Verify whether individual files are compliant with the REUSE Specification.
 
 :manpage:`reuse-spdx(1)`
   Generate SPDX bill of materials.
