@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-30 13:59+0000\n"
-"PO-Revision-Date: 2024-10-09 17:15+0000\n"
+"PO-Revision-Date: 2024-10-10 16:26+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -277,22 +277,29 @@ msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Añadir copyright y licencias en la cabecera de uno o más archivos.\n"
+"\n"
+"Usando --copyright y --license, puede especificar qué titulares de derechos "
+"de autor y licencias añadir a las cabeceras de los archivos dados.\n"
+"\n"
+"Usando --contributor, puede especificar las personas o entidades que han "
+"contribuido pero no son titulares de los derechos de autor de los archivos "
+"dados."
 
 #: src/reuse/_main.py:152
 msgid "download a license and place it in the LICENSES/ directory"
 msgstr "descarga una licencia y guárdala en el directorio \"LICENSES/\""
 
 #: src/reuse/_main.py:154
-#, fuzzy
 msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "descarga una licencia y guárdala en el directorio \"LICENSES/\""
+msgstr "Descargar una licencia y colocarla en el directorio LICENSES/ ."
 
 #: src/reuse/_main.py:163
 msgid "list all non-compliant files"
 msgstr "lista todos los ficheros no compatibles"
 
 #: src/reuse/_main.py:166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Lint the project directory for compliance with version {reuse_version} of "
 "the REUSE Specification. You can find the latest version of the "
@@ -318,22 +325,30 @@ msgid ""
 "\n"
 "- Do all files have valid copyright and licensing information?"
 msgstr ""
-"Examina el directorio del proyecto para comprobar su conformidad con la "
-"versión {reuse_version} de la Especificación REUSE. Puedes encontrar la "
-"última versión de la especificación en <https://reuse.software/spec/>\n"
+"Comprueba que el directorio del proyecto cumple con la versión "
+"{reuse_version} de la especificación REUSE. Puede encontrar la última "
+"versión de la especificación en <https://reuse.software/spec/>.\n"
 "\n"
-"Los siguientes criterios son específicamente chequeados:\n"
+"En concreto, se comprueban los siguientes criterios\n"
 "\n"
-"- ¿Hay alguna licencia mala (no reconocida, no compatible con SPDX...) en el "
-"proyecto?\n"
+"- ¿Existen licencias defectuosas (no reconocidas, no conformes con SPDX) en "
+"el proyecto?\n"
 "\n"
-"- ¿Se hace referencia a alguna licencia dentro del proyecto, pero esta no se "
-"encuentra incluida en el directorio LICENSES/?\n"
+"- ¿Hay licencias obsoletas en el proyecto?\n"
 "\n"
-"- ¿Existe alguna licencia, de las incluidas en el directorio LICENSES/, que "
-"no esté en uso en el proyecto?\n"
+"- ¿Hay algún archivo de licencia en el directorio LICENSES/ sin extensión de "
+"archivo?\n"
 "\n"
-"- ¿Tienen todos los ficheros información válida sobre copyright y licencia?"
+"- ¿Hay licencias a las que se haga referencia dentro del proyecto, pero que "
+"no estén incluidas en el directorio LICENSES/?\n"
+"\n"
+"- ¿Hay licencias incluidas en el directorio LICENSES/ que no se utilicen en "
+"el proyecto?\n"
+"\n"
+"- ¿Hay errores de lectura?\n"
+"\n"
+"- ¿Tienen todos los archivos información válida sobre derechos de autor y "
+"licencias?"
 
 #: src/reuse/_main.py:202
 msgid ""
@@ -341,15 +356,18 @@ msgid ""
 "copyright and licensing information, and whether  the found licenses are "
 "included in the LICENSES/ directory."
 msgstr ""
+"Archivos individuales de Lint. Los archivos especificados se comprueban para "
+"ver si hay información de copyright y licencias, y si las licencias "
+"encontradas están incluidas en el directorio LICENSES/ ."
 
 #: src/reuse/_main.py:208
 msgid "list non-compliant files from specified list of files"
 msgstr ""
+"enumerar los archivos no compatibles de la lista de archivos especificada"
 
 #: src/reuse/_main.py:217
-#, fuzzy
 msgid "Generate an SPDX bill of materials in RDF format."
-msgstr "imprime la lista de materiales del proyecto en formato SPDX"
+msgstr "Genere una lista de materiales SPDX en formato RDF."
 
 #: src/reuse/_main.py:219
 msgid "print the project's bill of materials in SPDX format"
@@ -357,7 +375,7 @@ msgstr "imprime la lista de materiales del proyecto en formato SPDX"
 
 #: src/reuse/_main.py:228
 msgid "List all non-deprecated SPDX licenses from the official list."
-msgstr ""
+msgstr "Enumere todas las licencias SPDX no obsoletas de la lista oficial."
 
 #: src/reuse/_main.py:230
 msgid "list all supported SPDX licenses"
@@ -369,19 +387,21 @@ msgid ""
 "generated file is semantically identical. The .reuse/dep5 file is "
 "subsequently deleted."
 msgstr ""
+"Convertir . reuse/dep5 en un archivo REUSE.toml en la raíz del proyecto. El "
+"archivo generado es semánticamente idéntico. El . reutilización/dep5 archivo "
+"se elimina posteriormente."
 
 #: src/reuse/_main.py:246
 msgid "convert .reuse/dep5 to REUSE.toml"
-msgstr ""
+msgstr "convertir . reuse/dep5 a REUSE.toml"
 
 #: src/reuse/_main.py:311
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
-"{dep5}' no pudo ser analizado. Recibimos el siguiente mensaje de error: "
-"{message}"
+"'{path}' no se pudo analizar. Con el siguiente mensaje de error: {message}"
 
 #: src/reuse/_util.py:362 src/reuse/global_licensing.py:232
 #, python-brace-format
@@ -437,9 +457,8 @@ msgstr ""
 "Identificadores SPDX de Licencia válidos."
 
 #: src/reuse/convert_dep5.py:118
-#, fuzzy
 msgid "no '.reuse/dep5' file"
-msgstr "Creando .reuse/dep5"
+msgstr "sin archivo '.reuse/dep5'"
 
 #: src/reuse/download.py:130
 msgid "SPDX License Identifier of license"
@@ -497,6 +516,7 @@ msgstr "no se puede utilizar --output con más de una licencia"
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
+"{attr_name} debe ser un {type_name} (got {value}, que es una {value_class})."
 
 #: src/reuse/global_licensing.py:133
 #, python-brace-format
@@ -504,22 +524,26 @@ msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
+"El elemento en la colección {attr_name} debe ser un {type_name} (obtiene "
+"{item_value}, que es un {item_class})."
 
 #: src/reuse/global_licensing.py:145
 #, python-brace-format
 msgid "{attr_name} must not be empty."
-msgstr ""
+msgstr "{attr_name} no debe estar vacío."
 
 #: src/reuse/global_licensing.py:169
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
-msgstr ""
+msgstr "{name} debe ser un {type} (obtiene {value}, que es un {value_type})."
 
 #: src/reuse/global_licensing.py:193
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
 msgstr ""
+"El valor de 'precedence' debe ser uno de {precedence_vals} (obtiene "
+"{received})"
 
 #: src/reuse/header.py:99
 msgid "generated comment is missing copyright lines or license expressions"
@@ -532,9 +556,8 @@ msgid "formats output as JSON"
 msgstr "formato de salida JSON"
 
 #: src/reuse/lint.py:39
-#, fuzzy
 msgid "formats output as plain text (default)"
-msgstr "formatea la salida como un texto plano"
+msgstr "Formato de salida como texto sin formato (por defecto)"
 
 #: src/reuse/lint.py:45
 #, fuzzy
