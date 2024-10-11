@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-10 16:33+0000\n"
-"PO-Revision-Date: 2024-08-25 06:09+0000\n"
+"PO-Revision-Date: 2024-10-12 11:15+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "ru/>\n"
@@ -18,51 +18,49 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.7.1-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: src/reuse/cli/annotate.py:62
-#, fuzzy
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "Требуется опция --создатель, - авторское право или --лицензия"
+msgstr "Требуется опция '-- авторское право', '--лицензия' или '--контрибутор'."
 
 #: src/reuse/cli/annotate.py:123
-#, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
 "unrecognised':"
 msgstr ""
-"Следующие файлы не имеют распознанного расширения. Пожалуйста, используйте --"
-"style, --force-dot-license, --fallback-dot-license или --skip-unrecognised:"
+"Следующие файлы не имеют распознанного расширения. Пожалуйста, используйте '"
+"--style', '--force-dot-license', '--fallback-dot-license' или '--skip-"
+"unrecognised':"
 
 #: src/reuse/cli/annotate.py:156
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
-"'{path}' не поддерживает однострочные комментарии, пожалуйста, не "
-"используйте --single-line"
+"'{path}' не поддерживает однострочные комментарии, поэтому не используйте "
+"'--single-line'."
 
 #: src/reuse/cli/annotate.py:163
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
-"'{path}' не поддерживает многострочные комментарии, пожалуйста, не "
-"используйте --multi-line"
+"'{path}' не поддерживает многострочные комментарии, поэтому не используйте "
+"'--multi-line'."
 
 #: src/reuse/cli/annotate.py:209
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "Шаблон {template} не найден"
+msgstr "Шаблон '{template}' не найден."
 
 #: src/reuse/cli/annotate.py:272
-#, fuzzy
 msgid "Add copyright and licensing into the headers of files."
 msgstr ""
-"добавьте в заголовок файлов информацию об авторских правах и лицензировании"
+"Добавьте в заголовки файлов информацию об авторских правах и лицензировании."
 
 #: src/reuse/cli/annotate.py:275
 msgid ""
