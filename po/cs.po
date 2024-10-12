@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-10 16:33+0000\n"
-"PO-Revision-Date: 2024-09-14 10:09+0000\n"
+"PO-Revision-Date: 2024-10-12 11:15+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -21,112 +21,108 @@ msgstr ""
 "X-Generator: Weblate 5.8-dev\n"
 
 #: src/reuse/cli/annotate.py:62
-#, fuzzy
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "je vyžadována možnost --contributor, --copyright nebo --license"
+msgstr "Je vyžadována možnost „--copyright“, „--licence“ nebo „--contributor“."
 
 #: src/reuse/cli/annotate.py:123
-#, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
 "unrecognised':"
 msgstr ""
-"Následující soubory nemají rozpoznanou příponu. Použijte --style, --force-"
-"dot-license, --fallback-dot-license nebo --skip-unrecognised:"
+"Následující soubory nemají rozpoznanou příponu souboru. Použijte prosím "
+"„--style“, „--force-dot-license“, „--fallback-dot-license“ nebo „--skip-"
+"unrecognised“:"
 
 #: src/reuse/cli/annotate.py:156
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
 "'{path}' nepodporuje jednořádkové komentáře, nepoužívejte prosím --single-"
-"line"
+"line."
 
 #: src/reuse/cli/annotate.py:163
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
-msgstr "'{path}' nepodporuje víceřádkové komentáře, nepoužívejte --multi-line"
+msgstr ""
+"'{path}' nepodporuje víceřádkové komentáře, nepoužívejte prosím --multi-line."
 
 #: src/reuse/cli/annotate.py:209
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "šablonu {template} se nepodařilo najít"
+msgstr "Šablonu {template} se nepodařilo najít."
 
 #: src/reuse/cli/annotate.py:272
-#, fuzzy
 msgid "Add copyright and licensing into the headers of files."
-msgstr "přidání autorských práv a licencí do záhlaví souborů"
+msgstr "Přidání autorských práv a licencí do záhlaví souborů."
 
 #: src/reuse/cli/annotate.py:275
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
+"Pomocí --copyright a --license můžete určit, které držitele autorských práv "
+"a licence přidat do záhlaví daných souborů."
 
 #: src/reuse/cli/annotate.py:281
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Pomocí --contributor můžete určit osoby nebo subjekty, které přispěly, ale "
+"nejsou držiteli autorských práv k daným souborům."
 
 #: src/reuse/cli/annotate.py:293
 msgid "COPYRIGHT"
-msgstr ""
+msgstr "COPYRIGHT"
 
 #: src/reuse/cli/annotate.py:296
-#, fuzzy
 msgid "Copyright statement, repeatable."
-msgstr "prohlášení o autorských právech, opakovatelné"
+msgstr "Prohlášení o autorských právech, opakovatelné."
 
 #: src/reuse/cli/annotate.py:302
 msgid "SPDX_IDENTIFIER"
-msgstr ""
+msgstr "SPDX_IDENTIFIER"
 
 #: src/reuse/cli/annotate.py:305
-#, fuzzy
 msgid "SPDX License Identifier, repeatable."
-msgstr "Identifikátor SPDX, opakovatelný"
+msgstr "Identifikátor licence SPDX, opakovatelný."
 
 #: src/reuse/cli/annotate.py:310
 msgid "CONTRIBUTOR"
-msgstr ""
+msgstr "PŘISPĚVATEL"
 
 #: src/reuse/cli/annotate.py:313
-#, fuzzy
 msgid "File contributor, repeatable."
-msgstr "přispěvatel souboru, opakovatelný"
+msgstr "Přispěvatel souboru, opakovatelný."
 
 #: src/reuse/cli/annotate.py:319
 msgid "YEAR"
-msgstr ""
+msgstr "ROK"
 
 #: src/reuse/cli/annotate.py:325
-#, fuzzy
 msgid "Year of copyright statement."
-msgstr "rok vydání prohlášení o autorských právech, nepovinné"
+msgstr "Rok prohlášení o autorských právech."
 
 #: src/reuse/cli/annotate.py:333
-#, fuzzy
 msgid "Comment style to use."
-msgstr "styl komentáře, který se má použít, nepovinné"
+msgstr "Styl komentáře k použití."
 
 #: src/reuse/cli/annotate.py:338
-#, fuzzy
 msgid "Copyright prefix to use."
-msgstr "předpona autorských práv, která se má použít, nepovinné"
+msgstr "Předpona autorských práv k užití."
 
 #: src/reuse/cli/annotate.py:349
 msgid "TEMPLATE"
-msgstr ""
+msgstr "ŠABLONA"
 
 #: src/reuse/cli/annotate.py:351
-#, fuzzy
 msgid "Name of template to use."
-msgstr "název šablony, která se má použít, nepovinné"
+msgstr "Název šablony, která se má použít."
 
 #: src/reuse/cli/annotate.py:358
 #, fuzzy
