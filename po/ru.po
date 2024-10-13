@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-10 16:33+0000\n"
+"POT-Creation-Date: 2024-10-13 12:38+0000\n"
 "PO-Revision-Date: 2024-10-12 11:15+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -22,7 +22,8 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:62
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "Требуется опция '-- авторское право', '--лицензия' или '--контрибутор'."
+msgstr ""
+"Требуется опция '-- авторское право', '--лицензия' или '--контрибутор'."
 
 #: src/reuse/cli/annotate.py:123
 msgid ""
@@ -30,8 +31,8 @@ msgid ""
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
 "unrecognised':"
 msgstr ""
-"Следующие файлы не имеют распознанного расширения. Пожалуйста, используйте '"
-"--style', '--force-dot-license', '--fallback-dot-license' или '--skip-"
+"Следующие файлы не имеют распознанного расширения. Пожалуйста, используйте "
+"'--style', '--force-dot-license', '--fallback-dot-license' или '--skip-"
 "unrecognised':"
 
 #: src/reuse/cli/annotate.py:156
@@ -40,8 +41,8 @@ msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
-"'{path}' не поддерживает однострочные комментарии, поэтому не используйте "
-"'--single-line'."
+"'{path}' не поддерживает однострочные комментарии, поэтому не используйте '--"
+"single-line'."
 
 #: src/reuse/cli/annotate.py:163
 #, python-brace-format
@@ -74,119 +75,125 @@ msgid ""
 "but are not copyright holder of the given files."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:293
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:294
 msgid "COPYRIGHT"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:296
+#: src/reuse/cli/annotate.py:297
 #, fuzzy
 msgid "Copyright statement, repeatable."
 msgstr "заявление об авторских правах, повторяемое"
 
-#: src/reuse/cli/annotate.py:302
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:304
 msgid "SPDX_IDENTIFIER"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:305
+#: src/reuse/cli/annotate.py:307
 #, fuzzy
 msgid "SPDX License Identifier, repeatable."
 msgstr "Идентификатор SPDX, повторяемый"
 
-#: src/reuse/cli/annotate.py:310
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:313
 msgid "CONTRIBUTOR"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:313
+#: src/reuse/cli/annotate.py:316
 #, fuzzy
 msgid "File contributor, repeatable."
 msgstr "вкладчик файлов, повторяемость"
 
-#: src/reuse/cli/annotate.py:319
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:323
 msgid "YEAR"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:325
+#: src/reuse/cli/annotate.py:329
 #, fuzzy
 msgid "Year of copyright statement."
 msgstr "год утверждения авторского права, необязательно"
 
-#: src/reuse/cli/annotate.py:333
+#: src/reuse/cli/annotate.py:337
 #, fuzzy
 msgid "Comment style to use."
 msgstr "стиль комментария, который следует использовать, необязательно"
 
-#: src/reuse/cli/annotate.py:338
+#: src/reuse/cli/annotate.py:342
 #, fuzzy
 msgid "Copyright prefix to use."
 msgstr "используемый префикс авторского права, необязательно"
 
-#: src/reuse/cli/annotate.py:349
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:354
 msgid "TEMPLATE"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:351
+#: src/reuse/cli/annotate.py:356
 #, fuzzy
 msgid "Name of template to use."
 msgstr "имя шаблона, который будет использоваться, необязательно"
 
-#: src/reuse/cli/annotate.py:358
+#: src/reuse/cli/annotate.py:363
 #, fuzzy
 msgid "Do not include year in copyright statement."
 msgstr "не указывайте год в отчете"
 
-#: src/reuse/cli/annotate.py:363
+#: src/reuse/cli/annotate.py:368
 #, fuzzy
 msgid "Merge copyright lines if copyright statements are identical."
 msgstr ""
 "объединить строки с авторскими правами, если заявления об авторских правах "
 "идентичны"
 
-#: src/reuse/cli/annotate.py:370
+#: src/reuse/cli/annotate.py:375
 #, fuzzy
 msgid "Force single-line comment style."
 msgstr "стиль однострочных комментариев, необязательно"
 
-#: src/reuse/cli/annotate.py:377
+#: src/reuse/cli/annotate.py:382
 #, fuzzy
 msgid "Force multi-line comment style."
 msgstr "установить стиль многострочного комментария, необязательно"
 
-#: src/reuse/cli/annotate.py:383
+#: src/reuse/cli/annotate.py:388
 #, fuzzy
 msgid "Add headers to all files under specified directories recursively."
 msgstr "рекурсивно добавлять заголовки ко всем файлам в указанных каталогах"
 
-#: src/reuse/cli/annotate.py:388
+#: src/reuse/cli/annotate.py:393
 #, fuzzy
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr "не заменяйте первый заголовок в файле; просто добавьте новый"
 
-#: src/reuse/cli/annotate.py:395
+#: src/reuse/cli/annotate.py:400
 #, fuzzy
 msgid "Always write a .license file instead of a header inside the file."
 msgstr "всегда записывайте файл .license вместо заголовка внутри файла"
 
-#: src/reuse/cli/annotate.py:402
+#: src/reuse/cli/annotate.py:407
 #, fuzzy
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr ""
 "записывать файл .license в файлы с нераспознанными стилями комментариев"
 
-#: src/reuse/cli/annotate.py:409
+#: src/reuse/cli/annotate.py:414
 #, fuzzy
 msgid "Skip files with unrecognised comment styles."
 msgstr "пропускать файлы с нераспознанными стилями комментариев"
 
-#: src/reuse/cli/annotate.py:420
+#: src/reuse/cli/annotate.py:425
 #, fuzzy
 msgid "Skip files that already contain REUSE information."
 msgstr "пропускать файлы, которые уже содержат информацию о REUSE"
 
-#: src/reuse/cli/annotate.py:424
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:430
 msgid "PATH"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:474
+#: src/reuse/cli/annotate.py:480
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
@@ -291,16 +298,17 @@ msgstr ""
 "источник, из которого копируются пользовательские лицензии LicenseRef-, либо "
 "каталог, содержащий файл, либо сам файл"
 
-#: src/reuse/cli/download.py:142
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/download.py:143
 #, fuzzy
 msgid "LICENSE"
 msgstr "ПЛОХАЯ ЛИЦЕНЗИЯ"
 
-#: src/reuse/cli/download.py:158
+#: src/reuse/cli/download.py:159
 msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
 msgstr ""
 
-#: src/reuse/cli/download.py:172
+#: src/reuse/cli/download.py:173
 #, fuzzy
 msgid "Cannot use '--output' with more than one license."
 msgstr "Невозможно использовать --output с более чем одной лицензией"
@@ -388,11 +396,12 @@ msgstr ""
 msgid "Format output as errors per line. (default)"
 msgstr "Форматирует вывод в виде ошибок на строку"
 
-#: src/reuse/cli/lint_file.py:50
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/lint_file.py:51
 msgid "FILE"
 msgstr ""
 
-#: src/reuse/cli/lint_file.py:64
+#: src/reuse/cli/lint_file.py:65
 #, python-brace-format
 msgid "'{file}' is not inside of '{root}'."
 msgstr ""
