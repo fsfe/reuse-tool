@@ -290,6 +290,7 @@ _HELP = (
     "--copyright",
     "-c",
     "copyrights",
+    # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("COPYRIGHT"),
     type=str,
     multiple=True,
@@ -299,6 +300,7 @@ _HELP = (
     "--license",
     "-l",
     "licenses",
+    # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("SPDX_IDENTIFIER"),
     type=spdx_identifier,
     multiple=True,
@@ -307,6 +309,7 @@ _HELP = (
 @click.option(
     "--contributor",
     "contributors",
+    # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("CONTRIBUTOR"),
     type=str,
     multiple=True,
@@ -316,6 +319,7 @@ _HELP = (
     "--year",
     "-y",
     "years",
+    # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("YEAR"),
     cls=MutexOption,
     mutually_exclusive=_YEAR_MUTEX,
@@ -346,6 +350,7 @@ _HELP = (
     "--template",
     "-t",
     "template_str",
+    # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("TEMPLATE"),
     type=str,
     help=_("Name of template to use."),
@@ -421,6 +426,7 @@ _HELP = (
 )
 @click.argument(
     "paths",
+    # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("PATH"),
     type=click.Path(exists=True, writable=True, path_type=Path),
     nargs=-1,
