@@ -47,6 +47,7 @@ _HELP = _(
 )
 @click.argument(
     "files",
+    # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("FILE"),
     type=click.Path(exists=True, path_type=Path),
     nargs=-1,

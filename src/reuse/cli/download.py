@@ -139,6 +139,7 @@ _HELP = (
 )
 @click.argument(
     "license_",
+    # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("LICENSE"),
     type=str,
     nargs=-1,
