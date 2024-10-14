@@ -608,6 +608,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".bib": BibTexCommentStyle,
     ".bzl": PythonCommentStyle,
     ".c": CCommentStyle,
+    ".cabal": HaskellCommentStyle,
     ".cc": CppCommentStyle,
     ".cjs": CppCommentStyle,
     ".cl": LispCommentStyle,
@@ -878,6 +879,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".yarnrc": PythonCommentStyle,
     "ansible.cfg": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
+    "cabal.project": HaskellCommentStyle,
     "Cargo.lock": PythonCommentStyle,
     "CMakeLists.txt": PythonCommentStyle,
     "CODEOWNERS": PythonCommentStyle,
