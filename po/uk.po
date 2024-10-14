@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-13 12:38+0000\n"
-"PO-Revision-Date: 2024-10-12 11:15+0000\n"
+"PO-Revision-Date: 2024-10-14 11:11+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,12 +67,16 @@ msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
+"За допомогою --copyright і --license ви можете вказати, яких власників "
+"авторських прав і ліцензій додавати до заголовків цих файлів."
 
 #: src/reuse/cli/annotate.py:281
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"За допомогою --contributor ви можете вказати особу або організацію, яка "
+"зробила внесок, але не є власником авторських прав на ці файли."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:294
@@ -192,7 +196,7 @@ msgstr ""
 #: src/reuse/cli/common.py:97
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr ""
+msgstr "'{name}' взаємозаперечний з: {opts}"
 
 #: src/reuse/cli/common.py:114
 msgid "'{}' is not a valid SPDX expression."
@@ -204,6 +208,9 @@ msgid ""
 "the project root and is semantically identical. The .reuse/dep5 file is "
 "subsequently deleted."
 msgstr ""
+"Перетворіть .reuse/dep5 у файл REUSE.toml. Створений файл розміщується в "
+"корені проєкту і є семантично ідентичним. Згодом файл .reuse/dep5 буде "
+"видалено."
 
 #: src/reuse/cli/convert_dep5.py:31
 msgid "No '.reuse/dep5' file."
@@ -257,6 +264,8 @@ msgid ""
 "LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
 msgstr ""
+"LICENSE має бути дійсним ідентифікатором ліцензії SPDX. Ви можете вказати "
+"LICENSE кілька разів, щоб завантажити кілька ліцензій."
 
 #: src/reuse/cli/download.py:122
 msgid "Download all missing licenses detected in the project."
@@ -264,7 +273,7 @@ msgstr "Завантажити всі відсутні ліцензії, вия�
 
 #: src/reuse/cli/download.py:130
 msgid "Path to download to."
-msgstr ""
+msgstr "Шлях для завантаження."
 
 #: src/reuse/cli/download.py:136
 msgid ""
@@ -307,9 +316,8 @@ msgid ""
 msgstr ""
 
 #: src/reuse/cli/lint.py:40
-#, fuzzy
 msgid "- Are there any deprecated licenses in the project?"
-msgstr "Яка інтернет-адреса проєкту?"
+msgstr "- Чи є в проєкті застарілі ліцензії?"
 
 #: src/reuse/cli/lint.py:43
 msgid ""
@@ -462,9 +470,8 @@ msgid "Generate an SPDX bill of materials."
 msgstr "Згенерувати опис матеріалів проєкту у форматі SPDX."
 
 #: src/reuse/cli/spdx.py:33
-#, fuzzy
 msgid "File to write to."
-msgstr "файли для перевірки"
+msgstr "Файл, куди записувати."
 
 #: src/reuse/cli/spdx.py:39
 msgid ""
