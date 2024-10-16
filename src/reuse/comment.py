@@ -422,6 +422,7 @@ class HaskellCommentStyle(CommentStyle):
 
     SINGLE_LINE = "--"
     INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["cabal-version:"]
 
 
 class HtmlCommentStyle(CommentStyle):
