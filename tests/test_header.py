@@ -11,13 +11,9 @@ from inspect import cleandoc
 import pytest
 
 from reuse import ReuseInfo
-from reuse.comment import CommentCreateError, CppCommentStyle
-from reuse.header import (
-    MissingReuseInfo,
-    add_new_header,
-    create_header,
-    find_and_replace_header,
-)
+from reuse.comment import CppCommentStyle
+from reuse.exceptions import CommentCreateError, MissingReuseInfoError
+from reuse.header import add_new_header, create_header, find_and_replace_header
 
 # REUSE-IgnoreStart
 
@@ -73,7 +69,7 @@ def test_create_header_template_no_spdx(template_no_spdx):
     """Create a header with a template that does not have all REUSE info."""
     info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
 
-    with pytest.raises(MissingReuseInfo):
+    with pytest.raises(MissingReuseInfoError):
         create_header(info, template=template_no_spdx)
 
 

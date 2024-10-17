@@ -13,8 +13,6 @@ from textwrap import dedent
 import pytest
 
 from reuse.comment import (
-    CommentCreateError,
-    CommentParseError,
     CommentStyle,
     CppCommentStyle,
     HtmlCommentStyle,
@@ -22,6 +20,7 @@ from reuse.comment import (
     PythonCommentStyle,
     _all_style_classes,
 )
+from reuse.exceptions import CommentCreateError, CommentParseError
 
 
 @pytest.fixture(

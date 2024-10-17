@@ -22,12 +22,12 @@ from license_expression import LicenseSymbol
 from reuse import ReuseInfo, SourceType
 from reuse._util import _LICENSING
 from reuse.covered_files import iter_files
-from reuse.global_licensing import (
+from reuse.exceptions import (
+    GlobalLicensingConflictError,
     GlobalLicensingParseError,
-    ReuseDep5,
-    ReuseTOML,
 )
-from reuse.project import GlobalLicensingConflict, Project
+from reuse.global_licensing import ReuseDep5, ReuseTOML
+from reuse.project import Project
 
 # REUSE-IgnoreStart
 
@@ -52,7 +52,7 @@ def test_project_conflicting_global_licensing(empty_directory):
     (empty_directory / "REUSE.toml").write_text("version = 1")
     (empty_directory / ".reuse").mkdir()
     shutil.copy(RESOURCES_DIRECTORY / "dep5", empty_directory / ".reuse/dep5")
-    with pytest.raises(GlobalLicensingConflict):
+    with pytest.raises(GlobalLicensingConflictError):
         Project.from_directory(empty_directory)
 
 
@@ -605,7 +605,7 @@ def test_find_global_licensing_none(empty_directory):
 def test_find_global_licensing_conflict(fake_repository_dep5):
     """Expect an error on a conflict"""
     (fake_repository_dep5 / "REUSE.toml").write_text("version = 1")
-    with pytest.raises(GlobalLicensingConflict):
+    with pytest.raises(GlobalLicensingConflictError):
         Project.find_global_licensing(fake_repository_dep5)
 
 

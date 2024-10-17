@@ -32,17 +32,10 @@ from pathlib import Path
 from textwrap import dedent
 from typing import NamedTuple, Optional, Type, cast
 
+from .exceptions import CommentCreateError, CommentParseError
 from .types import StrPath
 
 _LOGGER = logging.getLogger(__name__)
-
-
-class CommentParseError(Exception):
-    """An error occurred during the parsing of a comment."""
-
-
-class CommentCreateError(Exception):
-    """An error occurred during the creation of a comment."""
 
 
 class MultiLineSegments(NamedTuple):
