@@ -182,11 +182,3 @@ class ReuseInfo:
 
     def __or__(self, value: "ReuseInfo") -> "ReuseInfo":
         return self.union(value)
-
-
-class ReuseException(Exception):
-    """Base exception."""
-
-
-class IdentifierNotFound(ReuseException):
-    """Could not find SPDX identifier for license file."""

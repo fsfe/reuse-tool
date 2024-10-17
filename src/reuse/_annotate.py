@@ -30,12 +30,12 @@ from ._util import (
 )
 from .comment import (
     NAME_STYLE_MAP,
-    CommentCreateError,
     CommentStyle,
     EmptyCommentStyle,
     get_comment_style,
 )
-from .header import MissingReuseInfo, add_new_header, find_and_replace_header
+from .exceptions import CommentCreateError, MissingReuseInfo
+from .header import add_new_header, find_and_replace_header
 from .i18n import _
 from .project import Project
 from .types import StrPath

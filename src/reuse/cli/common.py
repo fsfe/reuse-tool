@@ -13,9 +13,9 @@ from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError
 
 from .._util import _LICENSING
-from ..global_licensing import GlobalLicensingParseError
+from ..exceptions import GlobalLicensingConflict, GlobalLicensingParseError
 from ..i18n import _
-from ..project import GlobalLicensingConflict, Project
+from ..project import Project
 from ..vcs import find_root
 
 

@@ -22,12 +22,9 @@ from license_expression import LicenseSymbol
 from reuse import ReuseInfo, SourceType
 from reuse._util import _LICENSING
 from reuse.covered_files import iter_files
-from reuse.global_licensing import (
-    GlobalLicensingParseError,
-    ReuseDep5,
-    ReuseTOML,
-)
-from reuse.project import GlobalLicensingConflict, Project
+from reuse.exceptions import GlobalLicensingConflict, GlobalLicensingParseError
+from reuse.global_licensing import ReuseDep5, ReuseTOML
+from reuse.project import Project
 
 # REUSE-IgnoreStart
 

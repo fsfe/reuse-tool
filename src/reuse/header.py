@@ -28,13 +28,8 @@ from ._util import (
     extract_reuse_info,
     merge_copyright_lines,
 )
-from .comment import (
-    CommentCreateError,
-    CommentParseError,
-    CommentStyle,
-    EmptyCommentStyle,
-    PythonCommentStyle,
-)
+from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
+from .exceptions import CommentCreateError, CommentParseError, MissingReuseInfo
 from .i18n import _
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,10 +46,6 @@ class _TextSections(NamedTuple):
     before: str
     middle: str
     after: str
-
-
-class MissingReuseInfo(Exception):
-    """Some REUSE information is missing from the result."""
 
 
 def _create_new_header(

@@ -33,9 +33,14 @@ from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
-from . import ReuseException, ReuseInfo, SourceType
+from . import ReuseInfo, SourceType
 from ._util import _LICENSING
 from .covered_files import iter_files
+from .exceptions import (
+    GlobalLicensingParseError,
+    GlobalLicensingParseTypeError,
+    GlobalLicensingParseValueError,
+)
 from .i18n import _
 from .types import StrPath
 from .vcs import VCSStrategy
@@ -70,28 +75,6 @@ class PrecedenceType(Enum):
     CLOSEST = "closest"
     #: Only use the results from the global licensing file.
     OVERRIDE = "override"
-
-
-class GlobalLicensingParseError(ReuseException):
-    """An exception representing any kind of error that occurs when trying to
-    parse a :class:`GlobalLicensing` file.
-    """
-
-    def __init__(self, *args: Any, source: Optional[str] = None):
-        super().__init__(*args)
-        self.source = source
-
-
-class GlobalLicensingParseTypeError(GlobalLicensingParseError, TypeError):
-    """An exception representing a type error while trying to parse a
-    :class:`GlobalLicensing` file.
-    """
-
-
-class GlobalLicensingParseValueError(GlobalLicensingParseError, ValueError):
-    """An exception representing a value error while trying to parse a
-    :class:`GlobalLicensing` file.
-    """
 
 
 @attrs.define

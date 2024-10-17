@@ -21,7 +21,7 @@ from typing import Collection, Iterator, NamedTuple, Optional, Type
 import attrs
 from binaryornot.check import is_binary
 
-from . import IdentifierNotFound, ReuseInfo
+from . import ReuseInfo
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import (
     _LICENSEREF_PATTERN,
@@ -30,6 +30,7 @@ from ._util import (
     reuse_info_of_file,
 )
 from .covered_files import iter_files
+from .exceptions import GlobalLicensingConflict, IdentifierNotFound
 from .global_licensing import (
     GlobalLicensing,
     NestedReuseTOML,
@@ -42,12 +43,6 @@ from .types import StrPath
 from .vcs import VCSStrategy, VCSStrategyNone, all_vcs_strategies
 
 _LOGGER = logging.getLogger(__name__)
-
-
-class GlobalLicensingConflict(Exception):
-    """There are two global licensing files in the project that are not
-    compatible.
-    """
 
 
 class GlobalLicensingFound(NamedTuple):

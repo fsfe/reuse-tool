@@ -15,11 +15,13 @@ from license_expression import LicenseSymbol
 
 from reuse import ReuseInfo, SourceType
 from reuse._util import _LICENSING
-from reuse.global_licensing import (
-    AnnotationsItem,
+from reuse.exceptions import (
     GlobalLicensingParseError,
     GlobalLicensingParseTypeError,
     GlobalLicensingParseValueError,
+)
+from reuse.global_licensing import (
+    AnnotationsItem,
     NestedReuseTOML,
     PrecedenceType,
     ReuseDep5,
