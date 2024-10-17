@@ -27,26 +27,29 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ## 5.0.0 - 2024-10-17
 
+This is a big release for a small change set. With this release, the tool
+becomes compatible with
+[REUSE Specification 3.3](https://reuse.software/spec-3.3), which is a very
+subtly improved release of the much bigger version 3.2.
+
 ### Added
 
-- Added `.cabal` and `cabal.project` (Haskell) as recognised file types for
-  comments. (#1089, #1090)
-- Added `.envrc` (Python) and `.flake.lock` (uncommentable) as recognised file
-  types for comments. (#1061)
 - More file types are recognised:
+  - Cabal (`.cabal`, `cabal.project`) (#1089, #1090)
+  - `.envrc` (#1061)
+  - `.flake.lock` (#1061)
   - Ansible Jinja2 (`.j2`) (#1036)
+  - Poetry lock file (`poetry.lock`) (#1037)
+- Added `lint-file` subcommand to enable running lint on specific files. (#1055)
 - Added shell completion via `click`. (#1084)
-- Add Jujutsu VCS support. (#TODO)
-- Add lint-file subcommand to enable running lint on specific files.
+- Added Jujutsu VCS support. (#TODO)
 - Added new copyright prefixes `spdx-string`, `spdx-string-c`, and
   `spdx-string-symbol`. (#979)
-- Make poetry.lock uncommentable. (#1037)
 
 ### Changed
 
 - Bumped REUSE Specification version to
-  [version 3.3](https://reuse.software/spec-3.3). This is a small change.
-  (#1069)
+  [version 3.3](https://reuse.software/spec-3.3). (#1069)
 - Switched from `argparse` to `click` for handling the CLI. The CLI should still
   handle the same, with identical options and arguments, but some stuff changed
   under the hood. (#1084)
@@ -65,22 +68,20 @@ CLI command and its behaviour. There are no guarantees of stability for the
   - `annotate` and `lint-file` now also take directories as arguments. This will
     do nothing, but can be useful in scripting.
 
-- Allow Python-style comments in Cargo.lock files
-- `.s` files (GNU as) now use the C comment style (#1034)
-- `.ld` files (GNU ld) now use the C comment style (#1034)
+- Changes to comment styles:
+  - Allow Python-style comments in Cargo.lock files. (#1060)
+  - `.s` files (GNU as) now use the C comment style. (#1034)
+  - `.ld` files (GNU ld) now use the C comment style. (#1034)
 - `REUSE.toml` no longer needs a licensing header. (#1042)
 - `.gitkeep` is no longer ignored, because this is not defined in the
   specification. However, if `.gitkeep` is a 0-size file, it will remain ignored
   (because 0-size files are ignored). (#1043)
-- If `REUSE.toml` is ignored by VCS, the linter now also ignores this files.
+- If `REUSE.toml` is ignored by VCS, the linter no longer parses this file.
   (#1047)
 - SPDX license and exception list updated to v3.25.0.
-- Changes that are not strictly compatible with
-  [REUSE Specification v3.2](https://reuse.software/spec-3.2):
-  - More `LICENSE` and `COPYING`-like files are ignored. Now, such files
-    suffixed by `-anything` are also ignored, typically something like
-    `LICENSE-MIT`. Files with the UK spelling `LICENCE` are also ignored.
-    (#1041)
+- More `LICENSE` and `COPYING`-like files are ignored. Now, such files suffixed
+  by `-anything` are also ignored, typically something like `LICENSE-MIT`. Files
+  with the UK spelling `LICENCE` are also ignored. (#1041)
 
 ### Removed
 
@@ -88,8 +89,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Fixed
 
-- Fixed the globbing of a single asterisk succeeded by a slash (e.g.
-  `directory-*/foo.py`). The glob previously did nothing. (#1078)
+- In `REUSE.toml`, fixed the globbing of a single asterisk succeeded by a slash
+  (e.g. `directory-*/foo.py`). The glob previously did nothing. (#1078)
 - Increased the minimum requirement of `attrs` to `>=21.3`. Older versions do
   not import correctly. (#1044)
 - Performance greatly improved for projects with large directories ignored by
