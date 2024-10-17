@@ -25,6 +25,84 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## 5.0.0 - 2024-10-17
+
+### Added
+
+- Added `.cabal` and `cabal.project` (Haskell) as recognised file types for
+  comments. (#1089, #1090)
+- Added `.envrc` (Python) and `.flake.lock` (uncommentable) as recognised file
+  types for comments. (#1061)
+- More file types are recognised:
+  - Ansible Jinja2 (`.j2`) (#1036)
+- Added shell completion via `click`. (#1084)
+- Add Jujutsu VCS support. (#TODO)
+- Add lint-file subcommand to enable running lint on specific files.
+- Added new copyright prefixes `spdx-string`, `spdx-string-c`, and
+  `spdx-string-symbol`. (#979)
+- Make poetry.lock uncommentable. (#1037)
+
+### Changed
+
+- Bumped REUSE Specification version to
+  [version 3.3](https://reuse.software/spec-3.3). This is a small change.
+  (#1069)
+- Switched from `argparse` to `click` for handling the CLI. The CLI should still
+  handle the same, with identical options and arguments, but some stuff changed
+  under the hood. (#1084)
+
+  Find here a small list of differences:
+
+  - `-h` is no longer shorthand for `--help`.
+  - `--version` now outputs "reuse, version X.Y.Z", followed by a licensing
+    blurb on different paragraphs.
+  - Some options are made explicitly mutually exclusive, such as `annotate`'s
+    `--skip-unrecognised` and `--style`, and `download`'s `--output` and
+    `--all`.
+  - Subcommands which take a list of things (files, license) as arguments, such
+    as `annotate`, `lint-file`, or `download`, now also allow zero arguments.
+    This will do nothing, but can be useful in scripting.
+  - `annotate` and `lint-file` now also take directories as arguments. This will
+    do nothing, but can be useful in scripting.
+
+- Allow Python-style comments in Cargo.lock files
+- `.s` files (GNU as) now use the C comment style (#1034)
+- `.ld` files (GNU ld) now use the C comment style (#1034)
+- `REUSE.toml` no longer needs a licensing header. (#1042)
+- `.gitkeep` is no longer ignored, because this is not defined in the
+  specification. However, if `.gitkeep` is a 0-size file, it will remain ignored
+  (because 0-size files are ignored). (#1043)
+- If `REUSE.toml` is ignored by VCS, the linter now also ignores this files.
+  (#1047)
+- SPDX license and exception list updated to v3.25.0.
+- Changes that are not strictly compatible with
+  [REUSE Specification v3.2](https://reuse.software/spec-3.2):
+  - More `LICENSE` and `COPYING`-like files are ignored. Now, such files
+    suffixed by `-anything` are also ignored, typically something like
+    `LICENSE-MIT`. Files with the UK spelling `LICENCE` are also ignored.
+    (#1041)
+
+### Removed
+
+- Python 3.8 support removed. (#1080)
+
+### Fixed
+
+- Fixed the globbing of a single asterisk succeeded by a slash (e.g.
+  `directory-*/foo.py`). The glob previously did nothing. (#1078)
+- Increased the minimum requirement of `attrs` to `>=21.3`. Older versions do
+  not import correctly. (#1044)
+- Performance greatly improved for projects with large directories ignored by
+  VCS. (#1047)
+- Performance slightly improved for large projects. (#1047)
+- The plain output of `lint` has been slightly improved, getting rid of an
+  errant newline. (#1091)
+- `reuse annotate --merge-copyrights` now works more reliably with copyright
+  prefixes. This still needs some work, though. (#979)
+- In some scenarios, where a user has multiple `REUSE.toml` files and one of
+  those files could not be parsed, the wrong `REUSE.toml` was signalled as being
+  unparseable. This is now fixed. (#1047)
+
 ## 4.0.3 - 2024-07-08
 
 ### Fixed
