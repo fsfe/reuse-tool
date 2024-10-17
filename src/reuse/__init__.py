@@ -45,16 +45,6 @@ _LOGGER = logging.getLogger(__name__)
 
 _LICENSING = Licensing()
 
-_PACKAGE_PATH = os.path.dirname(__file__)
-_LOCALE_DIR = os.path.join(_PACKAGE_PATH, "locale")
-
-if gettext.find("reuse", localedir=_LOCALE_DIR):
-    gettext.bindtextdomain("reuse", _LOCALE_DIR)
-    gettext.textdomain("reuse")
-    _LOGGER.debug("translations found at %s", _LOCALE_DIR)
-else:
-    _LOGGER.debug("no translations found at %s", _LOCALE_DIR)
-
 
 class SourceType(Enum):
     """
