@@ -1,1 +1,0 @@
-- `.ld` files (GNU ld) now use the C comment style (#1034)

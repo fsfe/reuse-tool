@@ -1,1 +1,0 @@
-- Add lint-file subcommand to enable running lint on specific files.

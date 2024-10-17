@@ -1,1 +1,0 @@
-- `REUSE.toml` no longer needs a licensing header. (#1042)
