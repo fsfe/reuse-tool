@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-16 11:01+0000\n"
-"PO-Revision-Date: 2024-10-12 11:15+0000\n"
+"PO-Revision-Date: 2024-10-17 07:16+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.8-rc\n"
 
 #: src/reuse/cli/annotate.py:62
 msgid "Option '--copyright', '--license', or '--contributor' is required."
@@ -130,61 +130,51 @@ msgid "Name of template to use."
 msgstr "Název šablony, která se má použít."
 
 #: src/reuse/cli/annotate.py:363
-#, fuzzy
 msgid "Do not include year in copyright statement."
-msgstr "neuvádět rok v prohlášení"
+msgstr "V prohlášení o autorských právech neuvádějte rok."
 
 #: src/reuse/cli/annotate.py:368
-#, fuzzy
 msgid "Merge copyright lines if copyright statements are identical."
 msgstr ""
-"sloučit řádky s autorskými právy, pokud jsou prohlášení o autorských právech "
-"totožná"
+"Slučte řádky s autorskými právy, pokud jsou prohlášení o autorských právech "
+"totožná."
 
 #: src/reuse/cli/annotate.py:375
-#, fuzzy
 msgid "Force single-line comment style."
-msgstr "vynutit jednořádkový styl komentáře, nepovinné"
+msgstr "Vyžadujte jednořádkový styl komentáře."
 
 #: src/reuse/cli/annotate.py:382
-#, fuzzy
 msgid "Force multi-line comment style."
-msgstr "vynutit víceřádkový styl komentáře, nepovinné"
+msgstr "Vyžadujte víceřádkový styl komentáře."
 
 #: src/reuse/cli/annotate.py:388
-#, fuzzy
 msgid "Add headers to all files under specified directories recursively."
-msgstr "zpětně přidat hlavičky ke všem souborům v zadaných adresářích"
+msgstr "Rekurzivně přidejte hlavičky ke všem souborům v zadaných adresářích."
 
 #: src/reuse/cli/annotate.py:393
-#, fuzzy
 msgid "Do not replace the first header in the file; just add a new one."
-msgstr "nenahrazovat první hlavičku v souboru, ale přidat novou"
+msgstr "První záhlaví v souboru nenahrazujte, pouze přidejte nové."
 
 #: src/reuse/cli/annotate.py:400
-#, fuzzy
 msgid "Always write a .license file instead of a header inside the file."
-msgstr "místo hlavičky uvnitř souboru vždy zapsat soubor .license"
+msgstr "Místo hlavičky uvnitř souboru vždy napište soubor .license."
 
 #: src/reuse/cli/annotate.py:407
-#, fuzzy
 msgid "Write a .license file to files with unrecognised comment styles."
-msgstr "zapsat soubor .license do souborů s nerozpoznanými styly komentářů"
+msgstr "Zapište soubor .license do souborů s nerozpoznanými styly komentářů."
 
 #: src/reuse/cli/annotate.py:414
-#, fuzzy
 msgid "Skip files with unrecognised comment styles."
-msgstr "přeskočit soubory s nerozpoznanými styly komentářů"
+msgstr "Přeskočte soubory s nerozpoznanými styly komentářů."
 
 #: src/reuse/cli/annotate.py:425
-#, fuzzy
 msgid "Skip files that already contain REUSE information."
-msgstr "přeskočit soubory, které již obsahují informace REUSE"
+msgstr "Přeskočte soubory, které již obsahují informace REUSE."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:430
 msgid "PATH"
-msgstr ""
+msgstr "CESTA"
 
 #: src/reuse/cli/annotate.py:480
 #, python-brace-format
@@ -203,12 +193,11 @@ msgstr ""
 #: src/reuse/cli/common.py:97
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr ""
+msgstr "'{name}' se vzájemně vylučuje s: {opts}"
 
 #: src/reuse/cli/common.py:114
-#, fuzzy
 msgid "'{}' is not a valid SPDX expression."
-msgstr "'{}' není platný výraz SPDX, přeruší se"
+msgstr "'{}' není platný výraz SPDX."
 
 #: src/reuse/cli/convert_dep5.py:19
 msgid ""
@@ -216,28 +205,29 @@ msgid ""
 "the project root and is semantically identical. The .reuse/dep5 file is "
 "subsequently deleted."
 msgstr ""
+"Převod souboru .reuse/dep5 do souboru REUSE.toml. Vygenerovaný soubor je "
+"umístěn v kořenovém adresáři projektu a je sémanticky identický. Soubor ."
+"reuse/dep5 je následně odstraněn."
 
 #: src/reuse/cli/convert_dep5.py:31
-#, fuzzy
 msgid "No '.reuse/dep5' file."
-msgstr "žádný soubor '.reuse/dep5'"
+msgstr "Žádný soubor '.reuse/dep5'."
 
 #: src/reuse/cli/download.py:52
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' není platný identifikátor licence SPDX."
 
 #: src/reuse/cli/download.py:59
-#, fuzzy
 msgid "Did you mean:"
-msgstr "Měl jste na mysli:"
+msgstr "Chtěl jste říct:"
 
 #: src/reuse/cli/download.py:66
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
 msgstr ""
-"Seznam platných identifikátorů licence SPDX naleznete na adrese <https://"
-"spdx.org/licenses/>."
+"Seznam platných identifikátorů licence SPDX naleznete na <https://spdx.org/"
+"licenses/>."
 
 #: src/reuse/cli/download.py:75
 #, python-brace-format
@@ -245,7 +235,7 @@ msgid "Error: {spdx_identifier} already exists."
 msgstr "Chyba: {spdx_identifier} již existuje."
 
 #: src/reuse/cli/download.py:82
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error: {path} does not exist."
 msgstr "Chyba: {path} neexistuje."
 
@@ -271,40 +261,37 @@ msgid ""
 "LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
 msgstr ""
+"LICENSE musí být platný identifikátor licence SPDX. Pro stažení více licencí "
+"můžete zadat LICENSE vícekrát."
 
 #: src/reuse/cli/download.py:122
-#, fuzzy
 msgid "Download all missing licenses detected in the project."
-msgstr "stáhnout všechny chybějící licence zjištěné v projektu"
+msgstr "Stáhnout všechny chybějící licence zjištěné v projektu."
 
 #: src/reuse/cli/download.py:130
 msgid "Path to download to."
-msgstr ""
+msgstr "Cesta ke stažení."
 
 #: src/reuse/cli/download.py:136
-#, fuzzy
 msgid ""
 "Source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself."
 msgstr ""
-"zdroj, ze kterého se kopírují vlastní licence LicenseRef- nebo adresář, "
-"který soubor obsahuje, nebo samotný soubor"
+"Zdroj, ze kterého se kopírují vlastní licence LicenseRef- nebo adresář, "
+"který soubor obsahuje, nebo samotný soubor."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:143
-#, fuzzy
 msgid "LICENSE"
-msgstr "NEVHODNÉ LICENCE"
+msgstr "LICENCE"
 
 #: src/reuse/cli/download.py:159
-#, fuzzy
 msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr "volby --single-line a --multi-line se vzájemně vylučují"
+msgstr "Argument 'LICENSE' a možnost '--all' se vzájemně vylučují."
 
 #: src/reuse/cli/download.py:173
-#, fuzzy
 msgid "Cannot use '--output' with more than one license."
-msgstr "nelze použít --output s více než jednou licencí"
+msgstr "Nelze použít --output s více než jednou licencí."
 
 #: src/reuse/cli/lint.py:27
 #, python-brace-format
@@ -314,70 +301,73 @@ msgid ""
 "find the latest version of the specification at <https://reuse.software/spec/"
 ">."
 msgstr ""
+"Proveďte lintování adresáře projektu, aby byl v souladu s pravidly REUSE. "
+"Tato verze nástroje kontroluje verzi {reuse_version} specifikace REUSE. "
+"Nejnovější verzi specifikace najdete na adrese <https://reuse.software/spec/"
+">."
 
 #: src/reuse/cli/lint.py:33
 msgid "Specifically, the following criteria are checked:"
-msgstr ""
+msgstr "Kontrolují se zejména tato kritéria:"
 
 #: src/reuse/cli/lint.py:36
 msgid ""
 "- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
 "project?"
 msgstr ""
+"- Jsou v projektu nějaké špatné (nerozpoznané, nekompatibilní s SPDX) "
+"licence?"
 
 #: src/reuse/cli/lint.py:40
-#, fuzzy
 msgid "- Are there any deprecated licenses in the project?"
-msgstr "Jaká je internetová adresa projektu?"
+msgstr "- Jsou v projektu nějaké zastaralé licence?"
 
 #: src/reuse/cli/lint.py:43
 msgid ""
 "- Are there any license files in the LICENSES/ directory without file "
 "extension?"
-msgstr ""
+msgstr "- Jsou v adresáři LICENSES/ nějaké licenční soubory bez přípony?"
 
 #: src/reuse/cli/lint.py:48
 msgid ""
 "- Are any licenses referred to inside of the project, but not included in "
 "the LICENSES/ directory?"
 msgstr ""
+"- Odkazuje se na nějaké licence uvnitř projektu, ale nejsou obsaženy v "
+"adresáři LICENSES/?"
 
 #: src/reuse/cli/lint.py:53
 msgid ""
 "- Are any licenses included in the LICENSES/ directory that are not used "
 "inside of the project?"
 msgstr ""
+"- Jsou v adresáři LICENSES/ obsaženy nějaké licence, které se v projektu "
+"nepoužívají?"
 
 #: src/reuse/cli/lint.py:57
 msgid "- Are there any read errors?"
-msgstr ""
+msgstr "- Dochází k chybám při čtení?"
 
 #: src/reuse/cli/lint.py:59
-#, fuzzy
 msgid "- Do all files have valid copyright and licensing information?"
 msgstr ""
-"Následující soubory neobsahují žádné informace o autorských právech a "
-"licencích:"
+"- Mají všechny soubory platné informace o autorských právech a licencích?"
 
 #: src/reuse/cli/lint.py:70 src/reuse/cli/lint_file.py:38
-#, fuzzy
 msgid "Prevent output."
-msgstr "brání výstupu"
+msgstr "Brání výstupu."
 
 #: src/reuse/cli/lint.py:78
-#, fuzzy
 msgid "Format output as JSON."
-msgstr "formátuje výstup jako JSON"
+msgstr "Formátuje výstup jako JSON."
 
 #: src/reuse/cli/lint.py:86
-#, fuzzy
 msgid "Format output as plain text. (default)"
-msgstr "formátuje výstup jako prostý text (výchozí)"
+msgstr "Formátování výstupu jako prostého textu. (výchozí)"
 
 #: src/reuse/cli/lint.py:94
-#, fuzzy
 msgid "Format output as errors per line."
-msgstr "formátuje výstup jako chyby na řádek"
+msgstr "Formátuje výstup jako chyby na řádek."
 
 #: src/reuse/cli/lint_file.py:25
 msgid ""
@@ -385,27 +375,29 @@ msgid ""
 "for the presence of copyright and licensing information, and whether the "
 "found licenses are included in the LICENSES/ directory."
 msgstr ""
+"Lintování jednotlivých souborů pro splnění požadavků REUSE. U zadaných "
+"souborů se kontroluje přítomnost informací o autorských právech a licencích "
+"a zda jsou nalezené licence obsaženy v adresáři LICENSES/."
 
 #: src/reuse/cli/lint_file.py:46
-#, fuzzy
 msgid "Format output as errors per line. (default)"
-msgstr "formátuje výstup jako chyby na řádek (výchozí)"
+msgstr "Formátování výstupu jako chyby na řádek. (výchozí)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/lint_file.py:51
 msgid "FILE"
-msgstr ""
+msgstr "SOUBOR"
 
 #: src/reuse/cli/lint_file.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{file}' is not inside of '{root}'."
-msgstr "'{file}' není uvnitř '{root}'"
+msgstr "'{file}' není uvnitř '{root}'."
 
 #: src/reuse/cli/main.py:37
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:465
-#, fuzzy, python-format
+#, python-format
 msgid "%(prog)s, version %(version)s"
-msgstr "%(prog)s: chyba: %(message)s\n"
+msgstr "%(prog)s, verze %(version)s"
 
 #: src/reuse/cli/main.py:40
 msgid ""
@@ -414,6 +406,9 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"Tento program je svobodný software: můžete jej šířit a/nebo upravovat za "
+"podmínek GNU General Public License, jak ji vydala Free Software Foundation, "
+"a to buď ve verzi 3, nebo (podle vaší volby) v jakékoli pozdější verzi."
 
 #: src/reuse/cli/main.py:47
 msgid ""
@@ -422,12 +417,17 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
 "more details."
 msgstr ""
+"Tento program je šířen v naději, že bude užitečný, ale BEZ JAKÉKOLIV ZÁRUKY; "
+"dokonce ani bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO "
+"KONKRÉTNÍ ÚČEL. Další podrobnosti naleznete v Obecné veřejné licenci GNU."
 
 #: src/reuse/cli/main.py:54
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see <https://www.gnu.org/licenses/>."
 msgstr ""
+"Spolu s tímto programem jste měli obdržet kopii Obecné veřejné licence GNU. "
+"Pokud ne, podívejte se na <https://www.gnu.org/licenses/>."
 
 #: src/reuse/cli/main.py:62
 msgid ""
@@ -460,72 +460,60 @@ msgstr ""
 "možnost přispět na <https://fsfe.org/donate/>."
 
 #: src/reuse/cli/main.py:89
-#, fuzzy
 msgid "Enable debug statements."
-msgstr "povolit příkazy pro ladění"
+msgstr "Povolit příkazy pro ladění."
 
 #: src/reuse/cli/main.py:94
-#, fuzzy
 msgid "Hide deprecation warnings."
-msgstr "skrýt varování o zastarání"
+msgstr "Skrýt varování o zastarání."
 
 #: src/reuse/cli/main.py:99
-#, fuzzy
 msgid "Do not skip over Git submodules."
-msgstr "nepřeskakovat submoduly systému Git"
+msgstr "Nepřeskakovat submoduly v Git."
 
 #: src/reuse/cli/main.py:104
-#, fuzzy
 msgid "Do not skip over Meson subprojects."
-msgstr "nepřeskakovat podprojekty Meson"
+msgstr "Nepřeskakovat podprojekty Meson."
 
 #: src/reuse/cli/main.py:109
-#, fuzzy
 msgid "Do not use multiprocessing."
-msgstr "nepoužívat multiprocessing"
+msgstr "Nepoužívat multiprocessing."
 
 #: src/reuse/cli/main.py:119
-#, fuzzy
 msgid "Define root of project."
-msgstr "definovat kořen projektu"
+msgstr "Definovat kořen projektu."
 
 #: src/reuse/cli/spdx.py:23
-#, fuzzy
 msgid "Generate an SPDX bill of materials."
-msgstr "vytisknout výkaz materiálu projektu ve formátu SPDX"
+msgstr "Vytisknout výkaz položek v SPDX."
 
 #: src/reuse/cli/spdx.py:33
-#, fuzzy
 msgid "File to write to."
-msgstr "soubory do lint"
+msgstr "Soubor, do kterého se zapisuje."
 
 #: src/reuse/cli/spdx.py:39
-#, fuzzy
 msgid ""
 "Populate the LicenseConcluded field; note that reuse cannot guarantee that "
 "the field is accurate."
 msgstr ""
-"vyplňte pole LicenseConcluded; upozorňujeme, že opětovné použití nemůže "
-"zaručit, že pole bude přesné"
+"Vyplňte pole LicenseConcluded; upozorňujeme, že reuse nemůže zaručit, že "
+"pole je přesné."
 
 #: src/reuse/cli/spdx.py:51
-#, fuzzy
 msgid "Name of the person signing off on the SPDX report."
-msgstr "jméno osoby podepisující zprávu SPDX"
+msgstr "Jméno osoby podepisující zprávu SPDX."
 
 #: src/reuse/cli/spdx.py:55
-#, fuzzy
 msgid "Name of the organization signing off on the SPDX report."
-msgstr "název organizace, která podepsala zprávu SPDX"
+msgstr "Název organizace, která podepisuje zprávu SPDX."
 
 #: src/reuse/cli/spdx.py:82
-#, fuzzy
 msgid ""
 "'--creator-person' or '--creator-organization' is required when '--add-"
 "license-concluded' is provided."
 msgstr ""
-"chyba: --creator-person=NAME nebo --creator-organization=NAME je vyžadováno "
-"při zadání parametru --add-licence-concluded"
+"Pokud je zadán parametr '--add-license-concluded', je vyžadován parametr "
+"'--creator-person' nebo '--creator-organization'."
 
 #: src/reuse/cli/spdx.py:97
 #, python-brace-format
@@ -539,14 +527,13 @@ msgstr ""
 "standard-data-format-requirements"
 
 #: src/reuse/cli/supported_licenses.py:15
-#, fuzzy
 msgid "List all licenses on the SPDX License List."
-msgstr "seznam všech podporovaných licencí SPDX"
+msgstr "Seznam všech licencí v seznamu licencí SPDX."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:518
 #, python-brace-format
 msgid "{editor}: Editing failed"
-msgstr ""
+msgstr "{editor}: Editace se nezdařila"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:522
 #, python-brace-format
@@ -559,15 +546,14 @@ msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1309
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:559
-#, fuzzy
 msgid "Show this message and exit."
-msgstr "zobrazit tuto nápovědu a ukončit"
+msgstr "Zobrazit tuto zprávu a ukončit."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1340
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1370
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "(Deprecated) {text}"
-msgstr "Zastaralé licence:"
+msgstr "(Zastaralé) {text}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1387
 #, fuzzy
@@ -592,9 +578,8 @@ msgid "Commands"
 msgstr "dílčí příkazy"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1668
-#, fuzzy
 msgid "Missing command."
-msgstr "Chybějící licence:"
+msgstr "Chybějící příkaz."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1746
 msgid "No such command {name!r}."
@@ -631,9 +616,8 @@ msgid "required"
 msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:528
-#, fuzzy
 msgid "Show the version and exit."
-msgstr "zobrazit tuto nápovědu a ukončit"
+msgstr "Zobrazit verzi a ukončit."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:44
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:80
@@ -662,9 +646,8 @@ msgid "Missing argument"
 msgstr "poziční argumenty"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:181
-#, fuzzy
 msgid "Missing option"
-msgstr "Chybějící licence:"
+msgstr "Chybějící možnost"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:183
 msgid "Missing parameter"
@@ -686,12 +669,12 @@ msgid "No such option: {name}"
 msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:224
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
-msgstr[0] "Měl jste na mysli:"
-msgstr[1] "Měl jste na mysli:"
-msgstr[2] "Měl jste na mysli:"
+msgstr[0] "Měl jste na mysli {possibility}?"
+msgstr[1] "Měl jste na mysli {possibilities})"
+msgstr[2] "Měl jste na mysli {possibilities})"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:262
 msgid "unknown error"
@@ -809,9 +792,9 @@ msgid "{name} {filename!r} is a file."
 msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:894
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{name} '{filename}' is a directory."
-msgstr "'{}' není adresář"
+msgstr "{name} '{filename}' je adresář."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:903
 msgid "{name} {filename!r} is not readable."
