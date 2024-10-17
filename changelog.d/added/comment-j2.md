@@ -1,2 +1,0 @@
-- More file types are recognised:
-  - Ansible Jinja2 (`.j2`) (#1036)
