@@ -19,7 +19,7 @@ class SpdxIdentifierNotFoundError(ReuseError):
 
 class GlobalLicensingParseError(ReuseError):
     """An exception representing any kind of error that occurs when trying to
-    parse a :class:`GlobalLicensing` file.
+    parse a :class:`reuse.global_licensing.GlobalLicensing` file.
     """
 
     def __init__(self, *args: Any, source: Optional[str] = None):
@@ -29,13 +29,13 @@ class GlobalLicensingParseError(ReuseError):
 
 class GlobalLicensingParseTypeError(GlobalLicensingParseError, TypeError):
     """An exception representing a type error while trying to parse a
-    :class:`GlobalLicensing` file.
+    :class:`reuse.global_licensing.GlobalLicensing` file.
     """
 
 
 class GlobalLicensingParseValueError(GlobalLicensingParseError, ValueError):
     """An exception representing a value error while trying to parse a
-    :class:`GlobalLicensing` file.
+    :class:`reuse.global_licensing.GlobalLicensing` file.
     """
 
 
