@@ -12,7 +12,7 @@ from typing import Optional
 
 import click
 
-from .. import _IGNORE_SPDX_PATTERNS
+from ..covered_files import _IGNORE_SPDX_PATTERNS
 from ..i18n import _
 from ..report import ProjectReport
 from .common import ClickObj
