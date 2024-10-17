@@ -34,7 +34,7 @@ from .comment import (
     EmptyCommentStyle,
     get_comment_style,
 )
-from .exceptions import CommentCreateError, MissingReuseInfo
+from .exceptions import CommentCreateError, MissingReuseInfoError
 from .header import add_new_header, find_and_replace_header
 from .i18n import _
 from .project import Project
@@ -152,7 +152,7 @@ def add_header_to_file(
         )
         out.write("\n")
         result = 1
-    except MissingReuseInfo:
+    except MissingReuseInfoError:
         out.write(
             _(
                 "Error: Generated comment header for '{path}' is missing"

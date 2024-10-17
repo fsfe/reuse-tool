@@ -30,7 +30,10 @@ from ._util import (
     reuse_info_of_file,
 )
 from .covered_files import iter_files
-from .exceptions import GlobalLicensingConflict, IdentifierNotFound
+from .exceptions import (
+    GlobalLicensingConflictError,
+    SpdxIdentifierNotFoundError,
+)
 from .global_licensing import (
     GlobalLicensing,
     NestedReuseTOML,
@@ -106,8 +109,8 @@ class Project:
                 decoded.
             GlobalLicensingParseError: if the global licensing config file could
                 not be parsed.
-            GlobalLicensingConflict: if more than one global licensing config
-                file is present.
+            GlobalLicensingConflictError: if more than one global licensing
+                config file is present.
         """
         root = Path(root)
         if not root.exists():
@@ -318,8 +321,8 @@ class Project:
         :class:`GlobalLicensing`.
 
         Raises:
-            GlobalLicensingConflict: if more than one global licensing config
-                file is present.
+            GlobalLicensingConflictError: if more than one global licensing
+                config file is present.
         """
         candidates: list[GlobalLicensingFound] = []
         dep5_path = root / ".reuse/dep5"
@@ -347,7 +350,7 @@ class Project:
         ]
         if reuse_toml_candidates:
             if candidates:
-                raise GlobalLicensingConflict(
+                raise GlobalLicensingConflictError(
                     _(
                         "Found both '{new_path}' and '{old_path}'. You"
                         " cannot keep both files simultaneously; they are"
@@ -379,13 +382,13 @@ class Project:
         License Identifier.
         """
         if not path.suffix:
-            raise IdentifierNotFound(f"{path} has no file extension")
+            raise SpdxIdentifierNotFoundError(f"{path} has no file extension")
         if path.stem in self.license_map:
             return path.stem
         if _LICENSEREF_PATTERN.match(path.stem):
             return path.stem
 
-        raise IdentifierNotFound(
+        raise SpdxIdentifierNotFoundError(
             f"Could not find SPDX License Identifier for {path}"
         )
 
@@ -413,7 +416,7 @@ class Project:
 
             try:
                 identifier = self._identifier_of_license(path)
-            except IdentifierNotFound:
+            except SpdxIdentifierNotFoundError:
                 if path.name in self.license_map:
                     _LOGGER.info(
                         _("{path} does not have a file extension").format(

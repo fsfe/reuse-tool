@@ -13,7 +13,7 @@ class ReuseError(Exception):
     """Base exception."""
 
 
-class IdentifierNotFound(ReuseError):
+class SpdxIdentifierNotFoundError(ReuseError):
     """Could not find SPDX identifier for license file."""
 
 
@@ -39,13 +39,13 @@ class GlobalLicensingParseValueError(GlobalLicensingParseError, ValueError):
     """
 
 
-class GlobalLicensingConflict(ReuseError):
+class GlobalLicensingConflictError(ReuseError):
     """There are two global licensing files in the project that are not
     compatible.
     """
 
 
-class MissingReuseInfo(ReuseError):
+class MissingReuseInfoError(ReuseError):
     """Some REUSE information is missing from the result."""
 
 

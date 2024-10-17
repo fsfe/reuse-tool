@@ -13,7 +13,7 @@ from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError
 
 from .._util import _LICENSING
-from ..exceptions import GlobalLicensingConflict, GlobalLicensingParseError
+from ..exceptions import GlobalLicensingConflictError, GlobalLicensingParseError
 from ..i18n import _
 from ..project import Project
 from ..vcs import find_root
@@ -60,7 +60,7 @@ class ClickObj:
                 ).format(path=error.source, message=str(error))
             ) from error
 
-        except (GlobalLicensingConflict, OSError) as error:
+        except (GlobalLicensingConflictError, OSError) as error:
             raise click.UsageError(str(error)) from error
 
         self._project = project
