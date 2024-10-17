@@ -136,7 +136,6 @@ def format_plain(report: ProjectReport) -> str:
                 output.write(f"* {file}\n")
             output.write("\n")
 
-    output.write("\n")
     output.write("# " + _("SUMMARY"))
     output.write("\n\n")
 
