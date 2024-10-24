@@ -16,7 +16,6 @@
 
 import logging
 import os
-import shutil
 import subprocess
 from hashlib import sha1
 from inspect import cleandoc
@@ -24,12 +23,6 @@ from pathlib import Path
 from typing import IO, Any, Optional, Union
 
 from .types import StrPath
-
-GIT_EXE = shutil.which("git")
-HG_EXE = shutil.which("hg")
-JUJUTSU_EXE = shutil.which("jj")
-PIJUL_EXE = shutil.which("pijul")
-
 
 # REUSE-IgnoreStart
 
