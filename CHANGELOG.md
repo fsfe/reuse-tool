@@ -103,6 +103,8 @@ subtly improved release of the much bigger version 3.2.
 - In some scenarios, where a user has multiple `REUSE.toml` files and one of
   those files could not be parsed, the wrong `REUSE.toml` was signalled as being
   unparseable. This is now fixed. (#1047)
+- Fixed a bug where `REUSE.toml` did not correctly apply its annotations to
+  files which have an accompanying `.license` file. (#1058)
 
 ## 4.0.3 - 2024-07-08
 
