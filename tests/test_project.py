@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2024 Linnea Gräf
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -454,6 +455,91 @@ def test_reuse_info_of_copyright_xor_licensing(empty_directory):
     bar_file_info = [info for info in bar_infos if info.copyright_lines][0]
     assert bar_file_info.source_type == SourceType.FILE_HEADER
     assert not bar_file_info.spdx_expressions
+
+
+def test_reuse_info_of_reuse_toml_dot_license(empty_directory):
+    """Test a corner case where there is REUSE information inside of a file, its
+    .license file, and REUSE.toml. Only the REUSE information from the .license
+    file and REUSE.toml should be applied to this file.
+    """
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "*.py"
+            precedence = "aggregate"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: NONE
+            """
+        )
+    )
+    (empty_directory / "foo.py.license").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2017 John Doe
+            """
+        )
+    )
+    project = Project.from_directory(empty_directory)
+
+    infos = project.reuse_info_of("foo.py")
+    assert len(infos) == 2
+    toml_info = [info for info in infos if info.spdx_expressions][0]
+    assert toml_info.source_type == SourceType.REUSE_TOML
+    assert "2017 Jane Doe" in toml_info.copyright_lines
+    assert "CC0-1.0" in str(toml_info.spdx_expressions)
+    dot_license_info = [info for info in infos if not info.spdx_expressions][0]
+    assert dot_license_info.source_type == SourceType.DOT_LICENSE
+    assert (
+        "SPDX-FileCopyrightText: 2017 John Doe"
+        in dot_license_info.copyright_lines
+    )
+    assert not dot_license_info.spdx_expressions
+
+
+def test_reuse_info_of_dot_license_invalid_target(empty_directory):
+    """file.license is an invalid target in REUSE.toml."""
+    (empty_directory / "REUSE.toml").write_text(
+        cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py.license"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
+            """
+        )
+    )
+    (empty_directory / "foo.py").write_text(
+        cleandoc(
+            """
+            SPDX-FileCopyrightText: 2017 John Doe
+
+            SPDX-License-Identifier: MIT
+            """
+        )
+    )
+    (empty_directory / "foo.py.license").write_text(
+        cleandoc(
+            """
+            Empty
+            """
+        )
+    )
+    project = Project.from_directory(empty_directory)
+
+    infos = project.reuse_info_of("foo.py")
+    assert len(infos) == 0
 
 
 def test_reuse_info_of_no_duplicates(empty_directory):

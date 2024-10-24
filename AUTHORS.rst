@@ -143,3 +143,4 @@ Contributors
 - Mersho <code.rezaei@gmail.com>
 - Skyler Grey <sky@a.starrysky.fyi>
 - Emil Velikov <emil.l.velikov@gmail.com>
+- Linnea Gräf <nea@nea.moe>
