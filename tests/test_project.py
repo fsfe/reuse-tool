@@ -19,8 +19,7 @@ import pytest
 from conftest import RESOURCES_DIRECTORY
 from license_expression import LicenseSymbol
 
-from reuse import ReuseInfo, SourceType
-from reuse._util import _LICENSING
+from reuse import _LICENSING, ReuseInfo, SourceType
 from reuse.covered_files import iter_files
 from reuse.exceptions import (
     GlobalLicensingConflictError,

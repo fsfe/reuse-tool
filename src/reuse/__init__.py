@@ -28,6 +28,7 @@ from importlib.metadata import PackageNotFoundError, version
 from typing import Any, Optional
 
 from boolean.boolean import Expression
+from license_expression import Licensing
 
 try:
     __version__ = version("reuse")
@@ -41,6 +42,8 @@ __license__ = "Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
 __REUSE_version__ = "3.3"
 
 _LOGGER = logging.getLogger(__name__)
+
+_LICENSING = Licensing()
 
 _PACKAGE_PATH = os.path.dirname(__file__)
 _LOCALE_DIR = os.path.join(_PACKAGE_PATH, "locale")

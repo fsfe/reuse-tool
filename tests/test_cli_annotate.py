@@ -17,8 +17,8 @@ from pathlib import PurePath
 import pytest
 from click.testing import CliRunner
 
-from reuse._util import _COPYRIGHT_PREFIXES
 from reuse.cli.main import main
+from reuse.copyright import _COPYRIGHT_PREFIXES
 
 # pylint: disable=too-many-public-methods,too-many-lines,unused-argument
 

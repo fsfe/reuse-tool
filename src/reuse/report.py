@@ -31,8 +31,9 @@ from typing import (
 )
 from uuid import uuid4
 
-from . import __REUSE_version__, __version__
-from ._util import _LICENSEREF_PATTERN, _LICENSING, _checksum
+from . import _LICENSING, __REUSE_version__, __version__
+from ._util import _checksum
+from .extract import _LICENSEREF_PATTERN
 from .global_licensing import ReuseDep5
 from .i18n import _
 from .project import Project, ReuseInfo

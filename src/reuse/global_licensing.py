@@ -33,8 +33,7 @@ from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
-from . import ReuseInfo, SourceType
-from ._util import _LICENSING
+from . import _LICENSING, ReuseInfo, SourceType
 from .covered_files import iter_files
 from .exceptions import (
     GlobalLicensingParseError,

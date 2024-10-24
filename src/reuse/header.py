@@ -23,17 +23,14 @@ from jinja2 import Environment, PackageLoader, Template
 from license_expression import ExpressionError
 
 from . import ReuseInfo
-from ._util import (
-    contains_reuse_info,
-    extract_reuse_info,
-    merge_copyright_lines,
-)
 from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
+from .copyright import merge_copyright_lines
 from .exceptions import (
     CommentCreateError,
     CommentParseError,
     MissingReuseInfoError,
 )
+from .extract import contains_reuse_info, extract_reuse_info
 from .i18n import _
 
 _LOGGER = logging.getLogger(__name__)

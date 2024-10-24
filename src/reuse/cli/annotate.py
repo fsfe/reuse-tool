@@ -29,12 +29,7 @@ from jinja2.exceptions import TemplateNotFound
 
 from .. import ReuseInfo
 from .._annotate import add_header_to_file
-from .._util import (
-    _COPYRIGHT_PREFIXES,
-    _determine_license_path,
-    _determine_license_suffix_path,
-    make_copyright_line,
-)
+from .._util import _determine_license_path, _determine_license_suffix_path
 from ..comment import (
     NAME_STYLE_MAP,
     CommentStyle,
@@ -42,6 +37,7 @@ from ..comment import (
     has_style,
     is_uncommentable,
 )
+from ..copyright import _COPYRIGHT_PREFIXES, make_copyright_line
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
