@@ -43,8 +43,8 @@ jobs:
       - name: Check if sufficient lines were changed
         id: diff
         run:
-          echo "changed=$(git diff -U0 | grep '^[+|-][^+|-]' | grep -Ev
-          '^[+-]("POT-Creation-Date|#:)' | wc -l)" >> $GITHUB_OUTPUT
+          echo "changed=$(git diff -U0 po/reuse.pot | grep '^[+|-][^+|-]' | grep
+          -Ev '^[+-]("POT-Creation-Date|#:)' | wc -l)" >> $GITHUB_OUTPUT
       - name: Commit and push updated reuse.pot
         if: ${{ steps.diff.outputs.changed != '0' }}
         run: |
