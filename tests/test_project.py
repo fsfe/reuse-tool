@@ -457,12 +457,10 @@ def test_reuse_info_of_copyright_xor_licensing(empty_directory):
     assert not bar_file_info.spdx_expressions
 
 
-def test_reuse_info_of_copyright_xor_licensing_with_license_dot(
-    empty_directory,
-):
-    """Test a corner case where partial REUSE information is defined inside of a
-    .license file (copyright xor licensing). Get the missing information from
-    the REUSE.toml.
+def test_reuse_info_of_reuse_toml_dot_license(empty_directory):
+    """Test a corner case where there is REUSE information inside of a file, its
+    .license file, and REUSE.toml. Only the REUSE information from the .license
+    file and REUSE.toml should be applied to this file.
     """
     (empty_directory / "REUSE.toml").write_text(
         cleandoc(
@@ -471,20 +469,16 @@ def test_reuse_info_of_copyright_xor_licensing_with_license_dot(
 
             [[annotations]]
             path = "*.py"
+            precedence = "aggregate"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
-
-            [[annotations]]
-            path = "*.py.license"
-            SPDX-FileCopyrightText = "2017 Jane Doe"
-            SPDX-License-Identifier = "MIT"
             """
         )
     )
     (empty_directory / "foo.py").write_text(
         cleandoc(
             """
-            print("This is very strictly copyrighted code")
+            SPDX-FileCopyrightText: NONE
             """
         )
     )
@@ -495,40 +489,57 @@ def test_reuse_info_of_copyright_xor_licensing_with_license_dot(
             """
         )
     )
-    (empty_directory / "bar.py").write_text(
+    project = Project.from_directory(empty_directory)
+
+    infos = project.reuse_info_of("foo.py")
+    assert len(infos) == 2
+    toml_info = [info for info in infos if info.spdx_expressions][0]
+    assert toml_info.source_type == SourceType.REUSE_TOML
+    assert "2017 Jane Doe" in toml_info.copyright_lines
+    assert "CC0-1.0" in str(toml_info.spdx_expressions)
+    dot_license_info = [info for info in infos if not info.spdx_expressions][0]
+    assert dot_license_info.source_type == SourceType.DOT_LICENSE
+    assert (
+        "SPDX-FileCopyrightText: 2017 John Doe"
+        in dot_license_info.copyright_lines
+    )
+    assert not dot_license_info.spdx_expressions
+
+
+def test_reuse_info_of_dot_license_invalid_target(empty_directory):
+    """file.license is an invalid target in REUSE.toml."""
+    (empty_directory / "REUSE.toml").write_text(
         cleandoc(
             """
-            print("This is other very strictly copyrighted code")
+            version = 1
+
+            [[annotations]]
+            path = "foo.py.license"
+            SPDX-FileCopyrightText = "2017 Jane Doe"
+            SPDX-License-Identifier = "CC0-1.0"
             """
         )
     )
-    (empty_directory / "bar.py.license").write_text(
+    (empty_directory / "foo.py").write_text(
         cleandoc(
             """
-            SPDX-License-Identifier: 0BSD
+            SPDX-FileCopyrightText: 2017 John Doe
+
+            SPDX-License-Identifier: MIT
+            """
+        )
+    )
+    (empty_directory / "foo.py.license").write_text(
+        cleandoc(
+            """
+            Empty
             """
         )
     )
     project = Project.from_directory(empty_directory)
 
-    foo_infos = project.reuse_info_of("foo.py")
-    assert len(foo_infos) == 2
-    foo_toml_info = [info for info in foo_infos if info.spdx_expressions][0]
-    assert foo_toml_info.source_type == SourceType.REUSE_TOML
-    assert not foo_toml_info.copyright_lines
-    assert "MIT" not in str(foo_toml_info.spdx_expressions)
-    foo_file_info = [info for info in foo_infos if info.copyright_lines][0]
-    assert foo_file_info.source_type == SourceType.DOT_LICENSE
-    assert not foo_file_info.spdx_expressions
-
-    bar_infos = project.reuse_info_of("bar.py")
-    assert len(bar_infos) == 2
-    bar_toml_info = [info for info in bar_infos if info.copyright_lines][0]
-    assert bar_toml_info.source_type == SourceType.REUSE_TOML
-    assert not bar_toml_info.spdx_expressions
-    bar_file_info = [info for info in bar_infos if info.spdx_expressions][0]
-    assert bar_file_info.source_type == SourceType.DOT_LICENSE
-    assert not bar_file_info.copyright_lines
+    infos = project.reuse_info_of("foo.py")
+    assert len(infos) == 0
 
 
 def test_reuse_info_of_no_duplicates(empty_directory):
