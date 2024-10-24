@@ -23,17 +23,13 @@ from binaryornot.check import is_binary
 
 from . import ReuseInfo
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
-from ._util import (
-    _LICENSEREF_PATTERN,
-    _determine_license_path,
-    relative_from_root,
-    reuse_info_of_file,
-)
+from ._util import _determine_license_path, relative_from_root
 from .covered_files import iter_files
 from .exceptions import (
     GlobalLicensingConflictError,
     SpdxIdentifierNotFoundError,
 )
+from .extract import _LICENSEREF_PATTERN, reuse_info_of_file
 from .global_licensing import (
     GlobalLicensing,
     NestedReuseTOML,

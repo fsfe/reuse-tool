@@ -11,18 +11,50 @@ logic.
 import contextlib
 import logging
 import os
+import re
 from pathlib import Path
 from typing import Collection, Generator, Optional, cast
 
-from . import (
-    _IGNORE_DIR_PATTERNS,
-    _IGNORE_FILE_PATTERNS,
-    _IGNORE_MESON_PARENT_DIR_PATTERNS,
-)
 from .types import StrPath
 from .vcs import VCSStrategy
 
 _LOGGER = logging.getLogger(__name__)
+
+_IGNORE_DIR_PATTERNS = [
+    re.compile(r"^\.git$"),
+    re.compile(r"^\.hg$"),
+    re.compile(r"^\.sl$"),  # Used by Sapling SCM
+    re.compile(r"^LICENSES$"),
+    re.compile(r"^\.reuse$"),
+]
+
+_IGNORE_MESON_PARENT_DIR_PATTERNS = [
+    re.compile(r"^subprojects$"),
+]
+
+_IGNORE_FILE_PATTERNS = [
+    # LICENSE, LICENSE-MIT, LICENSE.txt
+    re.compile(r"^LICEN[CS]E([-\.].*)?$"),
+    re.compile(r"^COPYING([-\.].*)?$"),
+    # ".git" as file happens in submodules
+    re.compile(r"^\.git$"),
+    re.compile(r"^\.hgtags$"),
+    re.compile(r".*\.license$"),
+    re.compile(r"^REUSE\.toml$"),
+    # Workaround for https://github.com/fsfe/reuse-tool/issues/229
+    re.compile(r"^CAL-1.0(-Combined-Work-Exception)?(\..+)?$"),
+    re.compile(r"^SHL-2.1(\..+)?$"),
+]
+
+_IGNORE_SPDX_PATTERNS = [
+    # SPDX files from
+    # https://spdx.github.io/spdx-spec/conformance/#44-standard-data-format-requirements
+    re.compile(r".*\.spdx$"),
+    re.compile(r".*\.spdx.(rdf|json|xml|ya?ml)$"),
+]
+
+# Combine SPDX patterns into file patterns to ease default ignore usage
+_IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
 
 def is_path_ignored(

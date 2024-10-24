@@ -23,11 +23,7 @@ from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
 from . import ReuseInfo
-from ._util import (
-    _determine_license_suffix_path,
-    contains_reuse_info,
-    detect_line_endings,
-)
+from ._util import _determine_license_suffix_path
 from .comment import (
     NAME_STYLE_MAP,
     CommentStyle,
@@ -35,6 +31,7 @@ from .comment import (
     get_comment_style,
 )
 from .exceptions import CommentCreateError, MissingReuseInfoError
+from .extract import contains_reuse_info, detect_line_endings
 from .header import add_new_header, find_and_replace_header
 from .i18n import _
 from .project import Project

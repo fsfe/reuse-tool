@@ -39,14 +39,9 @@ try:
 except ImportError:
     sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
-    from reuse._util import (
-        GIT_EXE,
-        HG_EXE,
-        JUJUTSU_EXE,
-        PIJUL_EXE,
-        setup_logging,
-    )
+    from reuse._util import setup_logging
     from reuse.global_licensing import ReuseDep5
+    from reuse.vcs import GIT_EXE, HG_EXE, JUJUTSU_EXE, PIJUL_EXE
 
 CWD = Path.cwd()
 
@@ -117,7 +112,6 @@ def optional_git_exe(
     """Run the test with or without git."""
     exe = GIT_EXE if request.param else ""
     monkeypatch.setattr("reuse.vcs.GIT_EXE", exe)
-    monkeypatch.setattr("reuse._util.GIT_EXE", exe)
     yield exe
 
 
@@ -136,7 +130,6 @@ def optional_hg_exe(
     """Run the test with or without mercurial."""
     exe = HG_EXE if request.param else ""
     monkeypatch.setattr("reuse.vcs.HG_EXE", exe)
-    monkeypatch.setattr("reuse._util.HG_EXE", exe)
     yield exe
 
 
@@ -155,7 +148,6 @@ def optional_jujutsu_exe(
     """Run the test with or without Jujutsu."""
     exe = JUJUTSU_EXE if request.param else ""
     monkeypatch.setattr("reuse.vcs.JUJUTSU_EXE", exe)
-    monkeypatch.setattr("reuse._util.JUJUTSU_EXE", exe)
     yield exe
 
 
@@ -174,7 +166,6 @@ def optional_pijul_exe(
     """Run the test with or without Pijul."""
     exe = PIJUL_EXE if request.param else ""
     monkeypatch.setattr("reuse.vcs.PIJUL_EXE", exe)
-    monkeypatch.setattr("reuse._util.PIJUL_EXE", exe)
     yield exe
 
 

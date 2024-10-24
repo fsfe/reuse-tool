@@ -12,7 +12,7 @@ import click
 from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError
 
-from .._util import _LICENSING
+from .. import _LICENSING
 from ..exceptions import GlobalLicensingConflictError, GlobalLicensingParseError
 from ..i18n import _
 from ..project import Project

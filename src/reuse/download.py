@@ -15,7 +15,8 @@ from typing import Optional
 from urllib.error import URLError
 from urllib.parse import urljoin
 
-from ._util import _LICENSEREF_PATTERN, find_licenses_directory
+from ._util import find_licenses_directory
+from .extract import _LICENSEREF_PATTERN
 from .project import Project
 from .types import StrPath
 from .vcs import VCSStrategyNone

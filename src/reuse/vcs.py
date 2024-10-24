@@ -12,25 +12,24 @@ from __future__ import annotations
 
 import logging
 import os
+import shutil
 from abc import ABC, abstractmethod
 from inspect import isclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Generator, Optional, Type
 
-from ._util import (
-    GIT_EXE,
-    HG_EXE,
-    JUJUTSU_EXE,
-    PIJUL_EXE,
-    execute_command,
-    relative_from_root,
-)
+from ._util import execute_command, relative_from_root
 from .types import StrPath
 
 if TYPE_CHECKING:
     from .project import Project
 
 _LOGGER = logging.getLogger(__name__)
+
+GIT_EXE = shutil.which("git")
+HG_EXE = shutil.which("hg")
+JUJUTSU_EXE = shutil.which("jj")
+PIJUL_EXE = shutil.which("pijul")
 
 
 class VCSStrategy(ABC):

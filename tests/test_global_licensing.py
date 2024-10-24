@@ -13,8 +13,7 @@ from conftest import RESOURCES_DIRECTORY, posix
 from debian.copyright import Copyright
 from license_expression import LicenseSymbol
 
-from reuse import ReuseInfo, SourceType
-from reuse._util import _LICENSING
+from reuse import _LICENSING, ReuseInfo, SourceType
 from reuse.exceptions import (
     GlobalLicensingParseError,
     GlobalLicensingParseTypeError,
