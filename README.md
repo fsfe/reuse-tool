@@ -272,9 +272,9 @@ repos:
 
 In order to enable shell completion, you need to generate the shell completion
 script. You do this with `_REUSE_COMPLETE=bash_source reuse`. Replace `bash`
-with `zsh` or `fish` as needed, or any other shells supported by the
-Python`click` library. You can then source the output in your shell rc file,
-like so (e.g.`~/.bashrc`):
+with `zsh` or `fish` as needed, or any other shells supported by the Python
+`click` library. You can then source the output in your shell rc file, like so
+(e.g.`~/.bashrc`):
 
 ```bash
 eval "$(_REUSE__COMPLETE=bash_source reuse)"
