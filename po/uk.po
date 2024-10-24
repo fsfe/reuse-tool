@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-17 07:16+0000\n"
+"POT-Creation-Date: 2024-10-24 08:57+0000\n"
 "PO-Revision-Date: 2024-10-14 11:11+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -21,11 +21,11 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.8-dev\n"
 
-#: src/reuse/cli/annotate.py:62
+#: src/reuse/cli/annotate.py:58
 msgid "Option '--copyright', '--license', or '--contributor' is required."
 msgstr "Потрібен параметр '--copyright', '--license' або '--contributor'."
 
-#: src/reuse/cli/annotate.py:123
+#: src/reuse/cli/annotate.py:119
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
@@ -35,7 +35,7 @@ msgstr ""
 "style', '--force-dot-license', '--fallback-dot-license' або '--skip-"
 "unrecognised':"
 
-#: src/reuse/cli/annotate.py:156
+#: src/reuse/cli/annotate.py:152
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
@@ -44,7 +44,7 @@ msgstr ""
 "'{path}' не підтримує однорядкові коментарі, не використовуйте '--single-"
 "line'."
 
-#: src/reuse/cli/annotate.py:163
+#: src/reuse/cli/annotate.py:159
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
@@ -53,16 +53,16 @@ msgstr ""
 "'{path}' не підтримує багаторядкові коментарі, не використовуйте '--multi-"
 "line'."
 
-#: src/reuse/cli/annotate.py:209
+#: src/reuse/cli/annotate.py:205
 #, python-brace-format
 msgid "Template '{template}' could not be found."
 msgstr "Не вдалося знайти шаблон '{template}'."
 
-#: src/reuse/cli/annotate.py:272
+#: src/reuse/cli/annotate.py:268
 msgid "Add copyright and licensing into the headers of files."
 msgstr "Додайте авторські права та ліцензії в заголовок файлів."
 
-#: src/reuse/cli/annotate.py:275
+#: src/reuse/cli/annotate.py:271
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
@@ -70,7 +70,7 @@ msgstr ""
 "За допомогою --copyright і --license ви можете вказати, яких власників "
 "авторських прав і ліцензій додавати до заголовків цих файлів."
 
-#: src/reuse/cli/annotate.py:281
+#: src/reuse/cli/annotate.py:277
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
@@ -79,105 +79,105 @@ msgstr ""
 "зробила внесок, але не є власником авторських прав на ці файли."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:294
+#: src/reuse/cli/annotate.py:290
 msgid "COPYRIGHT"
 msgstr "COPYRIGHT"
 
-#: src/reuse/cli/annotate.py:297
+#: src/reuse/cli/annotate.py:293
 msgid "Copyright statement, repeatable."
 msgstr "Оголошення авторського права, повторюване."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:304
+#: src/reuse/cli/annotate.py:300
 msgid "SPDX_IDENTIFIER"
 msgstr "SPDX_IDENTIFIER"
 
-#: src/reuse/cli/annotate.py:307
+#: src/reuse/cli/annotate.py:303
 msgid "SPDX License Identifier, repeatable."
 msgstr "Ідентифікатор ліцензії SPDX, повторюваний."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:313
+#: src/reuse/cli/annotate.py:309
 msgid "CONTRIBUTOR"
 msgstr "CONTRIBUTOR"
 
-#: src/reuse/cli/annotate.py:316
+#: src/reuse/cli/annotate.py:312
 msgid "File contributor, repeatable."
 msgstr "Співавтор файлу, повторюваний."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:323
+#: src/reuse/cli/annotate.py:319
 msgid "YEAR"
 msgstr "YEAR"
 
-#: src/reuse/cli/annotate.py:329
+#: src/reuse/cli/annotate.py:325
 msgid "Year of copyright statement."
 msgstr "Рік оголошення авторського права."
 
-#: src/reuse/cli/annotate.py:337
+#: src/reuse/cli/annotate.py:333
 msgid "Comment style to use."
 msgstr "Використовуваний стиль коментарів."
 
-#: src/reuse/cli/annotate.py:342
+#: src/reuse/cli/annotate.py:338
 msgid "Copyright prefix to use."
 msgstr "Використовуваний префікс авторського права."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:354
+#: src/reuse/cli/annotate.py:350
 msgid "TEMPLATE"
 msgstr "TEMPLATE"
 
-#: src/reuse/cli/annotate.py:356
+#: src/reuse/cli/annotate.py:352
 msgid "Name of template to use."
 msgstr "Використовувана назва шаблону."
 
-#: src/reuse/cli/annotate.py:363
+#: src/reuse/cli/annotate.py:359
 msgid "Do not include year in copyright statement."
 msgstr "Не включати рік в оголошення авторського права."
 
-#: src/reuse/cli/annotate.py:368
+#: src/reuse/cli/annotate.py:364
 msgid "Merge copyright lines if copyright statements are identical."
 msgstr ""
 "Об'єднувати рядки авторських прав, якщо оголошення авторських прав ідентичні."
 
-#: src/reuse/cli/annotate.py:375
+#: src/reuse/cli/annotate.py:371
 msgid "Force single-line comment style."
 msgstr "Примусовий однорядковий стиль коментаря."
 
-#: src/reuse/cli/annotate.py:382
+#: src/reuse/cli/annotate.py:378
 msgid "Force multi-line comment style."
 msgstr "Примусовий багаторядковий стиль коментарів."
 
-#: src/reuse/cli/annotate.py:388
+#: src/reuse/cli/annotate.py:384
 msgid "Add headers to all files under specified directories recursively."
 msgstr "Рекурсивно додавати заголовки до всіх файлів у вказаних каталогах."
 
-#: src/reuse/cli/annotate.py:393
+#: src/reuse/cli/annotate.py:389
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr "Не замінювати перший заголовок у файлі; просто додавати новий."
 
-#: src/reuse/cli/annotate.py:400
+#: src/reuse/cli/annotate.py:396
 msgid "Always write a .license file instead of a header inside the file."
 msgstr "Завжди записуйте файл .license замість заголовка всередині файлу."
 
-#: src/reuse/cli/annotate.py:407
+#: src/reuse/cli/annotate.py:403
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr "Записати файл .license до файлів з нерозпізнаними стилями коментарів."
 
-#: src/reuse/cli/annotate.py:414
+#: src/reuse/cli/annotate.py:410
 msgid "Skip files with unrecognised comment styles."
 msgstr "Пропускати файли з нерозпізнаними стилями коментарів."
 
-#: src/reuse/cli/annotate.py:425
+#: src/reuse/cli/annotate.py:421
 msgid "Skip files that already contain REUSE information."
 msgstr "Пропускати файли, які вже містять інформацію REUSE."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:430
+#: src/reuse/cli/annotate.py:426
 msgid "PATH"
 msgstr "ШЛЯХ"
 
-#: src/reuse/cli/annotate.py:480
+#: src/reuse/cli/annotate.py:476
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""

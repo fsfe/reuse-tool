@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-17 07:16+0000\n"
+"POT-Creation-Date: 2024-10-24 08:57+0000\n"
 "PO-Revision-Date: 2023-06-21 09:53+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -17,12 +17,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.18.1\n"
 
-#: src/reuse/cli/annotate.py:62
+#: src/reuse/cli/annotate.py:58
 #, fuzzy
 msgid "Option '--copyright', '--license', or '--contributor' is required."
 msgstr "é requerida uma das opções --copyright ou --license"
 
-#: src/reuse/cli/annotate.py:123
+#: src/reuse/cli/annotate.py:119
 #, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
@@ -32,153 +32,153 @@ msgstr ""
 "'{path}' não têm uma extensão de ficheiro reconhecida; usar --style ou --"
 "explicit-license"
 
-#: src/reuse/cli/annotate.py:156
+#: src/reuse/cli/annotate.py:152
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:163
+#: src/reuse/cli/annotate.py:159
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:209
+#: src/reuse/cli/annotate.py:205
 #, fuzzy, python-brace-format
 msgid "Template '{template}' could not be found."
 msgstr "o modelo {template} não foi encontrado"
 
-#: src/reuse/cli/annotate.py:272
+#: src/reuse/cli/annotate.py:268
 #, fuzzy
 msgid "Add copyright and licensing into the headers of files."
 msgstr "adicionar direitos de autor e licenciamento ao cabeçalho dos ficheiros"
 
-#: src/reuse/cli/annotate.py:275
+#: src/reuse/cli/annotate.py:271
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:281
+#: src/reuse/cli/annotate.py:277
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:294
+#: src/reuse/cli/annotate.py:290
 msgid "COPYRIGHT"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:297
+#: src/reuse/cli/annotate.py:293
 #, fuzzy
 msgid "Copyright statement, repeatable."
 msgstr "declaração de direitos de autor (repetível)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:304
+#: src/reuse/cli/annotate.py:300
 msgid "SPDX_IDENTIFIER"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:307
+#: src/reuse/cli/annotate.py:303
 #, fuzzy
 msgid "SPDX License Identifier, repeatable."
 msgstr "Identificador SPDX (repetível)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:313
+#: src/reuse/cli/annotate.py:309
 msgid "CONTRIBUTOR"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:316
+#: src/reuse/cli/annotate.py:312
 #, fuzzy
 msgid "File contributor, repeatable."
 msgstr "Identificador SPDX (repetível)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:323
+#: src/reuse/cli/annotate.py:319
 msgid "YEAR"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:329
+#: src/reuse/cli/annotate.py:325
 #, fuzzy
 msgid "Year of copyright statement."
 msgstr "ano da declaração de direitos de autor (opcional)"
 
-#: src/reuse/cli/annotate.py:337
+#: src/reuse/cli/annotate.py:333
 #, fuzzy
 msgid "Comment style to use."
 msgstr "estilo de comentário a usar (opcional)"
 
-#: src/reuse/cli/annotate.py:342
+#: src/reuse/cli/annotate.py:338
 #, fuzzy
 msgid "Copyright prefix to use."
 msgstr "estilo de comentário a usar (opcional)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:354
+#: src/reuse/cli/annotate.py:350
 msgid "TEMPLATE"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:356
+#: src/reuse/cli/annotate.py:352
 #, fuzzy
 msgid "Name of template to use."
 msgstr "nome do modelo a usar (opcional)"
 
-#: src/reuse/cli/annotate.py:363
+#: src/reuse/cli/annotate.py:359
 #, fuzzy
 msgid "Do not include year in copyright statement."
 msgstr "não incluir o ano na declaração"
 
-#: src/reuse/cli/annotate.py:368
+#: src/reuse/cli/annotate.py:364
 #, fuzzy
 msgid "Merge copyright lines if copyright statements are identical."
 msgstr "ano da declaração de direitos de autor (opcional)"
 
-#: src/reuse/cli/annotate.py:375
+#: src/reuse/cli/annotate.py:371
 #, fuzzy
 msgid "Force single-line comment style."
 msgstr "estilo de comentário a usar (opcional)"
 
-#: src/reuse/cli/annotate.py:382
+#: src/reuse/cli/annotate.py:378
 #, fuzzy
 msgid "Force multi-line comment style."
 msgstr "estilo de comentário a usar (opcional)"
 
-#: src/reuse/cli/annotate.py:388
+#: src/reuse/cli/annotate.py:384
 msgid "Add headers to all files under specified directories recursively."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:393
+#: src/reuse/cli/annotate.py:389
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:400
+#: src/reuse/cli/annotate.py:396
 msgid "Always write a .license file instead of a header inside the file."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:407
+#: src/reuse/cli/annotate.py:403
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:414
+#: src/reuse/cli/annotate.py:410
 msgid "Skip files with unrecognised comment styles."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:425
+#: src/reuse/cli/annotate.py:421
 #, fuzzy
 msgid "Skip files that already contain REUSE information."
 msgstr "Ficheiros com informação de licenciamento: {count} / {total}"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:430
+#: src/reuse/cli/annotate.py:426
 msgid "PATH"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:480
+#: src/reuse/cli/annotate.py:476
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr "'{path}' é binário, por isso é usado '{new_path}' para o cabeçalho"
