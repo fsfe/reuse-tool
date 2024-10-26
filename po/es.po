@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-10-10 16:26+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"PO-Revision-Date: 2024-10-27 15:00+0000\n"
+"Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
 "Language: es\n"
@@ -17,43 +17,42 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.8.2-dev\n"
 
 #: src/reuse/cli/annotate.py:58
-#, fuzzy
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "se requiere la opción --contributor, --copyright o --license"
+msgstr "se requiere la opción '--copyright', '--license', o '--contributor'"
 
 #: src/reuse/cli/annotate.py:119
-#, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
 "unrecognised':"
 msgstr ""
 "Los siguientes archivos no tienen una extensión de archivo reconocida. Por "
-"favor use --style, -force-dot-license, -fallback-dot-license o -skip-"
-"unrecognized:"
+"favor use '--style', '--force-dot-license', '--fallback-dot-license', o "
+"'--skip-unrecognised':"
 
 #: src/reuse/cli/annotate.py:152
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
-"'{path}' no admite comentarios de una sola línea, no utilices --single-line"
+"'{path}' no admite comentarios de una sola línea, no utilices '--single-"
+"line'."
 
 #: src/reuse/cli/annotate.py:159
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
-msgstr "'{path}' no admite comentarios multilínea, no utilices --multi-line"
+msgstr "'{path}' no admite comentarios multilínea, no utilices '--multi-line'."
 
 #: src/reuse/cli/annotate.py:205
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "no pudo encontrarse la plantilla {template}"
+msgstr "no pudo encontrarse la plantilla '{template}'"
 
 #: src/reuse/cli/annotate.py:268
 #, fuzzy
@@ -65,17 +64,24 @@ msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
+"Al usar -- copyright y -- license, puede especificar qué titulares de "
+"derechos de autor y licencias agregar a los encabezados de los archivos "
+"dados."
 
 #: src/reuse/cli/annotate.py:277
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Al usar -- contributor, puede especificar personas o entidades que "
+"contribuyeron pero que no son titulares de los derechos de autor de los "
+"archivos dados."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:290
+#, fuzzy
 msgid "COPYRIGHT"
-msgstr ""
+msgstr "COPYRIGHT"
 
 #: src/reuse/cli/annotate.py:293
 #, fuzzy
@@ -125,17 +131,15 @@ msgstr "prefijo de copyright para usar, opcional"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:350
 msgid "TEMPLATE"
-msgstr ""
+msgstr "PLANTILLA"
 
 #: src/reuse/cli/annotate.py:352
-#, fuzzy
 msgid "Name of template to use."
-msgstr "nombre de la plantilla a utilizar; opcional"
+msgstr "nombre de la plantilla a utilizar."
 
 #: src/reuse/cli/annotate.py:359
-#, fuzzy
 msgid "Do not include year in copyright statement."
-msgstr "no incluir el año en la declaración"
+msgstr "No incluir el año en la declaración de derechos de autor."
 
 #: src/reuse/cli/annotate.py:364
 #, fuzzy
@@ -145,14 +149,12 @@ msgstr ""
 "idénticas"
 
 #: src/reuse/cli/annotate.py:371
-#, fuzzy
 msgid "Force single-line comment style."
-msgstr "forzar el estilo del comentario de una sola línea, opcional"
+msgstr "forzar el estilo del comentario de una sola línea."
 
 #: src/reuse/cli/annotate.py:378
-#, fuzzy
 msgid "Force multi-line comment style."
-msgstr "forzar el estilo del comentario multilínea, opcional"
+msgstr "Forzar estilo de comentario multilínea."
 
 #: src/reuse/cli/annotate.py:384
 #, fuzzy
