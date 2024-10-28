@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-10-27 15:00+0000\n"
+"PO-Revision-Date: 2024-10-29 17:08+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -215,23 +215,21 @@ msgstr ""
 #: src/reuse/cli/common.py:97
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr ""
+msgstr "'{name}' se excluye mutuamente con: {opts}"
 
 #: src/reuse/cli/common.py:114
-#, fuzzy
 msgid "'{}' is not a valid SPDX expression."
-msgstr "'{}' no es una expresión SPDX válida; abortando"
+msgstr "'{}' no es una expresión SPDX válida,"
 
 #: src/reuse/cli/convert_dep5.py:19
-#, fuzzy
 msgid ""
 "Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
 "the project root and is semantically identical. The .reuse/dep5 file is "
 "subsequently deleted."
 msgstr ""
-"Convertir . reuse/dep5 en un archivo REUSE.toml en la raíz del proyecto. El "
-"archivo generado es semánticamente idéntico. El . reutilización/dep5 archivo "
-"se elimina posteriormente."
+"Convertir .reuse/dep5 en un archivo REUSE.toml. El archivo generado se "
+"coloca en la raíz del proyecto y es semánticamente idéntico. El archivo ."
+"reuse/dep5 se elimina posteriormente."
 
 #: src/reuse/cli/convert_dep5.py:31
 #, fuzzy
@@ -287,30 +285,29 @@ msgid ""
 "LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
 msgstr ""
+"LICENSE debe ser un identificador de licencia SPDX válido. Puede especificar "
+"LICENSE varias veces para descargar varias licencias."
 
 #: src/reuse/cli/download.py:122
-#, fuzzy
 msgid "Download all missing licenses detected in the project."
-msgstr "descargar todas las licencias no disponibles detectadas en el proyecto"
+msgstr "Descargar todas las licencias no disponibles detectadas en el proyecto."
 
 #: src/reuse/cli/download.py:130
 msgid "Path to download to."
-msgstr ""
+msgstr "Ruta a la que descargar."
 
 #: src/reuse/cli/download.py:136
-#, fuzzy
 msgid ""
 "Source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself."
 msgstr ""
-"fuente desde la que copiar las licencias LicenseRef- personalizadas, ya sea "
+"Fuente desde la que copiar las licencias LicenseRef- personalizadas, ya sea "
 "un directorio que contenga el archivo o el propio archivo"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:143
-#, fuzzy
 msgid "LICENSE"
-msgstr "LICENCIAS MALAS"
+msgstr "LICENCIA"
 
 #: src/reuse/cli/download.py:159
 #, fuzzy
@@ -363,16 +360,18 @@ msgid ""
 "- Are any licenses included in the LICENSES/ directory that are not used "
 "inside of the project?"
 msgstr ""
+"- ¿ Hay licencias incluidas en el directorio LICENSES/ que no se utilicen "
+"dentro del proyecto?"
 
 #: src/reuse/cli/lint.py:57
 msgid "- Are there any read errors?"
-msgstr ""
+msgstr "- ¿Hay algún error de lectura?"
 
 #: src/reuse/cli/lint.py:59
-#, fuzzy
 msgid "- Do all files have valid copyright and licensing information?"
 msgstr ""
-"Los siguientes archivos carecen de información de copyright y licencia:"
+"- ¿Todos los archivos tienen información válida sobre derechos de autor y "
+"licencias?"
 
 #: src/reuse/cli/lint.py:70 src/reuse/cli/lint_file.py:38
 #, fuzzy
@@ -380,30 +379,27 @@ msgid "Prevent output."
 msgstr "impide la producción"
 
 #: src/reuse/cli/lint.py:78
-#, fuzzy
 msgid "Format output as JSON."
-msgstr "formato de salida JSON"
+msgstr "Formato de salida JSON."
 
 #: src/reuse/cli/lint.py:86
-#, fuzzy
 msgid "Format output as plain text. (default)"
-msgstr "Formato de salida como texto sin formato (por defecto)"
+msgstr "Formato de salida como texto plano (por defecto)"
 
 #: src/reuse/cli/lint.py:94
-#, fuzzy
 msgid "Format output as errors per line."
-msgstr "formatea la salida como un texto plano"
+msgstr "Formato de salida como errores por línea."
 
 #: src/reuse/cli/lint_file.py:25
-#, fuzzy
 msgid ""
 "Lint individual files for REUSE compliance. The specified FILEs are checked "
 "for the presence of copyright and licensing information, and whether the "
 "found licenses are included in the LICENSES/ directory."
 msgstr ""
-"Archivos individuales de Lint. Los archivos especificados se comprueban para "
-"ver si hay información de copyright y licencias, y si las licencias "
-"encontradas están incluidas en el directorio LICENSES/ ."
+"Eliminar archivos individuales para el cumplimiento de REUSE. Se comprueba "
+"en los ARCHIVOs especificados la presencia de información sobre derechos de "
+"autor y licencias, y si las licencias encontradas están incluidas en el "
+"directorio LICENSES/."
 
 #: src/reuse/cli/lint_file.py:46
 #, fuzzy
@@ -412,8 +408,9 @@ msgstr "Formatea la salida como errores por línea (por defecto)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/lint_file.py:51
+#, fuzzy
 msgid "FILE"
-msgstr ""
+msgstr "FILE"
 
 #: src/reuse/cli/lint_file.py:65
 #, fuzzy, python-brace-format
