@@ -25,7 +25,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
-## 5.0.0 - 2024-10-17
+## v5.0.0 - 2024-10-17
 
 This is a big release for a small change set. With this release, the tool
 becomes compatible with
@@ -106,14 +106,14 @@ subtly improved release of the much bigger version 3.2.
 - Fixed a bug where `REUSE.toml` did not correctly apply its annotations to
   files which have an accompanying `.license` file. (#1058)
 
-## 4.0.3 - 2024-07-08
+## v4.0.3 - 2024-07-08
 
 ### Fixed
 
 - Increased the minimum requirement of `attrs` to `>=21.3`. Older versions do
   not import correctly. (#1044)
 
-## 4.0.2 - 2024-07-03
+## v4.0.2 - 2024-07-03
 
 ### Fixed
 
@@ -121,14 +121,14 @@ subtly improved release of the much bigger version 3.2.
   `annotate --merge-copyrights` on a file that does not yet have a year in the
   copyright statement. This bug was introduced in v4.0.1. (#1030)
 
-## 4.0.1 - 2024-07-03
+## v4.0.1 - 2024-07-03
 
 ### Fixed
 
 - Make sure that Read the Docs can compile the documentation. This necesitated
   updating `poetry.lock`. (#1028)
 
-## 4.0.0 - 2024-07-03
+## v4.0.0 - 2024-07-03
 
 This release of REUSE implements the new
 [REUSE Specification v3.2](https://reuse.software/spec-3.2). It adds the
@@ -238,14 +238,14 @@ This changeset also contains the changes of v3.1.0a1.
 - In `reuse spdx`, fixed the output to be more compliant by capitalising
   `SPDXRef-Document DESCRIBES` appropriately. (#1013)
 
-## 3.0.2 - 2024-04-08
+## v3.0.2 - 2024-04-08
 
 ### Fixed
 
 - `annotate`'s '`--style` now works again when used for a file with an
   unrecognised extension. (#909)
 
-## 3.0.1 - 2024-01-19
+## v3.0.1 - 2024-01-19
 
 ### Fixed
 
@@ -255,7 +255,7 @@ This changeset also contains the changes of v3.1.0a1.
   files are scanned for REUSE information again. The contents of binary files
   are not. (#896)
 
-## 3.0.0 - 2024-01-17
+## v3.0.0 - 2024-01-17
 
 This release contains a lot of small improvements and changes without anything
 big per se. Rather, it is made in advance of a release which will contain a
@@ -330,7 +330,7 @@ That future 3.1 release will have some alpha testing in advance.
   <https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html>.
   (#874)
 
-## 2.1.0 - 2023-07-18
+## v2.1.0 - 2023-07-18
 
 After the yanked 2.0.0 release, we're excited to announce our latest major
 version packed with new features and improvements! We've expanded our file type
@@ -438,7 +438,7 @@ and licensing information to your code!
 
 ### Security
 
-## 2.0.0 - 2023-06-21 [YANKED]
+## v2.0.0 - 2023-06-21 [YANKED]
 
 This version was yanked because of an unanticipated workflow that we broke. The
 breaking change is the fact that an order of precedence was defined for
@@ -453,14 +453,14 @@ were broken as a result of this.
 
 Apologies to everyone whose CI broke. We'll get this one right before long.
 
-## 1.1.2 - 2023-02-09
+## v1.1.2 - 2023-02-09
 
 ### Fixed
 
 - Note to maintainers: It is now possible/easier to use the `build` module to
   build this module. Previously, there was a namespace conflict. (#640)
 
-## 1.1.1 - 2023-02-05
+## v1.1.1 - 2023-02-05
 
 ### Fixed
 
@@ -468,7 +468,7 @@ Apologies to everyone whose CI broke. We'll get this one right before long.
   `site-packages/`). (#657)
 - Include documentation directory in sdist. (#657)
 
-## 1.1.0 - 2022-12-01
+## v1.1.0 - 2022-12-01
 
 ### Added
 
@@ -521,7 +521,7 @@ Apologies to everyone whose CI broke. We'll get this one right before long.
   comment style on a single line could not be parsed (#593).
 - In PHP files, add header after `<?php` (#543).
 
-## 1.0.0 - 2022-05-19
+## v1.0.0 - 2022-05-19
 
 A major release! Do not worry, no breaking changes but a development team
 (@carmenbianca, @floriansnow, @linozen, @mxmehl and @nicorikken) that is
@@ -600,7 +600,7 @@ We would like to thank the many contributors to this release, among them
   stand at the beginning of the file where the licensing info needs to go.
   (#406)
 
-## 0.14.0 - 2021-12-27
+## v0.14.0 - 2021-12-27
 
 Happy holidays! This is mainly a maintenance release fixing some subcommands and
 adding loads of supported file types and file names. However, you can also enjoy
@@ -655,7 +655,7 @@ contributed!
 - Make `download` subcommand work correctly outside of project root and with
   `--root` (#430)
 
-## 0.13.0 - 2021-06-11
+## v0.13.0 - 2021-06-11
 
 ### Added
 
@@ -705,13 +705,13 @@ contributed!
 - Catch erroneous SPDX expressions. (#331)
 - Updated SPDX license list to 3.13.
 
-## 0.12.1 - 2020-12-17
+## v0.12.1 - 2020-12-17
 
 ### Fixed
 
 - Bumped versions of requirements. (#288)
 
-## 0.12.0 - 2020-12-16
+## v0.12.0 - 2020-12-16
 
 This release was delayed due to the absence of the lead developer (Carmen, me,
 the person writing these release notes). Many thanks to Max Mehl for
@@ -755,14 +755,14 @@ Diego Elio Pettenò.
 
 - Updated license list to 3.11.
 
-## 0.11.1 - 2020-06-08
+## v0.11.1 - 2020-06-08
 
 ### Fixed
 
 - Similar to CAL-1.0 and CAL-1.0-Combined-Work-Exception, SHL-2.1 is now ignored
   because it contains an SPDX tag within itself.
 
-## 0.11.0 - 2020-05-25
+## v0.11.0 - 2020-05-25
 
 ### Added
 
@@ -783,13 +783,13 @@ Diego Elio Pettenò.
   `.license` files if the `.license` file was non-empty, but did not contain
   valid SPDX tags.
 
-## 0.10.1 - 2020-05-14
+## v0.10.1 - 2020-05-14
 
 ### Fixed
 
 - Updated license list to 3.8-106-g4cfec76.
 
-## 0.10.0 - 2020-04-24
+## v0.10.0 - 2020-04-24
 
 ### Added
 
@@ -808,7 +808,7 @@ Diego Elio Pettenò.
   `docker run -v $(pwd):/data fsfe/reuse lint` instead of
   `docker run -v $(pwd):/data fsfe/reuse reuse lint`.
 
-## 0.9.0 - 2020-04-21
+## v0.9.0 - 2020-04-21
 
 ### Added
 
@@ -833,7 +833,7 @@ Diego Elio Pettenò.
 - Fixed a rare bug that would trigger when a directory is both ignored and
   contains a `.git` file.
 
-## 0.8.1 - 2020-02-22
+## v0.8.1 - 2020-02-22
 
 ### Added
 
@@ -847,7 +847,7 @@ Diego Elio Pettenò.
 - There can now be a tab as whitespace after `SPDX-License-Identifier` and
   `SPDX-FileCopyrightText`.
 
-## 0.8.0 - 2020-01-20
+## v0.8.0 - 2020-01-20
 
 ### Added
 
@@ -901,7 +901,7 @@ Diego Elio Pettenò.
 - Performance of `project.all_files()` has been improved by quite a lot.
 - Files with CRLF line endings are now better supported.
 
-## 0.7.0 - 2019-11-28
+## v0.7.0 - 2019-11-28
 
 ### Changed
 
@@ -921,7 +921,7 @@ Diego Elio Pettenò.
     version you receive. In order to get a later version, you will need to
     change the name to `reuse`.
 
-## 0.6.0 - 2019-11-19
+## v0.6.0 - 2019-11-19
 
 ### Added
 
@@ -943,7 +943,7 @@ Diego Elio Pettenò.
 - Git submodules are now ignored by default.
 - `addheader --explicit-license` now no longer breaks on unsupported filetypes.
 
-## 0.5.2 - 2019-10-27
+## v0.5.2 - 2019-10-27
 
 ### Added
 
@@ -960,12 +960,12 @@ Diego Elio Pettenò.
 - Also handle `MachineReadableFormatError` when parsing DEP5 files. Tries to
   import that error. If the import is unsuccessful, it is handled.
 
-## 0.5.1 - 2019-10-24 [YANKED]
+## v0.5.1 - 2019-10-24 [YANKED]
 
 This release was replaced by 0.5.2 due to importing
 `MachineReadableFormatError`, which is not a backwards-compatible change.
 
-## 0.5.0 - 2019-08-29
+## v0.5.0 - 2019-08-29
 
 ### Added
 
@@ -988,7 +988,7 @@ This release was replaced by 0.5.2 due to importing
 - `.gitkeep` files are now ignored by the tool.
 - Changed Lisp's comment character from ';;' to ';'.
 
-## 0.4.1 - 2019-08-07
+## v0.4.1 - 2019-08-07
 
 ### Added
 
@@ -1002,7 +1002,7 @@ This release was replaced by 0.5.2 due to importing
 - Copyright lines in `reuse spdx` are now sorted.
 - Some publicly visible TODOs were patched away.
 
-## 0.4.0 - 2019-08-07
+## v0.4.0 - 2019-08-07
 
 This release is a major overhaul and refactoring of the tool. Its primary focus
 is improved usability and speed, as well as adhering to version 3.0 of the REUSE
@@ -1042,7 +1042,7 @@ Specification.
 - Scanning a Git directory is a lot faster now.
 - Scanning binary files is a lot faster now.
 
-## 0.3.4 - 2019-04-15
+## v0.3.4 - 2019-04-15
 
 This release should be a short-lived one. A new (slightly
 backwards-incompatible) version is in the works.
@@ -1058,25 +1058,25 @@ backwards-incompatible) version is in the works.
 - The repository has been moved from <https://git.fsfe.org/reuse/reuse> to
   <https://gitlab.com/reuse/reuse>.
 
-## 0.3.3 - 2018-07-15
+## v0.3.3 - 2018-07-15
 
 ### Fixed
 
 - Any files with the suffix `.spdx` are no longer considered licenses.
 
-## 0.3.2 - 2018-07-15
+## v0.3.2 - 2018-07-15
 
 ### Fixed
 
 - The documentation now builds under Python 3.7.
 
-## 0.3.1 - 2018-07-14
+## v0.3.1 - 2018-07-14
 
 ### Fixed
 
 - When using reuse from a child directory using pygit2, correctly find the root.
 
-## 0.3.0 - 2018-05-16
+## v0.3.0 - 2018-05-16
 
 ### Changed
 
@@ -1091,7 +1091,7 @@ backwards-incompatible) version is in the works.
   now correctly matches corresponding SPDX identifiers. Still it is recommended
   to use `SPDX-Valid-License: GPL-3.0` instead.
 
-## 0.2.0 - 2018-04-17
+## v0.2.0 - 2018-04-17
 
 ### Added
 
@@ -1117,7 +1117,7 @@ backwards-incompatible) version is in the works.
 - click removed as dependency. Good old argparse from the library is used
   instead.
 
-## 0.1.1 - 2017-12-14
+## v0.1.1 - 2017-12-14
 
 ### Changed
 
@@ -1128,7 +1128,7 @@ backwards-incompatible) version is in the works.
 - Release date in change log fixed.
 - The PyPI homepage now gets reStructuredText instead of Markdown.
 
-## 0.1.0 - 2017-12-14
+## v0.1.0 - 2017-12-14
 
 ### Added
 
@@ -1167,19 +1167,19 @@ backwards-incompatible) version is in the works.
   a file still has errors during decoding, those errors are silently ignored and
   replaced.
 
-## 0.0.4 - 2017-11-06
+## v0.0.4 - 2017-11-06
 
 ### Fixed
 
 - Removed dependency on `os.PathLike` so that Python 3.5 is actually supported
 
-## 0.0.3 - 2017-11-06
+## v0.0.3 - 2017-11-06
 
 ### Fixed
 
 - Fixed the link to PyPI in the README.
 
-## 0.0.2 - 2017-11-03
+## v0.0.2 - 2017-11-03
 
 This is a very early development release aimed at distributing the program as
 soon as possible. Because this is the first release, the changelog is a little
