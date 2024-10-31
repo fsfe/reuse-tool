@@ -139,7 +139,7 @@ _HELP = (
     ),
 )
 @click.argument(
-    "license_",
+    "licenses",
     # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("LICENSE"),
     type=str,
@@ -148,21 +148,19 @@ _HELP = (
 @click.pass_obj
 def download(
     obj: ClickObj,
-    license_: Collection[str],
+    licenses: Collection[str],
     all_: bool,
     output: Optional[Path],
     source: Optional[Path],
 ) -> None:
     # pylint: disable=missing-function-docstring
-    if all_ and license_:
+    if all_ and licenses:
         raise click.UsageError(
             _(
                 "The 'LICENSE' argument and '--all' option are mutually"
                 " exclusive."
             )
         )
-
-    licenses: Collection[str] = license_  # type: ignore
 
     if all_:
         # TODO: This is fairly inefficient, but gets the job done.
