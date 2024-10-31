@@ -32,7 +32,11 @@ from typing import (
 from uuid import uuid4
 
 from . import _LICENSING, __REUSE_version__, __version__
-from ._util import _checksum
+from ._util import (
+    _add_plus_to_identifier,
+    _checksum,
+    _strip_plus_from_identifier,
+)
 from .extract import _LICENSEREF_PATTERN
 from .global_licensing import ReuseDep5
 from .i18n import _
@@ -436,15 +440,13 @@ class ProjectReport:  # pylint: disable=too-many-instance-attributes
         if self._unused_licenses is not None:
             return self._unused_licenses
 
-        # First collect licenses that are suspected to be unused.
-        suspected_unused_licenses = {
-            lic for lic in self.licenses if lic not in self.used_licenses
-        }
-        # Remove false positives.
         self._unused_licenses = {
             lic
-            for lic in suspected_unused_licenses
-            if f"{lic}+" not in self.used_licenses
+            for lic in self.licenses
+            if not any(
+                identifier in self.used_licenses
+                for identifier in set((lic, _add_plus_to_identifier(lic)))
+            )
         }
         return self._unused_licenses
 
@@ -750,8 +752,12 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
                     # A license expression akin to Apache-1.0+ should register
                     # correctly if LICENSES/Apache-1.0.txt exists.
                     identifiers = {identifier}
-                    if identifier.endswith("+"):
-                        identifiers.add(identifier[:-1])
+                    if (
+                        plus_identifier := _strip_plus_from_identifier(
+                            identifier
+                        )
+                    ) != identifier:
+                        identifiers.add(plus_identifier)
                     # Bad license
                     if not identifiers.intersection(project.license_map):
                         report.bad_licenses.add(identifier)
