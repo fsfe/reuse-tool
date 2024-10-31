@@ -45,6 +45,7 @@ subtly improved release of the much bigger version 3.2.
 - Added Jujutsu VCS support. (#TODO)
 - Added new copyright prefixes `spdx-string`, `spdx-string-c`, and
   `spdx-string-symbol`. (#979)
+- Support for Python 3.13. (#1092)
 
 ### Changed
 
