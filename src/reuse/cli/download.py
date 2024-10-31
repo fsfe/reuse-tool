@@ -15,6 +15,7 @@ from urllib.error import URLError
 import click
 
 from .._licenses import ALL_NON_DEPRECATED_MAP
+from .._util import _strip_plus_from_identifier
 from ..download import _path_to_license_file, put_license_in_file
 from ..i18n import _
 from ..report import ProjectReport
@@ -173,6 +174,7 @@ def download(
             _("Cannot use '--output' with more than one license.")
         )
 
+    licenses = {_strip_plus_from_identifier(lic) for lic in licenses}
     return_code = 0
     for lic in licenses:
         destination: Path = output  # type: ignore
