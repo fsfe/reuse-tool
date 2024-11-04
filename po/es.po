@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-11-04 13:00+0000\n"
+"PO-Revision-Date: 2024-11-05 19:00+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -134,10 +134,9 @@ msgid "Do not include year in copyright statement."
 msgstr "No incluir el año en la declaración de derechos de autor."
 
 #: src/reuse/cli/annotate.py:364
-#, fuzzy
 msgid "Merge copyright lines if copyright statements are identical."
 msgstr ""
-"fusionar las líneas del copyright si las declaraciones del copyright son "
+"Fusionar las líneas del copyright si las declaraciones del copyright son "
 "idénticas"
 
 #: src/reuse/cli/annotate.py:371
@@ -149,45 +148,40 @@ msgid "Force multi-line comment style."
 msgstr "Forzar estilo de comentario multilínea."
 
 #: src/reuse/cli/annotate.py:384
-#, fuzzy
 msgid "Add headers to all files under specified directories recursively."
 msgstr ""
-"añadir las cabeceras a todos los archivos de los directorios especificados "
-"de forma recursiva"
+"Añadir cabeceras a todos los archivos de los directorios especificados de "
+"forma recursiva"
 
 #: src/reuse/cli/annotate.py:389
-#, fuzzy
 msgid "Do not replace the first header in the file; just add a new one."
-msgstr "no sustituyas la primera cabecera del archivo; añade una nueva"
+msgstr "No sustituir la primera cabecera del archivo; añadir una nueva"
 
 #: src/reuse/cli/annotate.py:396
-#, fuzzy
 msgid "Always write a .license file instead of a header inside the file."
 msgstr ""
-"escribir siempre un archivo .license en lugar de una cabecera dentro del "
+"Escribir siempre un archivo .license en lugar de una cabecera dentro del "
 "archivo"
 
 #: src/reuse/cli/annotate.py:403
-#, fuzzy
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr ""
-"escribir un archivo .license en archivos con estilos de comentario no "
+"Escribir un archivo .license en archivos con estilos de comentario no "
 "reconocidos"
 
 #: src/reuse/cli/annotate.py:410
-#, fuzzy
 msgid "Skip files with unrecognised comment styles."
-msgstr "omitir los archivos con estilos de comentario no reconocidos"
+msgstr "Omitir los archivos con estilos de comentario no reconocidos"
 
 #: src/reuse/cli/annotate.py:421
-#, fuzzy
 msgid "Skip files that already contain REUSE information."
-msgstr "omitir los archivos que ya contienen la información REUSE"
+msgstr "Omitir los archivos que ya contienen la información REUSE"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:426
+#, fuzzy
 msgid "PATH"
-msgstr ""
+msgstr "PATH"
 
 #: src/reuse/cli/annotate.py:476
 #, python-brace-format
@@ -224,9 +218,8 @@ msgstr ""
 "reuse/dep5 se elimina posteriormente."
 
 #: src/reuse/cli/convert_dep5.py:31
-#, fuzzy
 msgid "No '.reuse/dep5' file."
-msgstr "sin archivo '.reuse/dep5'"
+msgstr "Sin archivo '.reuse/dep5'"
 
 #: src/reuse/cli/download.py:52
 msgid "'{}' is not a valid SPDX License Identifier."
@@ -346,6 +339,8 @@ msgid ""
 "- Are any licenses referred to inside of the project, but not included in "
 "the LICENSES/ directory?"
 msgstr ""
+"- ¿Se hace referencia a alguna licencia dentro del proyecto, pero no se "
+"incluye en el directorio LICENSES/?"
 
 #: src/reuse/cli/lint.py:53
 msgid ""
@@ -366,9 +361,8 @@ msgstr ""
 "licencias?"
 
 #: src/reuse/cli/lint.py:70 src/reuse/cli/lint_file.py:38
-#, fuzzy
 msgid "Prevent output."
-msgstr "impide la producción"
+msgstr "Evita la producción"
 
 #: src/reuse/cli/lint.py:78
 msgid "Format output as JSON."
@@ -486,34 +480,28 @@ msgid "Enable debug statements."
 msgstr "habilita instrucciones de depuración"
 
 #: src/reuse/cli/main.py:94
-#, fuzzy
 msgid "Hide deprecation warnings."
-msgstr "ocultar las advertencias de que está obsoleto"
+msgstr "Ocultar las advertencias de que está obsoleto"
 
 #: src/reuse/cli/main.py:99
-#, fuzzy
 msgid "Do not skip over Git submodules."
-msgstr "no omitas los submódulos de Git"
+msgstr "No omitir los submódulos de Git"
 
 #: src/reuse/cli/main.py:104
-#, fuzzy
 msgid "Do not skip over Meson subprojects."
-msgstr "no te saltes los subproyectos de Meson"
+msgstr "No saltarse los subproyectos de Meson"
 
 #: src/reuse/cli/main.py:109
-#, fuzzy
 msgid "Do not use multiprocessing."
-msgstr "no utilices multiproceso"
+msgstr "No utilizar multiproceso"
 
 #: src/reuse/cli/main.py:119
-#, fuzzy
 msgid "Define root of project."
-msgstr "define el origen del proyecto"
+msgstr "Definir el origen del proyecto"
 
 #: src/reuse/cli/spdx.py:23
-#, fuzzy
 msgid "Generate an SPDX bill of materials."
-msgstr "Genere una lista de materiales SPDX en formato RDF."
+msgstr "Generar una lista de materiales SPDX."
 
 #: src/reuse/cli/spdx.py:33
 #, fuzzy
