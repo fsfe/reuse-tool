@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-11-07 16:00+0000\n"
+"PO-Revision-Date: 2024-11-10 11:00+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -295,14 +295,12 @@ msgid "LICENSE"
 msgstr "LICENCIA"
 
 #: src/reuse/cli/download.py:159
-#, fuzzy
 msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr "las opciones --single-line y --multi-line se excluyen mutuamente"
+msgstr "El argumento 'LICENSE' y la opción '--all' se excluyen mutuamente"
 
 #: src/reuse/cli/download.py:173
-#, fuzzy
 msgid "Cannot use '--output' with more than one license."
-msgstr "no se puede utilizar --output con más de una licencia"
+msgstr "No se puede utilizar '--output' con más de una licencia"
 
 #: src/reuse/cli/lint.py:27
 #, python-brace-format
@@ -312,27 +310,34 @@ msgid ""
 "find the latest version of the specification at <https://reuse.software/spec/"
 ">."
 msgstr ""
+"Elimine el directorio del proyecto para cumplir con REUSE. Esta versión de "
+"la herramienta se compara con la versión {reuse_version} de la "
+"especificación de REUSE. Puede encontrar la última versión de la "
+"especificación en <https://reuse.software/spec/>."
 
 #: src/reuse/cli/lint.py:33
 msgid "Specifically, the following criteria are checked:"
-msgstr ""
+msgstr "Específicamente, se verifican los siguientes criterios:"
 
 #: src/reuse/cli/lint.py:36
 msgid ""
 "- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
 "project?"
 msgstr ""
+"- ¿ Hay alguna licencia incorrecta (no reconocida, que no cumpla con SPDX) "
+"en el proyecto?"
 
 #: src/reuse/cli/lint.py:40
-#, fuzzy
 msgid "- Are there any deprecated licenses in the project?"
-msgstr "¿Cuál es la dirección de Internet del proyecto?"
+msgstr "- ¿Hay licencias obsoletas en el proyecto?"
 
 #: src/reuse/cli/lint.py:43
 msgid ""
 "- Are there any license files in the LICENSES/ directory without file "
 "extension?"
 msgstr ""
+"- ¿Hay algún archivo de licencia en el directorio LICENSES/ sin extensión de "
+"archivo?"
 
 #: src/reuse/cli/lint.py:48
 msgid ""
