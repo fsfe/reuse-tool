@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-11-10 11:00+0000\n"
+"PO-Revision-Date: 2024-11-11 13:00+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -393,9 +393,8 @@ msgstr ""
 "directorio LICENSES/."
 
 #: src/reuse/cli/lint_file.py:46
-#, fuzzy
 msgid "Format output as errors per line. (default)"
-msgstr "Formatea la salida como errores por línea (por defecto)"
+msgstr "Formatea la salida como errores por línea. (por defecto)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/lint_file.py:51
@@ -480,9 +479,8 @@ msgstr ""
 "donate/>."
 
 #: src/reuse/cli/main.py:89
-#, fuzzy
 msgid "Enable debug statements."
-msgstr "habilita instrucciones de depuración"
+msgstr "Habilita instrucciones de depuración."
 
 #: src/reuse/cli/main.py:94
 msgid "Hide deprecation warnings."
@@ -509,37 +507,32 @@ msgid "Generate an SPDX bill of materials."
 msgstr "Generar una lista de materiales SPDX."
 
 #: src/reuse/cli/spdx.py:33
-#, fuzzy
 msgid "File to write to."
-msgstr "archivos para limpiar"
+msgstr "Archivo para escribir."
 
 #: src/reuse/cli/spdx.py:39
-#, fuzzy
 msgid ""
 "Populate the LicenseConcluded field; note that reuse cannot guarantee that "
 "the field is accurate."
 msgstr ""
-"rellenar el campo LicenseConcluded; ten en cuenta que la reutilización no "
-"puede garantizar que el campo sea exacto"
+"Rellenar el campo LicenseConcluded; ten en cuenta que reuse no puede "
+"garantizar que el campo sea exacto"
 
 #: src/reuse/cli/spdx.py:51
-#, fuzzy
 msgid "Name of the person signing off on the SPDX report."
-msgstr "nombre de la persona que firma el informe SPDX"
+msgstr "Nombre de la persona que firma el informe SPDX."
 
 #: src/reuse/cli/spdx.py:55
-#, fuzzy
 msgid "Name of the organization signing off on the SPDX report."
-msgstr "nombre de la organización que firma el informe SPDX"
+msgstr "Nombre de la organización que firma el informe SPDX."
 
 #: src/reuse/cli/spdx.py:82
-#, fuzzy
 msgid ""
 "'--creator-person' or '--creator-organization' is required when '--add-"
 "license-concluded' is provided."
 msgstr ""
-"error: se requiere --creator-person=NAME o --creator-organization=NAME "
-"cuando se proporciona --add-license-concluded"
+"Se requiere '--creator-person' o '--creator-organization' cuando se "
+"proporciona '--add-license-concluded'."
 
 #: src/reuse/cli/spdx.py:97
 #, python-brace-format
@@ -560,12 +553,12 @@ msgstr "Lista de todas las licencias SPDX compatibles"
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:518
 #, python-brace-format
 msgid "{editor}: Editing failed"
-msgstr ""
+msgstr "{editor}: Error de edición"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:522
 #, python-brace-format
 msgid "{editor}: Editing failed: {e}"
-msgstr ""
+msgstr "{editor}: Error de edición: {e}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1120
 msgid "Aborted!"
@@ -630,13 +623,13 @@ msgid "(dynamic)"
 msgstr "(dinámico)"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2821
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "default: {default}"
-msgstr "predeterminado: {predeterminado}"
+msgstr "predeterminado: {default}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2834
 msgid "required"
-msgstr ""
+msgstr "requerido"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:528
 msgid "Show the version and exit."
@@ -651,12 +644,12 @@ msgstr "Error: {message}"
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:72
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
-msgstr ""
+msgstr "Probar '{command} {option}' para obtener ayuda."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:121
 #, python-brace-format
 msgid "Invalid value: {message}"
-msgstr ""
+msgstr "Valor no válido: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:123
 #, python-brace-format
@@ -822,22 +815,22 @@ msgstr "'{}' no es un directorio"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:903
 msgid "{name} {filename!r} is not readable."
-msgstr ""
+msgstr "{name} {filename!r} no es legible."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:912
 msgid "{name} {filename!r} is not writable."
-msgstr ""
+msgstr "{name} {filename!r} no se puede escribir."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:921
 msgid "{name} {filename!r} is not executable."
-msgstr ""
+msgstr "{name} {filename!r} no es ejecutable."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:988
 #, python-brace-format
 msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{len_type} se requieren valores, pero se proporcionó {len_value}."
+msgstr[1] "{len_type} se requieren valores, pero se proporcionaron {len_value}."
 
 #, python-brace-format
 #~ msgid "Skipped unrecognised file '{path}'"
