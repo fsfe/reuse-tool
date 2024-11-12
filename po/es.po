@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-11-11 13:00+0000\n"
+"PO-Revision-Date: 2024-11-13 16:00+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: src/reuse/cli/annotate.py:58
 msgid "Option '--copyright', '--license', or '--contributor' is required."
@@ -546,9 +546,8 @@ msgstr ""
 "spec/conformance/#44-standard-data-format-requirements"
 
 #: src/reuse/cli/supported_licenses.py:15
-#, fuzzy
 msgid "List all licenses on the SPDX License List."
-msgstr "Lista de todas las licencias SPDX compatibles"
+msgstr "Enumere todas las licencias en la lista de licencias SPDX."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:518
 #, python-brace-format
@@ -654,12 +653,11 @@ msgstr "Valor no válido: {message}"
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:123
 #, python-brace-format
 msgid "Invalid value for {param_hint}: {message}"
-msgstr ""
+msgstr "Valor no válido para {param_hint}: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:179
-#, fuzzy
 msgid "Missing argument"
-msgstr "parámetros posicionales"
+msgstr "Argumento que falta"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:181
 msgid "Missing option"
@@ -762,8 +760,8 @@ msgstr ""
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:298
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{value!r} no es {choice}."
+msgstr[1] "{value!r} no es uno de los {choices}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:392
 msgid "{value!r} does not match the format {format}."
@@ -809,9 +807,9 @@ msgid "{name} {filename!r} is a file."
 msgstr "{name} {filename!r} es un archivo."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:894
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{name} '{filename}' is a directory."
-msgstr "'{}' no es un directorio"
+msgstr "{name} '{filename}' es un directorio."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:903
 msgid "{name} {filename!r} is not readable."
