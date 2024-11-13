@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-11-13 16:00+0000\n"
+"PO-Revision-Date: 2024-11-14 07:53+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -683,11 +683,11 @@ msgid "No such option: {name}"
 msgstr "No existe tal opción: {name}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:224
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
 msgstr[0] "¿Querías decir {possibility}?"
-msgstr[1] "¿Querían decir:  {possibility}?"
+msgstr[1] "(Opciones posibles: {possibilities})"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:262
 msgid "unknown error"
