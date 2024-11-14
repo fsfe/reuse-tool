@@ -25,7 +25,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
-## v5.0.0 - 2024-10-17
+## v5.0.0 - 2024-11-14
 
 This is a big release for a small change set. With this release, the tool
 becomes compatible with
