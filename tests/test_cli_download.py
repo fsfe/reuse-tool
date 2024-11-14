@@ -4,10 +4,11 @@
 
 """Tests for download."""
 
-# pylint: disable=redefined-outer-name,unused-argument
+# pylint: disable=redefined-outer-name,unused-argument,unspecified-encoding
 
 import errno
 import os
+import shutil
 from pathlib import Path
 from unittest.mock import create_autospec
 from urllib.error import URLError
@@ -17,6 +18,8 @@ from click.testing import CliRunner
 
 from reuse.cli import download
 from reuse.cli.main import main
+
+# REUSE-IgnoreStart
 
 
 @pytest.fixture()
@@ -37,6 +40,67 @@ class TestDownload:
         assert result.exit_code == 0
         mock_put_license_in_file.assert_called_with(
             "0BSD", Path(os.path.realpath("LICENSES/0BSD.txt")), source=None
+        )
+
+    def test_strip_plus(self, empty_directory, mock_put_license_in_file):
+        """If downloading LIC+, download LIC instead."""
+        result = CliRunner().invoke(main, ["download", "EUPL-1.2+"])
+
+        assert result.exit_code == 0
+        mock_put_license_in_file.assert_called_with(
+            "EUPL-1.2",
+            Path(os.path.realpath("LICENSES/EUPL-1.2.txt")),
+            source=None,
+        )
+
+    def test_all(self, fake_repository, mock_put_license_in_file):
+        """--all downloads all detected licenses."""
+        shutil.rmtree("LICENSES")
+        result = CliRunner().invoke(main, ["download", "--all"])
+
+        assert result.exit_code == 0
+        for lic in [
+            "GPL-3.0-or-later",
+            "LicenseRef-custom",
+            "Autoconf-exception-3.0",
+            "Apache-2.0",
+            "CC0-1.0",
+        ]:
+            mock_put_license_in_file.assert_any_call(
+                lic, Path(os.path.realpath(f"LICENSES/{lic}.txt")), source=None
+            )
+
+    def test_all_with_plus(self, fake_repository, mock_put_license_in_file):
+        """--all downloads EUPL-1.2 if EUPL-1.2+ is detected."""
+        Path("foo.py").write_text("# SPDX-License-Identifier: EUPL-1.2+")
+        result = CliRunner().invoke(main, ["download", "--all"])
+
+        assert result.exit_code == 0
+        mock_put_license_in_file.assert_called_once_with(
+            "EUPL-1.2",
+            Path(os.path.realpath("LICENSES/EUPL-1.2.txt")),
+            source=None,
+        )
+
+    def test_all_with_plus_and_non_plus(
+        self, fake_repository, mock_put_license_in_file
+    ):
+        """If both EUPL-1.2 and EUPL-1.2+ is detected, download EUPL-1.2 only
+        once.
+        """
+        Path("foo.py").write_text(
+            """
+            # SPDX-License-Identifier: EUPL-1.2+
+            # SPDX-License-Identifier: EUPL-1.2
+            """
+        )
+        result = CliRunner().invoke(main, ["download", "--all"])
+
+        assert result.exit_code == 0
+        mock_put_license_in_file.assert_called_once_with(
+            "EUPL-1.2",
+            Path(os.path.realpath("LICENSES/EUPL-1.2.txt")),
+            source=None,
         )
 
     def test_all_and_license_mutually_exclusive(self, empty_directory):
@@ -223,3 +287,6 @@ class TestSimilarIdentifiers:
         result = download._similar_spdx_identifiers("CC0")
 
         assert "CC0-1.0" in result
+
+
+# REUSE-IgnoreEnd

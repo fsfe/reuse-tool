@@ -15,6 +15,7 @@ from urllib.error import URLError
 import click
 
 from .._licenses import ALL_NON_DEPRECATED_MAP
+from .._util import _strip_plus_from_identifier
 from ..download import _path_to_license_file, put_license_in_file
 from ..i18n import _
 from ..report import ProjectReport
@@ -138,7 +139,7 @@ _HELP = (
     ),
 )
 @click.argument(
-    "license_",
+    "licenses",
     # TRANSLATORS: You may translate this. Please preserve capital letters.
     metavar=_("LICENSE"),
     type=str,
@@ -147,21 +148,19 @@ _HELP = (
 @click.pass_obj
 def download(
     obj: ClickObj,
-    license_: Collection[str],
+    licenses: Collection[str],
     all_: bool,
     output: Optional[Path],
     source: Optional[Path],
 ) -> None:
     # pylint: disable=missing-function-docstring
-    if all_ and license_:
+    if all_ and licenses:
         raise click.UsageError(
             _(
                 "The 'LICENSE' argument and '--all' option are mutually"
                 " exclusive."
             )
         )
-
-    licenses: Collection[str] = license_  # type: ignore
 
     if all_:
         # TODO: This is fairly inefficient, but gets the job done.
@@ -173,6 +172,7 @@ def download(
             _("Cannot use '--output' with more than one license.")
         )
 
+    licenses = {_strip_plus_from_identifier(lic) for lic in licenses}
     return_code = 0
     for lic in licenses:
         destination: Path = output  # type: ignore

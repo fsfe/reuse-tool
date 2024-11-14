@@ -109,6 +109,32 @@ def _determine_license_suffix_path(path: StrPath) -> Path:
     return Path(f"{path}.license")
 
 
+def _strip_plus_from_identifier(spdx_identifier: str) -> str:
+    """Strip final plus from identifier.
+
+    >>> _strip_plus_from_identifier("EUPL-1.2+")
+    'EUPL-1.2'
+    >>> _strip_plus_from_identifier("EUPL-1.2")
+    'EUPL-1.2'
+    """
+    if spdx_identifier.endswith("+"):
+        return spdx_identifier[:-1]
+    return spdx_identifier
+
+
+def _add_plus_to_identifier(spdx_identifier: str) -> str:
+    """Add final plus to identifier.
+
+    >>> _add_plus_to_identifier("EUPL-1.2")
+    'EUPL-1.2+'
+    >>> _add_plus_to_identifier("EUPL-1.2+")
+    'EUPL-1.2+'
+    """
+    if spdx_identifier.endswith("+"):
+        return spdx_identifier
+    return f"{spdx_identifier}+"
+
+
 def relative_from_root(path: StrPath, root: StrPath) -> Path:
     """A helper function to get *path* relative to *root*."""
     path = Path(path)
