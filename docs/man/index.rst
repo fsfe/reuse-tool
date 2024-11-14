@@ -17,5 +17,6 @@ information about the functioning of the tool.
    reuse-convert-dep5
    reuse-download
    reuse-lint
+   reuse-lint-file
    reuse-spdx
    reuse-supported-licenses

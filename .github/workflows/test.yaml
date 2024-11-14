@@ -20,7 +20,7 @@ jobs:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.12"]
+        python-version: ["3.9", "3.13"]
         os: [ubuntu-24.04]
         include:
           - python-version: "3.9"

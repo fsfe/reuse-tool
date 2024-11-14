@@ -34,7 +34,7 @@ try:
     __version__ = version("reuse")
 except PackageNotFoundError:
     # package is not installed
-    __version__ = "4.0.3"
+    __version__ = "5.0.0"
 
 __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
@@ -44,16 +44,6 @@ __REUSE_version__ = "3.3"
 _LOGGER = logging.getLogger(__name__)
 
 _LICENSING = Licensing()
-
-_PACKAGE_PATH = os.path.dirname(__file__)
-_LOCALE_DIR = os.path.join(_PACKAGE_PATH, "locale")
-
-if gettext.find("reuse", localedir=_LOCALE_DIR):
-    gettext.bindtextdomain("reuse", _LOCALE_DIR)
-    gettext.textdomain("reuse")
-    _LOGGER.debug("translations found at %s", _LOCALE_DIR)
-else:
-    _LOGGER.debug("no translations found at %s", _LOCALE_DIR)
 
 
 class SourceType(Enum):

@@ -111,10 +111,10 @@ possible, run `poetry lock --no-update`.
 
 ## Release checklist
 
-- Verify changelog
 - Create branch release-x.y.z
 - `bumpver update --set-version vx.y.z`
 - `make update-resources`
+- `protokolo compile -f version vx.y.z`
 - Alter changelog
 - Do some final tweaks/bugfixes (and alter changelog)
 - `make test-release`

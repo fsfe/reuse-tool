@@ -248,7 +248,7 @@ Git. This uses [pre-commit](https://pre-commit.com/). Once you
 ```yaml
 repos:
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v4.0.3
+    rev: v5.0.0
     hooks:
       - id: reuse
 ```
@@ -263,7 +263,7 @@ use the following configuration:
 ```yaml
 repos:
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v4.0.3
+    rev: v5.0.0
     hooks:
       - id: reuse-lint-file
 ```
@@ -272,9 +272,9 @@ repos:
 
 In order to enable shell completion, you need to generate the shell completion
 script. You do this with `_REUSE_COMPLETE=bash_source reuse`. Replace `bash`
-with `zsh` or `fish` as needed, or any other shells supported by the
-Python`click` library. You can then source the output in your shell rc file,
-like so (e.g.`~/.bashrc`):
+with `zsh` or `fish` as needed, or any other shells supported by the Python
+`click` library. You can then source the output in your shell rc file, like so
+(e.g.`~/.bashrc`):
 
 ```bash
 eval "$(_REUSE__COMPLETE=bash_source reuse)"
