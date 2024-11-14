@@ -25,6 +25,12 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v5.0.2 - 2024-11-14
+
+### Fixed
+
+- The release date for the v5.0.0 entry in the change log was wrong.
+
 ## v5.0.1 - 2024-11-14
 
 ### Fixed
