@@ -25,6 +25,12 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v5.0.1 - 2024-11-14
+
+### Fixed
+
+- Fix readthedocs build.
+
 ## v5.0.0 - 2024-10-17
 
 This is a big release for a small change set. With this release, the tool
@@ -106,6 +112,8 @@ subtly improved release of the much bigger version 3.2.
   unparseable. This is now fixed. (#1047)
 - Fixed a bug where `REUSE.toml` did not correctly apply its annotations to
   files which have an accompanying `.license` file. (#1058)
+- When running `reuse download SPDX-IDENTIFIER+`, download `SPDX-IDENTIFIER`
+  instead. This also works for `reuse download --all`. (#1098)
 
 ## v4.0.3 - 2024-07-08
 
