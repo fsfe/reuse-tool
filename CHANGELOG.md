@@ -54,7 +54,7 @@ subtly improved release of the much bigger version 3.2.
   - Poetry lock file (`poetry.lock`) (#1037)
 - Added `lint-file` subcommand to enable running lint on specific files. (#1055)
 - Added shell completion via `click`. (#1084)
-- Added Jujutsu VCS support. (#TODO)
+- Added Jujutsu VCS support. (#1051)
 - Added new copyright prefixes `spdx-string`, `spdx-string-c`, and
   `spdx-string-symbol`. (#979)
 - Support for Python 3.13. (#1092)
