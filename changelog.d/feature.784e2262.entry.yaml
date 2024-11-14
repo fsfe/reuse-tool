@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2024 Free Software Foundation Europe e.V. <https://fsfe.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+git_email: alexander.railean@siemens.com
+git_user: Alex Railean
+issue_id: null
+message: Add support for RobotFramework
+os_user: redacted
+timestamp: 1731575694
+type: feature

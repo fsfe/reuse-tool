@@ -18,6 +18,7 @@
 # SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
+# SPDX-FileCopyrightText: 2024 Alex Railean <alexander.railean@siemens.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -508,6 +509,15 @@ class ReStructedTextCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class RobotFrameworkCommentStyle(CommentStyle):
+    """RobotFramework comment style."""
+
+    SHORTHAND = "robot"
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+
+
 class SemicolonCommentStyle(CommentStyle):
     """Semicolon comment style."""
 
@@ -764,6 +774,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".rbx": PythonCommentStyle,
     ".rkt": LispCommentStyle,
     ".Rmd": HtmlCommentStyle,
+    ".robot": RobotFrameworkCommentStyle,
     ".rs": CppCommentStyle,
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
