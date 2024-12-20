@@ -1,0 +1,1 @@
+- Added comment support for Erlang, Elixir, and Gleam. (#1117)
