@@ -420,6 +420,16 @@ class FtlCommentStyle(CommentStyle):
     MULTI_LINE = MultiLineSegments("<#--", "", "-->")
 
 
+class GleamCommentStyle(CommentStyle):
+    """Gleam comment style."""
+
+    SHORTHAND = "gleam"
+
+    SINGLE_LINE = "//"
+    INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["#!"]
+
+
 class HandlebarsCommentStyle(CommentStyle):
     """Handlebars comment style."""
 
@@ -674,6 +684,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".fsx": CppCommentStyle,
     ".ftl": FtlCommentStyle,
     ".gemspec": PythonCommentStyle,
+    ".gleam": GleamCommentStyle,
     ".go": CppCommentStyle,
     ".gradle": CppCommentStyle,
     ".graphql": PythonCommentStyle,
