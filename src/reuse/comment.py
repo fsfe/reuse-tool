@@ -18,6 +18,7 @@
 # SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
+# SPDX-FileCopyrightText: 2024 Kiko Fernandez-Reyes <kiko@erlang.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
