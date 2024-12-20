@@ -404,6 +404,15 @@ class ErlangCommentStyle(CommentStyle):
 
 
 class ElixirCommentStyle(CommentStyle):
+    """Elixir comment style."""
+
+    SHORTHAND = "elixir"
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["#!"]
+
+
 class FtlCommentStyle(CommentStyle):
     """FreeMarker Template Language comment style."""
 
@@ -644,10 +653,10 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".dts": CppCommentStyle,
     ".dtsi": CppCommentStyle,
     ".el": LispCommentStyle,
-    ".ex": PythonCommentStyle,
-    ".exs": PythonCommentStyle,
     ".erl": ErlangCommentStyle,
     ".escript": ErlangCommentStyle,
+    ".ex": ElixirCommentStyle,
+    ".exs": ElixirCommentStyle,
     ".f": FortranCommentStyle,
     ".fsproj": HtmlCommentStyle,
     ".f03": ModernFortranCommentStyle,
