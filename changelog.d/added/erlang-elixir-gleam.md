@@ -1,1 +1,3 @@
-- Added comment support for Erlang, Elixir, and Gleam. (#1117)
+- Added comment support for Erlang (`.erl` and `.hrl`), Erlang's leex and yecc
+  lexer and parser generators (`.xrl` and `.yrl`), Elixir (`.ex` and `.exs`),
+  and Gleam (`.gleam`). (#1117)
