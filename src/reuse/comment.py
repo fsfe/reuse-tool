@@ -859,11 +859,13 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".xqm": XQueryCommentStyle,
     ".xqy": XQueryCommentStyle,
     ".xquery": XQueryCommentStyle,
+    ".xrl": ErlangCommentStyle,
     ".xsd": HtmlCommentStyle,
     ".xsh": PythonCommentStyle,
     ".xsl": HtmlCommentStyle,
     ".yaml": PythonCommentStyle,
     ".yml": PythonCommentStyle,
+    ".yrl": ErlangCommentStyle,
     ".zig": CppSingleCommentStyle,
     ".zsh": PythonCommentStyle,
 }
