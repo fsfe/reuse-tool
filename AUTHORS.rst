@@ -158,3 +158,4 @@ Contributors
 - Maximilian Franzke <mfr@nzke.net>
 - Sacha-Élie Ayoun <sachaayoun@gmail.com>
 - Thomas Gilon <thomas.gilon@openenergytransition.org>
+- Yongmin Hong <yewon@revi.email>
