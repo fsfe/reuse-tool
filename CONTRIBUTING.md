@@ -45,10 +45,52 @@ may be closed for various reasons, such as:
 To be safe, open an issue and engage in dialogue before beginning to implement a
 feature that may not be accepted.
 
-When making a pull request, don't hesitate to add yourself to the AUTHORS.rst
-file and the copyright headers of the files you touch.
+**Pull requests need not be perfect.** Not all the tests need to pass. A pull
+request with 80% of the work done is a lot better than no pull request at all.
+We can work together on making the pull request merge-ready, or the maintainers
+can finalise the pull request for you.
 
-### Change log
+Making a pull request generally necessitates the following steps:
+
+### Set up local development
+
+Starting local development is very simple, just execute the following commands:
+
+```bash
+git clone git@github.com:fsfe/reuse-tool.git
+cd reuse-tool/
+poetry install  # You may need to install poetry using your package manager.
+poetry run pre-commit install  # Using poetry is optional here if you already have pre-commit.
+```
+
+Next, you'll find the following commands handy:
+
+- `poetry run reuse`
+- `poetry run pytest`
+- `poetry run pylint src`
+- `poetry run mypy`
+- `make docs`
+
+### Make changes
+
+This is the tricky bit for which no development guide exists. You make changes
+somewhere in the code. If you can, do the following things:
+
+- Write docstrings.
+- Add type hinting.
+- Write tests.
+- Update documentation.
+- Add self as author to every touched file.
+- Add self to `AUTHORS.rst`.
+
+### Commit and submit a pull request
+
+As part of committing, `pre-commit` should run some checks. If you can easily
+fix them, fix them. If you get stuck here, **do not worry**. Just skip the
+pre-commit step with `git commit -n`, and make a pull request. The maintainers
+will be happy to fix those annoying things.
+
+### Make a change log entry
 
 Every pull request should add a change log entry. Change log entries go into
 `changelog.d/<directory>/<name>.md`, where `<directory>` is the appropriate
@@ -77,25 +119,6 @@ help to get started, don't hesitate to get in touch with the maintainers.
 Broader instructions on how to help the FSFE translate things into local
 languages can be found at <https://fsfe.org/contribute/translators/>. The
 translators keep in touch with the <translators@lists.fsfe.org> mailing list.
-
-## Local development
-
-Starting local development is very simple, just execute the following commands:
-
-```bash
-git clone git@github.com:fsfe/reuse-tool.git
-cd reuse-tool/
-poetry install  # You may need to install poetry using your package manager.
-poetry run pre-commit install  # Using poetry is optional here if you already have pre-commit.
-```
-
-Next, you'll find the following commands handy:
-
-- `poetry run reuse`
-- `poetry run pytest`
-- `poetry run pylint src`
-- `poetry run mypy`
-- `make docs`
 
 ## Development conventions
 
