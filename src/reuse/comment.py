@@ -870,6 +870,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".taprc": PythonCommentStyle,
     ".vimrc": VimCommentStyle,
     ".zshrc": PythonCommentStyle,
+    ".yamllint": PythonCommentStyle,  # is a YAML file
     ".yarnrc": PythonCommentStyle,
     "ansible.cfg": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
