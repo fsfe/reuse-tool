@@ -18,6 +18,7 @@
 # SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
+# SPDX-FileCopyrightText: 2025 Raphael Schlarb <info@raphael.schlarb.one>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -654,6 +655,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ftl": FtlCommentStyle,
     ".gemspec": PythonCommentStyle,
     ".go": CppCommentStyle,
+    ".gperf": CppCommentStyle,
     ".gradle": CppCommentStyle,
     ".graphql": PythonCommentStyle,
     ".graphqls": PythonCommentStyle,
