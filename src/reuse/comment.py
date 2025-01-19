@@ -18,6 +18,7 @@
 # SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
+# SPDX-FileCopyrightText: 2024 Yongmin Hong <yewon@revi.email>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -838,6 +839,9 @@ EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
 }
 
 FILENAME_COMMENT_STYLE_MAP = {
+    ".arcconfig": UncommentableCommentStyle,  # is a JSON file
+    ".arclint": UncommentableCommentStyle,  # is a JSON file
+    ".arcunit": UncommentableCommentStyle,  # is a JSON file
     ".bashrc": PythonCommentStyle,
     ".bazelignore": PythonCommentStyle,
     ".bazelrc": PythonCommentStyle,
