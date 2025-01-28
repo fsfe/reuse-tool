@@ -58,6 +58,22 @@ This output is convenient for use in larger scripts.
 
 .. SPDX-SnippetEnd
 
+Year of first commit while following renames
+====================
+
+If you want to follow file renames in the Git history, you can use the `--follow` argument.
+This requires you to pass the file to `git log`.
+
+.. SPDX-SnippetBegin
+.. SPDX-Snippet-License-Identifier: CC0-1.0
+
+.. code-block:: console
+
+  $ git log --follow --date="format:%Y" --format="format:%cd" -- docs/scripts.rst | tail -n 1
+  2022
+
+.. SPDX-SnippetEnd
+
 *******
 Authors
 *******
