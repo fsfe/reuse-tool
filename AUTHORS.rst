@@ -144,3 +144,4 @@ Contributors
 - Skyler Grey <sky@a.starrysky.fyi>
 - Emil Velikov <emil.l.velikov@gmail.com>
 - Linnea Gräf <nea@nea.moe>
+- Charlie Jenkins <charlie@rivosinc.com>

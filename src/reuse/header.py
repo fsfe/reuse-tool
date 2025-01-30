@@ -9,6 +9,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2025 Charles Jenkins <charlie@rivosinc.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -39,6 +40,7 @@ _ENV = Environment(loader=PackageLoader("reuse", "templates"), trim_blocks=True)
 DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
 
 _NEWLINE_PATTERN = re.compile(r"\n", re.MULTILINE)
+_DOCSTRING_PATTERN = re.compile(r'"""[\S\s]*"""', re.MULTILINE)
 
 
 class _TextSections(NamedTuple):
@@ -215,6 +217,20 @@ def _extract_shebang(prefix: str, text: str) -> tuple[str, str]:
     return (shebang, text)
 
 
+def _get_separator(style: Type[CommentStyle], text: str) -> str:
+    """Define separator between the license and the body of the text."""
+    separator = "\n"
+
+    if style == PythonCommentStyle:
+        # PEP 257 requires that docstrings are the first line of the file, so
+        # there must not be a space after the license.
+        docstring = _DOCSTRING_PATTERN.match(text)
+        if docstring:
+            separator = ""
+
+    return separator
+
+
 # pylint: disable=too-many-arguments
 def find_and_replace_header(
     text: str,
@@ -289,7 +305,7 @@ def find_and_replace_header(
     if before.strip():
         new_text = f"{before.rstrip()}\n\n{new_text}"
     if after.strip():
-        new_text = f"{new_text}\n{after.lstrip()}"
+        new_text = f"{new_text}{_get_separator(style, after)}{after.lstrip()}"
     return new_text
 
 
@@ -335,5 +351,5 @@ def add_new_header(
     if shebang.strip():
         new_text = f"{shebang.rstrip()}\n\n{new_text}"
     if text.strip():
-        new_text = f"{new_text}\n{text.lstrip()}"
+        new_text = f"{new_text}{_get_separator(style, text)}{text.lstrip()}"
     return new_text
