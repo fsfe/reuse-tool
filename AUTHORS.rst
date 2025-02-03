@@ -145,3 +145,4 @@ Contributors
 - Emil Velikov <emil.l.velikov@gmail.com>
 - Linnea Gräf <nea@nea.moe>
 - Raphael Schlarb <info@raphael.schlarb.one>
+- Kiko Fernandez-Reyes <kiko@erlang.org>

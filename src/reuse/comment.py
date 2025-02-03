@@ -19,6 +19,7 @@
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
 # SPDX-FileCopyrightText: 2025 Raphael Schlarb <info@raphael.schlarb.one>
+# SPDX-FileCopyrightText: 2025 Kiko Fernandez-Reyes <kiko@erlang.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -393,12 +394,42 @@ class ModernFortranCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
+class ErlangCommentStyle(CommentStyle):
+    """Erlang comment style."""
+
+    SHORTHAND = "erlang"
+
+    SINGLE_LINE = "%"
+    INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["#!"]
+
+
+class ElixirCommentStyle(CommentStyle):
+    """Elixir comment style."""
+
+    SHORTHAND = "elixir"
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["#!"]
+
+
 class FtlCommentStyle(CommentStyle):
     """FreeMarker Template Language comment style."""
 
     SHORTHAND = "ftl"
 
     MULTI_LINE = MultiLineSegments("<#--", "", "-->")
+
+
+class GleamCommentStyle(CommentStyle):
+    """Gleam comment style."""
+
+    SHORTHAND = "gleam"
+
+    SINGLE_LINE = "//"
+    INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["#!"]
 
 
 class HandlebarsCommentStyle(CommentStyle):
@@ -633,9 +664,10 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".dts": CppCommentStyle,
     ".dtsi": CppCommentStyle,
     ".el": LispCommentStyle,
-    ".erl": TexCommentStyle,
-    ".ex": PythonCommentStyle,
-    ".exs": PythonCommentStyle,
+    ".erl": ErlangCommentStyle,
+    ".escript": ErlangCommentStyle,
+    ".ex": ElixirCommentStyle,
+    ".exs": ElixirCommentStyle,
     ".f": FortranCommentStyle,
     ".fsproj": HtmlCommentStyle,
     ".f03": ModernFortranCommentStyle,
@@ -654,6 +686,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".fsx": CppCommentStyle,
     ".ftl": FtlCommentStyle,
     ".gemspec": PythonCommentStyle,
+    ".gleam": GleamCommentStyle,
     ".go": CppCommentStyle,
     ".gperf": CppCommentStyle,
     ".gradle": CppCommentStyle,
@@ -668,7 +701,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".hh": CppCommentStyle,
     ".hjson": CppCommentStyle,
     ".hpp": CppCommentStyle,
-    ".hrl": TexCommentStyle,
+    ".hrl": ErlangCommentStyle,
     ".hs": HaskellCommentStyle,
     ".html": HtmlCommentStyle,
     ".hx": CppCommentStyle,
@@ -826,11 +859,13 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".xqm": XQueryCommentStyle,
     ".xqy": XQueryCommentStyle,
     ".xquery": XQueryCommentStyle,
+    ".xrl": ErlangCommentStyle,
     ".xsd": HtmlCommentStyle,
     ".xsh": PythonCommentStyle,
     ".xsl": HtmlCommentStyle,
     ".yaml": PythonCommentStyle,
     ".yml": PythonCommentStyle,
+    ".yrl": ErlangCommentStyle,
     ".zig": CppSingleCommentStyle,
     ".zsh": PythonCommentStyle,
 }
