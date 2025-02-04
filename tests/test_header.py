@@ -228,6 +228,48 @@ def test_find_and_replace_no_header():
     )
 
 
+def test_find_and_replace_no_header_docstring():
+    """Given text with docstring and without header, add a header."""
+    info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
+    text = '"""docstring"""'
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+        \"\"\"docstring\"\"\"
+        """
+    )
+
+    assert (
+        find_and_replace_header(text, info)
+        == add_new_header(text, info)
+        == expected
+    )
+
+
+def test_find_and_replace_no_header_multiline_docstring():
+    """Given text with multiline docstring and without header, add a header."""
+    info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
+    text = '"""docstring\ndocstring continued\n"""'
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+        \"\"\"docstring
+        docstring continued
+        \"\"\"
+        """
+    )
+
+    assert (
+        find_and_replace_header(text, info)
+        == add_new_header(text, info)
+        == expected
+    )
+
+
 def test_find_and_replace_verbatim():
     """Replace a header with itself."""
     info = ReuseInfo()
@@ -454,6 +496,42 @@ def test_find_and_replace_preserve_newline():
             """
         )
         + "\n"
+    )
+
+    assert find_and_replace_header(text, info) == text
+
+
+def test_find_and_replace_preserve_no_newline_docstring():
+    """If the file content doesn't have a newline and has a docstring,
+    don't add a newline."""
+
+    info = ReuseInfo()
+    text = cleandoc(
+        """
+            # SPDX-FileCopyrightText: Jane Doe
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
+            \"\"\"docstring\"\"\"
+            """
+    )
+
+    assert find_and_replace_header(text, info) == text
+
+
+def test_find_and_replace_preserve_no_newline_mulitline_docstring():
+    """If the file content doesn't have a newline and has a docstring,
+    don't add a newline."""
+
+    info = ReuseInfo()
+    text = cleandoc(
+        """
+            # SPDX-FileCopyrightText: Jane Doe
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
+            \"\"\"docstring
+            docstring continued
+            \"\"\"
+            """
     )
 
     assert find_and_replace_header(text, info) == text
