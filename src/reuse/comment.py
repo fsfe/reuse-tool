@@ -666,6 +666,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".el": LispCommentStyle,
     ".erl": ErlangCommentStyle,
     ".escript": ErlangCommentStyle,
+    ".es": ErlangCommentStyle,
     ".ex": ElixirCommentStyle,
     ".exs": ElixirCommentStyle,
     ".f": FortranCommentStyle,
