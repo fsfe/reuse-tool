@@ -37,7 +37,7 @@ from ..comment import (
     has_style,
     is_uncommentable,
 )
-from ..copyright import _COPYRIGHT_PREFIXES, make_copyright_line
+from ..copyright import CopyrightPrefix, make_copyright_line
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
@@ -242,10 +242,12 @@ def get_reuse_info(
     --contributor.
     """
     copyright_prefix = (
-        copyright_prefix if copyright_prefix is not None else "spdx"
+        CopyrightPrefix[CopyrightPrefix.uppercase_name(copyright_prefix)]
+        if copyright_prefix is not None
+        else CopyrightPrefix.SPDX
     )
     copyright_lines = {
-        make_copyright_line(item, year=year, copyright_prefix=copyright_prefix)
+        make_copyright_line(item, year=year, prefix=copyright_prefix)
         for item in copyrights
     }
 
@@ -334,7 +336,12 @@ _HELP = (
 )
 @click.option(
     "--copyright-prefix",
-    type=click.Choice(list(_COPYRIGHT_PREFIXES)),
+    type=click.Choice(
+        [
+            CopyrightPrefix.lowercase_name(prefix.name)
+            for prefix in CopyrightPrefix
+        ]
+    ),
     help=_("Copyright prefix to use."),
 )
 @click.option(

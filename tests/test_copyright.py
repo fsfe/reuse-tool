@@ -12,7 +12,7 @@
 
 import pytest
 
-from reuse.copyright import make_copyright_line
+from reuse.copyright import CopyrightPrefix, make_copyright_line
 
 # REUSE-IgnoreStart
 
@@ -32,20 +32,22 @@ def test_make_copyright_line_year():
 
 def test_make_copyright_line_prefix_spdx():
     """Given a simple statement and prefix, make it a copyright line."""
-    statement = make_copyright_line("hello", copyright_prefix="spdx")
+    statement = make_copyright_line("hello", prefix=CopyrightPrefix.SPDX)
     assert statement == "SPDX-FileCopyrightText: hello"
 
 
 def test_make_copyright_line_prefix_spdx_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line("hello", year=2019, copyright_prefix="spdx")
+    statement = make_copyright_line(
+        "hello", year=2019, prefix=CopyrightPrefix.SPDX
+    )
     assert statement == "SPDX-FileCopyrightText: 2019 hello"
 
 
 def test_make_copyright_line_prefix_spdx_c_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="spdx-c"
+        "hello", year=2019, prefix=CopyrightPrefix.SPDX_C
     )
     assert statement == "SPDX-FileCopyrightText: (C) 2019 hello"
 
@@ -53,7 +55,7 @@ def test_make_copyright_line_prefix_spdx_c_year():
 def test_make_copyright_line_prefix_spdx_symbol_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="spdx-symbol"
+        "hello", year=2019, prefix=CopyrightPrefix.SPDX_SYMBOL
     )
     assert statement == "SPDX-FileCopyrightText: © 2019 hello"
 
@@ -61,7 +63,7 @@ def test_make_copyright_line_prefix_spdx_symbol_year():
 def test_make_copyright_line_prefix_string_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="string"
+        "hello", year=2019, prefix=CopyrightPrefix.STRING
     )
     assert statement == "Copyright 2019 hello"
 
@@ -69,7 +71,7 @@ def test_make_copyright_line_prefix_string_year():
 def test_make_copyright_line_prefix_string_c_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="string-c"
+        "hello", year=2019, prefix=CopyrightPrefix.STRING_C
     )
     assert statement == "Copyright (C) 2019 hello"
 
@@ -77,7 +79,7 @@ def test_make_copyright_line_prefix_string_c_year():
 def test_make_copyright_line_prefix_spdx_string_c_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="spdx-string-c"
+        "hello", year=2019, prefix=CopyrightPrefix.SPDX_STRING_C
     )
     assert statement == "SPDX-FileCopyrightText: Copyright (C) 2019 hello"
 
@@ -85,7 +87,7 @@ def test_make_copyright_line_prefix_spdx_string_c_year():
 def test_make_copyright_line_prefix_spdx_string_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="spdx-string"
+        "hello", year=2019, prefix=CopyrightPrefix.SPDX_STRING
     )
     assert statement == "SPDX-FileCopyrightText: Copyright 2019 hello"
 
@@ -93,7 +95,7 @@ def test_make_copyright_line_prefix_spdx_string_year():
 def test_make_copyright_line_prefix_spdx_string_symbol_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="spdx-string-symbol"
+        "hello", year=2019, prefix=CopyrightPrefix.SPDX_STRING_SYMBOL
     )
     assert statement == "SPDX-FileCopyrightText: Copyright © 2019 hello"
 
@@ -101,7 +103,7 @@ def test_make_copyright_line_prefix_spdx_string_symbol_year():
 def test_make_copyright_line_prefix_string_symbol_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="string-symbol"
+        "hello", year=2019, prefix=CopyrightPrefix.STRING_SYMBOL
     )
     assert statement == "Copyright © 2019 hello"
 
@@ -109,7 +111,7 @@ def test_make_copyright_line_prefix_string_symbol_year():
 def test_make_copyright_line_prefix_symbol_year():
     """Given a simple statement, prefix and a year, make it a copyright line."""
     statement = make_copyright_line(
-        "hello", year=2019, copyright_prefix="symbol"
+        "hello", year=2019, prefix=CopyrightPrefix.SYMBOL
     )
     assert statement == "© 2019 hello"
 
