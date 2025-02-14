@@ -403,6 +403,7 @@ class ErlangCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
     SHEBANGS = ["#!"]
 
+
 class FtlCommentStyle(CommentStyle):
     """FreeMarker Template Language comment style."""
 
