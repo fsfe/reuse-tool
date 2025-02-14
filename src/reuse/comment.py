@@ -411,13 +411,14 @@ class FtlCommentStyle(CommentStyle):
     MULTI_LINE = MultiLineSegments("<#--", "", "-->")
 
 
-class GleamCommentStyle(CommentStyle):
+class GleamCommentStyle(CppSingleCommentStyle):
     """Gleam comment style."""
 
     SHORTHAND = "gleam"
 
-    SINGLE_LINE = "//"
-    INDENT_AFTER_SINGLE = " "
+    # CppCommentStyle does not work on Gleam due to multilines.
+    # CppSingleCommentStyle does not contain SHEBANGS,
+    # but Gleam can interpret them
     SHEBANGS = ["#!"]
 
 
