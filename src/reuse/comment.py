@@ -358,6 +358,7 @@ class CppSingleCommentStyle(CommentStyle):
 
     SINGLE_LINE = "//"
     INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["#!"]  # Gleam
 
 
 class EmptyCommentStyle(CommentStyle):
@@ -410,17 +411,6 @@ class FtlCommentStyle(CommentStyle):
     SHORTHAND = "ftl"
 
     MULTI_LINE = MultiLineSegments("<#--", "", "-->")
-
-
-class GleamCommentStyle(CppSingleCommentStyle):
-    """Gleam comment style."""
-
-    SHORTHAND = "gleam"
-
-    # CppCommentStyle does not work on Gleam due to multilines.
-    # CppSingleCommentStyle does not contain SHEBANGS,
-    # but Gleam can interpret them
-    SHEBANGS = ["#!"]
 
 
 class HandlebarsCommentStyle(CommentStyle):
@@ -678,7 +668,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".fsx": CppCommentStyle,
     ".ftl": FtlCommentStyle,
     ".gemspec": PythonCommentStyle,
-    ".gleam": GleamCommentStyle,
+    ".gleam": CppSingleCommentStyle,
     ".go": CppCommentStyle,
     ".gperf": CppCommentStyle,
     ".gradle": CppCommentStyle,
