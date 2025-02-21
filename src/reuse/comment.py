@@ -630,6 +630,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".doc": UncommentableCommentStyle,
     ".docx": UncommentableCommentStyle,
     ".dotx": UncommentableCommentStyle,
+    ".dtd": HtmlCommentStyle,
     ".dts": CppCommentStyle,
     ".dtsi": CppCommentStyle,
     ".el": LispCommentStyle,
