@@ -19,6 +19,7 @@
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
 # SPDX-FileCopyrightText: 2025 Raphael Schlarb <info@raphael.schlarb.one>
+# SPDX-FileCopyrightText: 2025 András Nagy <nagyandris0718@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
