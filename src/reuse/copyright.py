@@ -9,7 +9,7 @@ import logging
 import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
-from enum import StrEnum, unique
+from enum import Enum, unique
 from io import StringIO
 from typing import Any, Iterable, Literal, NewType, Optional, Self, Union, cast
 
@@ -105,8 +105,9 @@ _COPYRIGHT_PATTERN = re.compile(
 )
 
 
+# TODO: In Python 3.11, turn this into a StrEnum
 @unique
-class CopyrightPrefix(StrEnum):
+class CopyrightPrefix(Enum):
     """The prefix used for a copyright statement."""
 
     SPDX = "SPDX-FileCopyrightText:"
@@ -403,7 +404,7 @@ class CopyrightNotice:
             cast(CopyrightPrefix, item) for item in reversed(CopyrightPrefix)
         ):
             # lower() is used to match (C) as well as (c).
-            if re_prefix_lower == prefix.lower():
+            if re_prefix_lower == prefix.value.lower():
                 break
         else:
             # The prefix could not be string-matched, most likely because there
@@ -411,7 +412,8 @@ class CopyrightNotice:
             # difflib.
             matches = difflib.get_close_matches(
                 re_prefix,
-                CopyrightPrefix,
+                # TODO: In Python 3.11, this list comprehension is not needed.
+                [item.value for item in CopyrightPrefix],
                 n=1,
                 cutoff=0.2,
             )
@@ -455,7 +457,7 @@ class CopyrightNotice:
 
     def __str__(self) -> str:
         result = StringIO()
-        result.write(self.prefix)
+        result.write(self.prefix.value)
         if self.years:
             result.write(" ")
             result.write(

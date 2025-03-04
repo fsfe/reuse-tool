@@ -325,7 +325,7 @@ class TestCopyrightNoticeFromString:
     @pytest.mark.parametrize("prefix", CopyrightPrefix)
     def test_all_prefixes(self, prefix):
         """All prefixes are correctly recognised."""
-        value = f"{prefix} Jane Doe"
+        value = f"{prefix.value} Jane Doe"
         notice = CopyrightNotice.from_string(value)
         assert notice == CopyrightNotice("Jane Doe", prefix=prefix)
         assert notice.original == value
@@ -337,10 +337,10 @@ class TestCopyrightNoticeFromString:
         """
         if prefix == CopyrightPrefix.STRING:
             with pytest.raises(CopyrightNoticeParseError):
-                CopyrightNotice.from_string(f"{prefix}Jane Doe")
+                CopyrightNotice.from_string(f"{prefix.value}Jane Doe")
 
         else:
-            notice = CopyrightNotice.from_string(f"{prefix}Jane Doe")
+            notice = CopyrightNotice.from_string(f"{prefix.value}Jane Doe")
             if prefix in {
                 CopyrightPrefix.SPDX_STRING,
                 CopyrightPrefix.SNIPPET_STRING,
