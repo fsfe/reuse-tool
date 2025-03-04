@@ -19,8 +19,8 @@ from reuse.copyright import (
     SourceType,
     YearRange,
     YearRangeSeparator,
-    make_copyright_line,
 )
+from reuse.copyright_deprecated import make_copyright_line
 from reuse.exceptions import CopyrightNoticeParseError, YearRangeParseError
 
 # REUSE-IgnoreStart

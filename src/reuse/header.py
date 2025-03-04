@@ -24,7 +24,8 @@ from jinja2 import Environment, PackageLoader, Template
 from license_expression import ExpressionError
 
 from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
-from .copyright import ReuseInfo, merge_copyright_lines
+from .copyright import ReuseInfo
+from .copyright_deprecated import merge_copyright_lines
 from .exceptions import (
     CommentCreateError,
     CommentParseError,

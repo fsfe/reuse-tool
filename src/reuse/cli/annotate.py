@@ -36,7 +36,8 @@ from ..comment import (
     has_style,
     is_uncommentable,
 )
-from ..copyright import CopyrightPrefix, ReuseInfo, make_copyright_line
+from ..copyright import CopyrightPrefix, ReuseInfo
+from ..copyright_deprecated import make_copyright_line
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
