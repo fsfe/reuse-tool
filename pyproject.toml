@@ -152,7 +152,7 @@ addopts = "--doctest-modules"
 
 [tool.mypy]
 files = [
-    "src/reuse/**.py",
+    "src/reuse/**/*.py",
     "tests/**.py",
 ]
 exclude = [
