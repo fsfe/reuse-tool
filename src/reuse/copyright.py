@@ -11,7 +11,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from enum import Enum, unique
 from io import StringIO
-from typing import Any, Iterable, Literal, NewType, Optional, Self, Union, cast
+from typing import Any, Iterable, Literal, NewType, Optional, Union, cast
 
 from .exceptions import CopyrightNoticeParseError, YearRangeParseError
 from .extract import _COPYRIGHT_PATTERNS  # TODO: Get rid of this import.
@@ -175,8 +175,9 @@ class YearRange:
         if self.separator is not None and self.end is None:
             self.end = ""
 
+    # TODO: In Python 3.11, return Self
     @classmethod
-    def from_string(cls, value: str) -> Self:
+    def from_string(cls, value: str) -> "YearRange":
         """Create a :class:`YearRange` object from a string.
 
         Raises:
@@ -241,8 +242,9 @@ class YearRange:
         # No comparing on separators.
         return False
 
+    # TODO: In Python 3.11, use Self
     @classmethod
-    def compact(cls, ranges: Iterable[Self]) -> list[Self]:
+    def compact(cls, ranges: Iterable["YearRange"]) -> list["YearRange"]:
         """Given an iterable of :class:`YearRange`, compact them such that a new
         more concise list is returne without losing information. This process
         also sorts the ranges, such that ranges with lower starts come before
@@ -262,17 +264,20 @@ class YearRange:
           (2017-Present).
         """
         ranges = sorted(ranges)
-        compacted: list[Self] = []
+        compacted: list[YearRange] = []
 
         if not ranges:
             return []
 
-        def filter_same_end(ranges: Iterable[Self]) -> list[Self]:
+        # TODO: In Python 3.11, use Self
+        def filter_same_end(ranges: Iterable[YearRange]) -> list[YearRange]:
             """If some year ranges have the same end, then only take the ones
             with the lowest start.
             """
-            result: list[Self] = []
-            ends: defaultdict[Union[str, None], list[Self]] = defaultdict(list)
+            result: list[YearRange] = []
+            ends: defaultdict[Union[str, None], list[YearRange]] = defaultdict(
+                list
+            )
             for item in ranges:
                 ends[item.end].append(item)
             for key, range_list in ends.items():
@@ -292,8 +297,9 @@ class YearRange:
             ranges[0].end if ranges[0].end is not None else ranges[0].start
         )
 
+        # TODO: In Python 3.11, use Self
         def add_to_compacted(
-            start: int, end: str, next_range: Optional[Self]
+            start: int, end: str, next_range: Optional[YearRange]
         ) -> None:
             nonlocal compacted
             if is_four_digits(end):
@@ -384,8 +390,9 @@ class CopyrightNotice:
         default=None, init=False, repr=False, compare=False
     )
 
+    # TODO: In Python 3.11, return Self.
     @classmethod
-    def from_string(cls, value: str) -> Self:
+    def from_string(cls, value: str) -> "CopyrightNotice":
         """Create a :class:`CopyrightNotice` object from a string.
 
         Raises:
