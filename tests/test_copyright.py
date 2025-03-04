@@ -12,9 +12,591 @@
 
 import pytest
 
-from reuse.copyright import CopyrightPrefix, make_copyright_line
+from reuse.copyright import (
+    CopyrightNotice,
+    CopyrightPrefix,
+    YearRange,
+    YearRangeSeparator,
+    make_copyright_line,
+)
+from reuse.exceptions import CopyrightNoticeParseError, YearRangeParseError
 
 # REUSE-IgnoreStart
+
+
+class TestYearRangeInit:
+    """Tests for YearRange initialisation."""
+
+    def test_no_start(self):
+        """It is invalid to have no start year."""
+        # pylint: disable=no-value-for-parameter
+        with pytest.raises(TypeError):
+            YearRange(end="2017")
+
+    def test_populate_end_if_separator(self):
+        """If a separator is defined, but end is not defined, set end to an
+        empty string.
+        """
+        years = YearRange("2017", "-")
+        assert years.end == ""
+
+
+class TestYearRangeFromString:
+    """Tests for YearRange.from_string."""
+
+    def test_one_year(self):
+        """The simple case, given a four-digit string."""
+        years = YearRange.from_string("2017")
+        assert years == YearRange("2017")
+        assert years.original == "2017"
+
+    @pytest.mark.parametrize(
+        "separator",
+        YearRangeSeparator.__args__,  # type: ignore
+    )
+    def test_full_range(self, separator):
+        """For all available separators, parse a range."""
+        value = f"2017{separator}2020"
+        years = YearRange.from_string(value)
+        assert years.start == "2017"
+        assert years.separator == separator
+        assert years.end == "2020"
+        assert years.original == value
+
+    def test_end_is_word(self):
+        """The end date is a word like 'Present'."""
+        years = YearRange.from_string("2017--Present")
+        assert years == YearRange("2017", "--", "Present")
+        assert years.original == "2017--Present"
+
+    def test_start_and_separator(self):
+        """Parse start and separator."""
+        years = YearRange.from_string("2017--")
+        assert years == YearRange("2017", "--")
+        assert years.original == "2017--"
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "0",
+            "123",
+            "12345",
+            "12345678",
+            "-",
+            "--",
+            "a 1234",
+            "abcd",
+            "Present-2017",
+            "1234 a",
+            "1234 5678",
+            "123-4",
+            "-1234",
+        ],
+    )
+    def test_invalid_ranges(self, text):
+        """Invalid ranges cannot be parsed."""
+        with pytest.raises(YearRangeParseError):
+            YearRange.from_string(text)
+
+
+class TestYearRangeToString:
+    """Tests for YearRange.to_string."""
+
+    def test_one_year(self):
+        """Create a string for a single-item year range."""
+        years = YearRange("2017")
+        assert years.to_string() == "2017"
+
+    def test_year_and_separator(self):
+        """Create a string for a year and a separator, with no end date."""
+        years = YearRange("2017", "--")
+        assert years.to_string() == "2017--"
+
+    def test_full_range(self):
+        """Given a range between two years, create a full string."""
+        years = YearRange("2017", "-", "2025")
+        assert years.to_string() == "2017-2025"
+
+    def test_no_separator(self):
+        """Given two years but no separator, add a separator anyway."""
+        years = YearRange("2017", end="2025")
+        assert years.to_string() == "2017-2025"
+
+    def test_end_is_word(self):
+        """The end year can be a word like 'Present'."""
+        years = YearRange("2017", "--", "Present")
+        assert years.to_string() == "2017--Present"
+
+    def test_original(self):
+        """If an original string exists, return it."""
+        years = YearRange("2017")
+        years.original = "Foo"
+        assert years.to_string() != "Foo"
+        assert years.to_string(original=True) == "Foo"
+
+    def test_str(self):
+        """str() is identical to to_string."""
+        years = YearRange("2017", "-", "2025")
+        years.original = "Foo"
+        assert str(years) == years.to_string()
+
+
+class TestYearRangeSorting:
+    """Test whether YearRange sorts correctly."""
+
+    def test_no_type_mixing(self):
+        """Can only compare YearRange objects."""
+        with pytest.raises(TypeError):
+            YearRange(  # pylint: disable=expression-not-assigned
+                "2017"
+            ) > "2018"
+
+    @pytest.mark.parametrize(
+        "first,second",
+        [
+            ("2017", "2018"),
+            ("0001", "2017"),
+            ("2017-2019", "2018"),
+            ("2017", "2017-2019"),
+            ("2017", "2017-"),
+            ("2017-2018", "2017-2019"),
+            ("2017-2022", "2019-2021"),
+            ("2017-2022", "2019-2025"),
+            ("2017-2019", "2017-Present"),
+            ("2017-2019", "2017-0abcd"),
+        ],
+    )
+    def test_less_than(self, first, second):
+        """First is less than second."""
+        first = YearRange.from_string(first)
+        second = YearRange.from_string(second)
+        assert first.__lt__(second)  # pylint: disable=unnecessary-dunder-call
+        assert not second.__lt__(  # pylint: disable=unnecessary-dunder-call
+            first
+        )
+        assert first < second
+        assert second > first
+
+    @pytest.mark.parametrize(
+        "first,second",
+        [
+            ("2017", "2017"),
+            ("2017-2018", "2017-2018"),
+            ("2017-Present", "2017-Present"),
+            ("2017-2018", "2017--2018"),
+            ("2017-", "2017--"),
+        ],
+    )
+    def test_equal(self, first, second):
+        """First is equal to second."""
+        first = YearRange.from_string(first)
+        second = YearRange.from_string(second)
+        assert first == second
+
+
+class TestYearRangeCompact:
+    """Tests for YearRange.compact."""
+
+    def test_three_subsequent(self):
+        """A simple case where three years compact into a single range."""
+        result = YearRange.compact(
+            [YearRange("2017"), YearRange("2018"), YearRange("2019")]
+        )
+        assert result == [YearRange("2017", end="2019")]
+
+    def test_two_subsequent(self):
+        """Do not compact a two subsequent years into one range."""
+        result = YearRange.compact([YearRange("2017"), YearRange("2018")])
+        assert result == [YearRange("2017"), YearRange("2018")]
+
+    def test_unsorted(self):
+        """An unsorted list is also compacted correctly."""
+        result = YearRange.compact(
+            [YearRange("2019"), YearRange("2017"), YearRange("2018")]
+        )
+        assert result == [YearRange("2017", end="2019")]
+
+    @pytest.mark.parametrize(
+        "years",
+        [
+            ["2017", "2018-2016"],
+            ["2017-2015", "2018"],
+            ["2017-2015", "2018-2016"],
+            ["2017-Present", "2018-2016"],
+            ["2017-2016", "2019-Present"],
+        ],
+    )
+    def test_end_less_than_start(self, years):
+        """If the end of a range is less than the start, handle that case by not
+        compacting it."""
+        years = [YearRange.from_string(item) for item in years]
+        result = YearRange.compact(years)
+        assert result == years
+
+    def test_remove_useless_range(self):
+        """If a range has a length of 0, compact it."""
+        result = YearRange.compact([YearRange("2017", end="2017")])
+        assert result == [YearRange("2017")]
+
+    @pytest.mark.parametrize(
+        "text",
+        ["2017", "2017-2020", "2017-Present"],
+    )
+    def test_range_repeated(self, text):
+        """If a range is repeated, only return one."""
+        years = YearRange.from_string(text)
+        result = YearRange.compact([years, years])
+        assert result == [years]
+
+    def test_two_subsequent_ranges(self):
+        """A case where two ranges can be glued together."""
+        result = YearRange.compact(
+            [YearRange("2017", end="2019"), YearRange("2020", end="2021")]
+        )
+        assert result == [YearRange("2017", end="2021")]
+
+    def test_encompassed(self):
+        """A case where a range is contained within another."""
+        result = YearRange.compact(
+            [YearRange("2017", end="2022"), YearRange("2019", end="2021")]
+        )
+        assert result == [YearRange("2017", end="2022")]
+
+    def test_partial_overlap(self):
+        """If there is partial overlap between ranges, compact them."""
+        result = YearRange.compact(
+            [YearRange("2017", end="2022"), YearRange("2019", end="2025")]
+        )
+        assert result == [YearRange("2017", end="2025")]
+
+    @pytest.mark.parametrize(
+        "text_list,expected",
+        [
+            (("2017-2022", "2020-2022"), "2017-2022"),
+            (("2017-2022", "2018-2022", "2020-2022"), "2017-2022"),
+            (("2017-Present", "2020-Present"), "2017-Present"),
+            (
+                ("2017-Present", "2018-Present", "2020-Present"),
+                "2017-Present",
+            ),
+            (("2017-", "2019-"), "2017-"),
+        ],
+    )
+    def test_same_end(self, text_list, expected):
+        """If the end of various ranges is the same, pick the lowest start."""
+        result = YearRange.compact(
+            [YearRange.from_string(item) for item in text_list]
+        )
+        assert result == [YearRange.from_string(expected)]
+
+    @pytest.mark.parametrize(
+        "text_list",
+        [
+            ("2017-2020", "2018-Present"),
+            ("2017-Present", "2018-2020"),
+            ("2017", "2017-Present"),
+            ("2017", "2017-"),
+        ],
+    )
+    def test_leave_string_end_alone(self, text_list):
+        """Don't really bother compacting int-y ends with string-y ends."""
+        years = [YearRange.from_string(item) for item in text_list]
+        result = YearRange.compact(years)
+        assert result == years
+
+    def test_different_string_ends(self):
+        """Do not compact ranges which have different string-y ends."""
+        years = [YearRange("2017", end="Present"), YearRange("2018", end="Now")]
+        result = YearRange.compact(years)
+        assert result == years
+
+
+class TestCopyrightNoticeFromString:
+    """Tests for CopyrightNotice.from_string."""
+
+    def test_simple(self):
+        """A simple case of a prefix and a copyright holder."""
+        notice = CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
+        assert notice == CopyrightNotice(
+            "Jane Doe", prefix=CopyrightPrefix.SPDX
+        )
+        assert notice.original == "SPDX-FileCopyrightText: Jane Doe"
+
+    @pytest.mark.parametrize("prefix", CopyrightPrefix)
+    def test_all_prefixes(self, prefix):
+        """All prefixes are correctly recognised."""
+        value = f"{prefix} Jane Doe"
+        notice = CopyrightNotice.from_string(value)
+        assert notice == CopyrightNotice("Jane Doe", prefix=prefix)
+        assert notice.original == value
+
+    @pytest.mark.parametrize("prefix", CopyrightPrefix)
+    def test_spaces_after_copyright(self, prefix):
+        """A space is not necessary after most copyright prefixex, like '©2017
+        Jane Doe'. However, 'CopyrightJane Doe' is not valid.
+        """
+        if prefix == CopyrightPrefix.STRING:
+            with pytest.raises(CopyrightNoticeParseError):
+                CopyrightNotice.from_string(f"{prefix}Jane Doe")
+
+        else:
+            notice = CopyrightNotice.from_string(f"{prefix}Jane Doe")
+            if prefix in {
+                CopyrightPrefix.SPDX_STRING,
+                CopyrightPrefix.SNIPPET_STRING,
+            }:
+                assert notice.name == "CopyrightJane Doe"
+                assert notice.prefix in {
+                    CopyrightPrefix.SPDX,
+                    CopyrightPrefix.SNIPPET,
+                }
+            else:
+                assert notice == CopyrightNotice("Jane Doe", prefix=prefix)
+
+    def test_contact(self):
+        """The contact field is recognised."""
+        notice = CopyrightNotice.from_string(
+            "Copyright Jane Doe <jane@example.com>"
+        )
+        assert notice == CopyrightNotice(
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            contact="jane@example.com",
+        )
+
+    def test_contact_empty(self):
+        """The contact field is empty."""
+        notice = CopyrightNotice.from_string("Copyright Jane Doe <>")
+        assert notice == CopyrightNotice(
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            contact="",
+        )
+
+    def test_only_contact(self):
+        """If only contact is provided, recognise it as the name."""
+        notice = CopyrightNotice.from_string("Copyright <Jane Doe>")
+        assert notice == CopyrightNotice(
+            "<Jane Doe>",
+            prefix=CopyrightPrefix.STRING,
+        )
+
+    def test_no_space_before_contact(self):
+        """If there is no space before contact, do not recognise it."""
+        notice = CopyrightNotice.from_string(
+            "Copyright Jane Doe<jane@example.com>"
+        )
+        assert notice == CopyrightNotice(
+            "Jane Doe<jane@example.com>", prefix=CopyrightPrefix.STRING
+        )
+
+    @pytest.mark.parametrize(
+        "text,prefix",
+        [
+            ("SPDX-FileCopyrightText:(C)", CopyrightPrefix.SPDX_C),
+            ("SPDX-FileCopyrightText:  (C)", CopyrightPrefix.SPDX_C),
+            ("SPDX-FileCopyrightText:©", CopyrightPrefix.SPDX_SYMBOL),
+            (
+                "SPDX-FileCopyrightText:Copyright(C)",
+                CopyrightPrefix.SPDX_STRING_C,
+            ),
+            (
+                "SPDX-FileCopyrightText:  Copyright(C)",
+                CopyrightPrefix.SPDX_STRING_C,
+            ),
+            (
+                "SPDX-FileCopyrightText:  Copyright  (C)",
+                CopyrightPrefix.SPDX_STRING_C,
+            ),
+            (
+                "SPDX-FileCopyrightText:Copyright©",
+                CopyrightPrefix.SPDX_STRING_SYMBOL,
+            ),
+            (
+                "SPDX-FileCopyrightText:  Copyright©",
+                CopyrightPrefix.SPDX_STRING_SYMBOL,
+            ),
+            (
+                "SPDX-FileCopyrightText:  Copyright  ©",
+                CopyrightPrefix.SPDX_STRING_SYMBOL,
+            ),
+            ("Copyright(C)", CopyrightPrefix.STRING_C),
+            ("Copyright  (C)", CopyrightPrefix.STRING_C),
+            ("Copyright©", CopyrightPrefix.STRING_SYMBOL),
+            ("Copyright  ©", CopyrightPrefix.STRING_SYMBOL),
+        ],
+    )
+    def test_unexpected_spacing_in_prefix(self, text, prefix):
+        """When there is unexpected spacing in the prefix, recognise the prefix
+        anyway.
+        """
+        notice = CopyrightNotice.from_string(f"{text} Jane Doe")
+        assert notice == CopyrightNotice("Jane Doe", prefix=prefix)
+
+    def test_with_year(self):
+        """If a year is given, parse it correctly."""
+        notice = CopyrightNotice.from_string("Copyright 2017 Jane Doe")
+        assert notice == CopyrightNotice(
+            "Jane Doe", prefix=CopyrightPrefix.STRING, years=[YearRange("2017")]
+        )
+
+    @pytest.mark.parametrize(
+        "year",
+        [
+            "2017, 2022",
+            "2017,2022",
+            "2017 2022",
+            "2017 , 2022",
+            "2017 2022,",
+            "2017,2022,",
+            "2017, 2022,",
+        ],
+    )
+    def test_two_years_separated(self, year):
+        """There are various ways of separating years with spaces and commas.
+        They are all valid.
+        """
+        notice = CopyrightNotice.from_string(f"Copyright {year} Jane Doe")
+        assert notice == CopyrightNotice(
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            years=[YearRange("2017"), YearRange("2022")],
+        )
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "12345678",
+            "123",
+            "12345",
+            "1234.5678",
+            "Present-1234",
+            "a 1234",
+        ],
+    )
+    def test_not_a_year_range(self, text):
+        """If something is not a year range, do not recognise it as such."""
+        notice = CopyrightNotice.from_string(f"Copyright {text} Jane Doe")
+        assert notice == CopyrightNotice(
+            f"{text} Jane Doe", prefix=CopyrightPrefix.STRING
+        )
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "(C) Jane Doe",
+            "2017 Jane Doe",
+            "Copyrighted Jane Doe",
+            "copyright jane doe",
+        ],
+    )
+    def test_not_a_notice(self, text):
+        """If something is not a notice, do not recognise it as such."""
+        with pytest.raises(CopyrightNoticeParseError):
+            CopyrightNotice.from_string(text)
+
+    @pytest.mark.parametrize("year", ["2017", "2017,"])
+    def test_no_spaces_after_year(self, year):
+        """If there is no space after the year, it is part of the name."""
+        notice = CopyrightNotice.from_string(f"Copyright {year}Jane Doe")
+        assert notice == CopyrightNotice(
+            f"{year}Jane Doe", prefix=CopyrightPrefix.STRING
+        )
+
+    def test_year_range(self):
+        """A simple test for making sure that year ranges are parsed. Otherwise
+        assume that YearRange.from_string works correctly.
+        """
+        notice = CopyrightNotice.from_string(
+            "Copyright 2017, 2020-2022, 2024--Present Jane Doe"
+        )
+        assert notice == CopyrightNotice(
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            years=[
+                YearRange("2017"),
+                YearRange("2020", "-", "2022"),
+                YearRange("2024", "--", "Present"),
+            ],
+        )
+
+    def test_year_range_from_string_broken(self, monkeypatch):
+        """If YearRange.from_string raises an error, deal with it."""
+        first_pass = True
+
+        def raise_exception(_):
+            nonlocal first_pass
+            if first_pass:
+                first_pass = False
+                return YearRange("2017")
+            raise YearRangeParseError
+
+        monkeypatch.setattr(YearRange, "from_string", raise_exception)
+        notice = CopyrightNotice.from_string("Copyright 2017, 2019 Jane Doe")
+        assert notice == CopyrightNotice(
+            "2017, 2019 Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+        )
+
+
+class TestCopyrightNoticeToString:
+    """Tests for CopyrightNotice.to_string."""
+
+    def test_only_name(self):
+        """The simple case where only a copyright holder is provided."""
+        notice = CopyrightNotice("Jane Doe")
+        assert notice.to_string() == "SPDX-FileCopyrightText: Jane Doe"
+
+    def test_different_copyright_prefix(self):
+        """When changing prefix, the resulting string is different."""
+        notice = CopyrightNotice("Jane Doe", prefix=CopyrightPrefix.STRING)
+        assert notice.to_string() == "Copyright Jane Doe"
+
+    def test_single_year(self):
+        """A simple case where there is one year range."""
+        notice = CopyrightNotice("Jane Doe", years=[YearRange("2017")])
+        assert notice.to_string() == "SPDX-FileCopyrightText: 2017 Jane Doe"
+
+    def test_two_years(self):
+        """A case where there are two year ranges."""
+        notice = CopyrightNotice(
+            "Jane Doe",
+            years=[
+                YearRange("2017"),
+                YearRange("2020", "--", "2022"),
+            ],
+        )
+        assert (
+            notice.to_string()
+            == "SPDX-FileCopyrightText: 2017, 2020--2022 Jane Doe"
+        )
+
+    def test_with_contact(self):
+        """If a contact is defined, add it between brackets."""
+        notice = CopyrightNotice("Jane Doe", contact="jane@example.com")
+        assert (
+            notice.to_string()
+            == "SPDX-FileCopyrightText: Jane Doe <jane@example.com>"
+        )
+
+    def test_original(self):
+        """If an original string exists, return it."""
+        notice = CopyrightNotice("Jane Doe")
+        notice.original = "Foo"
+        assert notice.to_string() != "Foo"
+        assert notice.to_string(original=True) == "Foo"
+
+    def test_str(self):
+        """str() is identical to to_string."""
+        notice = CopyrightNotice("Jane Doe")
+        notice.original = "Foo"
+        assert str(notice) == notice.to_string()
+
+    def test_no_name(self):
+        """Not providing a copyright holder is invalid."""
+        # pylint: disable=no-value-for-parameter
+        with pytest.raises(TypeError):
+            CopyrightNotice(contact="jane@example.com")
 
 
 def test_make_copyright_line_simple():
