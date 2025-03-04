@@ -27,7 +27,6 @@ from boolean.boolean import Expression
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
-from .. import ReuseInfo
 from .._annotate import add_header_to_file
 from .._util import _determine_license_path, _determine_license_suffix_path
 from ..comment import (
@@ -37,7 +36,7 @@ from ..comment import (
     has_style,
     is_uncommentable,
 )
-from ..copyright import CopyrightPrefix, make_copyright_line
+from ..copyright import CopyrightPrefix, ReuseInfo, make_copyright_line
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
