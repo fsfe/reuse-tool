@@ -146,3 +146,4 @@ Contributors
 - Linnea Gräf <nea@nea.moe>
 - Raphael Schlarb <info@raphael.schlarb.one>
 - Matthias Schoettle <opensource@mattsch.com>
+- Charlie Jenkins <charlie@rivosinc.com>
