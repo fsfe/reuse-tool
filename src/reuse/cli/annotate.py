@@ -241,13 +241,13 @@ def get_reuse_info(
     """Create a ReuseInfo object from --license, --copyright, and
     --contributor.
     """
-    copyright_prefix = (
+    prefix = (
         CopyrightPrefix[CopyrightPrefix.uppercase_name(copyright_prefix)]
         if copyright_prefix is not None
         else CopyrightPrefix.SPDX
     )
     copyright_lines = {
-        make_copyright_line(item, year=year, prefix=copyright_prefix)
+        make_copyright_line(item, year=year, prefix=prefix)
         for item in copyrights
     }
 
