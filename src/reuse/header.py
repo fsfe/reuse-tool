@@ -23,9 +23,8 @@ from boolean.boolean import ParseError
 from jinja2 import Environment, PackageLoader, Template
 from license_expression import ExpressionError
 
-from . import ReuseInfo
 from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
-from .copyright import merge_copyright_lines
+from .copyright import ReuseInfo, merge_copyright_lines
 from .exceptions import (
     CommentCreateError,
     CommentParseError,
