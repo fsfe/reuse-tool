@@ -15,7 +15,7 @@ from textwrap import dedent
 
 from conftest import cpython, posix
 
-from reuse import SourceType
+from reuse.copyright import SourceType
 from reuse.project import Project
 from reuse.report import FileReport, ProjectReport, ProjectSubsetReport
 

@@ -24,9 +24,10 @@ from typing import BinaryIO, Iterator, Optional
 from boolean.boolean import ParseError
 from license_expression import ExpressionError
 
-from . import _LICENSING, ReuseInfo, SourceType
+from . import _LICENSING
 from ._util import relative_from_root
 from .comment import _all_style_classes
+from .copyright import ReuseInfo, SourceType
 from .i18n import _
 from .types import StrPath
 

@@ -11,8 +11,8 @@ from inspect import cleandoc
 
 import pytest
 
-from reuse import ReuseInfo
 from reuse.comment import CppCommentStyle
+from reuse.copyright import ReuseInfo
 from reuse.exceptions import CommentCreateError, MissingReuseInfoError
 from reuse.header import add_new_header, create_header, find_and_replace_header
 
