@@ -151,7 +151,7 @@ class CopyrightPrefix(Enum):
         return name.upper().replace("-", "_")
 
 
-@dataclass
+@dataclass(frozen=True)
 class YearRange:
     """Represents a year range, such as '2017-2025', or '2017'. This only
     represents a single range; multiple separated ranges should be put in a
@@ -176,7 +176,7 @@ class YearRange:
 
     def __post_init__(self) -> None:
         if self.separator is not None and self.end is None:
-            self.end = ""
+            object.__setattr__(self, "end", "")
 
     # TODO: In Python 3.11, return Self
     @classmethod
@@ -193,7 +193,7 @@ class YearRange:
         # regex. This could be cleaner, but would require a lot of useless code
         # to validate what the regex already enforces.
         result = cls(**re_result.groupdict())  # type: ignore
-        result.original = value
+        object.__setattr__(result, "original", value)
         return result
 
     def __str__(self) -> str:
@@ -374,7 +374,7 @@ class YearRange:
         return compacted
 
 
-@dataclass
+@dataclass(frozen=True)
 class CopyrightNotice:
     """Represents a single copyright statement."""
 
@@ -462,7 +462,7 @@ class CopyrightNotice:
             years=years,
             contact=re_result.group("contact"),
         )
-        result.original = value
+        object.__setattr__(result, "original", value)
         return result
 
     def __str__(self) -> str:

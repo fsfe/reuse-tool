@@ -132,14 +132,14 @@ class TestYearRangeToString:
     def test_original(self):
         """If an original string exists, return it."""
         years = YearRange("2017")
-        years.original = "Foo"
+        object.__setattr__(years, "original", "Foo")
         assert years.to_string() != "Foo"
         assert years.to_string(original=True) == "Foo"
 
     def test_str(self):
         """str() is identical to to_string."""
         years = YearRange("2017", "-", "2025")
-        years.original = "Foo"
+        object.__setattr__(years, "original", "Foo")
         assert str(years) == years.to_string()
 
 
@@ -584,14 +584,14 @@ class TestCopyrightNoticeToString:
     def test_original(self):
         """If an original string exists, return it."""
         notice = CopyrightNotice("Jane Doe")
-        notice.original = "Foo"
+        object.__setattr__(notice, "original", "Foo")
         assert notice.to_string() != "Foo"
         assert notice.to_string(original=True) == "Foo"
 
     def test_str(self):
         """str() is identical to to_string."""
         notice = CopyrightNotice("Jane Doe")
-        notice.original = "Foo"
+        object.__setattr__(notice, "original", "Foo")
         assert str(notice) == notice.to_string()
 
     def test_no_name(self):
