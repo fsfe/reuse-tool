@@ -193,7 +193,7 @@ def _str_to_set(value: Union[None, _T, Collection[_T]]) -> set[_T]: ...
 
 
 def _str_to_set(
-    value: Union[str, None, _T, Collection[_T]]
+    value: Union[str, None, _T, Collection[_T]],
 ) -> Union[set[str], set[_T]]:
     if value is None:
         return cast(set[str], set())
