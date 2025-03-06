@@ -4,11 +4,11 @@
 
 repos:
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 25.1.0
     hooks:
       - id: black
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
         name: isort (python)
@@ -20,13 +20,13 @@ repos:
         name: isort (pyi)
         types: [pyi]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
+    rev: v1.15.0
     hooks:
       - id: mypy
         # This is a bit annoying. There are probably more dependencies that need
         # to be defined here for identical behaviour between `poetry run mypy`
         # and `pre-commit run mypy`.
-        additional_dependencies: [attrs==23.2.0]
+        additional_dependencies: [attrs==25.1.0]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.0.3
     hooks:
