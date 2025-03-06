@@ -18,7 +18,7 @@ import pytest
 from click.testing import CliRunner
 
 from reuse.cli.main import main
-from reuse.copyright import _COPYRIGHT_PREFIXES
+from reuse.copyright import CopyrightPrefix
 
 # pylint: disable=too-many-public-methods,too-many-lines,unused-argument
 
@@ -1713,7 +1713,7 @@ class TestAnnotateMerge:
         # moment, and the whole copyright-line-as-string thing needs
         # overhauling.
         simple_file = fake_repository / "foo.py"
-        for copyright_prefix, copyright_string in _COPYRIGHT_PREFIXES.items():
+        for prefix in CopyrightPrefix:
             simple_file.write_text("pass")
             result = CliRunner().invoke(
                 main,
@@ -1726,7 +1726,7 @@ class TestAnnotateMerge:
                     "--copyright",
                     "Jane Doe",
                     "--copyright-style",
-                    copyright_prefix,
+                    CopyrightPrefix.lowercase_name(prefix.name),
                     "--merge-copyrights",
                     "foo.py",
                 ],
@@ -1734,7 +1734,7 @@ class TestAnnotateMerge:
             assert result.exit_code == 0
             assert simple_file.read_text(encoding="utf-8") == cleandoc(
                 f"""
-                    # {copyright_string} 2016 Jane Doe
+                    # {prefix.value} 2016 Jane Doe
                     #
                     # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -1753,7 +1753,7 @@ class TestAnnotateMerge:
                     "--copyright",
                     "Jane Doe",
                     "--copyright-style",
-                    copyright_prefix,
+                    CopyrightPrefix.lowercase_name(prefix.name),
                     "--merge-copyrights",
                     "foo.py",
                 ],
@@ -1761,7 +1761,7 @@ class TestAnnotateMerge:
             assert result.exit_code == 0
             assert simple_file.read_text(encoding="utf-8") == cleandoc(
                 f"""
-                    # {copyright_string} 2016 - 2018 Jane Doe
+                    # {prefix.value} 2016 - 2018 Jane Doe
                     #
                     # SPDX-License-Identifier: GPL-3.0-or-later
 
