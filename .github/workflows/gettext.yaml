@@ -16,7 +16,7 @@ jobs:
   create-pot:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
           # The main branch is protected. fsfe-system has been granted an
