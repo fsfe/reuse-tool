@@ -8,16 +8,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2025-03-10 04:29+0000\n"
-"Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
-"Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
-"sv/>\n"
-"Language: sv\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.3-dev\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/reuse/cli/annotate.py:58
 msgid "Option '--copyright', '--license', or '--contributor' is required."
@@ -29,9 +27,6 @@ msgid ""
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
 "unrecognised':"
 msgstr ""
-"De följande filerna har inte en filändelse som känns igen. Vänligen använd '"
-"--style','force-dot-license','--fallback-dot-license', eller '--skip-"
-"unrecognised':"
 
 #: src/reuse/cli/annotate.py:152
 #, python-brace-format
@@ -39,21 +34,18 @@ msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
-"'{path}' har inte stöd för kommentarer på en rad, vänligen använd inte "
-"'--single-line'."
 
 #: src/reuse/cli/annotate.py:159
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
-"'{path}' stöjder inte kommentarer på flera rader, använd inte --multi-line"
 
 #: src/reuse/cli/annotate.py:205
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "'{dep5}' kunde inte avkodas som UTF-8."
+msgstr ""
 
 #: src/reuse/cli/annotate.py:268
 msgid "Add copyright and licensing into the headers of files."
@@ -161,9 +153,8 @@ msgid "Skip files with unrecognised comment styles."
 msgstr ""
 
 #: src/reuse/cli/annotate.py:421
-#, fuzzy
 msgid "Skip files that already contain REUSE information."
-msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
+msgstr ""
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:426
@@ -176,12 +167,11 @@ msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
 
 #: src/reuse/cli/common.py:58
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
-"'{dep5}' kunde inte tolkas. Vi tog emot följande felmeddelande: {message}"
 
 #: src/reuse/cli/common.py:97
 #, python-brace-format
@@ -189,9 +179,8 @@ msgid "'{name}' is mutually exclusive with: {opts}"
 msgstr ""
 
 #: src/reuse/cli/common.py:114
-#, fuzzy
 msgid "'{}' is not a valid SPDX expression."
-msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
+msgstr ""
 
 #: src/reuse/cli/convert_dep5.py:19
 msgid ""
@@ -205,50 +194,45 @@ msgid "No '.reuse/dep5' file."
 msgstr ""
 
 #: src/reuse/cli/download.py:52
-#, fuzzy
 msgid "'{}' is not a valid SPDX License Identifier."
-msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
+msgstr ""
 
 #: src/reuse/cli/download.py:59
-#, fuzzy
 msgid "Did you mean:"
-msgstr "Menade du:"
+msgstr ""
 
 #: src/reuse/cli/download.py:66
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
 msgstr ""
-"Se <https://spdx.org/licenses/> för en lista över giltiga SPDX-"
-"licensidentifierare."
 
 #: src/reuse/cli/download.py:75
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
-msgstr "Fel: {spdx_identifier} existerar redan."
+msgstr ""
 
 #: src/reuse/cli/download.py:82
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error: {path} does not exist."
-msgstr "Fel: {path} existerar inte."
+msgstr ""
 
 #: src/reuse/cli/download.py:86
 msgid "Error: Failed to download license."
-msgstr "Fel: Hämtningen av licensen misslyckades."
+msgstr ""
 
 #: src/reuse/cli/download.py:91
 msgid "Is your internet connection working?"
-msgstr "Fungerar din internet-anslutning?"
+msgstr ""
 
 #: src/reuse/cli/download.py:96
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
-msgstr "Hämtningen av {spdx_identifier} lyckades."
+msgstr ""
 
 #: src/reuse/cli/download.py:106
-#, fuzzy
 msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "hämta en licens och placera den i mappen LICENSES/"
+msgstr ""
 
 #: src/reuse/cli/download.py:109
 msgid ""
@@ -257,9 +241,8 @@ msgid ""
 msgstr ""
 
 #: src/reuse/cli/download.py:122
-#, fuzzy
 msgid "Download all missing licenses detected in the project."
-msgstr "ladda ner alla saknade licenser som upptäckts i projektet"
+msgstr ""
 
 #: src/reuse/cli/download.py:130
 msgid "Path to download to."
@@ -281,9 +264,8 @@ msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
 msgstr ""
 
 #: src/reuse/cli/download.py:173
-#, fuzzy
 msgid "Cannot use '--output' with more than one license."
-msgstr "kan inte använda --output med mer än en licens"
+msgstr ""
 
 #: src/reuse/cli/lint.py:27
 #, python-brace-format
@@ -405,21 +387,16 @@ msgid ""
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
 "for the online documentation."
 msgstr ""
-"reuse är ett verktyg för att följa REUSE-rekommendationerna. Se <https://"
-"reuse.software/> för mer information och <https://reuse.readthedocs.io/> för "
-"den web-baserade dokumentationen."
 
 #: src/reuse/cli/main.py:69
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr ""
-"Den här versionen av reuse är kompatibel med version {} av REUSE-"
-"specifikationen."
 
 #: src/reuse/cli/main.py:73
 msgid "Support the FSFE's work:"
-msgstr "Stötta FSFE's arbete:"
+msgstr ""
 
 #: src/reuse/cli/main.py:78
 msgid ""
@@ -427,9 +404,6 @@ msgid ""
 "continue working for Free Software wherever necessary. Please consider "
 "making a donation at <https://fsfe.org/donate/>."
 msgstr ""
-"Donationer är avgörande för vår styrka och självständighet. De gör det "
-"möjligt för oss att jobba för Fri mjukvara där det är nödvändigt. Vänligen "
-"överväg att göra en donation till <https://fsfe.org/donate/>."
 
 #: src/reuse/cli/main.py:89
 msgid "Enable debug statements."
@@ -440,23 +414,20 @@ msgid "Hide deprecation warnings."
 msgstr ""
 
 #: src/reuse/cli/main.py:99
-#, fuzzy
 msgid "Do not skip over Git submodules."
-msgstr "hoppa inte över undermoduler för Git"
+msgstr ""
 
 #: src/reuse/cli/main.py:104
-#, fuzzy
 msgid "Do not skip over Meson subprojects."
-msgstr "hoppa inte över underprojekt för Meson"
+msgstr ""
 
 #: src/reuse/cli/main.py:109
 msgid "Do not use multiprocessing."
 msgstr ""
 
 #: src/reuse/cli/main.py:119
-#, fuzzy
 msgid "Define root of project."
-msgstr "definiera roten av projektet"
+msgstr ""
 
 #: src/reuse/cli/spdx.py:23
 msgid "Generate an SPDX bill of materials."
@@ -495,9 +466,8 @@ msgid ""
 msgstr ""
 
 #: src/reuse/cli/supported_licenses.py:15
-#, fuzzy
 msgid "List all licenses on the SPDX License List."
-msgstr "lista alla SPDX-licenser som stöds"
+msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:518
 #, python-brace-format
@@ -581,9 +551,8 @@ msgid "required"
 msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:528
-#, fuzzy
 msgid "Show the version and exit."
-msgstr "visa programmets versionsnummer och avsluta"
+msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:44
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:80
@@ -634,11 +603,11 @@ msgid "No such option: {name}"
 msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:224
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
-msgstr[0] "Menade du:"
-msgstr[1] "Menade du:"
+msgstr[0] ""
+msgstr[1] ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:262
 msgid "unknown error"
@@ -744,18 +713,17 @@ msgid "path"
 msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:877
-#, fuzzy
 msgid "{name} {filename!r} does not exist."
-msgstr "Fel: {path} existerar inte."
+msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:886
 msgid "{name} {filename!r} is a file."
 msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:894
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{name} '{filename}' is a directory."
-msgstr "'{}' är inte en katalog"
+msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:903
 msgid "{name} {filename!r} is not readable."
@@ -775,49 +743,3 @@ msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] ""
 msgstr[1] ""
-
-#, python-brace-format
-#~ msgid "Skipped unrecognised file '{path}'"
-#~ msgstr "Hoppar över fil som inte känns igen '{path}'"
-
-#, python-brace-format
-#~ msgid "'{path}' is not recognised; creating '{path}.license'"
-#~ msgstr "'{path}' känns inte igen; skapar '{path}.license'"
-
-#, python-brace-format
-#~ msgid "Error: Could not create comment for '{path}'"
-#~ msgstr "Fel: Kunde inte skapa kommentar för '{path}'"
-
-#, python-brace-format
-#~ msgid "Could not parse '{expression}'"
-#~ msgstr "Kunde inte tolka '{expression}'"
-
-#~ msgid "can't write to '{}'"
-#~ msgstr "kan inte skriva till '{}'"
-
-#~ msgid "download a license and place it in the LICENSES/ directory"
-#~ msgstr "hämta en licens och placera den i mappen LICENSES/"
-
-#~ msgid "list all non-compliant files"
-#~ msgstr "lista alla filer som inte uppfyller kraven"
-
-#~ msgid "'{}' is not a file"
-#~ msgstr "'{}' är inte en fil"
-
-#~ msgid "can't open '{}'"
-#~ msgstr "kan inte öppna '{}'"
-
-#~ msgid "can't write to directory '{}'"
-#~ msgstr "kan inte skriva till katalogen '{}'"
-
-#~ msgid "can't read or write '{}'"
-#~ msgstr "kan inte läsa eller skriva '{}'"
-
-#~ msgid "the following arguments are required: license"
-#~ msgstr "följande argument behövs: licens"
-
-#~ msgid "initialize REUSE project"
-#~ msgstr "initialisera REUSE-projektet"
-
-#~ msgid "no '{}' file, or could not read it"
-#~ msgstr "ingen '{}'-fil eller kunde inte läsa den"
