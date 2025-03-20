@@ -304,6 +304,25 @@ def test_find_and_replace_verbatim_no_newline():
     assert find_and_replace_header(text, info) == text
 
 
+def test_find_and_replace_preserve_indentation():
+    """If the first thing in a file is indented, do not change that thing's
+    indentation.
+    """
+    info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
+    text = '    # Hello\n    print("world")'
+
+    assert find_and_replace_header(text, info) == cleandoc(
+        """
+        # SPDX-FileCopyrightText: Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+
+            # Hello
+            print("world")
+        """
+    )
+
+
 def test_find_and_replace_newline_before_header():
     """In a scenario where the header is preceded by whitespace, remove the
     preceding whitespace.
