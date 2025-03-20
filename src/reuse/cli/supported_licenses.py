@@ -20,10 +20,15 @@ def supported_licenses() -> None:
     # pylint: disable=missing-function-docstring
     licenses = _load_license_list(_LICENSES)[1]
 
+    license_name_width = 0
     for license_id, license_info in licenses.items():
         license_name = license_info["name"]
-        license_reference = license_info["reference"]
-        click.echo(
-            f"{license_id: <40}\t{license_name: <80}\t"
-            f"{license_reference: <50}"
-        )
+
+        width = len(license_name)
+        if width > license_name_width:
+            license_name_width = width
+
+    for license_id, license_info in licenses.items():
+        license_name = license_info["name"]
+
+        click.echo(f"{license_name: <{license_name_width}}    {license_id}")
