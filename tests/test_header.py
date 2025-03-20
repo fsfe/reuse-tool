@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2024 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2025 Rivos Inc.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -228,6 +229,50 @@ def test_find_and_replace_no_header():
     )
 
 
+def test_find_and_replace_no_header_with_newline():
+    """Given text that starts with a newline but no header, add a header."""
+    info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
+    text = "\npass"
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+
+        pass
+        """
+    )
+
+    assert (
+        find_and_replace_header(text, info)
+        == add_new_header(text, info)
+        == expected
+    )
+
+
+def test_find_and_replace_no_header_multiple_newlines():
+    """Given text that starts with multiple newlines but no header, add a
+    header."""
+    info = ReuseInfo({"GPL-3.0-or-later"}, {"SPDX-FileCopyrightText: Jane Doe"})
+    text = "\n\npass"
+    expected = cleandoc(
+        """
+        # SPDX-FileCopyrightText: Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
+
+
+        pass
+        """
+    )
+
+    assert (
+        find_and_replace_header(text, info)
+        == add_new_header(text, info)
+        == expected
+    )
+
+
 def test_find_and_replace_verbatim():
     """Replace a header with itself."""
     info = ReuseInfo()
@@ -237,6 +282,21 @@ def test_find_and_replace_verbatim():
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
 
+        pass
+        """
+    )
+
+    assert find_and_replace_header(text, info) == text
+
+
+def test_find_and_replace_verbatim_no_newline():
+    """Do not add an empty line after existing headers."""
+    info = ReuseInfo()
+    text = cleandoc(
+        """
+        # SPDX-FileCopyrightText: Jane Doe
+        #
+        # SPDX-License-Identifier: GPL-3.0-or-later
         pass
         """
     )

@@ -9,6 +9,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2025 Rivos Inc.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -205,14 +206,35 @@ def _extract_shebang(prefix: str, text: str) -> tuple[str, str]:
     tuple of (shebang, reduced_text).
     """
     shebang_lines = []
-    for line in text.splitlines():
+    for line in text.splitlines(keepends=True):
         if line.startswith(prefix):
             shebang_lines.append(line)
             text = text.replace(line, "", 1)
         else:
             break
-    shebang = "\n".join(shebang_lines)
+    shebang = "".join(shebang_lines)
     return (shebang, text)
+
+
+def place_header(
+    header: str, before: str, after: str, has_existing_header: bool
+) -> str:
+    """Construct the resulting file with the header and the rest of the text
+    in the file.
+    """
+    new_text = f"{header}\n"
+    if before.strip():
+        new_text = f"{before.rstrip()}\n\n{new_text}"
+    if after.strip():
+        # Create space between header and following code only if a newline
+        # doesn't already exist, and there wasn't previously a header.
+        if not has_existing_header and not after.startswith("\n"):
+            separator = "\n"
+        else:
+            separator = ""
+
+        new_text = f"{new_text}{separator}{after}"
+    return new_text
 
 
 # pylint: disable=too-many-arguments
@@ -275,7 +297,7 @@ def find_and_replace_header(
                 continue
             break
 
-    header = create_header(
+    new_header = create_header(
         reuse_info,
         header,
         template=template,
@@ -285,12 +307,7 @@ def find_and_replace_header(
         merge_copyrights=merge_copyrights,
     )
 
-    new_text = f"{header}\n"
-    if before.strip():
-        new_text = f"{before.rstrip()}\n\n{new_text}"
-    if after.strip():
-        new_text = f"{new_text}\n{after.lstrip()}"
-    return new_text
+    return place_header(new_header, before, after, bool(header))
 
 
 # pylint: disable=too-many-arguments
@@ -331,9 +348,4 @@ def add_new_header(
         merge_copyrights=merge_copyrights,
     )
 
-    new_text = f"{header}\n"
-    if shebang.strip():
-        new_text = f"{shebang.rstrip()}\n\n{new_text}"
-    if text.strip():
-        new_text = f"{new_text}\n{text.lstrip()}"
-    return new_text
+    return place_header(header, shebang, text, False)
