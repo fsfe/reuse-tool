@@ -28,6 +28,7 @@
 # SPDX-FileCopyrightText: 2025 Maximilian Franzke <mfr@nzke.net>
 # SPDX-FileCopyrightText: 2025 Sacha-Élie Ayoun <sachaayoun@gmail.com>
 # SPDX-FileCopyrightText: 2025 Thomas Gilon <thomas.gilon@openenergytransition.org>
+# SPDX-FileCopyrightText: 2025 Manlio Perillo <manlio.perillo@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -952,6 +953,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
     "Snakefile": PythonCommentStyle,
+    "uv.lock": UncommentableCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
 
