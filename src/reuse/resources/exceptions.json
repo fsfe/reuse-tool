@@ -192,7 +192,7 @@
     },
     {
       "reference": "./erlang-otp-linking-exception.json",
-      "isDeprecatedLicenseId": false,
+      "isDeprecatedLicenseId": true,
       "detailsUrl": "./erlang-otp-linking-exception.html",
       "referenceNumber": 46,
       "name": "Erlang/OTP Linking Exception",
