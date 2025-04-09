@@ -18,7 +18,7 @@ jobs:
         with:
           days-before-issue-stale: 360
           days-before-issue-close: 30
-          operations-per-run: 5
+          operations-per-run: 20
           remove-stale-when-updated: false
           exempt-all-issue-assignees: true
           stale-issue-label: "stale"
