@@ -286,6 +286,7 @@ Alternatively, you can place the generated completion script in
 ## Maintainers
 
 - Carmen Bianca Bakker <carmenbianca@fsfe.org>
+- Florian Snow <floriansnow@fsfe.org>
 
 ### Former maintainers
 
