@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-07-08 08:43+0000\n"
-"Last-Translator: stexandev <stefan.hynek@uni-goettingen.de>\n"
+"PO-Revision-Date: 2025-04-17 01:01+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "de/>\n"
 "Language: de\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: src/reuse/cli/annotate.py:58
-#, fuzzy
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "Die Option --contributor, --copyright oder --license ist erforderlich"
+msgstr ""
+"Option ‚--copyright‘, ‚--license‘ oder ‚--contributor‘ ist erforderlich."
 
 #: src/reuse/cli/annotate.py:119
 #, fuzzy
@@ -48,9 +48,9 @@ msgid ""
 msgstr ""
 
 #: src/reuse/cli/annotate.py:205
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "Vorlage {template} konnte nicht gefunden werden"
+msgstr "Vorlage ‚{template}‘ konnte nicht gefunden werden."
 
 #: src/reuse/cli/annotate.py:268
 #, fuzzy
