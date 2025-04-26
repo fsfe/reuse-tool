@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2025-04-25 21:32+0000\n"
-"Last-Translator: FlashCode <flashcode@free.fr>\n"
+"PO-Revision-Date: 2025-04-26 21:20+0000\n"
+"Last-Translator: Sébastien Helleu <flashcode@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "fr/>\n"
 "Language: fr\n"
@@ -312,6 +312,10 @@ msgid ""
 "find the latest version of the specification at <https://reuse.software/spec/"
 ">."
 msgstr ""
+"Vérifier le répertoire du projet pour la conformité REUSE. Cette version de "
+"l'outil vérifie la spécification REUSE dans sa version {reuse_version}. Vous "
+"pouvez trouver la dernière version de la spécification ici : <https://"
+"reuse.software/spec/>."
 
 #: src/reuse/cli/lint.py:33
 msgid "Specifically, the following criteria are checked:"
@@ -385,6 +389,9 @@ msgid ""
 "for the presence of copyright and licensing information, and whether the "
 "found licenses are included in the LICENSES/ directory."
 msgstr ""
+"Vérifier les fichiers individuels pour la conformité REUSE. La présence de "
+"droit d'auteur et de licence est recherchée dans les fichiers et les "
+"licences trouvées doivent être présentes dans le répertoire LICENSES/."
 
 #: src/reuse/cli/lint_file.py:46
 msgid "Format output as errors per line. (default)"
@@ -477,7 +484,7 @@ msgstr "Activer les instructions de débogage."
 
 #: src/reuse/cli/main.py:94
 msgid "Hide deprecation warnings."
-msgstr "Masquer les avertissements d'obsolescence."
+msgstr "Masquer les avertissements de dépréciation."
 
 #: src/reuse/cli/main.py:99
 msgid "Do not skip over Git submodules."
@@ -565,22 +572,22 @@ msgstr "Afficher ce message et quitter."
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1370
 #, python-brace-format
 msgid "(Deprecated) {text}"
-msgstr "(Obsolète) {text}"
+msgstr "(Déprécie) {text}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1387
 msgid "Options"
 msgstr "Options"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1413
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Got unexpected extra argument ({args})"
 msgid_plural "Got unexpected extra arguments ({args})"
-msgstr[0] "Option supplémentaire {{args}} inattendue"
-msgstr[1] "Options supplémentaires {{args}} inattendues"
+msgstr[0] "Option supplémentaire inattendue ({args})"
+msgstr[1] "Options supplémentaires inattendues ({args})"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1429
 msgid "DeprecationWarning: The command {name!r} is deprecated."
-msgstr ""
+msgstr "Avertissement de dépréciation : la commande {name!r} est dépréciée."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1636
 msgid "Commands"
@@ -650,7 +657,7 @@ msgstr "Valeur invalide pour {param_hint} : {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:179
 msgid "Missing argument"
-msgstr "Option manquante"
+msgstr "Paramètre manquant"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:181
 msgid "Missing option"
@@ -676,11 +683,11 @@ msgid "No such option: {name}"
 msgstr "Pas de telle option : {name}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:224
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
 msgstr[0] "Vouliez-vous dire {possibility} ?"
-msgstr[1] "(options possibles : {{possibilities}})"
+msgstr[1] "(options possibles : {possibilities})"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:262
 msgid "unknown error"
