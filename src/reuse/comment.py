@@ -20,6 +20,7 @@
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
 # SPDX-FileCopyrightText: 2025 Raphael Schlarb <info@raphael.schlarb.one>
 # SPDX-FileCopyrightText: 2025 Kiko Fernandez-Reyes <kiko@erlang.org>
+# SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -384,6 +385,16 @@ class FortranCommentStyle(CommentStyle):
 
     SINGLE_LINE = "c"
     INDENT_AFTER_SINGLE = " "
+
+
+class FrontmatterCommentStyle(CommentStyle):
+    """Frontmatter comment style."""
+
+    SHORTHAND = "frontmatter"
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["---"]
 
 
 class ModernFortranCommentStyle(CommentStyle):
