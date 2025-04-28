@@ -17,7 +17,8 @@ from io import BytesIO
 import pytest
 from boolean.boolean import ParseError
 
-from reuse import _LICENSING, ReuseInfo
+from reuse import _LICENSING
+from reuse.copyright import ReuseInfo
 from reuse.extract import (
     decoded_text_from_binary,
     detect_line_endings,

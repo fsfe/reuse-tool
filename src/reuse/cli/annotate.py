@@ -27,7 +27,6 @@ from boolean.boolean import Expression
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
-from .. import ReuseInfo
 from .._annotate import add_header_to_file
 from .._util import _determine_license_path, _determine_license_suffix_path
 from ..comment import (
@@ -37,7 +36,8 @@ from ..comment import (
     has_style,
     is_uncommentable,
 )
-from ..copyright import _COPYRIGHT_PREFIXES, make_copyright_line
+from ..copyright import CopyrightPrefix, ReuseInfo
+from ..copyright_deprecated import make_copyright_line
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
@@ -241,11 +241,13 @@ def get_reuse_info(
     """Create a ReuseInfo object from --license, --copyright, and
     --contributor.
     """
-    copyright_prefix = (
-        copyright_prefix if copyright_prefix is not None else "spdx"
+    prefix = (
+        CopyrightPrefix[CopyrightPrefix.uppercase_name(copyright_prefix)]
+        if copyright_prefix is not None
+        else CopyrightPrefix.SPDX
     )
     copyright_lines = {
-        make_copyright_line(item, year=year, copyright_prefix=copyright_prefix)
+        make_copyright_line(item, year=year, prefix=prefix)
         for item in copyrights
     }
 
@@ -334,7 +336,12 @@ _HELP = (
 )
 @click.option(
     "--copyright-prefix",
-    type=click.Choice(list(_COPYRIGHT_PREFIXES)),
+    type=click.Choice(
+        [
+            CopyrightPrefix.lowercase_name(prefix.name)
+            for prefix in CopyrightPrefix
+        ]
+    ),
     help=_("Copyright prefix to use."),
 )
 @click.option(
