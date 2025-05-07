@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2025-03-10 04:29+0000\n"
+"PO-Revision-Date: 2025-05-08 19:01+0000\n"
 "Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "sv/>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.3-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: src/reuse/cli/annotate.py:58
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr ""
+msgstr "Alternativet '--copyright', '--license', eller '--contributor' krävs."
 
 #: src/reuse/cli/annotate.py:119
 msgid ""
@@ -74,7 +74,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:290
 msgid "COPYRIGHT"
-msgstr ""
+msgstr "KOPIERINGSSKYDD"
 
 #: src/reuse/cli/annotate.py:293
 msgid "Copyright statement, repeatable."
@@ -83,7 +83,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:300
 msgid "SPDX_IDENTIFIER"
-msgstr ""
+msgstr "SPDX_IDENTIFIERARE"
 
 #: src/reuse/cli/annotate.py:303
 msgid "SPDX License Identifier, repeatable."
@@ -101,7 +101,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:319
 msgid "YEAR"
-msgstr ""
+msgstr "ÅR"
 
 #: src/reuse/cli/annotate.py:325
 msgid "Year of copyright statement."
@@ -109,7 +109,7 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:333
 msgid "Comment style to use."
-msgstr ""
+msgstr "Kommentarstilen att använda."
 
 #: src/reuse/cli/annotate.py:338
 msgid "Copyright prefix to use."
@@ -118,11 +118,11 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:350
 msgid "TEMPLATE"
-msgstr ""
+msgstr "MALL"
 
 #: src/reuse/cli/annotate.py:352
 msgid "Name of template to use."
-msgstr ""
+msgstr "Namnet på mallen som ska användas."
 
 #: src/reuse/cli/annotate.py:359
 msgid "Do not include year in copyright statement."
@@ -142,7 +142,7 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:384
 msgid "Add headers to all files under specified directories recursively."
-msgstr ""
+msgstr "Lägg till huvuden i alla filer under angivna kataloger rekursivt."
 
 #: src/reuse/cli/annotate.py:389
 msgid "Do not replace the first header in the file; just add a new one."
@@ -154,11 +154,11 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:403
 msgid "Write a .license file to files with unrecognised comment styles."
-msgstr ""
+msgstr "Skriv en .licens-fil med icke igenkända kommentarstilar."
 
 #: src/reuse/cli/annotate.py:410
 msgid "Skip files with unrecognised comment styles."
-msgstr ""
+msgstr "Hoppa över filer med icke igenkända kommentarstilar."
 
 #: src/reuse/cli/annotate.py:421
 #, fuzzy
@@ -168,12 +168,12 @@ msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:426
 msgid "PATH"
-msgstr ""
+msgstr "GENVÄG"
 
 #: src/reuse/cli/annotate.py:476
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
-msgstr ""
+msgstr "'{path}' är en binär, använder därför '{new_path}' för huvudet"
 
 #: src/reuse/cli/common.py:58
 #, fuzzy, python-brace-format
@@ -186,7 +186,7 @@ msgstr ""
 #: src/reuse/cli/common.py:97
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr ""
+msgstr "'{name}' är ömsesidigt exklusivt med: {opts}"
 
 #: src/reuse/cli/common.py:114
 #, fuzzy
@@ -202,7 +202,7 @@ msgstr ""
 
 #: src/reuse/cli/convert_dep5.py:31
 msgid "No '.reuse/dep5' file."
-msgstr ""
+msgstr "Ingen '.reuse/dep5'-file."
 
 #: src/reuse/cli/download.py:52
 #, fuzzy
@@ -263,7 +263,7 @@ msgstr "ladda ner alla saknade licenser som upptäckts i projektet"
 
 #: src/reuse/cli/download.py:130
 msgid "Path to download to."
-msgstr ""
+msgstr "Genväg att hämta till."
 
 #: src/reuse/cli/download.py:136
 msgid ""
@@ -274,11 +274,11 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:143
 msgid "LICENSE"
-msgstr ""
+msgstr "LICENS"
 
 #: src/reuse/cli/download.py:159
 msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr ""
+msgstr "Argumentet 'LICENS' och alternativet '--all' är ömsesidigt exklusivt."
 
 #: src/reuse/cli/download.py:173
 #, fuzzy
@@ -296,7 +296,7 @@ msgstr ""
 
 #: src/reuse/cli/lint.py:33
 msgid "Specifically, the following criteria are checked:"
-msgstr ""
+msgstr "Följande kriteriet är kontrollerat specifikt:"
 
 #: src/reuse/cli/lint.py:36
 msgid ""
@@ -306,7 +306,7 @@ msgstr ""
 
 #: src/reuse/cli/lint.py:40
 msgid "- Are there any deprecated licenses in the project?"
-msgstr ""
+msgstr "- Finns det några föråldrade licenser i projektet?"
 
 #: src/reuse/cli/lint.py:43
 msgid ""
@@ -328,27 +328,28 @@ msgstr ""
 
 #: src/reuse/cli/lint.py:57
 msgid "- Are there any read errors?"
-msgstr ""
+msgstr "- Finns det några läs-fel?"
 
 #: src/reuse/cli/lint.py:59
 msgid "- Do all files have valid copyright and licensing information?"
 msgstr ""
+"- Har alla filer ett giltigt kopieringsskydd och licensieringsinformation?"
 
 #: src/reuse/cli/lint.py:70 src/reuse/cli/lint_file.py:38
 msgid "Prevent output."
-msgstr ""
+msgstr "Förhindra utmatning."
 
 #: src/reuse/cli/lint.py:78
 msgid "Format output as JSON."
-msgstr ""
+msgstr "Formatera utmatning som JSON."
 
 #: src/reuse/cli/lint.py:86
 msgid "Format output as plain text. (default)"
-msgstr ""
+msgstr "Formatera utmatningen som ren text. (standard)"
 
 #: src/reuse/cli/lint.py:94
 msgid "Format output as errors per line."
-msgstr ""
+msgstr "Formatera utmatningen som fel per rad."
 
 #: src/reuse/cli/lint_file.py:25
 msgid ""
@@ -359,23 +360,23 @@ msgstr ""
 
 #: src/reuse/cli/lint_file.py:46
 msgid "Format output as errors per line. (default)"
-msgstr ""
+msgstr "Formatera utmatningen som fel per rad. (standard)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/lint_file.py:51
 msgid "FILE"
-msgstr ""
+msgstr "FIL"
 
 #: src/reuse/cli/lint_file.py:65
 #, python-brace-format
 msgid "'{file}' is not inside of '{root}'."
-msgstr ""
+msgstr "{file} är inte inuti '{root}'."
 
 #: src/reuse/cli/main.py:37
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:465
 #, python-format
 msgid "%(prog)s, version %(version)s"
-msgstr ""
+msgstr "%(prog)s, version %(version)s"
 
 #: src/reuse/cli/main.py:40
 msgid ""
@@ -451,7 +452,7 @@ msgstr "hoppa inte över underprojekt för Meson"
 
 #: src/reuse/cli/main.py:109
 msgid "Do not use multiprocessing."
-msgstr ""
+msgstr "Använd inte multibehandling."
 
 #: src/reuse/cli/main.py:119
 #, fuzzy
@@ -464,7 +465,7 @@ msgstr ""
 
 #: src/reuse/cli/spdx.py:33
 msgid "File to write to."
-msgstr ""
+msgstr "Fil att skriva till."
 
 #: src/reuse/cli/spdx.py:39
 msgid ""
@@ -485,6 +486,8 @@ msgid ""
 "'--creator-person' or '--creator-organization' is required when '--add-"
 "license-concluded' is provided."
 msgstr ""
+"'--creator-person' eller '--creator-organization' krävs när '--add-license-"
+"concluded' tillhandahålls."
 
 #: src/reuse/cli/spdx.py:97
 #, python-brace-format
@@ -502,12 +505,12 @@ msgstr "lista alla SPDX-licenser som stöds"
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:518
 #, python-brace-format
 msgid "{editor}: Editing failed"
-msgstr ""
+msgstr "{editor}: Redigeringen misslyckades"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:522
 #, python-brace-format
 msgid "{editor}: Editing failed: {e}"
-msgstr ""
+msgstr "{editor}: Redigeringen misslyckades: {e}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1120
 msgid "Aborted!"
@@ -516,24 +519,24 @@ msgstr ""
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1309
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:559
 msgid "Show this message and exit."
-msgstr ""
+msgstr "Visa det här meddelandet och avsluta."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1340
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1370
 #, python-brace-format
 msgid "(Deprecated) {text}"
-msgstr ""
+msgstr "(Föråldrad) {text}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1387
 msgid "Options"
-msgstr ""
+msgstr "Alternativ"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1413
 #, python-brace-format
 msgid "Got unexpected extra argument ({args})"
 msgid_plural "Got unexpected extra arguments ({args})"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Fick ett oväntat extra argument ({args})"
+msgstr[1] "Fick oväntade extra argument ({args})"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1429
 msgid "DeprecationWarning: The command {name!r} is deprecated."
@@ -541,19 +544,19 @@ msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1636
 msgid "Commands"
-msgstr ""
+msgstr "Kommandon"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1668
 msgid "Missing command."
-msgstr ""
+msgstr "Kommando saknas."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1746
 msgid "No such command {name!r}."
-msgstr ""
+msgstr "Inget sådant kommando {name!r}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2310
 msgid "Value must be an iterable."
-msgstr ""
+msgstr "Värdet måste vara upprepningsbart."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2331
 #, python-brace-format
@@ -574,11 +577,11 @@ msgstr ""
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2821
 #, python-brace-format
 msgid "default: {default}"
-msgstr ""
+msgstr "standard: {default}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2834
 msgid "required"
-msgstr ""
+msgstr "krävs"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:528
 #, fuzzy
@@ -589,49 +592,49 @@ msgstr "visa programmets versionsnummer och avsluta"
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:80
 #, python-brace-format
 msgid "Error: {message}"
-msgstr ""
+msgstr "Fel: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:72
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
-msgstr ""
+msgstr "Prova '{command} {option}' för hjälp."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:121
 #, python-brace-format
 msgid "Invalid value: {message}"
-msgstr ""
+msgstr "Ogiltigt värde: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:123
 #, python-brace-format
 msgid "Invalid value for {param_hint}: {message}"
-msgstr ""
+msgstr "Ogiltigt värde för {param_hint}: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:179
 msgid "Missing argument"
-msgstr ""
+msgstr "Argument saknas"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:181
 msgid "Missing option"
-msgstr ""
+msgstr "Alternativ saknas"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:183
 msgid "Missing parameter"
-msgstr ""
+msgstr "Parameter saknas"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:185
 #, python-brace-format
 msgid "Missing {param_type}"
-msgstr ""
+msgstr "Saknas {param_type}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:192
 #, python-brace-format
 msgid "Missing parameter: {param_name}"
-msgstr ""
+msgstr "Parameter saknas: {param_name}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:212
 #, python-brace-format
 msgid "No such option: {name}"
-msgstr ""
+msgstr "Inget sådant alternativ: {name}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:224
 #, fuzzy, python-brace-format
@@ -642,25 +645,25 @@ msgstr[1] "Menade du:"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:262
 msgid "unknown error"
-msgstr ""
+msgstr "okänt fel"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:269
 msgid "Could not open file {filename!r}: {message}"
-msgstr ""
+msgstr "Kunde inte öppna filen {filename!r}: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:231
 msgid "Argument {name!r} takes {nargs} values."
-msgstr ""
+msgstr "Argumentet {name!r} tar {nargs}-värden."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:413
 msgid "Option {name!r} does not take a value."
-msgstr ""
+msgstr "Alternativet {name!r} tar inte emot något värde."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:474
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Alternativet {name!r} kräver ett argument."
+msgstr[1] "Alternativen {name!r} kräver {nargs} argument."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:319
 msgid "Shell completion is not supported for Bash versions older than 4.4."
@@ -668,32 +671,32 @@ msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
 msgid "Couldn't detect Bash version, shell completion is not supported."
-msgstr ""
+msgstr "Kunde inte upptäcka Bash-versionen, skalkomplettering stöds inte."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
 msgid "Repeat for confirmation"
-msgstr ""
+msgstr "Upprepa för bekräftelse"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:174
 msgid "Error: The value you entered was invalid."
-msgstr ""
+msgstr "Fel: Värdet som du fyllde i var ogiltigt."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:176
 #, python-brace-format
 msgid "Error: {e.message}"
-msgstr ""
+msgstr "Fel: {e.message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:187
 msgid "Error: The two entered values do not match."
-msgstr ""
+msgstr "Fel: De två värderna som ifylldes matchar inte."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:243
 msgid "Error: invalid input"
-msgstr ""
+msgstr "Fel: ogiltig inmatning"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:773
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "Tryck på en tangent för att fortsätta..."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:266
 #, python-brace-format
@@ -701,12 +704,14 @@ msgid ""
 "Choose from:\n"
 "\t{choices}"
 msgstr ""
+"Välj:\n"
+" {choices}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:298
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{value!r} är inte {choice}."
+msgstr[1] "{value!r} är inte en utav {choice}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:392
 msgid "{value!r} does not match the format {format}."
@@ -716,32 +721,32 @@ msgstr[1] ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:414
 msgid "{value!r} is not a valid {number_type}."
-msgstr ""
+msgstr "{value!r} är inte ett giltigt {number_type}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:470
 #, python-brace-format
 msgid "{value} is not in the range {range}."
-msgstr ""
+msgstr "{value} är inte inom intervallet {range}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:611
 msgid "{value!r} is not a valid boolean."
-msgstr ""
+msgstr "{value!r} är inte en giltig boolean."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:635
 msgid "{value!r} is not a valid UUID."
-msgstr ""
+msgstr "{value!r} är inte ett giltigt UUID."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:822
 msgid "file"
-msgstr ""
+msgstr "fil"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:824
 msgid "directory"
-msgstr ""
+msgstr "katalog"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:826
 msgid "path"
-msgstr ""
+msgstr "genväg"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:877
 #, fuzzy
@@ -750,7 +755,7 @@ msgstr "Fel: {path} existerar inte."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:886
 msgid "{name} {filename!r} is a file."
-msgstr ""
+msgstr "{name} {filename!r} är en fil."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:894
 #, fuzzy, python-brace-format
@@ -759,15 +764,15 @@ msgstr "'{}' är inte en katalog"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:903
 msgid "{name} {filename!r} is not readable."
-msgstr ""
+msgstr "{name} {filename!r} är inte läsbart."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:912
 msgid "{name} {filename!r} is not writable."
-msgstr ""
+msgstr "{name} {filename!r} är inte skrivbart."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:921
 msgid "{name} {filename!r} is not executable."
-msgstr ""
+msgstr "{name} {filename!r} är inte kör-bart."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:988
 #, python-brace-format
