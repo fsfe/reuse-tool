@@ -883,7 +883,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "ansible.cfg": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
     "cabal.project": HaskellCommentStyle,
-    "Cargo.lock": PythonCommentStyle,
+    "Cargo.lock": UncommentableCommentStyle,
     "CMakeLists.txt": PythonCommentStyle,
     "CODEOWNERS": PythonCommentStyle,
     "configure.ac": M4CommentStyle,
