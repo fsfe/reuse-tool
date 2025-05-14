@@ -10,6 +10,7 @@
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2025 Rivos Inc.
+# SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -24,7 +25,13 @@ from jinja2 import Environment, PackageLoader, Template
 from license_expression import ExpressionError
 
 from . import ReuseInfo
-from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
+from .comment import (
+    CommentStyle,
+    EmptyCommentStyle,
+    FrontmatterCommentStyle,
+    HtmlCommentStyle,
+    PythonCommentStyle,
+)
 from .copyright import merge_copyright_lines
 from .exceptions import (
     CommentCreateError,
@@ -270,6 +277,12 @@ def find_and_replace_header(
     if style is None:
         style = PythonCommentStyle
 
+    # Workaround: Treat Markdown files with frontmatter with the Frontmatter style instead
+    if style is HtmlCommentStyle and text.startswith(
+        FrontmatterCommentStyle.SHEBANGS[0]
+    ):
+        style = FrontmatterCommentStyle
+
     try:
         before, header, after = _find_first_spdx_comment(text, style=style)
     except MissingReuseInfoError:
@@ -278,6 +291,7 @@ def find_and_replace_header(
     # Workaround. EmptyCommentStyle should always be completely replaced.
     if style is EmptyCommentStyle:
         after = ""
+
 
     _LOGGER.debug(f"before = {repr(before)}")
     _LOGGER.debug(f"header = {repr(header)}")
