@@ -7,6 +7,12 @@ on:
   schedule:
     - cron: "22 2 * * *"
 
+permissions:
+  actions: write
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   close-issues:
     runs-on: ubuntu-latest
