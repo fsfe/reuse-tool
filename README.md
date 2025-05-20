@@ -1,10 +1,10 @@
+# reuse
+
 <!--
 SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
-
-# reuse
 
 [![The latest version of reuse can be found on PyPI.](https://img.shields.io/pypi/v/reuse.svg)](https://pypi.python.org/pypi/reuse)
 [![Information on what versions of Python reuse supports can be found on PyPI.](https://img.shields.io/pypi/pyversions/reuse.svg)](https://pypi.python.org/pypi/reuse)
