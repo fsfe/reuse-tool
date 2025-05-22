@@ -9,21 +9,21 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2024-10-14 11:11+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"PO-Revision-Date: 2025-05-23 13:01+0000\n"
+"Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: src/reuse/cli/annotate.py:58
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "Потрібен параметр '--copyright', '--license' або '--contributor'."
+msgstr "Обов'язковою є опція '--copyright', '--license' або '--contributor'."
 
 #: src/reuse/cli/annotate.py:119
 msgid ""
@@ -31,8 +31,8 @@ msgid ""
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
 "unrecognised':"
 msgstr ""
-"Ці файли не мають розпізнаного файлового розширення. Використовуйте '--"
-"style', '--force-dot-license', '--fallback-dot-license' або '--skip-"
+"Наступні файли не мають розпізнаного розширення. Будь ласка, використовуйте '"
+"--style', '--force-dot-license', '--fallback-dot-license' або '--skip-"
 "unrecognised':"
 
 #: src/reuse/cli/annotate.py:152
@@ -41,8 +41,8 @@ msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
-"'{path}' не підтримує однорядкові коментарі, не використовуйте '--single-"
-"line'."
+"'{path}' не підтримує однорядкові коментарі, будь ласка, не використовуйте "
+"'--single-line'."
 
 #: src/reuse/cli/annotate.py:159
 #, python-brace-format
@@ -50,17 +50,18 @@ msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
-"'{path}' не підтримує багаторядкові коментарі, не використовуйте '--multi-"
-"line'."
+"'{path}' не підтримує багаторядкові коментарі, будь ласка, не використовуйте "
+"'--multi-line'."
 
 #: src/reuse/cli/annotate.py:205
 #, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "Не вдалося знайти шаблон '{template}'."
+msgstr "Шаблон '{template}' не знайдено."
 
 #: src/reuse/cli/annotate.py:268
 msgid "Add copyright and licensing into the headers of files."
-msgstr "Додайте авторські права та ліцензії в заголовок файлів."
+msgstr ""
+"Додайте до заголовків файлів інформацію про авторські права та ліцензування."
 
 #: src/reuse/cli/annotate.py:271
 msgid ""
@@ -75,17 +76,17 @@ msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
-"За допомогою --contributor ви можете вказати особу або організацію, яка "
-"зробила внесок, але не є власником авторських прав на ці файли."
+"За допомогою --contributor ви можете вказати людей або організації, які "
+"зробили внесок, але не є власниками авторських прав на дані файли."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:290
 msgid "COPYRIGHT"
-msgstr "COPYRIGHT"
+msgstr "АВТОРСЬКЕ ПРАВО"
 
 #: src/reuse/cli/annotate.py:293
 msgid "Copyright statement, repeatable."
-msgstr "Оголошення авторського права, повторюване."
+msgstr "Заява про авторське право, що повторюється."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:300
@@ -99,50 +100,51 @@ msgstr "Ідентифікатор ліцензії SPDX, повторювани
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:309
 msgid "CONTRIBUTOR"
-msgstr "CONTRIBUTOR"
+msgstr "КОНТРИБ'ЮТОР"
 
 #: src/reuse/cli/annotate.py:312
 msgid "File contributor, repeatable."
-msgstr "Співавтор файлу, повторюваний."
+msgstr "Дописувач файлів, повторюваний."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:319
 msgid "YEAR"
-msgstr "YEAR"
+msgstr "РІК"
 
 #: src/reuse/cli/annotate.py:325
 msgid "Year of copyright statement."
-msgstr "Рік оголошення авторського права."
+msgstr "Рік заяви про авторське право."
 
 #: src/reuse/cli/annotate.py:333
 msgid "Comment style to use."
-msgstr "Використовуваний стиль коментарів."
+msgstr "Стиль коментування для використання."
 
 #: src/reuse/cli/annotate.py:338
 msgid "Copyright prefix to use."
-msgstr "Використовуваний префікс авторського права."
+msgstr "Префікс авторського права для використання."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:350
 msgid "TEMPLATE"
-msgstr "TEMPLATE"
+msgstr "ШАБЛОН"
 
 #: src/reuse/cli/annotate.py:352
 msgid "Name of template to use."
-msgstr "Використовувана назва шаблону."
+msgstr "Назва шаблону для використання."
 
 #: src/reuse/cli/annotate.py:359
 msgid "Do not include year in copyright statement."
-msgstr "Не включати рік в оголошення авторського права."
+msgstr "Не вказуйте рік у заяві про авторське право."
 
 #: src/reuse/cli/annotate.py:364
 msgid "Merge copyright lines if copyright statements are identical."
 msgstr ""
-"Об'єднувати рядки авторських прав, якщо оголошення авторських прав ідентичні."
+"Об'єднайте рядки авторських прав, якщо твердження про авторські права "
+"ідентичні."
 
 #: src/reuse/cli/annotate.py:371
 msgid "Force single-line comment style."
-msgstr "Примусовий однорядковий стиль коментаря."
+msgstr "Примусовий однорядковий стиль коментарів."
 
 #: src/reuse/cli/annotate.py:378
 msgid "Force multi-line comment style."
@@ -150,11 +152,11 @@ msgstr "Примусовий багаторядковий стиль комен�
 
 #: src/reuse/cli/annotate.py:384
 msgid "Add headers to all files under specified directories recursively."
-msgstr "Рекурсивно додавати заголовки до всіх файлів у вказаних каталогах."
+msgstr "Рекурсивно додати заголовки до всіх файлів у вказаних каталогах."
 
 #: src/reuse/cli/annotate.py:389
 msgid "Do not replace the first header in the file; just add a new one."
-msgstr "Не замінювати перший заголовок у файлі; просто додавати новий."
+msgstr "Не замінюйте перший заголовок у файлі; просто додайте новий."
 
 #: src/reuse/cli/annotate.py:396
 msgid "Always write a .license file instead of a header inside the file."
@@ -162,7 +164,7 @@ msgstr "Завжди записуйте файл .license замість заг�
 
 #: src/reuse/cli/annotate.py:403
 msgid "Write a .license file to files with unrecognised comment styles."
-msgstr "Записати файл .license до файлів з нерозпізнаними стилями коментарів."
+msgstr "Запишіть файл .license до файлів з нерозпізнаними стилями коментарів."
 
 #: src/reuse/cli/annotate.py:410
 msgid "Skip files with unrecognised comment styles."
@@ -181,8 +183,7 @@ msgstr "ШЛЯХ"
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
-"'{path}' — це двійковий файл, тому для заголовка використовується "
-"'{new_path}'"
+"'{path}' є бінарним, тому для заголовка слід використовувати '{new_path}'"
 
 #: src/reuse/cli/common.py:58
 #, python-brace-format
@@ -190,17 +191,17 @@ msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
-"'{path}' не вдалося розібрати. Ми отримали таке повідомлення про помилку: "
-"{message}"
+"'{path}' не вдалося розібрати. Ми отримали наступне повідомлення про помилку:"
+" {message}"
 
 #: src/reuse/cli/common.py:97
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr "'{name}' взаємозаперечний з: {opts}"
+msgstr "'{name}' є взаємовиключним з: {opts}"
 
 #: src/reuse/cli/common.py:114
 msgid "'{}' is not a valid SPDX expression."
-msgstr "'{}' не є дійсним виразом SPDX."
+msgstr "'{}' не є допустимим SPDX-виразом."
 
 #: src/reuse/cli/convert_dep5.py:19
 msgid ""
@@ -208,13 +209,13 @@ msgid ""
 "the project root and is semantically identical. The .reuse/dep5 file is "
 "subsequently deleted."
 msgstr ""
-"Перетворіть .reuse/dep5 у файл REUSE.toml. Створений файл розміщується в "
-"корені проєкту і є семантично ідентичним. Згодом файл .reuse/dep5 буде "
+"Сконвертуйте .reuse/dep5 у файл REUSE.toml. Згенерований файл розміщується в "
+"корені проекту і є семантично ідентичним. Згодом файл .reuse/dep5 буде "
 "видалено."
 
 #: src/reuse/cli/convert_dep5.py:31
 msgid "No '.reuse/dep5' file."
-msgstr "Немає файлу '.reuse/dep5."
+msgstr "Файл '.reuse/dep5 відсутній."
 
 #: src/reuse/cli/download.py:52
 msgid "'{}' is not a valid SPDX License Identifier."
@@ -229,8 +230,8 @@ msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
 msgstr ""
-"Перегляньте <https://spdx.org/licenses/> список дійсних ідентифікаторів "
-"ліцензії SPDX."
+"Список дійсних ідентифікаторів ліцензій SPDX див. на <https://spdx.org/"
+"licenses/>."
 
 #: src/reuse/cli/download.py:75
 #, python-brace-format
@@ -244,7 +245,7 @@ msgstr "Помилка: {path} не існує."
 
 #: src/reuse/cli/download.py:86
 msgid "Error: Failed to download license."
-msgstr "Помилка: не вдалося завантажити ліцензію."
+msgstr "Помилка: Не вдалося завантажити ліцензію."
 
 #: src/reuse/cli/download.py:91
 msgid "Is your internet connection working?"
@@ -253,11 +254,11 @@ msgstr "Чи працює ваше інтернет-з'єднання?"
 #: src/reuse/cli/download.py:96
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
-msgstr "Успішно завантажено {spdx_identifier}."
+msgstr "{spdx_identifier} успішно завантажено."
 
 #: src/reuse/cli/download.py:106
 msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "Завантажте ліцензію та помістіть її в директорію LICENSES/."
+msgstr "Завантажте ліцензію та помістіть її в каталог LICENSES/."
 
 #: src/reuse/cli/download.py:109
 msgid ""
@@ -269,7 +270,7 @@ msgstr ""
 
 #: src/reuse/cli/download.py:122
 msgid "Download all missing licenses detected in the project."
-msgstr "Завантажити всі відсутні ліцензії, виявлені в проєкті."
+msgstr "Завантажте всі відсутні ліцензії, виявлені в проекті."
 
 #: src/reuse/cli/download.py:130
 msgid "Path to download to."
@@ -280,21 +281,21 @@ msgid ""
 "Source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself."
 msgstr ""
-"Джерело, з якого можна скопіювати користувацькі ліцензії LicenseRef-, або "
+"Джерело, з якого можна скопіювати користувацькі ліцензії LicenseRef, або "
 "каталог, який містить файл, або сам файл."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:143
 msgid "LICENSE"
-msgstr "LICENSE"
+msgstr "ЛІЦЕНЗІЯ"
 
 #: src/reuse/cli/download.py:159
 msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr "Аргумент 'LICENSE' і параметр '--all' взаємосуперечливі."
+msgstr "Аргумент 'LICENSE' та опція '--all' є взаємовиключними."
 
 #: src/reuse/cli/download.py:173
 msgid "Cannot use '--output' with more than one license."
-msgstr "Не можна використовувати '--output' з кількома ліцензіями."
+msgstr "Не можна використовувати '--output' з більш ніж однією ліцензією."
 
 #: src/reuse/cli/lint.py:27
 #, python-brace-format
@@ -304,62 +305,70 @@ msgid ""
 "find the latest version of the specification at <https://reuse.software/spec/"
 ">."
 msgstr ""
+"Виконує перевірку каталогу проекту на відповідність специфікації REUSE. Ця "
+"версія інструменту перевіряє версію {reuse_version} специфікації REUSE. "
+"Останню версію специфікації можна знайти за адресою <https://reuse.software/"
+"spec/>."
 
 #: src/reuse/cli/lint.py:33
 msgid "Specifically, the following criteria are checked:"
-msgstr ""
+msgstr "Зокрема, перевіряються наступні критерії:"
 
 #: src/reuse/cli/lint.py:36
 msgid ""
 "- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
 "project?"
-msgstr ""
+msgstr "- Чи є в проекті погані (невизнані, не сумісні з SPDX) ліцензії?"
 
 #: src/reuse/cli/lint.py:40
 msgid "- Are there any deprecated licenses in the project?"
-msgstr "- Чи є в проєкті застарілі ліцензії?"
+msgstr "- Чи є якісь застарілі ліцензії в проекті?"
 
 #: src/reuse/cli/lint.py:43
 msgid ""
 "- Are there any license files in the LICENSES/ directory without file "
 "extension?"
-msgstr ""
+msgstr "- Чи є якісь файли ліцензій в каталозі LICENSES/ без розширення?"
 
 #: src/reuse/cli/lint.py:48
 msgid ""
 "- Are any licenses referred to inside of the project, but not included in "
 "the LICENSES/ directory?"
 msgstr ""
+"- Чи є якісь ліцензії, на які є посилання в проекті, але які не включено до "
+"каталогу LICENSES/?"
 
 #: src/reuse/cli/lint.py:53
 msgid ""
 "- Are any licenses included in the LICENSES/ directory that are not used "
 "inside of the project?"
 msgstr ""
+"- Чи включено до каталогу LICENSES/ якісь ліцензії, які не використовуються "
+"у проекті?"
 
 #: src/reuse/cli/lint.py:57
 msgid "- Are there any read errors?"
-msgstr ""
+msgstr "- Чи є якісь помилки читання?"
 
 #: src/reuse/cli/lint.py:59
 msgid "- Do all files have valid copyright and licensing information?"
-msgstr "- Чи всі файли містять відомості про авторські права та ліцензії?"
+msgstr "- Чи всі файли мають дійсну інформацію про авторські права та ліцензії?"
 
 #: src/reuse/cli/lint.py:70 src/reuse/cli/lint_file.py:38
 msgid "Prevent output."
-msgstr "Запобігає виводу."
+msgstr "Запобігти виведенню."
 
 #: src/reuse/cli/lint.py:78
 msgid "Format output as JSON."
-msgstr "Форматує вивід як JSON."
+msgstr "Виводити у форматі JSON."
 
 #: src/reuse/cli/lint.py:86
 msgid "Format output as plain text. (default)"
-msgstr "Форматує вивід як звичайний текст. (усталено)"
+msgstr "Формат виводу - звичайний текст. (за замовчуванням)"
 
 #: src/reuse/cli/lint.py:94
 msgid "Format output as errors per line."
-msgstr "Форматує вивід у вигляді помилок на рядок."
+msgstr "Формат виведення - помилки на рядок."
 
 #: src/reuse/cli/lint_file.py:25
 msgid ""
@@ -367,10 +376,13 @@ msgid ""
 "for the presence of copyright and licensing information, and whether the "
 "found licenses are included in the LICENSES/ directory."
 msgstr ""
+"Перебирає окремі файли на відповідність вимогам REUSE. Вказані ФАЙЛИ "
+"перевіряються на наявність інформації про авторські права та ліцензії, а "
+"також на наявність знайдених ліцензій у каталозі LICENSES/."
 
 #: src/reuse/cli/lint_file.py:46
 msgid "Format output as errors per line. (default)"
-msgstr "Форматує вивід у вигляді помилок на рядок. (усталено)"
+msgstr "Формат виводу - помилки на рядок. (за замовчуванням)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/lint_file.py:51
@@ -380,7 +392,7 @@ msgstr "ФАЙЛ"
 #: src/reuse/cli/lint_file.py:65
 #, python-brace-format
 msgid "'{file}' is not inside of '{root}'."
-msgstr "'{file}' не розміщено в '{root}'."
+msgstr "'{file}' не знаходиться всередині '{root}'."
 
 #: src/reuse/cli/main.py:37
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:465
@@ -395,6 +407,10 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"Ця програма є вільним програмним забезпеченням: ви можете розповсюджувати її "
+"та/або змінювати відповідно до умов Стандартної публічної ліцензії GNU, "
+"опублікованої Фондом вільного програмного забезпечення, або версії 3 цієї "
+"ліцензії, або (на ваш вибір) будь-якої пізнішої версії."
 
 #: src/reuse/cli/main.py:47
 msgid ""
@@ -403,12 +419,17 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
 "more details."
 msgstr ""
+"Ця програма поширюється в надії, що вона буде корисною, але БЕЗ ЖОДНИХ "
+"ГАРАНТІЙ; без навіть неявної гарантії ТОВАРНОСТІ або ПРИДАТНОСТІ ДЛЯ ПЕВНОЇ "
+"ЦІЛІ. Для більш детальної інформації див. Загальну публічну ліцензію GNU."
 
 #: src/reuse/cli/main.py:54
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see <https://www.gnu.org/licenses/>."
 msgstr ""
+"Ви мали отримати копію Стандартної публічної ліцензії GNU разом із цією "
+"програмою. Якщо ні, зверніться до <https://www.gnu.org/licenses/>."
 
 #: src/reuse/cli/main.py:62
 msgid ""
@@ -515,16 +536,16 @@ msgstr "Список всіх підтримуваних ліцензій SPDX."
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:518
 #, python-brace-format
 msgid "{editor}: Editing failed"
-msgstr ""
+msgstr "{editor}: Редагування не вдалося"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:522
 #, python-brace-format
 msgid "{editor}: Editing failed: {e}"
-msgstr ""
+msgstr "{editor}: Редагування не вдалося: {e}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1120
 msgid "Aborted!"
-msgstr ""
+msgstr "Перервано!"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1309
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:559
@@ -551,7 +572,7 @@ msgstr[2] "Отримано неочікувані додаткові аргум
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1429
 msgid "DeprecationWarning: The command {name!r} is deprecated."
-msgstr ""
+msgstr "Попередження про застарілість: Команда {name!r} є застарілою."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1636
 msgid "Commands"
@@ -563,37 +584,37 @@ msgstr "Пропущена команда."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1746
 msgid "No such command {name!r}."
-msgstr ""
+msgstr "Такої команди {name!r} не існує."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2310
 msgid "Value must be an iterable."
-msgstr ""
+msgstr "Значення повинно бути ітерованим."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2331
 #, python-brace-format
 msgid "Takes {nargs} values but 1 was given."
 msgid_plural "Takes {nargs} values but {len} were given."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Приймає значення {nargs}, але було задано 1."
+msgstr[1] "Приймає значень {nargs}, але було задано {len}."
+msgstr[2] "Приймає значень {nargs}, але було задано {len}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2778
 #, python-brace-format
 msgid "env var: {var}"
-msgstr ""
+msgstr "env var: {var}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2808
 msgid "(dynamic)"
-msgstr ""
+msgstr "(динамічно)"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2821
 #, python-brace-format
 msgid "default: {default}"
-msgstr ""
+msgstr "за замовчуванням: {default}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2834
 msgid "required"
-msgstr ""
+msgstr "необхідно"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:528
 msgid "Show the version and exit."
@@ -609,16 +630,17 @@ msgstr "Помилка: {message}"
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
 msgstr ""
+"Спробуйте скористатися командою '{command} {option}' для отримання допомоги."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:121
 #, python-brace-format
 msgid "Invalid value: {message}"
-msgstr ""
+msgstr "Невірне значення: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:123
 #, python-brace-format
 msgid "Invalid value for {param_hint}: {message}"
-msgstr ""
+msgstr "Невірне значення для {param_hint}: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:179
 msgid "Missing argument"
@@ -661,38 +683,38 @@ msgstr "невідома помилка"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:269
 msgid "Could not open file {filename!r}: {message}"
-msgstr ""
+msgstr "Не вдалося відкрити файл {filename!r}: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:231
 msgid "Argument {name!r} takes {nargs} values."
-msgstr ""
+msgstr "Аргумент {name!r} приймає значення {nargs}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:413
 msgid "Option {name!r} does not take a value."
-msgstr ""
+msgstr "Опція {name!r} не приймає значення."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:474
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Опція {name!r} вимагає аргумент."
+msgstr[1] "Опція {name!r} вимагає аргументи {nargs}."
+msgstr[2] "Опція {name!r} вимагає аргументів {nargs}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:319
 msgid "Shell completion is not supported for Bash versions older than 4.4."
-msgstr ""
+msgstr "Доповнення оболонки не підтримується у версіях Bash старше 4.4."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
 msgid "Couldn't detect Bash version, shell completion is not supported."
-msgstr ""
+msgstr "Не вдалося визначити версію Bash, завершення оболонки не підтримується."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
 msgid "Repeat for confirmation"
-msgstr ""
+msgstr "Повторіть для підтвердження"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:174
 msgid "Error: The value you entered was invalid."
-msgstr ""
+msgstr "Помилка: Введене значення є недійсним."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:176
 #, python-brace-format
@@ -701,15 +723,15 @@ msgstr "Помилка: {e.message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:187
 msgid "Error: The two entered values do not match."
-msgstr ""
+msgstr "Помилка: Два введених значення не збігаються."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:243
 msgid "Error: invalid input"
-msgstr ""
+msgstr "Помилка: невірне введення"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:773
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "Натисніть будь-яку клавішу, щоб продовжити..."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:266
 #, python-brace-format
@@ -717,37 +739,39 @@ msgid ""
 "Choose from:\n"
 "\t{choices}"
 msgstr ""
+"Оберіть з:\n"
+"\t{choices}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:298
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{value!r} не є {choice}."
+msgstr[1] "{value!r} не є одним з {choices}."
+msgstr[2] "{value!r} не є одним з {choices}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:392
 msgid "{value!r} does not match the format {format}."
 msgid_plural "{value!r} does not match the formats {formats}."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{value!r} не відповідає формату {format}."
+msgstr[1] "{value!r} не відповідає форматам {formats}."
+msgstr[2] "{value!r} не відповідає форматам {formats}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:414
 msgid "{value!r} is not a valid {number_type}."
-msgstr ""
+msgstr "{value!r} не є допустимим {number_type}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:470
 #, python-brace-format
 msgid "{value} is not in the range {range}."
-msgstr ""
+msgstr "{value} не знаходиться в діапазоні {range}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:611
 msgid "{value!r} is not a valid boolean."
-msgstr ""
+msgstr "{value!r} не є дійсним булевим значенням."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:635
 msgid "{value!r} is not a valid UUID."
-msgstr ""
+msgstr "{value!r} є недійсним UUID."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:822
 msgid "file"
@@ -790,9 +814,9 @@ msgstr "{name} {filename!r} не виконуваний."
 #, python-brace-format
 msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Потрібні значення {len_type}, але було вказано {len_value}."
+msgstr[1] "Потрібні значення {len_type}, але було надано {len_value}."
+msgstr[2] "Потрібні значення {len_type}, але було надано {len_value}."
 
 #, python-brace-format
 #~ msgid "Skipped unrecognised file '{path}'"
