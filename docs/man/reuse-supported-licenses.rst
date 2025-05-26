@@ -1,5 +1,6 @@
 ..
   SPDX-FileCopyrightText: 2024 Free Software Foundation Europe e.V. <https://fsfe.org>
+  SPDX-FileCopyrightText: 2025 Shun Sakai <sorairolake@protonmail.ch>
 
   SPDX-License-Identifier: CC-BY-SA-4.0
 
@@ -24,6 +25,10 @@ full name of the license, and an URL to the license.
 
 Options
 -------
+
+.. option:: -j, --json
+
+  Output the list as JSON.
 
 .. option:: --help
 
