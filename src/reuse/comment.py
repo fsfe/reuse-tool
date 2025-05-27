@@ -20,6 +20,7 @@
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
 # SPDX-FileCopyrightText: 2025 Raphael Schlarb <info@raphael.schlarb.one>
 # SPDX-FileCopyrightText: 2025 Kiko Fernandez-Reyes <kiko@erlang.org>
+# SPDX-FileCopyrightText: 2025 Hatzka <hatzka@nezumi.studio>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -449,6 +450,19 @@ class JuliaCommentStyle(CommentStyle):
     SHEBANGS = ["#!"]
 
 
+class LeanCommentStyle(CommentStyle):
+    """Lean comment style."""
+
+    SHORTHAND = "lean"
+
+    SINGLE_LINE = "--"
+    INDENT_AFTER_SINGLE = " "
+    MULTI_LINE = MultiLineSegments("/-", "-", "-/")
+    INDENT_BEFORE_MIDDLE = " "
+    INDENT_AFTER_MIDDLE = " "
+    INDENT_BEFORE_END = " "
+
+
 class LispCommentStyle(CommentStyle):
     """Lisp comment style."""
 
@@ -678,6 +692,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".html": HtmlCommentStyle,
     ".hx": CppCommentStyle,
     ".hxsl": CppCommentStyle,
+    ".ilean": UncommentableCommentStyle,
     ".ini": SemicolonCommentStyle,
     ".ino": CppCommentStyle,
     ".ipynb": UncommentableCommentStyle,
@@ -702,6 +717,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".l": LispCommentStyle,
     ".latex": TexCommentStyle,
     ".ld": CCommentStyle,
+    ".lean": LeanCommentStyle,
     ".less": CCommentStyle,
     ".license": EmptyCommentStyle,
     ".lisp": LispCommentStyle,
@@ -728,6 +744,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".odp": UncommentableCommentStyle,
     ".ods": UncommentableCommentStyle,
     ".odt": UncommentableCommentStyle,
+    ".olean": UncommentableCommentStyle,
     ".org": PythonCommentStyle,
     ".otp": UncommentableCommentStyle,
     ".ots": UncommentableCommentStyle,
