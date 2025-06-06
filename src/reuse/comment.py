@@ -20,6 +20,7 @@
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
 # SPDX-FileCopyrightText: 2025 Raphael Schlarb <info@raphael.schlarb.one>
 # SPDX-FileCopyrightText: 2025 Kiko Fernandez-Reyes <kiko@erlang.org>
+# SPDX-FileCopyrightText: 2025 Manlio Perillo <manlio.perillo@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -910,6 +911,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
+    "uv.lock": UncommentableCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
 
