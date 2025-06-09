@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2020 John Mulligan <jmulligan@redhat.com>
 # SPDX-FileCopyrightText: 2023 Markus Haug <korrat@proton.me>
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
+# SPDX-FileCopyrightText: 2025 Jonas Fierlings <fnoegip@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -261,7 +262,7 @@ class VCSStrategyJujutsu(VCSStrategy):
         """
         Return a set of all files tracked in the current jj revision
         """
-        command = [str(self.EXE), "files"]
+        command = [str(self.EXE), "file", "list"]
         result = execute_command(command, _LOGGER, cwd=self.root)
         all_files = result.stdout.decode("utf-8").split("\n")
         return {Path(file_) for file_ in all_files if file_}
