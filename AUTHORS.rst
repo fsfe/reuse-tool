@@ -149,3 +149,4 @@ Contributors
 - Kiko Fernandez-Reyes <kiko@erlang.org>
 - Charlie Jenkins <charlie@rivosinc.com>
 - Hatzka <hatzka@nezumi.studio>
+- Jonas Fierlings <fnoegip@gmail.com>
