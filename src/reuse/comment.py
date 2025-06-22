@@ -19,6 +19,7 @@
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
 # SPDX-FileCopyrightText: 2025 Raphael Schlarb <info@raphael.schlarb.one>
+# SPDX-FileCopyrightText: 2025 András Nagy <nagyandris0718@gmail.com>
 # SPDX-FileCopyrightText: 2025 Kiko Fernandez-Reyes <kiko@erlang.org>
 # SPDX-FileCopyrightText: 2025 Hatzka <hatzka@nezumi.studio>
 #
@@ -646,6 +647,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".doc": UncommentableCommentStyle,
     ".docx": UncommentableCommentStyle,
     ".dotx": UncommentableCommentStyle,
+    ".dtd": HtmlCommentStyle,
     ".dts": CppCommentStyle,
     ".dtsi": CppCommentStyle,
     ".el": LispCommentStyle,
