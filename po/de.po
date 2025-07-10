@@ -30,7 +30,7 @@ msgid ""
 "unrecognised':"
 msgstr ""
 "'{path}' Die folgenden Dateien haben keine erkannte Dateiendung. Bitte "
-"verwenden Sie --style,  --explicit-license, oder '--Überspringen-nicht-"
+"verwenden Sie --style, ' --explicit-license', oder '--Überspringen-nicht-"
 "erkannt'"
 
 #: src/reuse/cli/annotate.py:152
