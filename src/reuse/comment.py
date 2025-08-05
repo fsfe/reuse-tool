@@ -22,6 +22,7 @@
 # SPDX-FileCopyrightText: 2025 András Nagy <nagyandris0718@gmail.com>
 # SPDX-FileCopyrightText: 2025 Kiko Fernandez-Reyes <kiko@erlang.org>
 # SPDX-FileCopyrightText: 2025 Hatzka <hatzka@nezumi.studio>
+# SPDX-FileCopyrightText: 2025 Thomas Gilon <thomas.gilon@openenergytransition.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -810,6 +811,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     # Visual Studio solution file, officially uncommentable:
     ".sln": UncommentableCommentStyle,
     ".sls": LispCommentStyle,  # Scheme Library Source (R6RS)
+    ".smk": PythonCommentStyle,
     ".sml": MlCommentStyle,
     ".soy": CppCommentStyle,
     ".sps": LispCommentStyle,  # Scheme Program Source (R6RS)
@@ -920,6 +922,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Makefile": PythonCommentStyle,
     "MANIFEST.in": PythonCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
+    "matplotlibrc": PythonCommentStyle,
     "meson.build": PythonCommentStyle,
     "meson_options.txt": PythonCommentStyle,
     "poetry.lock": UncommentableCommentStyle,
@@ -929,6 +932,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
+    "Sakefile": PythonCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
 
