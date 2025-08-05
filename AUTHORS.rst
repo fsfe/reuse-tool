@@ -157,3 +157,4 @@ Contributors
 - Simon Barth <simon.barth@gmx.de>
 - Maximilian Franzke <mfr@nzke.net>
 - Sacha-Élie Ayoun <sachaayoun@gmail.com>
+- Thomas Gilon <thomas.gilon@openenergytransition.org>
