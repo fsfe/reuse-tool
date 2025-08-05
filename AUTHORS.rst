@@ -150,3 +150,4 @@ Contributors
 - Kiko Fernandez-Reyes <kiko@erlang.org>
 - Charlie Jenkins <charlie@rivosinc.com>
 - Hatzka <hatzka@nezumi.studio>
+- Thomas Gilon <thomas.gilon@openenergytransition.org>
