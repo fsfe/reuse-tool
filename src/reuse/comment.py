@@ -951,7 +951,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
-    "Sakefile": PythonCommentStyle,
+    "Snakefile": PythonCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
 
