@@ -26,6 +26,7 @@
 # SPDX-FileCopyrightText: 2025 Johannes HAMPP <johannes.hampp@openenergytransition.org>
 # SPDX-FileCopyrightText: 2025 Simon Barth <simon.barth@gmx.de>
 # SPDX-FileCopyrightText: 2025 Maximilian Franzke <mfr@nzke.net>
+# SPDX-FileCopyrightText: 2025 Sacha-Élie Ayoun <sachaayoun@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -923,6 +924,9 @@ FILENAME_COMMENT_STYLE_MAP = {
     "Containerfile": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
     "Doxyfile": PythonCommentStyle,
+    "dune": SemicolonCommentStyle,  # OCaml build system
+    "dune-project": SemicolonCommentStyle,  # OCaml build system
+    "dune-workspace": SemicolonCommentStyle,  # OCaml build system
     "Earthfile": PythonCommentStyle,
     "flake.lock": UncommentableCommentStyle,  # is a JSON file
     "Gemfile": PythonCommentStyle,
