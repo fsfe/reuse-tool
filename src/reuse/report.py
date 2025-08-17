@@ -707,7 +707,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
                     ),
                 }
                 for reuse_info in self.reuse_infos
-                for line in reuse_info.copyright_lines
+                for line in reuse_info.copyright_notices
             ],
             "spdx_expressions": [
                 {
@@ -802,7 +802,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
             sorted(
                 line
                 for reuse_info in reuse_infos
-                for line in reuse_info.copyright_lines
+                for line in reuse_info.copyright_notices
             )
         )
         # Source of licensing and copyright info

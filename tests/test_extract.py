@@ -93,21 +93,21 @@ def test_extract_copyright():
     """
     copyright_line = "SPDX-FileCopyrightText: 2019 Jane Doe"
     result = extract_reuse_info(copyright_line)
-    assert result.copyright_lines == {copyright_line}
+    assert result.copyright_notices == {copyright_line}
 
 
 def test_extract_copyright_duplicate():
     """When a copyright line is duplicated, only yield one."""
     copyright_line = "SPDX-FileCopyrightText: 2019 Jane Doe"
     result = extract_reuse_info("\n".join((copyright_line, copyright_line)))
-    assert result.copyright_lines == {copyright_line}
+    assert result.copyright_notices == {copyright_line}
 
 
 def test_extract_copyright_tab():
     """A tag followed by a tab is also valid."""
     copyright_line = "SPDX-FileCopyrightText:\t2019 Jane Doe"
     result = extract_reuse_info(copyright_line)
-    assert result.copyright_lines == {copyright_line}
+    assert result.copyright_notices == {copyright_line}
 
 
 def test_extract_copyright_many_whitespace():
@@ -116,7 +116,7 @@ def test_extract_copyright_many_whitespace():
     """
     copyright_line = "SPDX-FileCopyrightText:    2019 Jane Doe"
     result = extract_reuse_info(copyright_line)
-    assert result.copyright_lines == {copyright_line}
+    assert result.copyright_notices == {copyright_line}
 
 
 def test_extract_copyright_variations():
@@ -138,8 +138,8 @@ def test_extract_copyright_variations():
     result = extract_reuse_info(text)
     lines = text.splitlines()
     for line in lines:
-        assert line in result.copyright_lines
-    assert len(lines) == len(result.copyright_lines)
+        assert line in result.copyright_notices
+    assert len(lines) == len(result.copyright_notices)
 
 
 def test_extract_with_ignore_block():
@@ -158,7 +158,7 @@ def test_extract_with_ignore_block():
         """
     )
     result = extract_reuse_info(text)
-    assert len(result.copyright_lines) == 2
+    assert len(result.copyright_notices) == 2
     assert len(result.spdx_expressions) == 1
 
 
@@ -168,8 +168,8 @@ def test_extract_sameline_multiline():
     """
     text = "<!-- SPDX-FileCopyrightText: Jane Doe -->"
     result = extract_reuse_info(text)
-    assert len(result.copyright_lines) == 1
-    assert result.copyright_lines == {"SPDX-FileCopyrightText: Jane Doe"}
+    assert len(result.copyright_notices) == 1
+    assert result.copyright_notices == {"SPDX-FileCopyrightText: Jane Doe"}
 
 
 def test_extract_special_endings():
@@ -188,7 +188,7 @@ def test_extract_special_endings():
         """
     )
     result = extract_reuse_info(text)
-    for item in result.copyright_lines:
+    for item in result.copyright_notices:
         assert ">" not in item
         assert "] ::" not in item
 

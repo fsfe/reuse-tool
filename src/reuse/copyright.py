@@ -531,7 +531,7 @@ class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""
 
     spdx_expressions: set[Expression] = field(default_factory=set)
-    copyright_lines: set[str] = field(default_factory=set)
+    copyright_notices: set[CopyrightNotice] = field(default_factory=set)
     contributor_lines: set[str] = field(default_factory=set)
     path: Optional[str] = None
     source_path: Optional[str] = None
@@ -561,10 +561,12 @@ class ReuseInfo:
 
         All non-set attributes are set to their values in *self*.
 
-        >>> one = ReuseInfo(copyright_lines={"Jane Doe"}, source_path="foo.py")
-        >>> two = ReuseInfo(copyright_lines={"John Doe"}, source_path="bar.py")
+        >>> one = ReuseInfo(copyright_notices={CopyrightNotice("Jane Doe")},
+        ...           source_path="foo.py")
+        >>> two = ReuseInfo(copyright_notices={CopyrightNotice("John Doe")},
+        ...           source_path="bar.py")
         >>> result = one.union(two)
-        >>> print(sorted(result.copyright_lines))
+        >>> print([notice.name for notice in sorted(result.copyright_notices)])
         ['Jane Doe', 'John Doe']
         >>> print(result.source_path)
         foo.py
@@ -578,12 +580,12 @@ class ReuseInfo:
         return self.__class__(**new_kwargs)  # type: ignore
 
     def contains_copyright_or_licensing(self) -> bool:
-        """Either *spdx_expressions* or *copyright_lines* is non-empty."""
-        return bool(self.spdx_expressions or self.copyright_lines)
+        """Either *spdx_expressions* or *copyright_notices* is non-empty."""
+        return bool(self.spdx_expressions or self.copyright_notices)
 
     def contains_copyright_xor_licensing(self) -> bool:
-        """One of *spdx_expressions* or *copyright_lines* is non-empty."""
-        return bool(self.spdx_expressions) ^ bool(self.copyright_lines)
+        """One of *spdx_expressions* or *copyright_notices* is non-empty."""
+        return bool(self.spdx_expressions) ^ bool(self.copyright_notices)
 
     def contains_info(self) -> bool:
         """Any field except *path*, *source_path* and *source_type* is

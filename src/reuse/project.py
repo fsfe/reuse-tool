@@ -284,10 +284,10 @@ class Project:
             if global_results[PrecedenceType.CLOSEST]:
                 # There should only by a single CLOSEST result in the list.
                 closest = global_results[PrecedenceType.CLOSEST][0]
-                if file_result.copyright_lines:
+                if file_result.copyright_notices:
                     result.append(
                         closest.copy(
-                            copyright_lines=set(),
+                            copyright_notices=set(),
                         )
                     )
                 elif file_result.spdx_expressions:
