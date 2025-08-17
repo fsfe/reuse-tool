@@ -439,7 +439,9 @@ class TestCopyrightNoticeFromString:
         """If a year is given, parse it correctly."""
         notice = CopyrightNotice.from_string("Copyright 2017 Jane Doe")
         assert notice == CopyrightNotice(
-            "Jane Doe", prefix=CopyrightPrefix.STRING, years=[YearRange("2017")]
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            years=(YearRange("2017"),),
         )
 
     @pytest.mark.parametrize(
@@ -462,7 +464,7 @@ class TestCopyrightNoticeFromString:
         assert notice == CopyrightNotice(
             "Jane Doe",
             prefix=CopyrightPrefix.STRING,
-            years=[YearRange("2017"), YearRange("2022")],
+            years=(YearRange("2017"), YearRange("2022")),
         )
 
     @pytest.mark.parametrize(
@@ -515,11 +517,11 @@ class TestCopyrightNoticeFromString:
         assert notice == CopyrightNotice(
             "Jane Doe",
             prefix=CopyrightPrefix.STRING,
-            years=[
+            years=(
                 YearRange("2017"),
                 YearRange("2020", "-", "2022"),
                 YearRange("2024", "--", "Present"),
-            ],
+            ),
         )
 
     def test_year_range_from_string_broken(self, monkeypatch):

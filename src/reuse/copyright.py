@@ -383,7 +383,7 @@ class CopyrightNotice:
     #: The prefix with which the copyright statement begins.
     prefix: CopyrightPrefix = CopyrightPrefix.SPDX
     #: The dates associated with the copyright notice.
-    years: list[YearRange] = field(default_factory=list)
+    years: tuple[YearRange, ...] = field(default_factory=tuple)
     #: The contact address of the copyright holder. This is added between
     #: brackets at the end.
     contact: Optional[str] = None
@@ -459,7 +459,7 @@ class CopyrightNotice:
         result = cls(
             name=re_name,
             prefix=prefix,
-            years=years,
+            years=tuple(years),
             contact=re_result.group("contact"),
         )
         object.__setattr__(result, "original", value)
