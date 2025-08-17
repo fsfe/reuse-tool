@@ -603,6 +603,45 @@ class TestCopyrightNoticeToString:
             CopyrightNotice(contact="jane@example.com")
 
 
+class TestCopyrightNoticeOrder:
+    """Tests for sorting CopyrightNotices."""
+
+    def test_year_before_name(self):
+        """The years have higher sorting priority than the names."""
+        assert CopyrightNotice(
+            "Alice", years=(YearRange("2025"),)
+        ) > CopyrightNotice("Bob", years=(YearRange("2020"),))
+
+    def test_only_names(self):
+        """If there are only names, sort by names."""
+        assert CopyrightNotice("Alice") < CopyrightNotice("Bob")
+
+    def test_different_year_range_length(self):
+        """If all is equal except one *years* has more items in the tuple,
+        then the bigger tuple is greater than the smaller one.
+        """
+        assert CopyrightNotice(
+            "Alice", years=(YearRange("2024"), YearRange("2025"))
+        ) > CopyrightNotice(
+            "Bob",
+            years=(YearRange("2024"),),
+        )
+
+    def test_years_before_no_years(self):
+        """If no years are defined, sort them at the end."""
+        assert CopyrightNotice(
+            "Alice", years=(YearRange("2025"),)
+        ) > CopyrightNotice("Bob")
+
+    def test_no_contact_before_contact(self):
+        """The notice without contact is sorted before the notice with a
+        contact.
+        """
+        assert CopyrightNotice(
+            "Alice", contact="alice@example.com"
+        ) < CopyrightNotice("Alice")
+
+
 def test_reuse_info_contains_copyright_or_licensing():
     """If either spdx_expressions or copyright_lines is truthy, expect True."""
     arguments = [
