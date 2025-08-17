@@ -56,7 +56,7 @@ REUSE_TOML_VERSION = 1
 _TOML_KEYS = {
     "paths": "path",
     "precedence": "precedence",
-    "copyright_lines": "SPDX-FileCopyrightText",
+    "copyright_notices": "SPDX-FileCopyrightText",
     "spdx_expressions": "SPDX-License-Identifier",
 }
 
@@ -291,7 +291,7 @@ class ReuseDep5(GlobalLicensing):
                     spdx_expressions=set(
                         map(_LICENSING.parse, [result.license.synopsis])
                     ),
-                    copyright_lines=set(
+                    copyright_notices=set(
                         map(str.strip, result.copyright.splitlines())
                     ),
                     path=path,
@@ -318,7 +318,7 @@ class AnnotationsItem:
     precedence: PrecedenceType = attrs.field(
         converter=_str_to_global_precedence, default=PrecedenceType.CLOSEST
     )
-    copyright_lines: set[str] = attrs.field(
+    copyright_notices: set[str] = attrs.field(
         converter=_str_to_set,
         validator=_validate_collection_of(set, str, optional=True),
         default=None,
@@ -384,7 +384,9 @@ class AnnotationsItem:
         precedence = values.get(_TOML_KEYS["precedence"])
         if precedence is not None:
             new_dict["precedence"] = precedence
-        new_dict["copyright_lines"] = values.get(_TOML_KEYS["copyright_lines"])
+        new_dict["copyright_notices"] = values.get(
+            _TOML_KEYS["copyright_notices"]
+        )
         new_dict["spdx_expressions"] = values.get(
             _TOML_KEYS["spdx_expressions"]
         )
@@ -468,7 +470,7 @@ class ReuseTOML(GlobalLicensing):
                 item.precedence: [
                     ReuseInfo(
                         spdx_expressions=item.spdx_expressions,
-                        copyright_lines=item.copyright_lines,
+                        copyright_notices=item.copyright_notices,
                         path=path,
                         source_path="REUSE.toml",
                         source_type=SourceType.REUSE_TOML,
@@ -545,9 +547,13 @@ class NestedReuseTOML(GlobalLicensing):
         licence_found = False
         to_keep: list[ReuseInfo] = []
         for info in reversed(result[PrecedenceType.CLOSEST]):
-            new_info = info.copy(copyright_lines=set(), spdx_expressions=set())
-            if not copyright_found and info.copyright_lines:
-                new_info = new_info.copy(copyright_lines=info.copyright_lines)
+            new_info = info.copy(
+                copyright_notices=set(), spdx_expressions=set()
+            )
+            if not copyright_found and info.copyright_notices:
+                new_info = new_info.copy(
+                    copyright_notices=info.copyright_notices
+                )
                 copyright_found = True
             if not licence_found and info.spdx_expressions:
                 new_info = new_info.copy(spdx_expressions=info.spdx_expressions)

@@ -165,7 +165,7 @@ def extract_reuse_info(text: str) -> ReuseInfo:
 
     return ReuseInfo(
         spdx_expressions=expressions,
-        copyright_lines=copyright_matches,
+        copyright_notices=copyright_matches,
         **spdx_tags,  # type: ignore
     )
 
