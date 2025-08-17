@@ -10,10 +10,10 @@
 import os
 from pathlib import Path
 
-from conftest import git, hg, pijul, posix
-
 from reuse.covered_files import iter_files
 from reuse.vcs import VCSStrategyGit, VCSStrategyHg, VCSStrategyPijul
+
+from .conftest import git, hg, pijul, posix
 
 
 class TestIterFiles:

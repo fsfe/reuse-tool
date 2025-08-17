@@ -9,11 +9,11 @@
 import re
 import shutil
 
-from conftest import cpython, posix
-
 from reuse.lint import format_lines, format_plain
 from reuse.project import Project
 from reuse.report import ProjectReport
+
+from .conftest import cpython, posix
 
 # REUSE-IgnoreStart
 

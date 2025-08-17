@@ -18,11 +18,12 @@ import shutil
 from inspect import cleandoc
 
 from click.testing import CliRunner
-from conftest import RESOURCES_DIRECTORY
 
 from reuse._util import cleandoc_nl
 from reuse.cli.main import main
 from reuse.report import LINT_VERSION
+
+from .conftest import RESOURCES_DIRECTORY
 
 
 class TestLint:
