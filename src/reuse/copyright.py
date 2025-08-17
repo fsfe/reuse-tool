@@ -478,6 +478,25 @@ class CopyrightNotice:
             result.write(f" <{self.contact}>")
         return result.getvalue()
 
+    def __lt__(self, other: "CopyrightNotice") -> bool:
+        def norm_contact(contact: Optional[str]) -> tuple[int, str]:
+            """If no contact is defined, return a tuple that sorts _after_
+            contacts that are defined.
+            """
+            return (0, contact) if contact is not None else (1, "")
+
+        return (
+            self.years,
+            self.name,
+            norm_contact(self.contact),
+            self.prefix,
+        ) < (
+            other.years,
+            other.name,
+            norm_contact(other.contact),
+            other.prefix,
+        )
+
     def to_string(self, original: bool = False) -> str:
         """Converts the internal representation of the copyright notice into a
         string. If *original* is :const:`True`, :attr:`original` is returned if
