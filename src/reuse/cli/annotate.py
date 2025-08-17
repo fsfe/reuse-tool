@@ -37,7 +37,6 @@ from ..comment import (
     is_uncommentable,
 )
 from ..copyright import CopyrightPrefix, ReuseInfo
-from ..copyright_deprecated import make_copyright_line
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
@@ -246,14 +245,14 @@ def get_reuse_info(
         if copyright_prefix is not None
         else CopyrightPrefix.SPDX
     )
-    copyright_lines = {
+    copyright_notices = {
         make_copyright_line(item, year=year, prefix=prefix)
         for item in copyrights
     }
 
     return ReuseInfo(
         spdx_expressions=set(licenses),
-        copyright_lines=copyright_lines,
+        copyright_notices=copyright_notices,
         contributor_lines=set(contributors),
     )
 

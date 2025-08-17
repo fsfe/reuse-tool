@@ -20,7 +20,6 @@ from reuse.copyright import (
     YearRange,
     YearRangeSeparator,
 )
-from reuse.copyright_deprecated import make_copyright_line
 from reuse.exceptions import CopyrightNoticeParseError, YearRangeParseError
 
 # REUSE-IgnoreStart
@@ -643,7 +642,9 @@ class TestCopyrightNoticeOrder:
 
 
 def test_reuse_info_contains_copyright_or_licensing():
-    """If either spdx_expressions or copyright_lines is truthy, expect True."""
+    """If either spdx_expressions or copyright_notices is truthy, then expect
+    True.
+    """
     arguments = [
         ({"GPL-3.0-or-later"}, set()),
         (set(), "SPDX-FileCopyrightText: 2017 Jane Doe"),
@@ -670,13 +671,13 @@ def test_reuse_info_contains_copyright_xor_licensing():
     """A simple xor version of the previous function."""
     assert not ReuseInfo().contains_copyright_xor_licensing()
     assert not ReuseInfo(
-        spdx_expressions={"MIT"}, copyright_lines={"Copyright Jane Doe"}
+        spdx_expressions={"MIT"}, copyright_notices={"Copyright Jane Doe"}
     ).contains_copyright_xor_licensing()
     assert ReuseInfo(
         spdx_expressions={"MIT"}
     ).contains_copyright_xor_licensing()
     assert ReuseInfo(
-        copyright_lines={"Copyright Jane Doe"}
+        copyright_notices={"Copyright Jane Doe"}
     ).contains_copyright_xor_licensing()
 
 
@@ -684,7 +685,7 @@ def test_reuse_info_contains_info_simple():
     """If any of the non-source files are truthy, expect True."""
     assert ReuseInfo(spdx_expressions={"MIT"}).contains_info()
     assert ReuseInfo(
-        copyright_lines={"SPDX-FileCopyrightText: 2017 Jane Doe"}
+        copyright_notices={"SPDX-FileCopyrightText: 2017 Jane Doe"}
     ).contains_info()
     assert ReuseInfo(
         contributor_lines={"SPDX-FileContributor: 2017 John Doe"}
@@ -707,13 +708,13 @@ def test_reuse_info_copy_simple():
     """Get a copy of ReuseInfo with one field replaced."""
     info = ReuseInfo(
         spdx_expressions={"GPL-3.0-or-later"},
-        copyright_lines={"2017 Jane Doe"},
+        copyright_notices={"2017 Jane Doe"},
         source_path="foo",
     )
     new_info = info.copy(source_path="bar")
     assert info != new_info
     assert info.spdx_expressions == new_info.spdx_expressions
-    assert info.copyright_lines == new_info.copyright_lines
+    assert info.copyright_notices == new_info.copyright_notices
     assert info.source_path != new_info.source_path
     assert new_info.source_path == "bar"
 
@@ -732,135 +733,18 @@ def test_reuse_info_union_simple():
     Get a union of ReuseInfo with one field merged and one remaining equal.
     """
     info1 = ReuseInfo(
-        copyright_lines={"2017 Jane Doe"},
+        copyright_notices={"2017 Jane Doe"},
         source_path="foo",
     )
-    info2 = ReuseInfo(copyright_lines={"2017 John Doe"}, source_path="bar")
+    info2 = ReuseInfo(copyright_notices={"2017 John Doe"}, source_path="bar")
     new_info = info1 | info2
     # union and __or__ are equal
     assert new_info == info1.union(info2)
-    assert sorted(new_info.copyright_lines) == [
+    assert sorted(new_info.copyright_notices) == [
         "2017 Jane Doe",
         "2017 John Doe",
     ]
     assert new_info.source_path == "foo"
-
-
-def test_make_copyright_line_simple():
-    """Given a simple statement, make it a copyright line."""
-    assert make_copyright_line("hello") == "SPDX-FileCopyrightText: hello"
-
-
-def test_make_copyright_line_year():
-    """Given a simple statement and a year, make it a copyright line."""
-    assert (
-        make_copyright_line("hello", year="2019")
-        == "SPDX-FileCopyrightText: 2019 hello"
-    )
-
-
-def test_make_copyright_line_prefix_spdx():
-    """Given a simple statement and prefix, make it a copyright line."""
-    statement = make_copyright_line("hello", prefix=CopyrightPrefix.SPDX)
-    assert statement == "SPDX-FileCopyrightText: hello"
-
-
-def test_make_copyright_line_prefix_spdx_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.SPDX
-    )
-    assert statement == "SPDX-FileCopyrightText: 2019 hello"
-
-
-def test_make_copyright_line_prefix_spdx_c_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.SPDX_C
-    )
-    assert statement == "SPDX-FileCopyrightText: (C) 2019 hello"
-
-
-def test_make_copyright_line_prefix_spdx_symbol_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.SPDX_SYMBOL
-    )
-    assert statement == "SPDX-FileCopyrightText: © 2019 hello"
-
-
-def test_make_copyright_line_prefix_string_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.STRING
-    )
-    assert statement == "Copyright 2019 hello"
-
-
-def test_make_copyright_line_prefix_string_c_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.STRING_C
-    )
-    assert statement == "Copyright (C) 2019 hello"
-
-
-def test_make_copyright_line_prefix_spdx_string_c_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.SPDX_STRING_C
-    )
-    assert statement == "SPDX-FileCopyrightText: Copyright (C) 2019 hello"
-
-
-def test_make_copyright_line_prefix_spdx_string_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.SPDX_STRING
-    )
-    assert statement == "SPDX-FileCopyrightText: Copyright 2019 hello"
-
-
-def test_make_copyright_line_prefix_spdx_string_symbol_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.SPDX_STRING_SYMBOL
-    )
-    assert statement == "SPDX-FileCopyrightText: Copyright © 2019 hello"
-
-
-def test_make_copyright_line_prefix_string_symbol_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.STRING_SYMBOL
-    )
-    assert statement == "Copyright © 2019 hello"
-
-
-def test_make_copyright_line_prefix_symbol_year():
-    """Given a simple statement, prefix and a year, make it a copyright line."""
-    statement = make_copyright_line(
-        "hello", year=2019, prefix=CopyrightPrefix.SYMBOL
-    )
-    assert statement == "© 2019 hello"
-
-
-def test_make_copyright_line_existing_spdx_copyright():
-    """Given a copyright line, do nothing."""
-    value = "SPDX-FileCopyrightText: hello"
-    assert make_copyright_line(value) == value
-
-
-def test_make_copyright_line_existing_other_copyright():
-    """Given a non-SPDX copyright line, do nothing."""
-    value = "© hello"
-    assert make_copyright_line(value) == value
-
-
-def test_make_copyright_line_multine_error():
-    """Given a multiline argument, expect an error."""
-    with pytest.raises(RuntimeError):
-        make_copyright_line("hello\nworld")
 
 
 # REUSE-IgnoreEnd
