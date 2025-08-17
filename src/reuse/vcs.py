@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2020 John Mulligan <jmulligan@redhat.com>
 # SPDX-FileCopyrightText: 2023 Markus Haug <korrat@proton.me>
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
+# SPDX-FileCopyrightText: 2025 Jonas Fierlings <fnoegip@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -261,10 +262,36 @@ class VCSStrategyJujutsu(VCSStrategy):
         """
         Return a set of all files tracked in the current jj revision
         """
-        command = [str(self.EXE), "files"]
+        version = self._version()
+        # TODO: Remove the version check once most distributions ship jj 0.19.0
+        # or higher.
+        if version is None or version >= (0, 19, 0):
+            command = [str(self.EXE), "file", "list"]
+        else:
+            command = [str(self.EXE), "files"]
         result = execute_command(command, _LOGGER, cwd=self.root)
         all_files = result.stdout.decode("utf-8").split("\n")
         return {Path(file_) for file_ in all_files if file_}
+
+    def _version(self) -> Optional[tuple[int, int, int]]:
+        """
+        Returns the (major, minor, patch) version of the jujutsu executable,
+        or None if the version components cannot be determined.
+        """
+        result = execute_command(
+            [str(self.EXE), "--version"], _LOGGER, cwd=self.root
+        )
+        lines = result.stdout.decode("utf-8").split("\n")
+        # Output has the form `jj major.minor.patch[-hash]\n`.
+        try:
+            line = lines[0]
+            version = line.split(" ")[-1]
+            without_hash = version.split("-")[0]
+            components = without_hash.split(".")
+            return (int(components[0]), int(components[1]), int(components[2]))
+        except (IndexError, ValueError) as e:
+            _LOGGER.debug("unable to parse jj version: %s", e)
+            return None
 
     def is_ignored(self, path: StrPath) -> bool:
         path = relative_from_root(path, self.root)
