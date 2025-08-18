@@ -901,6 +901,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
     ".npmignore": PythonCommentStyle,
     ".npmrc": SemicolonCommentStyle,
+    ".nvmrc": PythonCommentStyle,
     ".prettierrc": UncommentableCommentStyle,  # could either be JSON or YAML
     ".prettierignore": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
