@@ -25,6 +25,7 @@
 # SPDX-FileCopyrightText: 2025 Hatzka <hatzka@nezumi.studio>
 # SPDX-FileCopyrightText: 2025 Johannes HAMPP <johannes.hampp@openenergytransition.org>
 # SPDX-FileCopyrightText: 2025 Simon Barth <simon.barth@gmx.de>
+# SPDX-FileCopyrightText: 2025 Maximilian Franzke <mfr@nzke.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
