@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-24 08:57+0000\n"
-"PO-Revision-Date: 2025-08-14 08:01+0000\n"
+"PO-Revision-Date: 2025-08-20 10:02+0000\n"
 "Last-Translator: \"T. E. Kalaycı\" <tekrei@members.fsf.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "tr/>\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.13\n"
 
 #: src/reuse/cli/annotate.py:58
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "'--copyright', ‘--license’ veya ‘--contributor’ seçeneği gereklidir."
+msgstr "'--copyright', '--license' veya '--contributor' seçeneği gereklidir."
 
 #: src/reuse/cli/annotate.py:119
 msgid ""
@@ -27,9 +27,9 @@ msgid ""
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
 "unrecognised':"
 msgstr ""
-"Aşağıdaki dosyalar tanınmayan bir dosya uzantısına sahiptir. Lütfen ‘--style’"
-", ‘--force-dot-license’, ‘--fallback-dot-license’ veya ‘--skip-unrecognised’ "
-"seçeneklerini kullanın:"
+"Aşağıdaki dosyalar tanınmayan bir dosya uzantısına sahiptir. Lütfen '--"
+"style', '--force-dot-license', '--fallback-dot-license' veya '--skip-"
+"unrecognised' seçeneklerini kullanın:"
 
 #: src/reuse/cli/annotate.py:152
 #, python-brace-format
@@ -37,7 +37,7 @@ msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
-"'{path}‘ tek satırlık yorumları desteklemez, lütfen ’--single-line' "
+"'{path}' tek satırlık yorumları desteklemez, lütfen '--single-line' "
 "kullanmayın."
 
 #: src/reuse/cli/annotate.py:159
@@ -46,13 +46,13 @@ msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
-"'{path}‘ çok satırlı yorumları desteklemez, lütfen ’--multi-line' "
+"'{path}' çok satırlı yorumları desteklemez, lütfen '--multi-line' "
 "kullanmayın."
 
 #: src/reuse/cli/annotate.py:205
 #, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "‘{template}’ şablonu bulunamadı."
+msgstr "'{template}' şablonu bulunamadı."
 
 #: src/reuse/cli/annotate.py:268
 msgid "Add copyright and licensing into the headers of files."
@@ -285,7 +285,7 @@ msgstr "LİSANS"
 
 #: src/reuse/cli/download.py:159
 msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr "'LICENSE' argümanı ve ‘--all’ seçeneklerinden biri olmalıdır."
+msgstr "'LICENSE' argümanı ve '--all' seçeneklerinden biri olmalıdır."
 
 #: src/reuse/cli/download.py:173
 msgid "Cannot use '--output' with more than one license."
@@ -300,7 +300,7 @@ msgid ""
 ">."
 msgstr ""
 "Proje dizinini REUSE uyumluluğu için denetleyin. Bu araç sürümü, REUSE "
-"Spesifikasyonunun {reuse_version} sürümüne göre denetler. Belirtimin en son "
+"Belirtiminin {reuse_version} sürümüne göre denetler. Belirtimin en son "
 "sürümünü <https://reuse.software/spec/> adresinde bulabilirsiniz."
 
 #: src/reuse/cli/lint.py:33
@@ -386,7 +386,7 @@ msgstr "DOSYA"
 #: src/reuse/cli/lint_file.py:65
 #, python-brace-format
 msgid "'{file}' is not inside of '{root}'."
-msgstr "'{file}‘ ’{root}' içinde değil."
+msgstr "'{file}' '{root}' içinde değil."
 
 #: src/reuse/cli/main.py:37
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:465
@@ -510,8 +510,8 @@ msgid ""
 "'--creator-person' or '--creator-organization' is required when '--add-"
 "license-concluded' is provided."
 msgstr ""
-"'--add-license-concluded' seçeneği belirtildiğinde ‘--creator-person’ veya "
-"‘--creator-organization’ seçeneği zorunludur."
+"'--add-license-concluded' seçeneği belirtildiğinde '--creator-person' veya "
+"'--creator-organization' seçeneği zorunludur."
 
 #: src/reuse/cli/spdx.py:97
 #, python-brace-format
@@ -623,7 +623,7 @@ msgstr "Hata: {message}"
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:72
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
-msgstr "Yardım için ‘{command} {option}’ deneyin."
+msgstr "Yardım için '{command} {option}' deneyin."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:121
 #, python-brace-format
@@ -785,7 +785,7 @@ msgstr "{name} {filename!r} bir dosya."
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:894
 #, python-brace-format
 msgid "{name} '{filename}' is a directory."
-msgstr "{name} ‘{filename}’ bir dizin."
+msgstr "{name} '{filename}' bir dizin."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:903
 msgid "{name} {filename!r} is not readable."
