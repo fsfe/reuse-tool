@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2025 Free Software Foundation Europe e.V. <https://fsfe.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# These are supported funding model platforms
+github: [fsfe]
+custom:
+  ["https://my.fsfe.org/donate?referrer=https://github.com/fsfe/reuse-tool"]
