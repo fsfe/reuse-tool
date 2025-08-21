@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
+# SPDX-FileCopyrightText: 2025 ASCIIMoth <ascii@moth.contact>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
