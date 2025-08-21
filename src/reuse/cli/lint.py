@@ -31,7 +31,7 @@ _HELP = (
     ).format(reuse_version=__REUSE_version__)
     + "\n\n"
     + _("Specifically, the following criteria are checked:")
-    + "\n\n"
+    + "\n\n\b\n"
     + _(
         "- Are there any bad (unrecognised, not compliant with SPDX)"
         " licenses in the project?"

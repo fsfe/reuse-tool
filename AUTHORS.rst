@@ -151,3 +151,4 @@ Contributors
 - Charlie Jenkins <charlie@rivosinc.com>
 - Hatzka <hatzka@nezumi.studio>
 - Jonas Fierlings <fnoegip@gmail.com>
+- ASCIIMoth <ascii@moth.contact>
