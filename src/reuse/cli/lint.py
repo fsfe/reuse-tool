@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
+# SPDX-FileCopyrightText: 2025 ASCIIMoth <ascii@moth.contact>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -31,7 +32,7 @@ _HELP = (
     ).format(reuse_version=__REUSE_version__)
     + "\n\n"
     + _("Specifically, the following criteria are checked:")
-    + "\n\n"
+    + "\n\n\b\n"
     + _(
         "- Are there any bad (unrecognised, not compliant with SPDX)"
         " licenses in the project?"
