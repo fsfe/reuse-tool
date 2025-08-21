@@ -1,2 +1,1 @@
-- Fixed formatting in `lint` subcommand help message
-
+- Fixed formatting in `lint` subcommand help message. (#1212, #1236)
