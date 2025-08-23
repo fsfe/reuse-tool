@@ -10,9 +10,13 @@
 
 """Tests for reuse.copyright"""
 
+import re
+from unittest import mock
+
 import pytest
 
 from reuse.copyright import (
+    COPYRIGHT_PATTERN,
     CopyrightNotice,
     CopyrightPrefix,
     ReuseInfo,
@@ -315,6 +319,36 @@ class TestYearRangeCompact:
 class TestCopyrightNoticeFromString:
     """Tests for CopyrightNotice.from_string."""
 
+    def test_uses_from_match(self, monkeypatch):
+        """from_string uses from_match under the hood for 99% of the logic."""
+        text = "SPDX-FileCopyrightText: 2017 Jane Doe <jane@example.com>"
+        expected = CopyrightNotice(
+            "Jane Doe", years=YearRange("2017"), contact="jane@example.com"
+        )
+
+        from_match = mock.create_autospec(CopyrightNotice.from_match)
+        from_match.return_value = expected
+        monkeypatch.setattr(
+            "reuse.copyright.CopyrightNotice.from_match", from_match
+        )
+        expected_match = COPYRIGHT_PATTERN.fullmatch(text)
+
+        notice = CopyrightNotice.from_string(text)
+
+        # Now the problem is that two identical re.Matches do not equal each
+        # other, so I will compare some of their values, which is just about
+        # close enough.
+        assert len(from_match.call_args_list) == 1  # Called once
+        assert len(from_match.call_args_list[0].args) == 1  # with one argument.
+        used_match = from_match.call_args_list[0].args[0]
+        assert isinstance(used_match, re.Match)
+        assert repr(used_match) == repr(expected_match)
+        assert used_match.groups() == expected_match.groups()
+        assert used_match.re == expected_match.re
+
+        # Check for a correct output.
+        assert notice == expected
+
     def test_simple(self):
         """A simple case of a prefix and a copyright holder."""
         notice = CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
@@ -353,6 +387,20 @@ class TestCopyrightNoticeFromString:
                 }
             else:
                 assert notice == CopyrightNotice("Jane Doe", prefix=prefix)
+
+    def test_spacing_after_name(self):
+        """Spacing after the name should be stripped."""
+        value = "SPDX-FileCopyrightText: Jane Doe \t"
+        notice = CopyrightNotice.from_string(value)
+        assert notice == CopyrightNotice("Jane Doe")
+        assert notice.original == value
+
+    def test_spacing_after_contact(self):
+        """Spacing after the contact should be stripped."""
+        value = "SPDX-FileCopyrightText: Jane Doe <jane@example.com> \t"
+        notice = CopyrightNotice.from_string(value)
+        assert notice == CopyrightNotice("Jane Doe", contact="jane@example.com")
+        assert notice.original == value
 
     def test_contact(self):
         """The contact field is recognised."""
