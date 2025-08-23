@@ -67,7 +67,8 @@ def validate_four_digits(value: str) -> FourDigitString:
     return result
 
 
-_YEAR_RANGE_PATTERN = re.compile(
+#: A regex pattern to match e.g. '2017-2020'.
+YEAR_RANGE_PATTERN = re.compile(
     r"(?P<start>\d{4})"
     r"("
     r"(?P<separator>("
@@ -77,13 +78,14 @@ _YEAR_RANGE_PATTERN = re.compile(
     r")?"
 )
 _YEAR_RANGE_PATTERN_ANONYMISED = re.sub(
-    r"\(\?P<\w+>", "(", _YEAR_RANGE_PATTERN.pattern
+    r"\(\?P<\w+>", "(", YEAR_RANGE_PATTERN.pattern
 )
 _SYMBOL_OR_C_SUBPATTERN = r"(©|\([Cc]\))"
 _STRING_SUBPATTERN = (
     r"(Copyright((\s*" + _SYMBOL_OR_C_SUBPATTERN + r")|(?=\s)))"
 )
-_COPYRIGHT_PATTERN = re.compile(
+#: A regex pattern to match a complete and valid REUSE copyright notice.
+COPYRIGHT_PATTERN = re.compile(
     r"(?P<prefix>("
     r"SPDX-(File|Snippet)CopyrightText:"
     + r"(\s*("
@@ -104,7 +106,8 @@ _COPYRIGHT_PATTERN = re.compile(
     + r")*),?\s+)?"
     r"\s*"
     r"(?P<name>.+?)"
-    r"(\s+<(?P<contact>.*)>)?"
+    r"(\s+<(?P<contact>.*?)>)?"
+    r"(\s*)"
 )
 
 
@@ -186,7 +189,7 @@ class YearRange:
         Raises:
             YearRangeParseError: The string is not a valid year range.
         """
-        re_result = _YEAR_RANGE_PATTERN.fullmatch(value)
+        re_result = YEAR_RANGE_PATTERN.fullmatch(value)
         if not re_result:
             raise YearRangeParseError(f"'{value}' is not a valid year range.")
         # Mypy is disabled for this because the values are enforced by the
@@ -402,12 +405,19 @@ class CopyrightNotice:
             CopyrightNoticeParseError: The string is not a valid copyright
                 notice.
         """
-        re_result = _COPYRIGHT_PATTERN.fullmatch(value)
+        re_result = COPYRIGHT_PATTERN.fullmatch(value)
         if not re_result:
             raise CopyrightNoticeParseError(
                 f"'{value}' is not a copyright notice."
             )
-        re_prefix = re_result.group("prefix")
+        return cls.from_match(re_result)
+
+    @classmethod
+    def from_match(cls, value: re.Match) -> "CopyrightNotice":
+        """Create a :class:`CopyrightNotice` object from a regular expression
+        match using the :const:`COPYRIGHT_PATTERN` :class:`re.Pattern`.
+        """
+        re_prefix = value.group("prefix")
         re_prefix_lower = re_prefix.lower()
         # String-match the prefix.
         for prefix in (
@@ -434,8 +444,8 @@ class CopyrightNotice:
                 # default to SPDX.
                 prefix = CopyrightPrefix.SPDX
         years = []
-        re_years = re_result.group("years")
-        re_name = re_result.group("name")
+        re_years = value.group("years")
+        re_name = value.group("name")
         if re_years:
             # Split on comma and whitespace.
             for year in re.split(r"[,\s]", re_years):
@@ -460,9 +470,9 @@ class CopyrightNotice:
             name=re_name,
             prefix=prefix,
             years=tuple(years),
-            contact=re_result.group("contact"),
+            contact=value.group("contact"),
         )
-        object.__setattr__(result, "original", value)
+        object.__setattr__(result, "original", value.string)
         return result
 
     def __str__(self) -> str:
