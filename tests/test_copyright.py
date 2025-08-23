@@ -16,7 +16,7 @@ from unittest import mock
 import pytest
 
 from reuse.copyright import (
-    COPYRIGHT_PATTERN,
+    COPYRIGHT_NOTICE_PATTERN,
     CopyrightNotice,
     CopyrightPrefix,
     ReuseInfo,
@@ -331,7 +331,7 @@ class TestCopyrightNoticeFromString:
         monkeypatch.setattr(
             "reuse.copyright.CopyrightNotice.from_match", from_match
         )
-        expected_match = COPYRIGHT_PATTERN.fullmatch(text)
+        expected_match = COPYRIGHT_NOTICE_PATTERN.fullmatch(text)
 
         notice = CopyrightNotice.from_string(text)
 
