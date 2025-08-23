@@ -18,7 +18,7 @@ import pytest
 from boolean.boolean import ParseError
 
 from reuse import _LICENSING
-from reuse.copyright import ReuseInfo
+from reuse.copyright import CopyrightNotice, ReuseInfo
 from reuse.extract import (
     decoded_text_from_binary,
     detect_line_endings,
@@ -91,32 +91,32 @@ def test_extract_copyright():
     """Given a file with copyright information, have it return that copyright
     information.
     """
-    copyright_line = "SPDX-FileCopyrightText: 2019 Jane Doe"
-    result = extract_reuse_info(copyright_line)
-    assert result.copyright_notices == {copyright_line}
+    notice = "SPDX-FileCopyrightText: 2019 Jane Doe"
+    result = extract_reuse_info(notice)
+    assert result.copyright_notices == {CopyrightNotice.from_string(notice)}
 
 
 def test_extract_copyright_duplicate():
     """When a copyright line is duplicated, only yield one."""
-    copyright_line = "SPDX-FileCopyrightText: 2019 Jane Doe"
-    result = extract_reuse_info("\n".join((copyright_line, copyright_line)))
-    assert result.copyright_notices == {copyright_line}
+    notice = "SPDX-FileCopyrightText: 2019 Jane Doe"
+    result = extract_reuse_info("\n".join((notice, notice)))
+    assert result.copyright_notices == {CopyrightNotice.from_string(notice)}
 
 
 def test_extract_copyright_tab():
     """A tag followed by a tab is also valid."""
-    copyright_line = "SPDX-FileCopyrightText:\t2019 Jane Doe"
-    result = extract_reuse_info(copyright_line)
-    assert result.copyright_notices == {copyright_line}
+    notice = "SPDX-FileCopyrightText:\t2019 Jane Doe"
+    result = extract_reuse_info(notice)
+    assert result.copyright_notices == {CopyrightNotice.from_string(notice)}
 
 
 def test_extract_copyright_many_whitespace():
     """When a tag is followed by a lot of whitespace, that is also valid. The
     whitespace is not filtered out.
     """
-    copyright_line = "SPDX-FileCopyrightText:    2019 Jane Doe"
-    result = extract_reuse_info(copyright_line)
-    assert result.copyright_notices == {copyright_line}
+    notice = "SPDX-FileCopyrightText:    2019 Jane Doe"
+    result = extract_reuse_info(notice)
+    assert result.copyright_notices == {CopyrightNotice.from_string(notice)}
 
 
 def test_extract_copyright_variations():
@@ -138,7 +138,7 @@ def test_extract_copyright_variations():
     result = extract_reuse_info(text)
     lines = text.splitlines()
     for line in lines:
-        assert line in result.copyright_notices
+        assert CopyrightNotice.from_string(line) in result.copyright_notices
     assert len(lines) == len(result.copyright_notices)
 
 
@@ -169,7 +169,9 @@ def test_extract_sameline_multiline():
     text = "<!-- SPDX-FileCopyrightText: Jane Doe -->"
     result = extract_reuse_info(text)
     assert len(result.copyright_notices) == 1
-    assert result.copyright_notices == {"SPDX-FileCopyrightText: Jane Doe"}
+    assert result.copyright_notices == {
+        CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
+    }
 
 
 def test_extract_special_endings():
@@ -189,8 +191,17 @@ def test_extract_special_endings():
     )
     result = extract_reuse_info(text)
     for item in result.copyright_notices:
-        assert ">" not in item
-        assert "] ::" not in item
+        assert ">" not in str(item)
+        assert "] ::" not in str(item)
+
+
+def test_extract_special_ending_with_spacing_after():
+    """Strip spacing after a special ending."""
+    text = "<tag value='Copyright 2019 Jane Doe'> \t"
+    result = extract_reuse_info(text)
+    assert result.copyright_notices == {
+        CopyrightNotice.from_string("Copyright 2019 Jane Doe")
+    }
 
 
 def test_extract_contributors():
