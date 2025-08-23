@@ -18,7 +18,6 @@ from typing import Any, Iterable, Literal, NewType, Optional, Union, cast
 from boolean.boolean import Expression
 
 from .exceptions import CopyrightNoticeParseError, YearRangeParseError
-from .i18n import _
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -198,6 +197,21 @@ class YearRange:
         result = cls(**re_result.groupdict())  # type: ignore
         object.__setattr__(result, "original", value)
         return result
+
+    @classmethod
+    def list_from_string(cls, value: str) -> list["YearRange"]:
+        """Create a list of :class:`YearRange` objects from a string containing
+        multiple ranges.
+
+        Raises:
+            YearRangeParseError: The substring is not a valid year range.
+        """
+        years: list[YearRange] = []
+        for year in re.split(r"[,\s]", value):
+            if not year:
+                continue
+            years.append(YearRange.from_string(year))
+        return years
 
     def __str__(self) -> str:
         result = StringIO()
@@ -447,25 +461,7 @@ class CopyrightNotice:
         re_years = value.group("years")
         re_name = value.group("name")
         if re_years:
-            # Split on comma and whitespace.
-            for year in re.split(r"[,\s]", re_years):
-                if not year:
-                    continue
-                try:
-                    years.append(YearRange.from_string(year))
-                except YearRangeParseError:
-                    _LOGGER.exception(
-                        _(
-                            "Could not parse '{range}' in '{years}'."
-                            " This is not supposed to happen."
-                            " The program safely recovers from this with"
-                            " slightly limited functionality in recognising"
-                            " the year range(s)."
-                        ).format(range=year, years=re_years)
-                    )
-                    years = []
-                    re_name = f"{re_years} {re_name}"
-                    break
+            years = YearRange.list_from_string(re_years)
         result = cls(
             name=re_name,
             prefix=prefix,

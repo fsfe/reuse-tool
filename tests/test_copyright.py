@@ -104,6 +104,20 @@ class TestYearRangeFromString:
             YearRange.from_string(text)
 
 
+class TestYearRangeListFromString:
+    """Tests for YearRange.list_from_string."""
+
+    def test_simple(self):
+        """Try various ways of separating year ranges."""
+        text = (
+            "2017, 2018,, 2019 2020 ,2021 , 2022  2023\t2024,,2025 2026--2027"
+        )
+        result = YearRange.list_from_string(text)
+        assert result == [YearRange(str(num)) for num in range(2017, 2026)] + [
+            YearRange("2026", "--", "2027")
+        ]
+
+
 class TestYearRangeToString:
     """Tests for YearRange.to_string."""
 
@@ -569,24 +583,6 @@ class TestCopyrightNoticeFromString:
                 YearRange("2020", "-", "2022"),
                 YearRange("2024", "--", "Present"),
             ),
-        )
-
-    def test_year_range_from_string_broken(self, monkeypatch):
-        """If YearRange.from_string raises an error, deal with it."""
-        first_pass = True
-
-        def raise_exception(_):
-            nonlocal first_pass
-            if first_pass:
-                first_pass = False
-                return YearRange("2017")
-            raise YearRangeParseError
-
-        monkeypatch.setattr(YearRange, "from_string", raise_exception)
-        notice = CopyrightNotice.from_string("Copyright 2017, 2019 Jane Doe")
-        assert notice == CopyrightNotice(
-            "2017, 2019 Jane Doe",
-            prefix=CopyrightPrefix.STRING,
         )
 
 
