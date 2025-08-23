@@ -27,7 +27,12 @@ from license_expression import ExpressionError
 from . import _LICENSING
 from ._util import relative_from_root
 from .comment import _all_style_classes
-from .copyright import COPYRIGHT_PATTERN, CopyrightNotice, ReuseInfo, SourceType
+from .copyright import (
+    COPYRIGHT_NOTICE_PATTERN,
+    CopyrightNotice,
+    ReuseInfo,
+    SourceType,
+)
 from .i18n import _
 from .types import StrPath
 
@@ -67,8 +72,8 @@ _END_PATTERN = r"(?:({})\s*)*$".format(
         )
     )
 )
-_COPYRIGHT_PATTERN = re.compile(
-    COPYRIGHT_PATTERN.pattern + _END_PATTERN, re.MULTILINE
+_COPYRIGHT_NOTICE_PATTERN = re.compile(
+    COPYRIGHT_NOTICE_PATTERN.pattern + _END_PATTERN, re.MULTILINE
 )
 _LICENSE_IDENTIFIER_PATTERN = re.compile(
     r"SPDX-License-Identifier:\s*(?P<value>.*?)" + _END_PATTERN, re.MULTILINE
@@ -130,7 +135,7 @@ def extract_reuse_info(text: str) -> ReuseInfo:
     expressions: set[Expression] = set()
     contributors: set[str] = set()
 
-    for notice in _COPYRIGHT_PATTERN.finditer(text):
+    for notice in _COPYRIGHT_NOTICE_PATTERN.finditer(text):
         notices.add(CopyrightNotice.from_match(notice))
 
     for expression in _LICENSE_IDENTIFIER_PATTERN.finditer(text):

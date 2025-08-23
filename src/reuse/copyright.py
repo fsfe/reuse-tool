@@ -85,7 +85,7 @@ _STRING_SUBPATTERN = (
     r"(Copyright((\s*" + _SYMBOL_OR_C_SUBPATTERN + r")|(?=\s)))"
 )
 #: A regex pattern to match a complete and valid REUSE copyright notice.
-COPYRIGHT_PATTERN = re.compile(
+COPYRIGHT_NOTICE_PATTERN = re.compile(
     r"(?P<prefix>("
     r"SPDX-(File|Snippet)CopyrightText:"
     + r"(\s*("
@@ -405,7 +405,7 @@ class CopyrightNotice:
             CopyrightNoticeParseError: The string is not a valid copyright
                 notice.
         """
-        re_result = COPYRIGHT_PATTERN.fullmatch(value)
+        re_result = COPYRIGHT_NOTICE_PATTERN.fullmatch(value)
         if not re_result:
             raise CopyrightNoticeParseError(
                 f"'{value}' is not a copyright notice."
@@ -415,7 +415,7 @@ class CopyrightNotice:
     @classmethod
     def from_match(cls, value: re.Match) -> "CopyrightNotice":
         """Create a :class:`CopyrightNotice` object from a regular expression
-        match using the :const:`COPYRIGHT_PATTERN` :class:`re.Pattern`.
+        match using the :const:`COPYRIGHT_NOTICE_PATTERN` :class:`re.Pattern`.
         """
         re_prefix = value.group("prefix")
         re_prefix_lower = re_prefix.lower()
