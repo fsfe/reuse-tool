@@ -21,7 +21,7 @@ from conftest import RESOURCES_DIRECTORY
 from license_expression import LicenseSymbol
 
 from reuse import _LICENSING
-from reuse.copyright import ReuseInfo, SourceType
+from reuse.copyright import CopyrightNotice, ReuseInfo, SourceType
 from reuse.covered_files import iter_files
 from reuse.exceptions import (
     GlobalLicensingConflictError,
@@ -170,9 +170,8 @@ def test_reuse_info_of_only_copyright(fake_repository):
     reuse_info = project.reuse_info_of("foo.py")[0]
     assert not any(reuse_info.spdx_expressions)
     assert len(reuse_info.copyright_notices) == 1
-    assert (
-        reuse_info.copyright_notices.pop()
-        == "SPDX-FileCopyrightText: 2017 Jane Doe"
+    assert reuse_info.copyright_notices.pop() == CopyrightNotice.from_string(
+        "SPDX-FileCopyrightText: 2017 Jane Doe"
     )
     assert reuse_info.source_type == SourceType.FILE_HEADER
     assert reuse_info.source_path == "foo.py"
@@ -212,7 +211,10 @@ def test_reuse_info_of_toml_precedence(empty_directory):
     assert reuse_info.source_path == "REUSE.toml"
     assert reuse_info.path == "foo.py"
     assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
-    assert "2017 Jane Doe" in reuse_info.copyright_notices
+    assert (
+        CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
+        in reuse_info.copyright_notices
+    )
 
 
 def test_reuse_info_of_closest_precedence(empty_directory):
@@ -246,7 +248,10 @@ def test_reuse_info_of_closest_precedence(empty_directory):
     assert reuse_info.source_path == "foo.py"
     assert reuse_info.path == "foo.py"
     assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
-    assert "SPDX-FileCopyrightText: In File" in reuse_info.copyright_notices
+    assert (
+        CopyrightNotice.from_string("SPDX-FileCopyrightText: In File")
+        in reuse_info.copyright_notices
+    )
 
 
 def test_reuse_info_of_closest_precedence_empty(empty_directory):
@@ -275,7 +280,10 @@ def test_reuse_info_of_closest_precedence_empty(empty_directory):
     assert reuse_info.source_path == "REUSE.toml"
     assert reuse_info.path == "foo.py"
     assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
-    assert "2017 Jane Doe" in reuse_info.copyright_notices
+    assert (
+        CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
+        in reuse_info.copyright_notices
+    )
 
 
 def test_reuse_info_of_aggregate_precedence(empty_directory):
@@ -312,14 +320,19 @@ def test_reuse_info_of_aggregate_precedence(empty_directory):
             assert reuse_info.path == "foo.py"
             assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
             assert (
-                "SPDX-FileCopyrightText: In File"
+                CopyrightNotice.from_string("SPDX-FileCopyrightText: In File")
                 in reuse_info.copyright_notices
             )
         elif reuse_info.source_type == SourceType.REUSE_TOML:
             assert reuse_info.source_path == "REUSE.toml"
             assert reuse_info.path == "foo.py"
             assert LicenseSymbol("CC0-1.0") in reuse_info.spdx_expressions
-            assert "2017 Jane Doe" in reuse_info.copyright_notices
+            assert (
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+                in reuse_info.copyright_notices
+            )
         else:
             assert False
 
@@ -362,14 +375,22 @@ def test_reuse_info_of_aggregate_and_closest(empty_directory):
     assert project.reuse_info_of("src/foo.py") == [
         ReuseInfo(
             spdx_expressions={_LICENSING.parse("CC0-1.0")},
-            copyright_notices={"2017 Jane Doe"},
+            copyright_notices={
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+            },
             path="src/foo.py",
             source_path="REUSE.toml",
             source_type=SourceType.REUSE_TOML,
         ),
         ReuseInfo(
             spdx_expressions={_LICENSING.parse("MIT")},
-            copyright_notices={"2017 John Doe"},
+            copyright_notices={
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 John Doe"
+                )
+            },
             path="src/foo.py",
             source_path="src/REUSE.toml",
             source_type=SourceType.REUSE_TOML,
@@ -388,14 +409,20 @@ def test_reuse_info_of_aggregate_and_closest(empty_directory):
     assert project.reuse_info_of("src/foo.py") == [
         ReuseInfo(
             spdx_expressions={_LICENSING.parse("CC0-1.0")},
-            copyright_notices={"2017 Jane Doe"},
+            copyright_notices={
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+            },
             path="src/foo.py",
             source_path="REUSE.toml",
             source_type=SourceType.REUSE_TOML,
         ),
         ReuseInfo(
             spdx_expressions={_LICENSING.parse("0BSD")},
-            copyright_notices={"Copyright Example"},
+            copyright_notices={
+                CopyrightNotice.from_string("Copyright Example")
+            },
             path="src/foo.py",
             source_path="src/foo.py",
             source_type=SourceType.FILE_HEADER,
@@ -497,12 +524,15 @@ def test_reuse_info_of_reuse_toml_dot_license(empty_directory):
     assert len(infos) == 2
     toml_info = [info for info in infos if info.spdx_expressions][0]
     assert toml_info.source_type == SourceType.REUSE_TOML
-    assert "2017 Jane Doe" in toml_info.copyright_notices
+    assert (
+        CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
+        in toml_info.copyright_notices
+    )
     assert "CC0-1.0" in str(toml_info.spdx_expressions)
     dot_license_info = [info for info in infos if not info.spdx_expressions][0]
     assert dot_license_info.source_type == SourceType.DOT_LICENSE
     assert (
-        "SPDX-FileCopyrightText: 2017 John Doe"
+        CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 John Doe")
         in dot_license_info.copyright_notices
     )
     assert not dot_license_info.spdx_expressions
@@ -561,7 +591,9 @@ def test_reuse_info_of_no_duplicates(empty_directory):
     assert LicenseSymbol("GPL-3.0-or-later") in reuse_info.spdx_expressions
     assert len(reuse_info.copyright_notices) == 1
     assert (
-        "SPDX-FileCopyrightText: 2017 Free Software Foundation Europe"
+        CopyrightNotice.from_string(
+            "SPDX-FileCopyrightText: 2017 Free Software Foundation Europe"
+        )
         in reuse_info.copyright_notices
     )
 
@@ -592,7 +624,8 @@ def test_license_file_detected(empty_directory):
     reuse_info = project.reuse_info_of("foo.py")[0]
 
     assert (
-        "SPDX-FileCopyrightText: 2017 Jane Doe" in reuse_info.copyright_notices
+        CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
+        in reuse_info.copyright_notices
     )
     assert LicenseSymbol("MIT") in reuse_info.spdx_expressions
     assert reuse_info.source_type == SourceType.DOT_LICENSE
