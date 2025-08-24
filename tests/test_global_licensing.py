@@ -14,7 +14,7 @@ from debian.copyright import Copyright
 from license_expression import LicenseSymbol
 
 from reuse import _LICENSING
-from reuse.copyright import ReuseInfo, SourceType
+from reuse.copyright import CopyrightNotice, ReuseInfo, SourceType
 from reuse.exceptions import (
     GlobalLicensingParseError,
     GlobalLicensingParseTypeError,
@@ -52,7 +52,9 @@ class TestAnnotationsItemValidators:
         )
         assert item.paths == {"foo.py"}
         assert item.precedence == PrecedenceType.OVERRIDE
-        assert item.copyright_notices == {"2023 Jane Doe"}
+        assert item.copyright_notices == {
+            CopyrightNotice.from_string("SPDX-FileCopyrightText: 2023 Jane Doe")
+        }
         assert item.spdx_expressions == {_LICENSING.parse("MIT")}
 
     def test_precedence_defaults_to_closest(self):
@@ -74,7 +76,9 @@ class TestAnnotationsItemValidators:
         )
         assert item.paths == {"foo.py"}
         assert item.precedence == PrecedenceType.OVERRIDE
-        assert item.copyright_notices == {"2023 Jane Doe"}
+        assert item.copyright_notices == {
+            CopyrightNotice.from_string("SPDX-FileCopyrightText: 2023 Jane Doe")
+        }
         assert item.spdx_expressions == {_LICENSING.parse("MIT")}
 
     def test_str_to_set(self):
@@ -87,7 +91,9 @@ class TestAnnotationsItemValidators:
         )
         assert item.paths == {"foo.py"}
         assert item.precedence == PrecedenceType.OVERRIDE
-        assert item.copyright_notices == {"2023 Jane Doe"}
+        assert item.copyright_notices == {
+            CopyrightNotice.from_string("SPDX-FileCopyrightText: 2023 Jane Doe")
+        }
         assert item.spdx_expressions == {_LICENSING.parse("MIT")}
 
     def test_bad_expr(self):
@@ -106,7 +112,7 @@ class TestAnnotationsItemValidators:
                 "foobar",
             )
 
-    def test_not_str(self):
+    def test_copyright_not_str(self):
         """Copyright must be a string."""
         with pytest.raises(GlobalLicensingParseTypeError):
             AnnotationsItem(
@@ -114,12 +120,43 @@ class TestAnnotationsItemValidators:
                 copyright_notices=123,
             )
 
-    def test_not_set_of_str(self):
+    def test_copyright_not_set_of_str(self):
         """Copyright must be a set of strings."""
         with pytest.raises(GlobalLicensingParseTypeError):
             AnnotationsItem(
                 {"foo.py"},
                 copyright_notices={"2023 Jane Doe", 2024},
+            )
+
+    def test_copyright_already_prefixed(self):
+        """If a notice is prefixed within the string, do not prepend the default
+        SPDX prefix.
+        """
+        item = AnnotationsItem(
+            "foo.py",
+            copyright_notices={"2023 Jane Doe", "Copyright Alice"},
+        )
+        assert item.copyright_notices == {
+            CopyrightNotice.from_string(
+                "SPDX-FileCopyrightText: 2023 Jane Doe"
+            ),
+            CopyrightNotice.from_string("Copyright Alice"),
+        }
+
+    def test_expression_not_str(self):
+        """SPDX expression must be a string."""
+        with pytest.raises(GlobalLicensingParseTypeError):
+            AnnotationsItem(
+                {"foo.py"},
+                spdx_expressions=123,
+            )
+
+    def test_expression_not_set_of_str(self):
+        """SPDX expression must be a set of strings."""
+        with pytest.raises(GlobalLicensingParseTypeError):
+            AnnotationsItem(
+                {"foo.py"},
+                spdx_expressions={"MIT", 123},
             )
 
     def test_paths_must_not_be_empty(self):
@@ -149,7 +186,9 @@ class TestAnnotationsItemFromDict:
         )
         assert item.paths == {"foo.py"}
         assert item.precedence == PrecedenceType.OVERRIDE
-        assert item.copyright_notices == {"2023 Jane Doe"}
+        assert item.copyright_notices == {
+            CopyrightNotice.from_string("SPDX-FileCopyrightText: 2023 Jane Doe")
+        }
         assert item.spdx_expressions == {_LICENSING.parse("MIT")}
 
     def test_implicit_precedence(self):
@@ -536,7 +575,11 @@ class TestReuseTOMLReuseInfoOf:
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("MIT")},
-                    copyright_notices={"2023 Jane Doe"},
+                    copyright_notices={
+                        CopyrightNotice.from_string(
+                            "SPDX-FileCopyrightText: 2023 Jane Doe"
+                        )
+                    },
                     path="foo.py",
                     source_path="REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -563,7 +606,11 @@ class TestReuseTOMLReuseInfoOf:
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("0BSD")},
-                    copyright_notices={"2023 John Doe"},
+                    copyright_notices={
+                        CopyrightNotice.from_string(
+                            "SPDX-FileCopyrightText: 2023 John Doe"
+                        )
+                    },
                     path="foo.py",
                     source_path="REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -588,7 +635,11 @@ class TestReuseTOMLReuseInfoOf:
         # Expected sans path
         expected = ReuseInfo(
             spdx_expressions={_LICENSING.parse("MIT")},
-            copyright_notices={"2023 Jane Doe"},
+            copyright_notices={
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2023 Jane Doe"
+                )
+            },
             source_path="REUSE.toml",
             source_type=SourceType.REUSE_TOML,
         )
@@ -620,7 +671,11 @@ class TestReuseTOMLReuseInfoOf:
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("MIT")},
-                    copyright_notices={"2023 Jane Doe"},
+                    copyright_notices={
+                        CopyrightNotice.from_string(
+                            "SPDX-FileCopyrightText: 2023 Jane Doe"
+                        )
+                    },
                     path="dir/foo.py",
                     source_path="REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -819,7 +874,11 @@ class TestNestedReuseTOMLReuseInfoOf:
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("MIT")},
-                    copyright_notices={"2023 Jane Doe"},
+                    copyright_notices={
+                        CopyrightNotice.from_string(
+                            "SPDX-FileCopyrightText: 2023 Jane Doe"
+                        )
+                    },
                     path="foo.py",
                     source_path="REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -866,7 +925,9 @@ class TestNestedReuseTOMLReuseInfoOf:
             PrecedenceType.CLOSEST: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("0BSD")},
-                    copyright_notices={"Copyright Alice"},
+                    copyright_notices={
+                        CopyrightNotice.from_string("Copyright Alice")
+                    },
                     path="src/foo.py",
                     source_path="src/REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -877,7 +938,9 @@ class TestNestedReuseTOMLReuseInfoOf:
             PrecedenceType.CLOSEST: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("MIT")},
-                    copyright_notices={"Copyright Jane Doe"},
+                    copyright_notices={
+                        CopyrightNotice.from_string("Copyright Jane Doe")
+                    },
                     path="src/bar.py",
                     source_path="REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -916,7 +979,9 @@ class TestNestedReuseTOMLReuseInfoOf:
             PrecedenceType.AGGREGATE: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("MIT")},
-                    copyright_notices={"Copyright Jane Doe"},
+                    copyright_notices={
+                        CopyrightNotice.from_string("Copyright Jane Doe")
+                    },
                     path="src/foo.py",
                     source_path="REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -925,7 +990,9 @@ class TestNestedReuseTOMLReuseInfoOf:
             PrecedenceType.CLOSEST: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("0BSD")},
-                    copyright_notices={"Copyright Alice"},
+                    copyright_notices={
+                        CopyrightNotice.from_string("Copyright Alice")
+                    },
                     path="src/foo.py",
                     source_path="src/REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -964,7 +1031,9 @@ class TestNestedReuseTOMLReuseInfoOf:
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("MIT")},
-                    copyright_notices={"Copyright Jane Doe"},
+                    copyright_notices={
+                        CopyrightNotice.from_string("Copyright Jane Doe")
+                    },
                     path="src/foo.py",
                     source_path="REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -1017,7 +1086,9 @@ class TestNestedReuseTOMLReuseInfoOf:
             PrecedenceType.AGGREGATE: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("MIT")},
-                    copyright_notices={"Copyright Jane Doe"},
+                    copyright_notices={
+                        CopyrightNotice.from_string("Copyright Jane Doe")
+                    },
                     path="foo/bar/foo.py",
                     source_path="REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -1026,7 +1097,9 @@ class TestNestedReuseTOMLReuseInfoOf:
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
                     spdx_expressions={_LICENSING.parse("0BSD")},
-                    copyright_notices={"Copyright Alice"},
+                    copyright_notices={
+                        CopyrightNotice.from_string("Copyright Alice")
+                    },
                     path="foo/bar/foo.py",
                     source_path="foo/REUSE.toml",
                     source_type=SourceType.REUSE_TOML,
@@ -1171,7 +1244,10 @@ def test_reuse_dep5_reuse_info_of(reuse_dep5):
     assert len(infos[PrecedenceType.AGGREGATE]) == 1
     result = infos[PrecedenceType.AGGREGATE][0]
     assert LicenseSymbol("CC0-1.0") in result.spdx_expressions
-    assert "2017 Jane Doe" in result.copyright_notices
+    assert (
+        CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
+        in result.copyright_notices
+    )
 
 
 # REUSE-IgnoreEnd
