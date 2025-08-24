@@ -690,7 +690,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
             "path": PurePath(self.name).as_posix(),
             "copyrights": [
                 {
-                    "value": line,
+                    "value": str(line),
                     "source": reuse_info.source_path,
                     "source_type": (
                         reuse_info.source_type.value
@@ -791,10 +791,13 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
 
         # Copyright text
         report.copyright = "\n".join(
-            sorted(
-                line
-                for reuse_info in reuse_infos
-                for line in reuse_info.copyright_notices
+            map(
+                str,
+                sorted(
+                    line
+                    for reuse_info in reuse_infos
+                    for line in reuse_info.copyright_notices
+                ),
             )
         )
         # Source of licensing and copyright info
