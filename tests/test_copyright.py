@@ -674,7 +674,7 @@ class TestCopyrightNoticeOrder:
         """If no years are defined, sort them at the end."""
         assert CopyrightNotice(
             "Alice", years=(YearRange("2025"),)
-        ) > CopyrightNotice("Bob")
+        ) < CopyrightNotice("Bob")
 
     def test_no_contact_before_contact(self):
         """The notice without contact is sorted before the notice with a
