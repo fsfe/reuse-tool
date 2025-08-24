@@ -241,7 +241,9 @@ def test_generate_file_report_to_dict_lint_source_information(
     for copyright_ in result["copyrights"]:
         if copyright_["source_type"] == SourceType.DEP5.value:
             assert copyright_["source"] == ".reuse/dep5"
-            assert copyright_["value"] == "2017 Jane Doe"
+            assert (
+                copyright_["value"] == "SPDX-FileCopyrightText: 2017 Jane Doe"
+            )
         elif copyright_["source_type"] == SourceType.FILE_HEADER.value:
             assert copyright_["source"] == "doc/foo.py"
             assert copyright_["value"] == "SPDX-FileCopyrightText: in file"
@@ -472,7 +474,7 @@ class TestGenerateProjectReport:
         )
         infos = file_report.reuse_infos
         assert len(infos) == 2
-        assert file_report.copyright == "Jane Doe"
+        assert file_report.copyright == "SPDX-FileCopyrightText: Jane Doe"
         assert file_report.licenses_in_file == ["0BSD"]
 
 
