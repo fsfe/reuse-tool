@@ -485,21 +485,21 @@ class CopyrightNotice:
         return result.getvalue()
 
     def __lt__(self, other: "CopyrightNotice") -> bool:
-        def norm_contact(contact: Optional[str]) -> tuple[int, str]:
-            """If no contact is defined, return a tuple that sorts _after_
-            contacts that are defined.
+        def norm(item: Optional[Any]) -> tuple[int, Any]:
+            """If no item is defined, return a tuple that sorts _after_
+            items that are defined.
             """
-            return (0, contact) if contact is not None else (1, "")
+            return (0, item) if item else (1, "")
 
         return (
-            self.years,
+            norm(self.years),
             self.name,
-            norm_contact(self.contact),
+            norm(self.contact),
             self.prefix,
         ) < (
-            other.years,
+            norm(other.years),
             other.name,
-            norm_contact(other.contact),
+            norm(other.contact),
             other.prefix,
         )
 
