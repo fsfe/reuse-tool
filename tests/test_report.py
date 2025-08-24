@@ -132,6 +132,30 @@ class TestGenerateFileReport:
         assert not result.bad_licenses
         assert not result.missing_licenses
 
+    def test_sorted_copyright(self, empty_directory):
+        """The copyright notices are sorted like CopyrightNotice, not as a
+        string.
+        """
+        (empty_directory / "foo.py").write_text(
+            cleandoc(
+                """
+                SPDX-FileCopyrightText: 2019 Alice
+                Copyright Bob
+                © 2017 Jane Doe
+                """
+            )
+        )
+        project = Project.from_directory(empty_directory)
+        result = FileReport.generate(project, "foo.py")
+
+        assert result.copyright == cleandoc(
+            """
+            © 2017 Jane Doe
+            SPDX-FileCopyrightText: 2019 Alice
+            Copyright Bob
+            """
+        )
+
     def test_exception(self, fake_repository, add_license_concluded):
         """Simple generate test to test if the exception is detected."""
         project = Project.from_directory(fake_repository)
