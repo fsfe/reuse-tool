@@ -396,14 +396,20 @@ class TestReuseTOMLValidators:
         """Version must be an int"""
         with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(
-                version=1.2, source="REUSE.toml", annotations=[annotations_item]
+                version=1.2,  # type: ignore[arg-type]
+                source="REUSE.toml",
+                annotations=[annotations_item],
             )
         assert exc_info.value.source == "REUSE.toml"
 
     def test_source_not_str(self, annotations_item):
         """Source must be a str."""
         with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
-            ReuseTOML(version=1, source=123, annotations=[annotations_item])
+            ReuseTOML(
+                version=1,
+                source=123,  # type: ignore[arg-type]
+                annotations=[annotations_item],
+            )
         assert exc_info.value.source == 123
 
     def test_annotations_must_be_list(self, annotations_item):
@@ -414,7 +420,7 @@ class TestReuseTOMLValidators:
             ReuseTOML(
                 version=1,
                 source="REUSE.toml",
-                annotations=iter([annotations_item]),
+                annotations=iter([annotations_item]),  # type: ignore[arg-type]
             )
         assert exc_info.value.source == "REUSE.toml"
 
@@ -422,7 +428,9 @@ class TestReuseTOMLValidators:
         """Annotations must be AnnotationsItem objects."""
         with pytest.raises(GlobalLicensingParseTypeError) as exc_info:
             ReuseTOML(
-                version=1, source="REUSE.toml", annotations=[{"foo": "bar"}]
+                version=1,
+                source="REUSE.toml",
+                annotations=[{"foo": "bar"}],  # type: ignore[list-item]
             )
         assert exc_info.value.source == "REUSE.toml"
 

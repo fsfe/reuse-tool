@@ -11,6 +11,7 @@
 """Tests for reuse.copyright"""
 
 import re
+from typing import cast
 from unittest import mock
 
 import pytest
@@ -19,12 +20,15 @@ from reuse.copyright import (
     COPYRIGHT_NOTICE_PATTERN,
     CopyrightNotice,
     CopyrightPrefix,
+    FourDigitString,
     ReuseInfo,
     SourceType,
     YearRange,
     YearRangeSeparator,
 )
 from reuse.exceptions import CopyrightNoticeParseError, YearRangeParseError
+
+F = FourDigitString
 
 # REUSE-IgnoreStart
 
@@ -36,13 +40,13 @@ class TestYearRangeInit:
         """It is invalid to have no start year."""
         # pylint: disable=no-value-for-parameter
         with pytest.raises(TypeError):
-            YearRange(end="2017")
+            YearRange(end="2017")  # type: ignore[call-arg]
 
     def test_populate_end_if_separator(self):
         """If a separator is defined, but end is not defined, set end to an
         empty string.
         """
-        years = YearRange("2017", "-")
+        years = YearRange(F("2017"), "-")
         assert years.end == ""
 
 
@@ -52,7 +56,7 @@ class TestYearRangeFromString:
     def test_one_year(self):
         """The simple case, given a four-digit string."""
         years = YearRange.from_string("2017")
-        assert years == YearRange("2017")
+        assert years == YearRange(F("2017"))
         assert years.original == "2017"
 
     @pytest.mark.parametrize(
@@ -71,13 +75,13 @@ class TestYearRangeFromString:
     def test_end_is_word(self):
         """The end date is a word like 'Present'."""
         years = YearRange.from_string("2017--Present")
-        assert years == YearRange("2017", "--", "Present")
+        assert years == YearRange(F("2017"), "--", "Present")
         assert years.original == "2017--Present"
 
     def test_start_and_separator(self):
         """Parse start and separator."""
         years = YearRange.from_string("2017--")
-        assert years == YearRange("2017", "--")
+        assert years == YearRange(F("2017"), "--")
         assert years.original == "2017--"
 
     @pytest.mark.parametrize(
@@ -101,7 +105,7 @@ class TestYearRangeFromString:
     def test_invalid_ranges(self, text):
         """Invalid ranges cannot be parsed."""
         with pytest.raises(YearRangeParseError):
-            YearRange.from_string(text)
+            YearRange.from_string(text)  # type: ignore[arg-type]
 
 
 class TestYearRangeListFromString:
@@ -113,9 +117,9 @@ class TestYearRangeListFromString:
             "2017, 2018,, 2019 2020 ,2021 , 2022  2023\t2024,,2025 2026--2027"
         )
         result = YearRange.list_from_string(text)
-        assert result == [YearRange(str(num)) for num in range(2017, 2026)] + [
-            YearRange("2026", "--", "2027")
-        ]
+        assert result == [
+            YearRange(F(str(num))) for num in range(2017, 2026)
+        ] + [YearRange(F("2026"), "--", "2027")]
 
 
 class TestYearRangeToString:
@@ -123,39 +127,39 @@ class TestYearRangeToString:
 
     def test_one_year(self):
         """Create a string for a single-item year range."""
-        years = YearRange("2017")
+        years = YearRange(F("2017"))
         assert years.to_string() == "2017"
 
     def test_year_and_separator(self):
         """Create a string for a year and a separator, with no end date."""
-        years = YearRange("2017", "--")
+        years = YearRange(F("2017"), "--")
         assert years.to_string() == "2017--"
 
     def test_full_range(self):
         """Given a range between two years, create a full string."""
-        years = YearRange("2017", "-", "2025")
+        years = YearRange(F("2017"), "-", "2025")
         assert years.to_string() == "2017-2025"
 
     def test_no_separator(self):
         """Given two years but no separator, add a separator anyway."""
-        years = YearRange("2017", end="2025")
+        years = YearRange(F("2017"), end="2025")
         assert years.to_string() == "2017-2025"
 
     def test_end_is_word(self):
         """The end year can be a word like 'Present'."""
-        years = YearRange("2017", "--", "Present")
+        years = YearRange(F("2017"), "--", "Present")
         assert years.to_string() == "2017--Present"
 
     def test_original(self):
         """If an original string exists, return it."""
-        years = YearRange("2017")
+        years = YearRange(F("2017"))
         object.__setattr__(years, "original", "Foo")
         assert years.to_string() != "Foo"
         assert years.to_string(original=True) == "Foo"
 
     def test_str(self):
         """str() is identical to to_string."""
-        years = YearRange("2017", "-", "2025")
+        years = YearRange(F("2017"), "-", "2025")
         object.__setattr__(years, "original", "Foo")
         assert str(years) == years.to_string()
 
@@ -166,9 +170,7 @@ class TestYearRangeSorting:
     def test_no_type_mixing(self):
         """Can only compare YearRange objects."""
         with pytest.raises(TypeError):
-            YearRange(  # pylint: disable=expression-not-assigned
-                "2017"
-            ) > "2018"
+            _ = YearRange(F("2017")) > "2018"  # type: ignore[operator]
 
     @pytest.mark.parametrize(
         "first,second",
@@ -219,21 +221,21 @@ class TestYearRangeCompact:
     def test_three_subsequent(self):
         """A simple case where three years compact into a single range."""
         result = YearRange.compact(
-            [YearRange("2017"), YearRange("2018"), YearRange("2019")]
+            [YearRange(F("2017")), YearRange(F("2018")), YearRange(F("2019"))]
         )
-        assert result == [YearRange("2017", end="2019")]
+        assert result == [YearRange(F("2017"), end="2019")]
 
     def test_two_subsequent(self):
         """Do not compact a two subsequent years into one range."""
-        result = YearRange.compact([YearRange("2017"), YearRange("2018")])
-        assert result == [YearRange("2017"), YearRange("2018")]
+        result = YearRange.compact([YearRange(F("2017")), YearRange(F("2018"))])
+        assert result == [YearRange(F("2017")), YearRange(F("2018"))]
 
     def test_unsorted(self):
         """An unsorted list is also compacted correctly."""
         result = YearRange.compact(
-            [YearRange("2019"), YearRange("2017"), YearRange("2018")]
+            [YearRange(F("2019")), YearRange(F("2017")), YearRange(F("2018"))]
         )
-        assert result == [YearRange("2017", end="2019")]
+        assert result == [YearRange(F("2017"), end="2019")]
 
     @pytest.mark.parametrize(
         "years",
@@ -254,8 +256,8 @@ class TestYearRangeCompact:
 
     def test_remove_useless_range(self):
         """If a range has a length of 0, compact it."""
-        result = YearRange.compact([YearRange("2017", end="2017")])
-        assert result == [YearRange("2017")]
+        result = YearRange.compact([YearRange(F("2017"), end="2017")])
+        assert result == [YearRange(F("2017"))]
 
     @pytest.mark.parametrize(
         "text",
@@ -270,23 +272,23 @@ class TestYearRangeCompact:
     def test_two_subsequent_ranges(self):
         """A case where two ranges can be glued together."""
         result = YearRange.compact(
-            [YearRange("2017", end="2019"), YearRange("2020", end="2021")]
+            [YearRange(F("2017"), end="2019"), YearRange(F("2020"), end="2021")]
         )
-        assert result == [YearRange("2017", end="2021")]
+        assert result == [YearRange(F("2017"), end="2021")]
 
     def test_encompassed(self):
         """A case where a range is contained within another."""
         result = YearRange.compact(
-            [YearRange("2017", end="2022"), YearRange("2019", end="2021")]
+            [YearRange(F("2017"), end="2022"), YearRange(F("2019"), end="2021")]
         )
-        assert result == [YearRange("2017", end="2022")]
+        assert result == [YearRange(F("2017"), end="2022")]
 
     def test_partial_overlap(self):
         """If there is partial overlap between ranges, compact them."""
         result = YearRange.compact(
-            [YearRange("2017", end="2022"), YearRange("2019", end="2025")]
+            [YearRange(F("2017"), end="2022"), YearRange(F("2019"), end="2025")]
         )
-        assert result == [YearRange("2017", end="2025")]
+        assert result == [YearRange(F("2017"), end="2025")]
 
     @pytest.mark.parametrize(
         "text_list,expected",
@@ -325,7 +327,10 @@ class TestYearRangeCompact:
 
     def test_different_string_ends(self):
         """Do not compact ranges which have different string-y ends."""
-        years = [YearRange("2017", end="Present"), YearRange("2018", end="Now")]
+        years = [
+            YearRange(F("2017"), end="Present"),
+            YearRange(F("2018"), end="Now"),
+        ]
         result = YearRange.compact(years)
         assert result == years
 
@@ -337,7 +342,9 @@ class TestCopyrightNoticeFromString:
         """from_string uses from_match under the hood for 99% of the logic."""
         text = "SPDX-FileCopyrightText: 2017 Jane Doe <jane@example.com>"
         expected = CopyrightNotice(
-            "Jane Doe", years=YearRange("2017"), contact="jane@example.com"
+            "Jane Doe",
+            years=(YearRange(F("2017")),),
+            contact="jane@example.com",
         )
 
         from_match = mock.create_autospec(CopyrightNotice.from_match)
@@ -345,7 +352,9 @@ class TestCopyrightNoticeFromString:
         monkeypatch.setattr(
             "reuse.copyright.CopyrightNotice.from_match", from_match
         )
-        expected_match = COPYRIGHT_NOTICE_PATTERN.fullmatch(text)
+        expected_match = cast(
+            re.Match[str], COPYRIGHT_NOTICE_PATTERN.fullmatch(text)
+        )
 
         notice = CopyrightNotice.from_string(text)
 
@@ -354,7 +363,7 @@ class TestCopyrightNoticeFromString:
         # close enough.
         assert len(from_match.call_args_list) == 1  # Called once
         assert len(from_match.call_args_list[0].args) == 1  # with one argument.
-        used_match = from_match.call_args_list[0].args[0]
+        used_match = cast(re.Match[str], from_match.call_args_list[0].args[0])
         assert isinstance(used_match, re.Match)
         assert repr(used_match) == repr(expected_match)
         assert used_match.groups() == expected_match.groups()
@@ -502,7 +511,7 @@ class TestCopyrightNoticeFromString:
         assert notice == CopyrightNotice(
             "Jane Doe",
             prefix=CopyrightPrefix.STRING,
-            years=(YearRange("2017"),),
+            years=(YearRange(F("2017")),),
         )
 
     @pytest.mark.parametrize(
@@ -525,7 +534,7 @@ class TestCopyrightNoticeFromString:
         assert notice == CopyrightNotice(
             "Jane Doe",
             prefix=CopyrightPrefix.STRING,
-            years=(YearRange("2017"), YearRange("2022")),
+            years=(YearRange(F("2017")), YearRange(F("2022"))),
         )
 
     @pytest.mark.parametrize(
@@ -579,9 +588,9 @@ class TestCopyrightNoticeFromString:
             "Jane Doe",
             prefix=CopyrightPrefix.STRING,
             years=(
-                YearRange("2017"),
-                YearRange("2020", "-", "2022"),
-                YearRange("2024", "--", "Present"),
+                YearRange(F("2017")),
+                YearRange(F("2020"), "-", "2022"),
+                YearRange(F("2024"), "--", "Present"),
             ),
         )
 
@@ -601,17 +610,17 @@ class TestCopyrightNoticeToString:
 
     def test_single_year(self):
         """A simple case where there is one year range."""
-        notice = CopyrightNotice("Jane Doe", years=[YearRange("2017")])
+        notice = CopyrightNotice("Jane Doe", years=(YearRange(F("2017")),))
         assert notice.to_string() == "SPDX-FileCopyrightText: 2017 Jane Doe"
 
     def test_two_years(self):
         """A case where there are two year ranges."""
         notice = CopyrightNotice(
             "Jane Doe",
-            years=[
-                YearRange("2017"),
-                YearRange("2020", "--", "2022"),
-            ],
+            years=(
+                YearRange(F("2017")),
+                YearRange(F("2020"), "--", "2022"),
+            ),
         )
         assert (
             notice.to_string()
@@ -643,7 +652,9 @@ class TestCopyrightNoticeToString:
         """Not providing a copyright holder is invalid."""
         # pylint: disable=no-value-for-parameter
         with pytest.raises(TypeError):
-            CopyrightNotice(contact="jane@example.com")
+            CopyrightNotice(
+                contact="jane@example.com",  # type: ignore[call-arg]
+            )
 
 
 class TestCopyrightNoticeOrder:
@@ -652,8 +663,8 @@ class TestCopyrightNoticeOrder:
     def test_year_before_name(self):
         """The years have higher sorting priority than the names."""
         assert CopyrightNotice(
-            "Alice", years=(YearRange("2025"),)
-        ) > CopyrightNotice("Bob", years=(YearRange("2020"),))
+            "Alice", years=(YearRange(F("2025")),)
+        ) > CopyrightNotice("Bob", years=(YearRange(F("2020")),))
 
     def test_only_names(self):
         """If there are only names, sort by names."""
@@ -664,16 +675,16 @@ class TestCopyrightNoticeOrder:
         then the bigger tuple is greater than the smaller one.
         """
         assert CopyrightNotice(
-            "Alice", years=(YearRange("2024"), YearRange("2025"))
+            "Alice", years=(YearRange(F("2024")), YearRange(F("2025")))
         ) > CopyrightNotice(
             "Bob",
-            years=(YearRange("2024"),),
+            years=(YearRange(F("2024")),),
         )
 
     def test_years_before_no_years(self):
         """If no years are defined, sort them at the end."""
         assert CopyrightNotice(
-            "Alice", years=(YearRange("2025"),)
+            "Alice", years=(YearRange(F("2025")),)
         ) < CopyrightNotice("Bob")
 
     def test_no_contact_before_contact(self):
@@ -691,8 +702,22 @@ def test_reuse_info_contains_copyright_or_licensing():
     """
     arguments = [
         ({"GPL-3.0-or-later"}, set()),
-        (set(), "SPDX-FileCopyrightText: 2017 Jane Doe"),
-        ({"GPL-3.0-or-later"}, "SPDX-FileCopyrightText: 2017 Jane Doe"),
+        (
+            set(),
+            {
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+            },
+        ),
+        (
+            {"GPL-3.0-or-later"},
+            {
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+            },
+        ),
     ]
     for args in arguments:
         info = ReuseInfo(*args)
@@ -715,13 +740,14 @@ def test_reuse_info_contains_copyright_xor_licensing():
     """A simple xor version of the previous function."""
     assert not ReuseInfo().contains_copyright_xor_licensing()
     assert not ReuseInfo(
-        spdx_expressions={"MIT"}, copyright_notices={"Copyright Jane Doe"}
+        spdx_expressions={"MIT"},
+        copyright_notices={CopyrightNotice.from_string("Copyright Jane Doe")},
     ).contains_copyright_xor_licensing()
     assert ReuseInfo(
         spdx_expressions={"MIT"}
     ).contains_copyright_xor_licensing()
     assert ReuseInfo(
-        copyright_notices={"Copyright Jane Doe"}
+        copyright_notices={CopyrightNotice.from_string("Copyright Jane Doe")}
     ).contains_copyright_xor_licensing()
 
 
@@ -729,7 +755,9 @@ def test_reuse_info_contains_info_simple():
     """If any of the non-source files are truthy, expect True."""
     assert ReuseInfo(spdx_expressions={"MIT"}).contains_info()
     assert ReuseInfo(
-        copyright_notices={"SPDX-FileCopyrightText: 2017 Jane Doe"}
+        copyright_notices={
+            CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
+        }
     ).contains_info()
     assert ReuseInfo(
         contributor_lines={"SPDX-FileContributor: 2017 John Doe"}
@@ -752,7 +780,9 @@ def test_reuse_info_copy_simple():
     """Get a copy of ReuseInfo with one field replaced."""
     info = ReuseInfo(
         spdx_expressions={"GPL-3.0-or-later"},
-        copyright_notices={"2017 Jane Doe"},
+        copyright_notices={
+            CopyrightNotice.from_string("Copyright 2017 Jane Doe")
+        },
         source_path="foo",
     )
     new_info = info.copy(source_path="bar")
@@ -777,16 +807,23 @@ def test_reuse_info_union_simple():
     Get a union of ReuseInfo with one field merged and one remaining equal.
     """
     info1 = ReuseInfo(
-        copyright_notices={"2017 Jane Doe"},
+        copyright_notices={
+            CopyrightNotice.from_string("Copyright 2017 Jane Doe")
+        },
         source_path="foo",
     )
-    info2 = ReuseInfo(copyright_notices={"2017 John Doe"}, source_path="bar")
+    info2 = ReuseInfo(
+        copyright_notices={
+            CopyrightNotice.from_string("Copyright 2017 John Doe")
+        },
+        source_path="bar",
+    )
     new_info = info1 | info2
     # union and __or__ are equal
     assert new_info == info1.union(info2)
     assert sorted(new_info.copyright_notices) == [
-        "2017 Jane Doe",
-        "2017 John Doe",
+        CopyrightNotice.from_string("Copyright 2017 Jane Doe"),
+        CopyrightNotice.from_string("Copyright 2017 John Doe"),
     ]
     assert new_info.source_path == "foo"
 
