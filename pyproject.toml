@@ -159,6 +159,7 @@ exclude = [
     '^_build\.py$',
     '^conf\.py$',
 ]
+check_untyped_defs = true
 
 [[tool.mypy.overrides]]
 module = "reuse.*"
