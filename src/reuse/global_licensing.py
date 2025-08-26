@@ -198,6 +198,13 @@ def _to_set(value: Optional[Union[_T, Iterable[_T]]]) -> set[_T]:
     return {value}
 
 
+# The attrs library infers __init__ parameter types from the converter's
+# signature. The signature of _to_set confuses mypy, so this wrapper exposes a
+# simpler signature just for use with attrs.
+def _to_set_any(value: Optional[Any]) -> set[Any]:
+    return cast(set[Any], _to_set(value))
+
+
 def _to_set_of_expr(
     value: Optional[Union[str, Iterable[str]]],
 ) -> set[Expression]:
@@ -327,7 +334,7 @@ class AnnotationsItem:
     """
 
     paths: set[str] = attrs.field(
-        converter=_to_set,
+        converter=_to_set_any,
         validator=_validate_collection_of(set, str, optional=False),
     )
     precedence: PrecedenceType = attrs.field(
@@ -335,13 +342,13 @@ class AnnotationsItem:
     )
     _copyright_notices: set[str] = attrs.field(
         alias="copyright_notices",
-        converter=_to_set,
+        converter=_to_set_any,
         validator=_validate_collection_of(set, str, optional=True),
         default=None,
     )
     _spdx_expressions: set[str] = attrs.field(
         alias="spdx_expressions",
-        converter=_to_set,
+        converter=_to_set_any,
         validator=_validate_collection_of(set, str, optional=True),
         default=None,
     )
@@ -519,7 +526,7 @@ class NestedReuseTOML(GlobalLicensing):
     reuse_tomls: list[ReuseTOML] = attrs.field()
 
     @classmethod
-    def from_file(cls, path: StrPath, **kwargs: Any) -> "GlobalLicensing":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "NestedReuseTOML":
         """TODO: *path* is a directory instead of a file."""
         include_submodules: bool = kwargs.get("include_submodules", False)
         include_meson_subprojects: bool = kwargs.get(
