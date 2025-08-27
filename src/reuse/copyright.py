@@ -9,10 +9,11 @@
 import difflib
 import logging
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from enum import Enum, unique
 from io import StringIO
+from itertools import chain
 from typing import Any, Iterable, Literal, NewType, Optional, Union, cast
 
 from boolean.boolean import Expression
@@ -264,7 +265,7 @@ class YearRange:
 
     # TODO: In Python 3.11, use Self
     @classmethod
-    def compact(cls, ranges: Iterable["YearRange"]) -> list["YearRange"]:
+    def compact(cls, ranges: Iterable["YearRange"]) -> tuple["YearRange", ...]:
         """Given an iterable of :class:`YearRange`, compact them such that a new
         more concise list is returne without losing information. This process
         also sorts the ranges, such that ranges with lower starts come before
@@ -287,7 +288,7 @@ class YearRange:
         compacted: list[YearRange] = []
 
         if not ranges:
-            return []
+            return tuple()
 
         # TODO: In Python 3.11, use Self
         def filter_same_end(ranges: Iterable[YearRange]) -> list[YearRange]:
@@ -388,7 +389,28 @@ class YearRange:
             and not is_four_digits(next_end)
         ):
             add_to_compacted(cast(int, next_start), next_end, None)
-        return compacted
+        return tuple(compacted)
+
+
+def _most_common_prefix(
+    copyright_notices: Iterable["CopyrightNotice"],
+) -> CopyrightPrefix:
+    """Given a number of :class:`CopyrightNotice`s, find the most common one. If
+    there is a tie for the most common prefix, return enum which is defined
+    before all others in :class:`CopyrightPrefix`.
+    """
+    counter = Counter(notice.prefix for notice in copyright_notices)
+    max_count = max(counter.values())
+    most_common = {key for key, value in counter.items() if value == max_count}
+    # One prefix is more common than all others.
+    if len(most_common) == 1:
+        return next(iter(most_common))
+    # Enums preserve order of their members. Return the first match.
+    for prefix in CopyrightPrefix:
+        if prefix in most_common:
+            return prefix
+    # This shouldn't be reached.
+    return CopyrightPrefix.SPDX
 
 
 @dataclass(frozen=True)
@@ -469,6 +491,35 @@ class CopyrightNotice:
             contact=value.group("contact"),
         )
         object.__setattr__(result, "original", value.string)
+        return result
+
+    @classmethod
+    def merge(
+        cls, copyright_notices: Iterable["CopyrightNotice"]
+    ) -> set["CopyrightNotice"]:
+        """Given an iterable of :class:`CopyrightNotice`s, merge all notices
+        which have the same name and contact. The years are compacted, and from
+        the :class:`CopyrightPrefix`es, the most common is chosen. If there is a
+        tie in frequency, choose the one which appears first in the enum.
+        """
+        # TODO: Consider making a match on contact optional.
+        matches: defaultdict[
+            tuple[str, Optional[str]], list[CopyrightNotice]
+        ] = defaultdict(list)
+        result: set[CopyrightNotice] = set()
+        for notice in copyright_notices:
+            matches[(notice.name, notice.contact)].append(notice)
+        for key, value in matches.items():
+            result.add(
+                cls(
+                    key[0],
+                    prefix=_most_common_prefix(value),
+                    years=YearRange.compact(
+                        chain.from_iterable(notice.years for notice in value)
+                    ),
+                    contact=key[1],
+                )
+            )
         return result
 
     def __str__(self) -> str:
