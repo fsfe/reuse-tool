@@ -223,19 +223,19 @@ class TestYearRangeCompact:
         result = YearRange.compact(
             [YearRange(F("2017")), YearRange(F("2018")), YearRange(F("2019"))]
         )
-        assert result == [YearRange(F("2017"), end="2019")]
+        assert result == (YearRange(F("2017"), end="2019"),)
 
     def test_two_subsequent(self):
         """Do not compact a two subsequent years into one range."""
         result = YearRange.compact([YearRange(F("2017")), YearRange(F("2018"))])
-        assert result == [YearRange(F("2017")), YearRange(F("2018"))]
+        assert result == (YearRange(F("2017")), YearRange(F("2018")))
 
     def test_unsorted(self):
         """An unsorted list is also compacted correctly."""
         result = YearRange.compact(
             [YearRange(F("2019")), YearRange(F("2017")), YearRange(F("2018"))]
         )
-        assert result == [YearRange(F("2017"), end="2019")]
+        assert result == (YearRange(F("2017"), end="2019"),)
 
     @pytest.mark.parametrize(
         "years",
@@ -250,14 +250,14 @@ class TestYearRangeCompact:
     def test_end_less_than_start(self, years):
         """If the end of a range is less than the start, handle that case by not
         compacting it."""
-        years = [YearRange.from_string(item) for item in years]
+        years = tuple(YearRange.from_string(item) for item in years)
         result = YearRange.compact(years)
         assert result == years
 
     def test_remove_useless_range(self):
         """If a range has a length of 0, compact it."""
         result = YearRange.compact([YearRange(F("2017"), end="2017")])
-        assert result == [YearRange(F("2017"))]
+        assert result == (YearRange(F("2017")),)
 
     @pytest.mark.parametrize(
         "text",
@@ -267,28 +267,28 @@ class TestYearRangeCompact:
         """If a range is repeated, only return one."""
         years = YearRange.from_string(text)
         result = YearRange.compact([years, years])
-        assert result == [years]
+        assert result == (years,)
 
     def test_two_subsequent_ranges(self):
         """A case where two ranges can be glued together."""
         result = YearRange.compact(
             [YearRange(F("2017"), end="2019"), YearRange(F("2020"), end="2021")]
         )
-        assert result == [YearRange(F("2017"), end="2021")]
+        assert result == (YearRange(F("2017"), end="2021"),)
 
     def test_encompassed(self):
         """A case where a range is contained within another."""
         result = YearRange.compact(
             [YearRange(F("2017"), end="2022"), YearRange(F("2019"), end="2021")]
         )
-        assert result == [YearRange(F("2017"), end="2022")]
+        assert result == (YearRange(F("2017"), end="2022"),)
 
     def test_partial_overlap(self):
         """If there is partial overlap between ranges, compact them."""
         result = YearRange.compact(
             [YearRange(F("2017"), end="2022"), YearRange(F("2019"), end="2025")]
         )
-        assert result == [YearRange(F("2017"), end="2025")]
+        assert result == (YearRange(F("2017"), end="2025"),)
 
     @pytest.mark.parametrize(
         "text_list,expected",
@@ -308,7 +308,7 @@ class TestYearRangeCompact:
         result = YearRange.compact(
             [YearRange.from_string(item) for item in text_list]
         )
-        assert result == [YearRange.from_string(expected)]
+        assert result == (YearRange.from_string(expected),)
 
     @pytest.mark.parametrize(
         "text_list",
@@ -321,16 +321,16 @@ class TestYearRangeCompact:
     )
     def test_leave_string_end_alone(self, text_list):
         """Don't really bother compacting int-y ends with string-y ends."""
-        years = [YearRange.from_string(item) for item in text_list]
+        years = tuple(YearRange.from_string(item) for item in text_list)
         result = YearRange.compact(years)
         assert result == years
 
     def test_different_string_ends(self):
         """Do not compact ranges which have different string-y ends."""
-        years = [
+        years = (
             YearRange(F("2017"), end="Present"),
             YearRange(F("2018"), end="Now"),
-        ]
+        )
         result = YearRange.compact(years)
         assert result == years
 
@@ -694,6 +694,94 @@ class TestCopyrightNoticeOrder:
         assert CopyrightNotice(
             "Alice", contact="alice@example.com"
         ) < CopyrightNotice("Alice")
+
+
+class TestCopyrightNoticeMerge:
+    """Tests for CopyrightNotice.merge."""
+
+    def test_single(self):
+        """Given a single notice, return it."""
+        notices = {CopyrightNotice("Jane Doe")}
+        result = CopyrightNotice.merge(notices)
+        assert result == notices
+
+    def test_empty(self):
+        """Given an empty iterable, return an empty set."""
+        result = CopyrightNotice.merge([])
+        assert result == set()
+
+    def test_two_different(self):
+        """Given two different notices, return them both."""
+        notices = {CopyrightNotice("Jane Doe"), CopyrightNotice("John Doe")}
+        result = CopyrightNotice.merge(notices)
+        assert result == notices
+
+    def test_two_with_years(self):
+        """Given two identical notices apart from the years, return one with the
+        years compacted.
+        """
+        notices = {
+            CopyrightNotice.from_string("Copyright 2017 Jane Doe"),
+            CopyrightNotice.from_string("Copyright 2018 Jane Doe"),
+        }
+        result = CopyrightNotice.merge(notices)
+        assert result == {
+            CopyrightNotice.from_string("Copyright 2017, 2018 Jane Doe")
+        }
+
+    @pytest.mark.parametrize(
+        "one,two",
+        [
+            ("Copyright Jane Doe", "Copyright Jane Doe <jane@example.com>"),
+            (
+                "Copyright Jane Doe <jane@example.com>",
+                "Copyright Jane Doe <jane@coop.example.com",
+            ),
+            (
+                "Copyright Jane Doe <info@example.com>",
+                "Copyright John Doe <info@example.com>",
+            ),
+        ],
+    )
+    def test_name_or_contact_different(self, one, two):
+        """If both the name and contact are not identical, the notices are not
+        merged.
+        """
+        notices = {CopyrightNotice.from_string(item) for item in (one, two)}
+        result = CopyrightNotice.merge(notices)
+        assert result == notices
+
+    def test_two_different_prefix(self):
+        """If the prefixes of two notices are different, choose the highest
+        priority prefix.
+        """
+        members = list(CopyrightPrefix)
+        for i, prefix1 in enumerate(members):
+            for prefix2 in members[i:]:
+                notices = {
+                    CopyrightNotice.from_string(f"{prefix1.value} Jane Doe"),
+                    CopyrightNotice.from_string(f"{prefix2.value} Jane Doe"),
+                }
+                result = CopyrightNotice.merge(notices)
+                assert result == {
+                    CopyrightNotice.from_string(f"{prefix1.value} Jane Doe")
+                }
+
+    def test_two_same_prefix_one_different(self):
+        """If two prefixes are identical, and one prefix is not, merge into the
+        most common prefix.
+        """
+        for prefix1 in CopyrightPrefix:
+            for prefix2 in CopyrightPrefix:
+                notices = [
+                    CopyrightNotice.from_string(f"{prefix1.value} Jane Doe"),
+                    CopyrightNotice.from_string(f"{prefix1.value} Jane Doe"),
+                    CopyrightNotice.from_string(f"{prefix2.value} Jane Doe"),
+                ]
+                result = CopyrightNotice.merge(notices)
+                assert result == {
+                    CopyrightNotice.from_string(f"{prefix1.value} Jane Doe")
+                }
 
 
 def test_reuse_info_contains_copyright_or_licensing():
