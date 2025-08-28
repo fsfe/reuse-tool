@@ -8,6 +8,7 @@
 # SPDX-FileCopyrightText: 2023 Johannes Zarl-Zierl <johannes@zarl-zierl.at>
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
+# SPDX-FileCopyrightText: 2025 Double Open Oy
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -118,7 +119,16 @@ def decoded_text_from_binary(
         size = -1
     rawdata = binary_file.read(size)
     result = rawdata.decode("utf-8", errors="replace")
-    return result.replace("\r\n", "\n")
+    norm_str = result.replace("\r\n", "\n")
+    if len(rawdata) != size:
+        return norm_str
+    # If we have read exactly *size* bytes, we might have cut off in the
+    # middle of a line. To avoid returning a partial line, we only return
+    # complete lines.
+    newline_pos = norm_str.rfind("\n")
+    if newline_pos in (-1, len(norm_str) - 1):
+        return norm_str
+    return norm_str[:newline_pos]
 
 
 def _contains_snippet(binary_file: BinaryIO) -> bool:
