@@ -150,3 +150,5 @@ Contributors
 - Kiko Fernandez-Reyes <kiko@erlang.org>
 - Charlie Jenkins <charlie@rivosinc.com>
 - Hatzka <hatzka@nezumi.studio>
+- Maximilian Franzke <mfr@nzke.net>
+
