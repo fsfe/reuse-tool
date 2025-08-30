@@ -20,6 +20,8 @@ from boolean.boolean import Expression
 
 from .exceptions import CopyrightNoticeParseError, YearRangeParseError
 
+# REUSE-IgnoreStart
+
 _LOGGER = logging.getLogger(__name__)
 
 #: A string that is four digits long.
@@ -660,3 +662,6 @@ class ReuseInfo:
 
     def __or__(self, value: "ReuseInfo") -> "ReuseInfo":
         return self.union(value)
+
+
+# REUSE-IgnoreEnd
