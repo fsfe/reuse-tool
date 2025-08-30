@@ -200,8 +200,8 @@ class YearRange:
         return result
 
     @classmethod
-    def list_from_string(cls, value: str) -> list["YearRange"]:
-        """Create a list of :class:`YearRange` objects from a string containing
+    def tuple_from_string(cls, value: str) -> tuple["YearRange", ...]:
+        """Create a tuple of :class:`YearRange` objects from a string containing
         multiple ranges.
 
         Raises:
@@ -212,7 +212,7 @@ class YearRange:
             if not year:
                 continue
             years.append(YearRange.from_string(year))
-        return years
+        return tuple(years)
 
     def __str__(self) -> str:
         result = StringIO()
@@ -479,15 +479,15 @@ class CopyrightNotice:
                 # This shouldn't happen, but if no prefix could be found,
                 # default to SPDX.
                 prefix = CopyrightPrefix.SPDX
-        years = []
+        years: tuple[YearRange, ...] = tuple()
         re_years = value.group("years")
         re_name = value.group("name")
         if re_years:
-            years = YearRange.list_from_string(re_years)
+            years = YearRange.tuple_from_string(re_years)
         result = cls(
             name=re_name,
             prefix=prefix,
-            years=tuple(years),
+            years=years,
             contact=value.group("contact"),
         )
         object.__setattr__(result, "original", value.string)
