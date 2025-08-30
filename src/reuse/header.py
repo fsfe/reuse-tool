@@ -24,7 +24,7 @@ from jinja2 import Environment, PackageLoader, Template
 from license_expression import ExpressionError
 
 from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
-from .copyright import ReuseInfo
+from .copyright import CopyrightNotice, ReuseInfo
 from .exceptions import (
     CommentCreateError,
     CommentParseError,
@@ -69,7 +69,7 @@ def _create_new_header(
         style = cast(Type[CommentStyle], PythonCommentStyle)
 
     rendered = template.render(
-        copyright_lines=sorted(reuse_info.copyright_notices),
+        copyright_lines=map(str, sorted(reuse_info.copyright_notices)),
         contributor_lines=sorted(reuse_info.contributor_lines),
         spdx_expressions=sorted(map(str, reuse_info.spdx_expressions)),
     ).strip("\n")
@@ -136,10 +136,10 @@ def create_header(
             ) from err
 
         if merge_copyrights:
-            spdx_copyrights = merge_copyright_notices(
+            spdx_copyrights = CopyrightNotice.merge(
                 reuse_info.copyright_notices.union(
                     existing_spdx.copyright_notices
-                ),
+                )
             )
         else:
             spdx_copyrights = reuse_info.copyright_notices.union(
