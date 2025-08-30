@@ -108,18 +108,19 @@ class TestYearRangeFromString:
             YearRange.from_string(text)  # type: ignore[arg-type]
 
 
-class TestYearRangeListFromString:
-    """Tests for YearRange.list_from_string."""
+class TestYearRangeTupleFromString:
+    """Tests for YearRange.tuple_from_string."""
 
     def test_simple(self):
         """Try various ways of separating year ranges."""
         text = (
             "2017, 2018,, 2019 2020 ,2021 , 2022  2023\t2024,,2025 2026--2027"
         )
-        result = YearRange.list_from_string(text)
-        assert result == [
-            YearRange(F(str(num))) for num in range(2017, 2026)
-        ] + [YearRange(F("2026"), "--", "2027")]
+        result = YearRange.tuple_from_string(text)
+        assert result == tuple(
+            [YearRange(F(str(num))) for num in range(2017, 2026)]
+            + [YearRange(F("2026"), "--", "2027")]
+        )
 
 
 class TestYearRangeToString:
