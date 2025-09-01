@@ -143,7 +143,8 @@ class TestGenerateFileReport:
                 Copyright Bob
                 © 2017 Jane Doe
                 """
-            )
+            ),
+            encoding="utf-8",
         )
         project = Project.from_directory(empty_directory)
         result = FileReport.generate(project, "foo.py")
