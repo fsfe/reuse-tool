@@ -160,7 +160,7 @@ class CopyrightPrefix(Enum):
 class YearRange:
     """Represents a year range, such as '2017-2025', or '2017'. This only
     represents a single range; multiple separated ranges should be put in a
-    collection.
+    collection (typically a tuple).
     """
 
     #: The first year in the range. If it is only a single year, this is the
@@ -417,7 +417,7 @@ def _most_common_prefix(
 
 @dataclass(frozen=True)
 class CopyrightNotice:
-    """Represents a single copyright statement."""
+    """Represents a single copyright notice."""
 
     #: The copyright holder.
     name: str
