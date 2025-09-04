@@ -145,12 +145,11 @@ possible, run `poetry lock --no-update`.
 - Do some final tweaks/bugfixes (and alter changelog)
 - `make test-release`
 - `pip install -i https://test.pypi.org/simple reuse` and test the package.
+- Make a pull request of `release-x.y.z` against `main`.
 - Once everything is good, `git tag -s vx.y.z`. Minimal tag message.
 - `git push origin vx.y.z`
 - `make release`
-- `git checkout main`
-- `git merge release-x.y.z`
-- `git push origin main`
+- Accept the PR.
 - Create a release on GitHub.
 
 ### After release
