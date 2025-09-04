@@ -1,0 +1,1 @@
+- Updated `spdx-license-list-data` to v3.27.0.
