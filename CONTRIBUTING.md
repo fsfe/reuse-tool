@@ -140,16 +140,16 @@ possible, run `poetry lock --no-update`.
 - `protokolo compile -f version vx.y.z`
 - Alter changelog
 - `poetry lock` (otherwise documentation won't generate;
-  <https://github.com/readthedocs/readthedocs.org/issues/11624>)
+  <https://github.com/readthedocs/readthedocs.org/issues/11624>). Update
+  versions in `.pre-commit-config.yaml` as necessary.
 - Do some final tweaks/bugfixes (and alter changelog)
 - `make test-release`
 - `pip install -i https://test.pypi.org/simple reuse` and test the package.
+- Make a pull request of `release-x.y.z` against `main`.
 - Once everything is good, `git tag -s vx.y.z`. Minimal tag message.
 - `git push origin vx.y.z`
 - `make release`
-- `git checkout main`
-- `git merge release-x.y.z`
-- `git push origin main`
+- Accept the PR.
 - Create a release on GitHub.
 
 ### After release
