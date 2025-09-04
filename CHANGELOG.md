@@ -29,25 +29,25 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ### Added
 
-- Added `.dtd` (HtmlCommentStyle) as a recognised file type for comments.
-  (#1141)
-- Added `.gperf` (CppCommentStyle) as a recognised file type for comments.
-  (#1131)
-- Added comment support for Erlang (`.erl` and `.hrl`), Erlang's leex and yecc
-  lexer and parser generators (`.xrl` and `.yrl`), Elixir (`.ex` and `.exs`),
-  and Gleam (`.gleam`). (#1117)
-- Added comment support for Lean (`.lean`, `.olean`, and `.ilean`).
+- Added new file extensions:
+  - `.dtd` (#1141)
+  - `.gperf` (#1131)
+  - Erlang `.erl` and `.hrl`, leex and yecc Erlang parser generators `.xrl` and
+    `.yrl` (#1117)
+  - Elixir (`.ex` and `.exs`) (#1117)
+  - Gleam (`.gleam`) (#1117)
+  - Lean (`.lean`, `.olean`, and `.ilean`) (#1188)
 - Added `--json` flag to the `supported-licenses` subcommand. (#1187)
 
 ### Changed
 
 - Revert `Cargo.lock` to uncommentable. (#1169)
-- Reuse previously would insert a newline after a header, which is not always a
-  desirable behavior. Instead of inserting a newline, Reuse will now respect the
-  existing whitespace of the file where the header is being placed. When the
-  license header is being added to a file for the first time, a space will be
-  added after the license, but subsequent updates to the header will leave the
-  whitespace alone. (#1136)
+- `reuse annotate` previously would insert a newline after a header, which is
+  not always a desirable behavior. Instead of inserting a newline,
+  `reuse annotate` will now respect the existing whitespace of the file where
+  the header is being placed. When the license header is being added to a file
+  for the first time, a space will be added after the license, but subsequent
+  updates to the header will leave the whitespace alone. (#1136)
 - Updated `spdx-license-list-data` to v3.27.0.
 
 ## v5.0.2 - 2024-11-14
