@@ -140,7 +140,8 @@ possible, run `poetry lock --no-update`.
 - `protokolo compile -f version vx.y.z`
 - Alter changelog
 - `poetry lock` (otherwise documentation won't generate;
-  <https://github.com/readthedocs/readthedocs.org/issues/11624>)
+  <https://github.com/readthedocs/readthedocs.org/issues/11624>). Update
+  versions in `.pre-commit-config.yaml` as necessary.
 - Do some final tweaks/bugfixes (and alter changelog)
 - `make test-release`
 - `pip install -i https://test.pypi.org/simple reuse` and test the package.
