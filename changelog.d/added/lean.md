@@ -1,1 +1,0 @@
-- Added comment support for Lean (`.lean`, `.olean`, and `.ilean`).
