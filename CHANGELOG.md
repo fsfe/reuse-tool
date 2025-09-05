@@ -25,6 +25,16 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v5.1.1 - 2025-09-05
+
+### Fixed
+
+- Fixed repository file detection using jujutsu versions 0.19.0 or later.
+  (#1191)
+- Fixed a bug that caused not all strings to be marked translatable. This bug
+  was introduced in v5.0.0. Strings that were already translated _before_ the
+  release of v5.0.0 are now translated again. (#1216)
+
 ## v5.1.0 - 2025-09-04
 
 ### Added
