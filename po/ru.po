@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-24 08:57+0000\n"
+"POT-Creation-Date: 2025-09-05 14:27+0000\n"
 "PO-Revision-Date: 2025-01-14 06:00+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -19,6 +19,381 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.10-dev\n"
+
+#: src/reuse/project.py:255
+#, python-brace-format
+msgid "'{path}' covered by {global_path}"
+msgstr "'{path}' покрыт {global_path}"
+
+#: src/reuse/project.py:263
+#, python-brace-format
+msgid ""
+"'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
+msgstr ""
+"'{path}' покрывается исключительно REUSE.toml. Не читать содержимое файла."
+
+#: src/reuse/project.py:270
+#, python-brace-format
+msgid ""
+"'{path}' was detected as a binary file; not searching its contents for REUSE "
+"information."
+msgstr ""
+"'{path}' был обнаружен как двоичный файл; поиск информации о REUSE в его "
+"содержимом не производится."
+
+#: src/reuse/project.py:331
+msgid ""
+"'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
+"Use `reuse convert-dep5` to convert."
+msgstr ""
+"'.reuse/dep5' является устаревшим. Вместо него рекомендуется использовать "
+"REUSE.toml. Для преобразования используйте `reuse convert-dep5`."
+
+#: src/reuse/project.py:352
+#, python-brace-format
+msgid ""
+"Found both '{new_path}' and '{old_path}'. You cannot keep both files "
+"simultaneously; they are not intercompatible."
+msgstr ""
+"Найдены оба файла '{new_path}' и '{old_path}'. Вы не можете хранить оба "
+"файла одновременно; они несовместимы."
+
+#: src/reuse/project.py:411
+#, python-brace-format
+msgid "determining identifier of '{path}'"
+msgstr "определяющий идентификатор '{path}'"
+
+#: src/reuse/project.py:419
+#, python-brace-format
+msgid "{path} does not have a file extension"
+msgstr "У {path} нет расширения файла"
+
+#: src/reuse/project.py:429
+#, python-brace-format
+msgid ""
+"Could not resolve SPDX License Identifier of {path}, resolving to "
+"{identifier}. Make sure the license is in the license list found at <https://"
+"spdx.org/licenses/> or that it starts with 'LicenseRef-', and that it has a "
+"file extension."
+msgstr ""
+"Не удалось разрешить идентификатор лицензии SPDX {path}, разрешается "
+"{identifier}. Убедитесь, что лицензия находится в списке лицензий по адресу "
+"<https://spdx.org/licenses/> или что она начинается с 'LicenseRef-' и имеет "
+"расширение файла."
+
+#: src/reuse/project.py:441
+#, python-brace-format
+msgid ""
+"{identifier} is the SPDX License Identifier of both {path} and {other_path}"
+msgstr ""
+"{identifier} - это идентификатор лицензии SPDX для {path} и {other_path}"
+
+#: src/reuse/project.py:480
+msgid ""
+"project '{}' is not a VCS repository or required VCS software is not "
+"installed"
+msgstr ""
+"Проект '{}' не является репозиторием VCS или в нем не установлено "
+"необходимое программное обеспечение VCS"
+
+#: src/reuse/header.py:93
+msgid "generated comment is missing copyright lines or license expressions"
+msgstr ""
+"В сгенерированном комментарии отсутствуют строки об авторских правах или "
+"выражениях лицензии"
+
+#: src/reuse/_annotate.py:92
+#, python-brace-format
+msgid "Skipped unrecognised file '{path}'"
+msgstr "Пропущен нераспознанный файл '{path}'"
+
+#: src/reuse/_annotate.py:98
+#, python-brace-format
+msgid "'{path}' is not recognised; creating '{path}.license'"
+msgstr "'{path}' не распознан; создаем '{path}. лицензия'"
+
+#: src/reuse/_annotate.py:114
+#, python-brace-format
+msgid "Skipped file '{path}' already containing REUSE information"
+msgstr "Пропущенный файл '{path}' уже содержит информацию о REUSE"
+
+#: src/reuse/_annotate.py:148
+#, python-brace-format
+msgid "Error: Could not create comment for '{path}'"
+msgstr "Ошибка: Не удалось создать комментарий для '{path}'"
+
+#: src/reuse/_annotate.py:155
+#, python-brace-format
+msgid ""
+"Error: Generated comment header for '{path}' is missing copyright lines or "
+"license expressions. The template is probably incorrect. Did not write new "
+"header."
+msgstr ""
+"Ошибка: В сгенерированном заголовке комментария для '{path}' отсутствуют "
+"строки копирайта или выражения лицензии. Вероятно, шаблон неверен. Не "
+"удалось написать новый заголовок."
+
+#. TODO: This may need to be rephrased more elegantly.
+#: src/reuse/_annotate.py:166
+#, python-brace-format
+msgid "Successfully changed header of {path}"
+msgstr "Успешно изменен заголовок {path}"
+
+#: src/reuse/extract.py:153 src/reuse/global_licensing.py:215
+#, python-brace-format
+msgid "Could not parse '{expression}'"
+msgstr "Не удалось разобрать '{expression}'"
+
+#: src/reuse/extract.py:209
+#, python-brace-format
+msgid ""
+"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
+msgstr ""
+"'{path}' содержит выражение SPDX, которое не может быть разобрано, что "
+"приводит к пропуску файла"
+
+#: src/reuse/cli/lint_file.py:25
+msgid ""
+"Lint individual files for REUSE compliance. The specified FILEs are checked "
+"for the presence of copyright and licensing information, and whether the "
+"found licenses are included in the LICENSES/ directory."
+msgstr ""
+"Проверка отдельных файлов на соответствие стандарту REUSE. Указанные ФАЙЛЫ "
+"проверяются на наличие информации об авторских правах и лицензировании, а "
+"также на то, включены ли найденные лицензии в каталог LICENSES/."
+
+#: src/reuse/cli/lint_file.py:38 src/reuse/cli/lint.py:70
+msgid "Prevent output."
+msgstr "Предотвращение выхода."
+
+#: src/reuse/cli/lint_file.py:46
+msgid "Format output as errors per line. (default)"
+msgstr "Форматировать вывод в виде ошибок в строке. (по умолчанию)"
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/lint_file.py:51
+msgid "FILE"
+msgstr "ФАЙЛ"
+
+#: src/reuse/cli/lint_file.py:65
+#, python-brace-format
+msgid "'{file}' is not inside of '{root}'."
+msgstr "'{file}' не находится внутри '{root}'."
+
+#: src/reuse/cli/supported_licenses.py:19
+msgid "List all licenses on the SPDX License List."
+msgstr "Перечислите все лицензии в списке лицензий SPDX."
+
+#: src/reuse/cli/supported_licenses.py:28 src/reuse/cli/lint.py:78
+msgid "Format output as JSON."
+msgstr "Формат как JSON."
+
+#: src/reuse/cli/main.py:37
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:457
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr "%(prog)s, версия %(version)s"
+
+#: src/reuse/cli/main.py:40
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
+msgstr ""
+"Эта программа является свободным программным обеспечением: вы можете "
+"распространять ее и/или изменять в соответствии с условиями Стандартной "
+"общественной лицензии GNU, опубликованной Фондом свободного программного "
+"обеспечения, либо версии 3 этой лицензии, либо (по вашему выбору) любой "
+"более поздней версии."
+
+#: src/reuse/cli/main.py:47
+msgid ""
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
+"more details."
+msgstr ""
+"Эта программа распространяется в надежде, что она окажется полезной, но БЕЗ "
+"КАКИХ-ЛИБО ГАРАНТИЙ; даже без подразумеваемых гарантий ТОВАРНОЙ ПРИГОДНОСТИ "
+"или ПРИГОДНОСТИ ДЛЯ КАКОЙ-ЛИБО ЦЕЛИ. Более подробную информацию см. в "
+"Стандартной общественной лицензии GNU."
+
+#: src/reuse/cli/main.py:54
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"this program. If not, see <https://www.gnu.org/licenses/>."
+msgstr ""
+"Вместе с этой программой вы должны были получить копию Стандартной "
+"общественной лицензии GNU. Если нет, смотрите <https://www.gnu.org/licenses/"
+">."
+
+#: src/reuse/cli/main.py:62
+msgid ""
+"reuse is a tool for compliance with the REUSE recommendations. See <https://"
+"reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
+"for the online documentation."
+msgstr ""
+"reuse - это инструмент для соблюдения рекомендаций REUSE. Дополнительную "
+"информацию см. на сайте <https://reuse.software/>, а онлайн-документацию - "
+"на сайте <https://reuse.readthedocs.io/>."
+
+#: src/reuse/cli/main.py:69
+msgid ""
+"This version of reuse is compatible with version {} of the REUSE "
+"Specification."
+msgstr ""
+"Эта версия повторного использования совместима с версией {} спецификации "
+"REUSE."
+
+#: src/reuse/cli/main.py:73
+msgid "Support the FSFE's work:"
+msgstr "Поддержите работу ФСПО:"
+
+#: src/reuse/cli/main.py:78
+msgid ""
+"Donations are critical to our strength and autonomy. They enable us to "
+"continue working for Free Software wherever necessary. Please consider "
+"making a donation at <https://fsfe.org/donate/>."
+msgstr ""
+"Пожертвования имеют решающее значение для нашей силы и самостоятельности. "
+"Они позволяют нам продолжать работать во имя свободного программного "
+"обеспечения везде, где это необходимо. Пожалуйста, рассмотрите возможность "
+"сделать пожертвование по адресу <https://fsfe.org/donate/>."
+
+#: src/reuse/cli/main.py:89
+msgid "Enable debug statements."
+msgstr "Включить отладочные операторы."
+
+#: src/reuse/cli/main.py:94
+msgid "Hide deprecation warnings."
+msgstr "Скрыть предупреждения об устаревании."
+
+#: src/reuse/cli/main.py:99
+msgid "Do not skip over Git submodules."
+msgstr "Не пропускайте подмодули Git."
+
+#: src/reuse/cli/main.py:104
+msgid "Do not skip over Meson subprojects."
+msgstr "Не пропускайте подпроекты \"Мезон\"."
+
+#: src/reuse/cli/main.py:109
+msgid "Do not use multiprocessing."
+msgstr "Не используйте многопроцессорную обработку."
+
+#: src/reuse/cli/main.py:119
+msgid "Define root of project."
+msgstr "Определите корень проекта."
+
+#: src/reuse/cli/spdx.py:23
+msgid "Generate an SPDX bill of materials."
+msgstr "Создать ведомость материалов в формате SPDX."
+
+#: src/reuse/cli/spdx.py:33
+msgid "File to write to."
+msgstr "Файл для записи."
+
+#: src/reuse/cli/spdx.py:39
+msgid ""
+"Populate the LicenseConcluded field; note that reuse cannot guarantee that "
+"the field is accurate."
+msgstr ""
+"Заполните поле LicenseConcluded; обратите внимание, что повторное "
+"использование не может гарантировать точность поля."
+
+#: src/reuse/cli/spdx.py:51
+msgid "Name of the person signing off on the SPDX report."
+msgstr "Имя лица, подписавшего отчет SPDX."
+
+#: src/reuse/cli/spdx.py:55
+msgid "Name of the organization signing off on the SPDX report."
+msgstr "Название организации, подписавшей отчет SPDX."
+
+#: src/reuse/cli/spdx.py:82
+msgid ""
+"'--creator-person' or '--creator-organization' is required when '--add-"
+"license-concluded' is provided."
+msgstr ""
+"'--creator-person' или '--creator-organization' требуется, если указано '--"
+"add-license-concluded'."
+
+#: src/reuse/cli/spdx.py:97
+#, python-brace-format
+msgid ""
+"'{path}' does not match a common SPDX file pattern. Find the suggested "
+"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
+"standard-data-format-requirements"
+msgstr ""
+"'{path}' не соответствует распространенному шаблону файлов SPDX. "
+"Предлагаемые соглашения об именовании можно найти здесь: https://spdx.github."
+"io/spdx-spec/conformance/#44-standard-data-format-requirements"
+
+#: src/reuse/cli/lint.py:27
+#, python-brace-format
+msgid ""
+"Lint the project directory for REUSE compliance. This version of the tool "
+"checks against version {reuse_version} of the REUSE Specification. You can "
+"find the latest version of the specification at <https://reuse.software/spec/"
+">."
+msgstr ""
+"Проверка каталога проекта на соответствие требованиям REUSE. Эта версия "
+"инструмента проверяет версию {reuse_version} спецификации REUSE. Последнюю "
+"версию спецификации можно найти по адресу <https://reuse.software/spec/>."
+
+#: src/reuse/cli/lint.py:33
+msgid "Specifically, the following criteria are checked:"
+msgstr "В частности, проверяются следующие критерии:"
+
+#: src/reuse/cli/lint.py:36
+msgid ""
+"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
+"project?"
+msgstr ""
+"- Есть ли в проекте плохие (непризнанные, не соответствующие SPDX) лицензии?"
+
+#: src/reuse/cli/lint.py:40
+msgid "- Are there any deprecated licenses in the project?"
+msgstr "- Есть ли в проекте устаревшие лицензии?"
+
+#: src/reuse/cli/lint.py:43
+msgid ""
+"- Are there any license files in the LICENSES/ directory without file "
+"extension?"
+msgstr "- Есть ли в каталоге LICENSES/ файлы лицензий без расширения?"
+
+#: src/reuse/cli/lint.py:48
+msgid ""
+"- Are any licenses referred to inside of the project, but not included in "
+"the LICENSES/ directory?"
+msgstr ""
+"- Есть ли лицензии, на которые ссылаются внутри проекта, но которые не "
+"включены в каталог LICENSES/?"
+
+#: src/reuse/cli/lint.py:53
+msgid ""
+"- Are any licenses included in the LICENSES/ directory that are not used "
+"inside of the project?"
+msgstr ""
+"- Включены ли в каталог LICENSES/ какие-либо лицензии, которые не "
+"используются внутри проекта?"
+
+#: src/reuse/cli/lint.py:57
+msgid "- Are there any read errors?"
+msgstr "- Есть ли ошибки чтения?"
+
+#: src/reuse/cli/lint.py:59
+msgid "- Do all files have valid copyright and licensing information?"
+msgstr ""
+"- Все ли файлы содержат достоверную информацию об авторских правах и "
+"лицензировании?"
+
+#: src/reuse/cli/lint.py:86
+msgid "Format output as plain text. (default)"
+msgstr "Форматирование вывода как обычного текста. (по умолчанию)"
+
+#: src/reuse/cli/lint.py:94
+msgid "Format output as errors per line."
+msgstr "Форматируйте вывод как ошибки в строке."
 
 #: src/reuse/cli/annotate.py:58
 msgid "Option '--copyright', '--license', or '--contributor' is required."
@@ -186,6 +561,100 @@ msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
 "'{path}' - двоичный файл, поэтому для заголовка используется '{new_path}'"
 
+#: src/reuse/cli/convert_dep5.py:19
+msgid ""
+"Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
+"the project root and is semantically identical. The .reuse/dep5 file is "
+"subsequently deleted."
+msgstr ""
+"Преобразуйте файл .reuse/dep5 в файл REUSE.toml. Созданный файл помещается в "
+"корень проекта и является семантически идентичным. Файл .reuse/dep5 "
+"впоследствии удаляется."
+
+#: src/reuse/cli/convert_dep5.py:31
+msgid "No '.reuse/dep5' file."
+msgstr "Файл '.reuse/dep5' отсутствует."
+
+#: src/reuse/cli/download.py:53
+msgid "'{}' is not a valid SPDX License Identifier."
+msgstr "'{}' не является действительным идентификатором лицензии SPDX."
+
+#: src/reuse/cli/download.py:60
+msgid "Did you mean:"
+msgstr "Вы имели в виду:"
+
+#: src/reuse/cli/download.py:67
+msgid ""
+"See <https://spdx.org/licenses/> for a list of valid SPDX License "
+"Identifiers."
+msgstr ""
+"Список допустимых идентификаторов лицензий SPDX см. в <https://spdx.org/"
+"licenses/>."
+
+#: src/reuse/cli/download.py:76
+#, python-brace-format
+msgid "Error: {spdx_identifier} already exists."
+msgstr "Ошибка: {spdx_identifier} уже существует."
+
+#: src/reuse/cli/download.py:83
+#, python-brace-format
+msgid "Error: {path} does not exist."
+msgstr "Ошибка: {path} не существует."
+
+#: src/reuse/cli/download.py:87
+msgid "Error: Failed to download license."
+msgstr "Ошибка: Не удалось загрузить лицензию."
+
+#: src/reuse/cli/download.py:92
+msgid "Is your internet connection working?"
+msgstr "Работает ли ваше интернет-соединение?"
+
+#: src/reuse/cli/download.py:97
+#, python-brace-format
+msgid "Successfully downloaded {spdx_identifier}."
+msgstr "Успешно загружен {spdx_identifier}."
+
+#: src/reuse/cli/download.py:107
+msgid "Download a license and place it in the LICENSES/ directory."
+msgstr "Загрузите лицензию и поместите ее в каталог LICENSES/."
+
+#: src/reuse/cli/download.py:110
+msgid ""
+"LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
+"multiple times to download multiple licenses."
+msgstr ""
+"LICENSE должен быть действительным идентификатором лицензии SPDX. Вы можете "
+"указать LICENSE несколько раз, чтобы загрузить несколько лицензий."
+
+#: src/reuse/cli/download.py:123
+msgid "Download all missing licenses detected in the project."
+msgstr "Загрузите все недостающие лицензии, обнаруженные в проекте."
+
+#: src/reuse/cli/download.py:131
+msgid "Path to download to."
+msgstr "Путь для загрузки."
+
+#: src/reuse/cli/download.py:137
+msgid ""
+"Source from which to copy custom LicenseRef- licenses, either a directory "
+"that contains the file or the file itself."
+msgstr ""
+"Источник, из которого копируются пользовательские лицензии LicenseRef-, либо "
+"каталог, содержащий файл, либо сам файл."
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/download.py:144
+msgid "LICENSE"
+msgstr "ЛИЦЕНЗИЯ"
+
+#: src/reuse/cli/download.py:160
+msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
+msgstr "Аргумент ' ЛИЦЕНЗИЯ' и опция '--все' являются взаимоисключающими."
+
+#: src/reuse/cli/download.py:172
+msgid "Cannot use '--output' with more than one license."
+msgstr "Невозможно использовать '--output' с более чем одной лицензией."
+
 #: src/reuse/cli/common.py:58
 #, python-brace-format
 msgid ""
@@ -204,479 +673,440 @@ msgstr "'{name}' является взаимоисключающим с: {opts}"
 msgid "'{}' is not a valid SPDX expression."
 msgstr "'{}' не является допустимым выражением SPDX."
 
-#: src/reuse/cli/convert_dep5.py:19
+#: src/reuse/lint.py:38
+#, fuzzy
+msgid "BAD LICENSES"
+msgstr "НЕИСПОЛЬЗОВАННЫЕ ЛИЦЕНЗИИ"
+
+#: src/reuse/lint.py:40 src/reuse/lint.py:69
+msgid "'{}' found in:"
+msgstr "'{}' найдено в:"
+
+#: src/reuse/lint.py:47
+msgid "DEPRECATED LICENSES"
+msgstr "УСТАРЕВШИЕ ЛИЦЕНЗИИ"
+
+#: src/reuse/lint.py:49
+msgid "The following licenses are deprecated by SPDX:"
+msgstr "Следующие лицензии устарели в SPDX:"
+
+#: src/reuse/lint.py:57
+msgid "LICENSES WITHOUT FILE EXTENSION"
+msgstr "ЛИЦЕНЗИИ БЕЗ РАСШИРЕНИЯ ФАЙЛА"
+
+#: src/reuse/lint.py:59
+msgid "The following licenses have no file extension:"
+msgstr "Следующие лицензии не имеют расширения файла:"
+
+#: src/reuse/lint.py:67
+msgid "MISSING LICENSES"
+msgstr "ОТСУТСТВУЮЩИЕ ЛИЦЕНЗИИ"
+
+#: src/reuse/lint.py:76
+msgid "UNUSED LICENSES"
+msgstr "НЕИСПОЛЬЗОВАННЫЕ ЛИЦЕНЗИИ"
+
+#: src/reuse/lint.py:77
+msgid "The following licenses are not used:"
+msgstr "Следующие лицензии не используются:"
+
+#: src/reuse/lint.py:84
+msgid "READ ERRORS"
+msgstr "ОШИБКИ ЧТЕНИЯ"
+
+#: src/reuse/lint.py:85
+msgid "Could not read:"
+msgstr "Не удалось прочитать:"
+
+#: src/reuse/lint.py:106
+msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
+msgstr "ОТСУТСТВИЕ ИНФОРМАЦИИ ОБ АВТОРСКИХ ПРАВАХ И ЛИЦЕНЗИРОВАНИИ"
+
+#: src/reuse/lint.py:112
+#, fuzzy
+msgid "The following files have no copyright and licensing information:"
+msgstr "Следующие файлы не содержат информации об авторских правах:"
+
+#: src/reuse/lint.py:123
+msgid "The following files have no copyright information:"
+msgstr "Следующие файлы не содержат информации об авторских правах:"
+
+#: src/reuse/lint.py:132
+msgid "The following files have no licensing information:"
+msgstr "Следующие файлы не содержат информации о лицензировании:"
+
+#: src/reuse/lint.py:139
+msgid "SUMMARY"
+msgstr "РЕЗЮМЕ"
+
+#: src/reuse/lint.py:144
+msgid "Bad licenses:"
+msgstr "Плохие лицензии:"
+
+#: src/reuse/lint.py:145
+msgid "Deprecated licenses:"
+msgstr "Утраченные лицензии:"
+
+#: src/reuse/lint.py:146
+msgid "Licenses without file extension:"
+msgstr "Лицензии без расширения файла:"
+
+#: src/reuse/lint.py:149
+msgid "Missing licenses:"
+msgstr "Отсутствующие лицензии:"
+
+#: src/reuse/lint.py:150
+msgid "Unused licenses:"
+msgstr "Неиспользованные лицензии:"
+
+#: src/reuse/lint.py:151
+msgid "Used licenses:"
+msgstr "Используемые лицензии:"
+
+#: src/reuse/lint.py:152
+msgid "Read errors:"
+msgstr "Читайте ошибки:"
+
+#: src/reuse/lint.py:154
+msgid "Files with copyright information:"
+msgstr "Файлы с информацией об авторских правах:"
+
+#: src/reuse/lint.py:158
+msgid "Files with license information:"
+msgstr "Файлы с информацией о лицензии:"
+
+#: src/reuse/lint.py:175
 msgid ""
-"Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
-"the project root and is semantically identical. The .reuse/dep5 file is "
-"subsequently deleted."
-msgstr ""
-"Преобразуйте файл .reuse/dep5 в файл REUSE.toml. Созданный файл помещается в "
-"корень проекта и является семантически идентичным. Файл .reuse/dep5 "
-"впоследствии удаляется."
+"Congratulations! Your project is compliant with version {} of the REUSE "
+"Specification :-)"
+msgstr "Поздравляем! Ваш проект соответствует версии {} спецификации REUSE :-)"
 
-#: src/reuse/cli/convert_dep5.py:31
-msgid "No '.reuse/dep5' file."
-msgstr "Файл '.reuse/dep5' отсутствует."
-
-#: src/reuse/cli/download.py:52
-msgid "'{}' is not a valid SPDX License Identifier."
-msgstr "'{}' не является действительным идентификатором лицензии SPDX."
-
-#: src/reuse/cli/download.py:59
-msgid "Did you mean:"
-msgstr "Вы имели в виду:"
-
-#: src/reuse/cli/download.py:66
+#: src/reuse/lint.py:182
 msgid ""
-"See <https://spdx.org/licenses/> for a list of valid SPDX License "
-"Identifiers."
+"Unfortunately, your project is not compliant with version {} of the REUSE "
+"Specification :-("
 msgstr ""
-"Список допустимых идентификаторов лицензий SPDX см. в <https://spdx.org/"
-"licenses/>."
+"К сожалению, ваш проект не соответствует версии {} спецификации REUSE :-("
 
-#: src/reuse/cli/download.py:75
+#: src/reuse/lint.py:189
+msgid "RECOMMENDATIONS"
+msgstr "РЕКОМЕНДАЦИИ"
+
+#: src/reuse/lint.py:253
 #, python-brace-format
-msgid "Error: {spdx_identifier} already exists."
-msgstr "Ошибка: {spdx_identifier} уже существует."
+msgid "{path}: missing license {lic}\n"
+msgstr "{path}: отсутствует лицензия {lic}\n"
 
-#: src/reuse/cli/download.py:82
+#: src/reuse/lint.py:258
 #, python-brace-format
-msgid "Error: {path} does not exist."
-msgstr "Ошибка: {path} не существует."
+msgid "{path}: read error\n"
+msgstr "{path}: ошибка чтения\n"
 
-#: src/reuse/cli/download.py:86
-msgid "Error: Failed to download license."
-msgstr "Ошибка: Не удалось загрузить лицензию."
-
-#: src/reuse/cli/download.py:91
-msgid "Is your internet connection working?"
-msgstr "Работает ли ваше интернет-соединение?"
-
-#: src/reuse/cli/download.py:96
+#: src/reuse/lint.py:262
 #, python-brace-format
-msgid "Successfully downloaded {spdx_identifier}."
-msgstr "Успешно загружен {spdx_identifier}."
+msgid "{path}: no license identifier\n"
+msgstr "{path}: нет идентификатора лицензии\n"
 
-#: src/reuse/cli/download.py:106
-msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "Загрузите лицензию и поместите ее в каталог LICENSES/."
-
-#: src/reuse/cli/download.py:109
-msgid ""
-"LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
-"multiple times to download multiple licenses."
-msgstr ""
-"LICENSE должен быть действительным идентификатором лицензии SPDX. Вы можете "
-"указать LICENSE несколько раз, чтобы загрузить несколько лицензий."
-
-#: src/reuse/cli/download.py:122
-msgid "Download all missing licenses detected in the project."
-msgstr "Загрузите все недостающие лицензии, обнаруженные в проекте."
-
-#: src/reuse/cli/download.py:130
-msgid "Path to download to."
-msgstr "Путь для загрузки."
-
-#: src/reuse/cli/download.py:136
-msgid ""
-"Source from which to copy custom LicenseRef- licenses, either a directory "
-"that contains the file or the file itself."
-msgstr ""
-"Источник, из которого копируются пользовательские лицензии LicenseRef-, либо "
-"каталог, содержащий файл, либо сам файл."
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/download.py:143
-msgid "LICENSE"
-msgstr "ЛИЦЕНЗИЯ"
-
-#: src/reuse/cli/download.py:159
-msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr "Аргумент ' ЛИЦЕНЗИЯ' и опция '--все' являются взаимоисключающими."
-
-#: src/reuse/cli/download.py:173
-msgid "Cannot use '--output' with more than one license."
-msgstr "Невозможно использовать '--output' с более чем одной лицензией."
-
-#: src/reuse/cli/lint.py:27
+#: src/reuse/lint.py:266
 #, python-brace-format
-msgid ""
-"Lint the project directory for REUSE compliance. This version of the tool "
-"checks against version {reuse_version} of the REUSE Specification. You can "
-"find the latest version of the specification at <https://reuse.software/spec/"
-">."
-msgstr ""
-"Проверка каталога проекта на соответствие требованиям REUSE. Эта версия "
-"инструмента проверяет версию {reuse_version} спецификации REUSE. Последнюю "
-"версию спецификации можно найти по адресу <https://reuse.software/spec/>."
+msgid "{path}: no copyright notice\n"
+msgstr "{path}: нет уведомления об авторских правах\n"
 
-#: src/reuse/cli/lint.py:33
-msgid "Specifically, the following criteria are checked:"
-msgstr "В частности, проверяются следующие критерии:"
-
-#: src/reuse/cli/lint.py:36
-msgid ""
-"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
-"project?"
-msgstr ""
-"- Есть ли в проекте плохие (непризнанные, не соответствующие SPDX) лицензии?"
-
-#: src/reuse/cli/lint.py:40
-msgid "- Are there any deprecated licenses in the project?"
-msgstr "- Есть ли в проекте устаревшие лицензии?"
-
-#: src/reuse/cli/lint.py:43
-msgid ""
-"- Are there any license files in the LICENSES/ directory without file "
-"extension?"
-msgstr "- Есть ли в каталоге LICENSES/ файлы лицензий без расширения?"
-
-#: src/reuse/cli/lint.py:48
-msgid ""
-"- Are any licenses referred to inside of the project, but not included in "
-"the LICENSES/ directory?"
-msgstr ""
-"- Есть ли лицензии, на которые ссылаются внутри проекта, но которые не "
-"включены в каталог LICENSES/?"
-
-#: src/reuse/cli/lint.py:53
-msgid ""
-"- Are any licenses included in the LICENSES/ directory that are not used "
-"inside of the project?"
-msgstr ""
-"- Включены ли в каталог LICENSES/ какие-либо лицензии, которые не "
-"используются внутри проекта?"
-
-#: src/reuse/cli/lint.py:57
-msgid "- Are there any read errors?"
-msgstr "- Есть ли ошибки чтения?"
-
-#: src/reuse/cli/lint.py:59
-msgid "- Do all files have valid copyright and licensing information?"
-msgstr ""
-"- Все ли файлы содержат достоверную информацию об авторских правах и "
-"лицензировании?"
-
-#: src/reuse/cli/lint.py:70 src/reuse/cli/lint_file.py:38
-msgid "Prevent output."
-msgstr "Предотвращение выхода."
-
-#: src/reuse/cli/lint.py:78
-msgid "Format output as JSON."
-msgstr "Формат как JSON."
-
-#: src/reuse/cli/lint.py:86
-msgid "Format output as plain text. (default)"
-msgstr "Форматирование вывода как обычного текста. (по умолчанию)"
-
-#: src/reuse/cli/lint.py:94
-msgid "Format output as errors per line."
-msgstr "Форматируйте вывод как ошибки в строке."
-
-#: src/reuse/cli/lint_file.py:25
-msgid ""
-"Lint individual files for REUSE compliance. The specified FILEs are checked "
-"for the presence of copyright and licensing information, and whether the "
-"found licenses are included in the LICENSES/ directory."
-msgstr ""
-"Проверка отдельных файлов на соответствие стандарту REUSE. Указанные ФАЙЛЫ "
-"проверяются на наличие информации об авторских правах и лицензировании, а "
-"также на то, включены ли найденные лицензии в каталог LICENSES/."
-
-#: src/reuse/cli/lint_file.py:46
-msgid "Format output as errors per line. (default)"
-msgstr "Форматировать вывод в виде ошибок в строке. (по умолчанию)"
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/lint_file.py:51
-msgid "FILE"
-msgstr "ФАЙЛ"
-
-#: src/reuse/cli/lint_file.py:65
+#: src/reuse/lint.py:293
 #, python-brace-format
-msgid "'{file}' is not inside of '{root}'."
-msgstr "'{file}' не находится внутри '{root}'."
+msgid "{path}: bad license {lic}\n"
+msgstr "{path}: плохая лицензия {lic}\n"
 
-#: src/reuse/cli/main.py:37
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:465
-#, python-format
-msgid "%(prog)s, version %(version)s"
-msgstr "%(prog)s, версия %(version)s"
+#: src/reuse/lint.py:300
+#, python-brace-format
+msgid "{lic_path}: deprecated license\n"
+msgstr "{lic_path}: устаревшая лицензия\n"
 
-#: src/reuse/cli/main.py:40
-msgid ""
-"This program is free software: you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation, either version 3 of the License, or (at your option) "
-"any later version."
-msgstr ""
-"Эта программа является свободным программным обеспечением: вы можете "
-"распространять ее и/или изменять в соответствии с условиями Стандартной "
-"общественной лицензии GNU, опубликованной Фондом свободного программного "
-"обеспечения, либо версии 3 этой лицензии, либо (по вашему выбору) любой "
-"более поздней версии."
+#: src/reuse/lint.py:307
+#, python-brace-format
+msgid "{lic_path}: license without file extension\n"
+msgstr "{lic_path}: лицензия без расширения файла\n"
 
-#: src/reuse/cli/main.py:47
-msgid ""
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details."
-msgstr ""
-"Эта программа распространяется в надежде, что она окажется полезной, но БЕЗ "
-"КАКИХ-ЛИБО ГАРАНТИЙ; даже без подразумеваемых гарантий ТОВАРНОЙ ПРИГОДНОСТИ "
-"или ПРИГОДНОСТИ ДЛЯ КАКОЙ-ЛИБО ЦЕЛИ. Более подробную информацию см. в "
-"Стандартной общественной лицензии GNU."
+#: src/reuse/lint.py:316
+#, python-brace-format
+msgid "{lic_path}: unused license\n"
+msgstr "{lic_path}: неиспользуемая лицензия\n"
 
-#: src/reuse/cli/main.py:54
-msgid ""
-"You should have received a copy of the GNU General Public License along with "
-"this program. If not, see <https://www.gnu.org/licenses/>."
-msgstr ""
-"Вместе с этой программой вы должны были получить копию Стандартной "
-"общественной лицензии GNU. Если нет, смотрите <https://www.gnu.org/licenses/"
-">."
-
-#: src/reuse/cli/main.py:62
-msgid ""
-"reuse is a tool for compliance with the REUSE recommendations. See <https://"
-"reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
-"for the online documentation."
-msgstr ""
-"reuse - это инструмент для соблюдения рекомендаций REUSE. Дополнительную "
-"информацию см. на сайте <https://reuse.software/>, а онлайн-документацию - "
-"на сайте <https://reuse.readthedocs.io/>."
-
-#: src/reuse/cli/main.py:69
-msgid ""
-"This version of reuse is compatible with version {} of the REUSE "
-"Specification."
-msgstr ""
-"Эта версия повторного использования совместима с версией {} спецификации "
-"REUSE."
-
-#: src/reuse/cli/main.py:73
-msgid "Support the FSFE's work:"
-msgstr "Поддержите работу ФСПО:"
-
-#: src/reuse/cli/main.py:78
-msgid ""
-"Donations are critical to our strength and autonomy. They enable us to "
-"continue working for Free Software wherever necessary. Please consider "
-"making a donation at <https://fsfe.org/donate/>."
-msgstr ""
-"Пожертвования имеют решающее значение для нашей силы и самостоятельности. "
-"Они позволяют нам продолжать работать во имя свободного программного "
-"обеспечения везде, где это необходимо. Пожалуйста, рассмотрите возможность "
-"сделать пожертвование по адресу <https://fsfe.org/donate/>."
-
-#: src/reuse/cli/main.py:89
-msgid "Enable debug statements."
-msgstr "Включить отладочные операторы."
-
-#: src/reuse/cli/main.py:94
-msgid "Hide deprecation warnings."
-msgstr "Скрыть предупреждения об устаревании."
-
-#: src/reuse/cli/main.py:99
-msgid "Do not skip over Git submodules."
-msgstr "Не пропускайте подмодули Git."
-
-#: src/reuse/cli/main.py:104
-msgid "Do not skip over Meson subprojects."
-msgstr "Не пропускайте подпроекты \"Мезон\"."
-
-#: src/reuse/cli/main.py:109
-msgid "Do not use multiprocessing."
-msgstr "Не используйте многопроцессорную обработку."
-
-#: src/reuse/cli/main.py:119
-msgid "Define root of project."
-msgstr "Определите корень проекта."
-
-#: src/reuse/cli/spdx.py:23
-msgid "Generate an SPDX bill of materials."
-msgstr "Создать ведомость материалов в формате SPDX."
-
-#: src/reuse/cli/spdx.py:33
-msgid "File to write to."
-msgstr "Файл для записи."
-
-#: src/reuse/cli/spdx.py:39
-msgid ""
-"Populate the LicenseConcluded field; note that reuse cannot guarantee that "
-"the field is accurate."
-msgstr ""
-"Заполните поле LicenseConcluded; обратите внимание, что повторное "
-"использование не может гарантировать точность поля."
-
-#: src/reuse/cli/spdx.py:51
-msgid "Name of the person signing off on the SPDX report."
-msgstr "Имя лица, подписавшего отчет SPDX."
-
-#: src/reuse/cli/spdx.py:55
-msgid "Name of the organization signing off on the SPDX report."
-msgstr "Название организации, подписавшей отчет SPDX."
-
-#: src/reuse/cli/spdx.py:82
-msgid ""
-"'--creator-person' or '--creator-organization' is required when '--add-"
-"license-concluded' is provided."
-msgstr ""
-"'--creator-person' или '--creator-organization' требуется, если указано "
-"'--add-license-concluded'."
-
-#: src/reuse/cli/spdx.py:97
+#: src/reuse/global_licensing.py:102
 #, python-brace-format
 msgid ""
-"'{path}' does not match a common SPDX file pattern. Find the suggested "
-"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
-"standard-data-format-requirements"
+"{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
-"'{path}' не соответствует распространенному шаблону файлов SPDX. "
-"Предлагаемые соглашения об именовании можно найти здесь: https://spdx.github."
-"io/spdx-spec/conformance/#44-standard-data-format-requirements"
+"{attr_name} должно быть {type_name} (получено {value}, которое является "
+"{value_class})."
 
-#: src/reuse/cli/supported_licenses.py:15
-msgid "List all licenses on the SPDX License List."
-msgstr "Перечислите все лицензии в списке лицензий SPDX."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:518
+#: src/reuse/global_licensing.py:116
 #, python-brace-format
-msgid "{editor}: Editing failed"
-msgstr "{editor}: Редактирование не удалось"
+msgid ""
+"Item in {attr_name} collection must be a {type_name} (got {item_value} that "
+"is a {item_class})."
+msgstr ""
+"Элемент в коллекции {attr_name} должен быть {type_name} (получил "
+"{item_value}, который является {item_class})."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:522
+#: src/reuse/global_licensing.py:128
 #, python-brace-format
-msgid "{editor}: Editing failed: {e}"
-msgstr "{editor}: Редактирование не удалось: {e}"
+msgid "{attr_name} must not be empty."
+msgstr "{attr_name} не должно быть пустым."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1120
-msgid "Aborted!"
-msgstr "Прервано!"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1309
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:559
-msgid "Show this message and exit."
-msgstr "Покажите это сообщение и выйдите."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1340
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1370
+#: src/reuse/global_licensing.py:152
 #, python-brace-format
-msgid "(Deprecated) {text}"
-msgstr "(Исправлено) {text}"
+msgid "{name} must be a {type} (got {value} that is a {value_type})."
+msgstr ""
+"{name} должно быть {type} (получено {value}, которое является {value_type})."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1387
-msgid "Options"
-msgstr "Параметры"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1413
+#: src/reuse/global_licensing.py:176
 #, python-brace-format
-msgid "Got unexpected extra argument ({args})"
-msgid_plural "Got unexpected extra arguments ({args})"
-msgstr[0] "Получен неожиданный дополнительный аргумент ({args})"
-msgstr[1] "Получили неожиданных дополнительных аргументов ({args})"
-msgstr[2] "Получили неожиданных дополнительных аргументов ({args})"
+msgid ""
+"The value of 'precedence' must be one of {precedence_vals} (got {received})"
+msgstr ""
+"Значение '\"Привилегия\" должно быть одним из {precedence_vals} (получено "
+"{received})"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1429
-msgid "DeprecationWarning: The command {name!r} is deprecated."
-msgstr "DeprecationWarning: Команда {name!r} устарела."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1636
-msgid "Commands"
-msgstr "Команды"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1668
-msgid "Missing command."
-msgstr "Отсутствующая команда."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1746
-msgid "No such command {name!r}."
-msgstr "Нет такой команды {name!r}."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2310
-msgid "Value must be an iterable."
-msgstr "Значение должно быть итерируемым."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2331
+#: src/reuse/report.py:155
 #, python-brace-format
-msgid "Takes {nargs} values but 1 was given."
-msgid_plural "Takes {nargs} values but {len} were given."
-msgstr[0] "Принимает значения {nargs}, но было задано 1."
-msgstr[1] "Принимает значения {nargs}, но было задано {len}."
-msgstr[2] "Принимает значений {nargs}, но было задано {len}."
+msgid "Could not read '{path}'"
+msgstr "Не удалось прочитать '{path}'"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2778
-#, fuzzy, python-brace-format
-msgid "env var: {var}"
-msgstr "env var: {var}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2808
-msgid "(dynamic)"
-msgstr "(динамика)"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2821
+#: src/reuse/report.py:160
 #, python-brace-format
-msgid "default: {default}"
-msgstr "по умолчанию: {default}"
+msgid "Unexpected error occurred while parsing '{path}'"
+msgstr "При разборе '{path}' произошла непредвиденная ошибка"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2834
-msgid "required"
-msgstr "требуется"
+#: src/reuse/report.py:511
+msgid ""
+"Fix bad licenses: At least one license in the LICENSES directory and/or "
+"provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
+"valid SPDX License Identifiers or do not start with 'LicenseRef-'. FAQ about "
+"custom licenses: https://reuse.software/faq/#custom-license"
+msgstr ""
+"Исправление недействительных лицензий: По крайней мере одна лицензия в "
+"каталоге LICENSES и/или предоставленная тегами 'SPDX-License-Identifier', "
+"является недействительной. Они либо не являются действительными "
+"идентификаторами лицензий SPDX, либо не начинаются с 'LicenseRef-'. Часто "
+"задаваемые вопросы о пользовательских лицензиях: https://reuse.software/faq/"
+"#custom-license"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:528
-msgid "Show the version and exit."
-msgstr "Показать версию и выйти."
+#: src/reuse/report.py:522
+msgid ""
+"Fix deprecated licenses: At least one of the licenses in the LICENSES "
+"directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
+"dep5' has been deprecated by SPDX. The current list and their respective "
+"recommended  new identifiers can be found here: <https://spdx.org/licenses/"
+"#deprecated>"
+msgstr ""
+"Исправление устаревших лицензий: По крайней мере одна из лицензий в каталоге "
+"LICENSES и/или предоставленная тегом 'SPDX-License-Identifier' или в файле '."
+"reuse/dep5', была устаревшей в SPDX. Текущий список и рекомендуемые новые "
+"идентификаторы можно найти здесь: <https://spdx.org/licenses/#deprecated>"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:44
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:80
+#: src/reuse/report.py:533
+msgid ""
+"Fix licenses without file extension: At least one license text file in the "
+"'LICENSES' directory does not have a '.txt' file extension. Please rename "
+"the file(s) accordingly."
+msgstr ""
+"Исправьте лицензии без расширения файла: По крайней мере один текстовый файл "
+"лицензии в каталоге 'LICENSES' не имеет расширения '.txt'. Пожалуйста, "
+"переименуйте файл(ы) соответствующим образом."
+
+#: src/reuse/report.py:542
+msgid ""
+"Fix missing licenses: For at least one of the license identifiers provided "
+"by the 'SPDX-License-Identifier' tags, there is no corresponding license "
+"text file in the 'LICENSES' directory. For SPDX license identifiers, you can "
+"simply run 'reuse download --all' to get any missing ones. For custom "
+"licenses (starting with 'LicenseRef-'), you need to add these files yourself."
+msgstr ""
+"Исправление отсутствующих лицензий: По крайней мере для одного из "
+"идентификаторов лицензий, предоставляемых тегами 'SPDX-License-Identifier', "
+"в каталоге 'LICENSES' нет соответствующего текстового файла лицензии. Для "
+"идентификаторов лицензий SPDX можно просто выполнить команду 'reuse download "
+"--all', чтобы получить все недостающие идентификаторы. Для пользовательских "
+"лицензий (начинающихся с 'LicenseRef-') вам нужно добавить эти файлы "
+"самостоятельно."
+
+#: src/reuse/report.py:554
+msgid ""
+"Fix unused licenses: At least one of the license text files in 'LICENSES' is "
+"not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
+"make sure that you either tag the accordingly licensed files properly, or "
+"delete the unused license text if you are sure that no file or code snippet "
+"is licensed as such."
+msgstr ""
+"Исправьте неиспользуемые лицензии: По крайней мере, на один из файлов с "
+"текстом лицензии в 'LICENSES' не ссылается ни один файл, например, тег 'SPDX-"
+"License-Identifier'. Пожалуйста, убедитесь, что вы либо пометили "
+"соответствующие лицензионные файлы должным образом, либо удалили "
+"неиспользуемый лицензионный текст, если вы уверены, что ни один файл или "
+"фрагмент кода не лицензируется как таковой."
+
+#: src/reuse/report.py:565
+msgid ""
+"Fix read errors: At least one of the files in your directory cannot be read "
+"by the tool. Please check the file permissions. You will find the affected "
+"files at the top of the output as part of the logged error messages."
+msgstr ""
+"Исправьте ошибки чтения: По крайней мере один из файлов в вашей директории "
+"не может быть прочитан инструментом. Проверьте права доступа к файлам. "
+"Затронутые файлы вы найдете в верхней части вывода в виде сообщений об "
+"ошибках."
+
+#: src/reuse/report.py:574
+msgid ""
+"Fix missing copyright/licensing information: For one or more files, the tool "
+"cannot find copyright and/or licensing information. You typically do this by "
+"adding 'SPDX-FileCopyrightText' and 'SPDX-License-Identifier' tags to each "
+"file. The tutorial explains additional ways to do this: <https://reuse."
+"software/tutorial/>"
+msgstr ""
+"Исправление отсутствующей информации об авторских правах/лицензировании: Для "
+"одного или нескольких файлов инструмент не может найти информацию об "
+"авторских правах и/или лицензировании. Обычно это можно сделать, добавив к "
+"каждому файлу теги 'SPDX-FileCopyrightText' и 'SPDX-License-Identifier'. В "
+"учебнике описаны дополнительные способы решения этой задачи: <https://reuse."
+"software/tutorial/>"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:267
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+"Выберите из:\n"
+"{choices}"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:299
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] "{value!r} не является {choice}."
+msgstr[1] "{value!r} не является одним из {choices}."
+msgstr[2] "{value!r} не является одним из {choices}."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:393
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] "{value!r} не соответствует формату {format}."
+msgstr[1] "{value!r} не соответствует форматам {formats}."
+msgstr[2] "{ value!r} не соответствует форматам {formats}."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:415
+msgid "{value!r} is not a valid {number_type}."
+msgstr "{value!r} не является допустимым {number_type}."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:471
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr "{value} не входит в диапазон {range}."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:612
+msgid "{value!r} is not a valid boolean."
+msgstr "{value!r} не является допустимым булевым числом."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:636
+msgid "{value!r} is not a valid UUID."
+msgstr "{value!r} не является действительным UUID."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:826
+msgid "file"
+msgstr "файл"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:828
+msgid "directory"
+msgstr "каталог"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:830
+#, fuzzy
+msgid "path"
+msgstr "path"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:881
+msgid "{name} {filename!r} does not exist."
+msgstr "{name} {filename!r} не существует."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:890
+msgid "{name} {filename!r} is a file."
+msgstr "{name}filename!r} - это файл."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:898
+#, fuzzy
+msgid "{name} {filename!r} is a directory."
+msgstr "{name} '{filename}' - это каталог."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:907
+msgid "{name} {filename!r} is not readable."
+msgstr "{name}filename!r} не читается."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:916
+msgid "{name} {filename!r} is not writable."
+msgstr "{name}filename!r} не является критичной."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:925
+msgid "{name} {filename!r} is not executable."
+msgstr "{name}filename!r} не подлежит исполнению."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:992
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] "Требуется значение {len_type}, но было указано {len_value}."
+msgstr[1] "Требуется значение {len_type}, но было указано {len_value}."
+msgstr[2] "{len_type} значения необходимы, но {len_value} были даны."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:49
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:88
 #, python-brace-format
 msgid "Error: {message}"
 msgstr "Ошибка: {message}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:72
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:80
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
 msgstr "Попробуйте '{command} {option}' для помощи."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:121
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:129
 #, python-brace-format
 msgid "Invalid value: {message}"
 msgstr "Неверное значение: {message}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:123
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:131
 #, python-brace-format
 msgid "Invalid value for {param_hint}: {message}"
 msgstr "Недопустимое значение для {param_hint}: {message}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:179
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:187
 msgid "Missing argument"
 msgstr "Отсутствующий аргумент"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:181
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:189
 msgid "Missing option"
 msgstr "Отсутствующая опция"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:183
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:191
 msgid "Missing parameter"
 msgstr "Отсутствующий параметр"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:185
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:193
 #, python-brace-format
 msgid "Missing {param_type}"
 msgstr "Отсутствует {param_type}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:192
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:200
 #, python-brace-format
 msgid "Missing parameter: {param_name}"
 msgstr "Пропущенный параметр: {param_name}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:212
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:220
 #, python-brace-format
 msgid "No such option: {name}"
 msgstr "Нет такой опции: {name}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:224
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:232
 #, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
@@ -684,37 +1114,96 @@ msgstr[0] "Вы имели в виду {possibility}?"
 msgstr[1] "(Возможных вариантов: {possibilities})"
 msgstr[2] "(Возможных вариантов: {possibilities})"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:262
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:270
 msgid "unknown error"
 msgstr "неизвестная ошибка"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:269
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:277
 msgid "Could not open file {filename!r}: {message}"
 msgstr "Не удалось открыть файл {filename!r}: {message}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:231
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:233
 msgid "Argument {name!r} takes {nargs} values."
 msgstr "Аргумент {name!r} принимает значения {nargs}."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:413
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:415
 msgid "Option {name!r} does not take a value."
 msgstr "Опция {name!r} не принимает значения."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:474
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:476
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
 msgstr[0] "Опция {name!r} требует аргумента."
 msgstr[1] "Опция {name!r} требует аргументов {nargs}."
 msgstr[2] "Опция {name!r} требует аргументов {nargs}."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:319
-msgid "Shell completion is not supported for Bash versions older than 4.4."
-msgstr "Завершение оболочки не поддерживается для версий Bash старше 4.4."
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1124
+msgid "Aborted!"
+msgstr "Прервано!"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
-msgid "Couldn't detect Bash version, shell completion is not supported."
-msgstr ""
-"Не удалось определить версию Bash, завершение оболочки не поддерживается."
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1349
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1379
+#, python-brace-format
+msgid "(Deprecated) {text}"
+msgstr "(Исправлено) {text}"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1396
+msgid "Options"
+msgstr "Параметры"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1422
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] "Получен неожиданный дополнительный аргумент ({args})"
+msgstr[1] "Получили неожиданных дополнительных аргументов ({args})"
+msgstr[2] "Получили неожиданных дополнительных аргументов ({args})"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1438
+msgid "DeprecationWarning: The command {name!r} is deprecated."
+msgstr "DeprecationWarning: Команда {name!r} устарела."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1645
+msgid "Commands"
+msgstr "Команды"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1677
+msgid "Missing command."
+msgstr "Отсутствующая команда."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1755
+msgid "No such command {name!r}."
+msgstr "Нет такой команды {name!r}."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2313
+msgid "Value must be an iterable."
+msgstr "Значение должно быть итерируемым."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2334
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] "Принимает значения {nargs}, но было задано 1."
+msgstr[1] "Принимает значения {nargs}, но было задано {len}."
+msgstr[2] "Принимает значений {nargs}, но было задано {len}."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2783
+#, fuzzy, python-brace-format
+msgid "env var: {var}"
+msgstr "env var: {var}"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2813
+msgid "(dynamic)"
+msgstr "(динамика)"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2828
+#, python-brace-format
+msgid "default: {default}"
+msgstr "по умолчанию: {default}"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2841
+msgid "required"
+msgstr "требуется"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
 msgid "Repeat for confirmation"
@@ -741,452 +1230,32 @@ msgstr "Ошибка: недопустимый ввод"
 msgid "Press any key to continue..."
 msgstr "Нажмите любую клавишу, чтобы продолжить..."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:266
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:520
+msgid "Show the version and exit."
+msgstr "Показать версию и выйти."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:541
+msgid "Show this message and exit."
+msgstr "Покажите это сообщение и выйдите."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:556
 #, python-brace-format
-msgid ""
-"Choose from:\n"
-"\t{choices}"
+msgid "{editor}: Editing failed"
+msgstr "{editor}: Редактирование не удалось"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:560
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr "{editor}: Редактирование не удалось: {e}"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr "Завершение оболочки не поддерживается для версий Bash старше 4.4."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:333
+msgid "Couldn't detect Bash version, shell completion is not supported."
 msgstr ""
-"Выберите из:\n"
-"{choices}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:298
-msgid "{value!r} is not {choice}."
-msgid_plural "{value!r} is not one of {choices}."
-msgstr[0] "{value!r} не является {choice}."
-msgstr[1] "{value!r} не является одним из {choices}."
-msgstr[2] "{value!r} не является одним из {choices}."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:392
-msgid "{value!r} does not match the format {format}."
-msgid_plural "{value!r} does not match the formats {formats}."
-msgstr[0] "{value!r} не соответствует формату {format}."
-msgstr[1] "{value!r} не соответствует форматам {formats}."
-msgstr[2] "{ value!r} не соответствует форматам {formats}."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:414
-msgid "{value!r} is not a valid {number_type}."
-msgstr "{value!r} не является допустимым {number_type}."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:470
-#, python-brace-format
-msgid "{value} is not in the range {range}."
-msgstr "{value} не входит в диапазон {range}."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:611
-msgid "{value!r} is not a valid boolean."
-msgstr "{value!r} не является допустимым булевым числом."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:635
-msgid "{value!r} is not a valid UUID."
-msgstr "{value!r} не является действительным UUID."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:822
-msgid "file"
-msgstr "файл"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:824
-msgid "directory"
-msgstr "каталог"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:826
-#, fuzzy
-msgid "path"
-msgstr "path"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:877
-msgid "{name} {filename!r} does not exist."
-msgstr "{name} {filename!r} не существует."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:886
-msgid "{name} {filename!r} is a file."
-msgstr "{name}filename!r} - это файл."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:894
-#, python-brace-format
-msgid "{name} '{filename}' is a directory."
-msgstr "{name} '{filename}' - это каталог."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:903
-msgid "{name} {filename!r} is not readable."
-msgstr "{name}filename!r} не читается."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:912
-msgid "{name} {filename!r} is not writable."
-msgstr "{name}filename!r} не является критичной."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:921
-msgid "{name} {filename!r} is not executable."
-msgstr "{name}filename!r} не подлежит исполнению."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:988
-#, python-brace-format
-msgid "{len_type} values are required, but {len_value} was given."
-msgid_plural "{len_type} values are required, but {len_value} were given."
-msgstr[0] "Требуется значение {len_type}, но было указано {len_value}."
-msgstr[1] "Требуется значение {len_type}, но было указано {len_value}."
-msgstr[2] "{len_type} значения необходимы, но {len_value} были даны."
-
-#, python-brace-format
-#~ msgid "Skipped unrecognised file '{path}'"
-#~ msgstr "Пропущен нераспознанный файл '{path}'"
-
-#, python-brace-format
-#~ msgid "'{path}' is not recognised; creating '{path}.license'"
-#~ msgstr "'{path}' не распознан; создаем '{path}. лицензия'"
-
-#, python-brace-format
-#~ msgid "Skipped file '{path}' already containing REUSE information"
-#~ msgstr "Пропущенный файл '{path}' уже содержит информацию о REUSE"
-
-#, python-brace-format
-#~ msgid "Error: Could not create comment for '{path}'"
-#~ msgstr "Ошибка: Не удалось создать комментарий для '{path}'"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Error: Generated comment header for '{path}' is missing copyright lines "
-#~ "or license expressions. The template is probably incorrect. Did not write "
-#~ "new header."
-#~ msgstr ""
-#~ "Ошибка: В сгенерированном заголовке комментария для '{path}' отсутствуют "
-#~ "строки копирайта или выражения лицензии. Вероятно, шаблон неверен. Не "
-#~ "удалось написать новый заголовок."
-
-#, python-brace-format
-#~ msgid "Successfully changed header of {path}"
-#~ msgstr "Успешно изменен заголовок {path}"
-
-#, python-brace-format
-#~ msgid "Could not parse '{expression}'"
-#~ msgstr "Не удалось разобрать '{expression}'"
-
-#, python-brace-format
-#~ msgid ""
-#~ "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
-#~ msgstr ""
-#~ "'{path}' содержит выражение SPDX, которое не может быть разобрано, что "
-#~ "приводит к пропуску файла"
-
-#, python-brace-format
-#~ msgid ""
-#~ "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
-#~ msgstr ""
-#~ "{attr_name} должно быть {type_name} (получено {value}, которое является "
-#~ "{value_class})."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Item in {attr_name} collection must be a {type_name} (got {item_value} "
-#~ "that is a {item_class})."
-#~ msgstr ""
-#~ "Элемент в коллекции {attr_name} должен быть {type_name} (получил "
-#~ "{item_value}, который является {item_class})."
-
-#, python-brace-format
-#~ msgid "{attr_name} must not be empty."
-#~ msgstr "{attr_name} не должно быть пустым."
-
-#, python-brace-format
-#~ msgid "{name} must be a {type} (got {value} that is a {value_type})."
-#~ msgstr ""
-#~ "{name} должно быть {type} (получено {value}, которое является "
-#~ "{value_type})."
-
-#, python-brace-format
-#~ msgid ""
-#~ "The value of 'precedence' must be one of {precedence_vals} (got "
-#~ "{received})"
-#~ msgstr ""
-#~ "Значение '\"Привилегия\" должно быть одним из {precedence_vals} (получено "
-#~ "{received})"
-
-#~ msgid "generated comment is missing copyright lines or license expressions"
-#~ msgstr ""
-#~ "В сгенерированном комментарии отсутствуют строки об авторских правах или "
-#~ "выражениях лицензии"
-
-#~ msgid "'{}' found in:"
-#~ msgstr "'{}' найдено в:"
-
-#~ msgid "DEPRECATED LICENSES"
-#~ msgstr "УСТАРЕВШИЕ ЛИЦЕНЗИИ"
-
-#~ msgid "The following licenses are deprecated by SPDX:"
-#~ msgstr "Следующие лицензии устарели в SPDX:"
-
-#~ msgid "LICENSES WITHOUT FILE EXTENSION"
-#~ msgstr "ЛИЦЕНЗИИ БЕЗ РАСШИРЕНИЯ ФАЙЛА"
-
-#~ msgid "The following licenses have no file extension:"
-#~ msgstr "Следующие лицензии не имеют расширения файла:"
-
-#~ msgid "MISSING LICENSES"
-#~ msgstr "ОТСУТСТВУЮЩИЕ ЛИЦЕНЗИИ"
-
-#~ msgid "UNUSED LICENSES"
-#~ msgstr "НЕИСПОЛЬЗОВАННЫЕ ЛИЦЕНЗИИ"
-
-#~ msgid "The following licenses are not used:"
-#~ msgstr "Следующие лицензии не используются:"
-
-#~ msgid "READ ERRORS"
-#~ msgstr "ОШИБКИ ЧТЕНИЯ"
-
-#~ msgid "Could not read:"
-#~ msgstr "Не удалось прочитать:"
-
-#~ msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
-#~ msgstr "ОТСУТСТВИЕ ИНФОРМАЦИИ ОБ АВТОРСКИХ ПРАВАХ И ЛИЦЕНЗИРОВАНИИ"
-
-#~ msgid "The following files have no copyright information:"
-#~ msgstr "Следующие файлы не содержат информации об авторских правах:"
-
-#~ msgid "The following files have no licensing information:"
-#~ msgstr "Следующие файлы не содержат информации о лицензировании:"
-
-#~ msgid "SUMMARY"
-#~ msgstr "РЕЗЮМЕ"
-
-#~ msgid "Bad licenses:"
-#~ msgstr "Плохие лицензии:"
-
-#~ msgid "Deprecated licenses:"
-#~ msgstr "Утраченные лицензии:"
-
-#~ msgid "Licenses without file extension:"
-#~ msgstr "Лицензии без расширения файла:"
-
-#~ msgid "Missing licenses:"
-#~ msgstr "Отсутствующие лицензии:"
-
-#~ msgid "Unused licenses:"
-#~ msgstr "Неиспользованные лицензии:"
-
-#~ msgid "Used licenses:"
-#~ msgstr "Используемые лицензии:"
-
-#~ msgid "Read errors:"
-#~ msgstr "Читайте ошибки:"
-
-#~ msgid "Files with copyright information:"
-#~ msgstr "Файлы с информацией об авторских правах:"
-
-#~ msgid "Files with license information:"
-#~ msgstr "Файлы с информацией о лицензии:"
-
-#~ msgid ""
-#~ "Congratulations! Your project is compliant with version {} of the REUSE "
-#~ "Specification :-)"
-#~ msgstr ""
-#~ "Поздравляем! Ваш проект соответствует версии {} спецификации REUSE :-)"
-
-#~ msgid ""
-#~ "Unfortunately, your project is not compliant with version {} of the REUSE "
-#~ "Specification :-("
-#~ msgstr ""
-#~ "К сожалению, ваш проект не соответствует версии {} спецификации REUSE :-("
-
-#~ msgid "RECOMMENDATIONS"
-#~ msgstr "РЕКОМЕНДАЦИИ"
-
-#, python-brace-format
-#~ msgid "{path}: missing license {lic}\n"
-#~ msgstr "{path}: отсутствует лицензия {lic}\n"
-
-#, python-brace-format
-#~ msgid "{path}: read error\n"
-#~ msgstr "{path}: ошибка чтения\n"
-
-#, python-brace-format
-#~ msgid "{path}: no license identifier\n"
-#~ msgstr "{path}: нет идентификатора лицензии\n"
-
-#, python-brace-format
-#~ msgid "{path}: no copyright notice\n"
-#~ msgstr "{path}: нет уведомления об авторских правах\n"
-
-#, python-brace-format
-#~ msgid "{path}: bad license {lic}\n"
-#~ msgstr "{path}: плохая лицензия {lic}\n"
-
-#, python-brace-format
-#~ msgid "{lic_path}: deprecated license\n"
-#~ msgstr "{lic_path}: устаревшая лицензия\n"
-
-#, python-brace-format
-#~ msgid "{lic_path}: license without file extension\n"
-#~ msgstr "{lic_path}: лицензия без расширения файла\n"
-
-#, python-brace-format
-#~ msgid "{lic_path}: unused license\n"
-#~ msgstr "{lic_path}: неиспользуемая лицензия\n"
-
-#, python-brace-format
-#~ msgid "'{path}' covered by {global_path}"
-#~ msgstr "'{path}' покрыт {global_path}"
-
-#, python-brace-format
-#~ msgid ""
-#~ "'{path}' is covered exclusively by REUSE.toml. Not reading the file "
-#~ "contents."
-#~ msgstr ""
-#~ "'{path}' покрывается исключительно REUSE.toml. Не читать содержимое файла."
-
-#, python-brace-format
-#~ msgid ""
-#~ "'{path}' was detected as a binary file; not searching its contents for "
-#~ "REUSE information."
-#~ msgstr ""
-#~ "'{path}' был обнаружен как двоичный файл; поиск информации о REUSE в его "
-#~ "содержимом не производится."
-
-#~ msgid ""
-#~ "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE."
-#~ "toml. Use `reuse convert-dep5` to convert."
-#~ msgstr ""
-#~ "'.reuse/dep5' является устаревшим. Вместо него рекомендуется использовать "
-#~ "REUSE.toml. Для преобразования используйте `reuse convert-dep5`."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
-#~ "simultaneously; they are not intercompatible."
-#~ msgstr ""
-#~ "Найдены оба файла '{new_path}' и '{old_path}'. Вы не можете хранить оба "
-#~ "файла одновременно; они несовместимы."
-
-#, python-brace-format
-#~ msgid "determining identifier of '{path}'"
-#~ msgstr "определяющий идентификатор '{path}'"
-
-#, python-brace-format
-#~ msgid "{path} does not have a file extension"
-#~ msgstr "У {path} нет расширения файла"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Could not resolve SPDX License Identifier of {path}, resolving to "
-#~ "{identifier}. Make sure the license is in the license list found at "
-#~ "<https://spdx.org/licenses/> or that it starts with 'LicenseRef-', and "
-#~ "that it has a file extension."
-#~ msgstr ""
-#~ "Не удалось разрешить идентификатор лицензии SPDX {path}, разрешается "
-#~ "{identifier}. Убедитесь, что лицензия находится в списке лицензий по "
-#~ "адресу <https://spdx.org/licenses/> или что она начинается с "
-#~ "'LicenseRef-' и имеет расширение файла."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{identifier} is the SPDX License Identifier of both {path} and "
-#~ "{other_path}"
-#~ msgstr ""
-#~ "{identifier} - это идентификатор лицензии SPDX для {path} и {other_path}"
-
-#~ msgid ""
-#~ "project '{}' is not a VCS repository or required VCS software is not "
-#~ "installed"
-#~ msgstr ""
-#~ "Проект '{}' не является репозиторием VCS или в нем не установлено "
-#~ "необходимое программное обеспечение VCS"
-
-#, python-brace-format
-#~ msgid "Could not read '{path}'"
-#~ msgstr "Не удалось прочитать '{path}'"
-
-#, python-brace-format
-#~ msgid "Unexpected error occurred while parsing '{path}'"
-#~ msgstr "При разборе '{path}' произошла непредвиденная ошибка"
-
-#~ msgid ""
-#~ "Fix bad licenses: At least one license in the LICENSES directory and/or "
-#~ "provided by 'SPDX-License-Identifier' tags is invalid. They are either "
-#~ "not valid SPDX License Identifiers or do not start with 'LicenseRef-'. "
-#~ "FAQ about custom licenses: https://reuse.software/faq/#custom-license"
-#~ msgstr ""
-#~ "Исправление недействительных лицензий: По крайней мере одна лицензия в "
-#~ "каталоге LICENSES и/или предоставленная тегами 'SPDX-License-Identifier', "
-#~ "является недействительной. Они либо не являются действительными "
-#~ "идентификаторами лицензий SPDX, либо не начинаются с 'LicenseRef-'. Часто "
-#~ "задаваемые вопросы о пользовательских лицензиях: https://reuse.software/"
-#~ "faq/#custom-license"
-
-#~ msgid ""
-#~ "Fix deprecated licenses: At least one of the licenses in the LICENSES "
-#~ "directory and/or provided by an 'SPDX-License-Identifier' tag or in '."
-#~ "reuse/dep5' has been deprecated by SPDX. The current list and their "
-#~ "respective recommended  new identifiers can be found here: <https://spdx."
-#~ "org/licenses/#deprecated>"
-#~ msgstr ""
-#~ "Исправление устаревших лицензий: По крайней мере одна из лицензий в "
-#~ "каталоге LICENSES и/или предоставленная тегом 'SPDX-License-Identifier' "
-#~ "или в файле '.reuse/dep5', была устаревшей в SPDX. Текущий список и "
-#~ "рекомендуемые новые идентификаторы можно найти здесь: <https://spdx.org/"
-#~ "licenses/#deprecated>"
-
-#~ msgid ""
-#~ "Fix licenses without file extension: At least one license text file in "
-#~ "the 'LICENSES' directory does not have a '.txt' file extension. Please "
-#~ "rename the file(s) accordingly."
-#~ msgstr ""
-#~ "Исправьте лицензии без расширения файла: По крайней мере один текстовый "
-#~ "файл лицензии в каталоге 'LICENSES' не имеет расширения '.txt'. "
-#~ "Пожалуйста, переименуйте файл(ы) соответствующим образом."
-
-#~ msgid ""
-#~ "Fix missing licenses: For at least one of the license identifiers "
-#~ "provided by the 'SPDX-License-Identifier' tags, there is no corresponding "
-#~ "license text file in the 'LICENSES' directory. For SPDX license "
-#~ "identifiers, you can simply run 'reuse download --all' to get any missing "
-#~ "ones. For custom licenses (starting with 'LicenseRef-'), you need to add "
-#~ "these files yourself."
-#~ msgstr ""
-#~ "Исправление отсутствующих лицензий: По крайней мере для одного из "
-#~ "идентификаторов лицензий, предоставляемых тегами 'SPDX-License-"
-#~ "Identifier', в каталоге 'LICENSES' нет соответствующего текстового файла "
-#~ "лицензии. Для идентификаторов лицензий SPDX можно просто выполнить "
-#~ "команду 'reuse download --all', чтобы получить все недостающие "
-#~ "идентификаторы. Для пользовательских лицензий (начинающихся с "
-#~ "'LicenseRef-') вам нужно добавить эти файлы самостоятельно."
-
-#~ msgid ""
-#~ "Fix unused licenses: At least one of the license text files in 'LICENSES' "
-#~ "is not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. "
-#~ "Please make sure that you either tag the accordingly licensed files "
-#~ "properly, or delete the unused license text if you are sure that no file "
-#~ "or code snippet is licensed as such."
-#~ msgstr ""
-#~ "Исправьте неиспользуемые лицензии: По крайней мере, на один из файлов с "
-#~ "текстом лицензии в 'LICENSES' не ссылается ни один файл, например, тег "
-#~ "'SPDX-License-Identifier'. Пожалуйста, убедитесь, что вы либо пометили "
-#~ "соответствующие лицензионные файлы должным образом, либо удалили "
-#~ "неиспользуемый лицензионный текст, если вы уверены, что ни один файл или "
-#~ "фрагмент кода не лицензируется как таковой."
-
-#~ msgid ""
-#~ "Fix read errors: At least one of the files in your directory cannot be "
-#~ "read by the tool. Please check the file permissions. You will find the "
-#~ "affected files at the top of the output as part of the logged error "
-#~ "messages."
-#~ msgstr ""
-#~ "Исправьте ошибки чтения: По крайней мере один из файлов в вашей "
-#~ "директории не может быть прочитан инструментом. Проверьте права доступа к "
-#~ "файлам. Затронутые файлы вы найдете в верхней части вывода в виде "
-#~ "сообщений об ошибках."
-
-#~ msgid ""
-#~ "Fix missing copyright/licensing information: For one or more files, the "
-#~ "tool cannot find copyright and/or licensing information. You typically do "
-#~ "this by adding 'SPDX-FileCopyrightText' and 'SPDX-License-Identifier' "
-#~ "tags to each file. The tutorial explains additional ways to do this: "
-#~ "<https://reuse.software/tutorial/>"
-#~ msgstr ""
-#~ "Исправление отсутствующей информации об авторских правах/лицензировании: "
-#~ "Для одного или нескольких файлов инструмент не может найти информацию об "
-#~ "авторских правах и/или лицензировании. Обычно это можно сделать, добавив "
-#~ "к каждому файлу теги 'SPDX-FileCopyrightText' и 'SPDX-License-"
-#~ "Identifier'. В учебнике описаны дополнительные способы решения этой "
-#~ "задачи: <https://reuse.software/tutorial/>"
+"Не удалось определить версию Bash, завершение оболочки не поддерживается."
 
 #~ msgid "--skip-unrecognised has no effect when used together with --style"
 #~ msgstr ""
