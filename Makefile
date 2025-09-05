@@ -66,8 +66,8 @@ dist: clean-build clean-pyc clean-docs ## builds source and wheel package
 
 .PHONY: create-pot
 create-pot:  ## generate .pot file
-	xgettext --add-comments --from-code=utf-8 --output=po/reuse.pot src/reuse/**/*.py
-	xgettext --add-comments --output=po/click.pot "${VIRTUAL_ENV}"/lib/python*/*-packages/click/**.py
+	xgettext --add-comments --from-code=utf-8 --output=po/reuse.pot $(shell find src/reuse -name '*.py')
+	xgettext --add-comments --output=po/click.pot $(shell find "${VIRTUAL_ENV}"/lib/python*/*-packages/click -name '*.py')
 	msgcat --output=po/reuse.pot po/reuse.pot po/click.pot
 	for name in po/*.po; do \
 		msgmerge --output=$${name} $${name} po/reuse.pot; \
