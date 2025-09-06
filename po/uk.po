@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-05 14:27+0000\n"
-"PO-Revision-Date: 2025-05-23 13:01+0000\n"
-"Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"PO-Revision-Date: 2025-09-07 11:05+0000\n"
+"Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: src/reuse/project.py:255
 #, python-brace-format
@@ -665,9 +665,8 @@ msgid "'{}' is not a valid SPDX expression."
 msgstr "'{}' не є допустимим SPDX-виразом."
 
 #: src/reuse/lint.py:38
-#, fuzzy
 msgid "BAD LICENSES"
-msgstr "НЕВИКОРИСТАНІ ЛІЦЕНЗІЇ"
+msgstr "ПОГАНІ ЛІЦЕНЗІЇ"
 
 #: src/reuse/lint.py:40 src/reuse/lint.py:69
 msgid "'{}' found in:"
@@ -714,9 +713,8 @@ msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "ВІДСУТНІ ВІДОМОСТІ ПРО АВТОРСЬКІ ПРАВА ТА ЛІЦЕНЗУВАННЯ"
 
 #: src/reuse/lint.py:112
-#, fuzzy
 msgid "The following files have no copyright and licensing information:"
-msgstr "Такі файли не містять відомостей про авторські права:"
+msgstr "Наступні файли не мають інформації про авторські права та ліцензування:"
 
 #: src/reuse/lint.py:123
 msgid "The following files have no copyright information:"
@@ -1017,9 +1015,8 @@ msgid "{name} {filename!r} is a file."
 msgstr "{name} {filename!r} це файл."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:898
-#, fuzzy
 msgid "{name} {filename!r} is a directory."
-msgstr "{name} '{filename}' це каталог."
+msgstr "{name} {filename!r} є каталогом."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:907
 msgid "{name} {filename!r} is not readable."
