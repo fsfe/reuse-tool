@@ -13,12 +13,14 @@ from textwrap import dedent
 import pytest
 
 from reuse.comment import (
+    BladeCommentStyle,
     CommentStyle,
     CppCommentStyle,
     HtmlCommentStyle,
     LispCommentStyle,
     PythonCommentStyle,
     _all_style_classes,
+    get_comment_style,
 )
 from reuse.exceptions import CommentCreateError, CommentParseError
 
@@ -688,3 +690,11 @@ def test_parse_comment_lisp():
     )
 
     assert LispCommentStyle.parse_comment(text) == expected
+
+
+def test_get_comment_style():
+    """Select the right style based on the filename"""
+    assert get_comment_style("foo.php") == CppCommentStyle
+    assert get_comment_style("foo.blade.php") == BladeCommentStyle
+    assert get_comment_style("foo.bar.blade.php") == CppCommentStyle
+    assert get_comment_style("foo.php.blade") is None
