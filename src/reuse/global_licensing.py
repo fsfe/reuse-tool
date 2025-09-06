@@ -6,6 +6,7 @@
 
 # mypy: disable-error-code=attr-defined
 
+import functools
 import logging
 import re
 from abc import ABC, abstractmethod
@@ -17,12 +18,12 @@ from typing import (
     Callable,
     Collection,
     Generator,
+    Iterable,
     Optional,
     Type,
     TypeVar,
     Union,
     cast,
-    overload,
 )
 
 import attrs
@@ -33,9 +34,11 @@ from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
 from license_expression import ExpressionError
 
-from . import _LICENSING, ReuseInfo, SourceType
+from . import _LICENSING
+from .copyright import CopyrightNotice, ReuseInfo, SourceType
 from .covered_files import iter_files
 from .exceptions import (
+    CopyrightNoticeParseError,
     GlobalLicensingParseError,
     GlobalLicensingParseTypeError,
     GlobalLicensingParseValueError,
@@ -55,8 +58,8 @@ REUSE_TOML_VERSION = 1
 _TOML_KEYS = {
     "paths": "path",
     "precedence": "precedence",
-    "copyright_lines": "SPDX-FileCopyrightText",
-    "spdx_expressions": "SPDX-License-Identifier",
+    "_copyright_notices": "SPDX-FileCopyrightText",
+    "_spdx_expressions": "SPDX-License-Identifier",
 }
 
 
@@ -184,28 +187,28 @@ def _str_to_global_precedence(value: Any) -> PrecedenceType:
         ) from error
 
 
-@overload
-def _str_to_set(value: str) -> set[str]: ...
-
-
-@overload
-def _str_to_set(value: Union[None, _T, Collection[_T]]) -> set[_T]: ...
-
-
-def _str_to_set(
-    value: Union[str, None, _T, Collection[_T]],
-) -> Union[set[str], set[_T]]:
+def _to_set(value: Optional[Union[_T, Iterable[_T]]]) -> set[_T]:
     if value is None:
-        return cast(set[str], set())
+        return set()
+    # Special case for strings.
     if isinstance(value, str):
-        return {value}
+        return {cast(_T, value)}
     if hasattr(value, "__iter__"):
         return set(value)
     return {value}
 
 
-def _str_to_set_of_expr(value: Any) -> set[Expression]:
-    value = _str_to_set(value)
+# The attrs library infers __init__ parameter types from the converter's
+# signature. The signature of _to_set confuses mypy, so this wrapper exposes a
+# simpler signature just for use with attrs.
+def _to_set_any(value: Optional[Any]) -> set[Any]:
+    return cast(set[Any], _to_set(value))
+
+
+def _to_set_of_expr(
+    value: Optional[Union[str, Iterable[str]]],
+) -> set[Expression]:
+    value = _to_set(value)
     result = set()
     for expression in value:
         try:
@@ -219,7 +222,29 @@ def _str_to_set_of_expr(value: Any) -> set[Expression]:
     return result
 
 
-@attrs.define
+def _to_set_of_notice(
+    value: Optional[Union[str, Iterable[str]]],
+) -> set[CopyrightNotice]:
+    value = _to_set(value)
+    result = set()
+    for notice in value:
+        try:
+            result.add(CopyrightNotice.from_string(notice))
+        except CopyrightNoticeParseError as error:
+            try:
+                result.add(
+                    CopyrightNotice.from_string(
+                        f"SPDX-FileCopyrightText: {notice}"
+                    )
+                )
+            except CopyrightNoticeParseError:
+                raise GlobalLicensingParseValueError(
+                    _("Could not parse '{notice}'").format(notice=notice)
+                ) from error
+    return result
+
+
+@attrs.define(frozen=True)
 class GlobalLicensing(ABC):
     """An abstract class that represents a configuration file that contains
     licensing information that is pertinent to other files in the project.
@@ -251,7 +276,7 @@ class GlobalLicensing(ABC):
         """
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class ReuseDep5(GlobalLicensing):
     """A soft wrapper around :class:`Copyright`."""
 
@@ -287,10 +312,8 @@ class ReuseDep5(GlobalLicensing):
         return {
             PrecedenceType.AGGREGATE: [
                 ReuseInfo(
-                    spdx_expressions=set(
-                        map(_LICENSING.parse, [result.license.synopsis])
-                    ),
-                    copyright_lines=set(
+                    spdx_expressions=_to_set_of_expr(result.license.synopsis),
+                    copyright_notices=_to_set_of_notice(
                         map(str.strip, result.copyright.splitlines())
                     ),
                     path=path,
@@ -304,33 +327,47 @@ class ReuseDep5(GlobalLicensing):
         }
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class AnnotationsItem:
     """A class that maps to a single [[annotations]] table element in
     REUSE.toml.
     """
 
     paths: set[str] = attrs.field(
-        converter=_str_to_set,
+        converter=_to_set_any,
         validator=_validate_collection_of(set, str, optional=False),
     )
     precedence: PrecedenceType = attrs.field(
         converter=_str_to_global_precedence, default=PrecedenceType.CLOSEST
     )
-    copyright_lines: set[str] = attrs.field(
-        converter=_str_to_set,
+    _copyright_notices: set[str] = attrs.field(
+        alias="copyright_notices",
+        converter=_to_set_any,
         validator=_validate_collection_of(set, str, optional=True),
         default=None,
     )
-    spdx_expressions: set[Expression] = attrs.field(
-        converter=_str_to_set_of_expr,
-        validator=_validate_collection_of(set, Expression, optional=True),
+    _spdx_expressions: set[str] = attrs.field(
+        alias="spdx_expressions",
+        converter=_to_set_any,
+        validator=_validate_collection_of(set, str, optional=True),
         default=None,
     )
 
-    _paths_regex: re.Pattern = attrs.field(init=False)
-
     def __attrs_post_init__(self) -> None:
+        # Immediately trigger cached properties to get error as needed.
+        _ = self.copyright_notices
+        _ = self.spdx_expressions
+
+    @functools.cached_property
+    def copyright_notices(self) -> set[CopyrightNotice]:
+        return _to_set_of_notice(self._copyright_notices)
+
+    @functools.cached_property
+    def spdx_expressions(self) -> set[Expression]:
+        return _to_set_of_expr(self._spdx_expressions)
+
+    @functools.cached_property
+    def _paths_regex(self) -> re.Pattern:
         def translate(path: str) -> str:
             # pylint: disable=too-many-branches
             blocks = []
@@ -369,9 +406,7 @@ class AnnotationsItem:
             result = "".join(blocks)
             return f"^({result})$"
 
-        self._paths_regex = re.compile(
-            "|".join(translate(path) for path in self.paths)
-        )
+        return re.compile("|".join(translate(path) for path in self.paths))
 
     @classmethod
     def from_dict(cls, values: dict[str, Any]) -> "AnnotationsItem":
@@ -383,9 +418,11 @@ class AnnotationsItem:
         precedence = values.get(_TOML_KEYS["precedence"])
         if precedence is not None:
             new_dict["precedence"] = precedence
-        new_dict["copyright_lines"] = values.get(_TOML_KEYS["copyright_lines"])
+        new_dict["copyright_notices"] = values.get(
+            _TOML_KEYS["_copyright_notices"]
+        )
         new_dict["spdx_expressions"] = values.get(
-            _TOML_KEYS["spdx_expressions"]
+            _TOML_KEYS["_spdx_expressions"]
         )
         return cls(**new_dict)  # type: ignore
 
@@ -396,7 +433,7 @@ class AnnotationsItem:
         return bool(self._paths_regex.match(path))
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class ReuseTOML(GlobalLicensing):
     """A class that contains the data parsed from a REUSE.toml file."""
 
@@ -467,7 +504,7 @@ class ReuseTOML(GlobalLicensing):
                 item.precedence: [
                     ReuseInfo(
                         spdx_expressions=item.spdx_expressions,
-                        copyright_lines=item.copyright_lines,
+                        copyright_notices=item.copyright_notices,
                         path=path,
                         source_path="REUSE.toml",
                         source_type=SourceType.REUSE_TOML,
@@ -482,14 +519,14 @@ class ReuseTOML(GlobalLicensing):
         return PurePath(self.source).parent
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class NestedReuseTOML(GlobalLicensing):
     """A class that represents a hierarchy of :class:`ReuseTOML` objects."""
 
     reuse_tomls: list[ReuseTOML] = attrs.field()
 
     @classmethod
-    def from_file(cls, path: StrPath, **kwargs: Any) -> "GlobalLicensing":
+    def from_file(cls, path: StrPath, **kwargs: Any) -> "NestedReuseTOML":
         """TODO: *path* is a directory instead of a file."""
         include_submodules: bool = kwargs.get("include_submodules", False)
         include_meson_subprojects: bool = kwargs.get(
@@ -544,9 +581,13 @@ class NestedReuseTOML(GlobalLicensing):
         licence_found = False
         to_keep: list[ReuseInfo] = []
         for info in reversed(result[PrecedenceType.CLOSEST]):
-            new_info = info.copy(copyright_lines=set(), spdx_expressions=set())
-            if not copyright_found and info.copyright_lines:
-                new_info = new_info.copy(copyright_lines=info.copyright_lines)
+            new_info = info.copy(
+                copyright_notices=set(), spdx_expressions=set()
+            )
+            if not copyright_found and info.copyright_notices:
+                new_info = new_info.copy(
+                    copyright_notices=info.copyright_notices
+                )
                 copyright_found = True
             if not licence_found and info.spdx_expressions:
                 new_info = new_info.copy(spdx_expressions=info.spdx_expressions)

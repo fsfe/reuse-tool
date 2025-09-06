@@ -33,7 +33,7 @@ def supported_licenses(_obj: ClickObj, format_json: bool) -> None:
     licenses = _load_license_list(_LICENSES)[1]
 
     if format_json:
-        licenses = [
+        result = [
             {
                 "id": license_id,
                 "name": license_info["name"],
@@ -41,7 +41,7 @@ def supported_licenses(_obj: ClickObj, format_json: bool) -> None:
             }
             for license_id, license_info in licenses.items()
         ]
-        click.echo(json.dumps(licenses, indent=2), nl=False)
+        click.echo(json.dumps(result, indent=2), nl=False)
     else:
         for license_id, license_info in licenses.items():
             license_name = license_info["name"]
