@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-05 14:27+0000\n"
-"PO-Revision-Date: 2024-10-18 20:15+0000\n"
+"PO-Revision-Date: 2025-09-15 13:01+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: src/reuse/project.py:255
 #, python-brace-format
@@ -710,9 +710,10 @@ msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "CHYBĚJÍCÍ INFORMACE O AUTORSKÝCH PRÁVECH A LICENCÍCH"
 
 #: src/reuse/lint.py:112
-#, fuzzy
 msgid "The following files have no copyright and licensing information:"
-msgstr "Následující soubory nemají žádné informace o autorských právech:"
+msgstr ""
+"Následující soubory neobsahují žádné informace o autorských právech a "
+"licencích:"
 
 #: src/reuse/lint.py:123
 msgid "The following files have no copyright information:"
