@@ -72,6 +72,19 @@ class TestYearRangeFromString:
         assert years.end == "2020"
         assert years.original == value
 
+    @pytest.mark.parametrize(
+        "separator",
+        YearRangeSeparator.__args__,  # type: ignore
+    )
+    def test_spacing_around_separator(self, separator):
+        """If there is spacing around the separator, ignore that."""
+        value = f"2017 {separator} 2020"
+        years = YearRange.from_string(value)
+        assert years.start == "2017"
+        assert years.separator == separator
+        assert years.end == "2020"
+        assert years.original == value
+
     def test_end_is_word(self):
         """The end date is a word like 'Present'."""
         years = YearRange.from_string("2017--Present")
@@ -100,6 +113,11 @@ class TestYearRangeFromString:
             "1234 5678",
             "123-4",
             "-1234",
+            "2017- 2019",
+            "2017 -2019",
+            "2017 - ",
+            "2017- ",
+            "2017 -",
         ],
     )
     def test_invalid_ranges(self, text):
@@ -121,6 +139,27 @@ class TestYearRangeTupleFromString:
             [YearRange(F(str(num))) for num in range(2017, 2026)]
             + [YearRange(F("2026"), "--", "2027")]
         )
+
+    @pytest.mark.parametrize(
+        "separator",
+        YearRangeSeparator.__args__,  # type: ignore
+    )
+    def test_spacing_around_separator(self, separator):
+        """A year range with a separator surrounded by whitespace is not split
+        into two year ranges.
+        """
+        result = YearRange.tuple_from_string(f"2017 {separator} 2019")
+        assert result == (YearRange(F("2017"), separator, "2019"),)
+
+    def test_ambiguous_year_range(self):
+        """Sometimes the spacing around the year range does not make it clear
+        what the intended range is. For extracting from tuples, the spacing must
+        _always_ be on both sides.
+        """
+        result = YearRange.tuple_from_string("2017- 2019")
+        assert result == (YearRange(F("2017"), "-"), YearRange(F("2019")))
+        with pytest.raises(YearRangeParseError):
+            YearRange.tuple_from_string("2017 -2019")
 
 
 class TestYearRangeToString:

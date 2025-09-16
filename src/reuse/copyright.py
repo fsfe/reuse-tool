@@ -69,13 +69,12 @@ def validate_four_digits(value: str) -> FourDigitString:
     return result
 
 
+_ANY_SEPARATOR = r"|".join(YearRangeSeparator.__args__)  # type: ignore
 #: A regex pattern to match e.g. '2017-2020'.
 YEAR_RANGE_PATTERN = re.compile(
     r"(?P<start>\d{4})"
-    r"("
-    r"(?P<separator>("
-    + "|".join(YearRangeSeparator.__args__)  # type: ignore
-    + r"))"
+    r"(\s*?"
+    r"(?P<separator>" + _ANY_SEPARATOR + r")\s*?"
     r"(?P<end>\S+)?"
     r")?"
 )
@@ -194,6 +193,26 @@ class YearRange:
         re_result = YEAR_RANGE_PATTERN.fullmatch(value)
         if not re_result:
             raise YearRangeParseError(f"'{value}' is not a valid year range.")
+
+        # Test if spacing around separator is symmetrical. Or, specifically: If
+        # there is whitespace before the separator, then there MUST be
+        # whitespace after, and vice versa.
+        sep = re_result.group("separator")
+        end = re_result.group("end")
+        if sep:
+            sep_idx = re_result.start("separator")
+            sep_end = re_result.end("separator")
+
+            ws_before = value[sep_idx - 1].isspace() if sep_idx > 0 else False
+            ws_after = (
+                value[sep_end].isspace() if sep_end < len(value) else False
+            )
+
+            if ws_before != ws_after or (ws_before and ws_after and not end):
+                raise YearRangeParseError(
+                    f"'{value}' is not a valid year range."
+                )
+
         # Mypy is disabled for this because the values are enforced by the
         # regex. This could be cleaner, but would require a lot of useless code
         # to validate what the regex already enforces.
@@ -210,7 +229,22 @@ class YearRange:
             YearRangeParseError: The substring is not a valid year range.
         """
         years: list[YearRange] = []
-        for year in re.split(r"[,\s]", value):
+        lookbehinds = "".join(
+            rf"(?<!\s{separator})"
+            for separator in YearRangeSeparator.__args__  # type: ignore
+        )
+        split_regex = (
+            # Separated by comma (plus any whitespace)
+            r",\s*|" +
+            # Separated by whitespace only. However, we cannot split on
+            # whitespace that is itself part of a year range (e.g. ``2017 -
+            # 2019``). The lookbehinds and lookahead take care of that. There
+            # are multiple lookbehinds because lookbehinds cannot be
+            # variable-width.
+            lookbehinds + r"\s+"
+            rf"(?!{_ANY_SEPARATOR}\s)"
+        )
+        for year in re.split(split_regex, value):
             if not year:
                 continue
             years.append(YearRange.from_string(year))
