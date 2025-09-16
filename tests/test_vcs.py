@@ -10,6 +10,7 @@
 
 import os
 from pathlib import Path
+from typing import cast
 
 from reuse import vcs
 
@@ -19,7 +20,7 @@ def test_find_root_in_git_repo(git_repository):
     root directory.
     """
     os.chdir("src")
-    result = vcs.find_root()
+    result = cast(Path, vcs.find_root())
 
     assert Path(result).absolute().resolve() == git_repository
 
@@ -29,7 +30,7 @@ def test_find_root_in_hg_repo(hg_repository):
     the root directory.
     """
     os.chdir("src")
-    result = vcs.find_root()
+    result = cast(Path, vcs.find_root())
 
     assert Path(result).absolute().resolve() == hg_repository
 
@@ -39,7 +40,7 @@ def test_find_root_in_jujutsu_repo(jujutsu_repository):
     the root directory.
     """
     os.chdir("src")
-    result = vcs.find_root()
+    result = cast(Path, vcs.find_root())
 
     assert Path(result).absolute().resolve() == jujutsu_repository
 
@@ -49,6 +50,6 @@ def test_find_root_in_pijul_repo(pijul_repository):
     the root directory.
     """
     os.chdir("src")
-    result = vcs.find_root()
+    result = cast(Path, vcs.find_root())
 
     assert Path(result).absolute().resolve() == pijul_repository
