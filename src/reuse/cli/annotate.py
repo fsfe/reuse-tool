@@ -337,7 +337,10 @@ _HELP = (
     cls=MutexOption,
     mutually_exclusive=_YEAR_MUTEX,
     type=str,
-    help=_("Year of copyright notice."),
+    help=_(
+        "Year of copyright notice. You may define multiple years or a range"
+        " of years."
+    ),
 )
 @click.option(
     "--style",
@@ -382,7 +385,7 @@ _HELP = (
     "--merge-copyrights",
     is_flag=True,
     help=_(
-        "Merge copyright lines if copyright notices are otherwise identical."
+        "Merge copyright notices if they are identical except for their years."
     ),
 )
 @click.option(
