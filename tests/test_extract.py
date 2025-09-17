@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
+# SPDX-FileCopyrightText: 2025 Double Open Oy
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -389,6 +390,14 @@ def test_decoded_text_from_binary_crlf():
     text = "Hello\r\nworld"
     encoded = text.encode("utf-8")
     assert decoded_text_from_binary(BytesIO(encoded)) == "Hello\nworld"
+
+
+def test_decoded_text_from_binary_round_down():
+    """Given a cropped line of text, only take full lines."""
+    text = "Hello\nbeautiful\nworld"
+    encoded = text.encode("utf-8")
+    result = decoded_text_from_binary(BytesIO(encoded), size=len(encoded))
+    assert result == "Hello\nbeautiful"
 
 
 def test_detect_line_endings_windows():
