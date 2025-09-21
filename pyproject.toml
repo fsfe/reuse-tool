@@ -83,7 +83,7 @@ bumpver = ">=2023.1129"
 pylint = ">=2.12.2"
 mypy = ">=1.0"
 GitPython = ">=3.0"
-protokolo = { version =  ">=2.1.0", python = ">=3.11" }
+protokolo = { version = ">=3.0.2", python = ">=3.11" }
 
 [tool.poetry.group.lsp]
 optional = true
