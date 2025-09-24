@@ -1,6 +1,5 @@
 ..
   SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
-  SPDX-FileCopyrightText: 2017 Sebastian Schuberth <schuberth@fsfe.org>
 
   SPDX-License-Identifier: CC-BY-SA-4.0
 
@@ -20,7 +19,7 @@ Contributors
 - Max Mehl <max.mehl@fsfe.org>
 - Nico Rikken <nico.rikken@fsfe.org>
 - Florian Snow <florian@familysnow.net>
-- Sebastian Schuberth <schuberth@fsfe.org>
+- Sebastian Schuberth <sebastian@doubleopen.org>
 - Samuel Gaist <samuel.gaist@idiap.ch>
 - Diego Elio Pettenò <flameeyes@flameeyes.com>
 - Matija Šuklje <matija@suklje.name>
