@@ -45,6 +45,7 @@ SPDX_SNIPPET_INDICATOR = b"SPDX-SnippetBegin"
 
 _LOGGER = logging.getLogger(__name__)
 
+_START_PATTERN = r"(?:^.*?)"
 _END_PATTERN = r"(?:({})\s*)*$".format(
     "|".join(
         set(
@@ -73,13 +74,18 @@ _END_PATTERN = r"(?:({})\s*)*$".format(
     )
 )
 _COPYRIGHT_NOTICE_PATTERN = re.compile(
-    COPYRIGHT_NOTICE_PATTERN.pattern + _END_PATTERN, re.MULTILINE
+    _START_PATTERN + COPYRIGHT_NOTICE_PATTERN.pattern + _END_PATTERN,
+    re.MULTILINE,
 )
 _LICENSE_IDENTIFIER_PATTERN = re.compile(
-    r"SPDX-License-Identifier:\s*(?P<value>.*?)" + _END_PATTERN, re.MULTILINE
+    _START_PATTERN
+    + r"SPDX-License-Identifier:\s*(?P<value>.*?)"
+    + _END_PATTERN,
+    re.MULTILINE,
 )
 _CONTRIBUTOR_PATTERN = re.compile(
-    r"SPDX-FileContributor:\s*(?P<value>.*?)" + _END_PATTERN, re.MULTILINE
+    _START_PATTERN + r"SPDX-FileContributor:\s*(?P<value>.*?)" + _END_PATTERN,
+    re.MULTILINE,
 )
 # The keys match the relevant attributes of ReuseInfo.
 _SPDX_TAGS: dict[str, re.Pattern] = {
