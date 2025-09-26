@@ -100,15 +100,32 @@ COPYRIGHT_NOTICE_PATTERN = re.compile(
     r"©"
     r"))"
     r"\s*"
-    r"((?P<years>"
+    r"(?P<text>.*?)"
+    r"\s*"
+)
+_YEARS_PATTERN = re.compile(
+    r"(?P<prefix>(^|,?\s+))(?P<years>"
     + _YEAR_RANGE_PATTERN_ANONYMISED
     + r"((\s*,\s*|\s+)"
     + _YEAR_RANGE_PATTERN_ANONYMISED
-    + r")*),?\s+)?"
-    r"\s*"
-    r"(?P<name>.+?)"
-    r"(\s+<(?P<contact>.*?)>)?"
-    r"(\s*)"
+    + r")*)(?P<suffix>,?(\s+|$))"
+)
+_COMMA_SPACE_PATTERN = re.compile(r"^,?\s+")
+
+_LOOKBEHINDS = "".join(
+    rf"(?<!\s{separator})"
+    for separator in YearRangeSeparator.__args__  # type: ignore
+)
+_YEAR_RANGE_SPLIT_REGEX = re.compile(
+    # Separated by comma (plus any whitespace)
+    r",\s*|" +
+    # Separated by whitespace only. However, we cannot split on
+    # whitespace that is itself part of a year range (e.g. ``2017 -
+    # 2019``). The lookbehinds and lookahead take care of that. There
+    # are multiple lookbehinds because lookbehinds cannot be
+    # variable-width.
+    _LOOKBEHINDS + r"\s+"
+    rf"(?!{_ANY_SEPARATOR}\s)"
 )
 
 
@@ -229,22 +246,7 @@ class YearRange:
             YearRangeParseError: The substring is not a valid year range.
         """
         years: list[YearRange] = []
-        lookbehinds = "".join(
-            rf"(?<!\s{separator})"
-            for separator in YearRangeSeparator.__args__  # type: ignore
-        )
-        split_regex = (
-            # Separated by comma (plus any whitespace)
-            r",\s*|" +
-            # Separated by whitespace only. However, we cannot split on
-            # whitespace that is itself part of a year range (e.g. ``2017 -
-            # 2019``). The lookbehinds and lookahead take care of that. There
-            # are multiple lookbehinds because lookbehinds cannot be
-            # variable-width.
-            lookbehinds + r"\s+"
-            rf"(?!{_ANY_SEPARATOR}\s)"
-        )
-        for year in re.split(split_regex, value):
+        for year in _YEAR_RANGE_SPLIT_REGEX.split(value):
             if not year:
                 continue
             years.append(YearRange.from_string(year))
@@ -453,15 +455,13 @@ def _most_common_prefix(
 class CopyrightNotice:
     """Represents a single copyright notice."""
 
-    #: The copyright holder.
+    #: The copyright holder. Strictly, this is all text in the copyright notice
+    #: which is not part of *years*.
     name: str
     #: The prefix with which the copyright statement begins.
     prefix: CopyrightPrefix = CopyrightPrefix.SPDX
     #: The dates associated with the copyright notice.
     years: tuple[YearRange, ...] = field(default_factory=tuple)
-    #: The contact address of the copyright holder. This is added between
-    #: brackets at the end.
-    contact: Optional[str] = None
 
     #: If parsed from a string, this contains the original string.
     original: Optional[str] = field(
@@ -484,47 +484,71 @@ class CopyrightNotice:
             )
         return cls.from_match(re_result)
 
+    @staticmethod
+    def _detect_prefix(prefix: str) -> CopyrightPrefix:
+        """Given a matched prefix from :const:`COPYRIGHT_NOTICE_PATTERN`, detect
+        the associated prefix.
+        """
+        prefix_lower = prefix.lower()
+        # String-match the prefix.
+        for prefix_enum in (
+            cast(CopyrightPrefix, item) for item in reversed(CopyrightPrefix)
+        ):
+            # lower() is used to match (C) as well as (c).
+            if prefix_lower == prefix_enum.value.lower():
+                return prefix_enum
+        # The prefix could not be string-matched, most likely because there
+        # was unexpected spacing in the prefix. Get a close match using
+        # difflib.
+        matches = difflib.get_close_matches(
+            prefix,
+            # TODO: In Python 3.11, this list comprehension is not needed.
+            [item.value for item in CopyrightPrefix],
+            n=1,
+            cutoff=0.2,
+        )
+        if matches:
+            return CopyrightPrefix(matches[0])
+        # This shouldn't happen, but if no prefix could be found,
+        # default to SPDX.
+        return CopyrightPrefix.SPDX
+
     @classmethod
     def from_match(cls, value: re.Match) -> "CopyrightNotice":
         """Create a :class:`CopyrightNotice` object from a regular expression
         match using the :const:`COPYRIGHT_NOTICE_PATTERN` :class:`re.Pattern`.
         """
-        re_prefix = value.group("prefix")
-        re_prefix_lower = re_prefix.lower()
-        # String-match the prefix.
-        for prefix in (
-            cast(CopyrightPrefix, item) for item in reversed(CopyrightPrefix)
-        ):
-            # lower() is used to match (C) as well as (c).
-            if re_prefix_lower == prefix.value.lower():
-                break
-        else:
-            # The prefix could not be string-matched, most likely because there
-            # was unexpected spacing in the prefix. Get a close match using
-            # difflib.
-            matches = difflib.get_close_matches(
-                re_prefix,
-                # TODO: In Python 3.11, this list comprehension is not needed.
-                [item.value for item in CopyrightPrefix],
-                n=1,
-                cutoff=0.2,
-            )
-            if matches:
-                prefix = CopyrightPrefix(matches[0])
-            else:
-                # This shouldn't happen, but if no prefix could be found,
-                # default to SPDX.
-                prefix = CopyrightPrefix.SPDX
+        prefix = cls._detect_prefix(value.group("prefix"))
+
+        re_text = value.group("text")
+        year_ranges_substrings = list(_YEARS_PATTERN.finditer(re_text))
+        start_ends: list[tuple[int, int]] = [
+            (match.start("prefix"), match.end("years"))
+            for match in year_ranges_substrings
+        ]
+        name_parts: list[str] = []
+        last = 0
+        for start, end in start_ends:
+            name_parts.append(re_text[last:start])
+            last = end
+        name_parts.append(re_text[last:])
+
+        name = "".join(name_parts)
+        # Remove ', ' from the start of the name, which appears in e.g.
+        # 'Copyright 2017, Jane Doe'.
+        name = _COMMA_SPACE_PATTERN.sub("", name)
         years: tuple[YearRange, ...] = tuple()
-        re_years = value.group("years")
-        re_name = value.group("name")
-        if re_years:
-            years = YearRange.tuple_from_string(re_years)
+        if year_ranges_substrings:
+            years = tuple(
+                chain.from_iterable(
+                    YearRange.tuple_from_string(match.group("years"))
+                    for match in year_ranges_substrings
+                )
+            )
         result = cls(
-            name=re_name,
+            name=name,
             prefix=prefix,
             years=years,
-            contact=value.group("contact"),
         )
         object.__setattr__(result, "original", value.string)
         return result
@@ -534,26 +558,22 @@ class CopyrightNotice:
         cls, copyright_notices: Iterable["CopyrightNotice"]
     ) -> set["CopyrightNotice"]:
         """Given an iterable of :class:`CopyrightNotice`s, merge all notices
-        which have the same name and contact. The years are compacted, and from
-        the :class:`CopyrightPrefix`es, the most common is chosen. If there is a
-        tie in frequency, choose the one which appears first in the enum.
+        which have the same name. The years are compacted, and from the
+        :class:`CopyrightPrefix`es, the most common is chosen. If there is a tie
+        in frequency, choose the one which appears first in the enum.
         """
-        # TODO: Consider making a match on contact optional.
-        matches: defaultdict[
-            tuple[str, Optional[str]], list[CopyrightNotice]
-        ] = defaultdict(list)
+        matches: defaultdict[str, list[CopyrightNotice]] = defaultdict(list)
         result: set[CopyrightNotice] = set()
         for notice in copyright_notices:
-            matches[(notice.name, notice.contact)].append(notice)
+            matches[notice.name].append(notice)
         for key, value in matches.items():
             result.add(
                 cls(
-                    key[0],
+                    key,
                     prefix=_most_common_prefix(value),
                     years=YearRange.compact(
                         chain.from_iterable(notice.years for notice in value)
                     ),
-                    contact=key[1],
                 )
             )
         return result
@@ -567,8 +587,6 @@ class CopyrightNotice:
                 ", ".join((str(date_range) for date_range in self.years))
             )
         result.write(f" {self.name}")
-        if self.contact:
-            result.write(f" <{self.contact}>")
         return result.getvalue()
 
     def __lt__(self, other: "CopyrightNotice") -> bool:
@@ -581,12 +599,10 @@ class CopyrightNotice:
         return (
             norm(self.years),
             self.name,
-            norm(self.contact),
             self.prefix,
         ) < (
             norm(other.years),
             other.name,
-            norm(other.contact),
             other.prefix,
         )
 
