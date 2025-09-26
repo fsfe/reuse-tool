@@ -382,9 +382,8 @@ class TestCopyrightNoticeFromString:
         """from_string uses from_match under the hood for 99% of the logic."""
         text = "SPDX-FileCopyrightText: 2017 Jane Doe <jane@example.com>"
         expected = CopyrightNotice(
-            "Jane Doe",
+            "Jane Doe <jane@example.com>",
             years=(YearRange(F("2017")),),
-            contact="jane@example.com",
         )
 
         from_match = mock.create_autospec(CopyrightNotice.from_match)
@@ -457,50 +456,6 @@ class TestCopyrightNoticeFromString:
         notice = CopyrightNotice.from_string(value)
         assert notice == CopyrightNotice("Jane Doe")
         assert notice.original == value
-
-    def test_spacing_after_contact(self):
-        """Spacing after the contact should be stripped."""
-        value = "SPDX-FileCopyrightText: Jane Doe <jane@example.com> \t"
-        notice = CopyrightNotice.from_string(value)
-        assert notice == CopyrightNotice("Jane Doe", contact="jane@example.com")
-        assert notice.original == value
-
-    def test_contact(self):
-        """The contact field is recognised."""
-        notice = CopyrightNotice.from_string(
-            "Copyright Jane Doe <jane@example.com>"
-        )
-        assert notice == CopyrightNotice(
-            "Jane Doe",
-            prefix=CopyrightPrefix.STRING,
-            contact="jane@example.com",
-        )
-
-    def test_contact_empty(self):
-        """The contact field is empty."""
-        notice = CopyrightNotice.from_string("Copyright Jane Doe <>")
-        assert notice == CopyrightNotice(
-            "Jane Doe",
-            prefix=CopyrightPrefix.STRING,
-            contact="",
-        )
-
-    def test_only_contact(self):
-        """If only contact is provided, recognise it as the name."""
-        notice = CopyrightNotice.from_string("Copyright <Jane Doe>")
-        assert notice == CopyrightNotice(
-            "<Jane Doe>",
-            prefix=CopyrightPrefix.STRING,
-        )
-
-    def test_no_space_before_contact(self):
-        """If there is no space before contact, do not recognise it."""
-        notice = CopyrightNotice.from_string(
-            "Copyright Jane Doe<jane@example.com>"
-        )
-        assert notice == CopyrightNotice(
-            "Jane Doe<jane@example.com>", prefix=CopyrightPrefix.STRING
-        )
 
     @pytest.mark.parametrize(
         "text,prefix",
@@ -585,7 +540,6 @@ class TestCopyrightNoticeFromString:
             "12345",
             "1234.5678",
             "Present-1234",
-            "a 1234",
         ],
     )
     def test_not_a_year_range(self, text):
@@ -634,6 +588,36 @@ class TestCopyrightNoticeFromString:
             ),
         )
 
+    @pytest.mark.parametrize("year", [" 2017", ", 2017"])
+    def test_year_after_name(self, year):
+        """The year can be at the end instead of at the beginning."""
+        notice = CopyrightNotice.from_string(f"Copyright Jane Doe{year}")
+        assert notice == CopyrightNotice(
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            years=(YearRange(F("2017")),),
+        )
+
+    def test_years_around_name(self):
+        """There could be years in multiple places in the notice."""
+        notice = CopyrightNotice.from_string("Copyright 2017 Jane Doe 2019")
+        assert notice == CopyrightNotice(
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            years=(YearRange(F("2017")), YearRange(F("2019"))),
+        )
+
+    def test_name_around_years(self):
+        """There could be name information around where the year appears."""
+        notice = CopyrightNotice.from_string(
+            "Copyright Jane Doe 2017, some rights reserved"
+        )
+        assert notice == CopyrightNotice(
+            "Jane Doe, some rights reserved",
+            prefix=CopyrightPrefix.STRING,
+            years=(YearRange(F("2017")),),
+        )
+
 
 class TestCopyrightNoticeToString:
     """Tests for CopyrightNotice.to_string."""
@@ -667,14 +651,6 @@ class TestCopyrightNoticeToString:
             == "SPDX-FileCopyrightText: 2017, 2020--2022 Jane Doe"
         )
 
-    def test_with_contact(self):
-        """If a contact is defined, add it between brackets."""
-        notice = CopyrightNotice("Jane Doe", contact="jane@example.com")
-        assert (
-            notice.to_string()
-            == "SPDX-FileCopyrightText: Jane Doe <jane@example.com>"
-        )
-
     def test_original(self):
         """If an original string exists, return it."""
         notice = CopyrightNotice("Jane Doe")
@@ -687,14 +663,6 @@ class TestCopyrightNoticeToString:
         notice = CopyrightNotice("Jane Doe")
         object.__setattr__(notice, "original", "Foo")
         assert str(notice) == notice.to_string()
-
-    def test_no_name(self):
-        """Not providing a copyright holder is invalid."""
-        # pylint: disable=no-value-for-parameter
-        with pytest.raises(TypeError):
-            CopyrightNotice(
-                contact="jane@example.com",  # type: ignore[call-arg]
-            )
 
 
 class TestCopyrightNoticeOrder:
@@ -726,14 +694,6 @@ class TestCopyrightNoticeOrder:
         assert CopyrightNotice(
             "Alice", years=(YearRange(F("2025")),)
         ) < CopyrightNotice("Bob")
-
-    def test_no_contact_before_contact(self):
-        """The notice without contact is sorted before the notice with a
-        contact.
-        """
-        assert CopyrightNotice(
-            "Alice", contact="alice@example.com"
-        ) < CopyrightNotice("Alice")
 
 
 class TestCopyrightNoticeMerge:
@@ -768,28 +728,6 @@ class TestCopyrightNoticeMerge:
         assert result == {
             CopyrightNotice.from_string("Copyright 2017, 2018 Jane Doe")
         }
-
-    @pytest.mark.parametrize(
-        "one,two",
-        [
-            ("Copyright Jane Doe", "Copyright Jane Doe <jane@example.com>"),
-            (
-                "Copyright Jane Doe <jane@example.com>",
-                "Copyright Jane Doe <jane@coop.example.com",
-            ),
-            (
-                "Copyright Jane Doe <info@example.com>",
-                "Copyright John Doe <info@example.com>",
-            ),
-        ],
-    )
-    def test_name_or_contact_different(self, one, two):
-        """If both the name and contact are not identical, the notices are not
-        merged.
-        """
-        notices = {CopyrightNotice.from_string(item) for item in (one, two)}
-        result = CopyrightNotice.merge(notices)
-        assert result == notices
 
     def test_two_different_prefix(self):
         """If the prefixes of two notices are different, choose the highest
