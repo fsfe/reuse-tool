@@ -170,7 +170,7 @@ def extract_reuse_info(text: str) -> ReuseInfo:
 
 
 def reuse_info_of_file(
-    path: StrPath, original_path: StrPath, root: StrPath
+    path: StrPath, original_path: Path, root: Path
 ) -> ReuseInfo:
     """Open *path* and return its :class:`ReuseInfo`.
 
