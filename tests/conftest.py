@@ -10,10 +10,10 @@
 
 # pylint: disable=redefined-outer-name,invalid-name
 
+import concurrent.futures
 import contextlib
 import datetime
 import logging
-import multiprocessing as mp
 import os
 import shutil
 import subprocess
@@ -177,7 +177,7 @@ def optional_pijul_exe(
 def multiprocessing(request, monkeypatch) -> Generator[bool, None, None]:
     """Run the test with or without multiprocessing."""
     if not request.param:
-        monkeypatch.delattr(mp, "Pool")
+        monkeypatch.delattr(concurrent.futures, "ProcessPoolExecutor")
     yield request.param
 
 

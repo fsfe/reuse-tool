@@ -135,13 +135,16 @@ def _add_plus_to_identifier(spdx_identifier: str) -> str:
     return f"{spdx_identifier}+"
 
 
-def relative_from_root(path: StrPath, root: StrPath) -> Path:
+def relative_from_root(path: Path, root: Path) -> Path:
     """A helper function to get *path* relative to *root*."""
-    path = Path(path)
-    try:
-        return path.relative_to(root)
-    except ValueError:
-        return Path(os.path.relpath(path, start=root))
+    path_parts = path.parts
+    root_parts = root.parts
+    root_parts_len = len(root_parts)
+
+    # This is rather strangely more performant than `path.relative_to(root)`.
+    if path_parts[:root_parts_len] == root_parts:
+        return Path(*path_parts[root_parts_len:])
+    return Path(os.path.relpath(str(path), start=str(root)))
 
 
 def _checksum(path: StrPath) -> str:

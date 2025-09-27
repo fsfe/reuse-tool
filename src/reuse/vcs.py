@@ -54,7 +54,7 @@ class VCSStrategy(ABC):
         self.root = Path(root)
 
     @abstractmethod
-    def is_ignored(self, path: StrPath) -> bool:
+    def is_ignored(self, path: Path) -> bool:
         """Is *path* ignored by the VCS?"""
 
     @abstractmethod
@@ -84,7 +84,7 @@ class VCSStrategy(ABC):
 class VCSStrategyNone(VCSStrategy):
     """Strategy that is used when there is no VCS."""
 
-    def is_ignored(self, path: StrPath) -> bool:
+    def is_ignored(self, path: Path) -> bool:
         return False
 
     def is_submodule(self, path: StrPath) -> bool:
@@ -153,13 +153,13 @@ class VCSStrategyGit(VCSStrategy):
         # Each entry looks a little like 'submodule.submodule.path\nmy_path'.
         return {Path(entry.splitlines()[1]) for entry in submodule_entries}
 
-    def is_ignored(self, path: StrPath) -> bool:
+    def is_ignored(self, path: Path) -> bool:
         path = relative_from_root(path, self.root)
         return path in self._all_ignored_files
 
     def is_submodule(self, path: StrPath) -> bool:
         return any(
-            relative_from_root(path, self.root).resolve()
+            relative_from_root(Path(path), self.root).resolve()
             == submodule_path.resolve()
             for submodule_path in self._submodules
         )
@@ -225,7 +225,7 @@ class VCSStrategyHg(VCSStrategy):
         all_files = result.stdout.decode("utf-8").split("\0")
         return {Path(file_) for file_ in all_files}
 
-    def is_ignored(self, path: StrPath) -> bool:
+    def is_ignored(self, path: Path) -> bool:
         path = relative_from_root(path, self.root)
         return path in self._all_ignored_files
 
@@ -309,7 +309,7 @@ class VCSStrategyJujutsu(VCSStrategy):
             _LOGGER.debug("unable to parse jj version: %s", e)
             return None
 
-    def is_ignored(self, path: StrPath) -> bool:
+    def is_ignored(self, path: Path) -> bool:
         path = relative_from_root(path, self.root)
 
         for tracked in self._all_tracked_files:
@@ -374,7 +374,7 @@ class VCSStrategyPijul(VCSStrategy):
         all_files = result.stdout.decode("utf-8").splitlines()
         return {Path(file_) for file_ in all_files}
 
-    def is_ignored(self, path: StrPath) -> bool:
+    def is_ignored(self, path: Path) -> bool:
         path = relative_from_root(path, self.root)
         return path not in self._all_tracked_files
 

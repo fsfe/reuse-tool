@@ -12,6 +12,7 @@ import contextlib
 import logging
 import os
 import re
+import stat
 from pathlib import Path
 from typing import Collection, Generator, Optional, cast
 
@@ -68,14 +69,16 @@ def is_path_ignored(
     """Is *path* ignored by some mechanism?"""
     # pylint: disable=too-many-return-statements,too-many-branches
     name = path.name
-    parent_parts = path.parent.parts
-    parent_dir = parent_parts[-1] if len(parent_parts) > 0 else ""
 
-    if path.is_symlink():
+    # Only stat the file once instead of multiple times.
+    stat_result = path.lstat()
+
+    # Symlink.
+    if stat.S_ISLNK(stat_result.st_mode):
         _LOGGER.debug("skipping symlink '%s'", path)
         return True
-
-    if path.is_file():
+    # File.
+    if stat.S_ISREG(stat_result.st_mode):
         if subset_files is not None and path.resolve() not in subset_files:
             return True
         for pattern in _IGNORE_FILE_PATTERNS:
@@ -86,11 +89,11 @@ def is_path_ignored(
         # Suppressing this error because I simply don't want to deal
         # with that here.
         with contextlib.suppress(OSError):
-            if path.stat().st_size == 0:
+            if stat_result.st_size == 0:
                 _LOGGER.debug("skipping 0-sized file '%s'", path)
                 return True
-
-    elif path.is_dir():
+    # Directory.
+    elif stat.S_ISDIR(stat_result.st_mode):
         if subset_files is not None and not any(
             Path(file_).is_relative_to(path.resolve()) for file_ in subset_files
         ):
@@ -100,7 +103,7 @@ def is_path_ignored(
                 return True
         if not include_meson_subprojects:
             for pattern in _IGNORE_MESON_PARENT_DIR_PATTERNS:
-                if pattern.match(parent_dir):
+                if pattern.match(path.parent.name):
                     _LOGGER.info(
                         "ignoring '%s' because it is a Meson subproject", path
                     )
@@ -138,7 +141,6 @@ def iter_files(
 
     for root_str, dirs, files in os.walk(directory):
         root = Path(root_str)
-        _LOGGER.debug("currently walking in '%s'", root)
 
         # Don't walk ignored directories
         for dir_ in list(dirs):
@@ -168,5 +170,4 @@ def iter_files(
                 _LOGGER.debug("ignoring '%s'", the_file)
                 continue
 
-            _LOGGER.debug("yielding '%s'", the_file)
             yield the_file

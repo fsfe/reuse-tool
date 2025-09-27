@@ -229,10 +229,8 @@ class Project:
         An empty list is returned if no information was found whatsoever.
         """
         # pylint: disable=too-many-branches
-        original_path = path
+        original_path = Path(path)
         path = _determine_license_path(path)
-
-        _LOGGER.debug(f"searching '{path}' for REUSE information")
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in ReuseInfo
@@ -300,7 +298,7 @@ class Project:
                     )
         return result
 
-    def relative_from_root(self, path: StrPath) -> Path:
+    def relative_from_root(self, path: Path) -> Path:
         """If the project root is /tmp/project, and *path* is
         /tmp/project/src/file, then return src/file.
         """
@@ -407,9 +405,6 @@ class Project:
                 continue
 
             path = self.relative_from_root(path)
-            _LOGGER.debug(
-                _("determining identifier of '{path}'").format(path=path)
-            )
 
             try:
                 identifier = self._identifier_of_license(path)
