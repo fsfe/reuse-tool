@@ -15,12 +15,13 @@
 
 """Functions for manipulating the comment headers of files."""
 
+import importlib.resources
 import logging
 import re
 from typing import NamedTuple, Optional, Sequence, Type, cast
 
 from boolean.boolean import ParseError
-from jinja2 import Environment, PackageLoader, Template
+from jinja2 import Environment, FunctionLoader, Template
 from license_expression import ExpressionError
 
 from . import ReuseInfo
@@ -36,7 +37,14 @@ from .i18n import _
 
 _LOGGER = logging.getLogger(__name__)
 
-_ENV = Environment(loader=PackageLoader("reuse", "templates"), trim_blocks=True)
+
+def _template_loader(name: str) -> str:
+    root = importlib.resources.files("reuse")
+    template_path = root / "templates" / name
+    return template_path.read_text(encoding="utf-8")
+
+
+_ENV = Environment(loader=FunctionLoader(_template_loader), trim_blocks=True)
 DEFAULT_TEMPLATE = _ENV.get_template("default_template.jinja2")
 
 _NEWLINE_PATTERN = re.compile(r"\n", re.MULTILINE)

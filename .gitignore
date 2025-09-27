@@ -145,6 +145,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Zip applications
+*.pyz
+
 # End of https://www.gitignore.io/api/linux,python
 
 *.mo
