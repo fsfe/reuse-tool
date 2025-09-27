@@ -14,8 +14,8 @@ import bdb
 import contextlib
 import datetime
 import logging
-import multiprocessing as mp
 import random
+from concurrent.futures import ProcessPoolExecutor
 from hashlib import md5
 from io import StringIO
 from os import cpu_count
@@ -23,7 +23,8 @@ from pathlib import Path, PurePath
 from typing import (
     Any,
     Collection,
-    Iterable,
+    Final,
+    Generator,
     NamedTuple,
     Optional,
     Protocol,
@@ -46,6 +47,8 @@ from .types import StrPath
 _LOGGER = logging.getLogger(__name__)
 
 LINT_VERSION = "1.0"
+
+_CPU_COUNT: Final[int] = cpu_count() or 1
 
 
 class _MultiprocessingContainer:
@@ -120,9 +123,9 @@ def _generate_file_reports(
     project: Project,
     do_checksum: bool = True,
     subset_files: Optional[Collection[StrPath]] = None,
-    multiprocessing: bool = cpu_count() > 1,  # type: ignore
+    multiprocessing: bool = _CPU_COUNT > 1,
     add_license_concluded: bool = False,
-) -> Iterable[_MultiprocessingResult]:
+) -> Generator[_MultiprocessingResult, None, None]:
     """Create a :class:`FileReport` for every file in the project, filtered
     by *subset_files*.
     """
@@ -136,14 +139,15 @@ def _generate_file_reports(
         else project.all_files()
     )
     if multiprocessing:
-        with mp.Pool() as pool:
-            results: Iterable[_MultiprocessingResult] = pool.map(
-                container, files
+        files_list = list(files)
+        with ProcessPoolExecutor() as executor:
+            yield from executor.map(
+                container,
+                files_list,
+                chunksize=max(1, int(len(files_list) / _CPU_COUNT / 4)),
             )
-        pool.join()
     else:
-        results = map(container, files)
-    return results
+        yield from map(container, files)
 
 
 def _process_error(error: Exception, path: StrPath) -> None:
