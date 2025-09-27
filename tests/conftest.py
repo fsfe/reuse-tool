@@ -86,9 +86,6 @@ def pytest_configure(config):
 def pytest_runtest_setup(item):
     """Called before running a test."""
     # pylint: disable=unused-argument
-    # Make sure to restore CWD
-    os.chdir(CWD)
-
     # TODO: Awful workaround. In `main`, this environment variable is set under
     # certain conditions. This means that all tests that run _after_ that
     # condition is met also have the environment variable set, because the
@@ -97,7 +94,14 @@ def pytest_runtest_setup(item):
         del os.environ["_SUPPRESS_DEP5_WARNING"]
 
 
-@pytest.fixture()
+def pytest_runtest_teardown(item):
+    """Called after running a test."""
+    # pylint: disable=unused-argument
+    # Make sure to restore CWD
+    os.chdir(CWD)
+
+
+@pytest.fixture(scope="session")
 def git_exe() -> str:
     """Run the test with git."""
     if not GIT_EXE:
@@ -115,7 +119,7 @@ def optional_git_exe(
     yield exe
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def hg_exe() -> str:
     """Run the test with mercurial (hg)."""
     if not HG_EXE:
@@ -133,7 +137,7 @@ def optional_hg_exe(
     yield exe
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def jujutsu_exe() -> str:
     """Run the test with Jujutsu."""
     if not JUJUTSU_EXE:
@@ -151,7 +155,7 @@ def optional_jujutsu_exe(
     yield exe
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def pijul_exe() -> str:
     """Run the test with Pijul."""
     if not PIJUL_EXE:
@@ -191,21 +195,26 @@ def empty_directory(tmpdir_factory) -> Path:
     return directory
 
 
-@pytest.fixture()
-def fake_repository(tmpdir_factory) -> Path:
+@pytest.fixture(scope="session")
+def _cached_fake_repository(tmp_path_factory) -> Path:
     """Create a temporary fake repository."""
-    directory = Path(str(tmpdir_factory.mktemp("fake_repository")))
-    for file_ in (RESOURCES_DIRECTORY / "fake_repository").iterdir():
-        if file_.is_file():
-            shutil.copy(file_, directory / file_.name)
-        elif file_.is_dir():
-            shutil.copytree(file_, directory / file_.name)
+    directory = tmp_path_factory.mktemp("fake_repository")
+    shutil.copytree(
+        RESOURCES_DIRECTORY / "fake_repository", directory, dirs_exist_ok=True
+    )
 
     # Get rid of those pesky pyc files.
     shutil.rmtree(directory / "src/__pycache__", ignore_errors=True)
 
-    os.chdir(directory)
     return directory
+
+
+@pytest.fixture()
+def fake_repository(_cached_fake_repository, tmp_path) -> Path:
+    """Create a temporary fake repository."""
+    shutil.copytree(_cached_fake_repository, tmp_path, dirs_exist_ok=True)
+    os.chdir(tmp_path)
+    return tmp_path
 
 
 @pytest.fixture()
@@ -254,21 +263,30 @@ def _repo_contents(
     (build_dir / "hello.py").write_text("foo")
 
 
-@pytest.fixture()
-def git_repository(fake_repository: Path, git_exe: str) -> Path:
+@pytest.fixture(scope="session")
+def _cached_git_repository(
+    _cached_fake_repository: Path, tmp_path_factory, git_exe: str
+) -> Path:
     """Create a git repository with ignored files."""
-    os.chdir(fake_repository)
-    _repo_contents(fake_repository)
+    directory = tmp_path_factory.mktemp("cached_git_directory")
+    shutil.copytree(_cached_fake_repository, directory, dirs_exist_ok=True)
+    os.chdir(directory)
+    _repo_contents(directory)
 
-    # TODO: To speed this up, maybe directly write to '.gitconfig' instead.
-    subprocess.run([git_exe, "init", str(fake_repository)], check=True)
-    subprocess.run([git_exe, "config", "user.name", "Example"], check=True)
-    subprocess.run(
-        [git_exe, "config", "user.email", "example@example.com"], check=True
+    subprocess.run([git_exe, "init", str(directory)], check=True)
+    Path(".git/config").write_text(
+        cleandoc(
+            """
+            [user]
+              name = Example
+              email = example@example.com
+            [commit]
+              gpgSign = false
+            """
+        ),
+        encoding="utf-8",
     )
-    subprocess.run([git_exe, "config", "commit.gpgSign", "false"], check=True)
-
-    subprocess.run([git_exe, "add", str(fake_repository)], check=True)
+    subprocess.run([git_exe, "add", str(directory)], check=True)
     subprocess.run(
         [
             git_exe,
@@ -279,15 +297,27 @@ def git_repository(fake_repository: Path, git_exe: str) -> Path:
         check=True,
     )
 
-    return fake_repository
+    return directory
 
 
 @pytest.fixture()
-def hg_repository(fake_repository: Path, hg_exe: str) -> Path:
+def git_repository(_cached_git_repository, tmp_path) -> Path:
+    """Create a git repository with ignored files."""
+    shutil.copytree(_cached_git_repository, tmp_path, dirs_exist_ok=True)
+    os.chdir(tmp_path)
+    return tmp_path
+
+
+@pytest.fixture(scope="session")
+def _cached_hg_repository(
+    _cached_fake_repository: Path, tmp_path_factory, hg_exe: str
+) -> Path:
     """Create a mercurial repository with ignored files."""
-    os.chdir(fake_repository)
+    directory = tmp_path_factory.mktemp("cached_hg_repository")
+    shutil.copytree(_cached_fake_repository, directory, dirs_exist_ok=True)
+    os.chdir(directory)
     _repo_contents(
-        fake_repository,
+        directory,
         ignore_filename=".hgignore",
         ignore_prefix="syntax:glob",
     )
@@ -306,28 +336,50 @@ def hg_repository(fake_repository: Path, hg_exe: str) -> Path:
         check=True,
     )
 
-    return fake_repository
+    return directory
 
 
 @pytest.fixture()
-def jujutsu_repository(fake_repository: Path, jujutsu_exe: str) -> Path:
+def hg_repository(_cached_hg_repository, tmp_path) -> Path:
+    """Create a mercurial repository with ignored files."""
+    shutil.copytree(_cached_hg_repository, tmp_path, dirs_exist_ok=True)
+    os.chdir(tmp_path)
+    return tmp_path
+
+
+@pytest.fixture(scope="session")
+def _cached_jujutsu_repository(
+    _cached_fake_repository: Path, tmp_path_factory, jujutsu_exe: str
+) -> Path:
     """Create a jujutsu repository with ignored files."""
-    os.chdir(fake_repository)
-    _repo_contents(fake_repository)
+    directory = tmp_path_factory.mktemp("cached_jujutsu_repository")
+    shutil.copytree(_cached_fake_repository, directory, dirs_exist_ok=True)
+    os.chdir(directory)
+    _repo_contents(directory)
 
-    subprocess.run(
-        [jujutsu_exe, "git", "init", str(fake_repository)], check=True
-    )
+    subprocess.run([jujutsu_exe, "git", "init", str(directory)], check=True)
 
-    return fake_repository
+    return directory
 
 
 @pytest.fixture()
-def pijul_repository(fake_repository: Path, pijul_exe: str) -> Path:
+def jujutsu_repository(_cached_jujutsu_repository, tmp_path) -> Path:
+    """Create a jujutsu repository with ignored files."""
+    shutil.copytree(_cached_jujutsu_repository, tmp_path, dirs_exist_ok=True)
+    os.chdir(tmp_path)
+    return tmp_path
+
+
+@pytest.fixture(scope="session")
+def _cached_pijul_repository(
+    _cached_fake_repository: Path, tmp_path_factory, pijul_exe: str
+) -> Path:
     """Create a pijul repository with ignored files."""
-    os.chdir(fake_repository)
+    directory = tmp_path_factory.mktemp("cached_pijul_repository")
+    shutil.copytree(_cached_fake_repository, directory, dirs_exist_ok=True)
+    os.chdir(directory)
     _repo_contents(
-        fake_repository,
+        directory,
         ignore_filename=".ignore",
     )
 
@@ -344,14 +396,24 @@ def pijul_repository(fake_repository: Path, pijul_exe: str) -> Path:
         check=True,
     )
 
-    return fake_repository
+    return directory
 
 
-@pytest.fixture(params=["submodule-add", "manual"])
-def submodule_repository(
-    git_repository: Path, git_exe: str, tmpdir_factory, request
+@pytest.fixture()
+def pijul_repository(_cached_pijul_repository, tmp_path) -> Path:
+    """Create a pijul repository with ignored files."""
+    shutil.copytree(_cached_pijul_repository, tmp_path, dirs_exist_ok=True)
+    os.chdir(tmp_path)
+    return tmp_path
+
+
+@pytest.fixture(scope="session", params=["submodule-add", "manual"])
+def _cached_submodule_repository(
+    _cached_git_repository: Path, git_exe: str, tmp_path_factory, request
 ) -> Path:
     """Create a git repository that contains a submodule."""
+    directory = tmp_path_factory.mktemp("cached_submodule_repository")
+    shutil.copytree(_cached_git_repository, directory, dirs_exist_ok=True)
     header = cleandoc(
         """
             SPDX-FileCopyrightText: 2019 Jane Doe
@@ -360,15 +422,23 @@ def submodule_repository(
             """
     )
 
-    submodule = Path(str(tmpdir_factory.mktemp("submodule")))
+    submodule = tmp_path_factory.mktemp("submodule")
     (submodule / "foo.py").write_text(header, encoding="utf-8")
 
     os.chdir(submodule)
 
     subprocess.run([git_exe, "init", str(submodule)], check=True)
-    subprocess.run([git_exe, "config", "user.name", "Example"], check=True)
-    subprocess.run(
-        [git_exe, "config", "user.email", "example@example.com"], check=True
+    Path(".git/config").write_text(
+        cleandoc(
+            """
+            [user]
+              name = Example
+              email = example@example.com
+            [commit]
+              gpgSign = false
+            """
+        ),
+        encoding="utf-8",
     )
 
     subprocess.run([git_exe, "add", str(submodule)], check=True)
@@ -382,7 +452,7 @@ def submodule_repository(
         check=True,
     )
 
-    os.chdir(git_repository)
+    os.chdir(directory)
 
     if request.param == "submodule-add":
         subprocess.run(
@@ -408,13 +478,16 @@ def submodule_repository(
             check=True,
         )
         with open(
-            git_repository / ".gitmodules", mode="a", encoding="utf-8"
+            directory / ".gitmodules", mode="a", encoding="utf-8"
         ) as gitmodules_file:
             gitmodules_file.write(
-                f"""[submodule "submodule"]
-	path = submodule
-	url = {submodule.resolve().as_posix()}
-"""
+                cleandoc(
+                    f"""
+                    [submodule "submodule"]
+                      path = submodule
+                      url = {submodule.resolve().as_posix()}
+                    """
+                )
             )
         subprocess.run(
             [
@@ -431,9 +504,17 @@ def submodule_repository(
         [git_exe, "commit", "-m", "add submodule"],
         check=True,
     )
-    (git_repository / ".gitmodules.license").write_text(header)
+    (directory / ".gitmodules.license").write_text(header)
 
-    return git_repository
+    return directory
+
+
+@pytest.fixture()
+def submodule_repository(_cached_submodule_repository, tmp_path) -> Path:
+    """Create a git repository that contains a submodule."""
+    shutil.copytree(_cached_submodule_repository, tmp_path, dirs_exist_ok=True)
+    os.chdir(tmp_path)
+    return tmp_path
 
 
 @pytest.fixture()
@@ -497,9 +578,7 @@ def template_simple_source():
         {% for expression in spdx_expressions %}
         SPDX-License-Identifier: {{ expression }}
         {% endfor %}
-        """.replace(
-            "spdx-Lic", "SPDX-Lic"
-        )
+        """
     )
 
 

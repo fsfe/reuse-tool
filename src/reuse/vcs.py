@@ -33,6 +33,18 @@ JUJUTSU_EXE = shutil.which("jj")
 PIJUL_EXE = shutil.which("pijul")
 
 
+def _find_ancestor(
+    directory: StrPath, ancestor: str, is_directory: bool = True
+) -> Optional[Path]:
+    path = Path(directory).resolve()
+    for parent in [path] + list(path.parents):
+        if (parent / ancestor).is_dir() or (
+            (parent / ancestor).exists() and not is_directory
+        ):
+            return parent / ancestor
+    return None
+
+
 class VCSStrategy(ABC):
     """Strategy pattern for version control systems."""
 
@@ -157,10 +169,12 @@ class VCSStrategyGit(VCSStrategy):
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [str(cls.EXE), "status"]
-        result = execute_command(command, _LOGGER, cwd=directory)
+        if _find_ancestor(directory, ".git", is_directory=False):
+            command = [str(cls.EXE), "rev-parse", "--is-inside-work-tree"]
+            result = execute_command(command, _LOGGER, cwd=directory)
 
-        return not result.returncode
+            return not result.returncode
+        return False
 
     @classmethod
     def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
@@ -224,10 +238,12 @@ class VCSStrategyHg(VCSStrategy):
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [str(cls.EXE), "root"]
-        result = execute_command(command, _LOGGER, cwd=directory)
+        if _find_ancestor(directory, ".hg"):
+            command = [str(cls.EXE), "root"]
+            result = execute_command(command, _LOGGER, cwd=directory)
 
-        return not result.returncode
+            return not result.returncode
+        return False
 
     @classmethod
     def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
@@ -315,10 +331,12 @@ class VCSStrategyJujutsu(VCSStrategy):
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [str(cls.EXE), "root"]
-        result = execute_command(command, _LOGGER, cwd=directory)
+        if _find_ancestor(directory, ".jj"):
+            command = [str(cls.EXE), "root"]
+            result = execute_command(command, _LOGGER, cwd=directory)
 
-        return not result.returncode
+            return not result.returncode
+        return False
 
     @classmethod
     def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
@@ -369,10 +387,12 @@ class VCSStrategyPijul(VCSStrategy):
         if not Path(directory).is_dir():
             raise NotADirectoryError()
 
-        command = [str(cls.EXE), "diff", "--short"]
-        result = execute_command(command, _LOGGER, cwd=directory)
+        if _find_ancestor(directory, ".pijul"):
+            command = [str(cls.EXE), "diff", "--short"]
+            result = execute_command(command, _LOGGER, cwd=directory)
 
-        return not result.returncode
+            return not result.returncode
+        return False
 
     @classmethod
     def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
@@ -387,16 +407,7 @@ class VCSStrategyPijul(VCSStrategy):
         if not path.is_dir():
             raise NotADirectoryError()
 
-        while True:
-            if (path / ".pijul").is_dir():
-                return path
-
-            parent = path.parent
-            if parent == path:
-                # We reached the filesystem root
-                return None
-
-            path = parent
+        return _find_ancestor(path, ".pijul")
 
 
 def all_vcs_strategies() -> Generator[Type[VCSStrategy], None, None]:
