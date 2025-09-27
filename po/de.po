@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 14:27+0000\n"
+"POT-Creation-Date: 2025-09-27 12:21+0000\n"
 "PO-Revision-Date: 2025-07-11 11:01+0000\n"
 "Last-Translator: Bonnie <bonnie@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -17,6 +17,170 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.13-dev\n"
+
+#: src/reuse/lint.py:38
+#, fuzzy
+msgid "BAD LICENSES"
+msgstr "NICHT VERWENDETE LIZENZEN"
+
+#: src/reuse/lint.py:40 src/reuse/lint.py:69
+msgid "'{}' found in:"
+msgstr "'{}' gefunden in:"
+
+#: src/reuse/lint.py:47
+msgid "DEPRECATED LICENSES"
+msgstr "VERALTETE LIZENZEN"
+
+#: src/reuse/lint.py:49
+msgid "The following licenses are deprecated by SPDX:"
+msgstr "Die folgenden Lizenzen wurden von SPDX als veraltetet gekennzeichnet:"
+
+#: src/reuse/lint.py:57
+msgid "LICENSES WITHOUT FILE EXTENSION"
+msgstr "LIZENZEN OHNE DATEIENDUNG"
+
+#: src/reuse/lint.py:59
+msgid "The following licenses have no file extension:"
+msgstr "Die folgenden Lizenzen haben keine Dateiendung:"
+
+#: src/reuse/lint.py:67
+msgid "MISSING LICENSES"
+msgstr "FEHLENDE LIZENZEN"
+
+#: src/reuse/lint.py:76
+msgid "UNUSED LICENSES"
+msgstr "NICHT VERWENDETE LIZENZEN"
+
+#: src/reuse/lint.py:77
+msgid "The following licenses are not used:"
+msgstr "Die folgenden Lizenzen werden nicht benutzt:"
+
+#: src/reuse/lint.py:84
+msgid "READ ERRORS"
+msgstr "LESEFEHLER"
+
+#: src/reuse/lint.py:85
+msgid "Could not read:"
+msgstr "Unlesbar:"
+
+#: src/reuse/lint.py:106
+msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
+msgstr "FEHLENDE URHEBERRECHTS- UND LIZENZINFORMATIONEN"
+
+#: src/reuse/lint.py:112
+#, fuzzy
+msgid "The following files have no copyright and licensing information:"
+msgstr "Die folgenden Dateien haben keine Urheberrechtsinformationen:"
+
+#: src/reuse/lint.py:123
+msgid "The following files have no copyright information:"
+msgstr "Die folgenden Dateien haben keine Urheberrechtsinformationen:"
+
+#: src/reuse/lint.py:132
+msgid "The following files have no licensing information:"
+msgstr "Die folgenden Dateien haben keine Lizenzinformationen:"
+
+#: src/reuse/lint.py:139
+msgid "SUMMARY"
+msgstr "ZUSAMMENFASSUNG"
+
+#: src/reuse/lint.py:144
+msgid "Bad licenses:"
+msgstr "Falsche Lizenzen:"
+
+#: src/reuse/lint.py:145
+msgid "Deprecated licenses:"
+msgstr "Veraltete Lizenzen:"
+
+#: src/reuse/lint.py:146
+msgid "Licenses without file extension:"
+msgstr "Lizenzen ohne Dateiendung:"
+
+#: src/reuse/lint.py:149
+msgid "Missing licenses:"
+msgstr "Fehlende Lizenzen:"
+
+#: src/reuse/lint.py:150
+msgid "Unused licenses:"
+msgstr "Unbenutzte Lizenzen:"
+
+#: src/reuse/lint.py:151
+msgid "Used licenses:"
+msgstr "Verwendete Lizenzen:"
+
+#: src/reuse/lint.py:152
+msgid "Read errors:"
+msgstr "Lesefehler:"
+
+#: src/reuse/lint.py:154
+#, fuzzy
+msgid "Files with copyright information:"
+msgstr "Dateien mit Urheberrechtsinformationen:"
+
+#: src/reuse/lint.py:158
+#, fuzzy
+msgid "Files with license information:"
+msgstr "Dateien mit Lizenzinformationen:"
+
+#: src/reuse/lint.py:175
+msgid ""
+"Congratulations! Your project is compliant with version {} of the REUSE "
+"Specification :-)"
+msgstr ""
+"Herzlichen Glückwunsch! Ihr Projekt ist konform mit Version {} der REUSE-"
+"Spezifikation :-)"
+
+#: src/reuse/lint.py:182
+msgid ""
+"Unfortunately, your project is not compliant with version {} of the REUSE "
+"Specification :-("
+msgstr ""
+"Leider ist Ihr Projekt nicht konform mit Version {} der REUSE-"
+"Spezifikation :-("
+
+#: src/reuse/lint.py:189
+msgid "RECOMMENDATIONS"
+msgstr "EMPFEHLUNGEN"
+
+#: src/reuse/lint.py:253
+#, fuzzy, python-brace-format
+msgid "{path}: missing license {lic}\n"
+msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
+
+#: src/reuse/lint.py:258
+#, fuzzy, python-brace-format
+msgid "{path}: read error\n"
+msgstr "Veraltete Lizenzen:"
+
+#: src/reuse/lint.py:262
+#, fuzzy, python-brace-format
+msgid "{path}: no license identifier\n"
+msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
+
+#: src/reuse/lint.py:266
+#, fuzzy, python-brace-format
+msgid "{path}: no copyright notice\n"
+msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
+
+#: src/reuse/lint.py:293
+#, fuzzy, python-brace-format
+msgid "{path}: bad license {lic}\n"
+msgstr "Unbenutzte Lizenzen:"
+
+#: src/reuse/lint.py:300
+#, fuzzy, python-brace-format
+msgid "{lic_path}: deprecated license\n"
+msgstr "Veraltete Lizenzen:"
+
+#: src/reuse/lint.py:307
+#, fuzzy, python-brace-format
+msgid "{lic_path}: license without file extension\n"
+msgstr "Lizenzen ohne Dateiendung:"
+
+#: src/reuse/lint.py:316
+#, fuzzy, python-brace-format
+msgid "{lic_path}: unused license\n"
+msgstr "Unbenutzte Lizenzen:"
 
 #: src/reuse/project.py:255
 #, fuzzy, python-brace-format
@@ -90,48 +254,6 @@ msgstr ""
 "Projekt '{}' ist kein VCS-Repository oder die benötigte VCS-Software ist "
 "nicht installiert"
 
-#: src/reuse/header.py:93
-msgid "generated comment is missing copyright lines or license expressions"
-msgstr ""
-"Dem generierten Kommentar fehlen Zeilen zum Urheberrecht oder Lizenzausdrücke"
-
-#: src/reuse/_annotate.py:92
-#, python-brace-format
-msgid "Skipped unrecognised file '{path}'"
-msgstr ""
-
-#: src/reuse/_annotate.py:98
-#, python-brace-format
-msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr ""
-
-#: src/reuse/_annotate.py:114
-#, fuzzy, python-brace-format
-msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Dateien mit Lizenzinformationen:"
-
-#: src/reuse/_annotate.py:148
-#, python-brace-format
-msgid "Error: Could not create comment for '{path}'"
-msgstr "Fehler: Kann kein Kommentar für '{path}' erstellen"
-
-#: src/reuse/_annotate.py:155
-#, python-brace-format
-msgid ""
-"Error: Generated comment header for '{path}' is missing copyright lines or "
-"license expressions. The template is probably incorrect. Did not write new "
-"header."
-msgstr ""
-"Fehler: Die generierten Kommentar-Kopfzeilen für '{path}' enthalten fehlende "
-"Urheberrechtszeilen oder Lizenzausdrücke. Die Vorlage ist wahrscheinlich "
-"falsch. Keine neuen Kopfzeile geschrieben."
-
-#. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:166
-#, python-brace-format
-msgid "Successfully changed header of {path}"
-msgstr "Kopfzeilen von {path} erfolgreich geändert"
-
 #: src/reuse/extract.py:153 src/reuse/global_licensing.py:215
 #, python-brace-format
 msgid "Could not parse '{expression}'"
@@ -145,17 +267,199 @@ msgstr ""
 "'{path}' trägt einen SPDX-Ausdruck, der nicht geparst werden kann. "
 "Überspringe Datei"
 
+#: src/reuse/header.py:93
+msgid "generated comment is missing copyright lines or license expressions"
+msgstr ""
+"Dem generierten Kommentar fehlen Zeilen zum Urheberrecht oder Lizenzausdrücke"
+
+#: src/reuse/report.py:155
+#, python-brace-format
+msgid "Could not read '{path}'"
+msgstr "Konnte '{path}' nicht lesen"
+
+#: src/reuse/report.py:160
+#, python-brace-format
+msgid "Unexpected error occurred while parsing '{path}'"
+msgstr "Unerwarteter Fehler beim Parsen von '{path}' aufgetreten"
+
+#: src/reuse/report.py:511
+msgid ""
+"Fix bad licenses: At least one license in the LICENSES directory and/or "
+"provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
+"valid SPDX License Identifiers or do not start with 'LicenseRef-'. FAQ about "
+"custom licenses: https://reuse.software/faq/#custom-license"
+msgstr ""
+"Korrektur ungültiger Lizenzen: Mindestens eine Lizenz im LICENSES-"
+"Verzeichnis, und/oder die per 'SPDX-License-Identifier' angegeben wird, ist "
+"ungültig. Sie sind entweder keine gültigen SPDX-Lizenz-Identifikatoren oder "
+"beginnen nicht mit 'LicenseRef-'. FAQ zu benutzerdefinierten Lizenzen: "
+"https://reuse.software/faq/#custom-license"
+
+#: src/reuse/report.py:522
+msgid ""
+"Fix deprecated licenses: At least one of the licenses in the LICENSES "
+"directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
+"dep5' has been deprecated by SPDX. The current list and their respective "
+"recommended  new identifiers can be found here: <https://spdx.org/licenses/"
+"#deprecated>"
+msgstr ""
+"Korrektur veralteter Lizenzen: Mindestens eine der Lizenzen im LICENSES-"
+"Verzeichnis und/oder die per 'SPDX-License-Identifier'-Kennzeichnung oder in "
+"'.reuse/dep5' angegeben ist wurde von SPDX als veraltet markiert. Die "
+"aktuelle Liste und ihre jeweiligen empfohlenen neuen Kennungen finden Sie "
+"hier: <https://spdx.org/licenses/#deprecated>"
+
+#: src/reuse/report.py:533
+msgid ""
+"Fix licenses without file extension: At least one license text file in the "
+"'LICENSES' directory does not have a '.txt' file extension. Please rename "
+"the file(s) accordingly."
+msgstr ""
+"Korrektur von Lizenzen ohne Dateierweiterung: Mindestens eine "
+"Lizenztextdatei im Verzeichnis 'LICENSES' hat keine '.txt'-Dateierweiterung. "
+"Bitte benennen Sie die Datei(en) entsprechend um."
+
+#: src/reuse/report.py:542
+msgid ""
+"Fix missing licenses: For at least one of the license identifiers provided "
+"by the 'SPDX-License-Identifier' tags, there is no corresponding license "
+"text file in the 'LICENSES' directory. For SPDX license identifiers, you can "
+"simply run 'reuse download --all' to get any missing ones. For custom "
+"licenses (starting with 'LicenseRef-'), you need to add these files yourself."
+msgstr ""
+"Korrektur fehlender Lizenzen: Für mindestens eine der durch die 'SPDX-"
+"License-Identifier' angegebenen Lizenzkennzeichen gibt es im Verzeichnis "
+"'LICENSES' keine entsprechende Lizenztextdatei. Für SPDX-Lizenz-"
+"Identifikatoren können Sie einfach 'reuse download --all' ausführen, um "
+"fehlende zu erhalten. Für benutzerdefinierte Lizenzen (beginnend mit "
+"'LicenseRef-'), müssen Sie diese Dateien selbst hinzufügen."
+
+#: src/reuse/report.py:554
+msgid ""
+"Fix unused licenses: At least one of the license text files in 'LICENSES' is "
+"not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
+"make sure that you either tag the accordingly licensed files properly, or "
+"delete the unused license text if you are sure that no file or code snippet "
+"is licensed as such."
+msgstr ""
+"Korrektur ungenutzter Lizenzen: Mindestens eine der Lizenztextdateien in "
+"'LICENSES' wird von keiner Datei referenziert, z.B. durch einen 'SPDX-"
+"License-Identifier'-Eintrag. Bitte stellen Sie sicher, dass Sie entweder die "
+"entsprechend lizenzierten Dateien korrekt markieren oder den ungenutzten "
+"Lizenztext löschen, wenn Sie sicher sind, dass keine Datei oder Code-"
+"Schnipsel darunter lizenziert ist."
+
+#: src/reuse/report.py:565
+msgid ""
+"Fix read errors: At least one of the files in your directory cannot be read "
+"by the tool. Please check the file permissions. You will find the affected "
+"files at the top of the output as part of the logged error messages."
+msgstr ""
+
+#: src/reuse/report.py:574
+msgid ""
+"Fix missing copyright/licensing information: For one or more files, the tool "
+"cannot find copyright and/or licensing information. You typically do this by "
+"adding 'SPDX-FileCopyrightText' and 'SPDX-License-Identifier' tags to each "
+"file. The tutorial explains additional ways to do this: <https://reuse."
+"software/tutorial/>"
+msgstr ""
+"Korrigiere fehlende Copyright-/Lizenzinformationen: In einer oder mehreren "
+"Dateien fehlen Copyright- und/oder Lizenzinformationen. Typischerweise kann "
+"das korrigiert werden, indem die 'SPDX-FileCopyrightText'- und 'SPDX-License-"
+"Identifier'-Tags den Dateien hinzugefügt werden. Das Tutorial erklärt "
+"weitere Wege das zu erreichen: <https://reuse.software/tutorial/>"
+
+#: src/reuse/cli/lint.py:27
+#, python-brace-format
+msgid ""
+"Lint the project directory for REUSE compliance. This version of the tool "
+"checks against version {reuse_version} of the REUSE Specification. You can "
+"find the latest version of the specification at <https://reuse.software/spec/"
+">."
+msgstr ""
+
+#: src/reuse/cli/lint.py:33
+msgid "Specifically, the following criteria are checked:"
+msgstr ""
+
+#: src/reuse/cli/lint.py:36
+msgid ""
+"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
+"project?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:40
+#, fuzzy
+msgid "- Are there any deprecated licenses in the project?"
+msgstr "Was ist die Internetadresse des Projekts?"
+
+#: src/reuse/cli/lint.py:43
+msgid ""
+"- Are there any license files in the LICENSES/ directory without file "
+"extension?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:48
+msgid ""
+"- Are any licenses referred to inside of the project, but not included in "
+"the LICENSES/ directory?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:53
+msgid ""
+"- Are any licenses included in the LICENSES/ directory that are not used "
+"inside of the project?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:57
+msgid "- Are there any read errors?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:59
+#, fuzzy
+msgid "- Do all files have valid copyright and licensing information?"
+msgstr ""
+"Die folgenden Dateien haben keine Urheberrechts- und Lizenzinformationen:"
+
+#: src/reuse/cli/lint.py:70 src/reuse/cli/lint_file.py:38
+#, fuzzy
+msgid "Prevent output."
+msgstr "Verhindert Ausgabe"
+
+#: src/reuse/cli/lint.py:78 src/reuse/cli/supported_licenses.py:28
+#, fuzzy
+msgid "Format output as JSON."
+msgstr "formatiert Ausgabe als JSON"
+
+#: src/reuse/cli/lint.py:86
+#, fuzzy
+msgid "Format output as plain text. (default)"
+msgstr "formatiert Ausgabe als rohen Text"
+
+#: src/reuse/cli/lint.py:94
+#, fuzzy
+msgid "Format output as errors per line."
+msgstr "formatiert Ausgabe als rohen Text"
+
+#: src/reuse/cli/convert_dep5.py:19
+msgid ""
+"Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
+"the project root and is semantically identical. The .reuse/dep5 file is "
+"subsequently deleted."
+msgstr ""
+
+#: src/reuse/cli/convert_dep5.py:31
+#, fuzzy
+msgid "No '.reuse/dep5' file."
+msgstr "Erstelle .reuse/dep5"
+
 #: src/reuse/cli/lint_file.py:25
 msgid ""
 "Lint individual files for REUSE compliance. The specified FILEs are checked "
 "for the presence of copyright and licensing information, and whether the "
 "found licenses are included in the LICENSES/ directory."
 msgstr ""
-
-#: src/reuse/cli/lint_file.py:38 src/reuse/cli/lint.py:70
-#, fuzzy
-msgid "Prevent output."
-msgstr "Verhindert Ausgabe"
 
 #: src/reuse/cli/lint_file.py:46
 #, fuzzy
@@ -172,15 +476,42 @@ msgstr ""
 msgid "'{file}' is not inside of '{root}'."
 msgstr ""
 
-#: src/reuse/cli/supported_licenses.py:19
+#: src/reuse/cli/spdx.py:23
 #, fuzzy
-msgid "List all licenses on the SPDX License List."
-msgstr "Listet alle unterstützten SPDX-Lizenzen auf"
+msgid "Generate an SPDX bill of materials."
+msgstr "Komponentenliste im SPDX-Format ausgeben"
 
-#: src/reuse/cli/supported_licenses.py:28 src/reuse/cli/lint.py:78
-#, fuzzy
-msgid "Format output as JSON."
-msgstr "formatiert Ausgabe als JSON"
+#: src/reuse/cli/spdx.py:33
+msgid "File to write to."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:39
+msgid ""
+"Populate the LicenseConcluded field; note that reuse cannot guarantee that "
+"the field is accurate."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:51
+msgid "Name of the person signing off on the SPDX report."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:55
+msgid "Name of the organization signing off on the SPDX report."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:82
+msgid ""
+"'--creator-person' or '--creator-organization' is required when '--add-"
+"license-concluded' is provided."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:97
+#, python-brace-format
+msgid ""
+"'{path}' does not match a common SPDX file pattern. Find the suggested "
+"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
+"standard-data-format-requirements"
+msgstr ""
 
 #: src/reuse/cli/main.py:37
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:457
@@ -272,104 +603,107 @@ msgstr "kein Multiprocessing verwenden"
 msgid "Define root of project."
 msgstr "Stammverzeichnis des Projekts bestimmen"
 
-#: src/reuse/cli/spdx.py:23
-#, fuzzy
-msgid "Generate an SPDX bill of materials."
-msgstr "Komponentenliste im SPDX-Format ausgeben"
-
-#: src/reuse/cli/spdx.py:33
-msgid "File to write to."
-msgstr ""
-
-#: src/reuse/cli/spdx.py:39
+#: src/reuse/cli/common.py:52
+#, fuzzy, python-brace-format
 msgid ""
-"Populate the LicenseConcluded field; note that reuse cannot guarantee that "
-"the field is accurate."
+"'{path}' could not be parsed. We received the following error message: "
+"{message}"
 msgstr ""
+"'{dep5}' konnte nicht geparst werden. Wir erhielten folgende Fehlermeldung: "
+"{message}"
 
-#: src/reuse/cli/spdx.py:51
-msgid "Name of the person signing off on the SPDX report."
-msgstr ""
-
-#: src/reuse/cli/spdx.py:55
-msgid "Name of the organization signing off on the SPDX report."
-msgstr ""
-
-#: src/reuse/cli/spdx.py:82
-msgid ""
-"'--creator-person' or '--creator-organization' is required when '--add-"
-"license-concluded' is provided."
-msgstr ""
-
-#: src/reuse/cli/spdx.py:97
+#: src/reuse/cli/common.py:88
 #, python-brace-format
-msgid ""
-"'{path}' does not match a common SPDX file pattern. Find the suggested "
-"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
-"standard-data-format-requirements"
+msgid "'{name}' is mutually exclusive with: {opts}"
 msgstr ""
 
-#: src/reuse/cli/lint.py:27
+#: src/reuse/cli/common.py:105
+#, fuzzy
+msgid "'{}' is not a valid SPDX expression."
+msgstr "'{}' ist kein gültiger SPDX-Ausdruck, breche ab"
+
+#: src/reuse/cli/download.py:53
+msgid "'{}' is not a valid SPDX License Identifier."
+msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
+
+#: src/reuse/cli/download.py:60
+#, fuzzy
+msgid "Did you mean:"
+msgstr "Meinten Sie:"
+
+#: src/reuse/cli/download.py:67
+msgid ""
+"See <https://spdx.org/licenses/> for a list of valid SPDX License "
+"Identifiers."
+msgstr ""
+"Besuchen Sie <https://spdx.org/licenses/> für eine Liste von gültigen SPDX-"
+"Lizenz-Identifikatoren."
+
+#: src/reuse/cli/download.py:76
 #, python-brace-format
-msgid ""
-"Lint the project directory for REUSE compliance. This version of the tool "
-"checks against version {reuse_version} of the REUSE Specification. You can "
-"find the latest version of the specification at <https://reuse.software/spec/"
-">."
-msgstr ""
+msgid "Error: {spdx_identifier} already exists."
+msgstr "Fehler: {spdx_identifier} existiert bereits."
 
-#: src/reuse/cli/lint.py:33
-msgid "Specifically, the following criteria are checked:"
-msgstr ""
+#: src/reuse/cli/download.py:83
+#, fuzzy, python-brace-format
+msgid "Error: {path} does not exist."
+msgstr "Fehler: {path} existiert nicht."
 
-#: src/reuse/cli/lint.py:36
-msgid ""
-"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
-"project?"
-msgstr ""
+#: src/reuse/cli/download.py:87
+msgid "Error: Failed to download license."
+msgstr "Fehler: Lizenz konnte nicht heruntergeladen werden."
 
-#: src/reuse/cli/lint.py:40
+#: src/reuse/cli/download.py:92
+msgid "Is your internet connection working?"
+msgstr "Funktioniert Ihre Internetverbindung?"
+
+#: src/reuse/cli/download.py:97
+#, python-brace-format
+msgid "Successfully downloaded {spdx_identifier}."
+msgstr "{spdx_identifier} erfolgreich heruntergeladen."
+
+#: src/reuse/cli/download.py:107
 #, fuzzy
-msgid "- Are there any deprecated licenses in the project?"
-msgstr "Was ist die Internetadresse des Projekts?"
+msgid "Download a license and place it in the LICENSES/ directory."
+msgstr "lade eine Datei herunter und speichere sie im Verzeichnis LICENSES/"
 
-#: src/reuse/cli/lint.py:43
+#: src/reuse/cli/download.py:110
 msgid ""
-"- Are there any license files in the LICENSES/ directory without file "
-"extension?"
+"LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
+"multiple times to download multiple licenses."
 msgstr ""
 
-#: src/reuse/cli/lint.py:48
+#: src/reuse/cli/download.py:123
+#, fuzzy
+msgid "Download all missing licenses detected in the project."
+msgstr "lade alle fehlenden Lizenzen herunter, die im Projekt gefunden wurden"
+
+#: src/reuse/cli/download.py:131
+msgid "Path to download to."
+msgstr ""
+
+#: src/reuse/cli/download.py:137
 msgid ""
-"- Are any licenses referred to inside of the project, but not included in "
-"the LICENSES/ directory?"
+"Source from which to copy custom LicenseRef- licenses, either a directory "
+"that contains the file or the file itself."
 msgstr ""
 
-#: src/reuse/cli/lint.py:53
-msgid ""
-"- Are any licenses included in the LICENSES/ directory that are not used "
-"inside of the project?"
-msgstr ""
-
-#: src/reuse/cli/lint.py:57
-msgid "- Are there any read errors?"
-msgstr ""
-
-#: src/reuse/cli/lint.py:59
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/download.py:144
 #, fuzzy
-msgid "- Do all files have valid copyright and licensing information?"
+msgid "LICENSE"
+msgstr "FALSCHE LIZENZEN"
+
+#: src/reuse/cli/download.py:160
+#, fuzzy
+msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
 msgstr ""
-"Die folgenden Dateien haben keine Urheberrechts- und Lizenzinformationen:"
+"Die Optionen --single-line und --multi-line schließen sich gegenseitig aus"
 
-#: src/reuse/cli/lint.py:86
+#: src/reuse/cli/download.py:172
 #, fuzzy
-msgid "Format output as plain text. (default)"
-msgstr "formatiert Ausgabe als rohen Text"
-
-#: src/reuse/cli/lint.py:94
-#, fuzzy
-msgid "Format output as errors per line."
-msgstr "formatiert Ausgabe als rohen Text"
+msgid "Cannot use '--output' with more than one license."
+msgstr "Kann --output nicht mit mehr als einer Lizenz verwenden"
 
 #: src/reuse/cli/annotate.py:58
 msgid "Option '--copyright', '--license', or '--contributor' is required."
@@ -539,283 +873,10 @@ msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
 "'{path}' ist im Binärformat, benutze daher '{new_path}' für die Kopfzeilen"
 
-#: src/reuse/cli/convert_dep5.py:19
-msgid ""
-"Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
-"the project root and is semantically identical. The .reuse/dep5 file is "
-"subsequently deleted."
-msgstr ""
-
-#: src/reuse/cli/convert_dep5.py:31
+#: src/reuse/cli/supported_licenses.py:19
 #, fuzzy
-msgid "No '.reuse/dep5' file."
-msgstr "Erstelle .reuse/dep5"
-
-#: src/reuse/cli/download.py:53
-msgid "'{}' is not a valid SPDX License Identifier."
-msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
-
-#: src/reuse/cli/download.py:60
-#, fuzzy
-msgid "Did you mean:"
-msgstr "Meinten Sie:"
-
-#: src/reuse/cli/download.py:67
-msgid ""
-"See <https://spdx.org/licenses/> for a list of valid SPDX License "
-"Identifiers."
-msgstr ""
-"Besuchen Sie <https://spdx.org/licenses/> für eine Liste von gültigen SPDX-"
-"Lizenz-Identifikatoren."
-
-#: src/reuse/cli/download.py:76
-#, python-brace-format
-msgid "Error: {spdx_identifier} already exists."
-msgstr "Fehler: {spdx_identifier} existiert bereits."
-
-#: src/reuse/cli/download.py:83
-#, fuzzy, python-brace-format
-msgid "Error: {path} does not exist."
-msgstr "Fehler: {path} existiert nicht."
-
-#: src/reuse/cli/download.py:87
-msgid "Error: Failed to download license."
-msgstr "Fehler: Lizenz konnte nicht heruntergeladen werden."
-
-#: src/reuse/cli/download.py:92
-msgid "Is your internet connection working?"
-msgstr "Funktioniert Ihre Internetverbindung?"
-
-#: src/reuse/cli/download.py:97
-#, python-brace-format
-msgid "Successfully downloaded {spdx_identifier}."
-msgstr "{spdx_identifier} erfolgreich heruntergeladen."
-
-#: src/reuse/cli/download.py:107
-#, fuzzy
-msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "lade eine Datei herunter und speichere sie im Verzeichnis LICENSES/"
-
-#: src/reuse/cli/download.py:110
-msgid ""
-"LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
-"multiple times to download multiple licenses."
-msgstr ""
-
-#: src/reuse/cli/download.py:123
-#, fuzzy
-msgid "Download all missing licenses detected in the project."
-msgstr "lade alle fehlenden Lizenzen herunter, die im Projekt gefunden wurden"
-
-#: src/reuse/cli/download.py:131
-msgid "Path to download to."
-msgstr ""
-
-#: src/reuse/cli/download.py:137
-msgid ""
-"Source from which to copy custom LicenseRef- licenses, either a directory "
-"that contains the file or the file itself."
-msgstr ""
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/download.py:144
-#, fuzzy
-msgid "LICENSE"
-msgstr "FALSCHE LIZENZEN"
-
-#: src/reuse/cli/download.py:160
-#, fuzzy
-msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr ""
-"Die Optionen --single-line und --multi-line schließen sich gegenseitig aus"
-
-#: src/reuse/cli/download.py:172
-#, fuzzy
-msgid "Cannot use '--output' with more than one license."
-msgstr "Kann --output nicht mit mehr als einer Lizenz verwenden"
-
-#: src/reuse/cli/common.py:58
-#, fuzzy, python-brace-format
-msgid ""
-"'{path}' could not be parsed. We received the following error message: "
-"{message}"
-msgstr ""
-"'{dep5}' konnte nicht geparst werden. Wir erhielten folgende Fehlermeldung: "
-"{message}"
-
-#: src/reuse/cli/common.py:97
-#, python-brace-format
-msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr ""
-
-#: src/reuse/cli/common.py:114
-#, fuzzy
-msgid "'{}' is not a valid SPDX expression."
-msgstr "'{}' ist kein gültiger SPDX-Ausdruck, breche ab"
-
-#: src/reuse/lint.py:38
-#, fuzzy
-msgid "BAD LICENSES"
-msgstr "NICHT VERWENDETE LIZENZEN"
-
-#: src/reuse/lint.py:40 src/reuse/lint.py:69
-msgid "'{}' found in:"
-msgstr "'{}' gefunden in:"
-
-#: src/reuse/lint.py:47
-msgid "DEPRECATED LICENSES"
-msgstr "VERALTETE LIZENZEN"
-
-#: src/reuse/lint.py:49
-msgid "The following licenses are deprecated by SPDX:"
-msgstr "Die folgenden Lizenzen wurden von SPDX als veraltetet gekennzeichnet:"
-
-#: src/reuse/lint.py:57
-msgid "LICENSES WITHOUT FILE EXTENSION"
-msgstr "LIZENZEN OHNE DATEIENDUNG"
-
-#: src/reuse/lint.py:59
-msgid "The following licenses have no file extension:"
-msgstr "Die folgenden Lizenzen haben keine Dateiendung:"
-
-#: src/reuse/lint.py:67
-msgid "MISSING LICENSES"
-msgstr "FEHLENDE LIZENZEN"
-
-#: src/reuse/lint.py:76
-msgid "UNUSED LICENSES"
-msgstr "NICHT VERWENDETE LIZENZEN"
-
-#: src/reuse/lint.py:77
-msgid "The following licenses are not used:"
-msgstr "Die folgenden Lizenzen werden nicht benutzt:"
-
-#: src/reuse/lint.py:84
-msgid "READ ERRORS"
-msgstr "LESEFEHLER"
-
-#: src/reuse/lint.py:85
-msgid "Could not read:"
-msgstr "Unlesbar:"
-
-#: src/reuse/lint.py:106
-msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
-msgstr "FEHLENDE URHEBERRECHTS- UND LIZENZINFORMATIONEN"
-
-#: src/reuse/lint.py:112
-#, fuzzy
-msgid "The following files have no copyright and licensing information:"
-msgstr "Die folgenden Dateien haben keine Urheberrechtsinformationen:"
-
-#: src/reuse/lint.py:123
-msgid "The following files have no copyright information:"
-msgstr "Die folgenden Dateien haben keine Urheberrechtsinformationen:"
-
-#: src/reuse/lint.py:132
-msgid "The following files have no licensing information:"
-msgstr "Die folgenden Dateien haben keine Lizenzinformationen:"
-
-#: src/reuse/lint.py:139
-msgid "SUMMARY"
-msgstr "ZUSAMMENFASSUNG"
-
-#: src/reuse/lint.py:144
-msgid "Bad licenses:"
-msgstr "Falsche Lizenzen:"
-
-#: src/reuse/lint.py:145
-msgid "Deprecated licenses:"
-msgstr "Veraltete Lizenzen:"
-
-#: src/reuse/lint.py:146
-msgid "Licenses without file extension:"
-msgstr "Lizenzen ohne Dateiendung:"
-
-#: src/reuse/lint.py:149
-msgid "Missing licenses:"
-msgstr "Fehlende Lizenzen:"
-
-#: src/reuse/lint.py:150
-msgid "Unused licenses:"
-msgstr "Unbenutzte Lizenzen:"
-
-#: src/reuse/lint.py:151
-msgid "Used licenses:"
-msgstr "Verwendete Lizenzen:"
-
-#: src/reuse/lint.py:152
-msgid "Read errors:"
-msgstr "Lesefehler:"
-
-#: src/reuse/lint.py:154
-#, fuzzy
-msgid "Files with copyright information:"
-msgstr "Dateien mit Urheberrechtsinformationen:"
-
-#: src/reuse/lint.py:158
-#, fuzzy
-msgid "Files with license information:"
-msgstr "Dateien mit Lizenzinformationen:"
-
-#: src/reuse/lint.py:175
-msgid ""
-"Congratulations! Your project is compliant with version {} of the REUSE "
-"Specification :-)"
-msgstr ""
-"Herzlichen Glückwunsch! Ihr Projekt ist konform mit Version {} der REUSE-"
-"Spezifikation :-)"
-
-#: src/reuse/lint.py:182
-msgid ""
-"Unfortunately, your project is not compliant with version {} of the REUSE "
-"Specification :-("
-msgstr ""
-"Leider ist Ihr Projekt nicht konform mit Version {} der REUSE-"
-"Spezifikation :-("
-
-#: src/reuse/lint.py:189
-msgid "RECOMMENDATIONS"
-msgstr "EMPFEHLUNGEN"
-
-#: src/reuse/lint.py:253
-#, fuzzy, python-brace-format
-msgid "{path}: missing license {lic}\n"
-msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
-
-#: src/reuse/lint.py:258
-#, fuzzy, python-brace-format
-msgid "{path}: read error\n"
-msgstr "Veraltete Lizenzen:"
-
-#: src/reuse/lint.py:262
-#, fuzzy, python-brace-format
-msgid "{path}: no license identifier\n"
-msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
-
-#: src/reuse/lint.py:266
-#, fuzzy, python-brace-format
-msgid "{path}: no copyright notice\n"
-msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
-
-#: src/reuse/lint.py:293
-#, fuzzy, python-brace-format
-msgid "{path}: bad license {lic}\n"
-msgstr "Unbenutzte Lizenzen:"
-
-#: src/reuse/lint.py:300
-#, fuzzy, python-brace-format
-msgid "{lic_path}: deprecated license\n"
-msgstr "Veraltete Lizenzen:"
-
-#: src/reuse/lint.py:307
-#, fuzzy, python-brace-format
-msgid "{lic_path}: license without file extension\n"
-msgstr "Lizenzen ohne Dateiendung:"
-
-#: src/reuse/lint.py:316
-#, fuzzy, python-brace-format
-msgid "{lic_path}: unused license\n"
-msgstr "Unbenutzte Lizenzen:"
+msgid "List all licenses on the SPDX License List."
+msgstr "Listet alle unterstützten SPDX-Lizenzen auf"
 
 #: src/reuse/global_licensing.py:102
 #, python-brace-format
@@ -846,103 +907,67 @@ msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
 msgstr ""
 
-#: src/reuse/report.py:155
+#: src/reuse/_annotate.py:92
 #, python-brace-format
-msgid "Could not read '{path}'"
-msgstr "Konnte '{path}' nicht lesen"
+msgid "Skipped unrecognised file '{path}'"
+msgstr ""
 
-#: src/reuse/report.py:160
+#: src/reuse/_annotate.py:98
 #, python-brace-format
-msgid "Unexpected error occurred while parsing '{path}'"
-msgstr "Unerwarteter Fehler beim Parsen von '{path}' aufgetreten"
-
-#: src/reuse/report.py:511
-msgid ""
-"Fix bad licenses: At least one license in the LICENSES directory and/or "
-"provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
-"valid SPDX License Identifiers or do not start with 'LicenseRef-'. FAQ about "
-"custom licenses: https://reuse.software/faq/#custom-license"
-msgstr ""
-"Korrektur ungültiger Lizenzen: Mindestens eine Lizenz im LICENSES-"
-"Verzeichnis, und/oder die per 'SPDX-License-Identifier' angegeben wird, ist "
-"ungültig. Sie sind entweder keine gültigen SPDX-Lizenz-Identifikatoren oder "
-"beginnen nicht mit 'LicenseRef-'. FAQ zu benutzerdefinierten Lizenzen: "
-"https://reuse.software/faq/#custom-license"
-
-#: src/reuse/report.py:522
-msgid ""
-"Fix deprecated licenses: At least one of the licenses in the LICENSES "
-"directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
-"dep5' has been deprecated by SPDX. The current list and their respective "
-"recommended  new identifiers can be found here: <https://spdx.org/licenses/"
-"#deprecated>"
-msgstr ""
-"Korrektur veralteter Lizenzen: Mindestens eine der Lizenzen im LICENSES-"
-"Verzeichnis und/oder die per 'SPDX-License-Identifier'-Kennzeichnung oder in "
-"'.reuse/dep5' angegeben ist wurde von SPDX als veraltet markiert. Die "
-"aktuelle Liste und ihre jeweiligen empfohlenen neuen Kennungen finden Sie "
-"hier: <https://spdx.org/licenses/#deprecated>"
-
-#: src/reuse/report.py:533
-msgid ""
-"Fix licenses without file extension: At least one license text file in the "
-"'LICENSES' directory does not have a '.txt' file extension. Please rename "
-"the file(s) accordingly."
-msgstr ""
-"Korrektur von Lizenzen ohne Dateierweiterung: Mindestens eine "
-"Lizenztextdatei im Verzeichnis 'LICENSES' hat keine '.txt'-Dateierweiterung. "
-"Bitte benennen Sie die Datei(en) entsprechend um."
-
-#: src/reuse/report.py:542
-msgid ""
-"Fix missing licenses: For at least one of the license identifiers provided "
-"by the 'SPDX-License-Identifier' tags, there is no corresponding license "
-"text file in the 'LICENSES' directory. For SPDX license identifiers, you can "
-"simply run 'reuse download --all' to get any missing ones. For custom "
-"licenses (starting with 'LicenseRef-'), you need to add these files yourself."
-msgstr ""
-"Korrektur fehlender Lizenzen: Für mindestens eine der durch die 'SPDX-"
-"License-Identifier' angegebenen Lizenzkennzeichen gibt es im Verzeichnis "
-"'LICENSES' keine entsprechende Lizenztextdatei. Für SPDX-Lizenz-"
-"Identifikatoren können Sie einfach 'reuse download --all' ausführen, um "
-"fehlende zu erhalten. Für benutzerdefinierte Lizenzen (beginnend mit "
-"'LicenseRef-'), müssen Sie diese Dateien selbst hinzufügen."
-
-#: src/reuse/report.py:554
-msgid ""
-"Fix unused licenses: At least one of the license text files in 'LICENSES' is "
-"not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
-"make sure that you either tag the accordingly licensed files properly, or "
-"delete the unused license text if you are sure that no file or code snippet "
-"is licensed as such."
-msgstr ""
-"Korrektur ungenutzter Lizenzen: Mindestens eine der Lizenztextdateien in "
-"'LICENSES' wird von keiner Datei referenziert, z.B. durch einen 'SPDX-"
-"License-Identifier'-Eintrag. Bitte stellen Sie sicher, dass Sie entweder die "
-"entsprechend lizenzierten Dateien korrekt markieren oder den ungenutzten "
-"Lizenztext löschen, wenn Sie sicher sind, dass keine Datei oder Code-"
-"Schnipsel darunter lizenziert ist."
-
-#: src/reuse/report.py:565
-msgid ""
-"Fix read errors: At least one of the files in your directory cannot be read "
-"by the tool. Please check the file permissions. You will find the affected "
-"files at the top of the output as part of the logged error messages."
+msgid "'{path}' is not recognised; creating '{path}.license'"
 msgstr ""
 
-#: src/reuse/report.py:574
+#: src/reuse/_annotate.py:114
+#, fuzzy, python-brace-format
+msgid "Skipped file '{path}' already containing REUSE information"
+msgstr "Dateien mit Lizenzinformationen:"
+
+#: src/reuse/_annotate.py:148
+#, python-brace-format
+msgid "Error: Could not create comment for '{path}'"
+msgstr "Fehler: Kann kein Kommentar für '{path}' erstellen"
+
+#: src/reuse/_annotate.py:155
+#, python-brace-format
 msgid ""
-"Fix missing copyright/licensing information: For one or more files, the tool "
-"cannot find copyright and/or licensing information. You typically do this by "
-"adding 'SPDX-FileCopyrightText' and 'SPDX-License-Identifier' tags to each "
-"file. The tutorial explains additional ways to do this: <https://reuse."
-"software/tutorial/>"
+"Error: Generated comment header for '{path}' is missing copyright lines or "
+"license expressions. The template is probably incorrect. Did not write new "
+"header."
 msgstr ""
-"Korrigiere fehlende Copyright-/Lizenzinformationen: In einer oder mehreren "
-"Dateien fehlen Copyright- und/oder Lizenzinformationen. Typischerweise kann "
-"das korrigiert werden, indem die 'SPDX-FileCopyrightText'- und 'SPDX-License-"
-"Identifier'-Tags den Dateien hinzugefügt werden. Das Tutorial erklärt "
-"weitere Wege das zu erreichen: <https://reuse.software/tutorial/>"
+"Fehler: Die generierten Kommentar-Kopfzeilen für '{path}' enthalten fehlende "
+"Urheberrechtszeilen oder Lizenzausdrücke. Die Vorlage ist wahrscheinlich "
+"falsch. Keine neuen Kopfzeile geschrieben."
+
+#. TODO: This may need to be rephrased more elegantly.
+#: src/reuse/_annotate.py:166
+#, python-brace-format
+msgid "Successfully changed header of {path}"
+msgstr "Kopfzeilen von {path} erfolgreich geändert"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
+msgid "Repeat for confirmation"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:174
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:176
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:187
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:243
+msgid "Error: invalid input"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:773
+msgid "Press any key to continue..."
+msgstr ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:267
 #, python-brace-format
@@ -1025,6 +1050,14 @@ msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] ""
 msgstr[1] ""
 
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:333
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:49
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:88
 #, python-brace-format
@@ -1089,20 +1122,6 @@ msgstr ""
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:277
 msgid "Could not open file {filename!r}: {message}"
 msgstr ""
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:233
-msgid "Argument {name!r} takes {nargs} values."
-msgstr ""
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:415
-msgid "Option {name!r} does not take a value."
-msgstr ""
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:476
-msgid "Option {name!r} requires an argument."
-msgid_plural "Option {name!r} requires {nargs} arguments."
-msgstr[0] ""
-msgstr[1] ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1124
 msgid "Aborted!"
@@ -1172,40 +1191,19 @@ msgstr ""
 msgid "required"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
-msgid "Repeat for confirmation"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:233
+msgid "Argument {name!r} takes {nargs} values."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:174
-msgid "Error: The value you entered was invalid."
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:415
+msgid "Option {name!r} does not take a value."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:176
-#, python-brace-format
-msgid "Error: {e.message}"
-msgstr ""
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:187
-msgid "Error: The two entered values do not match."
-msgstr ""
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:243
-msgid "Error: invalid input"
-msgstr ""
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:773
-msgid "Press any key to continue..."
-msgstr ""
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:520
-#, fuzzy
-msgid "Show the version and exit."
-msgstr "zeige diese Hilfsnachricht und beende"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:541
-#, fuzzy
-msgid "Show this message and exit."
-msgstr "zeige diese Hilfsnachricht und beende"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:476
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:556
 #, python-brace-format
@@ -1217,13 +1215,15 @@ msgstr ""
 msgid "{editor}: Editing failed: {e}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
-msgid "Shell completion is not supported for Bash versions older than 4.4."
-msgstr ""
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:520
+#, fuzzy
+msgid "Show the version and exit."
+msgstr "zeige diese Hilfsnachricht und beende"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:333
-msgid "Couldn't detect Bash version, shell completion is not supported."
-msgstr ""
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:541
+#, fuzzy
+msgid "Show this message and exit."
+msgstr "zeige diese Hilfsnachricht und beende"
 
 #, fuzzy
 #~ msgid "--skip-unrecognised has no effect when used together with --style"

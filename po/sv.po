@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 14:27+0000\n"
+"POT-Creation-Date: 2025-09-27 12:21+0000\n"
 "PO-Revision-Date: 2025-05-08 19:01+0000\n"
 "Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -18,600 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12-dev\n"
-
-#: src/reuse/project.py:255
-#, python-brace-format
-msgid "'{path}' covered by {global_path}"
-msgstr ""
-
-#: src/reuse/project.py:263
-#, python-brace-format
-msgid ""
-"'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
-msgstr ""
-
-#: src/reuse/project.py:270
-#, python-brace-format
-msgid ""
-"'{path}' was detected as a binary file; not searching its contents for REUSE "
-"information."
-msgstr ""
-
-#: src/reuse/project.py:331
-msgid ""
-"'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
-"Use `reuse convert-dep5` to convert."
-msgstr ""
-
-#: src/reuse/project.py:352
-#, python-brace-format
-msgid ""
-"Found both '{new_path}' and '{old_path}'. You cannot keep both files "
-"simultaneously; they are not intercompatible."
-msgstr ""
-
-#: src/reuse/project.py:411
-#, python-brace-format
-msgid "determining identifier of '{path}'"
-msgstr ""
-
-#: src/reuse/project.py:419
-#, python-brace-format
-msgid "{path} does not have a file extension"
-msgstr ""
-
-#: src/reuse/project.py:429
-#, python-brace-format
-msgid ""
-"Could not resolve SPDX License Identifier of {path}, resolving to "
-"{identifier}. Make sure the license is in the license list found at <https://"
-"spdx.org/licenses/> or that it starts with 'LicenseRef-', and that it has a "
-"file extension."
-msgstr ""
-
-#: src/reuse/project.py:441
-#, python-brace-format
-msgid ""
-"{identifier} is the SPDX License Identifier of both {path} and {other_path}"
-msgstr ""
-
-#: src/reuse/project.py:480
-msgid ""
-"project '{}' is not a VCS repository or required VCS software is not "
-"installed"
-msgstr ""
-
-#: src/reuse/header.py:93
-msgid "generated comment is missing copyright lines or license expressions"
-msgstr ""
-
-#: src/reuse/_annotate.py:92
-#, python-brace-format
-msgid "Skipped unrecognised file '{path}'"
-msgstr "Hoppar över fil som inte känns igen '{path}'"
-
-#: src/reuse/_annotate.py:98
-#, python-brace-format
-msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr "'{path}' känns inte igen; skapar '{path}.license'"
-
-#: src/reuse/_annotate.py:114
-#, fuzzy, python-brace-format
-msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
-
-#: src/reuse/_annotate.py:148
-#, python-brace-format
-msgid "Error: Could not create comment for '{path}'"
-msgstr "Fel: Kunde inte skapa kommentar för '{path}'"
-
-#: src/reuse/_annotate.py:155
-#, python-brace-format
-msgid ""
-"Error: Generated comment header for '{path}' is missing copyright lines or "
-"license expressions. The template is probably incorrect. Did not write new "
-"header."
-msgstr ""
-
-#. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:166
-#, python-brace-format
-msgid "Successfully changed header of {path}"
-msgstr ""
-
-#: src/reuse/extract.py:153 src/reuse/global_licensing.py:215
-#, python-brace-format
-msgid "Could not parse '{expression}'"
-msgstr "Kunde inte tolka '{expression}'"
-
-#: src/reuse/extract.py:209
-#, python-brace-format
-msgid ""
-"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
-msgstr ""
-
-#: src/reuse/cli/lint_file.py:25
-msgid ""
-"Lint individual files for REUSE compliance. The specified FILEs are checked "
-"for the presence of copyright and licensing information, and whether the "
-"found licenses are included in the LICENSES/ directory."
-msgstr ""
-
-#: src/reuse/cli/lint_file.py:38 src/reuse/cli/lint.py:70
-msgid "Prevent output."
-msgstr "Förhindra utmatning."
-
-#: src/reuse/cli/lint_file.py:46
-msgid "Format output as errors per line. (default)"
-msgstr "Formatera utmatningen som fel per rad. (standard)"
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/lint_file.py:51
-msgid "FILE"
-msgstr "FIL"
-
-#: src/reuse/cli/lint_file.py:65
-#, python-brace-format
-msgid "'{file}' is not inside of '{root}'."
-msgstr "{file} är inte inuti '{root}'."
-
-#: src/reuse/cli/supported_licenses.py:19
-#, fuzzy
-msgid "List all licenses on the SPDX License List."
-msgstr "lista alla SPDX-licenser som stöds"
-
-#: src/reuse/cli/supported_licenses.py:28 src/reuse/cli/lint.py:78
-msgid "Format output as JSON."
-msgstr "Formatera utmatning som JSON."
-
-#: src/reuse/cli/main.py:37
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:457
-#, python-format
-msgid "%(prog)s, version %(version)s"
-msgstr "%(prog)s, version %(version)s"
-
-#: src/reuse/cli/main.py:40
-msgid ""
-"This program is free software: you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation, either version 3 of the License, or (at your option) "
-"any later version."
-msgstr ""
-
-#: src/reuse/cli/main.py:47
-msgid ""
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details."
-msgstr ""
-
-#: src/reuse/cli/main.py:54
-msgid ""
-"You should have received a copy of the GNU General Public License along with "
-"this program. If not, see <https://www.gnu.org/licenses/>."
-msgstr ""
-
-#: src/reuse/cli/main.py:62
-msgid ""
-"reuse is a tool for compliance with the REUSE recommendations. See <https://"
-"reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
-"for the online documentation."
-msgstr ""
-"reuse är ett verktyg för att följa REUSE-rekommendationerna. Se <https://"
-"reuse.software/> för mer information och <https://reuse.readthedocs.io/> för "
-"den web-baserade dokumentationen."
-
-#: src/reuse/cli/main.py:69
-msgid ""
-"This version of reuse is compatible with version {} of the REUSE "
-"Specification."
-msgstr ""
-"Den här versionen av reuse är kompatibel med version {} av REUSE-"
-"specifikationen."
-
-#: src/reuse/cli/main.py:73
-msgid "Support the FSFE's work:"
-msgstr "Stötta FSFE's arbete:"
-
-#: src/reuse/cli/main.py:78
-msgid ""
-"Donations are critical to our strength and autonomy. They enable us to "
-"continue working for Free Software wherever necessary. Please consider "
-"making a donation at <https://fsfe.org/donate/>."
-msgstr ""
-"Donationer är avgörande för vår styrka och självständighet. De gör det "
-"möjligt för oss att jobba för Fri mjukvara där det är nödvändigt. Vänligen "
-"överväg att göra en donation till <https://fsfe.org/donate/>."
-
-#: src/reuse/cli/main.py:89
-msgid "Enable debug statements."
-msgstr ""
-
-#: src/reuse/cli/main.py:94
-msgid "Hide deprecation warnings."
-msgstr ""
-
-#: src/reuse/cli/main.py:99
-#, fuzzy
-msgid "Do not skip over Git submodules."
-msgstr "hoppa inte över undermoduler för Git"
-
-#: src/reuse/cli/main.py:104
-#, fuzzy
-msgid "Do not skip over Meson subprojects."
-msgstr "hoppa inte över underprojekt för Meson"
-
-#: src/reuse/cli/main.py:109
-msgid "Do not use multiprocessing."
-msgstr "Använd inte multibehandling."
-
-#: src/reuse/cli/main.py:119
-#, fuzzy
-msgid "Define root of project."
-msgstr "definiera roten av projektet"
-
-#: src/reuse/cli/spdx.py:23
-msgid "Generate an SPDX bill of materials."
-msgstr ""
-
-#: src/reuse/cli/spdx.py:33
-msgid "File to write to."
-msgstr "Fil att skriva till."
-
-#: src/reuse/cli/spdx.py:39
-msgid ""
-"Populate the LicenseConcluded field; note that reuse cannot guarantee that "
-"the field is accurate."
-msgstr ""
-
-#: src/reuse/cli/spdx.py:51
-msgid "Name of the person signing off on the SPDX report."
-msgstr ""
-
-#: src/reuse/cli/spdx.py:55
-msgid "Name of the organization signing off on the SPDX report."
-msgstr ""
-
-#: src/reuse/cli/spdx.py:82
-msgid ""
-"'--creator-person' or '--creator-organization' is required when '--add-"
-"license-concluded' is provided."
-msgstr ""
-"'--creator-person' eller '--creator-organization' krävs när '--add-license-"
-"concluded' tillhandahålls."
-
-#: src/reuse/cli/spdx.py:97
-#, python-brace-format
-msgid ""
-"'{path}' does not match a common SPDX file pattern. Find the suggested "
-"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
-"standard-data-format-requirements"
-msgstr ""
-
-#: src/reuse/cli/lint.py:27
-#, python-brace-format
-msgid ""
-"Lint the project directory for REUSE compliance. This version of the tool "
-"checks against version {reuse_version} of the REUSE Specification. You can "
-"find the latest version of the specification at <https://reuse.software/spec/"
-">."
-msgstr ""
-
-#: src/reuse/cli/lint.py:33
-msgid "Specifically, the following criteria are checked:"
-msgstr "Följande kriteriet är kontrollerat specifikt:"
-
-#: src/reuse/cli/lint.py:36
-msgid ""
-"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
-"project?"
-msgstr ""
-
-#: src/reuse/cli/lint.py:40
-msgid "- Are there any deprecated licenses in the project?"
-msgstr "- Finns det några föråldrade licenser i projektet?"
-
-#: src/reuse/cli/lint.py:43
-msgid ""
-"- Are there any license files in the LICENSES/ directory without file "
-"extension?"
-msgstr ""
-
-#: src/reuse/cli/lint.py:48
-msgid ""
-"- Are any licenses referred to inside of the project, but not included in "
-"the LICENSES/ directory?"
-msgstr ""
-
-#: src/reuse/cli/lint.py:53
-msgid ""
-"- Are any licenses included in the LICENSES/ directory that are not used "
-"inside of the project?"
-msgstr ""
-
-#: src/reuse/cli/lint.py:57
-msgid "- Are there any read errors?"
-msgstr "- Finns det några läs-fel?"
-
-#: src/reuse/cli/lint.py:59
-msgid "- Do all files have valid copyright and licensing information?"
-msgstr ""
-"- Har alla filer ett giltigt kopieringsskydd och licensieringsinformation?"
-
-#: src/reuse/cli/lint.py:86
-msgid "Format output as plain text. (default)"
-msgstr "Formatera utmatningen som ren text. (standard)"
-
-#: src/reuse/cli/lint.py:94
-msgid "Format output as errors per line."
-msgstr "Formatera utmatningen som fel per rad."
-
-#: src/reuse/cli/annotate.py:58
-msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "Alternativet '--copyright', '--license', eller '--contributor' krävs."
-
-#: src/reuse/cli/annotate.py:119
-msgid ""
-"The following files do not have a recognised file extension. Please use '--"
-"style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
-"unrecognised':"
-msgstr ""
-"De följande filerna har inte en filändelse som känns igen. Vänligen använd "
-"'--style','force-dot-license','--fallback-dot-license', eller '--skip-"
-"unrecognised':"
-
-#: src/reuse/cli/annotate.py:152
-#, python-brace-format
-msgid ""
-"'{path}' does not support single-line comments, please do not use '--single-"
-"line'."
-msgstr ""
-"'{path}' har inte stöd för kommentarer på en rad, vänligen använd inte '--"
-"single-line'."
-
-#: src/reuse/cli/annotate.py:159
-#, fuzzy, python-brace-format
-msgid ""
-"'{path}' does not support multi-line comments, please do not use '--multi-"
-"line'."
-msgstr ""
-"'{path}' stöjder inte kommentarer på flera rader, använd inte --multi-line"
-
-#: src/reuse/cli/annotate.py:205
-#, fuzzy, python-brace-format
-msgid "Template '{template}' could not be found."
-msgstr "'{dep5}' kunde inte avkodas som UTF-8."
-
-#: src/reuse/cli/annotate.py:268
-msgid "Add copyright and licensing into the headers of files."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:271
-msgid ""
-"By using --copyright and --license, you can specify which copyright holders "
-"and licenses to add to the headers of the given files."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:277
-msgid ""
-"By using --contributor, you can specify people or entity that contributed "
-"but are not copyright holder of the given files."
-msgstr ""
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:290
-msgid "COPYRIGHT"
-msgstr "KOPIERINGSSKYDD"
-
-#: src/reuse/cli/annotate.py:293
-msgid "Copyright statement, repeatable."
-msgstr ""
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:300
-msgid "SPDX_IDENTIFIER"
-msgstr "SPDX_IDENTIFIERARE"
-
-#: src/reuse/cli/annotate.py:303
-msgid "SPDX License Identifier, repeatable."
-msgstr ""
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:309
-msgid "CONTRIBUTOR"
-msgstr ""
-
-#: src/reuse/cli/annotate.py:312
-msgid "File contributor, repeatable."
-msgstr ""
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:319
-msgid "YEAR"
-msgstr "ÅR"
-
-#: src/reuse/cli/annotate.py:325
-msgid "Year of copyright statement."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:333
-msgid "Comment style to use."
-msgstr "Kommentarstilen att använda."
-
-#: src/reuse/cli/annotate.py:338
-msgid "Copyright prefix to use."
-msgstr ""
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:350
-msgid "TEMPLATE"
-msgstr "MALL"
-
-#: src/reuse/cli/annotate.py:352
-msgid "Name of template to use."
-msgstr "Namnet på mallen som ska användas."
-
-#: src/reuse/cli/annotate.py:359
-msgid "Do not include year in copyright statement."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:364
-msgid "Merge copyright lines if copyright statements are identical."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:371
-msgid "Force single-line comment style."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:378
-msgid "Force multi-line comment style."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:384
-msgid "Add headers to all files under specified directories recursively."
-msgstr "Lägg till huvuden i alla filer under angivna kataloger rekursivt."
-
-#: src/reuse/cli/annotate.py:389
-msgid "Do not replace the first header in the file; just add a new one."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:396
-msgid "Always write a .license file instead of a header inside the file."
-msgstr ""
-
-#: src/reuse/cli/annotate.py:403
-msgid "Write a .license file to files with unrecognised comment styles."
-msgstr "Skriv en .licens-fil med icke igenkända kommentarstilar."
-
-#: src/reuse/cli/annotate.py:410
-msgid "Skip files with unrecognised comment styles."
-msgstr "Hoppa över filer med icke igenkända kommentarstilar."
-
-#: src/reuse/cli/annotate.py:421
-#, fuzzy
-msgid "Skip files that already contain REUSE information."
-msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:426
-msgid "PATH"
-msgstr "GENVÄG"
-
-#: src/reuse/cli/annotate.py:476
-#, python-brace-format
-msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
-msgstr "'{path}' är en binär, använder därför '{new_path}' för huvudet"
-
-#: src/reuse/cli/convert_dep5.py:19
-msgid ""
-"Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
-"the project root and is semantically identical. The .reuse/dep5 file is "
-"subsequently deleted."
-msgstr ""
-
-#: src/reuse/cli/convert_dep5.py:31
-msgid "No '.reuse/dep5' file."
-msgstr "Ingen '.reuse/dep5'-file."
-
-#: src/reuse/cli/download.py:53
-#, fuzzy
-msgid "'{}' is not a valid SPDX License Identifier."
-msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
-
-#: src/reuse/cli/download.py:60
-#, fuzzy
-msgid "Did you mean:"
-msgstr "Menade du:"
-
-#: src/reuse/cli/download.py:67
-msgid ""
-"See <https://spdx.org/licenses/> for a list of valid SPDX License "
-"Identifiers."
-msgstr ""
-"Se <https://spdx.org/licenses/> för en lista över giltiga SPDX-"
-"licensidentifierare."
-
-#: src/reuse/cli/download.py:76
-#, python-brace-format
-msgid "Error: {spdx_identifier} already exists."
-msgstr "Fel: {spdx_identifier} existerar redan."
-
-#: src/reuse/cli/download.py:83
-#, fuzzy, python-brace-format
-msgid "Error: {path} does not exist."
-msgstr "Fel: {path} existerar inte."
-
-#: src/reuse/cli/download.py:87
-msgid "Error: Failed to download license."
-msgstr "Fel: Hämtningen av licensen misslyckades."
-
-#: src/reuse/cli/download.py:92
-msgid "Is your internet connection working?"
-msgstr "Fungerar din internet-anslutning?"
-
-#: src/reuse/cli/download.py:97
-#, python-brace-format
-msgid "Successfully downloaded {spdx_identifier}."
-msgstr "Hämtningen av {spdx_identifier} lyckades."
-
-#: src/reuse/cli/download.py:107
-#, fuzzy
-msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "hämta en licens och placera den i mappen LICENSES/"
-
-#: src/reuse/cli/download.py:110
-msgid ""
-"LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
-"multiple times to download multiple licenses."
-msgstr ""
-
-#: src/reuse/cli/download.py:123
-#, fuzzy
-msgid "Download all missing licenses detected in the project."
-msgstr "ladda ner alla saknade licenser som upptäckts i projektet"
-
-#: src/reuse/cli/download.py:131
-msgid "Path to download to."
-msgstr "Genväg att hämta till."
-
-#: src/reuse/cli/download.py:137
-msgid ""
-"Source from which to copy custom LicenseRef- licenses, either a directory "
-"that contains the file or the file itself."
-msgstr ""
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/download.py:144
-msgid "LICENSE"
-msgstr "LICENS"
-
-#: src/reuse/cli/download.py:160
-msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr "Argumentet 'LICENS' och alternativet '--all' är ömsesidigt exklusivt."
-
-#: src/reuse/cli/download.py:172
-#, fuzzy
-msgid "Cannot use '--output' with more than one license."
-msgstr "kan inte använda --output med mer än en licens"
-
-#: src/reuse/cli/common.py:58
-#, fuzzy, python-brace-format
-msgid ""
-"'{path}' could not be parsed. We received the following error message: "
-"{message}"
-msgstr ""
-"'{dep5}' kunde inte tolkas. Vi tog emot följande felmeddelande: {message}"
-
-#: src/reuse/cli/common.py:97
-#, python-brace-format
-msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr "'{name}' är ömsesidigt exklusivt med: {opts}"
-
-#: src/reuse/cli/common.py:114
-#, fuzzy
-msgid "'{}' is not a valid SPDX expression."
-msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
 
 #: src/reuse/lint.py:38
 #, fuzzy
@@ -787,33 +193,81 @@ msgstr ""
 msgid "{lic_path}: unused license\n"
 msgstr ""
 
-#: src/reuse/global_licensing.py:102
+#: src/reuse/project.py:255
+#, python-brace-format
+msgid "'{path}' covered by {global_path}"
+msgstr ""
+
+#: src/reuse/project.py:263
 #, python-brace-format
 msgid ""
-"{attr_name} must be a {type_name} (got {value} that is a {value_class})."
+"'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
 
-#: src/reuse/global_licensing.py:116
+#: src/reuse/project.py:270
 #, python-brace-format
 msgid ""
-"Item in {attr_name} collection must be a {type_name} (got {item_value} that "
-"is a {item_class})."
+"'{path}' was detected as a binary file; not searching its contents for REUSE "
+"information."
 msgstr ""
 
-#: src/reuse/global_licensing.py:128
-#, python-brace-format
-msgid "{attr_name} must not be empty."
+#: src/reuse/project.py:331
+msgid ""
+"'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
+"Use `reuse convert-dep5` to convert."
 msgstr ""
 
-#: src/reuse/global_licensing.py:152
-#, python-brace-format
-msgid "{name} must be a {type} (got {value} that is a {value_type})."
-msgstr ""
-
-#: src/reuse/global_licensing.py:176
+#: src/reuse/project.py:352
 #, python-brace-format
 msgid ""
-"The value of 'precedence' must be one of {precedence_vals} (got {received})"
+"Found both '{new_path}' and '{old_path}'. You cannot keep both files "
+"simultaneously; they are not intercompatible."
+msgstr ""
+
+#: src/reuse/project.py:411
+#, python-brace-format
+msgid "determining identifier of '{path}'"
+msgstr ""
+
+#: src/reuse/project.py:419
+#, python-brace-format
+msgid "{path} does not have a file extension"
+msgstr ""
+
+#: src/reuse/project.py:429
+#, python-brace-format
+msgid ""
+"Could not resolve SPDX License Identifier of {path}, resolving to "
+"{identifier}. Make sure the license is in the license list found at <https://"
+"spdx.org/licenses/> or that it starts with 'LicenseRef-', and that it has a "
+"file extension."
+msgstr ""
+
+#: src/reuse/project.py:441
+#, python-brace-format
+msgid ""
+"{identifier} is the SPDX License Identifier of both {path} and {other_path}"
+msgstr ""
+
+#: src/reuse/project.py:480
+msgid ""
+"project '{}' is not a VCS repository or required VCS software is not "
+"installed"
+msgstr ""
+
+#: src/reuse/extract.py:153 src/reuse/global_licensing.py:215
+#, python-brace-format
+msgid "Could not parse '{expression}'"
+msgstr "Kunde inte tolka '{expression}'"
+
+#: src/reuse/extract.py:209
+#, python-brace-format
+msgid ""
+"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
+msgstr ""
+
+#: src/reuse/header.py:93
+msgid "generated comment is missing copyright lines or license expressions"
 msgstr ""
 
 #: src/reuse/report.py:155
@@ -883,6 +337,577 @@ msgid ""
 "file. The tutorial explains additional ways to do this: <https://reuse."
 "software/tutorial/>"
 msgstr ""
+
+#: src/reuse/cli/lint.py:27
+#, python-brace-format
+msgid ""
+"Lint the project directory for REUSE compliance. This version of the tool "
+"checks against version {reuse_version} of the REUSE Specification. You can "
+"find the latest version of the specification at <https://reuse.software/spec/"
+">."
+msgstr ""
+
+#: src/reuse/cli/lint.py:33
+msgid "Specifically, the following criteria are checked:"
+msgstr "Följande kriteriet är kontrollerat specifikt:"
+
+#: src/reuse/cli/lint.py:36
+msgid ""
+"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
+"project?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:40
+msgid "- Are there any deprecated licenses in the project?"
+msgstr "- Finns det några föråldrade licenser i projektet?"
+
+#: src/reuse/cli/lint.py:43
+msgid ""
+"- Are there any license files in the LICENSES/ directory without file "
+"extension?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:48
+msgid ""
+"- Are any licenses referred to inside of the project, but not included in "
+"the LICENSES/ directory?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:53
+msgid ""
+"- Are any licenses included in the LICENSES/ directory that are not used "
+"inside of the project?"
+msgstr ""
+
+#: src/reuse/cli/lint.py:57
+msgid "- Are there any read errors?"
+msgstr "- Finns det några läs-fel?"
+
+#: src/reuse/cli/lint.py:59
+msgid "- Do all files have valid copyright and licensing information?"
+msgstr ""
+"- Har alla filer ett giltigt kopieringsskydd och licensieringsinformation?"
+
+#: src/reuse/cli/lint.py:70 src/reuse/cli/lint_file.py:38
+msgid "Prevent output."
+msgstr "Förhindra utmatning."
+
+#: src/reuse/cli/lint.py:78 src/reuse/cli/supported_licenses.py:28
+msgid "Format output as JSON."
+msgstr "Formatera utmatning som JSON."
+
+#: src/reuse/cli/lint.py:86
+msgid "Format output as plain text. (default)"
+msgstr "Formatera utmatningen som ren text. (standard)"
+
+#: src/reuse/cli/lint.py:94
+msgid "Format output as errors per line."
+msgstr "Formatera utmatningen som fel per rad."
+
+#: src/reuse/cli/convert_dep5.py:19
+msgid ""
+"Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
+"the project root and is semantically identical. The .reuse/dep5 file is "
+"subsequently deleted."
+msgstr ""
+
+#: src/reuse/cli/convert_dep5.py:31
+msgid "No '.reuse/dep5' file."
+msgstr "Ingen '.reuse/dep5'-file."
+
+#: src/reuse/cli/lint_file.py:25
+msgid ""
+"Lint individual files for REUSE compliance. The specified FILEs are checked "
+"for the presence of copyright and licensing information, and whether the "
+"found licenses are included in the LICENSES/ directory."
+msgstr ""
+
+#: src/reuse/cli/lint_file.py:46
+msgid "Format output as errors per line. (default)"
+msgstr "Formatera utmatningen som fel per rad. (standard)"
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/lint_file.py:51
+msgid "FILE"
+msgstr "FIL"
+
+#: src/reuse/cli/lint_file.py:65
+#, python-brace-format
+msgid "'{file}' is not inside of '{root}'."
+msgstr "{file} är inte inuti '{root}'."
+
+#: src/reuse/cli/spdx.py:23
+msgid "Generate an SPDX bill of materials."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:33
+msgid "File to write to."
+msgstr "Fil att skriva till."
+
+#: src/reuse/cli/spdx.py:39
+msgid ""
+"Populate the LicenseConcluded field; note that reuse cannot guarantee that "
+"the field is accurate."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:51
+msgid "Name of the person signing off on the SPDX report."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:55
+msgid "Name of the organization signing off on the SPDX report."
+msgstr ""
+
+#: src/reuse/cli/spdx.py:82
+msgid ""
+"'--creator-person' or '--creator-organization' is required when '--add-"
+"license-concluded' is provided."
+msgstr ""
+"'--creator-person' eller '--creator-organization' krävs när '--add-license-"
+"concluded' tillhandahålls."
+
+#: src/reuse/cli/spdx.py:97
+#, python-brace-format
+msgid ""
+"'{path}' does not match a common SPDX file pattern. Find the suggested "
+"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
+"standard-data-format-requirements"
+msgstr ""
+
+#: src/reuse/cli/main.py:37
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:457
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr "%(prog)s, version %(version)s"
+
+#: src/reuse/cli/main.py:40
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
+msgstr ""
+
+#: src/reuse/cli/main.py:47
+msgid ""
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
+"more details."
+msgstr ""
+
+#: src/reuse/cli/main.py:54
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"this program. If not, see <https://www.gnu.org/licenses/>."
+msgstr ""
+
+#: src/reuse/cli/main.py:62
+msgid ""
+"reuse is a tool for compliance with the REUSE recommendations. See <https://"
+"reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
+"for the online documentation."
+msgstr ""
+"reuse är ett verktyg för att följa REUSE-rekommendationerna. Se <https://"
+"reuse.software/> för mer information och <https://reuse.readthedocs.io/> för "
+"den web-baserade dokumentationen."
+
+#: src/reuse/cli/main.py:69
+msgid ""
+"This version of reuse is compatible with version {} of the REUSE "
+"Specification."
+msgstr ""
+"Den här versionen av reuse är kompatibel med version {} av REUSE-"
+"specifikationen."
+
+#: src/reuse/cli/main.py:73
+msgid "Support the FSFE's work:"
+msgstr "Stötta FSFE's arbete:"
+
+#: src/reuse/cli/main.py:78
+msgid ""
+"Donations are critical to our strength and autonomy. They enable us to "
+"continue working for Free Software wherever necessary. Please consider "
+"making a donation at <https://fsfe.org/donate/>."
+msgstr ""
+"Donationer är avgörande för vår styrka och självständighet. De gör det "
+"möjligt för oss att jobba för Fri mjukvara där det är nödvändigt. Vänligen "
+"överväg att göra en donation till <https://fsfe.org/donate/>."
+
+#: src/reuse/cli/main.py:89
+msgid "Enable debug statements."
+msgstr ""
+
+#: src/reuse/cli/main.py:94
+msgid "Hide deprecation warnings."
+msgstr ""
+
+#: src/reuse/cli/main.py:99
+#, fuzzy
+msgid "Do not skip over Git submodules."
+msgstr "hoppa inte över undermoduler för Git"
+
+#: src/reuse/cli/main.py:104
+#, fuzzy
+msgid "Do not skip over Meson subprojects."
+msgstr "hoppa inte över underprojekt för Meson"
+
+#: src/reuse/cli/main.py:109
+msgid "Do not use multiprocessing."
+msgstr "Använd inte multibehandling."
+
+#: src/reuse/cli/main.py:119
+#, fuzzy
+msgid "Define root of project."
+msgstr "definiera roten av projektet"
+
+#: src/reuse/cli/common.py:52
+#, fuzzy, python-brace-format
+msgid ""
+"'{path}' could not be parsed. We received the following error message: "
+"{message}"
+msgstr ""
+"'{dep5}' kunde inte tolkas. Vi tog emot följande felmeddelande: {message}"
+
+#: src/reuse/cli/common.py:88
+#, python-brace-format
+msgid "'{name}' is mutually exclusive with: {opts}"
+msgstr "'{name}' är ömsesidigt exklusivt med: {opts}"
+
+#: src/reuse/cli/common.py:105
+#, fuzzy
+msgid "'{}' is not a valid SPDX expression."
+msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
+
+#: src/reuse/cli/download.py:53
+#, fuzzy
+msgid "'{}' is not a valid SPDX License Identifier."
+msgstr "'{}' är inte ett giltigt SPDX-uttryck, avbryter"
+
+#: src/reuse/cli/download.py:60
+#, fuzzy
+msgid "Did you mean:"
+msgstr "Menade du:"
+
+#: src/reuse/cli/download.py:67
+msgid ""
+"See <https://spdx.org/licenses/> for a list of valid SPDX License "
+"Identifiers."
+msgstr ""
+"Se <https://spdx.org/licenses/> för en lista över giltiga SPDX-"
+"licensidentifierare."
+
+#: src/reuse/cli/download.py:76
+#, python-brace-format
+msgid "Error: {spdx_identifier} already exists."
+msgstr "Fel: {spdx_identifier} existerar redan."
+
+#: src/reuse/cli/download.py:83
+#, fuzzy, python-brace-format
+msgid "Error: {path} does not exist."
+msgstr "Fel: {path} existerar inte."
+
+#: src/reuse/cli/download.py:87
+msgid "Error: Failed to download license."
+msgstr "Fel: Hämtningen av licensen misslyckades."
+
+#: src/reuse/cli/download.py:92
+msgid "Is your internet connection working?"
+msgstr "Fungerar din internet-anslutning?"
+
+#: src/reuse/cli/download.py:97
+#, python-brace-format
+msgid "Successfully downloaded {spdx_identifier}."
+msgstr "Hämtningen av {spdx_identifier} lyckades."
+
+#: src/reuse/cli/download.py:107
+#, fuzzy
+msgid "Download a license and place it in the LICENSES/ directory."
+msgstr "hämta en licens och placera den i mappen LICENSES/"
+
+#: src/reuse/cli/download.py:110
+msgid ""
+"LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
+"multiple times to download multiple licenses."
+msgstr ""
+
+#: src/reuse/cli/download.py:123
+#, fuzzy
+msgid "Download all missing licenses detected in the project."
+msgstr "ladda ner alla saknade licenser som upptäckts i projektet"
+
+#: src/reuse/cli/download.py:131
+msgid "Path to download to."
+msgstr "Genväg att hämta till."
+
+#: src/reuse/cli/download.py:137
+msgid ""
+"Source from which to copy custom LicenseRef- licenses, either a directory "
+"that contains the file or the file itself."
+msgstr ""
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/download.py:144
+msgid "LICENSE"
+msgstr "LICENS"
+
+#: src/reuse/cli/download.py:160
+msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
+msgstr "Argumentet 'LICENS' och alternativet '--all' är ömsesidigt exklusivt."
+
+#: src/reuse/cli/download.py:172
+#, fuzzy
+msgid "Cannot use '--output' with more than one license."
+msgstr "kan inte använda --output med mer än en licens"
+
+#: src/reuse/cli/annotate.py:58
+msgid "Option '--copyright', '--license', or '--contributor' is required."
+msgstr "Alternativet '--copyright', '--license', eller '--contributor' krävs."
+
+#: src/reuse/cli/annotate.py:119
+msgid ""
+"The following files do not have a recognised file extension. Please use '--"
+"style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
+"unrecognised':"
+msgstr ""
+"De följande filerna har inte en filändelse som känns igen. Vänligen använd "
+"'--style','force-dot-license','--fallback-dot-license', eller '--skip-"
+"unrecognised':"
+
+#: src/reuse/cli/annotate.py:152
+#, python-brace-format
+msgid ""
+"'{path}' does not support single-line comments, please do not use '--single-"
+"line'."
+msgstr ""
+"'{path}' har inte stöd för kommentarer på en rad, vänligen använd inte '--"
+"single-line'."
+
+#: src/reuse/cli/annotate.py:159
+#, fuzzy, python-brace-format
+msgid ""
+"'{path}' does not support multi-line comments, please do not use '--multi-"
+"line'."
+msgstr ""
+"'{path}' stöjder inte kommentarer på flera rader, använd inte --multi-line"
+
+#: src/reuse/cli/annotate.py:205
+#, fuzzy, python-brace-format
+msgid "Template '{template}' could not be found."
+msgstr "'{dep5}' kunde inte avkodas som UTF-8."
+
+#: src/reuse/cli/annotate.py:268
+msgid "Add copyright and licensing into the headers of files."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:271
+msgid ""
+"By using --copyright and --license, you can specify which copyright holders "
+"and licenses to add to the headers of the given files."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:277
+msgid ""
+"By using --contributor, you can specify people or entity that contributed "
+"but are not copyright holder of the given files."
+msgstr ""
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:290
+msgid "COPYRIGHT"
+msgstr "KOPIERINGSSKYDD"
+
+#: src/reuse/cli/annotate.py:293
+msgid "Copyright statement, repeatable."
+msgstr ""
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:300
+msgid "SPDX_IDENTIFIER"
+msgstr "SPDX_IDENTIFIERARE"
+
+#: src/reuse/cli/annotate.py:303
+msgid "SPDX License Identifier, repeatable."
+msgstr ""
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:309
+msgid "CONTRIBUTOR"
+msgstr ""
+
+#: src/reuse/cli/annotate.py:312
+msgid "File contributor, repeatable."
+msgstr ""
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:319
+msgid "YEAR"
+msgstr "ÅR"
+
+#: src/reuse/cli/annotate.py:325
+msgid "Year of copyright statement."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:333
+msgid "Comment style to use."
+msgstr "Kommentarstilen att använda."
+
+#: src/reuse/cli/annotate.py:338
+msgid "Copyright prefix to use."
+msgstr ""
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:350
+msgid "TEMPLATE"
+msgstr "MALL"
+
+#: src/reuse/cli/annotate.py:352
+msgid "Name of template to use."
+msgstr "Namnet på mallen som ska användas."
+
+#: src/reuse/cli/annotate.py:359
+msgid "Do not include year in copyright statement."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:364
+msgid "Merge copyright lines if copyright statements are identical."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:371
+msgid "Force single-line comment style."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:378
+msgid "Force multi-line comment style."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:384
+msgid "Add headers to all files under specified directories recursively."
+msgstr "Lägg till huvuden i alla filer under angivna kataloger rekursivt."
+
+#: src/reuse/cli/annotate.py:389
+msgid "Do not replace the first header in the file; just add a new one."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:396
+msgid "Always write a .license file instead of a header inside the file."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:403
+msgid "Write a .license file to files with unrecognised comment styles."
+msgstr "Skriv en .licens-fil med icke igenkända kommentarstilar."
+
+#: src/reuse/cli/annotate.py:410
+msgid "Skip files with unrecognised comment styles."
+msgstr "Hoppa över filer med icke igenkända kommentarstilar."
+
+#: src/reuse/cli/annotate.py:421
+#, fuzzy
+msgid "Skip files that already contain REUSE information."
+msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:426
+msgid "PATH"
+msgstr "GENVÄG"
+
+#: src/reuse/cli/annotate.py:476
+#, python-brace-format
+msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
+msgstr "'{path}' är en binär, använder därför '{new_path}' för huvudet"
+
+#: src/reuse/cli/supported_licenses.py:19
+#, fuzzy
+msgid "List all licenses on the SPDX License List."
+msgstr "lista alla SPDX-licenser som stöds"
+
+#: src/reuse/global_licensing.py:102
+#, python-brace-format
+msgid ""
+"{attr_name} must be a {type_name} (got {value} that is a {value_class})."
+msgstr ""
+
+#: src/reuse/global_licensing.py:116
+#, python-brace-format
+msgid ""
+"Item in {attr_name} collection must be a {type_name} (got {item_value} that "
+"is a {item_class})."
+msgstr ""
+
+#: src/reuse/global_licensing.py:128
+#, python-brace-format
+msgid "{attr_name} must not be empty."
+msgstr ""
+
+#: src/reuse/global_licensing.py:152
+#, python-brace-format
+msgid "{name} must be a {type} (got {value} that is a {value_type})."
+msgstr ""
+
+#: src/reuse/global_licensing.py:176
+#, python-brace-format
+msgid ""
+"The value of 'precedence' must be one of {precedence_vals} (got {received})"
+msgstr ""
+
+#: src/reuse/_annotate.py:92
+#, python-brace-format
+msgid "Skipped unrecognised file '{path}'"
+msgstr "Hoppar över fil som inte känns igen '{path}'"
+
+#: src/reuse/_annotate.py:98
+#, python-brace-format
+msgid "'{path}' is not recognised; creating '{path}.license'"
+msgstr "'{path}' känns inte igen; skapar '{path}.license'"
+
+#: src/reuse/_annotate.py:114
+#, fuzzy, python-brace-format
+msgid "Skipped file '{path}' already containing REUSE information"
+msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
+
+#: src/reuse/_annotate.py:148
+#, python-brace-format
+msgid "Error: Could not create comment for '{path}'"
+msgstr "Fel: Kunde inte skapa kommentar för '{path}'"
+
+#: src/reuse/_annotate.py:155
+#, python-brace-format
+msgid ""
+"Error: Generated comment header for '{path}' is missing copyright lines or "
+"license expressions. The template is probably incorrect. Did not write new "
+"header."
+msgstr ""
+
+#. TODO: This may need to be rephrased more elegantly.
+#: src/reuse/_annotate.py:166
+#, python-brace-format
+msgid "Successfully changed header of {path}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
+msgid "Repeat for confirmation"
+msgstr "Upprepa för bekräftelse"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:174
+msgid "Error: The value you entered was invalid."
+msgstr "Fel: Värdet som du fyllde i var ogiltigt."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:176
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr "Fel: {e.message}"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:187
+msgid "Error: The two entered values do not match."
+msgstr "Fel: De två värderna som ifylldes matchar inte."
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:243
+msgid "Error: invalid input"
+msgstr "Fel: ogiltig inmatning"
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:773
+msgid "Press any key to continue..."
+msgstr "Tryck på en tangent för att fortsätta..."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:267
 #, python-brace-format
@@ -967,6 +992,14 @@ msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] ""
 msgstr[1] ""
 
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:333
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr "Kunde inte upptäcka Bash-versionen, skalkomplettering stöds inte."
+
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:49
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:88
 #, python-brace-format
@@ -1029,20 +1062,6 @@ msgstr "okänt fel"
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:277
 msgid "Could not open file {filename!r}: {message}"
 msgstr "Kunde inte öppna filen {filename!r}: {message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:233
-msgid "Argument {name!r} takes {nargs} values."
-msgstr "Argumentet {name!r} tar {nargs}-värden."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:415
-msgid "Option {name!r} does not take a value."
-msgstr "Alternativet {name!r} tar inte emot något värde."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:476
-msgid "Option {name!r} requires an argument."
-msgid_plural "Option {name!r} requires {nargs} arguments."
-msgstr[0] "Alternativet {name!r} kräver ett argument."
-msgstr[1] "Alternativen {name!r} kräver {nargs} argument."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1124
 msgid "Aborted!"
@@ -1110,39 +1129,19 @@ msgstr "standard: {default}"
 msgid "required"
 msgstr "krävs"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
-msgid "Repeat for confirmation"
-msgstr "Upprepa för bekräftelse"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:233
+msgid "Argument {name!r} takes {nargs} values."
+msgstr "Argumentet {name!r} tar {nargs}-värden."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:174
-msgid "Error: The value you entered was invalid."
-msgstr "Fel: Värdet som du fyllde i var ogiltigt."
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:415
+msgid "Option {name!r} does not take a value."
+msgstr "Alternativet {name!r} tar inte emot något värde."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:176
-#, python-brace-format
-msgid "Error: {e.message}"
-msgstr "Fel: {e.message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:187
-msgid "Error: The two entered values do not match."
-msgstr "Fel: De två värderna som ifylldes matchar inte."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:243
-msgid "Error: invalid input"
-msgstr "Fel: ogiltig inmatning"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:773
-msgid "Press any key to continue..."
-msgstr "Tryck på en tangent för att fortsätta..."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:520
-#, fuzzy
-msgid "Show the version and exit."
-msgstr "visa programmets versionsnummer och avsluta"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:541
-msgid "Show this message and exit."
-msgstr "Visa det här meddelandet och avsluta."
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:476
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] "Alternativet {name!r} kräver ett argument."
+msgstr[1] "Alternativen {name!r} kräver {nargs} argument."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:556
 #, python-brace-format
@@ -1154,13 +1153,14 @@ msgstr "{editor}: Redigeringen misslyckades"
 msgid "{editor}: Editing failed: {e}"
 msgstr "{editor}: Redigeringen misslyckades: {e}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
-msgid "Shell completion is not supported for Bash versions older than 4.4."
-msgstr ""
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:520
+#, fuzzy
+msgid "Show the version and exit."
+msgstr "visa programmets versionsnummer och avsluta"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:333
-msgid "Couldn't detect Bash version, shell completion is not supported."
-msgstr "Kunde inte upptäcka Bash-versionen, skalkomplettering stöds inte."
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:541
+msgid "Show this message and exit."
+msgstr "Visa det här meddelandet och avsluta."
 
 #~ msgid "can't write to '{}'"
 #~ msgstr "kan inte skriva till '{}'"
