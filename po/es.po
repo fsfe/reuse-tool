@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-27 12:21+0000\n"
+"POT-Creation-Date: 2025-09-27 15:48+0000\n"
 "PO-Revision-Date: 2024-11-14 07:53+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -183,18 +183,18 @@ msgstr "Licencias sin extensión de fichero:"
 msgid "{lic_path}: unused license\n"
 msgstr "Licencias no utilizadas:"
 
-#: src/reuse/project.py:255
+#: src/reuse/project.py:253
 #, fuzzy, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' cubierto por .reuse/dep5"
 
-#: src/reuse/project.py:263
+#: src/reuse/project.py:261
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
 
-#: src/reuse/project.py:270
+#: src/reuse/project.py:268
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -203,30 +203,25 @@ msgstr ""
 "Se ha detectado que '{path}' es un archivo binario; no se ha buscado "
 "información REUTILIZABLE en su contenido."
 
-#: src/reuse/project.py:331
+#: src/reuse/project.py:329
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
 
-#: src/reuse/project.py:352
+#: src/reuse/project.py:350
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
 
-#: src/reuse/project.py:411
-#, python-brace-format
-msgid "determining identifier of '{path}'"
-msgstr "determinando el identificador de '{path}'"
-
-#: src/reuse/project.py:419
+#: src/reuse/project.py:414
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} no tiene extensión de fichero"
 
-#: src/reuse/project.py:429
+#: src/reuse/project.py:424
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -239,7 +234,7 @@ msgstr ""
 "alojada en <https://spdx.org/licenses/>, o de que empieza por 'LicenseRef-', "
 "y de que posee una extensión de fichero."
 
-#: src/reuse/project.py:441
+#: src/reuse/project.py:436
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -247,7 +242,7 @@ msgstr ""
 "{identifier} es el Identificador SPDX de Licencia, tanto de {path}, como de "
 "{other_path}"
 
-#: src/reuse/project.py:480
+#: src/reuse/project.py:475
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -274,17 +269,17 @@ msgstr ""
 "el comentario generado carece del mensaje de copyright o de las frases de "
 "licencia"
 
-#: src/reuse/report.py:155
+#: src/reuse/report.py:159
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "No se pudo leer '{path}'"
 
-#: src/reuse/report.py:160
+#: src/reuse/report.py:164
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Se produjo un error inesperado al procesar '{path}'"
 
-#: src/reuse/report.py:511
+#: src/reuse/report.py:515
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -297,7 +292,7 @@ msgstr ""
 "'LicenseRef-'. Preguntas frecuentes sobre las licencias personalizadas: "
 "https://reuse.software/faq/#custom-license"
 
-#: src/reuse/report.py:522
+#: src/reuse/report.py:526
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -311,7 +306,7 @@ msgstr ""
 "los nuevos identificadores recomendados se encuentran aquí: <https://spdx."
 "org/licenses/#deprecated>"
 
-#: src/reuse/report.py:533
+#: src/reuse/report.py:537
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -321,7 +316,7 @@ msgstr ""
 "con la licencia en el directorio 'LICENCIAS' no tiene una extensión '.txt'. "
 "Cambie el nombre de los archivos en consecuencia."
 
-#: src/reuse/report.py:542
+#: src/reuse/report.py:546
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -337,7 +332,7 @@ msgstr ""
 "En el caso de las licencias personalizadas (que empiezan por 'LicenseRef-'), "
 "deberá añadir estos archivos usted mismo."
 
-#: src/reuse/report.py:554
+#: src/reuse/report.py:558
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -352,7 +347,7 @@ msgstr ""
 "elimine el texto de la licencia no utilizado si está seguro de que ningún "
 "archivo o fragmento de código tiene una licencia como tal."
 
-#: src/reuse/report.py:565
+#: src/reuse/report.py:569
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -363,7 +358,7 @@ msgstr ""
 "archivos. Encontrará los archivos afectados en la parte superior como parte "
 "de los mensajes de los errores registrados."
 
-#: src/reuse/report.py:574
+#: src/reuse/report.py:578
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
@@ -1259,6 +1254,10 @@ msgstr "Mostrar la versión y salir."
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:541
 msgid "Show this message and exit."
 msgstr "Mostrar este mensaje y salir."
+
+#, python-brace-format
+#~ msgid "determining identifier of '{path}'"
+#~ msgstr "determinando el identificador de '{path}'"
 
 #~ msgid "--skip-unrecognised has no effect when used together with --style"
 #~ msgstr ""

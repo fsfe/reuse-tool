@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-27 12:21+0000\n"
+"POT-Creation-Date: 2025-09-27 15:48+0000\n"
 "PO-Revision-Date: 2025-09-07 11:05+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -178,18 +178,18 @@ msgstr "{lic_path}: ліцензія без розширення файлу\n"
 msgid "{lic_path}: unused license\n"
 msgstr "{lic_path}: невикористана ліцензія\n"
 
-#: src/reuse/project.py:255
+#: src/reuse/project.py:253
 #, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' покрито за рахунок {global_path}"
 
-#: src/reuse/project.py:263
+#: src/reuse/project.py:261
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr "'{path}' покрито виключно файлом REUSE.toml. Зміст файлу не читається."
 
-#: src/reuse/project.py:270
+#: src/reuse/project.py:268
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -198,7 +198,7 @@ msgstr ""
 "'{path}' виявлено як двійковий файл або його розширення позначено таким, що "
 "не коментується; пошук інформації у його вмісті для REUSE не виконується."
 
-#: src/reuse/project.py:331
+#: src/reuse/project.py:329
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
@@ -206,7 +206,7 @@ msgstr ""
 "'.reuse/dep5' є застарілим. Замість нього рекомендовано використовувати "
 "REUSE.toml. Для перетворення використовуйте `reuse convert-dep5`."
 
-#: src/reuse/project.py:352
+#: src/reuse/project.py:350
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
@@ -215,17 +215,12 @@ msgstr ""
 "Знайдено як '{new_path}', так і '{old_path}'. Ви не можете зберігати обидва "
 "файли одночасно, вони несумісні."
 
-#: src/reuse/project.py:411
-#, python-brace-format
-msgid "determining identifier of '{path}'"
-msgstr "визначення ідентифікатора '{path}'"
-
-#: src/reuse/project.py:419
+#: src/reuse/project.py:414
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} не має розширення файлу"
 
-#: src/reuse/project.py:429
+#: src/reuse/project.py:424
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -238,14 +233,14 @@ msgstr ""
 "spdx.org/licenses/> або що вона починається з 'LicenseRef-' і має розширення "
 "файлу."
 
-#: src/reuse/project.py:441
+#: src/reuse/project.py:436
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} — це ідентифікатор ліцензії SPDX для {path} і {other_path}"
 
-#: src/reuse/project.py:480
+#: src/reuse/project.py:475
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -271,17 +266,17 @@ msgstr ""
 "у згенерованому коментарі відсутні рядки про авторські права або вирази "
 "ліцензії"
 
-#: src/reuse/report.py:155
+#: src/reuse/report.py:159
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Не вдалося прочитати '{path}'"
 
-#: src/reuse/report.py:160
+#: src/reuse/report.py:164
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Під час аналізу '{path}' сталася неочікувана помилка"
 
-#: src/reuse/report.py:511
+#: src/reuse/report.py:515
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -294,7 +289,7 @@ msgstr ""
 "Часті запитання про користувацькі ліцензії: https://reuse.software/faq/"
 "#custom-license"
 
-#: src/reuse/report.py:522
+#: src/reuse/report.py:526
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -307,7 +302,7 @@ msgstr ""
 "застаріла для SPDX. Поточний список і відповідні рекомендовані нові "
 "ідентифікатори можна знайти тут: <https://spdx.org/licenses/#deprecated>"
 
-#: src/reuse/report.py:533
+#: src/reuse/report.py:537
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -317,7 +312,7 @@ msgstr ""
 "ліцензії в директорії 'LICENSES' не має розширення '.txt'. Перейменуйте "
 "файл(и) відповідно."
 
-#: src/reuse/report.py:542
+#: src/reuse/report.py:546
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -332,7 +327,7 @@ msgstr ""
 "будь-які відсутні ідентифікатори. Для користувацьких ліцензій (починаючи з "
 "'LicenseRef-') вам потрібно додати ці файли самостійно."
 
-#: src/reuse/report.py:554
+#: src/reuse/report.py:558
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -346,7 +341,7 @@ msgstr ""
 "відповідні ліцензовані файли, або видаліть невикористаний текст ліцензії, "
 "якщо ви впевнені, що жоден файл або фрагмент коду не ліцензований як такий."
 
-#: src/reuse/report.py:565
+#: src/reuse/report.py:569
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -357,7 +352,7 @@ msgstr ""
 "відповідні файли у верхній частині виводу як частину зареєстрованих "
 "повідомлень про помилки."
 
-#: src/reuse/report.py:574
+#: src/reuse/report.py:578
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
@@ -1238,6 +1233,10 @@ msgstr "Показати версію та вийти."
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:541
 msgid "Show this message and exit."
 msgstr "Показати це повідомлення та вийти."
+
+#, python-brace-format
+#~ msgid "determining identifier of '{path}'"
+#~ msgstr "визначення ідентифікатора '{path}'"
 
 #~ msgid "--skip-unrecognised has no effect when used together with --style"
 #~ msgstr "--skip-unrecognised не працює разом із --style"
