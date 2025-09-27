@@ -18,6 +18,7 @@ clean-build: ## remove build artifacts
 	rm -fr build/
 	rm -fr dist/
 	rm -fr .cache/
+	rm -fr .mypy_cache/
 	rm -fr .eggs/
 	rm -fr pip-wheel-metadata/
 	find . -name '*.mo' -exec rm -f {} +
