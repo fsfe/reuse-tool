@@ -4,7 +4,8 @@
 
 """Utilities that are common to multiple CLI commands."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from functools import cached_property
 from pathlib import Path
 from typing import Any, Mapping, Optional
 
@@ -28,16 +29,9 @@ class ClickObj:
     include_meson_subprojects: bool = False
     no_multiprocessing: bool = True
 
-    _project: Optional[Project] = field(
-        default=None, init=False, repr=False, compare=False
-    )
-
-    @property
+    @cached_property
     def project(self) -> Project:
-        """Generate a project object on demand, and cache it."""
-        if self._project:
-            return self._project
-
+        """Generate a project object on demand."""
         root = self.root
         if root is None:
             root = find_root()
@@ -45,7 +39,7 @@ class ClickObj:
             root = Path.cwd()
 
         try:
-            project = Project.from_directory(
+            return Project.from_directory(
                 root,
                 include_submodules=self.include_submodules,
                 include_meson_subprojects=self.include_meson_subprojects,
@@ -62,9 +56,6 @@ class ClickObj:
 
         except (GlobalLicensingConflictError, OSError) as error:
             raise click.UsageError(str(error)) from error
-
-        self._project = project
-        return project
 
 
 class MutexOption(click.Option):
