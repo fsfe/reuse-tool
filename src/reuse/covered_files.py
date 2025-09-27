@@ -138,7 +138,6 @@ def iter_files(
 
     for root_str, dirs, files in os.walk(directory):
         root = Path(root_str)
-        _LOGGER.debug("currently walking in '%s'", root)
 
         # Don't walk ignored directories
         for dir_ in list(dirs):
@@ -168,5 +167,4 @@ def iter_files(
                 _LOGGER.debug("ignoring '%s'", the_file)
                 continue
 
-            _LOGGER.debug("yielding '%s'", the_file)
             yield the_file

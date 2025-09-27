@@ -232,8 +232,6 @@ class Project:
         original_path = path
         path = _determine_license_path(path)
 
-        _LOGGER.debug(f"searching '{path}' for REUSE information")
-
         # This means that only one 'source' of licensing/copyright information
         # is captured in ReuseInfo
         global_results: defaultdict[PrecedenceType, list[ReuseInfo]] = (
@@ -407,9 +405,6 @@ class Project:
                 continue
 
             path = self.relative_from_root(path)
-            _LOGGER.debug(
-                _("determining identifier of '{path}'").format(path=path)
-            )
 
             try:
                 identifier = self._identifier_of_license(path)
