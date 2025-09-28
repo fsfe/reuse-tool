@@ -10,15 +10,17 @@
 
 """Tests for annotate."""
 
+import datetime
 import stat
 from inspect import cleandoc
 from pathlib import PurePath
+from unittest.mock import create_autospec
 
 import pytest
 from click.testing import CliRunner
 
 from reuse.cli.main import main
-from reuse.copyright import _COPYRIGHT_PREFIXES
+from reuse.copyright import CopyrightPrefix
 
 # pylint: disable=too-many-public-methods,too-many-lines,unused-argument
 
@@ -1529,6 +1531,67 @@ class TestAnnotate:
         assert "foo.py" not in result.output
         assert "Jane Doe" not in (fake_repository / "baz/foo.py").read_text()
 
+    @pytest.mark.parametrize(
+        "year",
+        (
+            "abcd",
+            "123",
+            "12345",
+            "1234 until 5678",
+        ),
+    )
+    def test_wrong_year(self, empty_directory, year):
+        """If inputting a wrong value for --year, expect an error."""
+        (empty_directory / "foo.py").touch()
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--copyright",
+                "Jane Doe",
+                "--year",
+                year,
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code != 0
+        assert f"'{year}' is not a valid year range." in result.output
+
+    @pytest.mark.parametrize(
+        "year",
+        (
+            1,
+            12,
+            123,
+            # Five-digit values are not supported by datetime.
+        ),
+    )
+    def test_wrong_current_year(self, empty_directory, monkeypatch, year):
+        """In the rare event that the current year is not four digits, expect an
+        error.
+        """
+        date = create_autospec(datetime.date)
+        date.today.return_value = datetime.date(year, 1, 1)
+        monkeypatch.setattr(datetime, "date", date)
+        (empty_directory / "foo.py").touch()
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--copyright",
+                "Jane Doe",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code != 0
+        assert (
+            f"Your operating system's year is set to '{year}'." in result.output
+        )
+
 
 class TestAnnotateMerge:
     """Test merging copyright statements."""
@@ -1570,8 +1633,6 @@ class TestAnnotateMerge:
                 "annotate",
                 "--year",
                 "2018",
-                "--license",
-                "GPL-3.0-or-later",
                 "--copyright",
                 "Mary Sue",
                 "--merge-copyrights",
@@ -1582,7 +1643,31 @@ class TestAnnotateMerge:
         assert result.exit_code == 0
         assert simple_file.read_text() == cleandoc(
             """
-                # SPDX-FileCopyrightText: 2016 - 2018 Mary Sue
+                # SPDX-FileCopyrightText: 2016, 2018 Mary Sue
+                #
+                # SPDX-License-Identifier: GPL-3.0-or-later
+
+                pass
+                """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--year",
+                "2017",
+                "--copyright",
+                "Mary Sue",
+                "--merge-copyrights",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == cleandoc(
+            """
+                # SPDX-FileCopyrightText: 2016-2018 Mary Sue
                 #
                 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -1633,19 +1718,19 @@ class TestAnnotateMerge:
 
         assert simple_file.read_text() == cleandoc(
             """
-                # Copyright (C) 2015 Mary Sue
-                # Copyright (C) 2016 Mary Sue
-                # Copyright (C) 2017 Mary Sue
-                # Copyright (C) 2018 Mary Sue
-                # Copyright (C) 2019 Mary Sue
-                # SPDX-FileCopyrightText: 2010 Mary Sue
-                # SPDX-FileCopyrightText: 2011 Mary Sue
-                # SPDX-FileCopyrightText: 2012 Mary Sue
-                #
-                # SPDX-License-Identifier: GPL-3.0-or-later
+            # SPDX-FileCopyrightText: 2010 Mary Sue
+            # SPDX-FileCopyrightText: 2011 Mary Sue
+            # SPDX-FileCopyrightText: 2012 Mary Sue
+            # Copyright (C) 2015 Mary Sue
+            # Copyright (C) 2016 Mary Sue
+            # Copyright (C) 2017 Mary Sue
+            # Copyright (C) 2018 Mary Sue
+            # Copyright (C) 2019 Mary Sue
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
 
-                pass
-                """
+            pass
+            """
         )
 
         result = CliRunner().invoke(
@@ -1666,12 +1751,12 @@ class TestAnnotateMerge:
         assert result.exit_code == 0
         assert simple_file.read_text() == cleandoc(
             """
-                # Copyright (C) 2010 - 2019 Mary Sue
-                #
-                # SPDX-License-Identifier: GPL-3.0-or-later
+            # Copyright (C) 2010-2012, 2015-2019 Mary Sue
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
 
-                pass
-                """
+            pass
+            """
         )
 
     def test_no_year_in_existing(self, fake_repository, mock_date_today):
@@ -1713,7 +1798,7 @@ class TestAnnotateMerge:
         # moment, and the whole copyright-line-as-string thing needs
         # overhauling.
         simple_file = fake_repository / "foo.py"
-        for copyright_prefix, copyright_string in _COPYRIGHT_PREFIXES.items():
+        for prefix in CopyrightPrefix:
             simple_file.write_text("pass")
             result = CliRunner().invoke(
                 main,
@@ -1726,7 +1811,7 @@ class TestAnnotateMerge:
                     "--copyright",
                     "Jane Doe",
                     "--copyright-style",
-                    copyright_prefix,
+                    CopyrightPrefix.lowercase_name(prefix.name),
                     "--merge-copyrights",
                     "foo.py",
                 ],
@@ -1734,7 +1819,7 @@ class TestAnnotateMerge:
             assert result.exit_code == 0
             assert simple_file.read_text(encoding="utf-8") == cleandoc(
                 f"""
-                    # {copyright_string} 2016 Jane Doe
+                    # {prefix.value} 2016 Jane Doe
                     #
                     # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -1753,7 +1838,7 @@ class TestAnnotateMerge:
                     "--copyright",
                     "Jane Doe",
                     "--copyright-style",
-                    copyright_prefix,
+                    CopyrightPrefix.lowercase_name(prefix.name),
                     "--merge-copyrights",
                     "foo.py",
                 ],
@@ -1761,12 +1846,12 @@ class TestAnnotateMerge:
             assert result.exit_code == 0
             assert simple_file.read_text(encoding="utf-8") == cleandoc(
                 f"""
-                    # {copyright_string} 2016 - 2018 Jane Doe
-                    #
-                    # SPDX-License-Identifier: GPL-3.0-or-later
+                # {prefix.value} 2016, 2018 Jane Doe
+                #
+                # SPDX-License-Identifier: GPL-3.0-or-later
 
-                    pass
-                    """
+                pass
+                """
             )
 
 

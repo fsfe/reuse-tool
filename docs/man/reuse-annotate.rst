@@ -68,8 +68,9 @@ Other options
 
 .. option:: -y, --year YEAR
 
-  Define the year of the copyright statement(s). If not defined, the year
-  defaults to the current year.
+  Define the year of the copyright notice(s). If not defined, the year defaults
+  to the current year. The value may be a (complex) range, such as '2017-2019',
+  or '2017, 2019-2022, 2024-Present'.
 
 .. option:: -s, --style STYLE
 
@@ -79,21 +80,21 @@ Other options
 
 .. option:: --copyright-prefix PREFIX
 
-  The prefix to use in the copyright statement. If not defined, ``spdx`` is used
+  The prefix to use in the copyright notice. If not defined, ``spdx`` is used
   as prefix. The available copyright prefixes are:
 
   .. code-block::
 
-    spdx:               SPDX-FileCopyrightText: <year> <statement>
-    spdx-c:             SPDX-FileCopyrightText: (C) <year> <statement>
-    spdx-symbol:        SPDX-FileCopyrightText: © <year> <statement>
-    spdx-string:        SPDX-FileCopyrightText: Copyright <year> <statement>
-    spdx-string-c:      SPDX-FileCopyrightText: Copyright (C) <year> <statement>
-    spdx-string-symbol: SPDX-FileCopyrightText: Copyright © <year> <statement>
-    string:             Copyright <year> <statement>
-    string-c:           Copyright (C) <year> <statement>
-    string-symbol:      Copyright © <year> <statement>
-    symbol:             © <year> <statement>
+    spdx:               SPDX-FileCopyrightText: <year> <author>
+    spdx-c:             SPDX-FileCopyrightText: (C) <year> <author>
+    spdx-symbol:        SPDX-FileCopyrightText: © <year> <author>
+    spdx-string:        SPDX-FileCopyrightText: Copyright <year> <author>
+    spdx-string-c:      SPDX-FileCopyrightText: Copyright (C) <year> <author>
+    spdx-string-symbol: SPDX-FileCopyrightText: Copyright © <year> <author>
+    string:             Copyright <year> <author>
+    string-c:           Copyright (C) <year> <author>
+    string-symbol:      Copyright © <year> <author>
+    symbol:             © <year> <author>
 
 .. option:: -t, --template TEMPLATE
 
@@ -151,7 +152,7 @@ Templates
 ---------
 
 When the tool adds a header to a file, it normally first lists all copyright
-statements alphabetically, subsequently all contributors, then adds a single
+notices alphabetically, subsequently all contributors, then adds a single
 empty line, and finally lists all SPDX License Expressions alphabetically. It is
 possible to change this behaviour, and use a custom type of header that contains
 extra text. This is done through Jinja2 templates.

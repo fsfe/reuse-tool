@@ -23,9 +23,8 @@ from boolean.boolean import ParseError
 from jinja2 import Environment, PackageLoader, Template
 from license_expression import ExpressionError
 
-from . import ReuseInfo
 from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
-from .copyright import merge_copyright_lines
+from .copyright import CopyrightNotice, ReuseInfo
 from .exceptions import (
     CommentCreateError,
     CommentParseError,
@@ -70,7 +69,7 @@ def _create_new_header(
         style = cast(Type[CommentStyle], PythonCommentStyle)
 
     rendered = template.render(
-        copyright_lines=sorted(reuse_info.copyright_lines),
+        copyright_lines=map(str, sorted(reuse_info.copyright_notices)),
         contributor_lines=sorted(reuse_info.contributor_lines),
         spdx_expressions=sorted(map(str, reuse_info.spdx_expressions)),
     ).strip("\n")
@@ -85,7 +84,7 @@ def _create_new_header(
     # Verify that the result contains all ReuseInfo.
     new_reuse_info = extract_reuse_info(result)
     if (
-        reuse_info.copyright_lines != new_reuse_info.copyright_lines
+        reuse_info.copyright_notices != new_reuse_info.copyright_notices
         and reuse_info.spdx_expressions != new_reuse_info.spdx_expressions
     ):
         _LOGGER.debug(
@@ -137,17 +136,19 @@ def create_header(
             ) from err
 
         if merge_copyrights:
-            spdx_copyrights = merge_copyright_lines(
-                reuse_info.copyright_lines.union(existing_spdx.copyright_lines),
+            spdx_copyrights = CopyrightNotice.merge(
+                reuse_info.copyright_notices.union(
+                    existing_spdx.copyright_notices
+                )
             )
         else:
-            spdx_copyrights = reuse_info.copyright_lines.union(
-                existing_spdx.copyright_lines
+            spdx_copyrights = reuse_info.copyright_notices.union(
+                existing_spdx.copyright_notices
             )
 
         # TODO: This behaviour does not match the docstring.
         reuse_info = existing_spdx | reuse_info
-        reuse_info = reuse_info.copy(copyright_lines=spdx_copyrights)
+        reuse_info = reuse_info.copy(copyright_notices=spdx_copyrights)
 
     new_header += _create_new_header(
         reuse_info,

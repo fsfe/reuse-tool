@@ -19,14 +19,20 @@ import os
 import re
 from itertools import chain
 from pathlib import Path
-from typing import BinaryIO, Iterator, Optional
+from typing import BinaryIO, Optional
 
-from boolean.boolean import ParseError
+from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError
 
-from . import _LICENSING, ReuseInfo, SourceType
+from . import _LICENSING
 from ._util import relative_from_root
 from .comment import _all_style_classes
+from .copyright import (
+    COPYRIGHT_NOTICE_PATTERN,
+    CopyrightNotice,
+    ReuseInfo,
+    SourceType,
+)
 from .i18n import _
 from .types import StrPath
 
@@ -39,11 +45,11 @@ SPDX_SNIPPET_INDICATOR = b"SPDX-SnippetBegin"
 
 _LOGGER = logging.getLogger(__name__)
 
-_END_PATTERN = r"{}$".format(
-    "".join(
-        {
-            r"(?:{})*".format(item)  # pylint: disable=consider-using-f-string
-            for item in chain(
+_START_PATTERN = r"(?:^.*?)"
+_END_PATTERN = r"(?:({})\s*)*$".format(
+    "|".join(
+        set(
+            chain(
                 (
                     re.escape(style.MULTI_LINE.end)
                     for style in _all_style_classes()
@@ -53,50 +59,39 @@ _END_PATTERN = r"{}$".format(
                 # comment styles, but which we want to nonetheless strip away
                 # while parsing.
                 (
-                    ending
-                    for ending in [
-                        # ex: <tag value="Copyright Jane Doe">
-                        r'"\s*/*>',
-                        r"'\s*/*>",
-                        # ex: [SPDX-License-Identifier: GPL-3.0-or-later] ::
-                        r"\]\s*::",
-                    ]
+                    # ex: <tag value="Copyright Jane Doe">
+                    r'"\s*/*>',
+                    r"'\s*/*>",
+                    # ex: [SPDX-License-Identifier: GPL-3.0-or-later] ::
+                    r"\]\s*::",
+                    # ex: ASCII art frames for comment headers. See #343 for a
+                    # real-world example of a project doing this (LLVM).
+                    r"\*",
+                    r"\*\|",
                 ),
             )
-        }
+        )
     )
 )
+_COPYRIGHT_NOTICE_PATTERN = re.compile(
+    _START_PATTERN + COPYRIGHT_NOTICE_PATTERN.pattern + _END_PATTERN,
+    re.MULTILINE,
+)
 _LICENSE_IDENTIFIER_PATTERN = re.compile(
-    r"^(.*?)SPDX-License-Identifier:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
+    _START_PATTERN
+    + r"SPDX-License-Identifier:\s*(?P<value>.*?)"
+    + _END_PATTERN,
+    re.MULTILINE,
 )
 _CONTRIBUTOR_PATTERN = re.compile(
-    r"^(.*?)SPDX-FileContributor:[ \t]+(.*?)" + _END_PATTERN, re.MULTILINE
+    _START_PATTERN + r"SPDX-FileContributor:\s*(?P<value>.*?)" + _END_PATTERN,
+    re.MULTILINE,
 )
 # The keys match the relevant attributes of ReuseInfo.
 _SPDX_TAGS: dict[str, re.Pattern] = {
     "spdx_expressions": _LICENSE_IDENTIFIER_PATTERN,
     "contributor_lines": _CONTRIBUTOR_PATTERN,
 }
-
-_COPYRIGHT_PATTERNS = [
-    re.compile(
-        r"(?P<copyright>(?P<prefix>SPDX-(File|Snippet)CopyrightText:"
-        r"(\s(\([Cc]\)|©|Copyright(\s(©|\([Cc]\)))?))?)\s+"
-        r"((?P<year>\d{4} ?- ?\d{4}|\d{4}),?\s+)?"
-        r"(?P<statement>.*?))" + _END_PATTERN
-    ),
-    re.compile(
-        r"(?P<copyright>(?P<prefix>Copyright(\s(\([Cc]\)|©))?)\s+"
-        r"((?P<year>\d{4} ?- ?\d{4}|\d{4}),?\s+)?"
-        r"(?P<statement>.*?))" + _END_PATTERN
-    ),
-    re.compile(
-        r"(?P<copyright>(?P<prefix>©)\s+"
-        r"((?P<year>\d{4} ?- ?\d{4}|\d{4}),?\s+)?"
-        r"(?P<statement>.*?))" + _END_PATTERN
-    ),
-]
-
 _LICENSEREF_PATTERN = re.compile("LicenseRef-[a-zA-Z0-9-.]+$")
 
 # Amount of bytes that we assume will be big enough to contain the entire
@@ -132,40 +127,44 @@ def _contains_snippet(binary_file: BinaryIO) -> bool:
 
 
 def extract_reuse_info(text: str) -> ReuseInfo:
-    """Extract REUSE information from comments in a string.
+    """Extract REUSE information from a multi-line text block.
 
     Raises:
         ExpressionError: if an SPDX expression could not be parsed.
         ParseError: if an SPDX expression could not be parsed.
     """
+    # TODO: This function call should not be here. It should already be filtered
+    # out before we get to this function.
     text = filter_ignore_block(text)
-    spdx_tags: dict[str, set[str]] = {}
-    for tag, pattern in _SPDX_TAGS.items():
-        spdx_tags[tag] = set(find_spdx_tag(text, pattern))
-    # License expressions and copyright matches are special cases.
-    expressions = set()
-    copyright_matches = set()
-    for expression in spdx_tags.pop("spdx_expressions"):
+
+    notices: set[CopyrightNotice] = set()
+    expressions: set[Expression] = set()
+    contributors: set[str] = set()
+
+    for notice in _COPYRIGHT_NOTICE_PATTERN.finditer(text):
+        notices.add(CopyrightNotice.from_match(notice))
+
+    for expression in _LICENSE_IDENTIFIER_PATTERN.finditer(text):
         try:
-            expressions.add(_LICENSING.parse(expression))
+            expressions.add(_LICENSING.parse(expression.group("value")))
         except (ExpressionError, ParseError):
             _LOGGER.error(
                 _("Could not parse '{expression}'").format(
-                    expression=expression
+                    expression=expression.group("value")
                 )
             )
             raise
-    for line in text.splitlines():
-        for pattern in _COPYRIGHT_PATTERNS:
-            match = pattern.search(line)
-            if match is not None:
-                copyright_matches.add(match.groupdict()["copyright"].strip())
-                break
+
+    # TODO: We can generalise this. But if we do, we shouldn't run a regex over
+    # the entire file multiple times. We should check for `SPDX-.+:.*$`
+    # (simplified), and further filter the results in a second pass.
+    for contributor in _CONTRIBUTOR_PATTERN.finditer(text):
+        contributors.add(contributor.group("value"))
 
     return ReuseInfo(
         spdx_expressions=expressions,
-        copyright_lines=copyright_matches,
-        **spdx_tags,  # type: ignore
+        copyright_notices=notices,
+        contributor_lines=contributors,
     )
 
 
@@ -211,29 +210,6 @@ def reuse_info_of_file(
                 ).format(path=path)
             )
     return ReuseInfo()
-
-
-def find_spdx_tag(text: str, pattern: re.Pattern) -> Iterator[str]:
-    """Extract all the values in *text* matching *pattern*'s regex, taking care
-    of stripping extraneous whitespace of formatting.
-    """
-    for prefix, value in pattern.findall(text):
-        prefix, value = prefix.strip(), value.strip()
-
-        # Some comment headers have ASCII art to "frame" the comment, like this:
-        #
-        # /***********************\
-        # |*  This is a comment  *|
-        # \***********************/
-        #
-        # To ensure we parse them correctly, if the line ends with the inverse
-        # of the comment prefix, we strip that suffix. See #343 for a real
-        # world example of a project doing this (LLVM).
-        suffix = prefix[::-1]
-        if suffix and value.endswith(suffix):
-            value = value[: -len(suffix)]
-
-        yield value.strip()
 
 
 def filter_ignore_block(text: str) -> str:

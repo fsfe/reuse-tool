@@ -22,9 +22,9 @@ from typing import Collection, Iterator, NamedTuple, Optional, Type
 import attrs
 from binaryornot.check import is_binary
 
-from . import ReuseInfo
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import _determine_license_path, relative_from_root
+from .copyright import ReuseInfo
 from .covered_files import iter_files
 from .exceptions import (
     GlobalLicensingConflictError,
@@ -284,10 +284,10 @@ class Project:
             if global_results[PrecedenceType.CLOSEST]:
                 # There should only by a single CLOSEST result in the list.
                 closest = global_results[PrecedenceType.CLOSEST][0]
-                if file_result.copyright_lines:
+                if file_result.copyright_notices:
                     result.append(
                         closest.copy(
-                            copyright_lines=set(),
+                            copyright_notices=set(),
                         )
                     )
                 elif file_result.spdx_expressions:

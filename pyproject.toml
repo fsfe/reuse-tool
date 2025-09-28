@@ -152,13 +152,14 @@ addopts = "--doctest-modules"
 
 [tool.mypy]
 files = [
-    "src/reuse/**.py",
-    "tests/**.py",
+    "src/reuse/**/*.py",
+    "tests/**/*.py",
 ]
 exclude = [
     '^_build\.py$',
     '^conf\.py$',
 ]
+check_untyped_defs = true
 
 [[tool.mypy.overrides]]
 module = "reuse.*"

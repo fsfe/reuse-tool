@@ -27,7 +27,6 @@ from boolean.boolean import Expression
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
-from .. import ReuseInfo
 from .._annotate import add_header_to_file
 from .._util import _determine_license_path, _determine_license_suffix_path
 from ..comment import (
@@ -37,7 +36,14 @@ from ..comment import (
     has_style,
     is_uncommentable,
 )
-from ..copyright import _COPYRIGHT_PREFIXES, make_copyright_line
+from ..copyright import (
+    CopyrightNotice,
+    CopyrightPrefix,
+    ReuseInfo,
+    YearRange,
+    validate_four_digits,
+)
+from ..exceptions import YearRangeParseError
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
@@ -212,23 +218,33 @@ def get_template(
     return template, commented
 
 
-def get_year(years: Sequence[str], exclude_year: bool) -> Optional[str]:
-    """Get the year. Normally it is today's year. If --year is specified once,
-    get that one. If it is specified twice (or more), return the range between
-    the two.
+def get_years(year: Optional[str], exclude_year: bool) -> tuple[YearRange, ...]:
+    """Get the year. Normally it is today's year. If --year is specified,
+    get a full tuple of ranges from that one.
 
-    If --exclude-year is specified, return None.
+    If --exclude-year is specified, return an empty tuple.
     """
-    year = None
+    result: tuple[YearRange, ...] = tuple()
     if not exclude_year:
-        if years:
-            if len(years) > 1:
-                year = f"{min(years)} - {max(years)}"
-            else:
-                year = years[0]
+        if year:
+            try:
+                result = YearRange.tuple_from_string(year)
+            except YearRangeParseError as error:
+                raise click.UsageError(
+                    _("'{year}' is not a valid year range.").format(year=year)
+                ) from error
         else:
-            year = str(datetime.date.today().year)
-    return year
+            try:
+                current_year = str(datetime.date.today().year)
+                result = (YearRange(validate_four_digits(current_year)),)
+            except ValueError as error:
+                raise click.UsageError(
+                    _(
+                        "Your operating system's year is set to '{year}'. This"
+                        " is not four digits, and not supported."
+                    ).format(year=current_year)
+                ) from error
+    return result
 
 
 def get_reuse_info(
@@ -236,22 +252,23 @@ def get_reuse_info(
     licenses: Collection[Expression],
     contributors: Collection[str],
     copyright_prefix: Optional[str],
-    year: Optional[str],
+    years: tuple[YearRange, ...],
 ) -> ReuseInfo:
     """Create a ReuseInfo object from --license, --copyright, and
     --contributor.
     """
-    copyright_prefix = (
-        copyright_prefix if copyright_prefix is not None else "spdx"
+    prefix = (
+        CopyrightPrefix[CopyrightPrefix.uppercase_name(copyright_prefix)]
+        if copyright_prefix is not None
+        else CopyrightPrefix.SPDX
     )
-    copyright_lines = {
-        make_copyright_line(item, year=year, copyright_prefix=copyright_prefix)
-        for item in copyrights
+    copyright_notices = {
+        CopyrightNotice(item, years=years, prefix=prefix) for item in copyrights
     }
 
     return ReuseInfo(
         spdx_expressions=set(licenses),
-        copyright_lines=copyright_lines,
+        copyright_notices=copyright_notices,
         contributor_lines=set(contributors),
     )
 
@@ -290,7 +307,7 @@ _HELP = (
     metavar=_("COPYRIGHT"),
     type=str,
     multiple=True,
-    help=_("Copyright statement, repeatable."),
+    help=_("Copyright holder, repeatable."),
 )
 @click.option(
     "--license",
@@ -319,10 +336,11 @@ _HELP = (
     metavar=_("YEAR"),
     cls=MutexOption,
     mutually_exclusive=_YEAR_MUTEX,
-    # TODO: This multiple behaviour is kind of word. Let's redo it.
-    multiple=True,
     type=str,
-    help=_("Year of copyright statement."),
+    help=_(
+        "Year of copyright notice. You may define multiple years or a range"
+        " of years."
+    ),
 )
 @click.option(
     "--style",
@@ -334,7 +352,12 @@ _HELP = (
 )
 @click.option(
     "--copyright-prefix",
-    type=click.Choice(list(_COPYRIGHT_PREFIXES)),
+    type=click.Choice(
+        [
+            CopyrightPrefix.lowercase_name(prefix.name)
+            for prefix in CopyrightPrefix
+        ]
+    ),
     help=_("Copyright prefix to use."),
 )
 @click.option(
@@ -356,12 +379,14 @@ _HELP = (
     cls=MutexOption,
     mutually_exclusive=_YEAR_MUTEX,
     is_flag=True,
-    help=_("Do not include year in copyright statement."),
+    help=_("Do not include year in copyright notice."),
 )
 @click.option(
     "--merge-copyrights",
     is_flag=True,
-    help=_("Merge copyright lines if copyright statements are identical."),
+    help=_(
+        "Merge copyright notices if they are identical except for their years."
+    ),
 )
 @click.option(
     "--single-line",
@@ -433,7 +458,7 @@ def annotate(
     copyrights: Sequence[str],
     licenses: Sequence[Expression],
     contributors: Sequence[str],
-    years: Sequence[str],
+    years: Optional[str],
     style: Optional[str],
     copyright_prefix: Optional[str],
     template_str: Optional[str],
@@ -460,9 +485,9 @@ def annotate(
     # Verify line handling and comment styles before proceeding.
     verify_paths_line_handling(single_line, multi_line, style, paths)
     template, commented = get_template(template_str, project)
-    year = get_year(years, exclude_year)
+    years_tuple = get_years(years, exclude_year)
     reuse_info = get_reuse_info(
-        copyrights, licenses, contributors, copyright_prefix, year
+        copyrights, licenses, contributors, copyright_prefix, years_tuple
     )
 
     result = 0
