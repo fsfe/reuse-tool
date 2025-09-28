@@ -137,7 +137,7 @@ _YEAR_RANGE_SPLIT_REGEX = re.compile(
 # TODO: In Python 3.11, turn this into a StrEnum
 @unique
 class CopyrightPrefix(Enum):
-    """The prefix used for a copyright statement."""
+    """The prefix used for a copyright notice."""
 
     SPDX = "SPDX-FileCopyrightText:"
     SPDX_C = "SPDX-FileCopyrightText: (C)"
