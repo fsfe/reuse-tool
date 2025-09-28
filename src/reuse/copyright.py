@@ -63,6 +63,9 @@ def validate_four_digits(value: str) -> FourDigitString:
     Traceback (most recent call last):
         ...
     ValueError: '12345' is not a four-digit year.
+
+    Raises:
+        ValueError: The string is not four digits.
     """
     if not (result := is_four_digits(value)):
         raise ValueError(f"'{value}' is not a four-digit year.")
