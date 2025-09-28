@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 21:22+0000\n"
+"POT-Creation-Date: 2025-09-28 21:35+0000\n"
 "PO-Revision-Date: 2025-05-23 13:01+0000\n"
 "Last-Translator: Emily <bnkho98@hotmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/fsfe/reuse-tool/nl/"
@@ -181,44 +181,44 @@ msgstr "Licenties zonder bestandsextensie:"
 msgid "{lic_path}: unused license\n"
 msgstr "Ongebruikte licenties:"
 
-#: src/reuse/project.py:253
+#: src/reuse/project.py:254
 #, fuzzy, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' valt onder .reuse/dep5"
 
-#: src/reuse/project.py:261
+#: src/reuse/project.py:262
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
 
-#: src/reuse/project.py:268
+#: src/reuse/project.py:269
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
 "information."
 msgstr ""
 
-#: src/reuse/project.py:329
+#: src/reuse/project.py:330
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
 
-#: src/reuse/project.py:350
+#: src/reuse/project.py:351
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
 
-#: src/reuse/project.py:414
+#: src/reuse/project.py:415
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} heeft geen bestandsextensie"
 
 # Niet helemaal duidelijk hoe resolving hier wordt bedoeld.
-#: src/reuse/project.py:424
+#: src/reuse/project.py:425
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -231,7 +231,7 @@ msgstr ""
 "die gevonden kan worden op <https://spdx.org/licenses/> of dat deze begint "
 "met 'LicenseRef-' en dat deze een bestandsextensie heeft."
 
-#: src/reuse/project.py:436
+#: src/reuse/project.py:437
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -239,13 +239,13 @@ msgstr ""
 "{identifier} is de SPDX Licentie Identificatie van zowel {path} als "
 "{other_path}"
 
-#: src/reuse/project.py:475
+#: src/reuse/project.py:476
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
 msgstr ""
 
-#: src/reuse/extract.py:152 src/reuse/global_licensing.py:218
+#: src/reuse/extract.py:152 src/reuse/global_licensing.py:208
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Kon '{expression}' niet parsen"
@@ -258,22 +258,22 @@ msgstr ""
 "'{path}' bevat een SPDX-uitdrukking die niet geparsed kan worden; sla het "
 "bestand over"
 
-#: src/reuse/header.py:92
+#: src/reuse/header.py:93
 msgid "generated comment is missing copyright lines or license expressions"
 msgstr ""
 "gegenereerd commentaar mist auteursrechtregels of licentie-uitdrukkingen"
 
-#: src/reuse/report.py:163
+#: src/reuse/report.py:155
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Kon '{path}' niet lezen"
 
-#: src/reuse/report.py:168
+#: src/reuse/report.py:160
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Onverwachte fout vond plaats tijdens het parsen van '{path}'"
 
-#: src/reuse/report.py:519
+#: src/reuse/report.py:511
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -281,7 +281,7 @@ msgid ""
 "custom licenses: https://reuse.software/faq/#custom-license"
 msgstr ""
 
-#: src/reuse/report.py:530
+#: src/reuse/report.py:522
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -290,14 +290,14 @@ msgid ""
 "#deprecated>"
 msgstr ""
 
-#: src/reuse/report.py:541
+#: src/reuse/report.py:533
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
 "the file(s) accordingly."
 msgstr ""
 
-#: src/reuse/report.py:550
+#: src/reuse/report.py:542
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -306,7 +306,7 @@ msgid ""
 "licenses (starting with 'LicenseRef-'), you need to add these files yourself."
 msgstr ""
 
-#: src/reuse/report.py:562
+#: src/reuse/report.py:554
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -315,14 +315,14 @@ msgid ""
 "is licensed as such."
 msgstr ""
 
-#: src/reuse/report.py:573
+#: src/reuse/report.py:565
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
 "files at the top of the output as part of the logged error messages."
 msgstr ""
 
-#: src/reuse/report.py:582
+#: src/reuse/report.py:574
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
@@ -432,36 +432,36 @@ msgstr ""
 msgid "'{file}' is not inside of '{root}'."
 msgstr ""
 
-#: src/reuse/cli/spdx.py:23
+#: src/reuse/cli/spdx.py:22
 #, fuzzy
 msgid "Generate an SPDX bill of materials."
 msgstr "print de materiaallijst van het project in SPDX-formaat"
 
-#: src/reuse/cli/spdx.py:33
+#: src/reuse/cli/spdx.py:32
 msgid "File to write to."
 msgstr ""
 
-#: src/reuse/cli/spdx.py:39
+#: src/reuse/cli/spdx.py:38
 msgid ""
 "Populate the LicenseConcluded field; note that reuse cannot guarantee that "
 "the field is accurate."
 msgstr ""
 
-#: src/reuse/cli/spdx.py:51
+#: src/reuse/cli/spdx.py:50
 msgid "Name of the person signing off on the SPDX report."
 msgstr ""
 
-#: src/reuse/cli/spdx.py:55
+#: src/reuse/cli/spdx.py:54
 msgid "Name of the organization signing off on the SPDX report."
 msgstr ""
 
-#: src/reuse/cli/spdx.py:82
+#: src/reuse/cli/spdx.py:81
 msgid ""
 "'--creator-person' or '--creator-organization' is required when '--add-"
 "license-concluded' is provided."
 msgstr ""
 
-#: src/reuse/cli/spdx.py:97
+#: src/reuse/cli/spdx.py:96
 #, python-brace-format
 msgid ""
 "'{path}' does not match a common SPDX file pattern. Find the suggested "
@@ -469,13 +469,13 @@ msgid ""
 "standard-data-format-requirements"
 msgstr ""
 
-#: src/reuse/cli/main.py:37
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:457
+#: src/reuse/cli/main.py:36
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:465
 #, fuzzy, python-format
 msgid "%(prog)s, version %(version)s"
 msgstr "%(prog)s: fout: %(message)s\n"
 
-#: src/reuse/cli/main.py:40
+#: src/reuse/cli/main.py:39
 msgid ""
 "This program is free software: you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License as published by the Free "
@@ -483,7 +483,7 @@ msgid ""
 "any later version."
 msgstr ""
 
-#: src/reuse/cli/main.py:47
+#: src/reuse/cli/main.py:46
 msgid ""
 "This program is distributed in the hope that it will be useful, but WITHOUT "
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
@@ -491,13 +491,13 @@ msgid ""
 "more details."
 msgstr ""
 
-#: src/reuse/cli/main.py:54
+#: src/reuse/cli/main.py:53
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see <https://www.gnu.org/licenses/>."
 msgstr ""
 
-#: src/reuse/cli/main.py:62
+#: src/reuse/cli/main.py:61
 msgid ""
 "reuse is a tool for compliance with the REUSE recommendations. See <https://"
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
@@ -507,18 +507,18 @@ msgstr ""
 "<https://reuse.software/> voor meer informatie en <https://reuse.readthedocs."
 "io/> voor de online documentatie."
 
-#: src/reuse/cli/main.py:69
+#: src/reuse/cli/main.py:68
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr ""
 "Deze versie van reuse is compatibel met versie {} van de REUSE Specificatie."
 
-#: src/reuse/cli/main.py:73
+#: src/reuse/cli/main.py:72
 msgid "Support the FSFE's work:"
 msgstr "Ondersteun het werk van de FSFE:"
 
-#: src/reuse/cli/main.py:78
+#: src/reuse/cli/main.py:77
 msgid ""
 "Donations are critical to our strength and autonomy. They enable us to "
 "continue working for Free Software wherever necessary. Please consider "
@@ -528,61 +528,61 @@ msgstr ""
 "verder te werken voor vrije software waar nodig. Overweeg alstublieft om een "
 "donatie te maken bij <https://fsfe.org/donate/>."
 
-#: src/reuse/cli/main.py:89
+#: src/reuse/cli/main.py:88
 #, fuzzy
 msgid "Enable debug statements."
 msgstr "zet debug statements aan"
 
-#: src/reuse/cli/main.py:94
+#: src/reuse/cli/main.py:93
 msgid "Hide deprecation warnings."
 msgstr ""
 
-#: src/reuse/cli/main.py:99
+#: src/reuse/cli/main.py:98
 #, fuzzy
 msgid "Do not skip over Git submodules."
 msgstr "sla Git-submodules niet over"
 
-#: src/reuse/cli/main.py:104
+#: src/reuse/cli/main.py:103
 #, fuzzy
 msgid "Do not skip over Meson subprojects."
 msgstr "sla Git-submodules niet over"
 
-#: src/reuse/cli/main.py:109
+#: src/reuse/cli/main.py:108
 #, fuzzy
 msgid "Do not use multiprocessing."
 msgstr "gebruik geen multiprocessing"
 
-#: src/reuse/cli/main.py:119
+#: src/reuse/cli/main.py:118
 #, fuzzy
 msgid "Define root of project."
 msgstr "bepaal de root van het project"
 
-#: src/reuse/cli/common.py:52
+#: src/reuse/cli/common.py:53
 #, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
 
-#: src/reuse/cli/common.py:88
+#: src/reuse/cli/common.py:89
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
 msgstr ""
 
-#: src/reuse/cli/common.py:105
+#: src/reuse/cli/common.py:106
 #, fuzzy
 msgid "'{}' is not a valid SPDX expression."
 msgstr "'{}' is geen geldige SPDX-uitdrukking, aan het afbreken"
 
-#: src/reuse/cli/download.py:53
+#: src/reuse/cli/download.py:54
 msgid "'{}' is not a valid SPDX License Identifier."
 msgstr "'{}' is geen geldige SPDX Licentie Identificatie."
 
-#: src/reuse/cli/download.py:60
+#: src/reuse/cli/download.py:61
 msgid "Did you mean:"
 msgstr ""
 
-#: src/reuse/cli/download.py:67
+#: src/reuse/cli/download.py:68
 msgid ""
 "See <https://spdx.org/licenses/> for a list of valid SPDX License "
 "Identifiers."
@@ -590,77 +590,77 @@ msgstr ""
 "Zie <https://spdx.org/licenses/> voor een lijst met geldige SPDX Licentie "
 "Identificaties."
 
-#: src/reuse/cli/download.py:76
+#: src/reuse/cli/download.py:77
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
 msgstr "Fout: {spdx_identifier} bestaat al."
 
-#: src/reuse/cli/download.py:83
+#: src/reuse/cli/download.py:84
 #, fuzzy, python-brace-format
 msgid "Error: {path} does not exist."
 msgstr "'{path}' eindigt niet met .spdx"
 
-#: src/reuse/cli/download.py:87
+#: src/reuse/cli/download.py:88
 msgid "Error: Failed to download license."
 msgstr "Fout: downloaden van licentie mislukt."
 
-#: src/reuse/cli/download.py:92
+#: src/reuse/cli/download.py:93
 msgid "Is your internet connection working?"
 msgstr "Werkt uw internetverbinding?"
 
-#: src/reuse/cli/download.py:97
+#: src/reuse/cli/download.py:98
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
 msgstr "{spdx_identifier} met succes gedowload."
 
-#: src/reuse/cli/download.py:107
+#: src/reuse/cli/download.py:108
 #, fuzzy
 msgid "Download a license and place it in the LICENSES/ directory."
 msgstr "download een licentie en plaats het in de LICENSES/-map"
 
-#: src/reuse/cli/download.py:110
+#: src/reuse/cli/download.py:111
 msgid ""
 "LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
 msgstr ""
 
-#: src/reuse/cli/download.py:123
+#: src/reuse/cli/download.py:124
 #, fuzzy
 msgid "Download all missing licenses detected in the project."
 msgstr ""
 "download alle ontbrekende licenties die in het project zijn gedetecteerd"
 
-#: src/reuse/cli/download.py:131
+#: src/reuse/cli/download.py:132
 msgid "Path to download to."
 msgstr ""
 
-#: src/reuse/cli/download.py:137
+#: src/reuse/cli/download.py:138
 msgid ""
 "Source from which to copy custom LicenseRef- licenses, either a directory "
 "that contains the file or the file itself."
 msgstr ""
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/download.py:144
+#: src/reuse/cli/download.py:145
 #, fuzzy
 msgid "LICENSE"
 msgstr "SLECHTE LICENTIES"
 
-#: src/reuse/cli/download.py:160
+#: src/reuse/cli/download.py:161
 #, fuzzy
 msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
 msgstr "de opties --exclude-year en --year sluiten elkaar uit"
 
-#: src/reuse/cli/download.py:172
+#: src/reuse/cli/download.py:173
 #, fuzzy
 msgid "Cannot use '--output' with more than one license."
 msgstr "kan --output niet met meer dan een licentie gebruiken"
 
-#: src/reuse/cli/annotate.py:64
+#: src/reuse/cli/annotate.py:65
 msgid "Option '--copyright', '--license', or '--contributor' is required."
 msgstr "De optie '--copyright', ' --license' of '--contributor' is vereist."
 
-#: src/reuse/cli/annotate.py:125
+#: src/reuse/cli/annotate.py:126
 #, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
@@ -670,166 +670,166 @@ msgstr ""
 "'{path}' heeft geen erkende bestandsextensie; gebruik alstublieft --style of "
 "--explicit-license"
 
-#: src/reuse/cli/annotate.py:158
+#: src/reuse/cli/annotate.py:159
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:165
+#: src/reuse/cli/annotate.py:166
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:211
+#: src/reuse/cli/annotate.py:212
 #, fuzzy, python-brace-format
 msgid "Template '{template}' could not be found."
 msgstr "sjabloon {template} kon niet worden gevonden"
 
-#: src/reuse/cli/annotate.py:234
+#: src/reuse/cli/annotate.py:235
 #, fuzzy, python-brace-format
 msgid "'{year}' is not a valid year range."
 msgstr "'{}' is geen geldige SPDX-uitdrukking, aan het afbreken"
 
-#: src/reuse/cli/annotate.py:243
+#: src/reuse/cli/annotate.py:244
 #, python-brace-format
 msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:285
+#: src/reuse/cli/annotate.py:286
 #, fuzzy
 msgid "Add copyright and licensing into the headers of files."
 msgstr ""
 "voeg auteursrechts- en licentie-informatie toe aan de headers van bestanden"
 
-#: src/reuse/cli/annotate.py:288
+#: src/reuse/cli/annotate.py:289
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:294
+#: src/reuse/cli/annotate.py:295
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:307
+#: src/reuse/cli/annotate.py:308
 msgid "COPYRIGHT"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:310
+#: src/reuse/cli/annotate.py:311
 #, fuzzy
 msgid "Copyright holder, repeatable."
 msgstr "auteursrechtverklaring (herhaalbaar)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:317
+#: src/reuse/cli/annotate.py:318
 msgid "SPDX_IDENTIFIER"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:320
+#: src/reuse/cli/annotate.py:321
 #, fuzzy
 msgid "SPDX License Identifier, repeatable."
 msgstr "SPDX Identificatie (herhaalbaar)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:326
+#: src/reuse/cli/annotate.py:327
 msgid "CONTRIBUTOR"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:329
+#: src/reuse/cli/annotate.py:330
 #, fuzzy
 msgid "File contributor, repeatable."
 msgstr "SPDX Identificatie (herhaalbaar)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:336
+#: src/reuse/cli/annotate.py:337
 msgid "YEAR"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:341
+#: src/reuse/cli/annotate.py:342
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:351
+#: src/reuse/cli/annotate.py:352
 #, fuzzy
 msgid "Comment style to use."
 msgstr "te gebruiken commentaarstijl (optie)"
 
-#: src/reuse/cli/annotate.py:361
+#: src/reuse/cli/annotate.py:362
 #, fuzzy
 msgid "Copyright prefix to use."
 msgstr "te gebruiken commentaarstijl (optie)"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:373
+#: src/reuse/cli/annotate.py:374
 msgid "TEMPLATE"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:375
+#: src/reuse/cli/annotate.py:376
 #, fuzzy
 msgid "Name of template to use."
 msgstr "naam van het te gebruiken sjabloon (optie)"
 
-#: src/reuse/cli/annotate.py:382
+#: src/reuse/cli/annotate.py:383
 #, fuzzy
 msgid "Do not include year in copyright notice."
 msgstr "voeg geen jaar toe aan verklaring"
 
-#: src/reuse/cli/annotate.py:388
+#: src/reuse/cli/annotate.py:389
 #, fuzzy
 msgid "Merge copyright notices if they are identical except for their years."
 msgstr "jaar van auteursrechtverklaring (optie)"
 
-#: src/reuse/cli/annotate.py:396
+#: src/reuse/cli/annotate.py:397
 #, fuzzy
 msgid "Force single-line comment style."
 msgstr "te gebruiken commentaarstijl (optie)"
 
-#: src/reuse/cli/annotate.py:403
+#: src/reuse/cli/annotate.py:404
 #, fuzzy
 msgid "Force multi-line comment style."
 msgstr "te gebruiken commentaarstijl (optie)"
 
-#: src/reuse/cli/annotate.py:409
+#: src/reuse/cli/annotate.py:410
 msgid "Add headers to all files under specified directories recursively."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:414
+#: src/reuse/cli/annotate.py:415
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:421
+#: src/reuse/cli/annotate.py:422
 msgid "Always write a .license file instead of a header inside the file."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:428
+#: src/reuse/cli/annotate.py:429
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:435
+#: src/reuse/cli/annotate.py:436
 msgid "Skip files with unrecognised comment styles."
 msgstr ""
 
-#: src/reuse/cli/annotate.py:446
+#: src/reuse/cli/annotate.py:447
 #, fuzzy
 msgid "Skip files that already contain REUSE information."
 msgstr "Bestanden met licentie-informatie: {count} / {total}"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:451
+#: src/reuse/cli/annotate.py:452
 msgid "PATH"
 msgstr ""
 
-#: src/reuse/cli/annotate.py:501
+#: src/reuse/cli/annotate.py:502
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
@@ -839,36 +839,36 @@ msgstr ""
 msgid "List all licenses on the SPDX License List."
 msgstr ""
 
-#: src/reuse/global_licensing.py:105
+#: src/reuse/global_licensing.py:95
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:119
+#: src/reuse/global_licensing.py:109
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
 "is a {item_class})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:131
+#: src/reuse/global_licensing.py:121
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr ""
 
-#: src/reuse/global_licensing.py:155
+#: src/reuse/global_licensing.py:145
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr ""
 
-#: src/reuse/global_licensing.py:179
+#: src/reuse/global_licensing.py:169
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
 msgstr ""
 
-#: src/reuse/global_licensing.py:242
+#: src/reuse/global_licensing.py:232
 #, fuzzy, python-brace-format
 msgid "Could not parse '{notice}'"
 msgstr "Kon '{expression}' niet parsen"
@@ -910,286 +910,291 @@ msgstr ""
 msgid "Successfully changed header of {path}"
 msgstr "Succesvolle verandering van de header van {path}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:158
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:162
 msgid "Repeat for confirmation"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:174
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:178
 msgid "Error: The value you entered was invalid."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:176
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:180
 #, python-brace-format
 msgid "Error: {e.message}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:187
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:191
 msgid "Error: The two entered values do not match."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:243
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:247
 msgid "Error: invalid input"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:773
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:866
 msgid "Press any key to continue..."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:267
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:332
 #, python-brace-format
 msgid ""
 "Choose from:\n"
 "\t{choices}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:299
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:369
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:393
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:460
 msgid "{value!r} does not match the format {format}."
 msgid_plural "{value!r} does not match the formats {formats}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:415
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:482
 msgid "{value!r} is not a valid {number_type}."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:471
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:538
 #, python-brace-format
 msgid "{value} is not in the range {range}."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:612
-msgid "{value!r} is not a valid boolean."
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:719
+msgid "{value!r} is not a valid boolean. Recognized values: {states}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:636
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:747
 msgid "{value!r} is not a valid UUID."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:826
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:937
 msgid "file"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:828
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:939
 msgid "directory"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:830
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:941
 msgid "path"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:881
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:988
 #, fuzzy
 msgid "{name} {filename!r} does not exist."
 msgstr "'{path}' eindigt niet met .spdx"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:890
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:997
 msgid "{name} {filename!r} is a file."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:898
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1005
 #, fuzzy
 msgid "{name} {filename!r} is a directory."
 msgstr "'{}' is geen map"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:907
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1014
 msgid "{name} {filename!r} is not readable."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:916
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1023
 msgid "{name} {filename!r} is not writable."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:925
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1032
 msgid "{name} {filename!r} is not executable."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:992
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1099
 #, python-brace-format
 msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] ""
 msgstr[1] ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:326
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:332
 msgid "Shell completion is not supported for Bash versions older than 4.4."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:333
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:339
 msgid "Couldn't detect Bash version, shell completion is not supported."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:49
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:88
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:50
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:89
 #, python-brace-format
 msgid "Error: {message}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:80
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:81
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:129
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:130
 #, python-brace-format
 msgid "Invalid value: {message}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:131
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:132
 #, python-brace-format
 msgid "Invalid value for {param_hint}: {message}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:187
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:190
 #, fuzzy
 msgid "Missing argument"
 msgstr "positionele argumenten"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:189
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:192
 #, fuzzy
 msgid "Missing option"
 msgstr "Ontbrekende licenties:"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:191
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:194
 msgid "Missing parameter"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:193
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:196
 #, python-brace-format
 msgid "Missing {param_type}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:200
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:203
 #, python-brace-format
 msgid "Missing parameter: {param_name}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:220
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:223
 #, python-brace-format
 msgid "No such option: {name}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:232
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:235
 #, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:270
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:282
 msgid "unknown error"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:277
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:289
 msgid "Could not open file {filename!r}: {message}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1124
-msgid "Aborted!"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1104
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1141
+#, python-brace-format
+msgid "{text} {deprecated_message}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1349
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1379
-#, fuzzy, python-brace-format
-msgid "(Deprecated) {text}"
-msgstr "Verouderde licenties:"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1396
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1160
 msgid "Options"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1422
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1222
 #, fuzzy, python-brace-format
 msgid "Got unexpected extra argument ({args})"
 msgid_plural "Got unexpected extra arguments ({args})"
 msgstr[0] "verwachtte één argument"
 msgstr[1] "verwachtte één argument"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1438
-msgid "DeprecationWarning: The command {name!r} is deprecated."
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1241
+msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1645
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1425
+msgid "Aborted!"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1799
 #, fuzzy
 msgid "Commands"
 msgstr "subcommando's"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1677
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1830
 #, fuzzy
 msgid "Missing command."
 msgstr "Ontbrekende licenties:"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1755
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1908
 msgid "No such command {name!r}."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2313
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2332
 msgid "Value must be an iterable."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2334
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2355
 #, python-brace-format
 msgid "Takes {nargs} values but 1 was given."
 msgid_plural "Takes {nargs} values but {len} were given."
 msgstr[0] ""
 msgstr[1] ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2783
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2505
+msgid ""
+"DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
+msgstr ""
+
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2956
 #, python-brace-format
 msgid "env var: {var}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2813
-msgid "(dynamic)"
-msgstr ""
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2828
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2959
 #, python-brace-format
 msgid "default: {default}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2841
-msgid "required"
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:3023
+msgid "(dynamic)"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:233
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:199
 msgid "Argument {name!r} takes {nargs} values."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:415
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:381
 msgid "Option {name!r} does not take a value."
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:476
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:444
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
 msgstr[0] ""
 msgstr[1] ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:556
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:608
 #, python-brace-format
 msgid "{editor}: Editing failed"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:560
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:612
 #, python-brace-format
 msgid "{editor}: Editing failed: {e}"
 msgstr ""
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:520
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:522
 #, fuzzy
 msgid "Show the version and exit."
 msgstr "dit helpbericht laten zien en verlaten"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:541
+#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:548
 #, fuzzy
 msgid "Show this message and exit."
 msgstr "dit helpbericht laten zien en verlaten"
+
+#, fuzzy, python-brace-format
+#~ msgid "(Deprecated) {text}"
+#~ msgstr "Verouderde licenties:"
 
 #, fuzzy
 #~ msgid "Year of copyright statement."
