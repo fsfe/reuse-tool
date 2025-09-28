@@ -118,6 +118,9 @@ class TestYearRangeFromString:
             "2017 - ",
             "2017- ",
             "2017 -",
+            # This one is tricky. I disallow it because it would otherwise catch
+            # something like: Copyright Jane Doe 2017 - some rights reserved.
+            "2017 - Present",
         ],
     )
     def test_invalid_ranges(self, text):
@@ -614,6 +617,19 @@ class TestCopyrightNoticeFromString:
         )
         assert notice == CopyrightNotice(
             "Jane Doe, some rights reserved",
+            prefix=CopyrightPrefix.STRING,
+            years=(YearRange(F("2017")),),
+        )
+
+    def test_dash_after_year(self):
+        """An isolated dash after a year should be part of the name, not the
+        year.
+        """
+        notice = CopyrightNotice.from_string(
+            "Copyright Jane Doe 2017 - All Rights Reserved"
+        )
+        assert notice == CopyrightNotice(
+            "Jane Doe - All Rights Reserved",
             prefix=CopyrightPrefix.STRING,
             years=(YearRange(F("2017")),),
         )

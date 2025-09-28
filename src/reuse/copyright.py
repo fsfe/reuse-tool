@@ -69,17 +69,22 @@ def validate_four_digits(value: str) -> FourDigitString:
     return result
 
 
-_ANY_SEPARATOR = r"|".join(YearRangeSeparator.__args__)  # type: ignore
+_ANY_SEPARATOR = (
+    r"(?:" + r"|".join(YearRangeSeparator.__args__) + r")"  # type: ignore
+)
 #: A regex pattern to match e.g. '2017-2020'.
 YEAR_RANGE_PATTERN = re.compile(
     r"(?P<start>\d{4})"
-    r"(\s*?"
-    r"(?P<separator>" + _ANY_SEPARATOR + r")\s*?"
-    r"(?P<end>\S+)?"
+    r"(?:"
+    r"(?:(?P<separator_nonspaced>" + _ANY_SEPARATOR + r")"
+    r"(?P<end_nonspaced>\S+)?)"
+    r"|"
+    r"(?:\s+(?P<separator_spaced>" + _ANY_SEPARATOR + r")"
+    r"\s+(?P<end_spaced>\d{4}))"
     r")?"
 )
 _YEAR_RANGE_PATTERN_ANONYMISED = re.sub(
-    r"\(\?P<\w+>", "(", YEAR_RANGE_PATTERN.pattern
+    r"\(\?P<\w+>", r"(?:", YEAR_RANGE_PATTERN.pattern
 )
 _SYMBOL_OR_C_SUBPATTERN = r"(©|\([Cc]\))"
 _STRING_SUBPATTERN = (
@@ -211,29 +216,15 @@ class YearRange:
         if not re_result:
             raise YearRangeParseError(f"'{value}' is not a valid year range.")
 
-        # Test if spacing around separator is symmetrical. Or, specifically: If
-        # there is whitespace before the separator, then there MUST be
-        # whitespace after, and vice versa.
-        sep = re_result.group("separator")
-        end = re_result.group("end")
-        if sep:
-            sep_idx = re_result.start("separator")
-            sep_end = re_result.end("separator")
-
-            ws_before = value[sep_idx - 1].isspace() if sep_idx > 0 else False
-            ws_after = (
-                value[sep_end].isspace() if sep_end < len(value) else False
-            )
-
-            if ws_before != ws_after or (ws_before and ws_after and not end):
-                raise YearRangeParseError(
-                    f"'{value}' is not a valid year range."
-                )
+        groups = re_result.groupdict()
+        start = groups["start"]
+        separator = groups["separator_nonspaced"] or groups["separator_spaced"]
+        end = groups["end_nonspaced"] or groups["end_spaced"]
 
         # Mypy is disabled for this because the values are enforced by the
         # regex. This could be cleaner, but would require a lot of useless code
         # to validate what the regex already enforces.
-        result = cls(**re_result.groupdict())  # type: ignore
+        result = cls(start, separator, end)  # type: ignore
         object.__setattr__(result, "original", value)
         return result
 
