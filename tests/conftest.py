@@ -39,6 +39,7 @@ try:
 except ImportError:
     sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
+    from reuse import report
     from reuse._util import setup_logging
     from reuse.global_licensing import ReuseDep5
     from reuse.vcs import GIT_EXE, HG_EXE, JUJUTSU_EXE, PIJUL_EXE
@@ -81,6 +82,9 @@ def pytest_configure(config):
     """
     loglevel = config.getoption("loglevel")
     setup_logging(level=logging.getLevelName(loglevel))
+
+    # Disable parallelisation during tests.
+    report.ENABLE_PARALLEL = False
 
 
 def pytest_runtest_setup(item):
@@ -176,6 +180,7 @@ def optional_pijul_exe(
 @pytest.fixture(params=[True, False])
 def multiprocessing(request, monkeypatch) -> Generator[bool, None, None]:
     """Run the test with or without multiprocessing."""
+    monkeypatch.setattr("reuse.report.ENABLE_PARALLEL", True)
     if not request.param:
         monkeypatch.delattr(concurrent.futures, "ProcessPoolExecutor")
     yield request.param

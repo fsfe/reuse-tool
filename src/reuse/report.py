@@ -49,6 +49,10 @@ _LOGGER = logging.getLogger(__name__)
 LINT_VERSION = "1.0"
 
 _CPU_COUNT: Final[int] = cpu_count() or 1
+#: This variable exists to be able to override parallelisation. If set to
+#: :const:`False`, generating :method:`FileReport.generate` will not use
+#: parallelisation.
+ENABLE_PARALLEL = True
 
 
 class _MultiprocessingContainer:
@@ -138,7 +142,7 @@ def _generate_file_reports(
         if subset_files is not None
         else project.all_files()
     )
-    if multiprocessing:
+    if multiprocessing and ENABLE_PARALLEL:
         files_list = list(files)
         with ProcessPoolExecutor() as executor:
             yield from executor.map(
