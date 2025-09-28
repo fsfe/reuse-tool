@@ -32,7 +32,7 @@ jobs:
       - name: Set up Pijul
         run: |
           sudo apt install make libsodium-dev libclang-dev pkg-config libssl-dev libxxhash-dev libzstd-dev clang
-          cargo install --locked pijul --version "~1.0.0-beta"
+          cargo install --locked pijul --version "1.0.0-beta.6"
           pijul identity new --no-prompt --display-name 'Jane Doe' --email 'jdoe@example.com' 'jdoe'
       - name: Run tests with pytest
         run: |
