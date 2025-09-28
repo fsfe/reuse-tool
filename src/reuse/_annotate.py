@@ -17,7 +17,7 @@
 
 import logging
 import sys
-from typing import IO, Optional, Type, cast
+from typing import IO, cast
 
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
@@ -68,9 +68,9 @@ def find_template(project: Project, name: str) -> Template:
 def add_header_to_file(
     path: StrPath,
     reuse_info: ReuseInfo,
-    template: Optional[Template],
+    template: Template | None,
     template_is_commented: bool,
-    style: Optional[str],
+    style: str | None,
     force_multi: bool = False,
     skip_existing: bool = False,
     skip_unrecognised: bool = False,
@@ -82,7 +82,7 @@ def add_header_to_file(
     """Helper function."""
     # pylint: disable=too-many-arguments,too-many-locals
     result = 0
-    comment_style: Optional[Type[CommentStyle]] = NAME_STYLE_MAP.get(
+    comment_style: type[CommentStyle] | None = NAME_STYLE_MAP.get(
         cast(str, style)
     )
     if comment_style is None:
@@ -103,7 +103,7 @@ def add_header_to_file(
             path.touch()
             comment_style = EmptyCommentStyle
 
-    with open(path, "r", encoding="utf-8", newline="") as fp:
+    with open(path, encoding="utf-8", newline="") as fp:
         text = fp.read()
 
     # Ideally, this check is done elsewhere. But that would necessitate reading

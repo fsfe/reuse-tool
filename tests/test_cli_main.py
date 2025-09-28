@@ -19,7 +19,8 @@ class TestMain:
         without_help = CliRunner().invoke(main, [])
         with_help = CliRunner().invoke(main, ["--help"])
         assert without_help.output == with_help.output
-        assert without_help.exit_code == with_help.exit_code == 0
+        assert without_help.exit_code == 2
+        assert with_help.exit_code == 0
         assert with_help.output.startswith("Usage: reuse")
 
     def test_version(self):

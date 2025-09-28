@@ -4,10 +4,11 @@
 
 """Utilities that are common to multiple CLI commands."""
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
-from typing import Any, Mapping, Optional
+from typing import Any
 
 import click
 from boolean.boolean import Expression, ParseError
@@ -24,7 +25,7 @@ from ..vcs import find_root
 class ClickObj:
     """A dataclass holding necessary context and options."""
 
-    root: Optional[Path] = None
+    root: Path | None = None
     include_submodules: bool = False
     include_meson_subprojects: bool = False
     no_multiprocessing: bool = True
@@ -76,7 +77,7 @@ class MutexOption(click.Option):
         For example, 'output' return '--output'.
         """
         param = next(
-            (param for param in ctx.command.params if param.name == name)
+            param for param in ctx.command.params if param.name == name
         )
         return param.opts[0]
 

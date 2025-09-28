@@ -11,20 +11,10 @@ import logging
 import re
 from abc import ABC, abstractmethod
 from collections import defaultdict
+from collections.abc import Callable, Collection, Generator, Iterable
 from enum import Enum
 from pathlib import Path, PurePath
-from typing import (
-    Any,
-    Callable,
-    Collection,
-    Generator,
-    Iterable,
-    Optional,
-    Type,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 
 import attrs
 import tomlkit
@@ -81,8 +71,8 @@ class PrecedenceType(Enum):
 
 @attrs.define
 class _CollectionOfValidator:
-    collection_type: Type[Collection] = attrs.field()
-    value_type: Type = attrs.field()
+    collection_type: type[Collection] = attrs.field()
+    value_type: type = attrs.field()
     optional: bool = attrs.field(default=True)
 
     def __call__(
@@ -136,8 +126,8 @@ class _CollectionOfValidator:
 
 
 def _validate_collection_of(
-    collection_type: Type[Collection],
-    value_type: Type[_T],
+    collection_type: type[Collection],
+    value_type: type[_T],
     optional: bool = False,
 ) -> Callable[[Any, attrs.Attribute, Collection[_T]], Any]:
     return _CollectionOfValidator(
@@ -165,7 +155,7 @@ class _InstanceOfValidator(_AttrInstanceOfValidator):
 
 
 def _instance_of(
-    type_: Type[_T],
+    type_: type[_T],
 ) -> Callable[[Any, attrs.Attribute, _T], Any]:
     return _InstanceOfValidator(type_)
 
@@ -187,7 +177,7 @@ def _str_to_global_precedence(value: Any) -> PrecedenceType:
         ) from error
 
 
-def _to_set(value: Optional[Union[_T, Iterable[_T]]]) -> set[_T]:
+def _to_set(value: _T | Iterable[_T] | None) -> set[_T]:
     if value is None:
         return set()
     # Special case for strings.
@@ -201,12 +191,12 @@ def _to_set(value: Optional[Union[_T, Iterable[_T]]]) -> set[_T]:
 # The attrs library infers __init__ parameter types from the converter's
 # signature. The signature of _to_set confuses mypy, so this wrapper exposes a
 # simpler signature just for use with attrs.
-def _to_set_any(value: Optional[Any]) -> set[Any]:
+def _to_set_any(value: Any | None) -> set[Any]:
     return cast(set[Any], _to_set(value))
 
 
 def _to_set_of_expr(
-    value: Optional[Union[str, Iterable[str]]],
+    value: str | Iterable[str] | None,
 ) -> set[Expression]:
     value = _to_set(value)
     result = set()
@@ -223,7 +213,7 @@ def _to_set_of_expr(
 
 
 def _to_set_of_notice(
-    value: Optional[Union[str, Iterable[str]]],
+    value: str | Iterable[str] | None,
 ) -> set[CopyrightNotice]:
     value = _to_set(value)
     result = set()
@@ -484,7 +474,7 @@ class ReuseTOML(GlobalLicensing):
                 str(error), source=str(path)
             ) from error
 
-    def find_annotations_item(self, path: StrPath) -> Optional[AnnotationsItem]:
+    def find_annotations_item(self, path: StrPath) -> AnnotationsItem | None:
         """Find a :class:`AnnotationsItem` that matches *path*. The latest match
         in :attr:`annotations` is returned.
         """
@@ -532,7 +522,7 @@ class NestedReuseTOML(GlobalLicensing):
         include_meson_subprojects: bool = kwargs.get(
             "include_meson_subprojects", False
         )
-        vcs_strategy: Optional[VCSStrategy] = kwargs.get("vcs_strategy")
+        vcs_strategy: VCSStrategy | None = kwargs.get("vcs_strategy")
         tomls = [
             ReuseTOML.from_file(toml_path)
             for toml_path in cls.find_reuse_tomls(
@@ -608,7 +598,7 @@ class NestedReuseTOML(GlobalLicensing):
         path: StrPath,
         include_submodules: bool = False,
         include_meson_subprojects: bool = False,
-        vcs_strategy: Optional[VCSStrategy] = None,
+        vcs_strategy: VCSStrategy | None = None,
     ) -> Generator[Path, None, None]:
         """Find all REUSE.toml files in *path*."""
         return (

@@ -18,8 +18,9 @@
 import datetime
 import logging
 import sys
+from collections.abc import Collection, Iterable, Sequence
 from pathlib import Path
-from typing import Any, Collection, Iterable, Optional, Sequence, Type, cast
+from typing import Any, cast
 
 import click
 from binaryornot.check import is_binary
@@ -135,14 +136,14 @@ def verify_paths_comment_style(
 def verify_paths_line_handling(
     single_line: bool,
     multi_line: bool,
-    forced_style: Optional[str],
+    forced_style: str | None,
     paths: Iterable[Path],
 ) -> None:
     """This function aborts the parser when --single-line or --multi-line is
     used, but the file type does not support that type of comment style.
     """
     for path in paths:
-        style: Optional[Type[CommentStyle]] = None
+        style: type[CommentStyle] | None = None
         if forced_style is not None:
             style = NAME_STYLE_MAP.get(forced_style)
         if style is None:
@@ -194,14 +195,14 @@ def find_template(project: Project, name: str) -> Template:
 
 
 def get_template(
-    template_str: Optional[str], project: Project
-) -> tuple[Optional[Template], bool]:
+    template_str: str | None, project: Project
+) -> tuple[Template | None, bool]:
     """If a template is specified on the CLI, find and return it, including
     whether it is a 'commented' template.
 
     If no template is specified, just return None.
     """
-    template: Optional[Template] = None
+    template: Template | None = None
     commented = False
     if template_str:
         try:
@@ -218,7 +219,7 @@ def get_template(
     return template, commented
 
 
-def get_years(year: Optional[str], exclude_year: bool) -> tuple[YearRange, ...]:
+def get_years(year: str | None, exclude_year: bool) -> tuple[YearRange, ...]:
     """Get the year. Normally it is today's year. If --year is specified,
     get a full tuple of ranges from that one.
 
@@ -251,7 +252,7 @@ def get_reuse_info(
     copyrights: Collection[str],
     licenses: Collection[Expression],
     contributors: Collection[str],
-    copyright_prefix: Optional[str],
+    copyright_prefix: str | None,
     years: tuple[YearRange, ...],
 ) -> ReuseInfo:
     """Create a ReuseInfo object from --license, --copyright, and
@@ -458,10 +459,10 @@ def annotate(
     copyrights: Sequence[str],
     licenses: Sequence[Expression],
     contributors: Sequence[str],
-    years: Optional[str],
-    style: Optional[str],
-    copyright_prefix: Optional[str],
-    template_str: Optional[str],
+    years: str | None,
+    style: str | None,
+    copyright_prefix: str | None,
+    template_str: str | None,
     exclude_year: bool,
     merge_copyrights: bool,
     single_line: bool,

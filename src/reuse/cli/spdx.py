@@ -8,7 +8,6 @@
 import contextlib
 import logging
 import sys
-from typing import Optional
 
 import click
 
@@ -62,10 +61,10 @@ _HELP = _("Generate an SPDX bill of materials.")
 @click.pass_obj
 def spdx(
     obj: ClickObj,
-    output: Optional[click.File],
+    output: click.File | None,
     add_license_concluded: bool,
-    creator_person: Optional[str],
-    creator_organization: Optional[str],
+    creator_person: str | None,
+    creator_organization: str | None,
 ) -> None:
     # pylint: disable=missing-function-docstring
 

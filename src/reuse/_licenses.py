@@ -24,7 +24,7 @@ def _load_license_list(file_name: str) -> tuple[list[int], dict[str, dict]]:
     from https://github.com/spdx/license-list-data
     """
     licenses_map = {}
-    with open(file_name, "r", encoding="utf-8") as lics:
+    with open(file_name, encoding="utf-8") as lics:
         licenses = json.load(lics)
         version = licenses["licenseListVersion"].split(".")
         for lic in licenses["licenses"]:
@@ -39,7 +39,7 @@ def _load_exception_list(file_name: str) -> tuple[list[int], dict[str, dict]]:
     from https://github.com/spdx/license-list-data
     """
     exceptions_map = {}
-    with open(file_name, "r", encoding="utf-8") as excs:
+    with open(file_name, encoding="utf-8") as excs:
         exceptions = json.load(excs)
         version = exceptions["licenseListVersion"].split(".")
         for exc in exceptions["exceptions"]:

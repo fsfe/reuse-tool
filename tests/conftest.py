@@ -18,10 +18,10 @@ import os
 import shutil
 import subprocess
 import sys
+from collections.abc import Generator
 from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
-from typing import Generator, Optional
 from unittest.mock import create_autospec
 
 import pytest
@@ -114,9 +114,7 @@ def git_exe() -> str:
 
 
 @pytest.fixture(params=[True, False])
-def optional_git_exe(
-    request, monkeypatch
-) -> Generator[Optional[str], None, None]:
+def optional_git_exe(request, monkeypatch) -> Generator[str | None, None, None]:
     """Run the test with or without git."""
     exe = GIT_EXE if request.param else ""
     monkeypatch.setattr("reuse.vcs.GIT_EXE", exe)
@@ -132,9 +130,7 @@ def hg_exe() -> str:
 
 
 @pytest.fixture(params=[True, False])
-def optional_hg_exe(
-    request, monkeypatch
-) -> Generator[Optional[str], None, None]:
+def optional_hg_exe(request, monkeypatch) -> Generator[str | None, None, None]:
     """Run the test with or without mercurial."""
     exe = HG_EXE if request.param else ""
     monkeypatch.setattr("reuse.vcs.HG_EXE", exe)
@@ -152,7 +148,7 @@ def jujutsu_exe() -> str:
 @pytest.fixture(params=[True, False])
 def optional_jujutsu_exe(
     request, monkeypatch
-) -> Generator[Optional[str], None, None]:
+) -> Generator[str | None, None, None]:
     """Run the test with or without Jujutsu."""
     exe = JUJUTSU_EXE if request.param else ""
     monkeypatch.setattr("reuse.vcs.JUJUTSU_EXE", exe)
@@ -170,7 +166,7 @@ def pijul_exe() -> str:
 @pytest.fixture(params=[True, False])
 def optional_pijul_exe(
     request, monkeypatch
-) -> Generator[Optional[str], None, None]:
+) -> Generator[str | None, None, None]:
     """Run the test with or without Pijul."""
     exe = PIJUL_EXE if request.param else ""
     monkeypatch.setattr("reuse.vcs.PIJUL_EXE", exe)

@@ -14,7 +14,6 @@ import logging
 import os
 import warnings
 from pathlib import Path
-from typing import Optional
 
 import click
 from click.formatting import wrap_text
@@ -130,7 +129,7 @@ def main(
     include_submodules: bool,
     include_meson_subprojects: bool,
     no_multiprocessing: bool,
-    root: Optional[Path],
+    root: Path | None,
 ) -> None:
     # pylint: disable=missing-function-docstring,too-many-arguments
     setup_logging(level=logging.DEBUG if debug else logging.WARNING)
