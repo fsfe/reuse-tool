@@ -5,7 +5,8 @@
 """Logic to convert a .reuse/dep5 file to a REUSE.toml file."""
 
 import re
-from typing import Any, Iterable, Optional, TypeVar, Union, cast
+from collections.abc import Iterable
+from typing import Any, Optional, TypeVar, cast
 
 import tomlkit
 from debian.copyright import Copyright, FilesParagraph, Header
@@ -20,7 +21,7 @@ _T = TypeVar("_T")
 def _collapse_list_if_one_item(
     # Technically this should be Sequence[_T], but I can't get that to work.
     sequence: list[_T],
-) -> Union[list[_T], _T]:
+) -> list[_T] | _T:
     """Return the only item of the list if the length of the list is one, else
     return the list.
     """
@@ -31,8 +32,8 @@ def _collapse_list_if_one_item(
 
 def _header_from_dep5_header(
     header: Header,
-) -> dict[str, Union[str, list[str]]]:
-    result: dict[str, Union[str, list[str]]] = {}
+) -> dict[str, str | list[str]]:
+    result: dict[str, str | list[str]] = {}
     if header.upstream_name:
         result["SPDX-PackageName"] = str(header.upstream_name)
     if header.upstream_contact:
@@ -48,7 +49,7 @@ def _header_from_dep5_header(
 
 def _copyrights_from_paragraph(
     paragraph: FilesParagraph,
-) -> Union[str, list[str]]:
+) -> str | list[str]:
     return _collapse_list_if_one_item(
         [line.strip() for line in cast(str, paragraph.copyright).splitlines()]
     )
@@ -61,19 +62,19 @@ def _convert_asterisk(path: str) -> str:
     return _SINGLE_ASTERISK_PATTERN.sub("**", path)
 
 
-def _paths_from_paragraph(paragraph: FilesParagraph) -> Union[str, list[str]]:
+def _paths_from_paragraph(paragraph: FilesParagraph) -> str | list[str]:
     return _collapse_list_if_one_item(
         [_convert_asterisk(path) for path in list(paragraph.files)]
     )
 
 
-def _comment_from_paragraph(paragraph: FilesParagraph) -> Optional[str]:
+def _comment_from_paragraph(paragraph: FilesParagraph) -> str | None:
     return cast(Optional[str], paragraph.comment)
 
 
 def _annotations_from_paragraphs(
     paragraphs: Iterable[FilesParagraph],
-) -> list[dict[str, Union[str, list[str]]]]:
+) -> list[dict[str, str | list[str]]]:
     annotations = []
     for paragraph in paragraphs:
         copyrights = _copyrights_from_paragraph(paragraph)

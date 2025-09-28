@@ -13,7 +13,7 @@ import json
 from io import StringIO
 from pathlib import Path
 from textwrap import TextWrapper
-from typing import Any, Optional
+from typing import Any
 
 from . import __REUSE_version__
 from .i18n import _
@@ -280,7 +280,7 @@ def format_lines(report: ProjectReport) -> str:
     """
     output = StringIO()
 
-    def license_path(lic: str) -> Optional[Path]:
+    def license_path(lic: str) -> Path | None:
         """Resolve a license identifier to a license path."""
         return report.licenses.get(lic)
 

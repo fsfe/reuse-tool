@@ -10,11 +10,12 @@ import difflib
 import logging
 import re
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from enum import Enum, unique
 from io import StringIO
 from itertools import chain
-from typing import Any, Iterable, Literal, NewType, Optional, Union, cast
+from typing import Any, Literal, NewType, cast
 
 from boolean.boolean import Expression
 
@@ -34,7 +35,7 @@ YearRangeSeparator = Literal[
 ]
 
 
-def is_four_digits(value: str) -> Union[FourDigitString, Literal[False]]:
+def is_four_digits(value: str) -> FourDigitString | Literal[False]:
     """Identify a string as a four-digit string. Return the string as
     :type:`FourDigitString` if it is one.
 
@@ -193,13 +194,13 @@ class YearRange:
     #: The separator between :attr:`start` and :attr:`end`. If no value for
     #: :attr:`end` is provided, a range into infinity is implied, and
     #: :attr:`end` becomes an empty string.
-    separator: Optional[YearRangeSeparator] = field(default=None, compare=False)
+    separator: YearRangeSeparator | None = field(default=None, compare=False)
     #: The second year in the range. This can also be a word like 'Present'.
     #: This is bad practice, but still supported.
-    end: Optional[Union[FourDigitString, str]] = None
+    end: FourDigitString | str | None = None
 
     #: If parsed from a string, this contains the original string.
-    original: Optional[str] = field(
+    original: str | None = field(
         default=None, init=False, repr=False, compare=False
     )
 
@@ -328,9 +329,7 @@ class YearRange:
             with the lowest start.
             """
             result: list[YearRange] = []
-            ends: defaultdict[Union[str, None], list[YearRange]] = defaultdict(
-                list
-            )
+            ends: defaultdict[str | None, list[YearRange]] = defaultdict(list)
             for item in ranges:
                 ends[item.end].append(item)
             for key, range_list in ends.items():
@@ -352,7 +351,7 @@ class YearRange:
 
         # TODO: In Python 3.11, use Self
         def add_to_compacted(
-            start: int, end: str, next_range: Optional[YearRange]
+            start: int, end: str, next_range: YearRange | None
         ) -> None:
             nonlocal compacted
             if is_four_digits(end):
@@ -380,8 +379,8 @@ class YearRange:
                     else next_range.start
                 )
 
-        next_start: Optional[int] = None
-        next_end: Optional[str] = None
+        next_start: int | None = None
+        next_end: str | None = None
         for next_range in ranges[1:]:
             next_start = int(next_range.start)
             next_end = (
@@ -390,10 +389,10 @@ class YearRange:
                 else next_range.start
             )
 
-            current_end_int: Optional[int] = (
+            current_end_int: int | None = (
                 int(current_end) if is_four_digits(current_end) else None
             )
-            next_end_int: Optional[int] = (
+            next_end_int: int | None = (
                 int(next_end) if is_four_digits(next_end) else None
             )
             # The end lines up with next start.
@@ -458,7 +457,7 @@ class CopyrightNotice:
     years: tuple[YearRange, ...] = field(default_factory=tuple)
 
     #: If parsed from a string, this contains the original string.
-    original: Optional[str] = field(
+    original: str | None = field(
         default=None, init=False, repr=False, compare=False
     )
 
@@ -578,13 +577,13 @@ class CopyrightNotice:
         if self.years:
             result.write(" ")
             result.write(
-                ", ".join((str(date_range) for date_range in self.years))
+                ", ".join(str(date_range) for date_range in self.years)
             )
         result.write(f" {self.name}")
         return result.getvalue()
 
     def __lt__(self, other: "CopyrightNotice") -> bool:
-        def norm(item: Optional[Any]) -> tuple[int, Any]:
+        def norm(item: Any | None) -> tuple[int, Any]:
             """If no item is defined, return a tuple that sorts _after_
             items that are defined.
             """
@@ -636,9 +635,9 @@ class ReuseInfo:
     spdx_expressions: set[Expression] = field(default_factory=set)
     copyright_notices: set[CopyrightNotice] = field(default_factory=set)
     contributor_lines: set[str] = field(default_factory=set)
-    path: Optional[str] = None
-    source_path: Optional[str] = None
-    source_type: Optional[SourceType] = None
+    path: str | None = None
+    source_path: str | None = None
+    source_type: SourceType | None = None
 
     def _check_nonexistent(self, **kwargs: Any) -> None:
         nonexistent_attributes = set(kwargs) - set(self.__dict__)

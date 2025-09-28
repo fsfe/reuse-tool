@@ -6,7 +6,7 @@
 :class:`ReuseError`.
 """
 
-from typing import Any, Optional
+from typing import Any
 
 
 class ReuseError(Exception):
@@ -22,7 +22,7 @@ class GlobalLicensingParseError(ReuseError):
     parse a :class:`reuse.global_licensing.GlobalLicensing` file.
     """
 
-    def __init__(self, *args: Any, source: Optional[str] = None):
+    def __init__(self, *args: Any, source: str | None = None):
         super().__init__(*args)
         self.source = source
 

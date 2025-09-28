@@ -34,7 +34,7 @@ import operator
 import re
 from pathlib import Path
 from textwrap import dedent
-from typing import NamedTuple, Optional, Type, cast
+from typing import NamedTuple, Optional, cast
 
 from .exceptions import CommentCreateError, CommentParseError
 from .types import StrPath
@@ -57,7 +57,7 @@ class CommentStyle:
 
     SHORTHAND = ""
     SINGLE_LINE = ""
-    SINGLE_LINE_REGEXP: Optional[re.Pattern] = None
+    SINGLE_LINE_REGEXP: re.Pattern | None = None
     INDENT_AFTER_SINGLE = ""
     # (start, middle, end)
     # e.g., ("/*", "*", "*/")
@@ -258,7 +258,7 @@ class CommentStyle:
             raise CommentParseError(f"{cls} cannot parse comments")
 
         lines = text.splitlines()
-        end: Optional[int] = None
+        end: int | None = None
 
         if cls.can_handle_single():
             for i, line in enumerate(lines):
@@ -937,7 +937,7 @@ FILENAME_COMMENT_STYLE_MAP_LOWERCASE = {
 }
 
 
-def _all_style_classes() -> list[Type[CommentStyle]]:
+def _all_style_classes() -> list[type[CommentStyle]]:
     """Return a list of all defined style classes, excluding the base class."""
     result = []
     for key, value in globals().items():
@@ -954,13 +954,13 @@ _result.remove(UncommentableCommentStyle)
 NAME_STYLE_MAP = {style.SHORTHAND: style for style in _result}
 
 
-def get_comment_style(path: StrPath) -> Optional[Type[CommentStyle]]:
+def get_comment_style(path: StrPath) -> type[CommentStyle] | None:
     """Return value of CommentStyle detected for *path* or None."""
     path = Path(path)
     style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
     if style is None:
         style = cast(
-            Optional[Type[CommentStyle]],
+            Optional[type[CommentStyle]],
             EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower()),
         )
     return style

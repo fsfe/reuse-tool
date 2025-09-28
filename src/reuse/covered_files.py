@@ -13,8 +13,9 @@ import logging
 import os
 import re
 import stat
+from collections.abc import Collection, Generator
 from pathlib import Path
-from typing import Collection, Generator, Optional, cast
+from typing import cast
 
 from .types import StrPath
 from .vcs import VCSStrategy
@@ -60,11 +61,11 @@ _IGNORE_FILE_PATTERNS.extend(_IGNORE_SPDX_PATTERNS)
 
 def is_path_ignored(
     path: Path,
-    subset_files: Optional[Collection[StrPath]] = None,
+    subset_files: Collection[StrPath] | None = None,
     include_submodules: bool = False,
     include_meson_subprojects: bool = False,
     include_reuse_tomls: bool = False,
-    vcs_strategy: Optional[VCSStrategy] = None,
+    vcs_strategy: VCSStrategy | None = None,
 ) -> bool:
     """Is *path* ignored by some mechanism?"""
     # pylint: disable=too-many-return-statements,too-many-branches
@@ -124,11 +125,11 @@ def is_path_ignored(
 
 def iter_files(
     directory: StrPath,
-    subset_files: Optional[Collection[StrPath]] = None,
+    subset_files: Collection[StrPath] | None = None,
     include_submodules: bool = False,
     include_meson_subprojects: bool = False,
     include_reuse_tomls: bool = False,
-    vcs_strategy: Optional[VCSStrategy] = None,
+    vcs_strategy: VCSStrategy | None = None,
 ) -> Generator[Path, None, None]:
     """Yield all Covered Files in *directory* and its subdirectories according
     to the REUSE Specification.

@@ -19,7 +19,7 @@ import os
 import re
 from itertools import chain
 from pathlib import Path
-from typing import BinaryIO, Optional
+from typing import BinaryIO
 
 from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError
@@ -101,7 +101,7 @@ _HEADER_BYTES = 4096
 
 
 def decoded_text_from_binary(
-    binary_file: BinaryIO, size: Optional[int] = None
+    binary_file: BinaryIO, size: int | None = None
 ) -> str:
     """Given a binary file object, detect its encoding and return its contents
     as a decoded string. Do not throw any errors if the encoding contains
@@ -179,7 +179,7 @@ def reuse_info_of_file(
     path = Path(path)
     with path.open("rb") as fp:
         try:
-            read_limit: Optional[int] = _HEADER_BYTES
+            read_limit: int | None = _HEADER_BYTES
             # Completely read the file once
             # to search for possible snippets
             if _contains_snippet(fp):

@@ -15,9 +15,10 @@ import logging
 import os
 import shutil
 from abc import ABC, abstractmethod
+from collections.abc import Generator
 from inspect import isclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Generator, Optional, Type
+from typing import TYPE_CHECKING
 
 from ._util import execute_command, relative_from_root
 from .types import StrPath
@@ -35,7 +36,7 @@ PIJUL_EXE = shutil.which("pijul")
 
 def _find_ancestor(
     directory: StrPath, ancestor: str, is_directory: bool = True
-) -> Optional[Path]:
+) -> Path | None:
     path = Path(directory).resolve()
     for parent in [path] + list(path.parents):
         if (parent / ancestor).is_dir() or (
@@ -72,7 +73,7 @@ class VCSStrategy(ABC):
 
     @classmethod
     @abstractmethod
-    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+    def find_root(cls, cwd: StrPath | None = None) -> Path | None:
         """Try to find the root of the project from *cwd*. If none is found,
         return None.
 
@@ -95,7 +96,7 @@ class VCSStrategyNone(VCSStrategy):
         return False
 
     @classmethod
-    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+    def find_root(cls, cwd: StrPath | None = None) -> Path | None:
         return None
 
 
@@ -177,7 +178,7 @@ class VCSStrategyGit(VCSStrategy):
         return False
 
     @classmethod
-    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+    def find_root(cls, cwd: StrPath | None = None) -> Path | None:
         if cwd is None:
             cwd = Path.cwd()
 
@@ -246,7 +247,7 @@ class VCSStrategyHg(VCSStrategy):
         return False
 
     @classmethod
-    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+    def find_root(cls, cwd: StrPath | None = None) -> Path | None:
         if cwd is None:
             cwd = Path.cwd()
 
@@ -289,7 +290,7 @@ class VCSStrategyJujutsu(VCSStrategy):
         all_files = result.stdout.decode("utf-8").split("\n")
         return {Path(file_) for file_ in all_files if file_}
 
-    def _version(self) -> Optional[tuple[int, int, int]]:
+    def _version(self) -> tuple[int, int, int] | None:
         """
         Returns the (major, minor, patch) version of the jujutsu executable,
         or None if the version components cannot be determined.
@@ -339,7 +340,7 @@ class VCSStrategyJujutsu(VCSStrategy):
         return False
 
     @classmethod
-    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+    def find_root(cls, cwd: StrPath | None = None) -> Path | None:
         if cwd is None:
             cwd = Path.cwd()
 
@@ -395,7 +396,7 @@ class VCSStrategyPijul(VCSStrategy):
         return False
 
     @classmethod
-    def find_root(cls, cwd: Optional[StrPath] = None) -> Optional[Path]:
+    def find_root(cls, cwd: StrPath | None = None) -> Path | None:
         if cwd is None:
             cwd = Path.cwd()
 
@@ -413,7 +414,7 @@ class VCSStrategyPijul(VCSStrategy):
         return None
 
 
-def all_vcs_strategies() -> Generator[Type[VCSStrategy], None, None]:
+def all_vcs_strategies() -> Generator[type[VCSStrategy]]:
     """Yield all VCSStrategy classes that aren't the abstract base class."""
     for value in globals().values():
         if (
@@ -424,7 +425,7 @@ def all_vcs_strategies() -> Generator[Type[VCSStrategy], None, None]:
             yield value
 
 
-def find_root(cwd: Optional[StrPath] = None) -> Optional[Path]:
+def find_root(cwd: StrPath | None = None) -> Path | None:
     """Try to find the root of the project from *cwd*. If none is found,
     return None.
 

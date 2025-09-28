@@ -7,9 +7,10 @@
 
 import logging
 import sys
+from collections.abc import Collection
 from difflib import SequenceMatcher
 from pathlib import Path
-from typing import IO, Collection, Optional
+from typing import IO
 from urllib.error import URLError
 
 import click
@@ -150,8 +151,8 @@ def download(
     obj: ClickObj,
     licenses: Collection[str],
     all_: bool,
-    output: Optional[Path],
-    source: Optional[Path],
+    output: Path | None,
+    source: Path | None,
 ) -> None:
     # pylint: disable=missing-function-docstring
     if all_ and licenses:
