@@ -407,7 +407,10 @@ class VCSStrategyPijul(VCSStrategy):
         if not path.is_dir():
             raise NotADirectoryError()
 
-        return _find_ancestor(path, ".pijul")
+        dot_pijul = _find_ancestor(path, ".pijul")
+        if dot_pijul is not None:
+            return dot_pijul.parent
+        return None
 
 
 def all_vcs_strategies() -> Generator[Type[VCSStrategy], None, None]:
