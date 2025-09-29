@@ -711,6 +711,12 @@ class TestCopyrightNoticeOrder:
             "Alice", years=(YearRange(F("2025")),)
         ) < CopyrightNotice("Bob")
 
+    def test_only_prefix_different(self):
+        """If only the prefix is different, sort alphabetically by prefix."""
+        assert CopyrightNotice(
+            "Jane", prefix=CopyrightPrefix.STRING
+        ) < CopyrightNotice("Jane", prefix=CopyrightPrefix.SPDX)
+
 
 class TestCopyrightNoticeMerge:
     """Tests for CopyrightNotice.merge."""
