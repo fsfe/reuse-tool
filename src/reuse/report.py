@@ -135,12 +135,12 @@ def _generate_file_reports(
         else project.all_files()
     )
     if multiprocessing and ENABLE_PARALLEL:
-        files_list = list(files)
+        files_set = frozenset(files)
         with ProcessPoolExecutor() as executor:
             yield from executor.map(
                 container,
-                files_list,
-                chunksize=max(1, int(len(files_list) / _CPU_COUNT / 4)),
+                files_set,
+                chunksize=max(1, int(len(files_set) / _CPU_COUNT / 4)),
             )
     else:
         yield from map(container, files)
