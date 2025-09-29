@@ -26,7 +26,7 @@ from license_expression import ExpressionError
 
 from . import _LICENSING
 from .copyright import CopyrightNotice, ReuseInfo, SourceType
-from .covered_files import iter_files
+from .covered_files import is_path_ignored
 from .exceptions import (
     CopyrightNoticeParseError,
     GlobalLicensingParseError,
@@ -600,18 +600,35 @@ class NestedReuseTOML(GlobalLicensing):
         include_meson_subprojects: bool = False,
         vcs_strategy: VCSStrategy | None = None,
     ) -> Generator[Path, None, None]:
-        """Find all REUSE.toml files in *path*."""
-        return (
-            item
-            for item in iter_files(
-                path,
+        """Find all REUSE.toml files in *path*. *path* should be the root of the
+        directory. If it is not, REUSE.toml files which are in ignored
+        directories may not be correctly ignored.
+        """
+        path = Path(path)
+        reuse_tomls = path.rglob("REUSE.toml")
+        for item in reuse_tomls:
+            if is_path_ignored(
+                item,
                 include_submodules=include_submodules,
                 include_meson_subprojects=include_meson_subprojects,
                 include_reuse_tomls=True,
                 vcs_strategy=vcs_strategy,
-            )
-            if item.name == "REUSE.toml"
-        )
+            ):
+                continue
+            rel = item.relative_to(path)
+            parts = rel.parts
+            for directory in (
+                path.joinpath(*parts[:i]) for i in range(1, len(parts))
+            ):
+                if is_path_ignored(
+                    directory,
+                    include_submodules=include_submodules,
+                    include_meson_subprojects=include_meson_subprojects,
+                    vcs_strategy=vcs_strategy,
+                ):
+                    break
+            else:
+                yield item
 
     def _find_relevant_tomls(self, path: StrPath) -> list[ReuseTOML]:
         found = []
