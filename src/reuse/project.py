@@ -22,16 +22,18 @@ from typing import NamedTuple
 
 import attrs
 from binaryornot.check import is_binary
+from boolean.boolean import ParseError
+from license_expression import ExpressionError
 
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import _determine_license_path, relative_from_root
-from .copyright import ReuseInfo
+from .copyright import ReuseInfo, SourceType
 from .covered_files import iter_files
 from .exceptions import (
     GlobalLicensingConflictError,
     SpdxIdentifierNotFoundError,
 )
-from .extract import _LICENSEREF_PATTERN, reuse_info_of_file
+from .extract import _LICENSEREF_PATTERN, CHUNK_SIZE, reuse_info_of_file
 from .global_licensing import (
     GlobalLicensing,
     NestedReuseTOML,
@@ -271,7 +273,27 @@ class Project:
                 ).format(path=path)
             )
         else:
-            file_result = reuse_info_of_file(path, original_path, self.root)
+            try:
+                with path.open("rb", buffering=CHUNK_SIZE) as fp:
+                    file_result = reuse_info_of_file(fp)
+            except (ExpressionError, ParseError):
+                _LOGGER.error(
+                    _(
+                        "'{path}' holds an SPDX expression that cannot be"
+                        " parsed, skipping the file"
+                    ).format(path=path)
+                )
+            if file_result.contains_info():
+                source_type = SourceType.FILE_HEADER
+                if path.suffix == ".license":
+                    source_type = SourceType.DOT_LICENSE
+                file_result = file_result.copy(
+                    path=relative_from_root(
+                        original_path, self.root
+                    ).as_posix(),
+                    source_path=relative_from_root(path, self.root).as_posix(),
+                    source_type=source_type,
+                )
 
         result.extend(global_results[PrecedenceType.OVERRIDE])
         result.extend(global_results[PrecedenceType.AGGREGATE])
