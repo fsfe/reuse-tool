@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-28 21:35+0000\n"
-"PO-Revision-Date: 2025-09-07 11:05+0000\n"
+"PO-Revision-Date: 2025-09-29 14:35+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -749,9 +749,9 @@ msgid "Template '{template}' could not be found."
 msgstr "Шаблон '{template}' не знайдено."
 
 #: src/reuse/cli/annotate.py:235
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{year}' is not a valid year range."
-msgstr "{value!r} не є дійсним булевим значенням."
+msgstr "'{year}' не є дійсним діапазоном років."
 
 #: src/reuse/cli/annotate.py:244
 #, python-brace-format
@@ -759,6 +759,8 @@ msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
+"Рік вашої операційної системи встановлено на «{year}». Це не чотиризначний "
+"формат, і він не підтримується."
 
 #: src/reuse/cli/annotate.py:286
 msgid "Add copyright and licensing into the headers of files."
@@ -787,9 +789,8 @@ msgid "COPYRIGHT"
 msgstr "АВТОРСЬКЕ ПРАВО"
 
 #: src/reuse/cli/annotate.py:311
-#, fuzzy
 msgid "Copyright holder, repeatable."
-msgstr "Заява про авторське право, що повторюється."
+msgstr "Власник авторських прав, повторюваний."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:318
@@ -818,6 +819,8 @@ msgstr "РІК"
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
+"Рік повідомлення про авторські права. Ви можете визначити кілька років або "
+"діапазон років."
 
 #: src/reuse/cli/annotate.py:352
 msgid "Comment style to use."
@@ -837,16 +840,14 @@ msgid "Name of template to use."
 msgstr "Назва шаблону для використання."
 
 #: src/reuse/cli/annotate.py:383
-#, fuzzy
 msgid "Do not include year in copyright notice."
-msgstr "Не вказуйте рік у заяві про авторське право."
+msgstr "Не вказуйте рік у повідомленні про авторські права."
 
 #: src/reuse/cli/annotate.py:389
-#, fuzzy
 msgid "Merge copyright notices if they are identical except for their years."
 msgstr ""
-"Об'єднайте рядки авторських прав, якщо твердження про авторські права "
-"ідентичні."
+"Об’єднайте повідомлення про авторські права, якщо вони ідентичні, окрім "
+"років випуску."
 
 #: src/reuse/cli/annotate.py:397
 msgid "Force single-line comment style."
@@ -930,9 +931,9 @@ msgstr ""
 "{received})"
 
 #: src/reuse/global_licensing.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not parse '{notice}'"
-msgstr "Не вдалося проаналізувати '{expression}'"
+msgstr "Не вдалося проаналізувати '{notice}'"
 
 #: src/reuse/_annotate.py:92
 #, python-brace-format
@@ -1029,9 +1030,9 @@ msgid "{value} is not in the range {range}."
 msgstr "{value} не знаходиться в діапазоні {range}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:719
-#, fuzzy
 msgid "{value!r} is not a valid boolean. Recognized values: {states}"
-msgstr "{value!r} не є дійсним булевим значенням."
+msgstr ""
+"{value!r} не є коректним логічним значенням. Розпізнані значення: {states}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:747
 msgid "{value!r} is not a valid UUID."
@@ -1159,7 +1160,7 @@ msgstr "Не вдалося відкрити файл {filename!r}: {message}"
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1141
 #, python-brace-format
 msgid "{text} {deprecated_message}"
-msgstr ""
+msgstr "{text} {deprecated_message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1160
 msgid "Options"
@@ -1174,9 +1175,8 @@ msgstr[1] "Отримано неочікувані додаткові аргум
 msgstr[2] "Отримано неочікувані додаткові аргументи ({args})"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1241
-#, fuzzy
 msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
-msgstr "Попередження про застарілість: Команда {name!r} є застарілою."
+msgstr "Попередження про застаріле: Команда {name!r} застаріла.{extra_message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1425
 msgid "Aborted!"
@@ -1207,10 +1207,10 @@ msgstr[1] "Приймає значень {nargs}, але було задано {
 msgstr[2] "Приймає значень {nargs}, але було задано {len}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2505
-#, fuzzy
 msgid ""
 "DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
-msgstr "Попередження про застарілість: Команда {name!r} є застарілою."
+msgstr ""
+"Попередження про застаріле: {param_type} {name!r} застарів.{extra_message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2956
 #, python-brace-format
