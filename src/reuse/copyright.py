@@ -592,11 +592,11 @@ class CopyrightNotice:
         return (
             norm(self.years),
             self.name,
-            self.prefix,
+            self.prefix.value,
         ) < (
             norm(other.years),
             other.name,
-            other.prefix,
+            other.prefix.value,
         )
 
     def to_string(self, original: bool = False) -> str:
