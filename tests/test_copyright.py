@@ -784,32 +784,34 @@ class TestCopyrightNoticeMerge:
                 }
 
 
-def test_reuse_info_contains_copyright_or_licensing():
+@pytest.mark.parametrize(
+    "args",
+    [
+        {"spdx_expressions": {"GPL-3.0-or-later"}, "copyright_notices": set()},
+        {
+            "spdx_expressions": set(),
+            "copyright_notices": {
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+            },
+        },
+        {
+            "spdx_expressions": {"GPL-3.0-or-later"},
+            "copyright_notices": {
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+            },
+        },
+    ],
+)
+def test_reuse_info_contains_copyright_or_licensing(args):
     """If either spdx_expressions or copyright_notices is truthy, then expect
     True.
     """
-    arguments = [
-        ({"GPL-3.0-or-later"}, set()),
-        (
-            set(),
-            {
-                CopyrightNotice.from_string(
-                    "SPDX-FileCopyrightText: 2017 Jane Doe"
-                )
-            },
-        ),
-        (
-            {"GPL-3.0-or-later"},
-            {
-                CopyrightNotice.from_string(
-                    "SPDX-FileCopyrightText: 2017 Jane Doe"
-                )
-            },
-        ),
-    ]
-    for args in arguments:
-        info = ReuseInfo(*args)
-        assert info.contains_copyright_or_licensing()
+    info = ReuseInfo(**args)
+    assert info.contains_copyright_or_licensing()
 
 
 def test_reuse_info_contains_copyright_or_licensing_empty():
@@ -920,7 +922,7 @@ class TestReuseInfoUnion:
 
     def test_none(self):
         """If no argument is provided, nothing changes."""
-        info = ReuseInfo(copyright_notices=CopyrightNotice("Jane Doe"))
+        info = ReuseInfo(copyright_notices={CopyrightNotice("Jane Doe")})
         result = info.union()
         assert result == info
 

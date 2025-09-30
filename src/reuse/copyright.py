@@ -627,8 +627,7 @@ class SourceType(Enum):
     REUSE_TOML = "reuse-toml"
 
 
-# TODO: In Python 3.10+, add kw_only=True
-@dataclass(frozen=True)
+@dataclass(frozen=True, kw_only=True)
 class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""
 
