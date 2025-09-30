@@ -627,8 +627,7 @@ class SourceType(Enum):
     REUSE_TOML = "reuse-toml"
 
 
-# TODO: In Python 3.10+, add kw_only=True
-@dataclass(frozen=True)
+@dataclass(frozen=True, kw_only=True)
 class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""
 
@@ -657,9 +656,9 @@ class ReuseInfo:
             new_kwargs[key] = kwargs.get(key, value)
         return self.__class__(**new_kwargs)  # type: ignore
 
-    def union(self, value: "ReuseInfo") -> "ReuseInfo":
+    def union(self, *other: "ReuseInfo") -> "ReuseInfo":
         """Return a new instance of ReuseInfo where all set attributes are equal
-        to the union of the set in *self* and the set in *value*.
+        to the union of the set in *self* and the set(s) in *other*.
 
         All non-set attributes are set to their values in *self*.
 
@@ -673,10 +672,14 @@ class ReuseInfo:
         >>> print(result.source_path)
         foo.py
         """
+        if not other:
+            return self
         new_kwargs = {}
         for key, attr_val in self.__dict__.items():
-            if isinstance(attr_val, set) and (other_val := getattr(value, key)):
-                new_kwargs[key] = attr_val.union(other_val)
+            if isinstance(attr_val, set):
+                new_kwargs[key] = attr_val.union(
+                    *(getattr(info, key) for info in other)
+                )
             else:
                 new_kwargs[key] = attr_val
         return self.__class__(**new_kwargs)  # type: ignore

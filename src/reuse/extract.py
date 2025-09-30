@@ -18,23 +18,15 @@ import logging
 import os
 import re
 from itertools import chain
-from pathlib import Path
-from typing import BinaryIO
+from typing import BinaryIO, Generator, NamedTuple
 
 from boolean.boolean import Expression, ParseError
 from license_expression import ExpressionError
 
 from . import _LICENSING
-from ._util import relative_from_root
 from .comment import _all_style_classes
-from .copyright import (
-    COPYRIGHT_NOTICE_PATTERN,
-    CopyrightNotice,
-    ReuseInfo,
-    SourceType,
-)
+from .copyright import COPYRIGHT_NOTICE_PATTERN, CopyrightNotice, ReuseInfo
 from .i18n import _
-from .types import StrPath
 
 REUSE_IGNORE_START = "REUSE-IgnoreStart"
 REUSE_IGNORE_END = "REUSE-IgnoreEnd"
@@ -94,36 +86,67 @@ _SPDX_TAGS: dict[str, re.Pattern] = {
 }
 _LICENSEREF_PATTERN = re.compile("LicenseRef-[a-zA-Z0-9-.]+$")
 
-# Amount of bytes that we assume will be big enough to contain the entire
-# comment header (including SPDX tags), so that we don't need to read the
-# entire file.
-_HEADER_BYTES = 4096
+#: Default chunk size for reading files.
+CHUNK_SIZE = 1024 * 64
+#: Default line size for reading files.
+LINE_SIZE = 1024
 
 
-def decoded_text_from_binary(
-    binary_file: BinaryIO, size: int | None = None
-) -> str:
-    """Given a binary file object, detect its encoding and return its contents
-    as a decoded string. Do not throw any errors if the encoding contains
-    errors:  Just replace the false characters.
-
-    If *size* is specified, only read so many bytes.
+class FilterBlock(NamedTuple):
+    """A simple tuple that holds a block of text, and whether that block of text
+    is in an ignore block.
     """
-    if size is None:
-        size = -1
-    rawdata = binary_file.read(size)
-    result = rawdata.decode("utf-8", errors="replace")
-    return result.replace("\r\n", "\n")
+
+    text: str
+    in_ignore_block: bool
 
 
-def _contains_snippet(binary_file: BinaryIO) -> bool:
-    """Check if a file seems to contain a SPDX snippet"""
-    # Assumes that if SPDX_SNIPPET_INDICATOR (SPDX-SnippetBegin) is found in a
-    # file, the file contains a snippet
-    content = binary_file.read()
-    if SPDX_SNIPPET_INDICATOR in content:
-        return True
-    return False
+def filter_ignore_block(
+    text: str, in_ignore_block: bool = False
+) -> FilterBlock:
+    """Filter out blocks beginning with REUSE_IGNORE_START and ending with
+    REUSE_IGNORE_END to remove lines that should not be treated as copyright and
+    licensing information.
+
+    Args:
+        text: The text out of which the ignore blocks must be filtered.
+        in_ignore_block: Whether the text is already in an ignore block. This is
+            useful when you parse subsequent chunks of text, and one chunk does
+            not close the ignore block.
+
+    Returns:
+        A :class:`FilterBlock` tuple that contains the filtered text and a
+        boolean that signals whether the ignore block is still open.
+    """
+    ignore_start: int | None = None if not in_ignore_block else 0
+    ignore_end: int | None = None
+    if REUSE_IGNORE_START in text:
+        ignore_start = text.index(REUSE_IGNORE_START)
+    if REUSE_IGNORE_END in text:
+        ignore_end = text.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
+    if ignore_start is None:
+        return FilterBlock(text, False)
+    if ignore_end is None:
+        return FilterBlock(text[:ignore_start], True)
+    if ignore_end > ignore_start:
+        text_before_block = text[:ignore_start]
+        text_after_block, in_ignore_block = filter_ignore_block(
+            text[ignore_end:], False
+        )
+        return FilterBlock(
+            text_before_block + text_after_block, in_ignore_block
+        )
+    rest = text[ignore_start + len(REUSE_IGNORE_START) :]
+    if REUSE_IGNORE_END in rest:
+        ignore_end = rest.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
+        text_before_block = text[:ignore_start]
+        text_after_block, in_ignore_block = filter_ignore_block(
+            rest[ignore_end:]
+        )
+        return FilterBlock(
+            text_before_block + text_after_block, in_ignore_block
+        )
+    return FilterBlock(text[:ignore_start], True)
 
 
 def extract_reuse_info(text: str) -> ReuseInfo:
@@ -133,10 +156,6 @@ def extract_reuse_info(text: str) -> ReuseInfo:
         ExpressionError: if an SPDX expression could not be parsed.
         ParseError: if an SPDX expression could not be parsed.
     """
-    # TODO: This function call should not be here. It should already be filtered
-    # out before we get to this function.
-    text = filter_ignore_block(text)
-
     notices: set[CopyrightNotice] = set()
     expressions: set[Expression] = set()
     contributors: set[str] = set()
@@ -168,72 +187,56 @@ def extract_reuse_info(text: str) -> ReuseInfo:
     )
 
 
+def _read_chunks(
+    fp: BinaryIO,
+    chunk_size: int = CHUNK_SIZE,
+    line_size: int = LINE_SIZE,
+) -> Generator[bytes, None, None]:
+    """Read and yield somewhat equal-sized chunks from (realistically) a file.
+    The chunks always split at a newline where possible.
+
+    An amount of bytes equal to *chunk_size* is always read into the chunk if
+    *fp* contains that many bytes. An additional *line_size* or lesser amount of
+    bytes is also read into the chunk, up to the next newline character.
+    """
+    while True:
+        chunk = fp.read(chunk_size)
+        if not chunk:
+            break
+        remainder = fp.readline(line_size)
+        if remainder:
+            chunk += remainder
+        yield chunk
+
+
+def _process_chunk(chunk: bytes, in_ignore_block: bool = False) -> FilterBlock:
+    """Decode and clean up a chunk."""
+    # TODO: Not everything is UTF-8.
+    text = chunk.decode("utf-8", errors="replace")
+    # TODO: Better newline handling.
+    text = text.replace("\r\n", "\n")
+    return filter_ignore_block(text, in_ignore_block)
+
+
 def reuse_info_of_file(
-    path: StrPath, original_path: Path, root: Path
+    fp: BinaryIO,
+    chunk_size: int = CHUNK_SIZE,
+    line_size: int = LINE_SIZE,
 ) -> ReuseInfo:
-    """Open *path* and return its :class:`ReuseInfo`.
+    """Read from *fp* to extract REUSE information. It is read in chunks of
+    *chunk_size*, additionally reading up to *line_size* until the next newline.
 
-    Normally only the first few :const:`_HEADER_BYTES` are read. But if a
-    snippet was detected, the entire file is read.
+    This function decodes the binary data into UTF-8 and removes REUSE ignore
+    blocks before attempting to extract the REUSE information.
     """
-    path = Path(path)
-    with path.open("rb") as fp:
-        try:
-            read_limit: int | None = _HEADER_BYTES
-            # Completely read the file once
-            # to search for possible snippets
-            if _contains_snippet(fp):
-                _LOGGER.debug(f"'{path}' seems to contain an SPDX Snippet")
-                read_limit = None
-            # Reset read position
-            fp.seek(0)
-            # Scan the file for REUSE info, possibly limiting the read
-            # length
-            file_result = extract_reuse_info(
-                decoded_text_from_binary(fp, size=read_limit)
-            )
-            if file_result.contains_copyright_or_licensing():
-                source_type = SourceType.FILE_HEADER
-                if path.suffix == ".license":
-                    source_type = SourceType.DOT_LICENSE
-                return file_result.copy(
-                    path=relative_from_root(original_path, root).as_posix(),
-                    source_path=relative_from_root(path, root).as_posix(),
-                    source_type=source_type,
-                )
-
-        except (ExpressionError, ParseError):
-            _LOGGER.error(
-                _(
-                    "'{path}' holds an SPDX expression that cannot be"
-                    " parsed, skipping the file"
-                ).format(path=path)
-            )
-    return ReuseInfo()
-
-
-def filter_ignore_block(text: str) -> str:
-    """Filter out blocks beginning with REUSE_IGNORE_START and ending with
-    REUSE_IGNORE_END to remove lines that should not be treated as copyright and
-    licensing information.
-    """
-    ignore_start = None
-    ignore_end = None
-    if REUSE_IGNORE_START in text:
-        ignore_start = text.index(REUSE_IGNORE_START)
-    if REUSE_IGNORE_END in text:
-        ignore_end = text.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
-    if not ignore_start:
-        return text
-    if not ignore_end:
-        return text[:ignore_start]
-    if ignore_end > ignore_start:
-        return text[:ignore_start] + filter_ignore_block(text[ignore_end:])
-    rest = text[ignore_start + len(REUSE_IGNORE_START) :]
-    if REUSE_IGNORE_END in rest:
-        ignore_end = rest.index(REUSE_IGNORE_END) + len(REUSE_IGNORE_END)
-        return text[:ignore_start] + filter_ignore_block(rest[ignore_end:])
-    return text[:ignore_start]
+    in_ignore_block = False
+    reuse_infos: list[ReuseInfo] = []
+    for chunk in _read_chunks(fp, chunk_size=chunk_size, line_size=line_size):
+        text, in_ignore_block = _process_chunk(
+            chunk, in_ignore_block=in_ignore_block
+        )
+        reuse_infos.append(extract_reuse_info(text))
+    return ReuseInfo().union(*reuse_infos)
 
 
 def contains_reuse_info(text: str) -> bool:

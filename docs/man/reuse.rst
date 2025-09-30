@@ -31,9 +31,9 @@ Details
 
 When searching for copyright and licensing tags inside of files, the tool does
 not strictly limit itself to the header comment as prescribed by the
-specification. It searches the first 4 kibibytes of the file for REUSE
-information, whether in comments or not. This makes sure that the tool can parse
-any type of plain-text file, even if the comment style is not recognised.
+specification. It searches the entire file for REUSE information, whether in
+comments or not. This makes sure that the tool can parse any type of plain-text
+file, even if the comment style is not recognised.
 
 If a file is found to have an unparsable tag, that file is not parsed at all.
 This is a bug (`<https://github.com/fsfe/reuse-tool/issues/4>`_).

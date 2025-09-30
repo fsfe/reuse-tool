@@ -784,32 +784,34 @@ class TestCopyrightNoticeMerge:
                 }
 
 
-def test_reuse_info_contains_copyright_or_licensing():
+@pytest.mark.parametrize(
+    "args",
+    [
+        {"spdx_expressions": {"GPL-3.0-or-later"}, "copyright_notices": set()},
+        {
+            "spdx_expressions": set(),
+            "copyright_notices": {
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+            },
+        },
+        {
+            "spdx_expressions": {"GPL-3.0-or-later"},
+            "copyright_notices": {
+                CopyrightNotice.from_string(
+                    "SPDX-FileCopyrightText: 2017 Jane Doe"
+                )
+            },
+        },
+    ],
+)
+def test_reuse_info_contains_copyright_or_licensing(args):
     """If either spdx_expressions or copyright_notices is truthy, then expect
     True.
     """
-    arguments = [
-        ({"GPL-3.0-or-later"}, set()),
-        (
-            set(),
-            {
-                CopyrightNotice.from_string(
-                    "SPDX-FileCopyrightText: 2017 Jane Doe"
-                )
-            },
-        ),
-        (
-            {"GPL-3.0-or-later"},
-            {
-                CopyrightNotice.from_string(
-                    "SPDX-FileCopyrightText: 2017 Jane Doe"
-                )
-            },
-        ),
-    ]
-    for args in arguments:
-        info = ReuseInfo(*args)
-        assert info.contains_copyright_or_licensing()
+    info = ReuseInfo(**args)
+    assert info.contains_copyright_or_licensing()
 
 
 def test_reuse_info_contains_copyright_or_licensing_empty():
@@ -890,30 +892,53 @@ def test_reuse_info_copy_nonexistent_attribute():
         info.copy(foo="bar")
 
 
-def test_reuse_info_union_simple():
-    """
-    Get a union of ReuseInfo with one field merged and one remaining equal.
-    """
-    info1 = ReuseInfo(
-        copyright_notices={
-            CopyrightNotice.from_string("Copyright 2017 Jane Doe")
-        },
-        source_path="foo",
-    )
-    info2 = ReuseInfo(
-        copyright_notices={
-            CopyrightNotice.from_string("Copyright 2017 John Doe")
-        },
-        source_path="bar",
-    )
-    new_info = info1 | info2
-    # union and __or__ are equal
-    assert new_info == info1.union(info2)
-    assert sorted(new_info.copyright_notices) == [
-        CopyrightNotice.from_string("Copyright 2017 Jane Doe"),
-        CopyrightNotice.from_string("Copyright 2017 John Doe"),
-    ]
-    assert new_info.source_path == "foo"
+class TestReuseInfoUnion:
+    """Tests for ReuseInfo.union."""
+
+    def test_simple(self):
+        """
+        Get a union of ReuseInfo with one field merged and one remaining equal.
+        """
+        info1 = ReuseInfo(
+            copyright_notices={
+                CopyrightNotice.from_string("Copyright 2017 Jane Doe")
+            },
+            source_path="foo",
+        )
+        info2 = ReuseInfo(
+            copyright_notices={
+                CopyrightNotice.from_string("Copyright 2017 John Doe")
+            },
+            source_path="bar",
+        )
+        new_info = info1 | info2
+        # union and __or__ are equal
+        assert new_info == info1.union(info2)
+        assert sorted(new_info.copyright_notices) == [
+            CopyrightNotice.from_string("Copyright 2017 Jane Doe"),
+            CopyrightNotice.from_string("Copyright 2017 John Doe"),
+        ]
+        assert new_info.source_path == "foo"
+
+    def test_none(self):
+        """If no argument is provided, nothing changes."""
+        info = ReuseInfo(copyright_notices={CopyrightNotice("Jane Doe")})
+        result = info.union()
+        assert result == info
+
+    def test_multiple(self):
+        """If multi arguments are provided, merge them all."""
+        copyright1 = CopyrightNotice("Jane Doe")
+        copyright2 = CopyrightNotice("John Doe")
+        copyright3 = CopyrightNotice("Alice")
+        info1 = ReuseInfo(copyright_notices={copyright1})
+        info2 = ReuseInfo(copyright_notices={copyright2})
+        info3 = ReuseInfo(copyright_notices={copyright3})
+
+        result = info1.union(info2, info3)
+        assert result == ReuseInfo(
+            copyright_notices={copyright1, copyright2, copyright3}
+        )
 
 
 # REUSE-IgnoreEnd
