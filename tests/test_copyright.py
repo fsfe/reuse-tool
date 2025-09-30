@@ -890,30 +890,53 @@ def test_reuse_info_copy_nonexistent_attribute():
         info.copy(foo="bar")
 
 
-def test_reuse_info_union_simple():
-    """
-    Get a union of ReuseInfo with one field merged and one remaining equal.
-    """
-    info1 = ReuseInfo(
-        copyright_notices={
-            CopyrightNotice.from_string("Copyright 2017 Jane Doe")
-        },
-        source_path="foo",
-    )
-    info2 = ReuseInfo(
-        copyright_notices={
-            CopyrightNotice.from_string("Copyright 2017 John Doe")
-        },
-        source_path="bar",
-    )
-    new_info = info1 | info2
-    # union and __or__ are equal
-    assert new_info == info1.union(info2)
-    assert sorted(new_info.copyright_notices) == [
-        CopyrightNotice.from_string("Copyright 2017 Jane Doe"),
-        CopyrightNotice.from_string("Copyright 2017 John Doe"),
-    ]
-    assert new_info.source_path == "foo"
+class TestReuseInfoUnion:
+    """Tests for ReuseInfo.union."""
+
+    def test_simple(self):
+        """
+        Get a union of ReuseInfo with one field merged and one remaining equal.
+        """
+        info1 = ReuseInfo(
+            copyright_notices={
+                CopyrightNotice.from_string("Copyright 2017 Jane Doe")
+            },
+            source_path="foo",
+        )
+        info2 = ReuseInfo(
+            copyright_notices={
+                CopyrightNotice.from_string("Copyright 2017 John Doe")
+            },
+            source_path="bar",
+        )
+        new_info = info1 | info2
+        # union and __or__ are equal
+        assert new_info == info1.union(info2)
+        assert sorted(new_info.copyright_notices) == [
+            CopyrightNotice.from_string("Copyright 2017 Jane Doe"),
+            CopyrightNotice.from_string("Copyright 2017 John Doe"),
+        ]
+        assert new_info.source_path == "foo"
+
+    def test_none(self):
+        """If no argument is provided, nothing changes."""
+        info = ReuseInfo(copyright_notices=CopyrightNotice("Jane Doe"))
+        result = info.union()
+        assert result == info
+
+    def test_multiple(self):
+        """If multi arguments are provided, merge them all."""
+        copyright1 = CopyrightNotice("Jane Doe")
+        copyright2 = CopyrightNotice("John Doe")
+        copyright3 = CopyrightNotice("Alice")
+        info1 = ReuseInfo(copyright_notices={copyright1})
+        info2 = ReuseInfo(copyright_notices={copyright2})
+        info3 = ReuseInfo(copyright_notices={copyright3})
+
+        result = info1.union(info2, info3)
+        assert result == ReuseInfo(
+            copyright_notices={copyright1, copyright2, copyright3}
+        )
 
 
 # REUSE-IgnoreEnd
