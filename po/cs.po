@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 21:35+0000\n"
+"POT-Creation-Date: 2025-09-30 16:38+0000\n"
 "PO-Revision-Date: 2025-09-23 22:01+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -178,18 +178,18 @@ msgstr "{lic_path}: licence bez přípony souboru\n"
 msgid "{lic_path}: unused license\n"
 msgstr "{lic_path}: nepoužitá licence\n"
 
-#: src/reuse/project.py:254
+#: src/reuse/project.py:256
 #, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' zahrnuto v {global_path}"
 
-#: src/reuse/project.py:262
+#: src/reuse/project.py:264
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr "'{path}' je zahrnuta výhradně v REUSE.toml. Nečte obsah souboru."
 
-#: src/reuse/project.py:269
+#: src/reuse/project.py:271
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -198,7 +198,14 @@ msgstr ""
 "'{path}' byl rozpoznán jako binární soubor; v jeho obsahu nebyly hledány "
 "informace o REUSE."
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:282
+#, python-brace-format
+msgid ""
+"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
+msgstr ""
+"'{path}' obsahuje výraz SPDX, který nelze analyzovat a soubor se přeskočí"
+
+#: src/reuse/project.py:352
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
@@ -206,7 +213,7 @@ msgstr ""
 "'.reuse/dep5' je zastaralý. Místo toho doporučujeme používat soubor REUSE."
 "toml. Pro konverzi použijte `reuse convert-dep5`."
 
-#: src/reuse/project.py:351
+#: src/reuse/project.py:373
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
@@ -215,12 +222,12 @@ msgstr ""
 "Nalezeno '{new_path}' i '{old_path}'. Oba soubory nelze uchovávat současně, "
 "nejsou vzájemně kompatibilní."
 
-#: src/reuse/project.py:415
+#: src/reuse/project.py:437
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} nemá příponu souboru"
 
-#: src/reuse/project.py:425
+#: src/reuse/project.py:447
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -233,14 +240,14 @@ msgstr ""
 "adrese <https://spdx.org/licenses/> nebo zda začíná znakem 'LicenseRef-' a "
 "zda má příponu souboru."
 
-#: src/reuse/project.py:437
+#: src/reuse/project.py:459
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} je identifikátor licence SPDX jak {path}, tak {other_path}"
 
-#: src/reuse/project.py:476
+#: src/reuse/project.py:498
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -248,17 +255,10 @@ msgstr ""
 "projekt '{}' není úložištěm VCS nebo není nainstalován požadovaný software "
 "VCS"
 
-#: src/reuse/extract.py:152 src/reuse/global_licensing.py:208
+#: src/reuse/extract.py:171 src/reuse/global_licensing.py:208
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Nepodařilo se analyzovat '{expression}'"
-
-#: src/reuse/extract.py:208
-#, python-brace-format
-msgid ""
-"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
-msgstr ""
-"'{path}' obsahuje výraz SPDX, který nelze analyzovat a soubor se přeskočí"
 
 #: src/reuse/header.py:93
 msgid "generated comment is missing copyright lines or license expressions"

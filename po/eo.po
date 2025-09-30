@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 21:35+0000\n"
+"POT-Creation-Date: 2025-09-30 16:38+0000\n"
 "PO-Revision-Date: 2024-01-17 12:48+0000\n"
 "Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -180,43 +180,51 @@ msgstr "Permesiloj sen dosiersufikso:"
 msgid "{lic_path}: unused license\n"
 msgstr "Neuzataj permesiloj:"
 
-#: src/reuse/project.py:254
+#: src/reuse/project.py:256
 #, fuzzy, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' sub .reuse/dep5"
 
-#: src/reuse/project.py:262
+#: src/reuse/project.py:264
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
 
-#: src/reuse/project.py:269
+#: src/reuse/project.py:271
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
 "information."
 msgstr ""
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:282
+#, python-brace-format
+msgid ""
+"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
+msgstr ""
+"'{path}' entenas SPDX-esprimon, kiun oni ne povas analizi; preterpasante la "
+"dosieron"
+
+#: src/reuse/project.py:352
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
 
-#: src/reuse/project.py:351
+#: src/reuse/project.py:373
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
 
-#: src/reuse/project.py:415
+#: src/reuse/project.py:437
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} ne havas dosiersufikson"
 
-#: src/reuse/project.py:425
+#: src/reuse/project.py:447
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -228,7 +236,7 @@ msgstr ""
 "Certigu ke la permesilo estas en la listo ĉe <https://spdx.org/licenses/> aŭ "
 "ke ĝi komencas per 'LicenseRef-' kaj havas dosiersufikson."
 
-#: src/reuse/project.py:437
+#: src/reuse/project.py:459
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -236,24 +244,16 @@ msgstr ""
 "{identifier} estas la SPDX Permesila Identigilo de kaj {path} kaj "
 "{other_path}"
 
-#: src/reuse/project.py:476
+#: src/reuse/project.py:498
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
 msgstr ""
 
-#: src/reuse/extract.py:152 src/reuse/global_licensing.py:208
+#: src/reuse/extract.py:171 src/reuse/global_licensing.py:208
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Ne povis analizi '{expression}'"
-
-#: src/reuse/extract.py:208
-#, python-brace-format
-msgid ""
-"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
-msgstr ""
-"'{path}' entenas SPDX-esprimon, kiun oni ne povas analizi; preterpasante la "
-"dosieron"
 
 #: src/reuse/header.py:93
 msgid "generated comment is missing copyright lines or license expressions"

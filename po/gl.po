@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 21:35+0000\n"
+"POT-Creation-Date: 2025-09-30 16:38+0000\n"
 "PO-Revision-Date: 2023-06-21 09:53+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -182,43 +182,51 @@ msgstr "Licenzas sen extensión de arquivo:"
 msgid "{lic_path}: unused license\n"
 msgstr "Licenzas non usadas:"
 
-#: src/reuse/project.py:254
+#: src/reuse/project.py:256
 #, fuzzy, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' cuberto por .reuse/dep5"
 
-#: src/reuse/project.py:262
+#: src/reuse/project.py:264
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
 
-#: src/reuse/project.py:269
+#: src/reuse/project.py:271
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
 "information."
 msgstr ""
 
-#: src/reuse/project.py:330
+#: src/reuse/project.py:282
+#, python-brace-format
+msgid ""
+"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
+msgstr ""
+"'{path}' inclúe unha expresión SPDX que non se pode analizar, saltando o "
+"arquivo"
+
+#: src/reuse/project.py:352
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
 
-#: src/reuse/project.py:351
+#: src/reuse/project.py:373
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
 
-#: src/reuse/project.py:415
+#: src/reuse/project.py:437
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} non ten extensión de arquivo"
 
-#: src/reuse/project.py:425
+#: src/reuse/project.py:447
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -231,7 +239,7 @@ msgstr ""
 "<https://spdx.org/licenses/> ou que comeza con 'LicenseRef-' e ten unha "
 "extensión de arquivo."
 
-#: src/reuse/project.py:437
+#: src/reuse/project.py:459
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -239,24 +247,16 @@ msgstr ""
 "{identifier} é o Identificador de Licenza SPDX de ambos os dous {path} e "
 "{other_path}"
 
-#: src/reuse/project.py:476
+#: src/reuse/project.py:498
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
 msgstr ""
 
-#: src/reuse/extract.py:152 src/reuse/global_licensing.py:208
+#: src/reuse/extract.py:171 src/reuse/global_licensing.py:208
 #, python-brace-format
 msgid "Could not parse '{expression}'"
 msgstr "Non se pode analizar '{expression}'"
-
-#: src/reuse/extract.py:208
-#, python-brace-format
-msgid ""
-"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
-msgstr ""
-"'{path}' inclúe unha expresión SPDX que non se pode analizar, saltando o "
-"arquivo"
 
 #: src/reuse/header.py:93
 msgid "generated comment is missing copyright lines or license expressions"
