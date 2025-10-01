@@ -7,7 +7,7 @@ FROM debian:12-slim AS base
 
 RUN apt-get update \
     && apt-get -y upgrade \
-    && apt-get -y --no-install-recommends install git mercurial python3 \
+    && apt-get -y --no-install-recommends install git mercurial python3 libmagic1 \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
 

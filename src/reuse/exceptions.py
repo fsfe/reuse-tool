@@ -72,3 +72,7 @@ class YearRangeParseError(CopyrightNoticeParseError):
     Because a year range is typically a constituent part of a copyright notice,
     this error is a subclass of :class:`CopyrightNoticeParseError`.
     """
+
+
+class NoEncodingModuleError(ReuseError):
+    """No module that can detect the encoding of a file is importable."""

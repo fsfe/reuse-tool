@@ -31,7 +31,7 @@ from .comment import (
 )
 from .copyright import ReuseInfo
 from .exceptions import CommentCreateError, MissingReuseInfoError
-from .extract import contains_reuse_info, detect_line_endings
+from .extract import contains_reuse_info
 from .header import add_new_header, find_and_replace_header
 from .i18n import _
 from .project import Project
@@ -71,6 +71,8 @@ def add_header_to_file(
     template: Template | None,
     template_is_commented: bool,
     style: str | None,
+    encoding: str = "utf-8",
+    newline: str = "\n",
     force_multi: bool = False,
     skip_existing: bool = False,
     skip_unrecognised: bool = False,
@@ -103,7 +105,7 @@ def add_header_to_file(
             path.touch()
             comment_style = EmptyCommentStyle
 
-    with open(path, encoding="utf-8", newline="") as fp:
+    with open(path, encoding=encoding) as fp:
         text = fp.read()
 
     # Ideally, this check is done elsewhere. But that would necessitate reading
@@ -116,11 +118,6 @@ def add_header_to_file(
         )
         out.write("\n")
         return result
-
-    # Detect and remember line endings for later conversion.
-    line_ending = detect_line_endings(text)
-    # Normalise line endings.
-    text = text.replace(line_ending, "\n")
 
     try:
         if replace:
@@ -160,7 +157,7 @@ def add_header_to_file(
         out.write("\n")
         result = 1
     else:
-        with open(path, "w", encoding="utf-8", newline=line_ending) as fp:
+        with open(path, "w", encoding=encoding, newline=newline) as fp:
             fp.write(output)
         # TODO: This may need to be rephrased more elegantly.
         out.write(_("Successfully changed header of {path}").format(path=path))

@@ -13,6 +13,7 @@
 import concurrent.futures
 import contextlib
 import datetime
+import importlib
 import logging
 import os
 import shutil
@@ -39,7 +40,7 @@ try:
 except ImportError:
     sys.path.append(os.path.join(Path(__file__).parent.parent, "src"))
 finally:
-    from reuse import report
+    from reuse import extract, report
     from reuse._util import setup_logging
     from reuse.global_licensing import ReuseDep5
     from reuse.vcs import GIT_EXE, HG_EXE, JUJUTSU_EXE, PIJUL_EXE
@@ -180,6 +181,19 @@ def multiprocessing(request, monkeypatch) -> Generator[bool, None, None]:
     if not request.param:
         monkeypatch.delattr(concurrent.futures, "ProcessPoolExecutor")
     yield request.param
+
+
+@pytest.fixture(params=["magic", "charset_normalizer", "chardet"])
+def encoding_module(request, monkeypatch) -> Generator[bool, None, None]:
+    """Run the test with or without libmagic."""
+    try:
+        if request.param == "magic" and not is_posix:
+            pytest.skip("Windows not supported")
+        module = importlib.import_module(request.param)
+        monkeypatch.setattr("reuse.extract._ENCODING_MODULE", module)
+        yield request.param
+    except ImportError:
+        pytest.skip(f"'{request.param}' could not be imported")
 
 
 @pytest.fixture(params=[True, False])
