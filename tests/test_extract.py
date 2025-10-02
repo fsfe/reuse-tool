@@ -511,6 +511,32 @@ class TestFilterIgnoreBlock:
         result = filter_ignore_block(text)
         assert result == (expected, True)
 
+    def test_end_start_end(self):
+        """Test that an ignore block is properly removed even if the string
+        starts with an end instruction.
+        """
+        text = cleandoc(
+            """
+            REUSE-IgnoreEnd
+            Relevant text
+            REUSE-IgnoreStart
+            IgnoredText
+            REUSE-IgnoreEnd
+            More relevant text
+            """
+        )
+        expected = cleandoc(
+            """
+            REUSE-IgnoreEnd
+            Relevant text
+
+            More relevant text
+            """
+        )
+
+        result = filter_ignore_block(text)
+        assert result == (expected, False)
+
     def test_without_end(self):
         """Test that the ignore block is properly removed if it has relevant
         information on the same line.

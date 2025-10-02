@@ -213,7 +213,7 @@ def filter_ignore_block(
         return FilterBlock(text, False)
     if ignore_end is None:
         return FilterBlock(text[:ignore_start], True)
-    if ignore_end > ignore_start:
+    if ignore_start < ignore_end:
         text_before_block = text[:ignore_start]
         text_after_block, in_ignore_block = filter_ignore_block(
             text[ignore_end:], False
