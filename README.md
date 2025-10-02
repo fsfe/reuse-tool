@@ -277,7 +277,7 @@ with `zsh` or `fish` as needed, or any other shells supported by the Python
 (e.g.`~/.bashrc`):
 
 ```bash
-eval "$(_REUSE__COMPLETE=bash_source reuse)"
+eval "$(_REUSE_COMPLETE=bash_source reuse)"
 ```
 
 Alternatively, you can place the generated completion script in
