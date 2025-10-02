@@ -33,31 +33,41 @@ _HELP = (
     + "\n\n"
     + _("Specifically, the following criteria are checked:")
     + "\n\n\b\n"
-    + _(
-        "- Are there any bad (unrecognised, not compliant with SPDX)"
-        " licenses in the project?"
+    + click.wrap_text(
+        _(
+            "- Are there any bad (unrecognised, not compliant with SPDX)"
+            " licenses in the project?"
+        )
     )
     + "\n"
-    + _("- Are there any deprecated licenses in the project?")
+    + click.wrap_text(_("- Are there any deprecated licenses in the project?"))
     + "\n"
-    + _(
-        "- Are there any license files in the LICENSES/ directory"
-        " without file extension?"
+    + click.wrap_text(
+        _(
+            "- Are there any license files in the LICENSES/ directory"
+            " without file extension?"
+        )
     )
     + "\n"
-    + _(
-        "- Are any licenses referred to inside of the project, but"
-        " not included in the LICENSES/ directory?"
+    + click.wrap_text(
+        _(
+            "- Are any licenses referred to inside of the project, but"
+            " not included in the LICENSES/ directory?"
+        )
     )
     + "\n"
-    + _(
-        "- Are any licenses included in the LICENSES/ directory that"
-        " are not used inside of the project?"
+    + click.wrap_text(
+        _(
+            "- Are any licenses included in the LICENSES/ directory that"
+            " are not used inside of the project?"
+        )
     )
     + "\n"
-    + _("- Are there any read errors?")
+    + click.wrap_text(_("- Are there any read errors?"))
     + "\n"
-    + _("- Do all files have valid copyright and licensing information?")
+    + click.wrap_text(
+        _("- Do all files have valid copyright and licensing information?")
+    )
 )
 
 
