@@ -8,6 +8,7 @@
 
 import re
 import shutil
+from inspect import cleandoc
 
 from conftest import cpython, posix
 
@@ -85,17 +86,14 @@ def test_lint_deprecated(fake_repository):
 
 def test_lint_bad_license(fake_repository):
     """A bad license is detected."""
-    (fake_repository / "foo.py").write_text(
-        "SPDX-License-Identifier: bad-license"
-    )
+    (fake_repository / "LICENSES/foo.txt").write_text("Hello, world!")
     project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
     assert ":-(" in result
     assert "# BAD LICENSES" in result
-    assert "foo.py" in result
-    assert "bad-license" in result
+    assert "foo.txt" in result
     assert "Fix bad licenses:" in result
     assert "reuse.software/faq/#custom-license" in result
 
@@ -157,6 +155,27 @@ def test_lint_read_errors(fake_repository):
     assert "Could not read:" in result
     assert "foo.py" in result
     assert "Fix read errors:" in result
+
+
+def test_invalid_expressions(fake_repository):
+    """An invalid expression is detected."""
+    (fake_repository / "foo.py").write_text(
+        cleandoc(
+            """
+            Copyright Jane Doe
+
+            SPDX-License-Identifier: MIT OR
+            """
+        )
+    )
+    project = Project.from_directory(fake_repository)
+    report = ProjectReport.generate(project)
+    result = format_plain(report)
+
+    assert ":-(" in result
+    assert "# INVALID EXPRESSIONS" in result
+    assert "foo.py' contains invalid SPDX License Expressions:" in result
+    assert "Fix invalid expressions:" in result
 
 
 def test_lint_files_without_copyright_and_licensing(fake_repository):
@@ -234,6 +253,14 @@ def test_lint_lines_output(fake_repository):
     )
     (fake_repository / "LICENSES" / "MIT").write_text("foo")
     (fake_repository / "file with spaces.py").write_text("foo")
+    (fake_repository / "invalid-expression.py").write_text(
+        cleandoc(
+            """
+            Copyright Jane Doe
+            SPDX-License-Identifier: <invalid>"
+            """
+        )
+    )
 
     project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
@@ -246,13 +273,14 @@ def test_lint_lines_output(fake_repository):
     for line in lines_result_lines:
         assert re.match(".+: [^:]+", line)
 
-    assert lines_result.count("invalid-license.py") == 3
+    assert lines_result.count("invalid-license.py") == 2
     assert lines_result.count("no-license.py") == 1
     assert lines_result.count("LICENSES") == 6
     assert lines_result.count("invalid-license-text") == 3
     assert lines_result.count("Nokia-Qt-exception-1.1.txt") == 2
     assert lines_result.count("MIT") == 2
     assert lines_result.count("file with spaces.py") == 2
+    assert lines_result.count("invalid-expression.py") == 2
 
 
 @cpython

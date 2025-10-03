@@ -409,7 +409,7 @@ class Project:
             if Path(path).suffix == ".license":
                 continue
 
-            path = self.relative_from_root(path)
+            # path = self.relative_from_root(path)
 
             try:
                 identifier = self._identifier_of_license(path)
