@@ -18,9 +18,7 @@ from unittest import mock
 
 import pytest
 from conftest import RESOURCES_DIRECTORY
-from license_expression import LicenseSymbol
 
-from reuse import _LICENSING
 from reuse.copyright import CopyrightNotice, ReuseInfo, SourceType
 from reuse.covered_files import iter_files
 from reuse.exceptions import (

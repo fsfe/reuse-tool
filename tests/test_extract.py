@@ -16,10 +16,8 @@ from inspect import cleandoc
 from io import BytesIO
 
 import pytest
-from boolean.boolean import ParseError
 from conftest import RESOURCES_DIRECTORY
 
-from reuse import _LICENSING
 from reuse.copyright import CopyrightNotice, CopyrightPrefix, ReuseInfo
 from reuse.exceptions import NoEncodingModuleError
 from reuse.extract import (

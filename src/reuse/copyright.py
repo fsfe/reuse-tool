@@ -699,7 +699,7 @@ class SourceType(Enum):
 class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""
 
-    spdx_expressions: set[LicenseExpression] = field(default_factory=set)
+    spdx_expressions: set[SpdxExpression] = field(default_factory=set)
     copyright_notices: set[CopyrightNotice] = field(default_factory=set)
     contributor_lines: set[str] = field(default_factory=set)
     path: str | None = None

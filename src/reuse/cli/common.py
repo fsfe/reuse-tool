@@ -11,10 +11,8 @@ from pathlib import Path
 from typing import Any
 
 import click
-from boolean.boolean import Expression, ParseError
-from license_expression import ExpressionError
 
-from .. import _LICENSING
+from ..copyright import SpdxExpression
 from ..exceptions import GlobalLicensingConflictError, GlobalLicensingParseError
 from ..i18n import _
 from ..project import Project
@@ -97,11 +95,11 @@ class MutexOption(click.Option):
         return super().handle_parse_result(ctx, opts, args)
 
 
-def spdx_identifier(text: str) -> Expression:
+def spdx_identifier(text: str) -> SpdxExpression:
     """Factory for creating SPDX expressions."""
-    try:
-        return _LICENSING.parse(text)
-    except (ExpressionError, ParseError) as error:
+    expression = SpdxExpression(text)
+    if not expression.is_valid:
         raise click.UsageError(
             _("'{}' is not a valid SPDX expression.").format(text)
-        ) from error
+        )
+    return expression

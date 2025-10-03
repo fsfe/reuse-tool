@@ -24,7 +24,6 @@ from pathlib import Path
 from typing import Any, cast
 
 import click
-from boolean.boolean import Expression
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
@@ -41,6 +40,7 @@ from ..copyright import (
     CopyrightNotice,
     CopyrightPrefix,
     ReuseInfo,
+    SpdxExpression,
     YearRange,
     validate_four_digits,
 )
@@ -251,7 +251,7 @@ def get_years(year: str | None, exclude_year: bool) -> tuple[YearRange, ...]:
 
 def get_reuse_info(
     copyrights: Collection[str],
-    licenses: Collection[Expression],
+    licenses: Collection[SpdxExpression],
     contributors: Collection[str],
     copyright_prefix: str | None,
     years: tuple[YearRange, ...],
@@ -458,7 +458,7 @@ _HELP = (
 def annotate(
     obj: ClickObj,
     copyrights: Sequence[str],
-    licenses: Sequence[Expression],
+    licenses: Sequence[SpdxExpression],
     contributors: Sequence[str],
     years: str | None,
     style: str | None,

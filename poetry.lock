@@ -590,13 +590,13 @@ test = ["coverage[toml]", "ddt (>=1.1.1,!=1.4.3)", "mock", "mypy", "pre-commit",
 
 [[package]]
 name = "identify"
-version = "2.6.14"
+version = "2.6.15"
 description = "File identification library for Python"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "identify-2.6.14-py2.py3-none-any.whl", hash = "sha256:11a073da82212c6646b1f39bb20d4483bfb9543bd5566fec60053c4bb309bf2e"},
-    {file = "identify-2.6.14.tar.gz", hash = "sha256:663494103b4f717cb26921c52f8751363dc89db64364cd836a9bf1535f53cd6a"},
+    {file = "identify-2.6.15-py2.py3-none-any.whl", hash = "sha256:1181ef7608e00704db228516541eb83a88a9f94433a8c80bb9b5bd54b1d81757"},
+    {file = "identify-2.6.15.tar.gz", hash = "sha256:e4f4864b96c6557ef2a1e1c951771838f4edc9df3a72ec7118b338801b11c7bf"},
 ]
 
 [package.extras]
@@ -1928,4 +1928,4 @@ charset-normalizer = ["charset-normalizer"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10"
-content-hash = "d7df4cd94801957211568a6ac0c3b91a9c7e5dc8b5c29ec3bd253ceae29a84d4"
+content-hash = "6b7f03a3841d54c2e272642597aeed7db3099a115b5105f2c2b517b6ac8d2b8f"

@@ -11,9 +11,7 @@ from pathlib import Path
 import pytest
 from conftest import RESOURCES_DIRECTORY, posix
 from debian.copyright import Copyright
-from license_expression import LicenseSymbol
 
-from reuse import _LICENSING
 from reuse.copyright import CopyrightNotice, ReuseInfo, SourceType
 from reuse.exceptions import (
     GlobalLicensingParseError,

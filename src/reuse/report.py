@@ -24,7 +24,7 @@ from pathlib import Path, PurePath
 from typing import Any, Final, NamedTuple, Optional, Protocol, cast
 from uuid import uuid4
 
-from . import _LICENSING, __REUSE_version__, __version__
+from . import __REUSE_version__, __version__
 from ._util import (
     _add_plus_to_identifier,
     _checksum,
@@ -748,7 +748,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
         reuse_infos = project.reuse_info_of(path)
         for reuse_info in reuse_infos:
             for expression in reuse_info.spdx_expressions:
-                for identifier in _LICENSING.license_keys(expression):
+                for identifier in expression.licenses:
                     # A license expression akin to Apache-1.0+ should register
                     # correctly if LICENSES/Apache-1.0.txt exists.
                     identifiers = {identifier}

@@ -16,8 +16,8 @@ from unittest import mock
 
 import pytest
 
-from reuse import _LICENSING
 from reuse.copyright import (
+    _LICENSING,
     COPYRIGHT_NOTICE_PATTERN,
     CopyrightNotice,
     CopyrightPrefix,
