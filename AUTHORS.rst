@@ -144,6 +144,7 @@ Contributors
 - Skyler Grey <sky@a.starrysky.fyi>
 - Emil Velikov <emil.l.velikov@gmail.com>
 - Linnea Gräf <nea@nea.moe>
+- Arnout Engelen
 - Raphael Schlarb <info@raphael.schlarb.one>
 - Matthias Schoettle <opensource@mattsch.com>
 - András Nagy <nagyandris0718@gmail.com>

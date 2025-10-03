@@ -10,6 +10,7 @@
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Sebastian Crane <seabass@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Stefan Hynek <stefan.hynek@uni-goettingen.de>
+# SPDX-FileCopyrightText: 2022 Arnouet Engelen
 # SPDX-FileCopyrightText: 2023 Juelich Supercomputing Centre, Forschungszentrum Juelich GmbH
 # SPDX-FileCopyrightText: 2023 Kevin Meagher
 # SPDX-FileCopyrightText: 2023 Mathias Dannesbo <md@magenta.dk>
