@@ -1,1 +1,1 @@
-- Added support for py.typed (#1239)
+- Added support for `py.typed`. (#1239)
