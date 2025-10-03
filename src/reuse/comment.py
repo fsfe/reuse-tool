@@ -22,6 +22,7 @@
 # SPDX-FileCopyrightText: 2025 András Nagy <nagyandris0718@gmail.com>
 # SPDX-FileCopyrightText: 2025 Kiko Fernandez-Reyes <kiko@erlang.org>
 # SPDX-FileCopyrightText: 2025 Hatzka <hatzka@nezumi.studio>
+# SPDX-FileCopyrightText: 2025 Johannes HAMPP <johannes.hampp@openenergytransition.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -925,6 +926,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "poetry.lock": UncommentableCommentStyle,
     "pubspec.lock": UncommentableCommentStyle,
     "pylintrc": PythonCommentStyle,
+    "py.typed": PythonCommentStyle,
     "Rakefile": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
