@@ -152,3 +152,4 @@ Contributors
 - Hatzka <hatzka@nezumi.studio>
 - Jonas Fierlings <fnoegip@gmail.com>
 - ASCIIMoth <ascii@moth.contact>
+- Johannes HAMPP <johannes.hampp@openenergytransition.org>
