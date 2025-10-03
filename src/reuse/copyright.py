@@ -13,17 +13,20 @@ from collections import Counter, defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from enum import Enum, unique
+from functools import cached_property
 from io import StringIO
 from itertools import chain
 from typing import Any, Literal, NewType, cast
 
-from boolean.boolean import Expression
+from license_expression import ExpressionError, LicenseExpression, Licensing
 
 from .exceptions import CopyrightNoticeParseError, YearRangeParseError
 
 # REUSE-IgnoreStart
 
 _LOGGER = logging.getLogger(__name__)
+
+_LICENSING = Licensing()
 
 #: A string that is four digits long.
 FourDigitString = NewType("FourDigitString", str)
@@ -613,6 +616,70 @@ class CopyrightNotice:
         return str(self)
 
 
+@dataclass(frozen=True)
+class SpdxExpression:
+    """A simple dataclass that contains an SPDX license expression that can be
+    encoded into an :class:`Expression`.
+    """
+
+    #: A string representing an SPDX license expression. It may be invalid or
+    #: unparseable.
+    text: str
+
+    @cached_property
+    def is_valid(self) -> bool:
+        """If :attr:`text` is a valid SPDX license expression, this property is
+        :const:`True`.
+
+        To be 'valid', it has to follow the grammar and syntax of the SPDX
+        specification. The licenses and exceptions need not appear on the
+        license list.
+        """
+        return self.expression is not None
+
+    @cached_property
+    def expression(self) -> LicenseExpression | None:
+        """A parsed :class:`LicenseExpression` from :attr:`text`. If
+        :attr:`text` could not be parsed, *expression*'s value is :const:`None`.
+        """
+        try:
+            return _LICENSING.parse(self.text, simple=True)
+        except ExpressionError:
+            return None
+
+    @cached_property
+    def licenses(self) -> list[str]:
+        """Return a list of licenses used in the expression, in order of
+        appearance, without duplicates.
+
+        If the expression is invalid, the list contains a single item
+        :attr:`text`.
+        """
+        if self.expression is not None:
+            return _LICENSING.license_keys(self.expression)
+        return [self.text]
+
+    def __str__(self) -> str:
+        """Return a string representation of :attr:`expression` if available.
+        Otherwise, return :attr:`text`.
+        """
+        if self.expression is not None:
+            return str(self.expression)
+        return self.text
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, SpdxExpression):
+            return NotImplemented
+        if self.expression is not None and other.expression is not None:
+            return self.expression == other.expression
+        return self.text == other.text
+
+    def __lt__(self, other: Any) -> bool:
+        if not isinstance(other, SpdxExpression):
+            return NotImplemented
+        return str(self) < str(other)
+
+
 class SourceType(Enum):
     """
     An enumeration representing the types of sources for license information.
@@ -632,7 +699,7 @@ class SourceType(Enum):
 class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""
 
-    spdx_expressions: set[Expression] = field(default_factory=set)
+    spdx_expressions: set[LicenseExpression] = field(default_factory=set)
     copyright_notices: set[CopyrightNotice] = field(default_factory=set)
     contributor_lines: set[str] = field(default_factory=set)
     path: str | None = None

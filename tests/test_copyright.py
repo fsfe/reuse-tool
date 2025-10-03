@@ -16,6 +16,7 @@ from unittest import mock
 
 import pytest
 
+from reuse import _LICENSING
 from reuse.copyright import (
     COPYRIGHT_NOTICE_PATTERN,
     CopyrightNotice,
@@ -23,10 +24,13 @@ from reuse.copyright import (
     FourDigitString,
     ReuseInfo,
     SourceType,
+    SpdxExpression,
     YearRange,
     YearRangeSeparator,
 )
 from reuse.exceptions import CopyrightNoticeParseError, YearRangeParseError
+
+# pylint: disable=too-many-lines
 
 F = FourDigitString
 
@@ -782,6 +786,125 @@ class TestCopyrightNoticeMerge:
                 assert result == {
                     CopyrightNotice.from_string(f"{prefix1.value} Jane Doe")
                 }
+
+
+class TestSpdxExpressionGetExpressionAndIsValid:
+    """Tests for the property :attr:`SpdxExpression.expression`. Simultaneously,
+    test :attr:`SpdxExpression.is_valid`.
+    """
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "GPL-3.0-or-later",
+            "GPL-3.0-or-later OR CC0-1.0",
+            "Apache-2.0 AND 0BSD",
+            "(MIT OR 0BSD) AND GPL-3.0-or-later",
+        ],
+    )
+    def test_valid(self, text):
+        """A valid expression is correctly parsed."""
+        expression = SpdxExpression(text)
+        assert expression.expression == _LICENSING.parse(text)
+        assert expression.is_valid
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "MIT OR",
+            "MIT AND",
+            "OR MIT",
+            "AND MIT",
+            "(MIT AND 0BSD",
+            "<expression>",
+            "MIT 0BSD",
+        ],
+    )
+    def test_invalid(self, text):
+        """An invalid expression returns None."""
+        expression = SpdxExpression(text)
+        assert expression.expression is None
+        assert not expression.is_valid
+
+
+class TestSpdxExpressionLicenses:
+    """Tests for the property :attr:`SpdxExpression.licenses`."""
+
+    def test_valid(self):
+        """A valid expression returns all unique licenses in order of
+        appearance.
+        """
+        expression = SpdxExpression("MIT AND MIT OR 0BSD")
+        assert expression.licenses == ["MIT", "0BSD"]
+
+    def test_invalid(self):
+        """An invalid expression returns itself in a list."""
+        expression = SpdxExpression("0BSD AND")
+        assert expression.licenses == ["0BSD AND"]
+
+
+class TestSpdxExpressionStr:
+    """Tests for SpdxExpression.__str__."""
+
+    def test_valid(self):
+        """A valid expression is returned as string."""
+        expression = SpdxExpression("0BSD  AND    MIT OR CC0-1.0")
+        assert str(expression) == "(0BSD AND MIT) OR CC0-1.0"
+
+    def test_invalid(self):
+        """An invalid expression is returned as-is."""
+        expression = SpdxExpression("0BSD AND")
+        assert str(expression) == "0BSD AND"
+
+
+class TestSpdxExpressionEq:
+    """Tests for SpdxExpression.__eq__."""
+
+    def test_both_invalid(self):
+        """If both expressions are invalid, their texts are simply compared."""
+        assert SpdxExpression("MIT OR") != SpdxExpression("MIT OR ")
+        assert SpdxExpression("MIT OR") == SpdxExpression("MIT OR")
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "MIT AND 0BSD",
+            "MIT  AND  0BSD ",
+            "(MIT AND 0BSD)",
+        ],
+    )
+    def test_valid(self, text):
+        """If both expressions are valid, the expressions are compared."""
+        assert SpdxExpression(text) == SpdxExpression("MIT AND 0BSD")
+
+    def test_not_spdx_expression(self):
+        """Something that isn't an SpdxExpression is never equal to it."""
+        assert SpdxExpression("MIT") != "MIT"
+
+
+class TestSpdxExpressionSort:
+    """Tests for SpdxExpression.__lt__."""
+
+    @pytest.mark.parametrize(
+        "one,two",
+        [
+            ("0BSD", "MIT"),
+            ("0BSD AND MIT", "MIT AND 0BSD"),
+            ("0BSD AND", "MIT"),
+            ("0BSD", "MIT AND"),
+            ("0BSD AND", "MIT AND"),
+        ],
+    )
+    def test_simple(self, one, two):
+        """The strings of expressions are correctly compared."""
+        assert SpdxExpression(one) < SpdxExpression(two)
+
+    def test_not_spdx_expression(self):
+        """Something that isn't an SpdxExpression can't be sorted relative to
+        it.
+        """
+        with pytest.raises(TypeError):
+            bool(SpdxExpression("MIT") < "MIT")
 
 
 @pytest.mark.parametrize(
