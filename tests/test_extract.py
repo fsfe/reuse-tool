@@ -18,7 +18,12 @@ from io import BytesIO
 import pytest
 from conftest import RESOURCES_DIRECTORY
 
-from reuse.copyright import CopyrightNotice, CopyrightPrefix, ReuseInfo
+from reuse.copyright import (
+    CopyrightNotice,
+    CopyrightPrefix,
+    ReuseInfo,
+    SpdxExpression,
+)
 from reuse.exceptions import NoEncodingModuleError
 from reuse.extract import (
     detect_encoding,
@@ -41,7 +46,7 @@ class TestExtractReuseInfo:
             result = extract_reuse_info(
                 f"SPDX-License-Identifier: {expression}"
             )
-            assert result.spdx_expressions == {_LICENSING.parse(expression)}
+            assert result.spdx_expressions == {SpdxExpression(expression)}
 
     def test_expression_from_ascii_art_frame(self):
         """Parse an expression from an ASCII art frame"""
@@ -54,13 +59,16 @@ class TestExtractReuseInfo:
                 """
             )
         )
-        assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert result.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_erroneous_expression(self):
         """Parse an incorrect expression."""
-        expression = "SPDX-License-Identifier: GPL-3.0-or-later AND (MIT OR)"
-        with pytest.raises(ParseError):
-            extract_reuse_info(expression)
+        expression = "GPL-3.0-or-later AND (MIT OR)"
+        text = f"SPDX-License-Identifier: {expression}"
+        result = extract_reuse_info(text)
+        expected_expression = SpdxExpression(expression)
+        assert result.spdx_expressions == {expected_expression}
+        assert not expected_expression.is_valid
 
     def test_no_info(self):
         """Given a string without REUSE information, return an empty ReuseInfo
@@ -72,14 +80,14 @@ class TestExtractReuseInfo:
     def test_tab(self):
         """A tag followed by a tab is also valid."""
         result = extract_reuse_info("SPDX-License-Identifier:\tMIT")
-        assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert result.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_many_whitespace(self):
         """When a tag is followed by a lot of whitespace, the whitespace should
         be filtered out.
         """
         result = extract_reuse_info("SPDX-License-Identifier:    MIT")
-        assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert result.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_bibtex_comment(self):
         """A special case for BibTex comments."""

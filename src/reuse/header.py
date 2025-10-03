@@ -21,15 +21,10 @@ from collections.abc import Sequence
 from typing import NamedTuple, cast
 
 from jinja2 import Environment, PackageLoader, Template
-from license_expression import ExpressionError
 
 from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
 from .copyright import CopyrightNotice, ReuseInfo
-from .exceptions import (
-    CommentCreateError,
-    CommentParseError,
-    MissingReuseInfoError,
-)
+from .exceptions import CommentParseError, MissingReuseInfoError
 from .extract import contains_reuse_info, extract_reuse_info
 from .i18n import _
 

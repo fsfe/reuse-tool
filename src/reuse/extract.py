@@ -89,7 +89,7 @@ SPDX_SNIPPET_INDICATOR = b"SPDX-SnippetBegin"
 _LOGGER = logging.getLogger(__name__)
 
 _START_PATTERN = r"(?:^.*?)"
-_END_PATTERN = r"(?:({})\s*)*$".format(
+_END_PATTERN = r"(?:\s*(?:{})\s*)*$".format(
     "|".join(
         set(
             chain(

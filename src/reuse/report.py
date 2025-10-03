@@ -24,6 +24,8 @@ from pathlib import Path, PurePath
 from typing import Any, Final, NamedTuple, Optional, Protocol, cast
 from uuid import uuid4
 
+from license_expression import combine_expressions
+
 from . import __REUSE_version__, __version__
 from ._util import (
     _add_plus_to_identifier,
@@ -778,12 +780,12 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
             # one. The extra parentheses will be removed by the roundtrip
             # through parse() -> simplify() -> render().
             report.license_concluded = (
-                _LICENSING.parse(
-                    " AND ".join(
-                        f"({expression})"
+                combine_expressions(
+                    list(
+                        expression.expression
                         for reuse_info in reuse_infos
                         for expression in reuse_info.spdx_expressions
-                    ),
+                    )
                 )
                 .simplify()
                 .render()

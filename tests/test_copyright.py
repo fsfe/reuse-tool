@@ -953,11 +953,11 @@ def test_reuse_info_contains_copyright_xor_licensing():
     """A simple xor version of the previous function."""
     assert not ReuseInfo().contains_copyright_xor_licensing()
     assert not ReuseInfo(
-        spdx_expressions={"MIT"},
+        spdx_expressions={SpdxExpression("MIT")},
         copyright_notices={CopyrightNotice.from_string("Copyright Jane Doe")},
     ).contains_copyright_xor_licensing()
     assert ReuseInfo(
-        spdx_expressions={"MIT"}
+        spdx_expressions={SpdxExpression("MIT")}
     ).contains_copyright_xor_licensing()
     assert ReuseInfo(
         copyright_notices={CopyrightNotice.from_string("Copyright Jane Doe")}
@@ -966,7 +966,7 @@ def test_reuse_info_contains_copyright_xor_licensing():
 
 def test_reuse_info_contains_info_simple():
     """If any of the non-source files are truthy, expect True."""
-    assert ReuseInfo(spdx_expressions={"MIT"}).contains_info()
+    assert ReuseInfo(spdx_expressions={SpdxExpression("MIT")}).contains_info()
     assert ReuseInfo(
         copyright_notices={
             CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
@@ -992,7 +992,7 @@ def test_reuse_info_contains_info_source_truthy():
 def test_reuse_info_copy_simple():
     """Get a copy of ReuseInfo with one field replaced."""
     info = ReuseInfo(
-        spdx_expressions={"GPL-3.0-or-later"},
+        spdx_expressions={SpdxExpression("GPL-3.0-or-later")},
         copyright_notices={
             CopyrightNotice.from_string("Copyright 2017 Jane Doe")
         },
