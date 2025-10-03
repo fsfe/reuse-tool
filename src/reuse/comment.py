@@ -34,7 +34,7 @@ import operator
 import re
 from pathlib import Path
 from textwrap import dedent
-from typing import NamedTuple, Optional, cast
+from typing import NamedTuple
 
 from .exceptions import CommentCreateError, CommentParseError
 from .types import StrPath
@@ -626,6 +626,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".bbappend": PythonCommentStyle,
     ".bbclass": PythonCommentStyle,
     ".bib": BibTexCommentStyle,
+    ".blade.php": BladeCommentStyle,
     ".bzl": PythonCommentStyle,
     ".c": CCommentStyle,
     ".cabal": HaskellCommentStyle,
@@ -743,6 +744,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".ml": MlCommentStyle,
     ".mli": MlCommentStyle,
     ".nim": PythonCommentStyle,
+    ".nim.cfg": PythonCommentStyle,  # Nim-lang build config parameters/settings
     ".nimble": PythonCommentStyle,  # Nim-lang build config
     ".nimrod": PythonCommentStyle,
     ".nix": PythonCommentStyle,
@@ -872,16 +874,6 @@ EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
     key.lower(): value for key, value in EXTENSION_COMMENT_STYLE_MAP.items()
 }
 
-#: A map of (common) double file extensions against comment types.
-MULTIPLE_EXTENSION_COMMENT_STYLE_MAP = {
-    ".blade.php": BladeCommentStyle,
-    ".nim.cfg": PythonCommentStyle,  # Nim-lang build config parameters/settings
-}
-
-MULTIPLE_EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
-    k.lower(): v for k, v in MULTIPLE_EXTENSION_COMMENT_STYLE_MAP.items()
-}
-
 FILENAME_COMMENT_STYLE_MAP = {
     ".bashrc": PythonCommentStyle,
     ".bazelignore": PythonCommentStyle,
@@ -976,14 +968,13 @@ def get_comment_style(path: StrPath) -> type[CommentStyle] | None:
     path = Path(path)
     style = FILENAME_COMMENT_STYLE_MAP_LOWERCASE.get(path.name.lower())
     if style is None:
-        style = MULTIPLE_EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(
+        style = EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(
             "".join(path.suffixes).lower()
         )
-    if style is None:
-        style = cast(
-            Optional[type[CommentStyle]],
-            EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(path.suffix.lower()),
-        )
+        if style is None:
+            style = EXTENSION_COMMENT_STYLE_MAP_LOWERCASE.get(
+                path.suffix.lower()
+            )
     return style
 
 
