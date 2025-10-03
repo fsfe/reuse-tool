@@ -11,6 +11,7 @@
 """Tests for annotate."""
 
 import datetime
+import os
 import stat
 from inspect import cleandoc
 from pathlib import PurePath
@@ -64,14 +65,14 @@ class TestAnnotate:
     def test_simple_scheme(self, fake_repository, mock_date_today):
         "Add a header to a Scheme file."
         simple_file = fake_repository / "foo.scm"
-        simple_file.write_text("#t")
+        simple_file.write_text("(setq show-trailing-whitespace t)")
         expected = cleandoc(
             """
             ;;; SPDX-FileCopyrightText: 2018 Jane Doe
             ;;;
             ;;; SPDX-License-Identifier: GPL-3.0-or-later
 
-            #t
+            (setq show-trailing-whitespace t)
             """
         )
 
@@ -1387,9 +1388,8 @@ class TestAnnotate:
         )
 
         assert result.exit_code == 0
-        with open(simple_file, newline="", encoding="utf-8") as fp:
+        with open(simple_file, newline=line_ending, encoding="utf-8") as fp:
             contents = fp.read()
-
         assert contents == expected
 
     def test_skip_existing(self, fake_repository, mock_date_today):
@@ -1590,6 +1590,35 @@ class TestAnnotate:
         assert result.exit_code != 0
         assert (
             f"Your operating system's year is set to '{year}'." in result.output
+        )
+
+    @pytest.mark.parametrize("encoding", ["utf_8_sig", "utf_16", "utf_32"])
+    def test_utf_bom(self, empty_directory, mock_date_today, encoding):
+        """If a file uses Unicode encoding with a BOM, preserve the BOM after
+        annotating the file.
+        """
+        (empty_directory / "foo.py").write_bytes("pass".encode(encoding))
+        CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--copyright",
+                "Jane Doe",
+                "foo.py",
+            ],
+        )
+
+        assert (
+            (empty_directory / "foo.py").read_bytes()
+            == cleandoc(
+                """
+                # SPDX-FileCopyrightText: 2018 Jane Doe
+
+                pass
+                """
+            )
+            .replace("\n", os.linesep)
+            .encode(encoding)
         )
 
 

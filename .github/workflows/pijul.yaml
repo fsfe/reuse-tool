@@ -36,4 +36,4 @@ jobs:
           pijul identity new --no-prompt --display-name 'Jane Doe' --email 'jdoe@example.com' 'jdoe'
       - name: Run tests with pytest
         run: |
-          poetry run pytest --cov=reuse
+          poetry run pytest -vv --cov=reuse

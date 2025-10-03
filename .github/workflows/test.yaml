@@ -40,7 +40,7 @@ jobs:
           poetry install --no-interaction --only main,test --all-extras
       - name: Run tests with pytest
         run: |
-          poetry run pytest --cov=reuse
+          poetry run pytest -vv --cov=reuse
 
   pylint:
     runs-on: ubuntu-24.04

@@ -69,12 +69,49 @@ recommendations.
 
 ## Install
 
+### Dependencies
+
+Unless you install via a package manager, it may be helpful to be aware of the
+following system dependencies of `reuse`:
+
+- Python 3.10+
+- libmagic
+- Version control systems
+  - Git
+  - Mercurial 4.3+
+  - Pijul
+  - Jujutsu
+
+Excepting Python, these dependencies are all _optional_. `reuse` will still work
+if they are not installed.
+
+If a version control system (VCS) is not installed, then `reuse` will not
+correctly ignore files which are ignored by the VCS, for example via
+`.gitignore`.
+
+If libmagic is not installed, then a slower mechanism will be used to detect the
+encodings of files. You may need to explicitly install the fall-back. When
+installing `reuse` as Python package, install `reuse[charset-normalizer]`
+instead. For example: `pipx install reuse[charset-normalizer]`.
+
 ### Installation via package manager (Recommended)
 
 There are packages available for easy install on many operating systems. You are
 welcome to help us package this tool for more distributions!
 
-An automatically generated list can be found at
+For Debian and derivatives:
+
+```bash
+apt install reuse
+```
+
+For Fedora and derivatives:
+
+```bash
+dnf install reuse
+```
+
+An automatically generated list of available packages can be found at
 [repology.org](https://repology.org/project/reuse/versions), without any
 guarantee for completeness.
 
@@ -104,21 +141,14 @@ reuse will then be available in `~/.local/bin`, which must be added to your
 
 After this, make sure that `~/.local/bin` is in your `$PATH`. On Windows, the
 required path for your environment may look like
-`%USERPROFILE%\AppData\Roaming\Python\Python39\Scripts`, depending on the Python
-version you have installed.
+`%USERPROFILE%\AppData\Roaming\Python\Python310\Scripts`, depending on the
+Python version you have installed.
 
 To upgrade reuse, run this command:
 
 ```bash
 pipx upgrade reuse
 ```
-
-For full functionality, the following pieces of software are recommended:
-
-- Git
-- Mercurial 4.3+
-- Pijul
-- Jujutsu
 
 ### Installation via pip
 

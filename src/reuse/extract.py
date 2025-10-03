@@ -14,10 +14,16 @@
 
 """Utilities related to the extraction of REUSE information out of files."""
 
+import codecs
+import contextlib
+import importlib
 import logging
 import os
+import platform
 import re
+from encodings import aliases, normalize_encoding
 from itertools import chain
+from types import ModuleType
 from typing import BinaryIO, Generator, NamedTuple
 
 from boolean.boolean import Expression, ParseError
@@ -26,7 +32,51 @@ from license_expression import ExpressionError
 from . import _LICENSING
 from .comment import _all_style_classes
 from .copyright import COPYRIGHT_NOTICE_PATTERN, CopyrightNotice, ReuseInfo
+from .exceptions import NoEncodingModuleError
 from .i18n import _
+
+_ENCODING_MODULES = [
+    "magic",
+    "charset_normalizer",
+    "chardet",
+]
+_ENCODING_MODULE: ModuleType | None = None
+_MAGIC = None
+for _module in _ENCODING_MODULES:
+    if _module == "magic" and platform.system() == "Windows":
+        continue
+    try:
+        _ENCODING_MODULE = importlib.import_module(_module)
+        break
+    except ImportError:
+        continue
+else:
+    raise NoEncodingModuleError(
+        _(
+            "No supported module that can detect the encoding of files could be"
+            " successfully imported. Re-read the installation instructions for"
+            " the reuse package, or try the following:"
+        )
+        + "\n\n"
+        + _(
+            "- If you are running a Linux distribution, try your equivalent of"
+            " `apt install file` or `dnf install file`."
+        )
+        + "\n"
+        + _(
+            "- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx'"
+            " with 'pip' if you are not using pipx."
+        )
+    )
+
+
+def _module_name(module: ModuleType | None) -> str | None:
+    return getattr(module, "__name__", None)
+
+
+if _module_name(_ENCODING_MODULE) == "magic":
+    _MAGIC = _ENCODING_MODULE.Magic(mime_encoding=True)
+
 
 REUSE_IGNORE_START = "REUSE-IgnoreStart"
 REUSE_IGNORE_END = "REUSE-IgnoreEnd"
@@ -84,12 +134,47 @@ _SPDX_TAGS: dict[str, re.Pattern] = {
     "spdx_expressions": _LICENSE_IDENTIFIER_PATTERN,
     "contributor_lines": _CONTRIBUTOR_PATTERN,
 }
-_LICENSEREF_PATTERN = re.compile("LicenseRef-[a-zA-Z0-9-.]+$")
+_LICENSEREF_PATTERN = re.compile(r"LicenseRef-[a-zA-Z0-9-.]+$")
+_NEWLINE_PATTERN = re.compile(r"\r\n?")
+
+_LINE_ENDINGS = ("\r\n", "\r", "\n")
+_LINE_ENDINGS_ASCII = tuple(ending.encode("ascii") for ending in _LINE_ENDINGS)
+_LINE_ENDINGS_UTF_16_LE = tuple(
+    ending.encode("utf_16_le") for ending in _LINE_ENDINGS
+)
+_LINE_ENDINGS_UTF_32_LE = tuple(
+    ending.encode("utf_32_le") for ending in _LINE_ENDINGS
+)
+_LINE_ENDING_ENCODINGS_ASCII = set()
+for _name in set(chain.from_iterable(aliases.aliases.items())):
+    with contextlib.suppress(Exception):
+        if codecs.encode("\r\n", _name) == b"\r\n":
+            _LINE_ENDING_ENCODINGS_ASCII.add(_name)
+_LINE_ENDING_ENCODINGS_ASCII.add("utf_8_sig")
+_LINE_ENDING_ENCODINGS_UTF_16_LE = {
+    "u16",
+    "utf16",
+    "utf_16",
+    "unicodelittleunmarked",
+    "utf_16le",
+    "utf_16_le",
+}
+_LINE_ENDING_ENCODINGS_UTF_32_LE = {
+    "u32",
+    "utf32",
+    "utf_32",
+    "utf_32le",
+    "utf_32_le",
+}
+
 
 #: Default chunk size for reading files.
 CHUNK_SIZE = 1024 * 64
 #: Default line size for reading files.
 LINE_SIZE = 1024
+#: Default chunk size used to heuristically detect file type, encoding, et
+#: cetera.
+HEURISTICS_CHUNK_SIZE = 1024 * 2
 
 
 class FilterBlock(NamedTuple):
@@ -128,7 +213,7 @@ def filter_ignore_block(
         return FilterBlock(text, False)
     if ignore_end is None:
         return FilterBlock(text[:ignore_start], True)
-    if ignore_end > ignore_start:
+    if ignore_start < ignore_end:
         text_before_block = text[:ignore_start]
         text_after_block, in_ignore_block = filter_ignore_block(
             text[ignore_end:], False
@@ -191,6 +276,7 @@ def _read_chunks(
     fp: BinaryIO,
     chunk_size: int = CHUNK_SIZE,
     line_size: int = LINE_SIZE,
+    newline: bytes = b"\n",
 ) -> Generator[bytes, None, None]:
     """Read and yield somewhat equal-sized chunks from (realistically) a file.
     The chunks always split at a newline where possible.
@@ -198,24 +284,128 @@ def _read_chunks(
     An amount of bytes equal to *chunk_size* is always read into the chunk if
     *fp* contains that many bytes. An additional *line_size* or lesser amount of
     bytes is also read into the chunk, up to the next newline character.
+
+    *newline* is the line separator that is (expected to be) used in the input.
     """
+    newline_len = len(newline)
     while True:
         chunk = fp.read(chunk_size)
         if not chunk:
             break
-        remainder = fp.readline(line_size)
-        if remainder:
-            chunk += remainder
+        end_chunk_pos = fp.tell()
+        remainder = fp.read(line_size)
+        newline_idx = remainder.find(newline)
+        if newline_idx != -1:
+            remainder = remainder[: newline_idx + newline_len]
+            fp.seek(end_chunk_pos + newline_idx + newline_len)
+        chunk += remainder
         yield chunk
 
 
-def _process_chunk(chunk: bytes, in_ignore_block: bool = False) -> FilterBlock:
-    """Decode and clean up a chunk."""
-    # TODO: Not everything is UTF-8.
-    text = chunk.decode("utf-8", errors="replace")
-    # TODO: Better newline handling.
-    text = text.replace("\r\n", "\n")
-    return filter_ignore_block(text, in_ignore_block)
+def _detect_encoding_magic(chunk: bytes) -> str | None:
+    result: str = _MAGIC.from_buffer(chunk)  # type: ignore[union-attr]
+    if result == "binary":
+        return None
+    if result == "utf-8" and chunk[:3] == b"\xef\xbb\xbf":
+        result += "-sig"
+    # Python and magic disagree on what 'le' means. For magic, it means a UTF-16
+    # block prefixed with a BOM. For Python, that's what 'utf-16' is, and
+    # 'utf_16_le' is a little endian block _without_ BOM prefix.
+    elif result == "utf-16le" and chunk[:2] == b"\xff\xfe":
+        result = "utf-16"
+    elif result == "utf-32le" and chunk[:4] == b"\xff\xfe\x00\x00":
+        result = "utf-32"
+    else:
+        # This nifty function gets the (in Python) standardised name for an
+        # encoding. 'iso-8859-1' becomes 'iso8859-1'.
+        try:
+            codec_info = codecs.lookup(result)
+            result = codec_info.name
+        except LookupError:
+            # Fallback.
+            result = "utf-8"
+    return normalize_encoding(result)
+
+
+def _detect_encoding_charset_normalizer(chunk: bytes) -> str | None:
+    matches = _ENCODING_MODULE.from_bytes(  # type: ignore[union-attr]
+        chunk,
+    )
+    best = matches.best()
+    if best is not None:
+        result: str = best.encoding
+        if result == "utf_8" and best.bom:
+            result += "_sig"
+        return result
+    return None
+
+
+def _detect_encoding_chardet(chunk: bytes) -> str | None:
+    dict_result = _ENCODING_MODULE.detect(chunk)  # type: ignore[union-attr]
+    result: str | None = dict_result.get("encoding")
+    if result is None:
+        return None
+    try:
+        codec_info = codecs.lookup(result)
+        result = codec_info.name
+    except LookupError:
+        # Fallback.
+        result = "utf-8"
+    return normalize_encoding(result)
+
+
+def detect_encoding(chunk: bytes) -> str | None:
+    """Find the encoding of the bytes chunk, and return it as normalised name.
+    See :function:`encodings.normalize_encoding`. If no encoding could be found,
+    return :const:`None`.
+
+    If the chunk is empty or the encoding of the chunk is ASCII, ``'utf_8'`` is
+    returned.
+    """
+    # If the file is empty, assume UTF-8.
+    if not chunk:
+        return "utf_8"
+
+    result: str | None = None
+    if _module_name(_ENCODING_MODULE) == "magic":
+        result = _detect_encoding_magic(chunk)
+    elif _module_name(_ENCODING_MODULE) == "charset_normalizer":
+        result = _detect_encoding_charset_normalizer(chunk)
+    elif _module_name(_ENCODING_MODULE) == "chardet":
+        result = _detect_encoding_chardet(chunk)
+    else:
+        # This code should technically never be reached.
+        raise NoEncodingModuleError()
+
+    if result in ["ascii", "us_ascii"]:
+        result = "utf_8"
+    return result
+
+
+def detect_newline(chunk: bytes, encoding: str = "ascii") -> str:
+    """Return one of ``'\n'``, ``'\r'`` or ``'\r\n'`` depending on the line
+    endings used in *chunk*. Return :const:`os.linesep` if there are no line
+    endings.
+    """
+    line_endings: tuple[bytes, ...] | None = None
+    encoding = normalize_encoding(encoding.lower())
+    # This step is part optimalisation, part dealing with BOMs.
+    if encoding in _LINE_ENDING_ENCODINGS_ASCII:
+        line_endings = _LINE_ENDINGS_ASCII
+    elif encoding in _LINE_ENDING_ENCODINGS_UTF_16_LE:
+        line_endings = _LINE_ENDINGS_UTF_16_LE
+    elif encoding in _LINE_ENDING_ENCODINGS_UTF_32_LE:
+        line_endings = _LINE_ENDINGS_UTF_32_LE
+
+    if line_endings is not None:
+        for line_ending_bytes in line_endings:
+            if line_ending_bytes in chunk:
+                return line_ending_bytes.decode(encoding)
+    else:
+        for line_ending_str in _LINE_ENDINGS:
+            if line_ending_str.encode(encoding) in chunk:
+                return line_ending_str
+    return os.linesep
 
 
 def reuse_info_of_file(
@@ -229,12 +419,32 @@ def reuse_info_of_file(
     This function decodes the binary data into UTF-8 and removes REUSE ignore
     blocks before attempting to extract the REUSE information.
     """
+    position = fp.tell()
+    heuristics_chunk = fp.read(HEURISTICS_CHUNK_SIZE)
+    fp.seek(position)  # Reset position.
+    encoding = detect_encoding(heuristics_chunk)
+    if encoding is None:
+        if hasattr(fp, "name"):
+            _LOGGER.info(
+                _(
+                    "'{path}' was detected as a binary file; not searching its"
+                    " contents for REUSE information."
+                ).format(path=fp.name)
+            )
+        return ReuseInfo()
+    newline = detect_newline(heuristics_chunk, encoding=encoding)
+
     in_ignore_block = False
     reuse_infos: list[ReuseInfo] = []
-    for chunk in _read_chunks(fp, chunk_size=chunk_size, line_size=line_size):
-        text, in_ignore_block = _process_chunk(
-            chunk, in_ignore_block=in_ignore_block
-        )
+    for chunk in _read_chunks(
+        fp,
+        chunk_size=chunk_size,
+        line_size=line_size,
+        newline=newline.encode(encoding),
+    ):
+        text = chunk.decode(encoding, errors="replace")
+        text = _NEWLINE_PATTERN.sub("\n", text)
+        text, in_ignore_block = filter_ignore_block(text, in_ignore_block)
         reuse_infos.append(extract_reuse_info(text))
     return ReuseInfo().union(*reuse_infos)
 
@@ -245,17 +455,6 @@ def contains_reuse_info(text: str) -> bool:
         return bool(extract_reuse_info(text))
     except (ExpressionError, ParseError):
         return False
-
-
-def detect_line_endings(text: str) -> str:
-    """Return one of '\n', '\r' or '\r\n' depending on the line endings used in
-    *text*. Return os.linesep if there are no line endings.
-    """
-    line_endings = ["\r\n", "\r", "\n"]
-    for line_ending in line_endings:
-        if line_ending in text:
-            return line_ending
-    return os.linesep
 
 
 # REUSE-IgnoreEnd

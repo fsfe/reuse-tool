@@ -21,7 +21,6 @@ from pathlib import Path
 from typing import NamedTuple
 
 import attrs
-from binaryornot.check import is_binary
 from boolean.boolean import ParseError
 from license_expression import ExpressionError
 
@@ -263,13 +262,6 @@ class Project:
                 _(
                     "'{path}' is covered exclusively by REUSE.toml. Not reading"
                     " the file contents."
-                ).format(path=path)
-            )
-        elif is_binary(str(path)):
-            _LOGGER.info(
-                _(
-                    "'{path}' was detected as a binary file; not searching its"
-                    " contents for REUSE information."
                 ).format(path=path)
             )
         else:

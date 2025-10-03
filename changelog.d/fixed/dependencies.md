@@ -1,0 +1,1 @@
+- The minimum requirements of the dependencies have been updated. (#1235)

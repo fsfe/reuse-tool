@@ -10,17 +10,21 @@
 
 """Tests for reuse.extract"""
 
+import logging
 import os
 from inspect import cleandoc
 from io import BytesIO
 
 import pytest
 from boolean.boolean import ParseError
+from conftest import RESOURCES_DIRECTORY
 
 from reuse import _LICENSING
 from reuse.copyright import CopyrightNotice, CopyrightPrefix, ReuseInfo
+from reuse.exceptions import NoEncodingModuleError
 from reuse.extract import (
-    detect_line_endings,
+    detect_encoding,
+    detect_newline,
     extract_reuse_info,
     filter_ignore_block,
     reuse_info_of_file,
@@ -187,6 +191,101 @@ class TestExtractReuseInfo:
         assert result.contributor_lines == {"Jane Doe"}
 
 
+@pytest.mark.usefixtures("encoding_module")
+class TestDetectEncoding:
+    """Tests for detect_encoding."""
+
+    @pytest.mark.parametrize(
+        "encoding",
+        [
+            "utf_8",
+            "utf_8_sig",
+            "utf_16",
+            "utf_32",
+            "iso8859_1",
+        ],
+    )
+    def test_simple(self, encoding):
+        """Given some text, correctly detect the decoding."""
+        text = cleandoc(
+            """
+            # Copyright © 1911 Émile Verhaeren
+
+            Si nos coeurs ont brûlé en des jours exaltants
+            D'une amour claire autant que haute,
+            L'âge aujourd'hui nous fait lâches et indulgents
+            Et paisibles devant nos fautes.
+
+            Tu ne nous grandis plus, ô jeune volonté,
+            Par ton ardeur non asservie,
+            Et c'est de calme doux et de pâle bonté
+            Que se colore notre vie.
+
+            Nous sommes au couchant de ton soleil, amour,
+            Et nous masquons notre faiblesse
+            Avec les mots banals et les pauvres discours
+            D'une vaine et lente sagesse.
+
+            Oh ! que nous serait triste et honteux l'avenir,
+            Si dans notre hiver et nos brumes
+            N'éclatait point, tel un flambeau, le souvenir
+            Des âmes fières que nous fûmes.
+            """
+        )
+        encoded = text.encode(encoding)
+        result = detect_encoding(encoded)
+        if encoding != "iso8859_1":
+            assert result == encoding
+        else:
+            # A special case where cp1252 is a superset of iso8859_1.
+            assert result in ["iso8859_1", "cp1252"]
+        assert encoded.decode(result) == text
+
+    def test_binary(self):
+        """A binary file has no encoding."""
+        with open(RESOURCES_DIRECTORY / "fsfe.png", "rb") as fp:
+            assert detect_encoding(fp.read()) is None
+
+    def test_never_ascii(self):
+        """When something could be encoded in ASCII, expect UTF-8 instead."""
+        text = cleandoc(
+            """
+            Beautiful is better than ugly.
+            Explicit is better than implicit.
+            Simple is better than complex.
+            Complex is better than complicated.
+            Flat is better than nested.
+            Sparse is better than dense.
+            Readability counts.
+            Special cases aren't special enough to break the rules.
+            Although practicality beats purity.
+            Errors should never pass silently.
+            Unless explicitly silenced.
+            In the face of ambiguity, refuse the temptation to guess.
+            There should be one-- and preferably only one --obvious way to do it
+            Although that way may not be obvious at first unless you're Dutch.
+            Now is better than never.
+            Although never is often better than *right* now.
+            If the implementation is hard to explain, it's a bad idea.
+            If the implementation is easy to explain, it may be a good idea.
+            Namespaces are one honking great idea -- let's do more of those!
+            """
+        ).encode("ascii")
+        assert detect_encoding(text) == "utf_8"
+
+    def test_empty_is_utf_8(self):
+        """An empty file is assumed to be encoded UTF-8."""
+        assert detect_encoding(b"") == "utf_8"
+
+    def test_encoding_no_encoding_module(self, monkeypatch):
+        """This should never happen because it would fail on import, but expect
+        an error if no encoding module is available.
+        """
+        monkeypatch.setattr("reuse.extract._ENCODING_MODULE", None)
+        with pytest.raises(NoEncodingModuleError):
+            detect_encoding(b"Hello, world!")
+
+
 class TestReuseInfoOfFile:
     """Tests for reuse_info_of_file."""
 
@@ -239,6 +338,60 @@ class TestReuseInfoOfFile:
         assert result.copyright_notices == {
             CopyrightNotice("Jane", prefix=CopyrightPrefix.STRING)
         }
+
+    def test_binary(self, caplog):
+        """If the file is a binary, return an empty ReuseInfo and log."""
+        caplog.set_level(logging.INFO)
+        path = RESOURCES_DIRECTORY / "fsfe.png"
+        with path.open("rb") as fp:
+            result = reuse_info_of_file(fp)
+            assert result == ReuseInfo()
+        assert f"'{path}' was detected as a binary file" in caplog.text
+
+    @pytest.mark.parametrize("newline", ["\r\n", "\r", "\n"])
+    def test_all_newlines(self, newline):
+        """Can lint files with any newline."""
+        text = cleandoc(
+            """
+            SPDX-FileCopyrightText: Jane Doe
+            SPDX-FileCopyrightText: John Doe
+            """
+        ).replace("\n", newline)
+        buffer = BytesIO(text.encode("utf-8"))
+        result = reuse_info_of_file(buffer)
+        assert result == ReuseInfo(
+            copyright_notices={
+                CopyrightNotice("Jane Doe"),
+                CopyrightNotice("John Doe"),
+            }
+        )
+
+    @pytest.mark.parametrize(
+        "encoding",
+        [
+            "utf_8",
+            "utf_8_sig",
+            "utf_16",
+            "utf_32",
+            "iso8859_1",
+        ],
+    )
+    def test_encodings(self, encoding):
+        """Can lint files with any encoding."""
+        text = cleandoc(
+            """
+            SPDX-FileCopyrightText: Jane Doe
+            SPDX-FileCopyrightText: John Doe
+            """
+        )
+        buffer = BytesIO(text.encode(encoding))
+        result = reuse_info_of_file(buffer)
+        assert result == ReuseInfo(
+            copyright_notices={
+                CopyrightNotice("Jane Doe"),
+                CopyrightNotice("John Doe"),
+            }
+        )
 
 
 class TestFilterIgnoreBlock:
@@ -358,6 +511,32 @@ class TestFilterIgnoreBlock:
         result = filter_ignore_block(text)
         assert result == (expected, True)
 
+    def test_end_start_end(self):
+        """Test that an ignore block is properly removed even if the string
+        starts with an end instruction.
+        """
+        text = cleandoc(
+            """
+            REUSE-IgnoreEnd
+            Relevant text
+            REUSE-IgnoreStart
+            IgnoredText
+            REUSE-IgnoreEnd
+            More relevant text
+            """
+        )
+        expected = cleandoc(
+            """
+            REUSE-IgnoreEnd
+            Relevant text
+
+            More relevant text
+            """
+        )
+
+        result = filter_ignore_block(text)
+        assert result == (expected, False)
+
     def test_without_end(self):
         """Test that the ignore block is properly removed if it has relevant
         information on the same line.
@@ -426,24 +605,26 @@ class TestFilterIgnoreBlock:
         assert result == (expected, False)
 
 
-def test_detect_line_endings_windows():
-    """Given a CRLF string, detect the line endings."""
-    assert detect_line_endings("hello\r\nworld") == "\r\n"
+class TestDetectNewLine:
+    """Tests for detect_newline."""
 
+    @pytest.mark.parametrize("newline", ["\r\n", "\r", "\n"])
+    @pytest.mark.parametrize(
+        "encoding",
+        ["utf_8", "utf_8_sig", "utf_16", "utf_16_be", "utf_32", "iso8859_1"],
+    )
+    def test_simple(self, newline, encoding):
+        """Test whether newline is correctly spotted."""
+        assert (
+            detect_newline(
+                f"hello{newline}world".encode(encoding), encoding=encoding
+            )
+            == newline
+        )
 
-def test_detect_line_endings_mac():
-    """Given a CR string, detect the line endings."""
-    assert detect_line_endings("hello\rworld") == "\r"
-
-
-def test_detect_line_endings_linux():
-    """Given a LF string, detect the line endings."""
-    assert detect_line_endings("hello\nworld") == "\n"
-
-
-def test_detect_line_endings_no_newlines():
-    """Given a file without line endings, default to os.linesep."""
-    assert detect_line_endings("hello world") == os.linesep
+    def test_no_newlines(self):
+        """Given a file without line endings, default to os.linesep."""
+        assert detect_newline(b"hello world") == os.linesep
 
 
 # Reuse-IgnoreEnd

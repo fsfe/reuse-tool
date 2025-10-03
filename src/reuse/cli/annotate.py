@@ -17,13 +17,13 @@
 
 import datetime
 import logging
+import os
 import sys
 from collections.abc import Collection, Iterable, Sequence
 from pathlib import Path
 from typing import Any, cast
 
 import click
-from binaryornot.check import is_binary
 from boolean.boolean import Expression
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
@@ -45,6 +45,7 @@ from ..copyright import (
     validate_four_digits,
 )
 from ..exceptions import YearRangeParseError
+from ..extract import HEURISTICS_CHUNK_SIZE, detect_encoding, detect_newline
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
@@ -493,16 +494,24 @@ def annotate(
 
     result = 0
     for path in paths:
-        binary = is_binary(str(path))
-        if binary or is_uncommentable(path) or force_dot_license:
+        with path.open("rb") as fp:
+            chunk = fp.read(HEURISTICS_CHUNK_SIZE)
+        encoding = detect_encoding(chunk)
+        newline = (
+            detect_newline(chunk, encoding=encoding)
+            if encoding is not None
+            else os.linesep
+        )
+        if encoding is None or is_uncommentable(path) or force_dot_license:
             new_path = _determine_license_suffix_path(path)
-            if binary:
+            if encoding is None:
                 _LOGGER.info(
                     _(
                         "'{path}' is a binary, therefore using '{new_path}'"
                         " for the header"
                     ).format(path=path, new_path=new_path)
                 )
+                encoding = "utf_8"
             path = Path(new_path)
             path.touch()
         result += add_header_to_file(
@@ -511,6 +520,8 @@ def annotate(
             template=template,
             template_is_commented=commented,
             style=style,
+            encoding=encoding,
+            newline=newline,
             force_multi=multi_line,
             skip_existing=skip_existing,
             skip_unrecognised=skip_unrecognised,

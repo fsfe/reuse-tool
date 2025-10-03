@@ -6,7 +6,7 @@
 # Create a base image that has dependencies installed.
 FROM alpine:3.18 AS base
 
-RUN apk --no-cache add git mercurial python3 openssh-client
+RUN apk --no-cache add git mercurial python3 openssh-client libmagic
 
 # Build reuse into a virtualenv
 FROM base AS build
