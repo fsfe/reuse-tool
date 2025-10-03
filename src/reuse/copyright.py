@@ -550,10 +550,11 @@ class CopyrightNotice:
     def merge(
         cls, copyright_notices: Iterable["CopyrightNotice"]
     ) -> set["CopyrightNotice"]:
-        """Given an iterable of :class:`CopyrightNotice`s, merge all notices
+        """Given an iterable of :class:`CopyrightNotice`, merge all notices
         which have the same name. The years are compacted, and from the
-        :class:`CopyrightPrefix`es, the most common is chosen. If there is a tie
-        in frequency, choose the one which appears first in the enum.
+        :class:`CopyrightPrefix` prefixes in *copyright_notices*, the most
+        common is chosen. If there is a tie in frequency, choose the one which
+        appears first in the enum.
         """
         matches: defaultdict[str, list[CopyrightNotice]] = defaultdict(list)
         result: set[CopyrightNotice] = set()
