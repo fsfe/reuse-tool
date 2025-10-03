@@ -925,6 +925,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "poetry.lock": UncommentableCommentStyle,
     "pubspec.lock": UncommentableCommentStyle,
     "pylintrc": PythonCommentStyle,
+    "py.typed": PythonCommentStyle,
     "Rakefile": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
     "ROOT": MlCommentStyle,
