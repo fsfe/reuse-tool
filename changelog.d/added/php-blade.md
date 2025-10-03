@@ -1,0 +1,1 @@
+- Added support for `.php.blade` files. (#573)
