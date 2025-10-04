@@ -444,8 +444,7 @@ def reuse_info_of_file(
 
 def contains_reuse_info(text: str) -> bool:
     """The text contains REUSE info."""
-    # FIXME: Run filter on this.
-    return bool(extract_reuse_info(text))
+    return bool(extract_reuse_info(filter_ignore_block(text).text))
 
 
 # REUSE-IgnoreEnd

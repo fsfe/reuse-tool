@@ -26,6 +26,7 @@ from reuse.copyright import (
 )
 from reuse.exceptions import NoEncodingModuleError
 from reuse.extract import (
+    contains_reuse_info,
     detect_encoding,
     detect_newline,
     extract_reuse_info,
@@ -631,6 +632,40 @@ class TestDetectNewLine:
     def test_no_newlines(self):
         """Given a file without line endings, default to os.linesep."""
         assert detect_newline(b"hello world") == os.linesep
+
+
+class TestContainsReuseInfo:
+    """Tests for contain_reuse_info."""
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "SPDX-FileCopyrightText: Jane Doe",
+            "SPDX-License-Identifier: MIT",
+            "SPDX-FileCopyrightText: Jane Doe\nSPDX-License-Identifier: MIT",
+        ],
+    )
+    def test_simple(self, text):
+        """If a text contains a license, a copyright notice, or both, expect
+        True.
+        """
+        assert contains_reuse_info(text)
+
+    def test_no_info(self):
+        """If there is no info, expect False."""
+        assert not contains_reuse_info("Hello, world!")
+
+    def test_ignore_block(self):
+        """If the info is in an ignore block, expect False."""
+        assert not contains_reuse_info(
+            cleandoc(
+                """
+                REUSE-IgnoreStart
+                Copyright Jane Doe
+                REUSE-IgnoreEnd
+                """
+            )
+        )
 
 
 # Reuse-IgnoreEnd
