@@ -19,13 +19,10 @@ from typing import Any, TypeVar, cast
 import attrs
 import tomlkit
 from attr.validators import _InstanceOfValidator as _AttrInstanceOfValidator
-from boolean.boolean import Expression, ParseError
 from debian.copyright import Copyright
 from debian.copyright import Error as DebianError
-from license_expression import ExpressionError
 
-from . import _LICENSING
-from .copyright import CopyrightNotice, ReuseInfo, SourceType
+from .copyright import CopyrightNotice, ReuseInfo, SourceType, SpdxExpression
 from .covered_files import is_path_ignored
 from .exceptions import (
     CopyrightNoticeParseError,
@@ -197,19 +194,9 @@ def _to_set_any(value: Any | None) -> set[Any]:
 
 def _to_set_of_expr(
     value: str | Iterable[str] | None,
-) -> set[Expression]:
+) -> set[SpdxExpression]:
     value = _to_set(value)
-    result = set()
-    for expression in value:
-        try:
-            result.add(_LICENSING.parse(expression))
-        except (ExpressionError, ParseError) as error:
-            raise GlobalLicensingParseValueError(
-                _("Could not parse '{expression}'").format(
-                    expression=expression
-                )
-            ) from error
-    return result
+    return {SpdxExpression(expression) for expression in value}
 
 
 def _to_set_of_notice(
@@ -353,7 +340,7 @@ class AnnotationsItem:
         return _to_set_of_notice(self._copyright_notices)
 
     @functools.cached_property
-    def spdx_expressions(self) -> set[Expression]:
+    def spdx_expressions(self) -> set[SpdxExpression]:
         return _to_set_of_expr(self._spdx_expressions)
 
     @functools.cached_property

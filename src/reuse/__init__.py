@@ -16,12 +16,7 @@ nevertheless, and we (the maintainers) do make some efforts to not needlessly
 change the public API.
 """
 
-# TODO: When Python 3.9 is dropped, consider using `type | None` instead of
-# `Optional[type]`.
-
 from importlib.metadata import PackageNotFoundError, version
-
-from license_expression import Licensing
 
 try:
     __version__ = version("reuse")
@@ -33,5 +28,3 @@ __author__ = "Carmen Bianca Bakker"
 __email__ = "carmenbianca@fsfe.org"
 __license__ = "Apache-2.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
 __REUSE_version__ = "3.3"
-
-_LICENSING = Licensing()

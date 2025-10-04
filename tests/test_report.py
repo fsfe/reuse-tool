@@ -43,7 +43,6 @@ class TestGenerateFileReport:
             else "NOASSERTION"
         )
         assert result.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
-        assert not result.bad_licenses
         assert not result.missing_licenses
 
     def test_file_from_different_cwd(
@@ -64,7 +63,6 @@ class TestGenerateFileReport:
             else "NOASSERTION"
         )
         assert result.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
-        assert not result.bad_licenses
         assert not result.missing_licenses
 
     def test_file_missing_license(self, fake_repository, add_license_concluded):
@@ -85,7 +83,6 @@ class TestGenerateFileReport:
             else "NOASSERTION"
         )
         assert result.missing_licenses == {"BSD-3-Clause"}
-        assert not result.bad_licenses
 
     def test_file_bad_license(self, fake_repository, add_license_concluded):
         """Simple generate test with a bad license."""
@@ -104,7 +101,6 @@ class TestGenerateFileReport:
             if add_license_concluded
             else "NOASSERTION"
         )
-        assert result.bad_licenses == {"fakelicense"}
         assert result.missing_licenses == {"fakelicense"}
 
     def test_license_contains_plus(
@@ -129,7 +125,6 @@ class TestGenerateFileReport:
             if add_license_concluded
             else "NOASSERTION"
         )
-        assert not result.bad_licenses
         assert not result.missing_licenses
 
     def test_sorted_copyright(self, empty_directory):
@@ -177,7 +172,6 @@ class TestGenerateFileReport:
             else "NOASSERTION"
         )
         assert result.copyright == "SPDX-FileCopyrightText: 2017 Jane Doe"
-        assert not result.bad_licenses
         assert not result.missing_licenses
 
     def test_no_licenses(self, fake_repository, add_license_concluded):
@@ -195,7 +189,6 @@ class TestGenerateFileReport:
             if add_license_concluded
             else "NOASSERTION"
         )
-        assert not result.bad_licenses
         assert not result.missing_licenses
 
     def test_multiple_licenses(self, fake_repository, add_license_concluded):
@@ -221,8 +214,25 @@ class TestGenerateFileReport:
             if add_license_concluded
             else "NOASSERTION"
         )
-        assert not result.bad_licenses
         assert not result.missing_licenses
+
+    def test_invalid_spdx_expression_add_license_concluded(
+        self, fake_repository, add_license_concluded
+    ):
+        """LicenseConcluded is NOASSERTION if there is an invalid SPDX License
+        Expression.
+        """
+        (fake_repository / "foo.py").write_text(
+            "SPDX-License-Identifier: MIT OR"
+        )
+        project = Project.from_directory(fake_repository)
+        result = FileReport.generate(
+            project,
+            "foo.py",
+            add_license_concluded=add_license_concluded,
+        )
+        assert result.licenses_in_file == ["MIT OR"]
+        assert result.license_concluded == "NOASSERTION"
 
     def test_to_dict_lint_source_information(
         self,
@@ -245,12 +255,12 @@ class TestGenerateFileReport:
                 "doc/foo.py",
             )
             result = report.to_dict_lint()
-            assert result["path"] == "doc/foo.py"
-            assert len(result["copyrights"]) == 2
-            assert (
-                result["copyrights"][0]["source_type"]
-                != result["copyrights"][1]["source_type"]
-            )
+        assert result["path"] == "doc/foo.py"
+        assert len(result["copyrights"]) == 2
+        assert (
+            result["copyrights"][0]["source_type"]
+            != result["copyrights"][1]["source_type"]
+        )
         for copyright_ in result["copyrights"]:
             if copyright_["source_type"] == SourceType.DEP5.value:
                 assert copyright_["source"] == ".reuse/dep5"
@@ -274,6 +284,27 @@ class TestGenerateFileReport:
             elif expression["source_type"] == SourceType.FILE_HEADER.value:
                 assert expression["source"] == "doc/foo.py"
                 assert expression["value"] == "MIT OR 0BSD"
+            assert expression["is_valid"]
+
+    def test_dict_to_lint_invalid_spdx_expression(self, fake_repository):
+        """If an SPDX License Expression is invalid, dict_to_lint conveys this
+        information.
+        """
+        (fake_repository / "foo.py").write_text(
+            "SPDX-License-Identifier: MIT OR"
+        )
+        project = Project.from_directory(fake_repository)
+        report = FileReport.generate(
+            project,
+            "foo.py",
+        )
+        result = report.to_dict_lint()
+        assert result["path"] == "foo.py"
+        assert len(result["copyrights"]) == 0
+        assert len(result["spdx_expressions"]) == 1
+        expression = result["spdx_expressions"][0]
+        assert expression["value"] == "MIT OR"
+        assert not expression["is_valid"]
 
 
 class TestGenerateProjectReport:
@@ -384,17 +415,6 @@ class TestGenerateProjectReport:
         assert "Apache-1.0+" in result.used_licenses
         assert "Apache-1.0" not in result.used_licenses
 
-    def test_bad_license_in_file(self, fake_repository, multiprocessing):
-        """Bad licenses in files are detected."""
-        (fake_repository / "foo.py").write_text("SPDX-License-Identifier: bad")
-
-        project = Project.from_directory(fake_repository)
-        result = ProjectReport.generate(
-            project, multiprocessing=multiprocessing
-        )
-
-        assert "bad" in result.bad_licenses
-
     def test_bad_license_can_also_be_missing(
         self, fake_repository, multiprocessing
     ):
@@ -406,7 +426,6 @@ class TestGenerateProjectReport:
             project, multiprocessing=multiprocessing
         )
 
-        assert "bad" in result.bad_licenses
         assert "bad" in result.missing_licenses
 
     def test_deprecated_license(self, fake_repository, multiprocessing):

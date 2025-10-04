@@ -36,11 +36,12 @@ def format_plain(report: ProjectReport) -> str:
         # Bad licenses
         if report.bad_licenses:
             output.write("# " + _("BAD LICENSES") + "\n\n")
-            for lic, files in sorted(report.bad_licenses.items()):
-                output.write(_("'{}' found in:").format(lic) + "\n")
-                for file in sorted(files):
-                    output.write(f"* {file}\n")
-            output.write("\n\n")
+            output.write(
+                _("The following licenses are not valid SPDX licenses:") + "\n"
+            )
+            for path in sorted(report.bad_licenses.values()):
+                output.write(f"* {path}\n")
+            output.write("\n")
 
         # Deprecated licenses
         if report.deprecated_licenses:
@@ -50,7 +51,7 @@ def format_plain(report: ProjectReport) -> str:
             )
             for lic in sorted(report.deprecated_licenses):
                 output.write(f"* {lic}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Licenses without extension
         if report.licenses_without_extension:
@@ -60,7 +61,7 @@ def format_plain(report: ProjectReport) -> str:
             )
             for lic in sorted(report.licenses_without_extension):
                 output.write(f"* {lic}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Missing licenses
         if report.missing_licenses:
@@ -69,7 +70,7 @@ def format_plain(report: ProjectReport) -> str:
                 output.write(_("'{}' found in:").format(lic) + "\n")
                 for file in sorted(files):
                     output.write(f"* {file}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Unused licenses
         if report.unused_licenses:
@@ -77,7 +78,7 @@ def format_plain(report: ProjectReport) -> str:
             output.write(_("The following licenses are not used:") + "\n")
             for lic in sorted(report.unused_licenses):
                 output.write(f"* {lic}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Read errors
         if report.read_errors:
@@ -85,7 +86,22 @@ def format_plain(report: ProjectReport) -> str:
             output.write(_("Could not read:") + "\n")
             for path in sorted(report.read_errors):
                 output.write(f"* {path}\n")
-            output.write("\n\n")
+            output.write("\n")
+
+        if report.invalid_spdx_expressions:
+            output.write("# " + _("INVALID SPDX LICENSE EXPRESSIONS") + "\n\n")
+            for path, expressions in sorted(
+                report.invalid_spdx_expressions.items()
+            ):
+                output.write(
+                    _("'{}' contains invalid SPDX License Expressions:").format(
+                        path
+                    )
+                    + "\n"
+                )
+                for expression in sorted(expressions):
+                    output.write(f"* {expression}\n")
+            output.write("\n")
 
         # Missing copyright and licensing information
         files_without_both = report.files_without_copyright.intersection(
@@ -150,6 +166,9 @@ def format_plain(report: ProjectReport) -> str:
         _("Unused licenses:"): ", ".join(report.unused_licenses),
         _("Used licenses:"): ", ".join(report.used_licenses),
         _("Read errors:"): str(len(report.read_errors)),
+        _("Invalid SPDX License Expressions:"): ", ".join(
+            map(str, report.invalid_spdx_expressions.keys())
+        ),
         _(
             "Files with copyright information:"
         ): f"{total_files - len(report.files_without_copyright)}"
@@ -250,12 +269,22 @@ def format_lines_subset(report: ProjectReportSubsetProtocol) -> str:
     for lic, files in sorted(report.missing_licenses.items()):
         for path in sorted(files):
             output.write(
-                _("{path}: missing license {lic}\n").format(path=path, lic=lic)
+                _("{path}: missing license '{lic}'\n").format(
+                    path=path, lic=lic
+                )
             )
 
     # Read errors
     for path in sorted(report.read_errors):
         output.write(_("{path}: read error\n").format(path=path))
+
+    for path, expressions in sorted(report.invalid_spdx_expressions.items()):
+        for expression in sorted(expressions):
+            output.write(
+                _(
+                    "{path}: invalid SPDX License Expression '{expression}'"
+                ).format(path=path, expression=expression)
+            )
 
     # Without licenses
     for path in report.files_without_licenses:
@@ -287,11 +316,12 @@ def format_lines(report: ProjectReport) -> str:
     subset_output = ""
     if not report.is_compliant:
         # Bad licenses
-        for lic, files in sorted(report.bad_licenses.items()):
-            for path in sorted(files):
-                output.write(
-                    _("{path}: bad license {lic}\n").format(path=path, lic=lic)
+        for lic, path in sorted(report.bad_licenses.items()):
+            output.write(
+                _("{lic_path}: bad license {lic}\n").format(
+                    lic_path=path, lic=lic
                 )
+            )
 
         # Deprecated licenses
         for lic in sorted(report.deprecated_licenses):

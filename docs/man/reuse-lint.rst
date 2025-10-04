@@ -58,6 +58,12 @@ Read errors
 Not technically a criterion, but files that cannot be read by the operating
 system are read errors, and need to be fixed.
 
+Invalid SPDX License Expressions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+SPDX License Expressions that follow ``SPDX-License-Identifier`` tags which are
+not parseable as valid SPDX.
+
 Files without copyright and license information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -21,8 +21,6 @@ from pathlib import Path
 from typing import NamedTuple
 
 import attrs
-from boolean.boolean import ParseError
-from license_expression import ExpressionError
 
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
 from ._util import _determine_license_path, relative_from_root
@@ -265,16 +263,8 @@ class Project:
                 ).format(path=path)
             )
         else:
-            try:
-                with path.open("rb", buffering=CHUNK_SIZE) as fp:
-                    file_result = reuse_info_of_file(fp)
-            except (ExpressionError, ParseError):
-                _LOGGER.error(
-                    _(
-                        "'{path}' holds an SPDX expression that cannot be"
-                        " parsed, skipping the file"
-                    ).format(path=path)
-                )
+            with path.open("rb", buffering=CHUNK_SIZE) as fp:
+                file_result = reuse_info_of_file(fp)
             if file_result.contains_info():
                 source_type = SourceType.FILE_HEADER
                 if path.suffix == ".license":
@@ -419,7 +409,7 @@ class Project:
             if Path(path).suffix == ".license":
                 continue
 
-            path = self.relative_from_root(path)
+            # path = self.relative_from_root(path)
 
             try:
                 identifier = self._identifier_of_license(path)

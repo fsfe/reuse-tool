@@ -20,17 +20,11 @@ import re
 from collections.abc import Sequence
 from typing import NamedTuple, cast
 
-from boolean.boolean import ParseError
 from jinja2 import Environment, PackageLoader, Template
-from license_expression import ExpressionError
 
 from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
 from .copyright import CopyrightNotice, ReuseInfo
-from .exceptions import (
-    CommentCreateError,
-    CommentParseError,
-    MissingReuseInfoError,
-)
+from .exceptions import CommentParseError, MissingReuseInfoError
 from .extract import contains_reuse_info, extract_reuse_info
 from .i18n import _
 
@@ -129,13 +123,7 @@ def create_header(
 
     new_header = ""
     if header:
-        try:
-            existing_spdx = extract_reuse_info(header)
-        except (ExpressionError, ParseError) as err:
-            raise CommentCreateError(
-                "existing header contains an erroneous SPDX expression"
-            ) from err
-
+        existing_spdx = extract_reuse_info(header)
         if merge_copyrights:
             spdx_copyrights = CopyrightNotice.merge(
                 reuse_info.copyright_notices.union(

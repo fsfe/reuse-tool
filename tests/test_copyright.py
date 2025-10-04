@@ -17,16 +17,20 @@ from unittest import mock
 import pytest
 
 from reuse.copyright import (
+    _LICENSING,
     COPYRIGHT_NOTICE_PATTERN,
     CopyrightNotice,
     CopyrightPrefix,
     FourDigitString,
     ReuseInfo,
     SourceType,
+    SpdxExpression,
     YearRange,
     YearRangeSeparator,
 )
 from reuse.exceptions import CopyrightNoticeParseError, YearRangeParseError
+
+# pylint: disable=too-many-lines
 
 F = FourDigitString
 
@@ -784,6 +788,165 @@ class TestCopyrightNoticeMerge:
                 }
 
 
+class TestSpdxExpressionGetExpressionAndIsValid:
+    """Tests for the property :attr:`SpdxExpression._expression`.
+    Simultaneously, test :attr:`SpdxExpression.is_valid`.
+    """
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "GPL-3.0-or-later",
+            "GPL-3.0-or-later OR CC0-1.0",
+            "Apache-2.0 AND 0BSD",
+            "(MIT OR 0BSD) AND GPL-3.0-or-later",
+        ],
+    )
+    def test_valid(self, text):
+        """A valid expression is correctly parsed."""
+        # pylint: disable=protected-access
+        expression = SpdxExpression(text)
+        assert expression._expression == _LICENSING.parse(text)
+        assert expression.is_valid
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "MIT OR",
+            "MIT AND",
+            "OR MIT",
+            "AND MIT",
+            "(MIT AND 0BSD",
+            "<expression>",
+            "MIT 0BSD",
+        ],
+    )
+    def test_invalid(self, text):
+        """An invalid expression returns None."""
+        # pylint: disable=protected-access
+        expression = SpdxExpression(text)
+        assert expression._expression is None
+        assert not expression.is_valid
+
+
+class TestSpdxExpressionLicenses:
+    """Tests for the property :attr:`SpdxExpression.licenses`."""
+
+    def test_valid(self):
+        """A valid expression returns all unique licenses in order of
+        appearance.
+        """
+        expression = SpdxExpression("MIT AND MIT OR 0BSD")
+        assert expression.licenses == ["MIT", "0BSD"]
+
+    def test_invalid(self):
+        """An invalid expression returns itself in a list."""
+        expression = SpdxExpression("0BSD AND")
+        assert expression.licenses == ["0BSD AND"]
+
+
+class TestSpdxExpressionCombine:
+    """Tests for :classmethod:`SpdxExpression.combine`."""
+
+    def test_valid(self):
+        """Valid expressions are smartly combined."""
+        assert SpdxExpression.combine(
+            [
+                SpdxExpression("MIT"),
+                SpdxExpression(" 0BSD  "),
+                SpdxExpression("GPL-3.0-or-later  OR Apache-2.0"),
+            ]
+        ) == SpdxExpression("MIT AND 0BSD AND (GPL-3.0-or-later OR Apache-2.0)")
+
+    def test_invalid(self):
+        """Invalid expressions are simply combined by AND operators."""
+        assert SpdxExpression.combine(
+            [SpdxExpression("0BSD  OR"), SpdxExpression("MIT")]
+        ) == SpdxExpression("(0BSD  OR) AND (MIT)")
+
+
+class TestSpdxExpressionSimplify:
+    """Tests for :meth:`SpdxExpression.simplify`."""
+
+    def test_valid(self):
+        """A valid expression is correctly simplified."""
+        expression = SpdxExpression(
+            "(MIT OR MIT) AND (GPL-3.0-or-later AND 0BSD) AND GPL-3.0-or-later"
+        )
+        assert expression.simplify() == SpdxExpression(
+            "0BSD AND GPL-3.0-or-later AND MIT"
+        )
+
+    def test_invalid(self):
+        """An invalid expression is returned as-is when simplified."""
+        text = "MIT OR AND (0BSD OR 0BSD)"
+        assert SpdxExpression(text) == SpdxExpression(text)
+
+
+class TestSpdxExpressionStr:
+    """Tests for SpdxExpression.__str__."""
+
+    def test_valid(self):
+        """A valid expression is returned as string."""
+        expression = SpdxExpression("0BSD  AND    MIT OR CC0-1.0")
+        assert str(expression) == "(0BSD AND MIT) OR CC0-1.0"
+
+    def test_invalid(self):
+        """An invalid expression is returned as-is."""
+        expression = SpdxExpression("0BSD AND")
+        assert str(expression) == "0BSD AND"
+
+
+class TestSpdxExpressionEq:
+    """Tests for SpdxExpression.__eq__."""
+
+    def test_both_invalid(self):
+        """If both expressions are invalid, their texts are simply compared."""
+        assert SpdxExpression("MIT OR") != SpdxExpression("MIT OR ")
+        assert SpdxExpression("MIT OR") == SpdxExpression("MIT OR")
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "MIT AND 0BSD",
+            "MIT  AND  0BSD ",
+            "(MIT AND 0BSD)",
+        ],
+    )
+    def test_valid(self, text):
+        """If both expressions are valid, the expressions are compared."""
+        assert SpdxExpression(text) == SpdxExpression("MIT AND 0BSD")
+
+    def test_not_spdx_expression(self):
+        """Something that isn't an SpdxExpression is never equal to it."""
+        assert SpdxExpression("MIT") != "MIT"
+
+
+class TestSpdxExpressionSort:
+    """Tests for SpdxExpression.__lt__."""
+
+    @pytest.mark.parametrize(
+        "one,two",
+        [
+            ("0BSD", "MIT"),
+            ("0BSD AND MIT", "MIT AND 0BSD"),
+            ("0BSD AND", "MIT"),
+            ("0BSD", "MIT AND"),
+            ("0BSD AND", "MIT AND"),
+        ],
+    )
+    def test_simple(self, one, two):
+        """The strings of expressions are correctly compared."""
+        assert SpdxExpression(one) < SpdxExpression(two)
+
+    def test_not_spdx_expression(self):
+        """Something that isn't an SpdxExpression can't be sorted relative to
+        it.
+        """
+        with pytest.raises(TypeError):
+            bool(SpdxExpression("MIT") < "MIT")
+
+
 @pytest.mark.parametrize(
     "args",
     [
@@ -830,11 +993,11 @@ def test_reuse_info_contains_copyright_xor_licensing():
     """A simple xor version of the previous function."""
     assert not ReuseInfo().contains_copyright_xor_licensing()
     assert not ReuseInfo(
-        spdx_expressions={"MIT"},
+        spdx_expressions={SpdxExpression("MIT")},
         copyright_notices={CopyrightNotice.from_string("Copyright Jane Doe")},
     ).contains_copyright_xor_licensing()
     assert ReuseInfo(
-        spdx_expressions={"MIT"}
+        spdx_expressions={SpdxExpression("MIT")}
     ).contains_copyright_xor_licensing()
     assert ReuseInfo(
         copyright_notices={CopyrightNotice.from_string("Copyright Jane Doe")}
@@ -843,7 +1006,7 @@ def test_reuse_info_contains_copyright_xor_licensing():
 
 def test_reuse_info_contains_info_simple():
     """If any of the non-source files are truthy, expect True."""
-    assert ReuseInfo(spdx_expressions={"MIT"}).contains_info()
+    assert ReuseInfo(spdx_expressions={SpdxExpression("MIT")}).contains_info()
     assert ReuseInfo(
         copyright_notices={
             CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
@@ -869,7 +1032,7 @@ def test_reuse_info_contains_info_source_truthy():
 def test_reuse_info_copy_simple():
     """Get a copy of ReuseInfo with one field replaced."""
     info = ReuseInfo(
-        spdx_expressions={"GPL-3.0-or-later"},
+        spdx_expressions={SpdxExpression("GPL-3.0-or-later")},
         copyright_notices={
             CopyrightNotice.from_string("Copyright 2017 Jane Doe")
         },
