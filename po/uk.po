@@ -8,196 +8,212 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-03 13:09+0000\n"
+"POT-Creation-Date: 2025-10-04 20:58+0000\n"
 "PO-Revision-Date: 2025-10-04 14:01+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
-"reuse-tool/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
+"tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural="
-"(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? "
-"1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.14-dev\n"
 
 #: src/reuse/lint.py:38
 msgid "BAD LICENSES"
 msgstr "ПОГАНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:40 src/reuse/lint.py:69
-msgid "'{}' found in:"
-msgstr "'{}' знайдено в:"
+#: src/reuse/lint.py:40
+#, fuzzy
+msgid "The following licenses are not valid SPDX licenses:"
+msgstr "Не використовуються такі ліцензії:"
 
-#: src/reuse/lint.py:47
+#: src/reuse/lint.py:48
 msgid "DEPRECATED LICENSES"
 msgstr "ЗАСТАРІЛІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:49
+#: src/reuse/lint.py:50
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "У SPDX застаріли такі ліцензії:"
 
-#: src/reuse/lint.py:57
+#: src/reuse/lint.py:58
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "ЛІЦЕНЗІЇ БЕЗ РОЗШИРЕННЯ ФАЙЛУ"
 
-#: src/reuse/lint.py:59
+#: src/reuse/lint.py:60
 msgid "The following licenses have no file extension:"
 msgstr "Ці ліцензії не мають розширення файлу:"
 
-#: src/reuse/lint.py:67
+#: src/reuse/lint.py:68
 msgid "MISSING LICENSES"
 msgstr "ВІДСУТНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:76
+#: src/reuse/lint.py:70
+msgid "'{}' found in:"
+msgstr "'{}' знайдено в:"
+
+#: src/reuse/lint.py:77
 msgid "UNUSED LICENSES"
 msgstr "НЕВИКОРИСТАНІ ЛІЦЕНЗІЇ"
 
-#: src/reuse/lint.py:77
+#: src/reuse/lint.py:78
 msgid "The following licenses are not used:"
 msgstr "Не використовуються такі ліцензії:"
 
-#: src/reuse/lint.py:84
+#: src/reuse/lint.py:85
 msgid "READ ERRORS"
 msgstr "ПОМИЛКИ ЧИТАННЯ"
 
-#: src/reuse/lint.py:85
+#: src/reuse/lint.py:86
 msgid "Could not read:"
 msgstr "Не вдалося прочитати:"
 
-#: src/reuse/lint.py:106
+#: src/reuse/lint.py:92
+msgid "INVALID SPDX LICENSE EXPRESSIONS"
+msgstr ""
+
+#: src/reuse/lint.py:97
+#, fuzzy
+msgid "'{}' contains invalid SPDX License Expressions:"
+msgstr "'{}' не є допустимим SPDX-виразом."
+
+#: src/reuse/lint.py:122
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "ВІДСУТНІ ВІДОМОСТІ ПРО АВТОРСЬКІ ПРАВА ТА ЛІЦЕНЗУВАННЯ"
 
-#: src/reuse/lint.py:112
+#: src/reuse/lint.py:128
 msgid "The following files have no copyright and licensing information:"
 msgstr ""
 "Наступні файли не мають інформації про авторські права та ліцензування:"
 
-#: src/reuse/lint.py:123
+#: src/reuse/lint.py:139
 msgid "The following files have no copyright information:"
 msgstr "Такі файли не містять відомостей про авторські права:"
 
-#: src/reuse/lint.py:132
+#: src/reuse/lint.py:148
 msgid "The following files have no licensing information:"
 msgstr "Такі файли не мають відомостей про ліцензування:"
 
-#: src/reuse/lint.py:139
+#: src/reuse/lint.py:155
 msgid "SUMMARY"
 msgstr "ПІДСУМОК"
 
-#: src/reuse/lint.py:144
+#: src/reuse/lint.py:160
 msgid "Bad licenses:"
 msgstr "Погані ліцензії:"
 
-#: src/reuse/lint.py:145
+#: src/reuse/lint.py:161
 msgid "Deprecated licenses:"
 msgstr "Застарілі ліцензії:"
 
-#: src/reuse/lint.py:146
+#: src/reuse/lint.py:162
 msgid "Licenses without file extension:"
 msgstr "Ліцензії без розширення файлу:"
 
-#: src/reuse/lint.py:149
+#: src/reuse/lint.py:165
 msgid "Missing licenses:"
 msgstr "Відсутні ліцензії:"
 
-#: src/reuse/lint.py:150
+#: src/reuse/lint.py:166
 msgid "Unused licenses:"
 msgstr "Невикористані ліцензії:"
 
-#: src/reuse/lint.py:151
+#: src/reuse/lint.py:167
 msgid "Used licenses:"
 msgstr "Використані ліцензії:"
 
-#: src/reuse/lint.py:152
+#: src/reuse/lint.py:168
 msgid "Read errors:"
 msgstr "Помилки читання:"
 
-#: src/reuse/lint.py:154
+#: src/reuse/lint.py:169
+#, fuzzy
+msgid "Invalid SPDX License Expressions:"
+msgstr "'{}' не є допустимим SPDX-виразом."
+
+#: src/reuse/lint.py:173
 msgid "Files with copyright information:"
 msgstr "Файли з інформацією про авторські права:"
 
-#: src/reuse/lint.py:158
+#: src/reuse/lint.py:177
 msgid "Files with license information:"
 msgstr "Файли з інформацією про ліцензію:"
 
-#: src/reuse/lint.py:175
+#: src/reuse/lint.py:194
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr "Вітаємо! Ваш проєкт відповідає версії {} специфікації REUSE :-)"
 
-#: src/reuse/lint.py:182
+#: src/reuse/lint.py:201
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr "На жаль, ваш проєкт не сумісний із версією {} специфікації REUSE :-("
 
-#: src/reuse/lint.py:189
+#: src/reuse/lint.py:208
 msgid "RECOMMENDATIONS"
 msgstr "РЕКОМЕНДАЦІЇ"
 
-#: src/reuse/lint.py:253
-#, python-brace-format
-msgid "{path}: missing license {lic}\n"
+#: src/reuse/lint.py:272
+#, fuzzy, python-brace-format
+msgid "{path}: missing license '{lic}'\n"
 msgstr "{path}: пропущена ліцензія {lic}\n"
 
-#: src/reuse/lint.py:258
+#: src/reuse/lint.py:279
 #, python-brace-format
 msgid "{path}: read error\n"
 msgstr "{path}: помилка читання\n"
 
-#: src/reuse/lint.py:262
+#: src/reuse/lint.py:285
+#, python-brace-format
+msgid "{path}: invalid SPDX License Expression '{expression}'"
+msgstr ""
+
+#: src/reuse/lint.py:291
 #, python-brace-format
 msgid "{path}: no license identifier\n"
 msgstr "{path}: немає ідентифікатора ліцензії\n"
 
-#: src/reuse/lint.py:266
+#: src/reuse/lint.py:295
 #, python-brace-format
 msgid "{path}: no copyright notice\n"
 msgstr "{path}: без повідомлення про авторське право\n"
 
-#: src/reuse/lint.py:293
-#, python-brace-format
-msgid "{path}: bad license {lic}\n"
+#: src/reuse/lint.py:321
+#, fuzzy, python-brace-format
+msgid "{lic_path}: bad license {lic}\n"
 msgstr "{path}: погана ліцензія {lic}\n"
 
-#: src/reuse/lint.py:300
+#: src/reuse/lint.py:330
 #, python-brace-format
 msgid "{lic_path}: deprecated license\n"
 msgstr "{lic_path}: застаріла ліцензія\n"
 
-#: src/reuse/lint.py:307
+#: src/reuse/lint.py:337
 #, python-brace-format
 msgid "{lic_path}: license without file extension\n"
 msgstr "{lic_path}: ліцензія без розширення файлу\n"
 
-#: src/reuse/lint.py:316
+#: src/reuse/lint.py:346
 #, python-brace-format
 msgid "{lic_path}: unused license\n"
 msgstr "{lic_path}: невикористана ліцензія\n"
 
-#: src/reuse/project.py:255
+#: src/reuse/project.py:253
 #, python-brace-format
 msgid "'{path}' covered by {global_path}"
 msgstr "'{path}' покрито за рахунок {global_path}"
 
-#: src/reuse/project.py:263
+#: src/reuse/project.py:261
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr "'{path}' покрито виключно файлом REUSE.toml. Зміст файлу не читається."
 
-#: src/reuse/project.py:274
-#, python-brace-format
-msgid ""
-"'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
-msgstr ""
-"'{path}' містить вираз SPDX, який неможливо проаналізувати, пропуск файлу"
-
-#: src/reuse/project.py:344
+#: src/reuse/project.py:334
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
@@ -205,7 +221,7 @@ msgstr ""
 "'.reuse/dep5' є застарілим. Замість нього рекомендовано використовувати "
 "REUSE.toml. Для перетворення використовуйте `reuse convert-dep5`."
 
-#: src/reuse/project.py:365
+#: src/reuse/project.py:355
 #, python-brace-format
 msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
@@ -214,12 +230,12 @@ msgstr ""
 "Знайдено як '{new_path}', так і '{old_path}'. Ви не можете зберігати обидва "
 "файли одночасно, вони несумісні."
 
-#: src/reuse/project.py:429
+#: src/reuse/project.py:419
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} не має розширення файлу"
 
-#: src/reuse/project.py:439
+#: src/reuse/project.py:429
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -232,14 +248,14 @@ msgstr ""
 "spdx.org/licenses/> або що вона починається з 'LicenseRef-' і має розширення "
 "файлу."
 
-#: src/reuse/project.py:451
+#: src/reuse/project.py:441
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr ""
 "{identifier} — це ідентифікатор ліцензії SPDX для {path} і {other_path}"
 
-#: src/reuse/project.py:490
+#: src/reuse/project.py:480
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -247,7 +263,7 @@ msgstr ""
 "проєкт '{}' не є репозиторієм VCS або потрібне програмне забезпечення VCS не "
 "встановлено"
 
-#: src/reuse/extract.py:56
+#: src/reuse/extract.py:57
 msgid ""
 "No supported module that can detect the encoding of files could be "
 "successfully imported. Re-read the installation instructions for the reuse "
@@ -257,7 +273,7 @@ msgstr ""
 "визначити кодування файлів. Перечитайте інструкції з встановлення пакета "
 "повторного використання або спробуйте ось що:"
 
-#: src/reuse/extract.py:62
+#: src/reuse/extract.py:63
 msgid ""
 "- If you are running a Linux distribution, try your equivalent of `apt "
 "install file` or `dnf install file`."
@@ -265,7 +281,7 @@ msgstr ""
 "- Якщо ви використовуєте дистрибутив Linux, спробуйте ваш еквівалент `apt "
 "install file` або `dnf install file`."
 
-#: src/reuse/extract.py:67
+#: src/reuse/extract.py:68
 msgid ""
 "- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx' with 'pip' "
 "if you are not using pipx."
@@ -273,12 +289,7 @@ msgstr ""
 "- Виконайте команду `pipx install reuse[charset-normalizer]`. Замініть "
 "'pipx' на 'pip', якщо ви не використовуєте pipx."
 
-#: src/reuse/extract.py:256 src/reuse/global_licensing.py:208
-#, python-brace-format
-msgid "Could not parse '{expression}'"
-msgstr "Не вдалося проаналізувати '{expression}'"
-
-#: src/reuse/extract.py:430
+#: src/reuse/extract.py:423
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -287,23 +298,23 @@ msgstr ""
 "'{path}' виявлено як двійковий файл або його розширення позначено таким, що "
 "не коментується; пошук інформації у його вмісті для REUSE не виконується."
 
-#: src/reuse/header.py:93
+#: src/reuse/header.py:87
 msgid "generated comment is missing copyright lines or license expressions"
 msgstr ""
 "у згенерованому коментарі відсутні рядки про авторські права або вирази "
 "ліцензії"
 
-#: src/reuse/report.py:155
+#: src/reuse/report.py:160
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Не вдалося прочитати '{path}'"
 
-#: src/reuse/report.py:160
+#: src/reuse/report.py:165
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Під час аналізу '{path}' сталася неочікувана помилка"
 
-#: src/reuse/report.py:511
+#: src/reuse/report.py:515
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -316,7 +327,7 @@ msgstr ""
 "Часті запитання про користувацькі ліцензії: https://reuse.software/faq/"
 "#custom-license"
 
-#: src/reuse/report.py:522
+#: src/reuse/report.py:526
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -329,7 +340,7 @@ msgstr ""
 "застаріла для SPDX. Поточний список і відповідні рекомендовані нові "
 "ідентифікатори можна знайти тут: <https://spdx.org/licenses/#deprecated>"
 
-#: src/reuse/report.py:533
+#: src/reuse/report.py:537
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -339,7 +350,7 @@ msgstr ""
 "ліцензії в директорії 'LICENSES' не має розширення '.txt'. Перейменуйте "
 "файл(и) відповідно."
 
-#: src/reuse/report.py:542
+#: src/reuse/report.py:546
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -354,7 +365,7 @@ msgstr ""
 "будь-які відсутні ідентифікатори. Для користувацьких ліцензій (починаючи з "
 "'LicenseRef-') вам потрібно додати ці файли самостійно."
 
-#: src/reuse/report.py:554
+#: src/reuse/report.py:558
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -368,7 +379,7 @@ msgstr ""
 "відповідні ліцензовані файли, або видаліть невикористаний текст ліцензії, "
 "якщо ви впевнені, що жоден файл або фрагмент коду не ліцензований як такий."
 
-#: src/reuse/report.py:565
+#: src/reuse/report.py:569
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -379,7 +390,16 @@ msgstr ""
 "відповідні файли у верхній частині виводу як частину зареєстрованих "
 "повідомлень про помилки."
 
-#: src/reuse/report.py:574
+#: src/reuse/report.py:578
+msgid ""
+"Fix invalid SPDX License Expressions: In one or more files there are SPDX "
+"License Expressions which cannot be parse. Check whether the value that "
+"follows 'SPDX-License-Identifier:' is correct. If the detected expression is "
+"not meant to be valid, put it between 'REUSE-IgnoreStart' and 'REUSE-"
+"IgnoreEnd' comments."
+msgstr ""
+
+#: src/reuse/report.py:589
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
@@ -640,7 +660,7 @@ msgstr "Не використовувати багатопроцесорніст
 msgid "Define root of project."
 msgstr "Визначити кореневий каталог проєкту."
 
-#: src/reuse/cli/common.py:53
+#: src/reuse/cli/common.py:51
 #, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
@@ -649,12 +669,12 @@ msgstr ""
 "'{path}' не вдалося розібрати. Ми отримали наступне повідомлення про "
 "помилку: {message}"
 
-#: src/reuse/cli/common.py:89
+#: src/reuse/cli/common.py:87
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
 msgstr "'{name}' є взаємовиключним з: {opts}"
 
-#: src/reuse/cli/common.py:106
+#: src/reuse/cli/common.py:103
 msgid "'{}' is not a valid SPDX expression."
 msgstr "'{}' не є допустимим SPDX-виразом."
 
@@ -923,14 +943,14 @@ msgstr ""
 msgid "List all licenses on the SPDX License List."
 msgstr "Список всіх підтримуваних ліцензій SPDX."
 
-#: src/reuse/global_licensing.py:95
+#: src/reuse/global_licensing.py:92
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
 msgstr ""
 "{attr_name} має бути {type_name} (отримано {value}, що є {value_class})."
 
-#: src/reuse/global_licensing.py:109
+#: src/reuse/global_licensing.py:106
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
@@ -939,17 +959,17 @@ msgstr ""
 "Елемент у колекції {attr_name} має бути {type_name} (отримано {item_value}, "
 "що є {item_class})."
 
-#: src/reuse/global_licensing.py:121
+#: src/reuse/global_licensing.py:118
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr "{attr_name} не повинне бути порожнім."
 
-#: src/reuse/global_licensing.py:145
+#: src/reuse/global_licensing.py:142
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr "{name} має бути {type} (отримано {value}, яке є {value_type})."
 
-#: src/reuse/global_licensing.py:169
+#: src/reuse/global_licensing.py:166
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -957,7 +977,7 @@ msgstr ""
 "Значення 'precedence' має бути одним з {precedence_vals} (отримано "
 "{received})"
 
-#: src/reuse/global_licensing.py:232
+#: src/reuse/global_licensing.py:219
 #, python-brace-format
 msgid "Could not parse '{notice}'"
 msgstr "Не вдалося проаналізувати '{notice}'"
@@ -1285,6 +1305,16 @@ msgstr "Показати версію та вийти."
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:548
 msgid "Show this message and exit."
 msgstr "Показати це повідомлення та вийти."
+
+#, python-brace-format
+#~ msgid ""
+#~ "'{path}' holds an SPDX expression that cannot be parsed, skipping the file"
+#~ msgstr ""
+#~ "'{path}' містить вираз SPDX, який неможливо проаналізувати, пропуск файлу"
+
+#, python-brace-format
+#~ msgid "Could not parse '{expression}'"
+#~ msgstr "Не вдалося проаналізувати '{expression}'"
 
 #, python-brace-format
 #~ msgid "(Deprecated) {text}"
