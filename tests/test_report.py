@@ -216,6 +216,24 @@ class TestGenerateFileReport:
         )
         assert not result.missing_licenses
 
+    def test_invalid_spdx_expression_add_license_concluded(
+        self, fake_repository, add_license_concluded
+    ):
+        """LicenseConcluded is NOASSERTION if there is an invalid SPDX License
+        Expression.
+        """
+        (fake_repository / "foo.py").write_text(
+            "SPDX-License-Identifier: MIT OR"
+        )
+        project = Project.from_directory(fake_repository)
+        result = FileReport.generate(
+            project,
+            "foo.py",
+            add_license_concluded=add_license_concluded,
+        )
+        assert result.licenses_in_file == ["MIT OR"]
+        assert result.license_concluded == "NOASSERTION"
+
     def test_to_dict_lint_source_information(
         self,
         fake_repository_dep5,
@@ -237,12 +255,12 @@ class TestGenerateFileReport:
                 "doc/foo.py",
             )
             result = report.to_dict_lint()
-            assert result["path"] == "doc/foo.py"
-            assert len(result["copyrights"]) == 2
-            assert (
-                result["copyrights"][0]["source_type"]
-                != result["copyrights"][1]["source_type"]
-            )
+        assert result["path"] == "doc/foo.py"
+        assert len(result["copyrights"]) == 2
+        assert (
+            result["copyrights"][0]["source_type"]
+            != result["copyrights"][1]["source_type"]
+        )
         for copyright_ in result["copyrights"]:
             if copyright_["source_type"] == SourceType.DEP5.value:
                 assert copyright_["source"] == ".reuse/dep5"
@@ -266,6 +284,27 @@ class TestGenerateFileReport:
             elif expression["source_type"] == SourceType.FILE_HEADER.value:
                 assert expression["source"] == "doc/foo.py"
                 assert expression["value"] == "MIT OR 0BSD"
+            assert expression["is_valid"]
+
+    def test_dict_to_lint_invalid_spdx_expression(self, fake_repository):
+        """If an SPDX License Expression is invalid, dict_to_lint conveys this
+        information.
+        """
+        (fake_repository / "foo.py").write_text(
+            "SPDX-License-Identifier: MIT OR"
+        )
+        project = Project.from_directory(fake_repository)
+        report = FileReport.generate(
+            project,
+            "foo.py",
+        )
+        result = report.to_dict_lint()
+        assert result["path"] == "foo.py"
+        assert len(result["copyrights"]) == 0
+        assert len(result["spdx_expressions"]) == 1
+        expression = result["spdx_expressions"][0]
+        assert expression["value"] == "MIT OR"
+        assert not expression["is_valid"]
 
 
 class TestGenerateProjectReport:

@@ -221,16 +221,14 @@ def test_lint_json_output(fake_repository):
     assert json_result["summary"]["compliant"] is False
     # Test license path
     for test_file in json_result["files"]:
-        if test_file["path"] == str(fake_repository / "foo.py"):
-            assert test_file["licenses"][0]["value"] == "MIT"
-            assert test_file["licenses"][0]["source"] == str(
-                fake_repository / "foo.py"
-            )
-        if test_file["path"].startswith(str(fake_repository / "doc")):
-            assert test_file["licenses"][0]["value"] == "CC0-1.0"
-            assert test_file["licenses"][0]["source"] == str(
-                fake_repository / ".reuse/dep5"
-            )
+        if test_file["path"] == "foo.py":
+            assert test_file["spdx_expressions"][0]["value"] == "MIT"
+            assert test_file["spdx_expressions"][0]["source"] == "foo.py"
+            assert test_file["spdx_expressions"][0]["is_valid"]
+        if test_file["path"] == "doc/usage.md":
+            assert test_file["spdx_expressions"][0]["value"] == "CC0-1.0"
+            assert test_file["spdx_expressions"][0]["source"] == "doc/usage.md"
+            assert test_file["spdx_expressions"][0]["is_valid"]
 
 
 def test_lint_lines_output(fake_repository):

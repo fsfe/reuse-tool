@@ -782,7 +782,6 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
             for expression in reuse_info.spdx_expressions:
                 if not expression.is_valid:
                     report.invalid_spdx_expressions.add(str(expression))
-                    report.licenses_in_file.append(str(expression))
                     if str(expression) not in project.licenses:
                         report.missing_licenses.add(str(expression))
                 for identifier in expression.licenses:
