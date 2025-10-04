@@ -25,6 +25,64 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.0.0 - 2025-10-04
+
+### Added
+
+- Added support for `py.typed`. (#1239)
+- A new criterion 'Invalid SPDX License Expressions' has been added to
+  `reuse lint`. Invalid expressions are SPDX License Expressions which are not
+  valid according to the grammar of the SPDX specification. (#1240)
+- Added support for `.php.blade` files. (#573)
+
+### Changed
+
+- The behaviour of the `--year` option to `reuse annotate`is now different.
+  Previously, you could define `--year <year>` multiple times. Now you can only
+  do so once, but the value may be a string containing multiple years or a range
+  of years. (#1145)
+- `reuse annotate --merge-copyrights` works more efficiently now, capable of
+  better heuristics to detect years and year ranges. (#1145)
+- `reuse annotate --merge-copyrights` no longer adds spacing around the merged
+  year ranges. i.e. `2017-2025`, not `2017 - 2025`. (#1145)
+- The 'Bad licenses' criterion in `reuse lint` previously searched for bad
+  licenses in every single file. Now, only bad licenses in `LICENSES/` are
+  detected, which is more in line with the documentation. (#1240)
+- Removed explicit dependency `boolean.boolean`. It is now an implicit
+  dependency via `license-expression`. (#1240)
+- The encodings of files are now detected before they are read or altered.
+  (#1235, #1218)
+- The dependency `python-magic` has been added, alongside the optional
+  dependencies `charset-normalizer` and `chardet`. So long as at least one of
+  these is installed, the program will work. (#1235)
+- The dependency `binaryornot` has been removed. (#1235)
+- `reuse lint` now always searches the entire file for REUSE information.
+  (#1229)
+- Python 3.9 support dropped. (#1219)
+- The Python requirement for `reuse` now no longer requires a lower major
+  version than 4. The requirement is now `>=3.10` instead of `>=3.10,<4`.
+  (#1219)
+
+### Fixed
+
+- The minimum requirements of the dependencies have been updated. (#1235)
+- There used to be a specific scenario where `reuse lint` would read the
+  contents of an entire file into memory. This no longer happens.
+  `reuse annotate` will still read the entire file into memory. (#1229)
+- Unparseable SPDX expressions in a file now no longer cause the collection of
+  REUSE information from that file to entirely fail. (#1240)
+- Fixed formatting in `lint` subcommand help message. (#1212, #1236)
+- Fixed a case where, if a recognised file extension (such as `.blade.php`) has
+  two or more components, it would be correctly recognised. (#573)
+- Files with carriage return (`\r`) line endings are now correctly linted.
+  (#1235, #1226)
+- Several small performance improvements. Local testing on a 12-core laptop
+  suggests a 30% speedup. (#1222, #1223, #1230)
+- Fixed a bug where, if `REUSE-IgnoreStart` is the very first thing that appears
+  in a file, the subsequent text is not actually ignored. (#1229)
+- If using `reuse annotate` to write to a file, preserve the BOM if the encoding
+  is UTF-8, UTF-16, or UTF-32. (#1235, #384)
+
 ## v5.1.1 - 2025-09-05
 
 ### Fixed
