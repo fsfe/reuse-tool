@@ -41,7 +41,7 @@ def format_plain(report: ProjectReport) -> str:
             )
             for path in sorted(report.bad_licenses.values()):
                 output.write(f"* {path}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Deprecated licenses
         if report.deprecated_licenses:
@@ -51,7 +51,7 @@ def format_plain(report: ProjectReport) -> str:
             )
             for lic in sorted(report.deprecated_licenses):
                 output.write(f"* {lic}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Licenses without extension
         if report.licenses_without_extension:
@@ -61,7 +61,7 @@ def format_plain(report: ProjectReport) -> str:
             )
             for lic in sorted(report.licenses_without_extension):
                 output.write(f"* {lic}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Missing licenses
         if report.missing_licenses:
@@ -70,7 +70,7 @@ def format_plain(report: ProjectReport) -> str:
                 output.write(_("'{}' found in:").format(lic) + "\n")
                 for file in sorted(files):
                     output.write(f"* {file}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Unused licenses
         if report.unused_licenses:
@@ -78,7 +78,7 @@ def format_plain(report: ProjectReport) -> str:
             output.write(_("The following licenses are not used:") + "\n")
             for lic in sorted(report.unused_licenses):
                 output.write(f"* {lic}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         # Read errors
         if report.read_errors:
@@ -86,7 +86,7 @@ def format_plain(report: ProjectReport) -> str:
             output.write(_("Could not read:") + "\n")
             for path in sorted(report.read_errors):
                 output.write(f"* {path}\n")
-            output.write("\n\n")
+            output.write("\n")
 
         if report.invalid_expressions:
             output.write("# " + _("INVALID EXPRESSIONS") + "\n\n")
@@ -99,6 +99,7 @@ def format_plain(report: ProjectReport) -> str:
                 )
                 for expression in sorted(expressions):
                     output.write(f"* {expression}\n")
+            output.write("\n")
 
         # Missing copyright and licensing information
         files_without_both = report.files_without_copyright.intersection(
