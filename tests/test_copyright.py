@@ -789,8 +789,8 @@ class TestCopyrightNoticeMerge:
 
 
 class TestSpdxExpressionGetExpressionAndIsValid:
-    """Tests for the property :attr:`SpdxExpression.expression`. Simultaneously,
-    test :attr:`SpdxExpression.is_valid`.
+    """Tests for the property :attr:`SpdxExpression._expression`.
+    Simultaneously, test :attr:`SpdxExpression.is_valid`.
     """
 
     @pytest.mark.parametrize(
@@ -804,8 +804,9 @@ class TestSpdxExpressionGetExpressionAndIsValid:
     )
     def test_valid(self, text):
         """A valid expression is correctly parsed."""
+        # pylint: disable=protected-access
         expression = SpdxExpression(text)
-        assert expression.expression == _LICENSING.parse(text)
+        assert expression._expression == _LICENSING.parse(text)
         assert expression.is_valid
 
     @pytest.mark.parametrize(
@@ -822,8 +823,9 @@ class TestSpdxExpressionGetExpressionAndIsValid:
     )
     def test_invalid(self, text):
         """An invalid expression returns None."""
+        # pylint: disable=protected-access
         expression = SpdxExpression(text)
-        assert expression.expression is None
+        assert expression._expression is None
         assert not expression.is_valid
 
 
@@ -841,6 +843,44 @@ class TestSpdxExpressionLicenses:
         """An invalid expression returns itself in a list."""
         expression = SpdxExpression("0BSD AND")
         assert expression.licenses == ["0BSD AND"]
+
+
+class TestSpdxExpressionCombine:
+    """Tests for :classmethod:`SpdxExpression.combine`."""
+
+    def test_valid(self):
+        """Valid expressions are smartly combined."""
+        assert SpdxExpression.combine(
+            [
+                SpdxExpression("MIT"),
+                SpdxExpression(" 0BSD  "),
+                SpdxExpression("GPL-3.0-or-later  OR Apache-2.0"),
+            ]
+        ) == SpdxExpression("MIT AND 0BSD AND (GPL-3.0-or-later OR Apache-2.0)")
+
+    def test_invalid(self):
+        """Invalid expressions are simply combined by AND operators."""
+        assert SpdxExpression.combine(
+            [SpdxExpression("0BSD  OR"), SpdxExpression("MIT")]
+        ) == SpdxExpression("(0BSD  OR) AND (MIT)")
+
+
+class TestSpdxExpressionSimplify:
+    """Tests for :meth:`SpdxExpression.simplify`."""
+
+    def test_valid(self):
+        """A valid expression is correctly simplified."""
+        expression = SpdxExpression(
+            "(MIT OR MIT) AND (GPL-3.0-or-later AND 0BSD) AND GPL-3.0-or-later"
+        )
+        assert expression.simplify() == SpdxExpression(
+            "0BSD AND GPL-3.0-or-later AND MIT"
+        )
+
+    def test_invalid(self):
+        """An invalid expression is returned as-is when simplified."""
+        text = "MIT OR AND (0BSD OR 0BSD)"
+        assert SpdxExpression(text) == SpdxExpression(text)
 
 
 class TestSpdxExpressionStr:

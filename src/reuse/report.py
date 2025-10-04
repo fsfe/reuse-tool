@@ -26,14 +26,13 @@ from pathlib import Path, PurePath
 from typing import Any, Final, NamedTuple, Optional, Protocol, cast
 from uuid import uuid4
 
-from license_expression import combine_expressions
-
 from . import __REUSE_version__, __version__
 from ._util import (
     _add_plus_to_identifier,
     _checksum,
     _strip_plus_from_identifier,
 )
+from .copyright import SpdxExpression
 from .extract import _LICENSEREF_PATTERN
 from .global_licensing import ReuseDep5
 from .i18n import _
@@ -812,16 +811,14 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
             # parentheses to make sure an expression doesn't spill into another
             # one. The extra parentheses will be removed by the roundtrip
             # through parse() -> simplify() -> render().
-            report.license_concluded = (
-                combine_expressions(
+            report.license_concluded = str(
+                SpdxExpression.combine(
                     list(
-                        expression.expression
+                        expression
                         for reuse_info in reuse_infos
                         for expression in reuse_info.spdx_expressions
                     )
-                )
-                .simplify()
-                .render()
+                ).simplify()
             )
 
         # Copyright text

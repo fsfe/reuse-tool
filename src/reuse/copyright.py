@@ -11,14 +11,19 @@ import logging
 import re
 from collections import Counter, defaultdict
 from collections.abc import Iterable
-from dataclasses import dataclass, field
+from dataclasses import InitVar, dataclass, field
 from enum import Enum, unique
 from functools import cached_property
 from io import StringIO
 from itertools import chain
 from typing import Any, Literal, NewType, cast
 
-from license_expression import ExpressionError, LicenseExpression, Licensing
+from license_expression import (
+    ExpressionError,
+    LicenseExpression,
+    Licensing,
+    combine_expressions,
+)
 
 from .exceptions import CopyrightNoticeParseError, YearRangeParseError
 
@@ -618,13 +623,18 @@ class CopyrightNotice:
 
 @dataclass(frozen=True)
 class SpdxExpression:
-    """A simple dataclass that contains an SPDX license expression that can be
-    encoded into an :class:`Expression`.
+    """A simple dataclass that contains an SPDX license expression.
+
+    Use :meth:`SpdxExpression.__str__` to get a string representation of the
+    expression.
     """
 
-    #: A string representing an SPDX license expression. It may be invalid or
-    #: unparseable.
-    text: str
+    #: A string representing an SPDX license expression. It may be invalid.
+    text: InitVar[str]
+    _text: str = field(init=False, repr=True)
+
+    def __post_init__(self, text: str) -> None:
+        object.__setattr__(self, "_text", text)
 
     @cached_property
     def is_valid(self) -> bool:
@@ -635,15 +645,16 @@ class SpdxExpression:
         specification. The licenses and exceptions need not appear on the
         license list.
         """
-        return self.expression is not None
+        return self._expression is not None
 
     @cached_property
-    def expression(self) -> LicenseExpression | None:
+    def _expression(self) -> LicenseExpression | None:
         """A parsed :class:`LicenseExpression` from :attr:`text`. If
-        :attr:`text` could not be parsed, *expression*'s value is :const:`None`.
+        :attr:`text` could not be parsed, *_expression*'s value is
+        :const:`None`.
         """
         try:
-            return _LICENSING.parse(self.text, simple=True)
+            return _LICENSING.parse(self._text, simple=True)
         except ExpressionError:
             return None
 
@@ -655,24 +666,65 @@ class SpdxExpression:
         If the expression is invalid, the list contains a single item
         :attr:`text`.
         """
-        if self.expression is not None:
-            return _LICENSING.license_keys(self.expression)
-        return [self.text]
+        if self._expression is not None:
+            return _LICENSING.license_keys(self._expression)
+        return [self._text]
+
+    @classmethod
+    def combine(
+        cls,
+        spdx_expressions: Iterable["SpdxExpression"],
+    ) -> "SpdxExpression":
+        """Combine the *spdx_expressions* into a single :class:`SpdxExpression`,
+        joined by AND operators.
+        """
+        is_valid = True
+        for expression in spdx_expressions:
+            if not expression.is_valid:
+                is_valid = False
+        if is_valid:
+            return cls(
+                str(
+                    combine_expressions(
+                        list(
+                            # pylint: disable=protected-access
+                            expression._expression
+                            for expression in spdx_expressions
+                        )
+                    )
+                )
+            )
+        return cls(
+            " AND ".join(f"({expression})" for expression in spdx_expressions)
+        )
+
+    def simplify(self) -> "SpdxExpression":
+        """If the expression is valid, return a new :class:`SpdxExpression`
+        which is 'simplified', meaning that boolean operators are collapsed.
+        'MIT OR MIT' simplifies to 'MIT', and so forth.
+
+        If the expression is not valid, ``self`` is returned.
+        """
+        if self.is_valid:
+            return self.__class__(
+                str(cast(LicenseExpression, self._expression).simplify())
+            )
+        return self
 
     def __str__(self) -> str:
-        """Return a string representation of :attr:`expression` if available.
+        """Return a string representation of the expression if it is valid.
         Otherwise, return :attr:`text`.
         """
-        if self.expression is not None:
-            return str(self.expression)
-        return self.text
+        if self._expression is not None:
+            return str(self._expression)
+        return self._text
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, SpdxExpression):
             return NotImplemented
-        if self.expression is not None and other.expression is not None:
-            return self.expression == other.expression
-        return self.text == other.text
+        if self._expression is not None and other._expression is not None:
+            return self._expression == other._expression
+        return self._text == other._text
 
     def __lt__(self, other: Any) -> bool:
         if not isinstance(other, SpdxExpression):
