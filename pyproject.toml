@@ -54,7 +54,6 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.10"
 Jinja2 = ">=3.0.0"
-"boolean.py" = ">=3.8"
 license-expression = ">=1.0"
 python-debian = ">=0.1.48"
 # TODO: Consider removing this dependency in favour of tomllib when dropping

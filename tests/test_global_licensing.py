@@ -11,10 +11,13 @@ from pathlib import Path
 import pytest
 from conftest import RESOURCES_DIRECTORY, posix
 from debian.copyright import Copyright
-from license_expression import LicenseSymbol
 
-from reuse import _LICENSING
-from reuse.copyright import CopyrightNotice, ReuseInfo, SourceType
+from reuse.copyright import (
+    CopyrightNotice,
+    ReuseInfo,
+    SourceType,
+    SpdxExpression,
+)
 from reuse.exceptions import (
     GlobalLicensingParseError,
     GlobalLicensingParseTypeError,
@@ -55,7 +58,7 @@ class TestAnnotationsItemValidators:
         assert item.copyright_notices == {
             CopyrightNotice.from_string("SPDX-FileCopyrightText: 2023 Jane Doe")
         }
-        assert item.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert item.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_precedence_defaults_to_closest(self):
         """If precedence is NOTHING, default to closest."""
@@ -79,7 +82,7 @@ class TestAnnotationsItemValidators:
         assert item.copyright_notices == {
             CopyrightNotice.from_string("SPDX-FileCopyrightText: 2023 Jane Doe")
         }
-        assert item.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert item.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_str_to_set(self):
         """Convert strings to sets."""
@@ -94,7 +97,7 @@ class TestAnnotationsItemValidators:
         assert item.copyright_notices == {
             CopyrightNotice.from_string("SPDX-FileCopyrightText: 2023 Jane Doe")
         }
-        assert item.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert item.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_bad_expr(self):
         """Raise an error on malformed SPDX expressions."""
@@ -189,7 +192,7 @@ class TestAnnotationsItemFromDict:
         assert item.copyright_notices == {
             CopyrightNotice.from_string("SPDX-FileCopyrightText: 2023 Jane Doe")
         }
-        assert item.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert item.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_implicit_precedence(self):
         """When precedence is not defined, default to closest."""
@@ -582,7 +585,7 @@ class TestReuseTOMLReuseInfoOf:
         assert reuse_toml.reuse_info_of("foo.py") == {
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("MIT")},
+                    spdx_expressions={SpdxExpression("MIT")},
                     copyright_notices={
                         CopyrightNotice.from_string(
                             "SPDX-FileCopyrightText: 2023 Jane Doe"
@@ -613,7 +616,7 @@ class TestReuseTOMLReuseInfoOf:
         assert reuse_toml.reuse_info_of("foo.py") == {
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("0BSD")},
+                    spdx_expressions={SpdxExpression("0BSD")},
                     copyright_notices={
                         CopyrightNotice.from_string(
                             "SPDX-FileCopyrightText: 2023 John Doe"
@@ -642,7 +645,7 @@ class TestReuseTOMLReuseInfoOf:
         )
         # Expected sans path
         expected = ReuseInfo(
-            spdx_expressions={_LICENSING.parse("MIT")},
+            spdx_expressions={SpdxExpression("MIT")},
             copyright_notices={
                 CopyrightNotice.from_string(
                     "SPDX-FileCopyrightText: 2023 Jane Doe"
@@ -678,7 +681,7 @@ class TestReuseTOMLReuseInfoOf:
         assert reuse_toml.reuse_info_of("dir/foo.py") == {
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("MIT")},
+                    spdx_expressions={SpdxExpression("MIT")},
                     copyright_notices={
                         CopyrightNotice.from_string(
                             "SPDX-FileCopyrightText: 2023 Jane Doe"
@@ -881,7 +884,7 @@ class TestNestedReuseTOMLReuseInfoOf:
         assert nested_reuse_toml.reuse_info_of("foo.py") == {
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("MIT")},
+                    spdx_expressions={SpdxExpression("MIT")},
                     copyright_notices={
                         CopyrightNotice.from_string(
                             "SPDX-FileCopyrightText: 2023 Jane Doe"
@@ -932,7 +935,7 @@ class TestNestedReuseTOMLReuseInfoOf:
         assert toml.reuse_info_of("src/foo.py") == {
             PrecedenceType.CLOSEST: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("0BSD")},
+                    spdx_expressions={SpdxExpression("0BSD")},
                     copyright_notices={
                         CopyrightNotice.from_string("Copyright Alice")
                     },
@@ -945,7 +948,7 @@ class TestNestedReuseTOMLReuseInfoOf:
         assert toml.reuse_info_of("src/bar.py") == {
             PrecedenceType.CLOSEST: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("MIT")},
+                    spdx_expressions={SpdxExpression("MIT")},
                     copyright_notices={
                         CopyrightNotice.from_string("Copyright Jane Doe")
                     },
@@ -986,7 +989,7 @@ class TestNestedReuseTOMLReuseInfoOf:
         assert toml.reuse_info_of("src/foo.py") == {
             PrecedenceType.AGGREGATE: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("MIT")},
+                    spdx_expressions={SpdxExpression("MIT")},
                     copyright_notices={
                         CopyrightNotice.from_string("Copyright Jane Doe")
                     },
@@ -997,7 +1000,7 @@ class TestNestedReuseTOMLReuseInfoOf:
             ],
             PrecedenceType.CLOSEST: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("0BSD")},
+                    spdx_expressions={SpdxExpression("0BSD")},
                     copyright_notices={
                         CopyrightNotice.from_string("Copyright Alice")
                     },
@@ -1038,7 +1041,7 @@ class TestNestedReuseTOMLReuseInfoOf:
         assert toml.reuse_info_of("src/foo.py") == {
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("MIT")},
+                    spdx_expressions={SpdxExpression("MIT")},
                     copyright_notices={
                         CopyrightNotice.from_string("Copyright Jane Doe")
                     },
@@ -1093,7 +1096,7 @@ class TestNestedReuseTOMLReuseInfoOf:
         assert toml.reuse_info_of("foo/bar/foo.py") == {
             PrecedenceType.AGGREGATE: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("MIT")},
+                    spdx_expressions={SpdxExpression("MIT")},
                     copyright_notices={
                         CopyrightNotice.from_string("Copyright Jane Doe")
                     },
@@ -1104,7 +1107,7 @@ class TestNestedReuseTOMLReuseInfoOf:
             ],
             PrecedenceType.OVERRIDE: [
                 ReuseInfo(
-                    spdx_expressions={_LICENSING.parse("0BSD")},
+                    spdx_expressions={SpdxExpression("0BSD")},
                     copyright_notices={
                         CopyrightNotice.from_string("Copyright Alice")
                     },
@@ -1251,7 +1254,7 @@ def test_reuse_dep5_reuse_info_of(reuse_dep5):
     assert len(infos) == 1
     assert len(infos[PrecedenceType.AGGREGATE]) == 1
     result = infos[PrecedenceType.AGGREGATE][0]
-    assert LicenseSymbol("CC0-1.0") in result.spdx_expressions
+    assert SpdxExpression("CC0-1.0") in result.spdx_expressions
     assert (
         CopyrightNotice.from_string("SPDX-FileCopyrightText: 2017 Jane Doe")
         in result.copyright_notices

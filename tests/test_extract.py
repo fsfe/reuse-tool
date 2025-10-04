@@ -16,19 +16,25 @@ from inspect import cleandoc
 from io import BytesIO
 
 import pytest
-from boolean.boolean import ParseError
 from conftest import RESOURCES_DIRECTORY
 
-from reuse import _LICENSING
-from reuse.copyright import CopyrightNotice, CopyrightPrefix, ReuseInfo
+from reuse.copyright import (
+    CopyrightNotice,
+    CopyrightPrefix,
+    ReuseInfo,
+    SpdxExpression,
+)
 from reuse.exceptions import NoEncodingModuleError
 from reuse.extract import (
+    contains_reuse_info,
     detect_encoding,
     detect_newline,
     extract_reuse_info,
     filter_ignore_block,
     reuse_info_of_file,
 )
+
+_IGNORE_END = "REUSE-IgnoreEnd"
 
 # REUSE-IgnoreStart
 
@@ -43,7 +49,7 @@ class TestExtractReuseInfo:
             result = extract_reuse_info(
                 f"SPDX-License-Identifier: {expression}"
             )
-            assert result.spdx_expressions == {_LICENSING.parse(expression)}
+            assert result.spdx_expressions == {SpdxExpression(expression)}
 
     def test_expression_from_ascii_art_frame(self):
         """Parse an expression from an ASCII art frame"""
@@ -56,13 +62,16 @@ class TestExtractReuseInfo:
                 """
             )
         )
-        assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert result.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_erroneous_expression(self):
         """Parse an incorrect expression."""
-        expression = "SPDX-License-Identifier: GPL-3.0-or-later AND (MIT OR)"
-        with pytest.raises(ParseError):
-            extract_reuse_info(expression)
+        expression = "GPL-3.0-or-later AND (MIT OR)"
+        text = f"SPDX-License-Identifier: {expression}"
+        result = extract_reuse_info(text)
+        expected_expression = SpdxExpression(expression)
+        assert result.spdx_expressions == {expected_expression}
+        assert not expected_expression.is_valid
 
     def test_no_info(self):
         """Given a string without REUSE information, return an empty ReuseInfo
@@ -74,14 +83,14 @@ class TestExtractReuseInfo:
     def test_tab(self):
         """A tag followed by a tab is also valid."""
         result = extract_reuse_info("SPDX-License-Identifier:\tMIT")
-        assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert result.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_many_whitespace(self):
         """When a tag is followed by a lot of whitespace, the whitespace should
         be filtered out.
         """
         result = extract_reuse_info("SPDX-License-Identifier:    MIT")
-        assert result.spdx_expressions == {_LICENSING.parse("MIT")}
+        assert result.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_bibtex_comment(self):
         """A special case for BibTex comments."""
@@ -295,13 +304,13 @@ class TestReuseInfoOfFile:
         """
         buffer = BytesIO(
             cleandoc(
-                """
+                f"""
                 SPDX-FileCopyrightText: 2019 Jane Doe
                 SPDX-License-Identifier: CC0-1.0
                 REUSE-IgnoreStart
                 SPDX-FileCopyrightText: 2019 John Doe
                 SPDX-License-Identifier: GPL-3.0-or-later
-                REUSE-IgnoreEnd
+                {_IGNORE_END}
                 SPDX-FileCopyrightText: 2019 Eve
                 """
             ).encode("utf-8")
@@ -402,11 +411,11 @@ class TestFilterIgnoreBlock:
         markers are in comment style.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant text
             # REUSE-IgnoreStart
             Ignored text
-            # REUSE-IgnoreEnd
+            # {_IGNORE_END}
             Other relevant text
             """
         )
@@ -420,11 +429,11 @@ class TestFilterIgnoreBlock:
         markers are not comment style.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant text
             REUSE-IgnoreStart
             Ignored text
-            REUSE-IgnoreEnd
+            {_IGNORE_END}
             Other relevant text
             """
         )
@@ -444,11 +453,11 @@ class TestFilterIgnoreBlock:
         information to be ignored on the same line.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant text
             REUSE-IgnoreStart Copyright me
             Ignored text
-            sdojfsdREUSE-IgnoreEnd
+            sdojfsd{_IGNORE_END}
             Other relevant text
             """
         )
@@ -468,10 +477,10 @@ class TestFilterIgnoreBlock:
         information on the same line.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant textREUSE-IgnoreStart
             Ignored text
-            REUSE-IgnoreEndOther relevant text
+            {_IGNORE_END}Other relevant text
             """
         )
         expected = "Relevant textOther relevant text"
@@ -486,8 +495,8 @@ class TestFilterIgnoreBlock:
         information on the same line.
         """
         text = cleandoc(
-            """
-            Relevant textREUSE-IgnoreStartIgnored textREUSE-IgnoreEndOther
+            f"""
+            Relevant textREUSE-IgnoreStartIgnored text{_IGNORE_END}Other
             relevant text
             """
         )
@@ -505,8 +514,8 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if it has relevant
         information on the same line.
         """
-        text = "Relevant textREUSE-IgnoreEndOther relevant textREUSE-IgnoreStartIgnored text"  # pylint: disable=line-too-long
-        expected = "Relevant textREUSE-IgnoreEndOther relevant text"
+        text = f"Relevant text{_IGNORE_END}Other relevant textREUSE-IgnoreStartIgnored text"  # pylint: disable=line-too-long
+        expected = f"Relevant text{_IGNORE_END}Other relevant text"
 
         result = filter_ignore_block(text)
         assert result == (expected, True)
@@ -516,8 +525,8 @@ class TestFilterIgnoreBlock:
         starts with an end instruction.
         """
         text = cleandoc(
-            """
-            REUSE-IgnoreEnd
+            f"""
+            {_IGNORE_END}
             Relevant text
             REUSE-IgnoreStart
             IgnoredText
@@ -526,8 +535,8 @@ class TestFilterIgnoreBlock:
             """
         )
         expected = cleandoc(
-            """
-            REUSE-IgnoreEnd
+            f"""
+            {_IGNORE_END}
             Relevant text
 
             More relevant text
@@ -559,15 +568,15 @@ class TestFilterIgnoreBlock:
         information on the same line.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant text
             REUSE-IgnoreStart
             Ignored text
-            REUSE-IgnoreEnd
+            {_IGNORE_END}
             Other relevant text
             REUSE-IgnoreStart
             Other ignored text
-            REUSE-IgnoreEnd
+            {_IGNORE_END}
             Even more relevant text
             """
         )
@@ -599,6 +608,7 @@ class TestFilterIgnoreBlock:
         *in_ignore_block*.
         """
         text = "REUSE-IgnoreEnd"
+        # REUSE-IgnoreStart
         expected = ""
 
         result = filter_ignore_block(text, in_ignore_block=True)
@@ -625,6 +635,40 @@ class TestDetectNewLine:
     def test_no_newlines(self):
         """Given a file without line endings, default to os.linesep."""
         assert detect_newline(b"hello world") == os.linesep
+
+
+class TestContainsReuseInfo:
+    """Tests for contain_reuse_info."""
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "SPDX-FileCopyrightText: Jane Doe",
+            "SPDX-License-Identifier: MIT",
+            "SPDX-FileCopyrightText: Jane Doe\nSPDX-License-Identifier: MIT",
+        ],
+    )
+    def test_simple(self, text):
+        """If a text contains a license, a copyright notice, or both, expect
+        True.
+        """
+        assert contains_reuse_info(text)
+
+    def test_no_info(self):
+        """If there is no info, expect False."""
+        assert not contains_reuse_info("Hello, world!")
+
+    def test_ignore_block(self):
+        """If the info is in an ignore block, expect False."""
+        assert not contains_reuse_info(
+            cleandoc(
+                f"""
+                REUSE-IgnoreStart
+                Copyright Jane Doe
+                {_IGNORE_END}
+                """
+            )
+        )
 
 
 # Reuse-IgnoreEnd

@@ -11,19 +11,27 @@ import logging
 import re
 from collections import Counter, defaultdict
 from collections.abc import Iterable
-from dataclasses import dataclass, field
+from dataclasses import InitVar, dataclass, field
 from enum import Enum, unique
+from functools import cached_property
 from io import StringIO
 from itertools import chain
 from typing import Any, Literal, NewType, cast
 
-from boolean.boolean import Expression
+from license_expression import (
+    ExpressionError,
+    LicenseExpression,
+    Licensing,
+    combine_expressions,
+)
 
 from .exceptions import CopyrightNoticeParseError, YearRangeParseError
 
 # REUSE-IgnoreStart
 
 _LOGGER = logging.getLogger(__name__)
+
+_LICENSING = Licensing()
 
 #: A string that is four digits long.
 FourDigitString = NewType("FourDigitString", str)
@@ -550,10 +558,11 @@ class CopyrightNotice:
     def merge(
         cls, copyright_notices: Iterable["CopyrightNotice"]
     ) -> set["CopyrightNotice"]:
-        """Given an iterable of :class:`CopyrightNotice`s, merge all notices
+        """Given an iterable of :class:`CopyrightNotice`, merge all notices
         which have the same name. The years are compacted, and from the
-        :class:`CopyrightPrefix`es, the most common is chosen. If there is a tie
-        in frequency, choose the one which appears first in the enum.
+        :class:`CopyrightPrefix` prefixes in *copyright_notices*, the most
+        common is chosen. If there is a tie in frequency, choose the one which
+        appears first in the enum.
         """
         matches: defaultdict[str, list[CopyrightNotice]] = defaultdict(list)
         result: set[CopyrightNotice] = set()
@@ -612,6 +621,117 @@ class CopyrightNotice:
         return str(self)
 
 
+@dataclass(frozen=True)
+class SpdxExpression:
+    """A simple dataclass that contains an SPDX License Expression.
+
+    Use :meth:`SpdxExpression.__str__` to get a string representation of the
+    expression.
+    """
+
+    #: A string representing an SPDX License Expression. It may be invalid.
+    text: InitVar[str]
+    _text: str = field(init=False, repr=True)
+
+    def __post_init__(self, text: str) -> None:
+        object.__setattr__(self, "_text", text)
+
+    @cached_property
+    def is_valid(self) -> bool:
+        """If :attr:`text` is a valid SPDX License Expression, this property is
+        :const:`True`.
+
+        To be 'valid', it has to follow the grammar and syntax of the SPDX
+        specification. The licenses and exceptions need not appear on the
+        license list.
+        """
+        return self._expression is not None
+
+    @cached_property
+    def _expression(self) -> LicenseExpression | None:
+        """A parsed :class:`LicenseExpression` from :attr:`text`. If
+        :attr:`text` could not be parsed, *_expression*'s value is
+        :const:`None`.
+        """
+        try:
+            return _LICENSING.parse(self._text, simple=True)
+        except ExpressionError:
+            return None
+
+    @cached_property
+    def licenses(self) -> list[str]:
+        """Return a list of licenses used in the expression, in order of
+        appearance, without duplicates.
+
+        If the expression is invalid, the list contains a single item
+        :attr:`text`.
+        """
+        if self._expression is not None:
+            return _LICENSING.license_keys(self._expression)
+        return [self._text]
+
+    @classmethod
+    def combine(
+        cls,
+        spdx_expressions: Iterable["SpdxExpression"],
+    ) -> "SpdxExpression":
+        """Combine the *spdx_expressions* into a single :class:`SpdxExpression`,
+        joined by AND operators.
+        """
+        is_valid = True
+        for expression in spdx_expressions:
+            if not expression.is_valid:
+                is_valid = False
+        if is_valid:
+            return cls(
+                str(
+                    combine_expressions(
+                        list(
+                            # pylint: disable=protected-access
+                            expression._expression
+                            for expression in spdx_expressions
+                        )
+                    )
+                )
+            )
+        return cls(
+            " AND ".join(f"({expression})" for expression in spdx_expressions)
+        )
+
+    def simplify(self) -> "SpdxExpression":
+        """If the expression is valid, return a new :class:`SpdxExpression`
+        which is 'simplified', meaning that boolean operators are collapsed.
+        'MIT OR MIT' simplifies to 'MIT', and so forth.
+
+        If the expression is not valid, ``self`` is returned.
+        """
+        if self.is_valid:
+            return self.__class__(
+                str(cast(LicenseExpression, self._expression).simplify())
+            )
+        return self
+
+    def __str__(self) -> str:
+        """Return a string representation of the expression if it is valid.
+        Otherwise, return :attr:`text`.
+        """
+        if self._expression is not None:
+            return str(self._expression)
+        return self._text
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, SpdxExpression):
+            return NotImplemented
+        if self._expression is not None and other._expression is not None:
+            return self._expression == other._expression
+        return self._text == other._text
+
+    def __lt__(self, other: Any) -> bool:
+        if not isinstance(other, SpdxExpression):
+            return NotImplemented
+        return str(self) < str(other)
+
+
 class SourceType(Enum):
     """
     An enumeration representing the types of sources for license information.
@@ -631,7 +751,7 @@ class SourceType(Enum):
 class ReuseInfo:
     """Simple dataclass holding licensing and copyright information"""
 
-    spdx_expressions: set[Expression] = field(default_factory=set)
+    spdx_expressions: set[SpdxExpression] = field(default_factory=set)
     copyright_notices: set[CopyrightNotice] = field(default_factory=set)
     contributor_lines: set[str] = field(default_factory=set)
     path: str | None = None

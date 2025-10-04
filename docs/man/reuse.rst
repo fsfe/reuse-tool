@@ -35,9 +35,6 @@ specification. It searches the entire file for REUSE information, whether in
 comments or not. This makes sure that the tool can parse any type of plain-text
 file, even if the comment style is not recognised.
 
-If a file is found to have an unparsable tag, that file is not parsed at all.
-This is a bug (`<https://github.com/fsfe/reuse-tool/issues/4>`_).
-
 The tool does not verify the correctness of copyright notices. If it finds any
 line containing '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag and
 everything following it is considered a valid copyright notice, even if the

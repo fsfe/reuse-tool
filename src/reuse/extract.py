@@ -26,12 +26,13 @@ from itertools import chain
 from types import ModuleType
 from typing import BinaryIO, Generator, NamedTuple
 
-from boolean.boolean import Expression, ParseError
-from license_expression import ExpressionError
-
-from . import _LICENSING
 from .comment import _all_style_classes
-from .copyright import COPYRIGHT_NOTICE_PATTERN, CopyrightNotice, ReuseInfo
+from .copyright import (
+    COPYRIGHT_NOTICE_PATTERN,
+    CopyrightNotice,
+    ReuseInfo,
+    SpdxExpression,
+)
 from .exceptions import NoEncodingModuleError
 from .i18n import _
 
@@ -88,7 +89,7 @@ SPDX_SNIPPET_INDICATOR = b"SPDX-SnippetBegin"
 _LOGGER = logging.getLogger(__name__)
 
 _START_PATTERN = r"(?:^.*?)"
-_END_PATTERN = r"(?:({})\s*)*$".format(
+_END_PATTERN = r"(?:\s*(?:{})\s*)*$".format(
     "|".join(
         set(
             chain(
@@ -242,22 +243,14 @@ def extract_reuse_info(text: str) -> ReuseInfo:
         ParseError: if an SPDX expression could not be parsed.
     """
     notices: set[CopyrightNotice] = set()
-    expressions: set[Expression] = set()
+    expressions: set[SpdxExpression] = set()
     contributors: set[str] = set()
 
     for notice in _COPYRIGHT_NOTICE_PATTERN.finditer(text):
         notices.add(CopyrightNotice.from_match(notice))
 
     for expression in _LICENSE_IDENTIFIER_PATTERN.finditer(text):
-        try:
-            expressions.add(_LICENSING.parse(expression.group("value")))
-        except (ExpressionError, ParseError):
-            _LOGGER.error(
-                _("Could not parse '{expression}'").format(
-                    expression=expression.group("value")
-                )
-            )
-            raise
+        expressions.add(SpdxExpression(expression.group("value")))
 
     # TODO: We can generalise this. But if we do, we shouldn't run a regex over
     # the entire file multiple times. We should check for `SPDX-.+:.*$`
@@ -451,10 +444,7 @@ def reuse_info_of_file(
 
 def contains_reuse_info(text: str) -> bool:
     """The text contains REUSE info."""
-    try:
-        return bool(extract_reuse_info(text))
-    except (ExpressionError, ParseError):
-        return False
+    return bool(extract_reuse_info(filter_ignore_block(text).text))
 
 
 # REUSE-IgnoreEnd
