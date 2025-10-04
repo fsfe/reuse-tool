@@ -185,7 +185,7 @@ class ProjectReportSubsetProtocol(Protocol):
         """
 
     @property
-    def invalid_expressions(self) -> dict[Path, set[str]]:
+    def invalid_spdx_expressions(self) -> dict[Path, set[str]]:
         """Invalid expressions by file."""
 
     @property
@@ -460,12 +460,12 @@ class ProjectReport:
         return result
 
     @cached_property
-    def invalid_expressions(self) -> dict[Path, set[str]]:
+    def invalid_spdx_expressions(self) -> dict[Path, set[str]]:
         """Invalid expressions by file."""
         return {
-            file_report.path: file_report.invalid_expressions
+            file_report.path: file_report.invalid_spdx_expressions
             for file_report in self.file_reports
-            if file_report.invalid_expressions
+            if file_report.invalid_spdx_expressions
         }
 
     @cached_property
@@ -497,7 +497,7 @@ class ProjectReport:
                 self.deprecated_licenses,
                 self.licenses_without_extension,
                 self.read_errors,
-                self.invalid_expressions,
+                self.invalid_spdx_expressions,
                 self.files_without_copyright,
                 self.files_without_licenses,
             )
@@ -572,15 +572,15 @@ class ProjectReport:
                     " top of the output as part of the logged error messages."
                 )
             )
-        if self.invalid_expressions:
+        if self.invalid_spdx_expressions:
             recommendations.append(
                 _(
-                    "Fix invalid expressions: In one or more files there are"
-                    " SPDX license expressions which cannot be parsed. Check"
-                    " whether the value that follows 'SPDX-License-Identifier:'"
-                    " is correct. If the detected expression is not meant to be"
-                    " valid, put it between 'REUSE-IgnoreStart' and"
-                    " 'REUSE-IgnoreEnd' comments."
+                    "Fix invalid SPDX License Expressions: In one or more files"
+                    " there are SPDX License Expressions which cannot be"
+                    " parse. Check whether the value that follows"
+                    " 'SPDX-License-Identifier:' is correct. If the detected"
+                    " expression is not meant to be valid, put it between"
+                    " 'REUSE-IgnoreStart' and 'REUSE-IgnoreEnd' comments."
                 )
             )
         if self.files_without_copyright or self.files_without_licenses:
@@ -654,12 +654,12 @@ class ProjectSubsetReport:
         return result
 
     @property
-    def invalid_expressions(self) -> dict[Path, set[str]]:
+    def invalid_spdx_expressions(self) -> dict[Path, set[str]]:
         """Invalid expressions by file."""
         return {
-            file_report.path: file_report.invalid_expressions
+            file_report.path: file_report.invalid_spdx_expressions
             for file_report in self.file_reports
-            if file_report.invalid_expressions
+            if file_report.invalid_spdx_expressions
         }
 
     @property
@@ -710,7 +710,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
         self.copyright: str = ""
 
         self.missing_licenses: set[str] = set()
-        self.invalid_expressions: set[str] = set()
+        self.invalid_spdx_expressions: set[str] = set()
 
     def to_dict_lint(self) -> dict[str, Any]:
         """Turn the report into a json-like dictionary with exclusively
@@ -781,7 +781,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
         for reuse_info in reuse_infos:
             for expression in reuse_info.spdx_expressions:
                 if not expression.is_valid:
-                    report.invalid_expressions.add(str(expression))
+                    report.invalid_spdx_expressions.add(str(expression))
                     report.licenses_in_file.append(str(expression))
                     if str(expression) not in project.licenses:
                         report.missing_licenses.add(str(expression))
@@ -806,7 +806,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
             report.license_concluded = "NOASSERTION"
         elif not any(reuse_info.spdx_expressions for reuse_info in reuse_infos):
             report.license_concluded = "NONE"
-        elif report.invalid_expressions:
+        elif report.invalid_spdx_expressions:
             report.license_concluded = "NOASSERTION"
         else:
             # Merge all the license expressions together, wrapping them in

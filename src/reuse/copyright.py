@@ -623,13 +623,13 @@ class CopyrightNotice:
 
 @dataclass(frozen=True)
 class SpdxExpression:
-    """A simple dataclass that contains an SPDX license expression.
+    """A simple dataclass that contains an SPDX License Expression.
 
     Use :meth:`SpdxExpression.__str__` to get a string representation of the
     expression.
     """
 
-    #: A string representing an SPDX license expression. It may be invalid.
+    #: A string representing an SPDX License Expression. It may be invalid.
     text: InitVar[str]
     _text: str = field(init=False, repr=True)
 
@@ -638,7 +638,7 @@ class SpdxExpression:
 
     @cached_property
     def is_valid(self) -> bool:
-        """If :attr:`text` is a valid SPDX license expression, this property is
+        """If :attr:`text` is a valid SPDX License Expression, this property is
         :const:`True`.
 
         To be 'valid', it has to follow the grammar and syntax of the SPDX

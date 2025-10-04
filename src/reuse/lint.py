@@ -88,9 +88,11 @@ def format_plain(report: ProjectReport) -> str:
                 output.write(f"* {path}\n")
             output.write("\n")
 
-        if report.invalid_expressions:
-            output.write("# " + _("INVALID EXPRESSIONS") + "\n\n")
-            for path, expressions in sorted(report.invalid_expressions.items()):
+        if report.invalid_spdx_expressions:
+            output.write("# " + _("INVALID SPDX LICENSE EXPRESSIONS") + "\n\n")
+            for path, expressions in sorted(
+                report.invalid_spdx_expressions.items()
+            ):
                 output.write(
                     _("'{}' contains invalid SPDX License Expressions:").format(
                         path
@@ -164,6 +166,9 @@ def format_plain(report: ProjectReport) -> str:
         _("Unused licenses:"): ", ".join(report.unused_licenses),
         _("Used licenses:"): ", ".join(report.used_licenses),
         _("Read errors:"): str(len(report.read_errors)),
+        _("Invalid SPDX License Expressions:"): ", ".join(
+            map(str, report.invalid_spdx_expressions.keys())
+        ),
         _(
             "Files with copyright information:"
         ): f"{total_files - len(report.files_without_copyright)}"
@@ -264,19 +269,21 @@ def format_lines_subset(report: ProjectReportSubsetProtocol) -> str:
     for lic, files in sorted(report.missing_licenses.items()):
         for path in sorted(files):
             output.write(
-                _("{path}: missing license {lic}\n").format(path=path, lic=lic)
+                _("{path}: missing license '{lic}'\n").format(
+                    path=path, lic=lic
+                )
             )
 
     # Read errors
     for path in sorted(report.read_errors):
         output.write(_("{path}: read error\n").format(path=path))
 
-    for path, expressions in sorted(report.invalid_expressions.items()):
+    for path, expressions in sorted(report.invalid_spdx_expressions.items()):
         for expression in sorted(expressions):
             output.write(
-                _("{path}: invalid expression {expression}").format(
-                    path=path, expression=expression
-                )
+                _(
+                    "{path}: invalid SPDX License Expression '{expression}'"
+                ).format(path=path, expression=expression)
             )
 
     # Without licenses

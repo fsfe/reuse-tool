@@ -157,7 +157,7 @@ def test_lint_read_errors(fake_repository):
     assert "Fix read errors:" in result
 
 
-def test_invalid_expressions(fake_repository):
+def test_invalid_spdx_expressions(fake_repository):
     """An invalid expression is detected."""
     (fake_repository / "foo.py").write_text(
         cleandoc(
@@ -173,9 +173,9 @@ def test_invalid_expressions(fake_repository):
     result = format_plain(report)
 
     assert ":-(" in result
-    assert "# INVALID EXPRESSIONS" in result
+    assert "# INVALID SPDX LICENSE EXPRESSIONS" in result
     assert "foo.py' contains invalid SPDX License Expressions:" in result
-    assert "Fix invalid expressions:" in result
+    assert "Fix invalid SPDX License Expressions:" in result
 
 
 def test_lint_files_without_copyright_and_licensing(fake_repository):
