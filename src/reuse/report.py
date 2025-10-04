@@ -49,6 +49,8 @@ _CPU_COUNT: Final[int] = cpu_count() or 1
 #: parallelisation.
 ENABLE_PARALLEL = True
 
+# REUSE-IgnoreStart
+
 
 class _MultiprocessingContainer:
     """Container that remembers some data in order to generate a FileReport."""
@@ -850,3 +852,6 @@ def format_creator(creator: str | None) -> str:
         # The creator field already contains an email address
         return creator
     return creator + " ()"
+
+
+# REUSE-IgnoreEnd

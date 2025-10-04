@@ -34,6 +34,8 @@ from reuse.extract import (
     reuse_info_of_file,
 )
 
+_IGNORE_END = "REUSE-IgnoreEnd"
+
 # REUSE-IgnoreStart
 
 
@@ -302,13 +304,13 @@ class TestReuseInfoOfFile:
         """
         buffer = BytesIO(
             cleandoc(
-                """
+                f"""
                 SPDX-FileCopyrightText: 2019 Jane Doe
                 SPDX-License-Identifier: CC0-1.0
                 REUSE-IgnoreStart
                 SPDX-FileCopyrightText: 2019 John Doe
                 SPDX-License-Identifier: GPL-3.0-or-later
-                REUSE-IgnoreEnd
+                {_IGNORE_END}
                 SPDX-FileCopyrightText: 2019 Eve
                 """
             ).encode("utf-8")
@@ -409,11 +411,11 @@ class TestFilterIgnoreBlock:
         markers are in comment style.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant text
             # REUSE-IgnoreStart
             Ignored text
-            # REUSE-IgnoreEnd
+            # {_IGNORE_END}
             Other relevant text
             """
         )
@@ -427,11 +429,11 @@ class TestFilterIgnoreBlock:
         markers are not comment style.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant text
             REUSE-IgnoreStart
             Ignored text
-            REUSE-IgnoreEnd
+            {_IGNORE_END}
             Other relevant text
             """
         )
@@ -451,11 +453,11 @@ class TestFilterIgnoreBlock:
         information to be ignored on the same line.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant text
             REUSE-IgnoreStart Copyright me
             Ignored text
-            sdojfsdREUSE-IgnoreEnd
+            sdojfsd{_IGNORE_END}
             Other relevant text
             """
         )
@@ -475,10 +477,10 @@ class TestFilterIgnoreBlock:
         information on the same line.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant textREUSE-IgnoreStart
             Ignored text
-            REUSE-IgnoreEndOther relevant text
+            {_IGNORE_END}Other relevant text
             """
         )
         expected = "Relevant textOther relevant text"
@@ -493,8 +495,8 @@ class TestFilterIgnoreBlock:
         information on the same line.
         """
         text = cleandoc(
-            """
-            Relevant textREUSE-IgnoreStartIgnored textREUSE-IgnoreEndOther
+            f"""
+            Relevant textREUSE-IgnoreStartIgnored text{_IGNORE_END}Other
             relevant text
             """
         )
@@ -512,8 +514,8 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if it has relevant
         information on the same line.
         """
-        text = "Relevant textREUSE-IgnoreEndOther relevant textREUSE-IgnoreStartIgnored text"  # pylint: disable=line-too-long
-        expected = "Relevant textREUSE-IgnoreEndOther relevant text"
+        text = f"Relevant text{_IGNORE_END}Other relevant textREUSE-IgnoreStartIgnored text"  # pylint: disable=line-too-long
+        expected = f"Relevant text{_IGNORE_END}Other relevant text"
 
         result = filter_ignore_block(text)
         assert result == (expected, True)
@@ -523,8 +525,8 @@ class TestFilterIgnoreBlock:
         starts with an end instruction.
         """
         text = cleandoc(
-            """
-            REUSE-IgnoreEnd
+            f"""
+            {_IGNORE_END}
             Relevant text
             REUSE-IgnoreStart
             IgnoredText
@@ -533,8 +535,8 @@ class TestFilterIgnoreBlock:
             """
         )
         expected = cleandoc(
-            """
-            REUSE-IgnoreEnd
+            f"""
+            {_IGNORE_END}
             Relevant text
 
             More relevant text
@@ -566,15 +568,15 @@ class TestFilterIgnoreBlock:
         information on the same line.
         """
         text = cleandoc(
-            """
+            f"""
             Relevant text
             REUSE-IgnoreStart
             Ignored text
-            REUSE-IgnoreEnd
+            {_IGNORE_END}
             Other relevant text
             REUSE-IgnoreStart
             Other ignored text
-            REUSE-IgnoreEnd
+            {_IGNORE_END}
             Even more relevant text
             """
         )
@@ -606,6 +608,7 @@ class TestFilterIgnoreBlock:
         *in_ignore_block*.
         """
         text = "REUSE-IgnoreEnd"
+        # REUSE-IgnoreStart
         expected = ""
 
         result = filter_ignore_block(text, in_ignore_block=True)
@@ -659,10 +662,10 @@ class TestContainsReuseInfo:
         """If the info is in an ignore block, expect False."""
         assert not contains_reuse_info(
             cleandoc(
-                """
+                f"""
                 REUSE-IgnoreStart
                 Copyright Jane Doe
-                REUSE-IgnoreEnd
+                {_IGNORE_END}
                 """
             )
         )
