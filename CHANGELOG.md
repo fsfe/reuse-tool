@@ -95,6 +95,7 @@ reading the 'Changed' section of this change log to see what changed.
   in a file, the subsequent text is not actually ignored. (#1229)
 - If using `reuse annotate` to write to a file, the BOM is preserved if the
   encoding is UTF-8, UTF-16, or UTF-32. (#1235, #384)
+- The summaries of `reuse lint` are now sorted better. (#1241)
 - Several performance improvements. Local testing on a 12-core laptop suggests
   speedup of up to 50%, but it may depend on your repository. (#1222, #1223,
   #1230, #1241)
