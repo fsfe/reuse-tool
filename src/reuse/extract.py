@@ -116,19 +116,20 @@ _END_PATTERN = r"(?:\s*(?:{})\s*)*$".format(
         )
     )
 )
+_ALL_MATCH_PATTERN = re.compile(
+    r"^.*?(?:SPDX-\S+:|Copyright|©).*$",
+    re.MULTILINE,
+)
 _COPYRIGHT_NOTICE_PATTERN = re.compile(
     _START_PATTERN + COPYRIGHT_NOTICE_PATTERN.pattern + _END_PATTERN,
-    re.MULTILINE,
 )
 _LICENSE_IDENTIFIER_PATTERN = re.compile(
     _START_PATTERN
     + r"SPDX-License-Identifier:\s*(?P<value>.*?)"
     + _END_PATTERN,
-    re.MULTILINE,
 )
 _CONTRIBUTOR_PATTERN = re.compile(
     _START_PATTERN + r"SPDX-FileContributor:\s*(?P<value>.*?)" + _END_PATTERN,
-    re.MULTILINE,
 )
 # The keys match the relevant attributes of ReuseInfo.
 _SPDX_TAGS: dict[str, re.Pattern] = {
@@ -246,17 +247,14 @@ def extract_reuse_info(text: str) -> ReuseInfo:
     expressions: set[SpdxExpression] = set()
     contributors: set[str] = set()
 
-    for notice in _COPYRIGHT_NOTICE_PATTERN.finditer(text):
-        notices.add(CopyrightNotice.from_match(notice))
-
-    for expression in _LICENSE_IDENTIFIER_PATTERN.finditer(text):
-        expressions.add(SpdxExpression(expression.group("value")))
-
-    # TODO: We can generalise this. But if we do, we shouldn't run a regex over
-    # the entire file multiple times. We should check for `SPDX-.+:.*$`
-    # (simplified), and further filter the results in a second pass.
-    for contributor in _CONTRIBUTOR_PATTERN.finditer(text):
-        contributors.add(contributor.group("value"))
+    for possible in _ALL_MATCH_PATTERN.finditer(text):
+        possible_text = possible.group()
+        if match := _COPYRIGHT_NOTICE_PATTERN.match(possible_text):
+            notices.add(CopyrightNotice.from_match(match))
+        elif match := _LICENSE_IDENTIFIER_PATTERN.match(possible_text):
+            expressions.add(SpdxExpression(match.group("value")))
+        elif match := _CONTRIBUTOR_PATTERN.match(possible_text):
+            contributors.add(match.group("value"))
 
     return ReuseInfo(
         spdx_expressions=expressions,
