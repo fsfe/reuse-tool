@@ -40,8 +40,6 @@ line containing '©', 'Copyright', or 'SPDX-FileCopyrightText:', then the tag an
 everything following it is considered a valid copyright notice, even if the
 copyright notice is not compliant with the specification.
 
-Symbolic links and files that are zero-sized are automatically ignored.
-
 Options
 -------
 
