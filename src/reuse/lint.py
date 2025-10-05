@@ -11,6 +11,7 @@ the reports and printing some conclusions.
 
 import json
 from io import StringIO
+from itertools import chain
 from pathlib import Path
 from textwrap import TextWrapper
 from typing import Any
@@ -166,8 +167,14 @@ def format_plain(report: ProjectReport) -> str:
         _("Unused licenses:"): ", ".join(report.unused_licenses),
         _("Used licenses:"): ", ".join(report.used_licenses),
         _("Read errors:"): str(len(report.read_errors)),
-        _("Invalid SPDX License Expressions:"): ", ".join(
-            map(str, report.invalid_spdx_expressions.keys())
+        _("Invalid SPDX License Expressions:"): str(
+            len(
+                list(
+                    chain.from_iterable(
+                        report.invalid_spdx_expressions.values()
+                    )
+                )
+            )
         ),
         _(
             "Files with copyright information:"

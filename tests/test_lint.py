@@ -165,6 +165,8 @@ def test_invalid_spdx_expressions(fake_repository):
             Copyright Jane Doe
 
             SPDX-License-Identifier: MIT OR
+            SPDX-License-Identifier: Apache-2.0 AND
+            SPDX-License-Identifier: 0BSD
             """
         )
     )
@@ -175,6 +177,7 @@ def test_invalid_spdx_expressions(fake_repository):
     assert ":-(" in result
     assert "# INVALID SPDX LICENSE EXPRESSIONS" in result
     assert "foo.py' contains invalid SPDX License Expressions:" in result
+    assert "Invalid SPDX License Expressions: 2" in result
     assert "Fix invalid SPDX License Expressions:" in result
 
 
