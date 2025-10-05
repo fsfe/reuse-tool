@@ -9,16 +9,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-04 20:58+0000\n"
-"PO-Revision-Date: 2025-10-04 14:01+0000\n"
+"PO-Revision-Date: 2025-10-05 18:00+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
-"tool/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/"
+"reuse-tool/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural="
+"(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? "
+"1 : 2);\n"
 "X-Generator: Weblate 5.14-dev\n"
 
 #: src/reuse/lint.py:38
@@ -26,9 +27,8 @@ msgid "BAD LICENSES"
 msgstr "ПОГАНІ ЛІЦЕНЗІЇ"
 
 #: src/reuse/lint.py:40
-#, fuzzy
 msgid "The following licenses are not valid SPDX licenses:"
-msgstr "Не використовуються такі ліцензії:"
+msgstr "Наступні ліцензії не є дійсними ліцензіями SPDX:"
 
 #: src/reuse/lint.py:48
 msgid "DEPRECATED LICENSES"
@@ -72,12 +72,11 @@ msgstr "Не вдалося прочитати:"
 
 #: src/reuse/lint.py:92
 msgid "INVALID SPDX LICENSE EXPRESSIONS"
-msgstr ""
+msgstr "НЕДІЙСНІ ВИРАЗИ ЛІЦЕНЗІЇ SPDX"
 
 #: src/reuse/lint.py:97
-#, fuzzy
 msgid "'{}' contains invalid SPDX License Expressions:"
-msgstr "'{}' не є допустимим SPDX-виразом."
+msgstr "'{}' містить недійсні вирази ліцензії SPDX:"
 
 #: src/reuse/lint.py:122
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
@@ -129,9 +128,8 @@ msgid "Read errors:"
 msgstr "Помилки читання:"
 
 #: src/reuse/lint.py:169
-#, fuzzy
 msgid "Invalid SPDX License Expressions:"
-msgstr "'{}' не є допустимим SPDX-виразом."
+msgstr "Недійсні вирази ліцензії SPDX:"
 
 #: src/reuse/lint.py:173
 msgid "Files with copyright information:"
@@ -158,9 +156,9 @@ msgid "RECOMMENDATIONS"
 msgstr "РЕКОМЕНДАЦІЇ"
 
 #: src/reuse/lint.py:272
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path}: missing license '{lic}'\n"
-msgstr "{path}: пропущена ліцензія {lic}\n"
+msgstr "{path}: відсутня ліцензія '{lic}'\n"
 
 #: src/reuse/lint.py:279
 #, python-brace-format
@@ -170,7 +168,7 @@ msgstr "{path}: помилка читання\n"
 #: src/reuse/lint.py:285
 #, python-brace-format
 msgid "{path}: invalid SPDX License Expression '{expression}'"
-msgstr ""
+msgstr "{path}: недійсний вираз ліцензії SPDX '{expression}'"
 
 #: src/reuse/lint.py:291
 #, python-brace-format
@@ -183,9 +181,9 @@ msgid "{path}: no copyright notice\n"
 msgstr "{path}: без повідомлення про авторське право\n"
 
 #: src/reuse/lint.py:321
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{lic_path}: bad license {lic}\n"
-msgstr "{path}: погана ліцензія {lic}\n"
+msgstr "{lic_path}: погана ліцензія {lic}\n"
 
 #: src/reuse/lint.py:330
 #, python-brace-format
@@ -398,6 +396,11 @@ msgid ""
 "not meant to be valid, put it between 'REUSE-IgnoreStart' and 'REUSE-"
 "IgnoreEnd' comments."
 msgstr ""
+"Виправлення недійсних виразів ліцензії SPDX: в одному або декількох файлах є "
+"вирази ліцензії SPDX, які не можна проаналізувати. Перевірте, чи правильне "
+"значення, що йде за «SPDX-License-Identifier:». Якщо виявлений вираз не є "
+"дійсним, помістіть його між коментарями «REUSE-IgnoreStart» і «REUSE-"
+"IgnoreEnd»."
 
 #: src/reuse/report.py:589
 msgid ""
