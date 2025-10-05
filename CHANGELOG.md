@@ -62,7 +62,8 @@ reading the 'Changed' section of this change log to see what changed.
     dependencies `charset-normalizer` and `chardet`. So long as at least one of
     these is installed, the program will work. (#1235)
   - The dependency `binaryornot` has been removed. (#1235)
-  - The minimum requirements of several dependencies have been updated. (#1235)
+  - The minimum requirements of several dependencies have been updated. (#1235,
+    #1241)
 - `reuse lint` now always searches the entire file for REUSE information.
   Previously, it only searched the first 4 KiB under most circumstances. (#1229)
 - The encodings of files are now detected before they are read or altered.
