@@ -376,7 +376,7 @@ class ProjectReport:
         cls,
         project: Project,
         do_checksum: bool = True,
-        multiprocessing: bool = cpu_count() > 1,  # type: ignore
+        multiprocessing: bool = _CPU_COUNT > 1,
         add_license_concluded: bool = False,
     ) -> "ProjectReport":
         """Generate a :class:`ProjectReport` from a :class:`Project`.
@@ -619,7 +619,7 @@ class ProjectSubsetReport:
         cls,
         project: Project,
         subset_files: Collection[StrPath],
-        multiprocessing: bool = cpu_count() > 1,  # type: ignore
+        multiprocessing: bool = _CPU_COUNT > 1,
     ) -> "ProjectSubsetReport":
         """Generate a :class:`ProjectSubsetReport` from a :class:`Project`.
 
