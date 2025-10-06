@@ -25,7 +25,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
-## v6.0.0 - 2025-10-04
+## v6.0.0 - 2025-10-06
 
 This release contains a lot of refactoring regarding the parsing of files. The
 most impactful details are that `reuse lint` now searches every file in its
