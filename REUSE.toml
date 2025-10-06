@@ -18,9 +18,9 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 [[annotations]]
 path = "po/*.po"
-precedence = "aggregate"
-SPDX-FileCopyrightText = "2023 Free Software Foundation Europe e.V. <https://fsfe.org>"
-SPDX-License-Identifier = "CC-BY-SA-4.0"
+precedence = "override"
+SPDX-FileCopyrightText = "REUSE contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
 
 [[annotations]]
 path = "tests/resources/**"

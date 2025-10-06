@@ -11,6 +11,7 @@ the reports and printing some conclusions.
 
 import json
 from io import StringIO
+from itertools import chain
 from pathlib import Path
 from textwrap import TextWrapper
 from typing import Any
@@ -157,17 +158,25 @@ def format_plain(report: ProjectReport) -> str:
 
     total_files = len(report.file_reports)
     summary_contents = {
-        _("Bad licenses:"): ", ".join(report.bad_licenses),
-        _("Deprecated licenses:"): ", ".join(report.deprecated_licenses),
-        _("Licenses without file extension:"): ", ".join(
-            report.licenses_without_extension
+        _("Bad licenses:"): ", ".join(sorted(report.bad_licenses)),
+        _("Deprecated licenses:"): ", ".join(
+            sorted(report.deprecated_licenses)
         ),
-        _("Missing licenses:"): ", ".join(report.missing_licenses),
-        _("Unused licenses:"): ", ".join(report.unused_licenses),
-        _("Used licenses:"): ", ".join(report.used_licenses),
+        _("Licenses without file extension:"): ", ".join(
+            sorted(report.licenses_without_extension)
+        ),
+        _("Missing licenses:"): ", ".join(sorted(report.missing_licenses)),
+        _("Unused licenses:"): ", ".join(sorted(report.unused_licenses)),
+        _("Used licenses:"): ", ".join(sorted(report.used_licenses)),
         _("Read errors:"): str(len(report.read_errors)),
-        _("Invalid SPDX License Expressions:"): ", ".join(
-            map(str, report.invalid_spdx_expressions.keys())
+        _("Invalid SPDX License Expressions:"): str(
+            len(
+                list(
+                    chain.from_iterable(
+                        report.invalid_spdx_expressions.values()
+                    )
+                )
+            )
         ),
         _(
             "Files with copyright information:"

@@ -25,6 +25,82 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.0.0 - 2025-10-06
+
+This release contains a lot of refactoring regarding the parsing of files. The
+most impactful details are that `reuse lint` now searches every file in its
+entirety for REUSE information, tries to detect each file's encoding, and no
+longer breaks when invalid SPDX License Expressions are detected.
+
+Because files are now read in their entireties instead of just the first 4 KiB,
+you may need to add `REUSE-IgnoreStart` and `REUSE-IgnoreEnd` tags to get rid of
+false positives that were previously too deep into files for `reuse` to detect.
+
+**For package maintainers:** This release removes, adds, and changes
+dependencies. It merits running `git diff v5.1.1..v6.0.0 pyproject.toml` and
+reading the 'Changed' section of this change log to see what changed.
+
+### Added
+
+- Added new file extensions:
+  - `py.typed` (#1239)
+  - `.blade.php` (#573)
+- A new criterion 'Invalid SPDX License Expressions' has been added to
+  `reuse lint`. Invalid expressions are SPDX License Expressions which are not
+  valid according to the grammar of the SPDX specification. (#1240)
+
+### Changed
+
+- Python 3.9 support dropped. (#1219)
+- The Python requirement for `reuse` now no longer requires a lower major
+  version than 4. The requirement is now `>=3.10` instead of `>=3.10,<4`.
+  (#1219)
+- Dependency changes:
+  - Removed explicit dependency `boolean.boolean`. It is now an implicit
+    dependency via `license-expression`. (#1240)
+  - The dependency `python-magic` has been added, alongside the optional
+    dependencies `charset-normalizer` and `chardet`. So long as at least one of
+    these is installed, the program will work. (#1235)
+  - The dependency `binaryornot` has been removed. (#1235)
+  - The minimum requirements of several dependencies have been updated. (#1235,
+    #1241)
+- `reuse lint` now always searches the entire file for REUSE information.
+  Previously, it only searched the first 4 KiB under most circumstances. (#1229)
+- The encodings of files are now detected before they are read or altered.
+  (#1235, #1218)
+- The 'Bad licenses' criterion in `reuse lint` previously searched for bad
+  licenses in every single file. Now, only bad licenses in `LICENSES/` are
+  detected, which is more in line with the documentation. (#1240)
+- The behaviour of the `--year` option to `reuse annotate`is now different.
+  Previously, you could define `--year <year>` multiple times. Now you can only
+  do so once, but the value may be a string containing multiple years or a range
+  of years. (#1145)
+- `reuse annotate --merge-copyrights` works more efficiently now, capable of
+  better heuristics to detect years and year ranges. (#1145)
+- `reuse annotate --merge-copyrights` no longer adds spacing around the merged
+  year ranges. i.e. `2017-2025`, not `2017 - 2025`. (#1145)
+
+### Fixed
+
+- Unparseable SPDX expressions in a file now no longer cause the collection of
+  REUSE information from that file to entirely fail. (#1240)
+- Files with carriage return (`\r`) line endings are now correctly linted.
+  (#1235, #1226)
+- There used to be a specific scenario where `reuse lint` would read the
+  contents of an entire file into memory. This no longer happens.
+  `reuse annotate` will still read the entire file into memory. (#1229)
+- Fixed formatting in `lint` subcommand help message. (#1212, #1236)
+- Fixed a case where, if a recognised file extension (such as `.blade.php`) has
+  two or more components, it would not be correctly recognised. (#573)
+- Fixed a bug where, if `REUSE-IgnoreStart` is the very first thing that appears
+  in a file, the subsequent text is not actually ignored. (#1229)
+- If using `reuse annotate` to write to a file, the BOM is preserved if the
+  encoding is UTF-8, UTF-16, or UTF-32. (#1235, #384)
+- The summaries of `reuse lint` are now sorted better. (#1241)
+- Several performance improvements. Local testing on a 12-core laptop suggests
+  speedup of up to 50%, but it may depend on your repository. (#1222, #1223,
+  #1230, #1241)
+
 ## v5.1.1 - 2025-09-05
 
 ### Fixed

@@ -7,7 +7,7 @@
 
 [tool.poetry]
 name = "reuse"
-version = "5.1.1"
+version = "6.0.0"
 description = "reuse is a tool for compliance with the REUSE recommendations."
 authors = [
     "Free Software Foundation Europe <contact@fsfe.org>",
@@ -54,7 +54,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.10"
 Jinja2 = ">=3.0.0"
-license-expression = ">=1.0"
+license-expression = ">=21.6.14"
 python-debian = ">=0.1.48"
 # TODO: Consider removing this dependency in favour of tomllib when dropping
 # Python 3.10.
@@ -116,7 +116,7 @@ requires = ["poetry-core>=1.1.0"]
 build-backend = "poetry.core.masonry.api"
 
 [bumpver]
-current_version = "v5.1.1"
+current_version = "v6.0.0"
 version_pattern = "vMAJOR.MINOR.PATCH[PYTAGNUM]"
 commit_message = "Bump version: {old_version} → {new_version}"
 tag_message = "{new_version}"

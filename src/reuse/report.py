@@ -225,20 +225,26 @@ class ProjectReport:
         # Setup report data container
         data: dict[str, Any] = {
             "non_compliant": {
-                "bad_licenses": self.bad_licenses,
-                "deprecated_licenses": [
-                    str(file) for file in self.deprecated_licenses
-                ],
-                "licenses_without_extension": self.licenses_without_extension,
-                "missing_licenses": self.missing_licenses,
-                "unused_licenses": [str(file) for file in self.unused_licenses],
-                "read_errors": [str(file) for file in self.read_errors],
-                "missing_copyright_info": [
-                    str(file) for file in self.files_without_copyright
-                ],
-                "missing_licensing_info": [
-                    str(file) for file in self.files_without_licenses
-                ],
+                "bad_licenses": list(sorted(self.bad_licenses)),
+                "deprecated_licenses": list(
+                    sorted(str(file) for file in self.deprecated_licenses)
+                ),
+                "licenses_without_extension": list(
+                    sorted(self.licenses_without_extension)
+                ),
+                "missing_licenses": list(sorted(self.missing_licenses)),
+                "unused_licenses": list(
+                    sorted(str(file) for file in self.unused_licenses)
+                ),
+                "read_errors": list(
+                    sorted(str(file) for file in self.read_errors)
+                ),
+                "missing_copyright_info": list(
+                    sorted(str(file) for file in self.files_without_copyright)
+                ),
+                "missing_licensing_info": list(
+                    sorted(str(file) for file in self.files_without_licenses)
+                ),
             },
             "files": [],
             "summary": {
@@ -254,7 +260,7 @@ class ProjectReport:
         # Populate 'summary'
         number_of_files = len(self.file_reports)
         data["summary"] = {
-            "used_licenses": list(self.used_licenses),
+            "used_licenses": list(sorted(self.used_licenses)),
             "files_total": number_of_files,
             "files_with_copyright_info": number_of_files
             - len(self.files_without_copyright),
@@ -370,7 +376,7 @@ class ProjectReport:
         cls,
         project: Project,
         do_checksum: bool = True,
-        multiprocessing: bool = cpu_count() > 1,  # type: ignore
+        multiprocessing: bool = _CPU_COUNT > 1,
         add_license_concluded: bool = False,
     ) -> "ProjectReport":
         """Generate a :class:`ProjectReport` from a :class:`Project`.
@@ -613,7 +619,7 @@ class ProjectSubsetReport:
         cls,
         project: Project,
         subset_files: Collection[StrPath],
-        multiprocessing: bool = cpu_count() > 1,  # type: ignore
+        multiprocessing: bool = _CPU_COUNT > 1,
     ) -> "ProjectSubsetReport":
         """Generate a :class:`ProjectSubsetReport` from a :class:`Project`.
 
@@ -782,8 +788,6 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
             for expression in reuse_info.spdx_expressions:
                 if not expression.is_valid:
                     report.invalid_spdx_expressions.add(str(expression))
-                    if str(expression) not in project.licenses:
-                        report.missing_licenses.add(str(expression))
                 for identifier in expression.licenses:
                     # A license expression akin to Apache-1.0+ should register
                     # correctly if LICENSES/Apache-1.0.txt exists.
