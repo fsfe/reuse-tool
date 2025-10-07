@@ -119,7 +119,7 @@ REUSE_IGNORE_END = "REUSE-IgnoreEnd"
 SPDX_SNIPPET_INDICATOR = b"SPDX-SnippetBegin"
 
 _START_PATTERN = r"(?:^.*?)"
-_END_PATTERN = r"(?:\s*(?:{})\s*)*$".format(
+_END_PATTERN = r"(?:\s*(?:{})?\s*)*$".format(
     "|".join(
         set(
             chain(
@@ -137,17 +137,13 @@ _END_PATTERN = r"(?:\s*(?:{})\s*)*$".format(
                     r"'\s*/*>",
                     # ex: [SPDX-License-Identifier: GPL-3.0-or-later] ::
                     r"\]\s*::",
-                    # ex: ASCII art frames for comment headers. See #343 for a
-                    # real-world example of a project doing this (LLVM).
-                    r"\*",
-                    r"\*\|",
                 ),
             )
         )
     )
 )
 _ALL_MATCH_PATTERN = re.compile(
-    r"^.*?(?:SPDX-\S+:|Copyright|©).*$",
+    r"^(?P<prefix>.*?)(?:SPDX-\S+:|Copyright|©).*$",
     re.MULTILINE,
 )
 _COPYRIGHT_NOTICE_PATTERN = re.compile(
@@ -279,6 +275,9 @@ def extract_reuse_info(text: str) -> ReuseInfo:
 
     for possible in _ALL_MATCH_PATTERN.finditer(text):
         possible_text = possible.group()
+        prefix = possible.group("prefix").strip()
+        reversed_prefix = prefix[::-1]
+        possible_text = possible_text.removesuffix(reversed_prefix)
         if match := _COPYRIGHT_NOTICE_PATTERN.match(possible_text):
             notices.add(CopyrightNotice.from_match(match))
         elif match := _LICENSE_IDENTIFIER_PATTERN.match(possible_text):
