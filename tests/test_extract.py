@@ -55,17 +55,40 @@ class TestExtractReuseInfo:
             )
             assert result.spdx_expressions == {SpdxExpression(expression)}
 
-    def test_expression_from_ascii_art_frame(self):
-        """Parse an expression from an ASCII art frame"""
-        result = extract_reuse_info(
+    @pytest.mark.parametrize(
+        "art",
+        [
+            cleandoc(
+                r"""
+                /**********************************\
+                |*  SPDX-License-Identifier: MIT  *|
+                \**********************************/
+                """
+            ),
             cleandoc(
                 """
-                 /**********************************\\
-                 |*  SPDX-License-Identifier: MIT  *|
-                 \\**********************************/
+                //////////////////////////////////
+                // SPDX-License-Identifier: MIT //
+                //////////////////////////////////
                 """
-            )
-        )
+            ),
+            cleandoc(
+                """
+                ################################
+                # SPDX-License-Identifier: MIT #
+                ################################
+                """
+            ),
+            # Technically not art, but uses the same prefix-suffix mechanism.
+            '"SPDX-License-Identifier: MIT"',
+        ],
+    )
+    def test_expression_from_ascii_art_frame(self, art):
+        """Parse an expression from an ASCII art frame.
+
+        See #343 and #1248 for real-world examples.
+        """
+        result = extract_reuse_info(art)
         assert result.spdx_expressions == {SpdxExpression("MIT")}
 
     def test_erroneous_expression(self):
