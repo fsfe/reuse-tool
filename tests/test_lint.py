@@ -6,12 +6,13 @@
 
 """All tests for reuse.lint."""
 
-import re
 import shutil
 from inspect import cleandoc
+from pathlib import PurePath
 
 from conftest import cpython, posix
 
+from reuse._util import cleandoc_nl
 from reuse.lint import format_lines, format_plain
 from reuse.project import Project
 from reuse.report import ProjectReport
@@ -234,70 +235,145 @@ def test_lint_json_output(fake_repository):
             assert test_file["spdx_expressions"][0]["is_valid"]
 
 
-def test_lint_lines_output(fake_repository):
-    """Complete test for lint with lines output."""
-    # Prepare a repository that includes all types of situations:
-    # missing_licenses, unused_licenses, bad_licenses, deprecated_licenses,
-    # licenses_without_extension, files_without_copyright,
-    # files_without_licenses, read_errors
-    (fake_repository / "invalid-license.py").write_text(
-        "SPDX-License-Identifier: invalid"
-    )
-    (fake_repository / "no-license.py").write_text(
-        "SPDX-FileCopyrightText: Jane Doe"
-    )
-    (fake_repository / "LICENSES" / "invalid-license-text").write_text(
-        "An invalid license text"
-    )
-    (fake_repository / "LICENSES" / "Nokia-Qt-exception-1.1.txt").write_text(
-        "Deprecated"
-    )
-    (fake_repository / "LICENSES" / "MIT").write_text("foo")
-    (fake_repository / "file with spaces.py").write_text("foo")
-    (fake_repository / "invalid-expression.py").write_text(
-        cleandoc(
+class TestFormatLines:
+    """Tests for format_lines and format_lines_subset."""
+
+    def test_missing_licenses(self, empty_directory, format_lines_func):
+        """List missing licenses."""
+        (empty_directory / "foo.py").write_text(
+            cleandoc(
+                """
+                Copyright Jane Doe
+                SPDX-License-Identifier: MIT OR 0BSD
+                """
+            )
+        )
+        project = Project.from_directory(".")
+        report = ProjectReport.generate(project)
+        result = format_lines_func(report)
+        assert result == cleandoc_nl(
             """
-            Copyright Jane Doe
-            SPDX-License-Identifier: <invalid>"
+            foo.py: missing license '0BSD'
+            foo.py: missing license 'MIT'
             """
         )
-    )
 
-    project = Project.from_directory(fake_repository)
-    report = ProjectReport.generate(project)
+    @cpython
+    @posix
+    def test_read_errors(self, fake_repository, format_lines_func):
+        """Check read error output"""
+        (fake_repository / "restricted.py").write_text("foo")
+        (fake_repository / "restricted.py").chmod(0o000)
+        project = Project.from_directory(".")
+        report = ProjectReport.generate(project)
+        result = format_lines_func(report)
 
-    lines_result = format_lines(report)
-    lines_result_lines = lines_result.splitlines()
+        assert result == "restricted.py: read error\n"
 
-    assert len(lines_result_lines) == 12
+    def test_invalid_spdx_expressions(self, empty_directory, format_lines_func):
+        """List invalid SPDX License Expressions."""
+        (empty_directory / "foo.py").write_text(
+            cleandoc(
+                """
+                Copyright Jane Doe
+                SPDX-License-Identifier: MIT OR
+                SPDX-License-Identifier: <>
+                """
+            )
+        )
+        (empty_directory / "bar.py").write_text(
+            cleandoc(
+                """
+                Copyright John Doe
+                SPDX-License-Identifier: MIT OR
+                """
+            )
+        )
+        project = Project.from_directory(".")
+        report = ProjectReport.generate(project)
+        result = format_lines_func(report)
 
-    for line in lines_result_lines:
-        assert re.match(".+: [^:]+", line)
+        assert result == cleandoc_nl(
+            """
+            bar.py: missing license 'MIT OR'
+            bar.py: invalid SPDX License Expression 'MIT OR'
+            foo.py: missing license '<>'
+            foo.py: missing license 'MIT OR'
+            foo.py: invalid SPDX License Expression '<>'
+            foo.py: invalid SPDX License Expression 'MIT OR'
+            """
+        )
 
-    assert lines_result.count("invalid-license.py") == 2
-    assert lines_result.count("no-license.py") == 1
-    assert lines_result.count("LICENSES") == 6
-    assert lines_result.count("invalid-license-text") == 3
-    assert lines_result.count("Nokia-Qt-exception-1.1.txt") == 2
-    assert lines_result.count("MIT") == 2
-    assert lines_result.count("file with spaces.py") == 2
-    assert lines_result.count("invalid-expression.py") == 2
+    def test_no_copyright_or_licensing(
+        self, empty_directory, format_lines_func
+    ):
+        """List files without copyright or licensing."""
+        (empty_directory / "no_lic.py").write_text("Copyright Jane Doe")
+        (empty_directory / "no_copy.py").write_text(
+            "SPDX-License-Identifier: MIT"
+        )
+        (empty_directory / "none.py").write_text("Hello, world!")
+        project = Project.from_directory(".")
+        report = ProjectReport.generate(project)
+        result = format_lines_func(report)
 
+        assert result == cleandoc_nl(
+            """
+            no_copy.py: missing license 'MIT'
+            no_copy.py: no copyright notice
+            no_lic.py: no license identifier
+            none.py: no license identifier
+            none.py: no copyright notice
+            """
+        )
 
-@cpython
-@posix
-def test_lint_lines_read_errors(fake_repository):
-    """Check read error output"""
-    (fake_repository / "restricted.py").write_text("foo")
-    (fake_repository / "restricted.py").chmod(0o000)
-    project = Project.from_directory(fake_repository)
-    report = ProjectReport.generate(project)
-    result = format_lines(report)
-    print(result)
+    def test_bad_license(self, empty_directory):
+        """List bad licenses."""
+        (empty_directory / "LICENSES").mkdir()
+        (empty_directory / "LICENSES/bad.txt").write_text("Hello, world!")
+        project = Project.from_directory(".")
+        report = ProjectReport.generate(project)
+        result = format_lines(report)
 
-    assert len(result.splitlines()) == 1
-    assert "restricted.py" in result
-    assert "read error" in result
+        path = PurePath("LICENSES/bad.txt")
+        assert result == cleandoc_nl(
+            f"""
+            {path}: bad license 'bad'
+            {path}: unused license
+            """
+        )
+
+    def test_deprecated_license(self, empty_directory):
+        """List deprecated licenses."""
+        (empty_directory / "LICENSES").mkdir()
+        (empty_directory / "LICENSES/GPL-3.0.txt").write_text("Hello, world!")
+        project = Project.from_directory(".")
+        report = ProjectReport.generate(project)
+        result = format_lines(report)
+
+        path = PurePath("LICENSES/GPL-3.0.txt")
+        assert result == cleandoc_nl(
+            f"""
+            {path}: deprecated license
+            {path}: unused license
+            """
+        )
+
+    def test_licenses_without_extension(self, empty_directory):
+        """List licenses without extension."""
+        (empty_directory / "LICENSES").mkdir()
+        (empty_directory / "LICENSES/MIT").write_text("Hello, world!")
+        project = Project.from_directory(".")
+        report = ProjectReport.generate(project)
+        result = format_lines(report)
+
+        path = PurePath("LICENSES/MIT")
+        assert result == cleandoc_nl(
+            f"""
+            {path}: license without file extension
+            {path}: unused license
+            """
+        )
 
 
 # REUSE-IgnoreEnd
