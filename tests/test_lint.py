@@ -236,9 +236,9 @@ def test_lint_json_output(fake_repository):
 
 
 class TestFormatLines:
-    """Tests for format_lines."""
+    """Tests for format_lines and format_lines_subset."""
 
-    def test_missing_licenses(self, empty_directory):
+    def test_missing_licenses(self, empty_directory, format_lines_func):
         """List missing licenses."""
         (empty_directory / "foo.py").write_text(
             cleandoc(
@@ -250,7 +250,7 @@ class TestFormatLines:
         )
         project = Project.from_directory(".")
         report = ProjectReport.generate(project)
-        result = format_lines(report)
+        result = format_lines_func(report)
         assert result == cleandoc_nl(
             """
             foo.py: missing license '0BSD'
@@ -260,17 +260,17 @@ class TestFormatLines:
 
     @cpython
     @posix
-    def test_read_errors(self, fake_repository):
+    def test_read_errors(self, fake_repository, format_lines_func):
         """Check read error output"""
         (fake_repository / "restricted.py").write_text("foo")
         (fake_repository / "restricted.py").chmod(0o000)
         project = Project.from_directory(".")
         report = ProjectReport.generate(project)
-        result = format_lines(report)
+        result = format_lines_func(report)
 
         assert result == "restricted.py: read error\n"
 
-    def test_invalid_spdx_expressions(self, empty_directory):
+    def test_invalid_spdx_expressions(self, empty_directory, format_lines_func):
         """List invalid SPDX License Expressions."""
         (empty_directory / "foo.py").write_text(
             cleandoc(
@@ -291,20 +291,22 @@ class TestFormatLines:
         )
         project = Project.from_directory(".")
         report = ProjectReport.generate(project)
-        result = format_lines(report)
+        result = format_lines_func(report)
 
         assert result == cleandoc_nl(
             """
             bar.py: missing license 'MIT OR'
+            bar.py: invalid SPDX License Expression 'MIT OR'
             foo.py: missing license '<>'
             foo.py: missing license 'MIT OR'
-            bar.py: invalid SPDX License Expression 'MIT OR'
             foo.py: invalid SPDX License Expression '<>'
             foo.py: invalid SPDX License Expression 'MIT OR'
             """
         )
 
-    def test_no_copyright_or_licensing(self, empty_directory):
+    def test_no_copyright_or_licensing(
+        self, empty_directory, format_lines_func
+    ):
         """List files without copyright or licensing."""
         (empty_directory / "no_lic.py").write_text("Copyright Jane Doe")
         (empty_directory / "no_copy.py").write_text(
@@ -313,14 +315,14 @@ class TestFormatLines:
         (empty_directory / "none.py").write_text("Hello, world!")
         project = Project.from_directory(".")
         report = ProjectReport.generate(project)
-        result = format_lines(report)
+        result = format_lines_func(report)
 
         assert result == cleandoc_nl(
             """
             no_copy.py: missing license 'MIT'
+            no_copy.py: no copyright notice
             no_lic.py: no license identifier
             none.py: no license identifier
-            no_copy.py: no copyright notice
             none.py: no copyright notice
             """
         )

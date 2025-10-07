@@ -43,6 +43,7 @@ finally:
     from reuse import extract, report
     from reuse._util import setup_logging
     from reuse.global_licensing import ReuseDep5
+    from reuse.lint import format_lines, format_lines_subset
     from reuse.vcs import GIT_EXE, HG_EXE, JUJUTSU_EXE, PIJUL_EXE
 
 try:
@@ -665,6 +666,15 @@ def mock_date_today(monkeypatch):
 def contributors(request):
     """Provide contributors for SPDX-FileContributor field generation"""
     yield request.param
+
+
+@pytest.fixture(params=["format_lines", "format_lines_subset"])
+def format_lines_func(request):
+    """Return format_lines or format_lines_subset."""
+    if request.param == "format_lines":
+        yield format_lines
+    elif request.param == "format_lines_subset":
+        yield format_lines_subset
 
 
 # REUSE-IgnoreEnd
