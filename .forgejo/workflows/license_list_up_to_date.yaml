@@ -21,4 +21,4 @@ jobs:
           python-version: 3.x
       - name: Verify that the license lists are up-to-date
         run: |
-          python .github/workflows/license_list_up_to_date.py
+          python .forgejo/workflows/license_list_up_to_date.py

@@ -41,7 +41,7 @@ jobs:
       # Clone and lint repositories
       - name: Clone and lint repositories
         run:
-          poetry run python .github/workflows/third_party_lint.py --json ${{
+          poetry run python .forgejo/workflows/third_party_lint.py --json ${{
           matrix.repo }}
 
   third-party-lint-expect-failure:
@@ -64,5 +64,5 @@ jobs:
       # Clone and lint repositories
       - name: Clone and lint repositories
         run:
-          poetry run python .github/workflows/third_party_lint.py --json
+          poetry run python .forgejo/workflows/third_party_lint.py --json
           --expect-failure ${{ matrix.repo }}
