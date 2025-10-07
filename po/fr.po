@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 13:51+0000\n"
+"POT-Creation-Date: 2025-10-07 21:23+0000\n"
 "PO-Revision-Date: 2025-04-26 21:20+0000\n"
 "Last-Translator: Sébastien Helleu <flashcode@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -18,132 +18,132 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: src/reuse/lint.py:39
+#: src/reuse/lint.py:40
 #, fuzzy
 msgid "BAD LICENSES"
 msgstr "LICENCES INUTILISÉES"
 
-#: src/reuse/lint.py:41
+#: src/reuse/lint.py:42
 #, fuzzy
 msgid "The following licenses are not valid SPDX licenses:"
 msgstr "Les licences suivantes ne sont pas utilisées :"
 
-#: src/reuse/lint.py:49
+#: src/reuse/lint.py:50
 msgid "DEPRECATED LICENSES"
 msgstr "LICENCES OBSOLÈTES"
 
-#: src/reuse/lint.py:51
+#: src/reuse/lint.py:52
 msgid "The following licenses are deprecated by SPDX:"
 msgstr "Les licences suivantes sont rendues obsolètes par SPDX :"
 
-#: src/reuse/lint.py:59
+#: src/reuse/lint.py:60
 msgid "LICENSES WITHOUT FILE EXTENSION"
 msgstr "LICENCES SANS EXTENSION DE FICHIER"
 
-#: src/reuse/lint.py:61
+#: src/reuse/lint.py:62
 msgid "The following licenses have no file extension:"
 msgstr "Les licences suivantes n'ont pas d'extension de fichier :"
 
-#: src/reuse/lint.py:69
+#: src/reuse/lint.py:70
 msgid "MISSING LICENSES"
 msgstr "LICENCES MANQUANTES"
 
-#: src/reuse/lint.py:71
+#: src/reuse/lint.py:72
 msgid "'{}' found in:"
 msgstr "'{}' trouvé dans :"
 
-#: src/reuse/lint.py:78
+#: src/reuse/lint.py:79
 msgid "UNUSED LICENSES"
 msgstr "LICENCES INUTILISÉES"
 
-#: src/reuse/lint.py:79
+#: src/reuse/lint.py:80
 msgid "The following licenses are not used:"
 msgstr "Les licences suivantes ne sont pas utilisées :"
 
-#: src/reuse/lint.py:86
+#: src/reuse/lint.py:87
 msgid "READ ERRORS"
 msgstr "ERREURS DE LECTURE"
 
-#: src/reuse/lint.py:87
+#: src/reuse/lint.py:88
 msgid "Could not read:"
 msgstr "Illisibles :"
 
-#: src/reuse/lint.py:93
+#: src/reuse/lint.py:94
 msgid "INVALID SPDX LICENSE EXPRESSIONS"
 msgstr ""
 
-#: src/reuse/lint.py:98
+#: src/reuse/lint.py:99
 #, fuzzy
 msgid "'{}' contains invalid SPDX License Expressions:"
 msgstr "'{}' n'est pas une expression SPDX valide."
 
-#: src/reuse/lint.py:123
+#: src/reuse/lint.py:124
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "INFORMATION DE DROITS D'AUTEUR ET DE LICENCE MANQUANTE"
 
-#: src/reuse/lint.py:129
+#: src/reuse/lint.py:130
 #, fuzzy
 msgid "The following files have no copyright and licensing information:"
 msgstr ""
 "Les fichiers suivants ne contiennent pas de données de droits d'auteur :"
 
-#: src/reuse/lint.py:140
+#: src/reuse/lint.py:141
 msgid "The following files have no copyright information:"
 msgstr ""
 "Les fichiers suivants ne contiennent pas de données de droits d'auteur :"
 
-#: src/reuse/lint.py:149
+#: src/reuse/lint.py:150
 msgid "The following files have no licensing information:"
 msgstr "Les fichiers suivants ne contiennent pas de données de licence :"
 
-#: src/reuse/lint.py:156
+#: src/reuse/lint.py:157
 msgid "SUMMARY"
 msgstr "RÉSUMÉ"
 
-#: src/reuse/lint.py:161
+#: src/reuse/lint.py:162
 msgid "Bad licenses:"
 msgstr "Mauvaises licences :"
 
-#: src/reuse/lint.py:162
+#: src/reuse/lint.py:163
 msgid "Deprecated licenses:"
 msgstr "Licences obsolètes :"
 
-#: src/reuse/lint.py:165
+#: src/reuse/lint.py:166
 msgid "Licenses without file extension:"
 msgstr "Licences sans extension de fichier :"
 
-#: src/reuse/lint.py:168
+#: src/reuse/lint.py:169
 msgid "Missing licenses:"
 msgstr "Licences manquantes :"
 
-#: src/reuse/lint.py:169
+#: src/reuse/lint.py:170
 msgid "Unused licenses:"
 msgstr "Licences inutilisées :"
 
-#: src/reuse/lint.py:170
+#: src/reuse/lint.py:171
 msgid "Used licenses:"
 msgstr "Licences utilisées :"
 
-#: src/reuse/lint.py:171
+#: src/reuse/lint.py:172
 msgid "Read errors:"
 msgstr "Erreurs de lecture :"
 
-#: src/reuse/lint.py:172
+#: src/reuse/lint.py:173
 #, fuzzy
 msgid "Invalid SPDX License Expressions:"
 msgstr "'{}' n'est pas une expression SPDX valide."
 
-#: src/reuse/lint.py:182
+#: src/reuse/lint.py:183
 #, fuzzy
 msgid "Files with copyright information:"
 msgstr "Fichiers contenant des droits d'auteur :"
 
-#: src/reuse/lint.py:186
+#: src/reuse/lint.py:187
 #, fuzzy
 msgid "Files with license information:"
 msgstr "Fichiers contenant des licences :"
 
-#: src/reuse/lint.py:203
+#: src/reuse/lint.py:204
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
@@ -151,7 +151,7 @@ msgstr ""
 "Félicitations ! Votre projet est conforme à la version {} de la "
 "spécification REUSE :-)"
 
-#: src/reuse/lint.py:210
+#: src/reuse/lint.py:211
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
@@ -159,54 +159,54 @@ msgstr ""
 "Malheureusement, votre projet n'est pas conforme à la version {} de la "
 "spécification REUSE :-("
 
-#: src/reuse/lint.py:217
+#: src/reuse/lint.py:218
 msgid "RECOMMENDATIONS"
 msgstr "RECOMMANDATIONS"
 
-#: src/reuse/lint.py:281
+#: src/reuse/lint.py:286
 #, fuzzy, python-brace-format
-msgid "{path}: missing license '{lic}'\n"
+msgid "missing license '{lic}'"
 msgstr "{path} : la licence {lic} est manquante\n"
 
-#: src/reuse/lint.py:288
-#, python-brace-format
-msgid "{path}: read error\n"
-msgstr "{path} : erreur de lecture\n"
+#: src/reuse/lint.py:291
+#, fuzzy
+msgid "read error"
+msgstr "Erreurs de lecture :"
 
-#: src/reuse/lint.py:294
-#, python-brace-format
-msgid "{path}: invalid SPDX License Expression '{expression}'"
-msgstr ""
-
-#: src/reuse/lint.py:300
+#: src/reuse/lint.py:296
 #, fuzzy, python-brace-format
-msgid "{path}: no license identifier\n"
+msgid "invalid SPDX License Expression '{expression}'"
+msgstr "'{}' n'est pas une expression SPDX valide."
+
+#: src/reuse/lint.py:303
+#, fuzzy
+msgid "no license identifier"
 msgstr "{path}  : pas d'identifiant de licence\n"
 
-#: src/reuse/lint.py:304
-#, fuzzy, python-brace-format
-msgid "{path}: no copyright notice\n"
+#: src/reuse/lint.py:307
+#, fuzzy
+msgid "no copyright notice"
 msgstr "{path} : pas de copyright\n"
 
-#: src/reuse/lint.py:330
+#: src/reuse/lint.py:345
 #, fuzzy, python-brace-format
-msgid "{lic_path}: bad license {lic}\n"
+msgid "bad license '{lic}'"
 msgstr "{path} : mauvaise licence {lic}\n"
 
-#: src/reuse/lint.py:339
-#, python-brace-format
-msgid "{lic_path}: deprecated license\n"
-msgstr "{lic_path} : licence dépréciée\n"
-
-#: src/reuse/lint.py:346
-#, fuzzy, python-brace-format
-msgid "{lic_path}: license without file extension\n"
-msgstr "{lic_path} : licence sans extension de fichier\n"
+#: src/reuse/lint.py:350
+#, fuzzy
+msgid "deprecated license"
+msgstr "Licences obsolètes :"
 
 #: src/reuse/lint.py:355
-#, python-brace-format
-msgid "{lic_path}: unused license\n"
-msgstr "{lic_path} : licence inutilisée\n"
+#, fuzzy
+msgid "license without file extension"
+msgstr "Licences sans extension de fichier :"
+
+#: src/reuse/lint.py:360
+#, fuzzy
+msgid "unused license"
+msgstr "Licences inutilisées :"
 
 #: src/reuse/project.py:253
 #, python-brace-format
@@ -299,7 +299,7 @@ msgid ""
 "if you are not using pipx."
 msgstr ""
 
-#: src/reuse/extract.py:452
+#: src/reuse/extract.py:451
 #, fuzzy, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -308,7 +308,7 @@ msgstr ""
 "'{path}' a été détecté comme étant un fichier binaire, les informations "
 "REUSE n'y sont pas recherchées."
 
-#: src/reuse/extract.py:463
+#: src/reuse/extract.py:462
 #, python-brace-format
 msgid ""
 "extracting REUSE information from '{path}' (encoding {encoding}, encoding "
@@ -1343,6 +1343,22 @@ msgstr "Afficher la version et quitter."
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:548
 msgid "Show this message and exit."
 msgstr "Afficher ce message et quitter."
+
+#, python-brace-format
+#~ msgid "{path}: read error\n"
+#~ msgstr "{path} : erreur de lecture\n"
+
+#, python-brace-format
+#~ msgid "{lic_path}: deprecated license\n"
+#~ msgstr "{lic_path} : licence dépréciée\n"
+
+#, fuzzy, python-brace-format
+#~ msgid "{lic_path}: license without file extension\n"
+#~ msgstr "{lic_path} : licence sans extension de fichier\n"
+
+#, python-brace-format
+#~ msgid "{lic_path}: unused license\n"
+#~ msgstr "{lic_path} : licence inutilisée\n"
 
 #, python-brace-format
 #~ msgid ""
