@@ -25,6 +25,16 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.1.2 - 2025-10-08
+
+### Fixed
+
+- Fixed a bug where a newline would sometimes be missing from
+  `reuse lint --lines`. (#1251)
+- The output of `reuse lint --lines` is now sorted by path name. (#1251)
+- Fixed a performance regression introduced in v6.1.1 that would cause some
+  copyright notices to take incredibly long to parse. (#1252)
+
 ## v6.1.1 - 2025-10-07
 
 ### Changed
