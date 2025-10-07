@@ -25,7 +25,7 @@ import sys
 from encodings import aliases, normalize_encoding
 from itertools import chain
 from types import ModuleType
-from typing import BinaryIO, Generator, NamedTuple
+from typing import BinaryIO, Generator, Literal, NamedTuple, cast
 
 from .comment import _all_style_classes
 from .copyright import (
@@ -37,11 +37,10 @@ from .copyright import (
 from .exceptions import NoEncodingModuleError
 from .i18n import _
 
-_ENCODING_MODULES = [
-    "magic",
-    "charset_normalizer",
-    "chardet",
-]
+_LOGGER = logging.getLogger(__name__)
+
+_EncodingModulesLiteral = Literal["magic", "charset_normalizer", "chardet"]
+_ENCODING_MODULES = list(_EncodingModulesLiteral.__args__)  # type: ignore
 if _env_encoding_module := os.environ.get("REUSE_ENCODING_MODULE"):
     if _env_encoding_module not in _ENCODING_MODULES:
         print(
@@ -84,12 +83,32 @@ else:
     )
 
 
-def _module_name(module: ModuleType | None) -> str | None:
-    return getattr(module, "__name__", None)
+def get_encoding_module() -> ModuleType:
+    """Get the module used to detect the encodings of files."""
+    return cast(ModuleType, _ENCODING_MODULE)
 
 
-if _module_name(_ENCODING_MODULE) == "magic":
-    _MAGIC = _ENCODING_MODULE.Magic(mime_encoding=True)
+def _get_encoding_module_name() -> str | None:
+    return getattr(get_encoding_module(), "__name__", None)
+
+
+def set_encoding_module(name: _EncodingModulesLiteral) -> ModuleType:
+    """Set the module used to detect the encodings of files, and return the
+    module.
+    """
+    if name not in _ENCODING_MODULES:
+        raise NoEncodingModuleError(f"'{name}' is not a valid encoding module.")
+    try:
+        # pylint: disable=global-statement
+        global _ENCODING_MODULE
+        _ENCODING_MODULE = importlib.import_module(name)
+        return _ENCODING_MODULE
+    except ImportError as err:
+        raise NoEncodingModuleError(f"'{name}' could not be imported.") from err
+
+
+if get_encoding_module().__name__ == "magic":
+    _MAGIC = get_encoding_module().Magic(mime_encoding=True)
 
 
 REUSE_IGNORE_START = "REUSE-IgnoreStart"
@@ -98,8 +117,6 @@ REUSE_IGNORE_END = "REUSE-IgnoreEnd"
 # REUSE-IgnoreStart
 
 SPDX_SNIPPET_INDICATOR = b"SPDX-SnippetBegin"
-
-_LOGGER = logging.getLogger(__name__)
 
 _START_PATTERN = r"(?:^.*?)"
 _END_PATTERN = r"(?:\s*(?:{})\s*)*$".format(
@@ -332,7 +349,7 @@ def _detect_encoding_magic(chunk: bytes) -> str | None:
 
 
 def _detect_encoding_charset_normalizer(chunk: bytes) -> str | None:
-    matches = _ENCODING_MODULE.from_bytes(  # type: ignore[union-attr]
+    matches = get_encoding_module().from_bytes(  # type: ignore[union-attr]
         chunk,
     )
     best = matches.best()
@@ -345,8 +362,8 @@ def _detect_encoding_charset_normalizer(chunk: bytes) -> str | None:
 
 
 def _detect_encoding_chardet(chunk: bytes) -> str | None:
-    dict_result = _ENCODING_MODULE.detect(chunk)  # type: ignore[union-attr]
-    result: str | None = dict_result.get("encoding")
+    dict_ = get_encoding_module().detect(chunk)  # type: ignore[union-attr]
+    result: str | None = dict_.get("encoding")
     if result is None:
         return None
     try:
@@ -371,11 +388,11 @@ def detect_encoding(chunk: bytes) -> str | None:
         return "utf_8"
 
     result: str | None = None
-    if _module_name(_ENCODING_MODULE) == "magic":
+    if _get_encoding_module_name() == "magic":
         result = _detect_encoding_magic(chunk)
-    elif _module_name(_ENCODING_MODULE) == "charset_normalizer":
+    elif _get_encoding_module_name() == "charset_normalizer":
         result = _detect_encoding_charset_normalizer(chunk)
-    elif _module_name(_ENCODING_MODULE) == "chardet":
+    elif _get_encoding_module_name() == "chardet":
         result = _detect_encoding_chardet(chunk)
     else:
         # This code should technically never be reached.
@@ -427,17 +444,32 @@ def reuse_info_of_file(
     heuristics_chunk = fp.read(HEURISTICS_CHUNK_SIZE)
     fp.seek(position)  # Reset position.
     encoding = detect_encoding(heuristics_chunk)
+    filename = getattr(fp, "name", None)
     if encoding is None:
-        if hasattr(fp, "name"):
+        if filename:
             _LOGGER.info(
                 _(
                     "'{path}' was detected as a binary file; not searching its"
                     " contents for REUSE information."
-                ).format(path=fp.name)
+                ).format(path=filename)
             )
         return ReuseInfo()
+
     newline = detect_newline(heuristics_chunk, encoding=encoding)
 
+    if filename:
+        _LOGGER.debug(
+            _(
+                "extracting REUSE information from '{path}'"
+                " (encoding {encoding}, encoding module {module},"
+                " newline {newline})"
+            ).format(
+                path=filename,
+                encoding=repr(encoding),
+                module=repr(_get_encoding_module_name()),
+                newline=repr(newline),
+            )
+        )
     in_ignore_block = False
     reuse_infos: list[ReuseInfo] = []
     for chunk in _read_chunks(

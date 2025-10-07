@@ -33,7 +33,9 @@ from reuse.extract import (
     detect_newline,
     extract_reuse_info,
     filter_ignore_block,
+    get_encoding_module,
     reuse_info_of_file,
+    set_encoding_module,
 )
 
 _IGNORE_END = "REUSE-IgnoreEnd"
@@ -358,6 +360,20 @@ class TestReuseInfoOfFile:
             result = reuse_info_of_file(fp)
             assert result == ReuseInfo()
         assert f"'{path}' was detected as a binary file" in caplog.text
+
+    def test_log(self, caplog, encoding_module):
+        """Log the extraction to with level logging.DEBUG"""
+        caplog.set_level(logging.DEBUG, logger="reuse.extract")
+        buffer = BytesIO(b"# Copyright Jane Doe")
+        buffer.name = "foo.py"
+        reuse_info_of_file(buffer)
+        assert len(caplog.records) == 1
+        assert caplog.records[0].levelname == "DEBUG"
+        assert caplog.records[0].msg == (
+            f"extracting REUSE information from 'foo.py'"
+            f" (encoding 'utf_8', encoding module '{encoding_module}',"
+            f" newline {repr(os.linesep)})"
+        )
 
     @pytest.mark.parametrize("newline", ["\r\n", "\r", "\n"])
     def test_all_newlines(self, newline):
@@ -714,6 +730,15 @@ class TestEncodingModule:
         )
         assert result.returncode == 0
         assert result.stdout == b"chardet"
+
+    def test_get_encoding_module(self, encoding_module):
+        """Test whether get_encoding_module returns the correct module."""
+        assert get_encoding_module().__name__ == encoding_module
+
+    def test_set_wrong_encoding_module_(self):
+        """If setting to an unsupported module, expect an error."""
+        with pytest.raises(NoEncodingModuleError):
+            set_encoding_module("foo")  # type: ignore[arg-type]
 
 
 # Reuse-IgnoreEnd

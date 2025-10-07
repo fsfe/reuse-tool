@@ -25,6 +25,38 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.1.0 - 2025-10-07
+
+This release adds a simple feature as a workaround for a bug that will be
+resolved in a later version. The bug is described in
+<https://github.com/fsfe/reuse-tool/issues/1244>, and can be summarised as: When
+`charset-normalizer` is used to detect the encoding of a file, it will
+erroneously detect a UTF-8 file as having no encoding (i.e. a binary file) when
+the 2048th byte is a non-final byte of a multi-byte glyph.
+
+You can run reuse as `REUSE_ENCODING_MODULE=chardet reuse` to circumvent this
+bug. If you use pre-commit, you can use this snippet:
+
+```yaml
+repos:
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v6.1.0
+    hooks:
+      - id: reuse
+        entry: env REUSE_ENCODING_MODULE=chardet reuse
+```
+
+You will not encounter this bug if your environment has libmagic available.
+
+### Added
+
+- You can now specify the module that will be used for detecting the encoding of
+  files with the `REUSE_ENCODING_MODULE` environment variable. (#1245)
+- The Docker images and the pre-commit hooks now come bundled with all encoding
+  modules. (#1245)
+- The `--debug` flag now tells you the detected encoding and detected newlines
+  of each file, as well as which encoding module is used. (#1246)
+
 ## v6.0.0 - 2025-10-06
 
 This release contains a lot of refactoring regarding the parsing of files. The
