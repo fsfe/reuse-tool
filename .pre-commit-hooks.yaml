@@ -7,6 +7,7 @@
   entry: reuse
   args: ["lint"]
   language: python
+  additional_dependencies: [".[charset-normalizer,chardet]"]
   pass_filenames: false
   description:
     "Lint the project directory for compliance with the REUSE Specification."
@@ -16,5 +17,6 @@
   entry: reuse
   args: ["lint-file"]
   language: python
+  additional_dependencies: [".[charset-normalizer,chardet]"]
   description:
     "Lint the changed files for compliance with the REUSE Specification."

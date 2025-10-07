@@ -81,6 +81,17 @@ Options
 
   Display the version and exit.
 
+Environment
+-----------
+
+:program:`reuse` respects the following environment variables.
+
+.. describe:: REUSE_ENCODING_MODULE
+
+  Instead of automatically picking the best module to detect the encodings of
+  files, :program:`reuse` will use the module defined here. Its value must be
+  ``magic``, ``charset_normalizer``, or ``chardet``.
+
 Commands
 --------
 

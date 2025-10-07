@@ -20,7 +20,7 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN poetry install --no-interaction --no-root --only main
+RUN poetry install --no-interaction --no-root --only main --all-extras
 RUN poetry build --no-interaction
 RUN pip install dist/*.whl
 

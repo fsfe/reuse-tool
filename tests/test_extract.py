@@ -12,11 +12,13 @@
 
 import logging
 import os
+import subprocess
+import sys
 from inspect import cleandoc
 from io import BytesIO
 
 import pytest
-from conftest import RESOURCES_DIRECTORY
+from conftest import RESOURCES_DIRECTORY, chardet
 
 from reuse.copyright import (
     CopyrightNotice,
@@ -669,6 +671,49 @@ class TestContainsReuseInfo:
                 """
             )
         )
+
+
+class TestEncodingModule:
+    """Tests for picking the correct encoding module."""
+
+    def test_wrong_env(self):
+        """If REUSE_ENCODING_MODULE is set to an unsupported value, exit."""
+        env = os.environ.copy()
+        env["REUSE_ENCODING_MODULE"] = "foo"
+        result = subprocess.run(
+            [sys.executable, "-c", "import reuse.extract"],
+            env=env,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        assert result.returncode != 0
+        assert result.stdout.decode("utf-8").strip() == (
+            "REUSE_ENCODING_MODULE must have a value in ['magic',"
+            " 'charset_normalizer', 'chardet']; it has 'foo'. Aborting."
+        )
+
+    @chardet
+    def test_pick_module(self):
+        """If REUSE_ENCODING_MODULE is set to a correct value, correctly select
+        that encoding module.
+        """
+        env = os.environ.copy()
+        env["REUSE_ENCODING_MODULE"] = "chardet"
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import reuse.extract;"
+                "print(reuse.extract._ENCODING_MODULE.__name__, end='')",
+            ],
+            env=env,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        assert result.returncode == 0
+        assert result.stdout == b"chardet"
 
 
 # Reuse-IgnoreEnd

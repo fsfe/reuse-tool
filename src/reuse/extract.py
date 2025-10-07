@@ -21,6 +21,7 @@ import logging
 import os
 import platform
 import re
+import sys
 from encodings import aliases, normalize_encoding
 from itertools import chain
 from types import ModuleType
@@ -41,6 +42,18 @@ _ENCODING_MODULES = [
     "charset_normalizer",
     "chardet",
 ]
+if _env_encoding_module := os.environ.get("REUSE_ENCODING_MODULE"):
+    if _env_encoding_module not in _ENCODING_MODULES:
+        print(
+            # TRANSLATORS: Do not translate REUSE_ENCODING_MODULE.
+            _(
+                "REUSE_ENCODING_MODULE must have a value in {modules}; it has"
+                " '{env_module}'. Aborting."
+            ).format(modules=_ENCODING_MODULES, env_module=_env_encoding_module)
+        )
+        sys.exit(1)
+    _ENCODING_MODULES = [_env_encoding_module]
+
 _ENCODING_MODULE: ModuleType | None = None
 _MAGIC = None
 for _module in _ENCODING_MODULES:
