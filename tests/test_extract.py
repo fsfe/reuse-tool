@@ -372,7 +372,7 @@ class TestReuseInfoOfFile:
         assert caplog.records[0].msg == (
             f"extracting REUSE information from 'foo.py'"
             f" (encoding 'utf_8', encoding module '{encoding_module}',"
-            f" newline '\\n')"
+            f" newline {repr(os.linesep)})"
         )
 
     @pytest.mark.parametrize("newline", ["\r\n", "\r", "\n"])
