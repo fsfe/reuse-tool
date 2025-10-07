@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 11:36+0000\n"
+"POT-Creation-Date: 2025-10-07 13:51+0000\n"
 "PO-Revision-Date: 2025-10-05 18:00+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
@@ -260,14 +260,14 @@ msgstr ""
 "проєкт '{}' не є репозиторієм VCS або потрібне програмне забезпечення VCS не "
 "встановлено"
 
-#: src/reuse/extract.py:50
+#: src/reuse/extract.py:49
 #, python-brace-format
 msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
 
-#: src/reuse/extract.py:70
+#: src/reuse/extract.py:69
 msgid ""
 "No supported module that can detect the encoding of files could be "
 "successfully imported. Re-read the installation instructions for the reuse "
@@ -277,7 +277,7 @@ msgstr ""
 "визначити кодування файлів. Перечитайте інструкції з встановлення пакета "
 "повторного використання або спробуйте ось що:"
 
-#: src/reuse/extract.py:76
+#: src/reuse/extract.py:75
 msgid ""
 "- If you are running a Linux distribution, try your equivalent of `apt "
 "install file` or `dnf install file`."
@@ -285,7 +285,7 @@ msgstr ""
 "- Якщо ви використовуєте дистрибутив Linux, спробуйте ваш еквівалент `apt "
 "install file` або `dnf install file`."
 
-#: src/reuse/extract.py:81
+#: src/reuse/extract.py:80
 msgid ""
 "- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx' with 'pip' "
 "if you are not using pipx."
@@ -293,7 +293,7 @@ msgstr ""
 "- Виконайте команду `pipx install reuse[charset-normalizer]`. Замініть "
 "'pipx' на 'pip', якщо ви не використовуєте pipx."
 
-#: src/reuse/extract.py:434
+#: src/reuse/extract.py:452
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -301,6 +301,13 @@ msgid ""
 msgstr ""
 "'{path}' виявлено як двійковий файл або його розширення позначено таким, що "
 "не коментується; пошук інформації у його вмісті для REUSE не виконується."
+
+#: src/reuse/extract.py:463
+#, python-brace-format
+msgid ""
+"extracting REUSE information from '{path}' (encoding {encoding}, encoding "
+"module {module}, newline {newline})"
+msgstr ""
 
 #: src/reuse/header.py:87
 msgid "generated comment is missing copyright lines or license expressions"

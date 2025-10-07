@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 11:36+0000\n"
+"POT-Creation-Date: 2025-10-07 13:51+0000\n"
 "PO-Revision-Date: 2025-04-23 12:01+0000\n"
 "Last-Translator: Shun Sakai <sorairolake@protonmail.ch>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -259,37 +259,44 @@ msgid ""
 "installed"
 msgstr ""
 
-#: src/reuse/extract.py:50
+#: src/reuse/extract.py:49
 #, python-brace-format
 msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
 
-#: src/reuse/extract.py:70
+#: src/reuse/extract.py:69
 msgid ""
 "No supported module that can detect the encoding of files could be "
 "successfully imported. Re-read the installation instructions for the reuse "
 "package, or try the following:"
 msgstr ""
 
-#: src/reuse/extract.py:76
+#: src/reuse/extract.py:75
 msgid ""
 "- If you are running a Linux distribution, try your equivalent of `apt "
 "install file` or `dnf install file`."
 msgstr ""
 
-#: src/reuse/extract.py:81
+#: src/reuse/extract.py:80
 msgid ""
 "- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx' with 'pip' "
 "if you are not using pipx."
 msgstr ""
 
-#: src/reuse/extract.py:434
+#: src/reuse/extract.py:452
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
 "information."
+msgstr ""
+
+#: src/reuse/extract.py:463
+#, python-brace-format
+msgid ""
+"extracting REUSE information from '{path}' (encoding {encoding}, encoding "
+"module {module}, newline {newline})"
 msgstr ""
 
 #: src/reuse/header.py:87
