@@ -275,13 +275,14 @@ def format_lines_subset(report: ProjectReportSubsetProtocol) -> str:
     output = StringIO()
 
     # Missing licenses
-    for lic, files in sorted(report.missing_licenses.items()):
-        for path in sorted(files):
-            output.write(
-                _("{path}: missing license '{lic}'\n").format(
-                    path=path, lic=lic
-                )
-            )
+    for path, lic in sorted(
+        (value, key)
+        for key, values in report.missing_licenses.items()
+        for value in values
+    ):
+        output.write(
+            _("{path}: missing license '{lic}'\n").format(path=path, lic=lic)
+        )
 
     # Read errors
     for path in sorted(report.read_errors):
@@ -296,11 +297,11 @@ def format_lines_subset(report: ProjectReportSubsetProtocol) -> str:
             )
 
     # Without licenses
-    for path in report.files_without_licenses:
+    for path in sorted(report.files_without_licenses):
         output.write(_("{path}: no license identifier\n").format(path=path))
 
     # Without copyright
-    for path in report.files_without_copyright:
+    for path in sorted(report.files_without_copyright):
         output.write(_("{path}: no copyright notice\n").format(path=path))
 
     return output.getvalue()
@@ -327,7 +328,7 @@ def format_lines(report: ProjectReport) -> str:
         # Bad licenses
         for lic, path in sorted(report.bad_licenses.items()):
             output.write(
-                _("{lic_path}: bad license {lic}\n").format(
+                _("{lic_path}: bad license '{lic}'\n").format(
                     lic_path=path, lic=lic
                 )
             )
