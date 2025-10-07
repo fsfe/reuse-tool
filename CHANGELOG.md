@@ -25,6 +25,27 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.1.1 - 2025-10-07
+
+### Changed
+
+- In the Docker images, Alpine is bumped to `alpine:3.22` and Debian to
+  `debian:13-slim`. (#1247)
+
+### Fixed
+
+- ASCII frames around comments were broken in v6.0.0. They now work again. The
+  sole condition is that the 'suffix' of a comment is identical to its 'prefix'.
+  For example:
+
+  ```
+  /*******************************************\
+  |*  SPDX-License-Identifier: CC-BY-SA-4.0  *|
+  \*******************************************/
+  ```
+
+  (#1249)
+
 ## v6.1.0 - 2025-10-07
 
 This release adds a simple feature as a workaround for a bug that will be
