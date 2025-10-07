@@ -444,17 +444,30 @@ def reuse_info_of_file(
     heuristics_chunk = fp.read(HEURISTICS_CHUNK_SIZE)
     fp.seek(position)  # Reset position.
     encoding = detect_encoding(heuristics_chunk)
+    filename = getattr(fp, "name", None)
     if encoding is None:
-        if hasattr(fp, "name"):
+        if filename:
             _LOGGER.info(
                 _(
                     "'{path}' was detected as a binary file; not searching its"
                     " contents for REUSE information."
-                ).format(path=fp.name)
+                ).format(path=filename)
             )
         return ReuseInfo()
+
     newline = detect_newline(heuristics_chunk, encoding=encoding)
 
+    if filename:
+        _LOGGER.debug(
+            _(
+                "extracting REUSE information from '{path}'"
+                " (encoding {encoding}, newline {newline})"
+            ).format(
+                path=filename,
+                encoding=repr(encoding),
+                newline=repr(newline),
+            )
+        )
     in_ignore_block = False
     reuse_infos: list[ReuseInfo] = []
     for chunk in _read_chunks(
