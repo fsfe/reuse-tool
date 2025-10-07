@@ -461,10 +461,12 @@ def reuse_info_of_file(
         _LOGGER.debug(
             _(
                 "extracting REUSE information from '{path}'"
-                " (encoding {encoding}, newline {newline})"
+                " (encoding {encoding}, encoding module {module},"
+                " newline {newline})"
             ).format(
                 path=filename,
                 encoding=repr(encoding),
+                module=repr(_get_encoding_module_name()),
                 newline=repr(newline),
             )
         )

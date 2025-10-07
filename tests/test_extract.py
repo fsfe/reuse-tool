@@ -361,17 +361,18 @@ class TestReuseInfoOfFile:
             assert result == ReuseInfo()
         assert f"'{path}' was detected as a binary file" in caplog.text
 
-    def test_log(self, caplog):
+    def test_log(self, caplog, encoding_module):
         """Log the extraction to with level logging.DEBUG"""
-        caplog.set_level(logging.DEBUG)
+        caplog.set_level(logging.DEBUG, logger="reuse.extract")
         buffer = BytesIO(b"# Copyright Jane Doe")
         buffer.name = "foo.py"
         reuse_info_of_file(buffer)
         assert len(caplog.records) == 1
         assert caplog.records[0].levelname == "DEBUG"
         assert caplog.records[0].msg == (
-            "extracting REUSE information from 'foo.py'"
-            " (encoding 'utf_8', newline '\\n')"
+            f"extracting REUSE information from 'foo.py'"
+            f" (encoding 'utf_8', encoding module '{encoding_module}',"
+            f" newline '\\n')"
         )
 
     @pytest.mark.parametrize("newline", ["\r\n", "\r", "\n"])
