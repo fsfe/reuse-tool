@@ -142,6 +142,7 @@ possible, run `poetry lock --no-update`.
 - `poetry lock` (otherwise documentation won't generate;
   <https://github.com/readthedocs/readthedocs.org/issues/11624>). Update
   versions in `.pre-commit-config.yaml` as necessary.
+- Bump Alpine and Debian in Dockerfile.
 - Do some final tweaks/bugfixes (and alter changelog)
 - `make test-release`
 - `pip install -i https://test.pypi.org/simple reuse` and test the package.
