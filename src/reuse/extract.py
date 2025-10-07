@@ -119,7 +119,7 @@ REUSE_IGNORE_END = "REUSE-IgnoreEnd"
 SPDX_SNIPPET_INDICATOR = b"SPDX-SnippetBegin"
 
 _START_PATTERN = r"(?:^.*?)"
-_END_PATTERN = r"(?:\s*(?:{})?\s*)*$".format(
+_END_PATTERN = r"\s*(?:{})*\s*$".format(
     "|".join(
         set(
             chain(
