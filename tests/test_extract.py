@@ -33,7 +33,9 @@ from reuse.extract import (
     detect_newline,
     extract_reuse_info,
     filter_ignore_block,
+    get_encoding_module,
     reuse_info_of_file,
+    set_encoding_module,
 )
 
 _IGNORE_END = "REUSE-IgnoreEnd"
@@ -714,6 +716,15 @@ class TestEncodingModule:
         )
         assert result.returncode == 0
         assert result.stdout == b"chardet"
+
+    def test_get_encoding_module(self, encoding_module):
+        """Test whether get_encoding_module returns the correct module."""
+        assert get_encoding_module().__name__ == encoding_module
+
+    def test_set_wrong_encoding_module_(self):
+        """If setting to an unsupported module, expect an error."""
+        with pytest.raises(NoEncodingModuleError):
+            set_encoding_module("foo")  # type: ignore[arg-type]
 
 
 # Reuse-IgnoreEnd

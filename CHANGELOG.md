@@ -52,6 +52,7 @@ repos:
   files with the `REUSE_ENCODING_MODULE` environment variable. (#1245)
 - The Docker images and the pre-commit hooks now come bundled with all encoding
   modules. (#1245)
+- The `--debug` flag now tells you which encoding module is used. (#1246)
 
 ## v6.0.0 - 2025-10-06
 

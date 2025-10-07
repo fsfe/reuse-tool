@@ -20,8 +20,11 @@ from click.formatting import wrap_text
 
 from .. import __REUSE_version__
 from .._util import setup_logging
+from ..extract import get_encoding_module
 from ..i18n import _
 from .common import ClickObj
+
+_LOGGER = logging.getLogger(__name__)
 
 _PACKAGE_PATH = os.path.dirname(__file__)
 _LOCALE_DIR = os.path.join(_PACKAGE_PATH, "locale")
@@ -141,6 +144,10 @@ def main(
 
     if not suppress_deprecation:
         warnings.filterwarnings("default", module="reuse")
+
+    _LOGGER.debug(
+        _("using encoding module '{}'").format(get_encoding_module().__name__)
+    )
 
     ctx.obj = ClickObj(
         root=root,
