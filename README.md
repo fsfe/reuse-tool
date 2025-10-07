@@ -278,7 +278,7 @@ Git. This uses [pre-commit](https://pre-commit.com/). Once you
 ```yaml
 repos:
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v6.1.1
+    rev: v6.1.2
     hooks:
       - id: reuse
 ```
@@ -293,7 +293,7 @@ use the following configuration:
 ```yaml
 repos:
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v6.1.1
+    rev: v6.1.2
     hooks:
       - id: reuse-lint-file
 ```
