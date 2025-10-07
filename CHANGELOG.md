@@ -34,8 +34,8 @@ resolved in a later version. The bug is described in
 erroneously detect a UTF-8 file as having no encoding (i.e. a binary file) when
 the 2048th byte is a non-final byte of a multi-byte glyph.
 
-You can run reuse as `REUSE_ENCODING_MODULE=chardet reuse lint` to circumvent
-this bug. If you use pre-commit, you can use this snippet:
+You can run reuse as `REUSE_ENCODING_MODULE=chardet reuse` to circumvent this
+bug. If you use pre-commit, you can use this snippet:
 
 ```yaml
 repos:
@@ -45,6 +45,8 @@ repos:
       - id: reuse
         entry: env REUSE_ENCODING_MODULE=chardet reuse
 ```
+
+You will not encounter this bug if your environment has libmagic available.
 
 ### Added
 
