@@ -291,7 +291,7 @@ def format_lines_subset(report: ProjectReportSubsetProtocol) -> str:
         for expression in sorted(expressions):
             output.write(
                 _(
-                    "{path}: invalid SPDX License Expression '{expression}'"
+                    "{path}: invalid SPDX License Expression '{expression}'\n"
                 ).format(path=path, expression=expression)
             )
 
