@@ -184,6 +184,8 @@ class VCSStrategyGit(VCSStrategy):
 
         if not Path(cwd).is_dir():
             raise NotADirectoryError()
+        if not _find_ancestor(cwd, ".git", is_directory=False):
+            return None
 
         command = [str(cls.EXE), "rev-parse", "--show-toplevel"]
         result = execute_command(command, _LOGGER, cwd=cwd)
@@ -253,6 +255,8 @@ class VCSStrategyHg(VCSStrategy):
 
         if not Path(cwd).is_dir():
             raise NotADirectoryError()
+        if not _find_ancestor(cwd, ".hg"):
+            return None
 
         command = [str(cls.EXE), "root"]
         result = execute_command(command, _LOGGER, cwd=cwd)
@@ -346,6 +350,8 @@ class VCSStrategyJujutsu(VCSStrategy):
 
         if not Path(cwd).is_dir():
             raise NotADirectoryError()
+        if not _find_ancestor(cwd, ".jj"):
+            return None
 
         command = [str(cls.EXE), "root"]
         result = execute_command(command, _LOGGER, cwd=cwd)
