@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2023-02-18 10:24+0000\n"
-"Last-Translator: \"J. Lavoie\" <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2025-10-09 21:52+0000\n"
+"Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "it/>\n"
 "Language: it\n"
@@ -15,25 +15,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: src/reuse/lint.py:40
-#, fuzzy
 msgid "BAD LICENSES"
-msgstr "LICENZE NON UTILIZZATE"
+msgstr "LICENZE NON VALIDE"
 
 #: src/reuse/lint.py:42
-#, fuzzy
 msgid "The following licenses are not valid SPDX licenses:"
-msgstr "Le seguenti licenze non sono utilizzate:"
+msgstr "Le seguenti licenze non sono licenze SPDX valide:"
 
 #: src/reuse/lint.py:50
 msgid "DEPRECATED LICENSES"
-msgstr "LICENZE OBSOLETE"
+msgstr "LICENZE DEPRECATE"
 
 #: src/reuse/lint.py:52
 msgid "The following licenses are deprecated by SPDX:"
-msgstr "Le seguenti licenze sono obsolete secondo SPDX:"
+msgstr "Le seguenti licenze sono deprecate per SPDX:"
 
 #: src/reuse/lint.py:60
 msgid "LICENSES WITHOUT FILE EXTENSION"
@@ -69,7 +67,7 @@ msgstr "Non è possibile leggere:"
 
 #: src/reuse/lint.py:94
 msgid "INVALID SPDX LICENSE EXPRESSIONS"
-msgstr ""
+msgstr "ESPRESSIONI DI LICENZA SPDX NON VALIDE"
 
 #: src/reuse/lint.py:99
 #, fuzzy
@@ -159,27 +157,25 @@ msgstr ""
 
 #: src/reuse/lint.py:218
 msgid "RECOMMENDATIONS"
-msgstr ""
+msgstr "RACCOMANDAZIONI"
 
 #: src/reuse/lint.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "missing license '{lic}'"
-msgstr "'{}' non è un valido Identificativo di Licenza SPDX."
+msgstr "licenza mancante '{lic}'"
 
 #: src/reuse/lint.py:291
-#, fuzzy
 msgid "read error"
-msgstr "Errori di lettura: {count}"
+msgstr "errore di lettura"
 
 #: src/reuse/lint.py:296
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "invalid SPDX License Expression '{expression}'"
-msgstr "'{}' non è una espressione valida SPDX, interruzione"
+msgstr "espressione di licenza SPDX non valida '{expression}'"
 
 #: src/reuse/lint.py:303
-#, fuzzy
 msgid "no license identifier"
-msgstr "'{}' non è un valido Identificativo di Licenza SPDX."
+msgstr "nessun identificativo di licenza"
 
 #: src/reuse/lint.py:307
 #, fuzzy
@@ -216,12 +212,16 @@ msgstr "'{path}' verificato da .reuse/dep5"
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
+"'{path}' è coperto esclusivamente da REUSE.toml. Il contenuto del file non "
+"viene letto."
 
 #: src/reuse/project.py:334
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
+"'.reuse/dep5' è obsoleto. Si consiglia di utilizzare invece REUSE.toml. Per "
+"la conversione, utilizzare `reuse convert-dep5`."
 
 #: src/reuse/project.py:355
 #, python-brace-format
@@ -229,6 +229,8 @@ msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
+"Trovati sia '{new_path}' che '{old_path}'. Non è possibile mantenere "
+"entrambi i file contemporaneamente; non sono intercompatibili."
 
 #: src/reuse/project.py:419
 #, python-brace-format
@@ -261,6 +263,8 @@ msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
 msgstr ""
+"il progetto '{}' non è un repository VCS o il software VCS richiesto non è "
+"installato"
 
 #: src/reuse/extract.py:49
 #, python-brace-format
