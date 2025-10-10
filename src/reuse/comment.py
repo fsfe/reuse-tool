@@ -46,8 +46,8 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class MultiLineSegments(NamedTuple):
-    """Components that make up a multi-line comment style, e.g. ``/*``, ``*``,
-    and ``*/``.
+    """Components that make up a multi-line comment style, e.g. ``'/*'``,
+    ``'*'``, and ``'*/'``.
     """
 
     start: str

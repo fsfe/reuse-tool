@@ -377,7 +377,7 @@ def _detect_encoding_chardet(chunk: bytes) -> str | None:
 
 def detect_encoding(chunk: bytes) -> str | None:
     """Find the encoding of the bytes chunk, and return it as normalised name.
-    See :py:func:`encodings.normalize_encoding`. If no encoding could be found,
+    See :func:`encodings.normalize_encoding`. If no encoding could be found,
     return :const:`None`.
 
     If the chunk is empty or the encoding of the chunk is ASCII, ``'utf_8'`` is

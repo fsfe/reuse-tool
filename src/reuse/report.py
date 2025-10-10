@@ -46,7 +46,7 @@ LINT_VERSION = "1.0"
 
 _CPU_COUNT: Final[int] = cpu_count() or 1
 #: This variable exists to be able to override parallelisation. If set to
-#: :const:`False`, generating :py:meth:`FileReport.generate` will not use
+#: :const:`False`, generating :meth:`FileReport.generate` will not use
 #: parallelisation.
 ENABLE_PARALLEL = True
 
