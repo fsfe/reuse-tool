@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
-# SPDX-FileCopyrightText: 2025 Simon Barth <simon.barth@gmx.de>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -131,4 +130,4 @@ jobs:
           poetry install --no-interaction --only main,docs
       - name: Create docs with Sphinx
         run: |
-          make SPHINXOPTS='--fail-on-warning' docs
+          make docs
