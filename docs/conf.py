@@ -71,7 +71,8 @@ autodoc_member_order = "bysource"
 
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
-myst_heading_anchors = 2
+# Auto-generate header anchors up to 3 headings deep.
+myst_heading_anchors = 3
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
