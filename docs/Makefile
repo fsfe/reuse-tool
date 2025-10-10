@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2025 Simon Barth <simon.barth@gmx.de>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # You can set these variables from the command line.
-SPHINXOPTS    ?=
+SPHINXOPTS    ?= --fail-on-warning
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build

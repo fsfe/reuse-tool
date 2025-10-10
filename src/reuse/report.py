@@ -5,6 +5,7 @@
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2024 Kerry McAdams <github@klmcadams>
 # SPDX-FileCopyrightText: 2024 Sebastien Morais <github@SMoraisAnsys>
+# SPDX-FileCopyrightText: 2025 Simon Barth <simon.barth@gmx.de>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -45,7 +46,7 @@ LINT_VERSION = "1.0"
 
 _CPU_COUNT: Final[int] = cpu_count() or 1
 #: This variable exists to be able to override parallelisation. If set to
-#: :const:`False`, generating :method:`FileReport.generate` will not use
+#: :const:`False`, generating :meth:`FileReport.generate` will not use
 #: parallelisation.
 ENABLE_PARALLEL = True
 

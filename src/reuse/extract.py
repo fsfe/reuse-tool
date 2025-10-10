@@ -9,6 +9,7 @@
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2025 Simon Barth <simon.barth@gmx.de>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -376,7 +377,7 @@ def _detect_encoding_chardet(chunk: bytes) -> str | None:
 
 def detect_encoding(chunk: bytes) -> str | None:
     """Find the encoding of the bytes chunk, and return it as normalised name.
-    See :function:`encodings.normalize_encoding`. If no encoding could be found,
+    See :func:`encodings.normalize_encoding`. If no encoding could be found,
     return :const:`None`.
 
     If the chunk is empty or the encoding of the chunk is ASCII, ``'utf_8'`` is
@@ -403,7 +404,7 @@ def detect_encoding(chunk: bytes) -> str | None:
 
 
 def detect_newline(chunk: bytes, encoding: str = "ascii") -> str:
-    """Return one of ``'\n'``, ``'\r'`` or ``'\r\n'`` depending on the line
+    """Return one of ``'\\n'``, ``'\\r'`` or ``'\\r\\n'`` depending on the line
     endings used in *chunk*. Return :const:`os.linesep` if there are no line
     endings.
     """

@@ -24,6 +24,7 @@
 # SPDX-FileCopyrightText: 2025 Kiko Fernandez-Reyes <kiko@erlang.org>
 # SPDX-FileCopyrightText: 2025 Hatzka <hatzka@nezumi.studio>
 # SPDX-FileCopyrightText: 2025 Johannes HAMPP <johannes.hampp@openenergytransition.org>
+# SPDX-FileCopyrightText: 2025 Simon Barth <simon.barth@gmx.de>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -45,8 +46,8 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class MultiLineSegments(NamedTuple):
-    """Components that make up a multi-line comment style, e.g. '/*', '*', and
-    '*/'.
+    """Components that make up a multi-line comment style, e.g. ``'/*'``,
+    ``'*'``, and ``'*/'``.
     """
 
     start: str

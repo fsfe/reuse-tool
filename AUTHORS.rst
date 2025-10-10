@@ -154,3 +154,4 @@ Contributors
 - Jonas Fierlings <fnoegip@gmail.com>
 - ASCIIMoth <ascii@moth.contact>
 - Johannes HAMPP <johannes.hampp@openenergytransition.org>
+- Simon Barth <simon.barth@gmx.de>

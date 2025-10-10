@@ -1,6 +1,7 @@
 ..
   SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
   SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
+  SPDX-FileCopyrightText: 2025 Simon Barth <simon.barth@gmx.de>
 
   SPDX-License-Identifier: CC-BY-SA-4.0
 
@@ -60,7 +61,7 @@ This output is convenient for use in larger scripts.
 .. SPDX-SnippetEnd
 
 Year of first commit while following renames
-====================
+============================================
 
 If you want to follow file renames in the Git history, you can use the `--follow` argument.
 This requires you to pass the file to `git log`.
