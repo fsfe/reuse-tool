@@ -17,6 +17,7 @@
 
 import logging
 import sys
+from pathlib import Path
 from typing import IO, cast
 
 from jinja2 import Environment, FileSystemLoader, Template
@@ -35,7 +36,6 @@ from .extract import contains_reuse_info
 from .header import add_new_header, find_and_replace_header
 from .i18n import _
 from .project import Project
-from .types import StrPath
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -66,7 +66,7 @@ def find_template(project: Project, name: str) -> Template:
 
 
 def add_header_to_file(
-    path: StrPath,
+    path: Path,
     reuse_info: ReuseInfo,
     template: Template | None,
     template_is_commented: bool,
@@ -105,7 +105,7 @@ def add_header_to_file(
             path.touch()
             comment_style = EmptyCommentStyle
 
-    with open(path, encoding=encoding) as fp:
+    with path.open(encoding=encoding) as fp:
         text = fp.read()
 
     # Ideally, this check is done elsewhere. But that would necessitate reading
@@ -157,7 +157,7 @@ def add_header_to_file(
         out.write("\n")
         result = 1
     else:
-        with open(path, "w", encoding=encoding, newline=newline) as fp:
+        with path.open("w", encoding=encoding, newline=newline) as fp:
             fp.write(output)
         # TODO: This may need to be rephrased more elegantly.
         out.write(_("Successfully changed header of {path}").format(path=path))
