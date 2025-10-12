@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2024-11-14 07:53+0000\n"
+"PO-Revision-Date: 2025-10-12 14:07+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,17 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: src/reuse/lint.py:40
-#, fuzzy
 msgid "BAD LICENSES"
-msgstr "LICENCIAS NO UTILIZADAS"
+msgstr "LICENCIAS NO VÁLIDAS"
 
 #: src/reuse/lint.py:42
-#, fuzzy
 msgid "The following licenses are not valid SPDX licenses:"
-msgstr "Las siguientes licencias no son utilizadas:"
+msgstr "Las siguientes licencias no son licencias SPDX válidas:"
 
 #: src/reuse/lint.py:50
 msgid "DEPRECATED LICENSES"
@@ -71,21 +69,21 @@ msgstr "No se pudo leer:"
 
 #: src/reuse/lint.py:94
 msgid "INVALID SPDX LICENSE EXPRESSIONS"
-msgstr ""
+msgstr "EXPRESIONES DE LICENCIA SPDX NO VÁLIDAS"
 
 #: src/reuse/lint.py:99
-#, fuzzy
 msgid "'{}' contains invalid SPDX License Expressions:"
-msgstr "'{}' no es una expresión SPDX válida,"
+msgstr "'{}' contiene expresiones de licencia SPDX no válidas:"
 
 #: src/reuse/lint.py:124
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
 msgstr "FALTA INFORMACIÓN SOBRE COPYRIGHT Y LICENCIA"
 
 #: src/reuse/lint.py:130
-#, fuzzy
 msgid "The following files have no copyright and licensing information:"
-msgstr "Los siguientes ficheros carecen de información de copyright:"
+msgstr ""
+"Los siguientes ficheros no tiene información sobre derechos de autor y "
+"licencias:"
 
 #: src/reuse/lint.py:141
 msgid "The following files have no copyright information:"
@@ -128,9 +126,8 @@ msgid "Read errors:"
 msgstr "Errores de lectura:"
 
 #: src/reuse/lint.py:173
-#, fuzzy
 msgid "Invalid SPDX License Expressions:"
-msgstr "'{}' no es una expresión SPDX válida,"
+msgstr "Expresiones de Licencia SPDX no válidas:"
 
 #: src/reuse/lint.py:183
 #, fuzzy
@@ -163,9 +160,9 @@ msgid "RECOMMENDATIONS"
 msgstr "RECOMENDACIONES"
 
 #: src/reuse/lint.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "missing license '{lic}'"
-msgstr "'{}' no es un Identificador SPDX de Licencia válido."
+msgstr "licencia que falta '{lic}'"
 
 #: src/reuse/lint.py:291
 #, fuzzy
@@ -208,21 +205,25 @@ msgid "unused license"
 msgstr "Licencias no utilizadas:"
 
 #: src/reuse/project.py:253
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{path}' covered by {global_path}"
-msgstr "'{path}' cubierto por .reuse/dep5"
+msgstr "'{path}' cubierto por {global_path}"
 
 #: src/reuse/project.py:261
 #, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
+"'{path}' está cubierto exclusivamente por REUSE.toml. No leer el contenido "
+"del archivo."
 
 #: src/reuse/project.py:334
 msgid ""
 "'.reuse/dep5' is deprecated. You are recommended to instead use REUSE.toml. "
 "Use `reuse convert-dep5` to convert."
 msgstr ""
+"'.reuse/dep5' está en desuso. Se recomienda utilizar REUSE.toml en su lugar. "
+"Usar `reuse convert-dep5` para convertir."
 
 #: src/reuse/project.py:355
 #, python-brace-format
@@ -230,6 +231,8 @@ msgid ""
 "Found both '{new_path}' and '{old_path}'. You cannot keep both files "
 "simultaneously; they are not intercompatible."
 msgstr ""
+"Se encontraron tanto '{new_path}' como '{old_path}'. No puede conservar "
+"ambos archivos simultáneamente; son incompatibles."
 
 #: src/reuse/project.py:419
 #, python-brace-format
@@ -271,6 +274,8 @@ msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
+"REUSE_ENCODING_MODULE ha de tener un valor en {modules}; si tiene "
+"'{env_module}'. Anular."
 
 #: src/reuse/extract.py:69
 msgid ""
@@ -278,18 +283,25 @@ msgid ""
 "successfully imported. Re-read the installation instructions for the reuse "
 "package, or try the following:"
 msgstr ""
+"No se pudo importar correctamente ningún módulo compatible que pueda "
+"detectar la codificación de archivos. Vuelva a leer las instrucciones de "
+"instalación del paquete de reutilización o intente lo siguiente:"
 
 #: src/reuse/extract.py:75
 msgid ""
 "- If you are running a Linux distribution, try your equivalent of `apt "
 "install file` or `dnf install file`."
 msgstr ""
+"-Si está ejecutando una distribución de Linux, pruebe su equivalente de `apt "
+"install file` o `dnf install file`."
 
 #: src/reuse/extract.py:80
 msgid ""
 "- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx' with 'pip' "
 "if you are not using pipx."
 msgstr ""
+"- Ejecutar ` pipx install reuse[charset-normalizer]`. Sustituir 'pipx' con "
+"'pip' si no estás usando pipx."
 
 #: src/reuse/extract.py:451
 #, python-brace-format
@@ -306,6 +318,8 @@ msgid ""
 "extracting REUSE information from '{path}' (encoding {encoding}, encoding "
 "module {module}, newline {newline})"
 msgstr ""
+"extraer información de REUSE de '{path}' (codificación {encoding}, módulo de "
+"codificación {module}, nueva línea {newline})"
 
 #: src/reuse/header.py:87
 msgid "generated comment is missing copyright lines or license expressions"
@@ -410,6 +424,11 @@ msgid ""
 "not meant to be valid, put it between 'REUSE-IgnoreStart' and 'REUSE-"
 "IgnoreEnd' comments."
 msgstr ""
+"Corregir expresiones de licencia SPDX no válidas: En uno o más archivos hay "
+"expresiones de licencia SPDX que no se pueden analizar. Comprobar si el "
+"valor que sigue a 'SPDX-License-Identifier:' es correcto. Si la expresión "
+"detectada no pretende ser válida, colocarla entre los comentarios 'REUSE-"
+"IgnoreStart' y 'REUSE-IgnoreEnd'."
 
 #: src/reuse/report.py:595
 msgid ""
