@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2025-10-12 14:07+0000\n"
+"PO-Revision-Date: 2025-10-14 12:07+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -1123,9 +1123,8 @@ msgid "{value} is not in the range {range}."
 msgstr "{value} no está en el rango {range}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:719
-#, fuzzy
 msgid "{value!r} is not a valid boolean. Recognized values: {states}"
-msgstr "{¡valor!r} no es un valor booleano válido."
+msgstr "{value!r} no es un valor booleano válido. Valores reconocidos: {states}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:747
 msgid "{value!r} is not a valid UUID."
@@ -1253,9 +1252,9 @@ msgstr "No se pudo abrir el archivo {filename!r}: {message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1104
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1141
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{text} {deprecated_message}"
-msgstr ""
+msgstr "{text} {deprecated_message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1160
 msgid "Options"
@@ -1269,9 +1268,9 @@ msgstr[0] "Tiene un argumento extra inesperado ({args})"
 msgstr[1] "Tiene unos argumentos extras inesperados ({args})"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1241
-#, fuzzy
 msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
-msgstr "DeprecationWarning: : El comando {name!r} está en desuso."
+msgstr ""
+"DeprecationWarning: : El comando {name!r} está en desuso.{extra_message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1425
 msgid "Aborted!"
@@ -1301,10 +1300,10 @@ msgstr[0] "Toma valores {nargs} pero se dio 1."
 msgstr[1] "Toma valores {nargs} pero se dieron {len}."
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2505
-#, fuzzy
 msgid ""
 "DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
-msgstr "DeprecationWarning: : El comando {name!r} está en desuso."
+msgstr ""
+"DeprecationWarning: : El {param_type} {name!r} está en desuso.{extra_message}"
 
 #: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2956
 #, fuzzy, python-brace-format
