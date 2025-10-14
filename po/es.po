@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2025-10-14 12:07+0000\n"
+"PO-Revision-Date: 2025-10-15 16:07+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -170,29 +170,26 @@ msgid "read error"
 msgstr "Errores de lectura:"
 
 #: src/reuse/lint.py:296
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "invalid SPDX License Expression '{expression}'"
-msgstr "'{}' no es una expresión SPDX válida,"
+msgstr "es una expresión SPDX no válida '{expression}'"
 
 #: src/reuse/lint.py:303
-#, fuzzy
 msgid "no license identifier"
-msgstr "'{}' no es un Identificador SPDX de Licencia válido."
+msgstr "ningún Identificador de licencia"
 
 #: src/reuse/lint.py:307
-#, fuzzy
 msgid "no copyright notice"
-msgstr "'{}' no es un Identificador SPDX de Licencia válido."
+msgstr "sin aviso de derechos de autor"
 
 #: src/reuse/lint.py:345
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "bad license '{lic}'"
-msgstr "Licencias no utilizadas:"
+msgstr "licencia incorrecta'{lic}'"
 
 #: src/reuse/lint.py:350
-#, fuzzy
 msgid "deprecated license"
-msgstr "Licencias obsoletas:"
+msgstr "Licencias obsoletas"
 
 #: src/reuse/lint.py:355
 #, fuzzy
