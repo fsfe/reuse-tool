@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2025-10-15 16:07+0000\n"
+"PO-Revision-Date: 2025-10-16 19:07+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -833,9 +833,9 @@ msgid "Template '{template}' could not be found."
 msgstr "no pudo encontrarse la plantilla '{template}'"
 
 #: src/reuse/cli/annotate.py:236
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{year}' is not a valid year range."
-msgstr "{¡valor!r} no es un valor booleano válido."
+msgstr "'{year}' no es un rango de año válido."
 
 #: src/reuse/cli/annotate.py:245
 #, python-brace-format
@@ -843,6 +843,8 @@ msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
+"El año de su sistema operativo está configurado en '{year}'. Esto no es de "
+"cuatro dígitos, y no es compatible."
 
 #: src/reuse/cli/annotate.py:287
 msgid "Add copyright and licensing into the headers of files."
@@ -903,6 +905,8 @@ msgstr "AÑO"
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
+"Año de aviso de derechos de autor. Puede definir varios años o un rango de "
+"años."
 
 #: src/reuse/cli/annotate.py:353
 msgid "Comment style to use."
@@ -927,11 +931,10 @@ msgid "Do not include year in copyright notice."
 msgstr "No incluir el año en la declaración de derechos de autor."
 
 #: src/reuse/cli/annotate.py:390
-#, fuzzy
 msgid "Merge copyright notices if they are identical except for their years."
 msgstr ""
-"Fusionar las líneas del copyright si las declaraciones del copyright son "
-"idénticas"
+"Fusione los avisos de derechos de autor si son idénticos, excepto por sus "
+"años."
 
 #: src/reuse/cli/annotate.py:398
 msgid "Force single-line comment style."
@@ -1023,9 +1026,9 @@ msgstr ""
 "{received})"
 
 #: src/reuse/global_licensing.py:219
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not parse '{notice}'"
-msgstr "No se pudo procesar '{expression}'"
+msgstr "No se pudo analizar '{notice}'"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
