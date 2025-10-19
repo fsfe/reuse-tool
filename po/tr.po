@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2025-08-20 10:02+0000\n"
+"PO-Revision-Date: 2025-10-20 19:18+0000\n"
 "Last-Translator: \"T. E. Kalaycı\" <tekrei@members.fsf.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "tr/>\n"
@@ -15,17 +15,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: src/reuse/lint.py:40
-#, fuzzy
 msgid "BAD LICENSES"
-msgstr "KULLANILMAYAN LİSANSLAR"
+msgstr "KÖTÜ LİSANSLAR"
 
 #: src/reuse/lint.py:42
-#, fuzzy
 msgid "The following licenses are not valid SPDX licenses:"
-msgstr "Şu lisanslar kullanılmıyor:"
+msgstr "Şu lisanslar geçerli SPDX lisansları değiller:"
 
 #: src/reuse/lint.py:50
 msgid "DEPRECATED LICENSES"
@@ -69,12 +67,11 @@ msgstr "Okunamıyor:"
 
 #: src/reuse/lint.py:94
 msgid "INVALID SPDX LICENSE EXPRESSIONS"
-msgstr ""
+msgstr "GEÇERSİZ SPDX LİSANS İFADELERİ"
 
 #: src/reuse/lint.py:99
-#, fuzzy
 msgid "'{}' contains invalid SPDX License Expressions:"
-msgstr "'{}' geçerli bir SPDX ifadesi değildir."
+msgstr "'{}' geçersiz SPDX Lisans İfadeleri içeriyor:"
 
 #: src/reuse/lint.py:124
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
