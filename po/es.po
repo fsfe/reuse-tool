@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2025-10-16 19:07+0000\n"
+"PO-Revision-Date: 2025-10-23 15:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: src/reuse/lint.py:40
 msgid "BAD LICENSES"
@@ -130,9 +130,8 @@ msgid "Invalid SPDX License Expressions:"
 msgstr "Expresiones de Licencia SPDX no válidas:"
 
 #: src/reuse/lint.py:183
-#, fuzzy
 msgid "Files with copyright information:"
-msgstr "archivos con información sobre los derechos de autor:"
+msgstr "archivos con información sobre derechos de autor:"
 
 #: src/reuse/lint.py:187
 #, fuzzy
@@ -976,7 +975,6 @@ msgstr "Omitir los archivos que ya contienen la información REUSE"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:453
-#, fuzzy
 msgid "PATH"
 msgstr "PATH"
 
