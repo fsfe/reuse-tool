@@ -40,23 +40,37 @@ from .i18n import _
 
 _LOGGER = logging.getLogger(__name__)
 
-_EncodingModulesLiteral = Literal["magic", "charset_normalizer", "chardet"]
-_ENCODING_MODULES = list(_EncodingModulesLiteral.__args__)  # type: ignore
+_ENCODING_MODULES = {
+    "python-magic": "magic",
+    "file-magic": "magic",
+    "charset_normalizer": "charset_normalizer",
+    "chardet": "chardet",
+}
 if _env_encoding_module := os.environ.get("REUSE_ENCODING_MODULE"):
+    # Backwards compatibility. In v6.1.2, 'magic' used to mean 'python-magic'.
+    if _env_encoding_module == "magic":
+        _env_encoding_module = "python-magic"  # pylint: disable=invalid-name
     if _env_encoding_module not in _ENCODING_MODULES:
         print(
             # TRANSLATORS: Do not translate REUSE_ENCODING_MODULE.
             _(
                 "REUSE_ENCODING_MODULE must have a value in {modules}; it has"
                 " '{env_module}'. Aborting."
-            ).format(modules=_ENCODING_MODULES, env_module=_env_encoding_module)
+            ).format(
+                modules=list(_ENCODING_MODULES.keys()),
+                env_module=_env_encoding_module,
+            )
         )
         sys.exit(1)
-    _ENCODING_MODULES = [_env_encoding_module]
+    _ENCODING_MODULES = {
+        _env_encoding_module: (
+            "magic" if "magic" in _env_encoding_module else _env_encoding_module
+        )
+    }
 
 _ENCODING_MODULE: ModuleType | None = None
 _MAGIC = None
-for _module in _ENCODING_MODULES:
+for _module in _ENCODING_MODULES.values():
     if _module == "magic" and platform.system() == "Windows":
         continue
     try:
@@ -84,16 +98,26 @@ else:
     )
 
 
+def _detect_magic(module: ModuleType) -> Literal["python-magic", "file-magic"]:
+    if hasattr(module, "from_buffer"):
+        return "python-magic"
+    return "file-magic"
+
+
 def get_encoding_module() -> ModuleType:
     """Get the module used to detect the encodings of files."""
     return cast(ModuleType, _ENCODING_MODULE)
 
 
 def _get_encoding_module_name() -> str | None:
-    return getattr(get_encoding_module(), "__name__", None)
+    module = get_encoding_module()
+    result = getattr(module, "__name__", None)
+    if result == "magic":
+        return _detect_magic(module)
+    return result
 
 
-def set_encoding_module(name: _EncodingModulesLiteral) -> ModuleType:
+def set_encoding_module(name: str) -> ModuleType:
     """Set the module used to detect the encodings of files, and return the
     module.
     """
@@ -108,7 +132,7 @@ def set_encoding_module(name: _EncodingModulesLiteral) -> ModuleType:
         raise NoEncodingModuleError(f"'{name}' could not be imported.") from err
 
 
-if get_encoding_module().__name__ == "magic":
+if _get_encoding_module_name() == "python-magic":
     _MAGIC = get_encoding_module().Magic(mime_encoding=True)
 
 
@@ -323,29 +347,38 @@ def _read_chunks(
         yield chunk
 
 
-def _detect_encoding_magic(chunk: bytes) -> str | None:
-    result: str = _MAGIC.from_buffer(chunk)  # type: ignore[union-attr]
-    if result == "binary":
+def _detect_encoding_magic(mime_encoding: str, chunk: bytes) -> str | None:
+    if mime_encoding == "binary":
         return None
-    if result == "utf-8" and chunk[:3] == b"\xef\xbb\xbf":
-        result += "-sig"
+    if mime_encoding == "utf-8" and chunk[:3] == b"\xef\xbb\xbf":
+        mime_encoding += "-sig"
     # Python and magic disagree on what 'le' means. For magic, it means a UTF-16
     # block prefixed with a BOM. For Python, that's what 'utf-16' is, and
     # 'utf_16_le' is a little endian block _without_ BOM prefix.
-    elif result == "utf-16le" and chunk[:2] == b"\xff\xfe":
-        result = "utf-16"
-    elif result == "utf-32le" and chunk[:4] == b"\xff\xfe\x00\x00":
-        result = "utf-32"
+    elif mime_encoding == "utf-16le" and chunk[:2] == b"\xff\xfe":
+        mime_encoding = "utf-16"
+    elif mime_encoding == "utf-32le" and chunk[:4] == b"\xff\xfe\x00\x00":
+        mime_encoding = "utf-32"
     else:
         # This nifty function gets the (in Python) standardised name for an
         # encoding. 'iso-8859-1' becomes 'iso8859-1'.
         try:
-            codec_info = codecs.lookup(result)
-            result = codec_info.name
+            codec_info = codecs.lookup(mime_encoding)
+            mime_encoding = codec_info.name
         except LookupError:
             # Fallback.
-            result = "utf-8"
-    return normalize_encoding(result)
+            mime_encoding = "utf-8"
+    return normalize_encoding(mime_encoding)
+
+
+def _detect_encoding_python_magic(chunk: bytes) -> str | None:
+    result: str = _MAGIC.from_buffer(chunk)  # type: ignore[union-attr]
+    return _detect_encoding_magic(result, chunk)
+
+
+def _detect_encoding_file_magic(chunk: bytes) -> str | None:
+    result: str = get_encoding_module().detect_from_content(chunk).encoding
+    return _detect_encoding_magic(result, chunk)
 
 
 def _detect_encoding_charset_normalizer(chunk: bytes) -> str | None:
@@ -388,8 +421,10 @@ def detect_encoding(chunk: bytes) -> str | None:
         return "utf_8"
 
     result: str | None = None
-    if _get_encoding_module_name() == "magic":
-        result = _detect_encoding_magic(chunk)
+    if _get_encoding_module_name() == "python-magic":
+        result = _detect_encoding_python_magic(chunk)
+    elif _get_encoding_module_name() == "file-magic":
+        result = _detect_encoding_file_magic(chunk)
     elif _get_encoding_module_name() == "charset_normalizer":
         result = _detect_encoding_charset_normalizer(chunk)
     elif _get_encoding_module_name() == "chardet":
