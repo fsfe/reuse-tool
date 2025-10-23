@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2024 Nico Rikken <nico@nicorikken.eu>
 # SPDX-FileCopyrightText: 2024 Sebastien Morais <github@SMoraisAnsys>
+# SPDX-FileCopyrightText: 2025 Free Software Foundation Europe e.V. <https://fsfe.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -295,12 +296,11 @@ class TestFormatLines:
 
         assert result == cleandoc_nl(
             """
-            bar.py: missing license 'MIT OR'
             bar.py: invalid SPDX License Expression 'MIT OR'
-            foo.py: missing license '<>'
-            foo.py: missing license 'MIT OR'
+            bar.py: no license identifier
             foo.py: invalid SPDX License Expression '<>'
             foo.py: invalid SPDX License Expression 'MIT OR'
+            foo.py: no license identifier
             """
         )
 

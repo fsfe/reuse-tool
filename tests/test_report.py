@@ -231,7 +231,6 @@ class TestGenerateFileReport:
             "foo.py",
             add_license_concluded=add_license_concluded,
         )
-        assert result.licenses_in_file == ["MIT OR"]
         assert result.license_concluded == "NOASSERTION"
 
     def test_invalid_spdx_expression_not_missing_or_in_file(
