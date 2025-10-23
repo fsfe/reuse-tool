@@ -90,7 +90,7 @@ Environment
 
   Instead of automatically picking the best module to detect the encodings of
   files, :program:`reuse` will use the module defined here. Its value must be
-  ``magic``, ``charset_normalizer``, or ``chardet``.
+  ``python-magic``, ``file-magic``, ``charset_normalizer``, or ``chardet``.
 
 Commands
 --------
