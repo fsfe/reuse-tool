@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2025-10-23 15:02+0000\n"
+"PO-Revision-Date: 2025-10-25 12:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -134,9 +134,8 @@ msgid "Files with copyright information:"
 msgstr "archivos con información sobre derechos de autor:"
 
 #: src/reuse/lint.py:187
-#, fuzzy
 msgid "Files with license information:"
-msgstr "con información sobre las licencias:"
+msgstr "Archivos con información sobre las licencias:"
 
 #: src/reuse/lint.py:204
 msgid ""
