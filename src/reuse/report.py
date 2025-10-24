@@ -789,6 +789,7 @@ class FileReport:  # pylint: disable=too-many-instance-attributes
             for expression in reuse_info.spdx_expressions:
                 if not expression.is_valid:
                     report.invalid_spdx_expressions.add(str(expression))
+                    continue
                 for identifier in expression.licenses:
                     # A license expression akin to Apache-1.0+ should register
                     # correctly if LICENSES/Apache-1.0.txt exists.
