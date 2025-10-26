@@ -5,7 +5,7 @@
 
 """All tests for reuse.comment"""
 
-# pylint: disable=protected-access,invalid-name,redefined-outer-name
+# pylint: disable=protected-access
 
 from inspect import cleandoc
 from textwrap import dedent
@@ -19,90 +19,71 @@ from reuse.comment import (
     HtmlCommentStyle,
     LispCommentStyle,
     PythonCommentStyle,
-    _all_style_classes,
     get_comment_style,
 )
 from reuse.exceptions import CommentCreateError, CommentParseError
 
 
-@pytest.fixture(
-    params=[
-        Style for Style in _all_style_classes() if Style.can_handle_single()
-    ]
-)
-def SingleStyle(request):
-    """Yield all Style classes that support single-line comments."""
-    yield request.param
-
-
-@pytest.fixture(
-    params=[Style for Style in _all_style_classes() if Style.can_handle_multi()]
-)
-def MultiStyle(request):
-    """Yield all Style classes that support multi-line comments."""
-    yield request.param
-
-
-def test_create_comment_generic_single(SingleStyle):
+def test_create_comment_generic_single(single_style):
     """Create a comment for all classes that support single-line comments."""
     text = "Hello"
     expected = (
-        f"{SingleStyle.SINGLE_LINE}{SingleStyle.INDENT_AFTER_SINGLE}Hello"
+        f"{single_style.SINGLE_LINE}{single_style.INDENT_AFTER_SINGLE}Hello"
     )
 
-    assert SingleStyle.create_comment(text) == expected
+    assert single_style.create_comment(text) == expected
 
 
-def test_create_comment_generic_multi(MultiStyle):
+def test_create_comment_generic_multi(multi_style):
     """Create a comment for all classes that support multi-line comments."""
     # pylint: disable=line-too-long
     text = "Hello"
     expected = cleandoc(
         f"""
-        {MultiStyle.MULTI_LINE.start}
-        {MultiStyle.INDENT_BEFORE_MIDDLE}{MultiStyle.MULTI_LINE.middle}{MultiStyle.INDENT_AFTER_MIDDLE}Hello
-        {MultiStyle.INDENT_BEFORE_END}{MultiStyle.MULTI_LINE.end}
+        {multi_style.MULTI_LINE.start}
+        {multi_style.INDENT_BEFORE_MIDDLE}{multi_style.MULTI_LINE.middle}{multi_style.INDENT_AFTER_MIDDLE}Hello
+        {multi_style.INDENT_BEFORE_END}{multi_style.MULTI_LINE.end}
         """
     )
 
-    assert MultiStyle.create_comment(text, force_multi=True) == expected
+    assert multi_style.create_comment(text, force_multi=True) == expected
 
 
-def test_parse_comment_generic_single(SingleStyle):
+def test_parse_comment_generic_single(single_style):
     """Parse a comment for all classes that support single-line comments."""
-    text = f"{SingleStyle.SINGLE_LINE}{SingleStyle.INDENT_AFTER_SINGLE}Hello"
+    text = f"{single_style.SINGLE_LINE}{single_style.INDENT_AFTER_SINGLE}Hello"
     expected = "Hello"
 
-    assert SingleStyle.parse_comment(text) == expected
+    assert single_style.parse_comment(text) == expected
 
 
-def test_parse_comment_generic_multi(MultiStyle):
+def test_parse_comment_generic_multi(multi_style):
     """Parse a comment for all classes that support multi-line comments."""
     # pylint: disable=line-too-long
     text = cleandoc(
         f"""
-        {MultiStyle.MULTI_LINE.start}
-        {MultiStyle.INDENT_BEFORE_MIDDLE}{MultiStyle.MULTI_LINE.middle}{MultiStyle.INDENT_AFTER_MIDDLE}Hello
-        {MultiStyle.INDENT_BEFORE_END}{MultiStyle.MULTI_LINE.end}
+        {multi_style.MULTI_LINE.start}
+        {multi_style.INDENT_BEFORE_MIDDLE}{multi_style.MULTI_LINE.middle}{multi_style.INDENT_AFTER_MIDDLE}Hello
+        {multi_style.INDENT_BEFORE_END}{multi_style.MULTI_LINE.end}
         """
     )
     expected = "Hello"
 
-    assert MultiStyle.parse_comment(text) == expected
+    assert multi_style.parse_comment(text) == expected
 
 
-def test_parse_comment_sameline_multi(MultiStyle):
+def test_parse_comment_sameline_multi(multi_style):
     """If a multi-line comment style is on a single line, it should still be
     parsed.
     """
     text = cleandoc(
         f"""
-        {MultiStyle.MULTI_LINE.start} Hello {MultiStyle.MULTI_LINE.end}
+        {multi_style.MULTI_LINE.start} Hello {multi_style.MULTI_LINE.end}
         """
     )
     expected = "Hello"
 
-    assert MultiStyle.parse_comment(text) == expected
+    assert multi_style.parse_comment(text) == expected
 
 
 def test_base_class_throws_errors():
