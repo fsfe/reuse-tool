@@ -1,5 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+SPDX-FileCopyrightText: 2017 REUSE contributors
 SPDX-FileCopyrightText: 2023 DB Systel GmbH
 SPDX-FileCopyrightText: 2024 Rivos Inc.
 SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
