@@ -28,8 +28,11 @@
 # SPDX-FileCopyrightText: 2025 Maximilian Franzke <mfr@nzke.net>
 # SPDX-FileCopyrightText: 2025 Sacha-Élie Ayoun <sachaayoun@gmail.com>
 # SPDX-FileCopyrightText: 2025 Thomas Gilon <thomas.gilon@openenergytransition.org>
+# SPDX-FileCopyrightText: 2025 Manlio Perillo <manlio.perillo@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# pylint: disable=too-many-lines
 
 """Module for parsing and creating comments. Just enough to deal with comment
 headers, in any case.
@@ -952,6 +955,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
     "Snakefile": PythonCommentStyle,
+    "uv.lock": UncommentableCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
 
