@@ -32,6 +32,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# pylint: disable=too-many-lines
+
 """Module for parsing and creating comments. Just enough to deal with comment
 headers, in any case.
 """
