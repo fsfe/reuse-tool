@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2017, 2025 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 #
@@ -231,8 +231,28 @@ class TestGenerateFileReport:
             "foo.py",
             add_license_concluded=add_license_concluded,
         )
-        assert result.licenses_in_file == ["MIT OR"]
         assert result.license_concluded == "NOASSERTION"
+
+    def test_invalid_spdx_expression_not_missing_or_in_file(
+        self, fake_repository, add_license_concluded
+    ):
+        """Invalid SPDX expressions should not also be missing or used
+        licenses.
+        """
+        (fake_repository / "foo.py").write_text(
+            "SPDX-License-Identifier: <invalid>"
+        )
+
+        project = Project.from_directory(fake_repository)
+        result = FileReport.generate(
+            project,
+            "foo.py",
+            add_license_concluded=add_license_concluded,
+        )
+
+        assert "<invalid>" in result.invalid_spdx_expressions
+        assert "<invalid>" not in result.missing_licenses
+        assert "<invalid>" not in result.licenses_in_file
 
     def test_to_dict_lint_source_information(
         self,
@@ -440,6 +460,29 @@ class TestGenerateProjectReport:
         )
 
         assert "GPL-3.0" in result.deprecated_licenses
+
+    def test_invalid_spdx_expression_not_missing_or_used(
+        self, fake_repository, multiprocessing
+    ):
+        """Invalid SPDX expressions should not also be missing or used
+        licenses.
+        """
+        (fake_repository / "foo.py").write_text(
+            "SPDX-License-Identifier: <invalid>"
+        )
+
+        project = Project.from_directory(fake_repository)
+        result = ProjectReport.generate(
+            project, multiprocessing=multiprocessing
+        )
+
+        assert fake_repository / "foo.py" in result.invalid_spdx_expressions
+        assert (
+            "<invalid>"
+            in result.invalid_spdx_expressions[fake_repository / "foo.py"]
+        )
+        assert "<invalid>" not in result.missing_licenses
+        assert "<invalid>" not in result.used_licenses
 
     @cpython
     @posix
