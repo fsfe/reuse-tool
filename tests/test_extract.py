@@ -728,9 +728,54 @@ class TestEncodingModule:
         )
         assert result.returncode != 0
         assert result.stdout.decode("utf-8").strip() == (
-            "REUSE_ENCODING_MODULE must have a value in ['magic',"
-            " 'charset_normalizer', 'chardet']; it has 'foo'. Aborting."
+            "REUSE_ENCODING_MODULE must have a value in ['python-magic',"
+            " 'file-magic', 'charset_normalizer', 'chardet']; it has 'foo'."
+            " Aborting."
         )
+
+    def test_correct_env(self, encoding_module):
+        """If REUSE_ENCODING_MODULE is set to a valid value, use the correct
+        module.
+        """
+        env = os.environ.copy()
+        env["REUSE_ENCODING_MODULE"] = encoding_module
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import reuse.extract;"
+                "print(reuse.extract._get_encoding_module_name())",
+            ],
+            env=env,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        assert result.returncode == 0
+        assert result.stdout.decode("utf-8").strip() == encoding_module
+
+    def test_magic_env(self, encoding_module):
+        """If REUSE_ENCODING_MODULE is 'magic', import python-magic for
+        backwards compatibility.
+        """
+        if encoding_module != "python-magic":
+            pytest.skip("this test only works with python-magic")
+        env = os.environ.copy()
+        env["REUSE_ENCODING_MODULE"] = "magic"
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import reuse.extract;"
+                "print(reuse.extract._get_encoding_module_name())",
+            ],
+            env=env,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        assert result.returncode == 0
+        assert result.stdout == b"python-magic\n"
 
     @chardet
     def test_pick_module(self):
@@ -756,7 +801,11 @@ class TestEncodingModule:
 
     def test_get_encoding_module(self, encoding_module):
         """Test whether get_encoding_module returns the correct module."""
-        assert get_encoding_module().__name__ == encoding_module
+        result = get_encoding_module().__name__
+        if "magic" in encoding_module:
+            assert result == "magic"
+        else:
+            assert result == encoding_module
 
     def test_set_wrong_encoding_module_(self):
         """If setting to an unsupported module, expect an error."""

@@ -190,13 +190,21 @@ def multiprocessing(request, monkeypatch) -> Generator[bool, None, None]:
     yield request.param
 
 
-@pytest.fixture(params=["magic", "charset_normalizer", "chardet"])
+@pytest.fixture(
+    params=["python-magic", "file-magic", "charset_normalizer", "chardet"]
+)
 def encoding_module(request, monkeypatch) -> Generator[bool, None, None]:
     """Run the test with or without libmagic."""
+    is_magic = "magic" in request.param
+    if is_magic and not is_posix:
+        pytest.skip("Windows not supported")
     try:
-        if request.param == "magic" and not is_posix:
-            pytest.skip("Windows not supported")
-        module = importlib.import_module(request.param)
+        module = importlib.import_module(
+            request.param if not is_magic else "magic"
+        )
+        # pylint: disable=protected-access
+        if is_magic and extract._detect_magic(module) != request.param:
+            pytest.skip(f"'magic' does not import as {request.param}")
         monkeypatch.setattr("reuse.extract._ENCODING_MODULE", module)
         yield request.param
     except ImportError:
