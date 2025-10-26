@@ -156,3 +156,4 @@ Contributors
 - Johannes HAMPP <johannes.hampp@openenergytransition.org>
 - Simon Barth <simon.barth@gmx.de>
 - Maximilian Franzke <mfr@nzke.net>
+- Sacha-Élie Ayoun <sachaayoun@gmail.com>
