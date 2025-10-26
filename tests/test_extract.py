@@ -733,6 +733,50 @@ class TestEncodingModule:
             " Aborting."
         )
 
+    def test_correct_env(self, encoding_module):
+        """If REUSE_ENCODING_MODULE is set to a valid value, use the correct
+        module.
+        """
+        env = os.environ.copy()
+        env["REUSE_ENCODING_MODULE"] = encoding_module
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import reuse.extract;"
+                "print(reuse.extract._get_encoding_module_name())",
+            ],
+            env=env,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        assert result.returncode == 0
+        assert result.stdout.decode("utf-8").strip() == encoding_module
+
+    def test_magic_env(self, encoding_module):
+        """If REUSE_ENCODING_MODULE is 'magic', import python-magic for
+        backwards compatibility.
+        """
+        if encoding_module != "python-magic":
+            pytest.skip("this test only works with python-magic")
+        env = os.environ.copy()
+        env["REUSE_ENCODING_MODULE"] = "magic"
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import reuse.extract;"
+                "print(reuse.extract._get_encoding_module_name())",
+            ],
+            env=env,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        assert result.returncode == 0
+        assert result.stdout == b"python-magic\n"
+
     @chardet
     def test_pick_module(self):
         """If REUSE_ENCODING_MODULE is set to a correct value, correctly select
