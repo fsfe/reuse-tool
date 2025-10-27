@@ -23,7 +23,7 @@ from .._util import setup_logging
 from ..i18n import _
 from .common import ClickObj
 
-_PACKAGE_PATH = os.path.dirname(__file__)
+_PACKAGE_PATH = os.path.dirname(os.path.dirname(__file__))
 _LOCALE_DIR = os.path.join(_PACKAGE_PATH, "locale")
 if gettext.find("reuse", localedir=_LOCALE_DIR):
     gettext.bindtextdomain("reuse", _LOCALE_DIR)

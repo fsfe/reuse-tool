@@ -26,6 +26,33 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.2.0 - 2025-10-27
+
+### Added
+
+- Added new file extensions and files:
+  - `.arcconfig`, `.arclint`, `.arcunit` (#1123)
+  - `.nvmrc` (#1211)
+  - `.smk`, `Snakefile`, `matplotlibrc` (#1206)
+  - `.yamllint` (#1124)
+  - `uv.lock` (#1156)
+  - `dune`, `dune-project`, `dune-workspace` (#1208)
+- `file-magic` is now supported as an additional module for detecting the
+  encoding of files. (#1264)
+- Support deprecated licences for `reuse download`. (#606)
+- Markdown files which have frontmatter (i.e. yaml or toml between a `---` block
+  at the start of the file) now get Python-like comments inside of the
+  frontmatter when annotating. (#1170)
+
+### Fixed
+
+- When `file-magic` is installed simultaneously with `python-magic`, the tool
+  used to misbehave (read: crash), because either one of them could be imported
+  on `import magic`. This misbehaviour no longer happens. (#1264)
+- Invalid SPDX license expressions are no longer recognized as used or missing
+  licenses. (#1254)
+- `click` translations are now correctly loaded. (#1267)
+
 ## v6.1.2 - 2025-10-08
 
 ### Fixed
