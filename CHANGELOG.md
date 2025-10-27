@@ -51,6 +51,7 @@ CLI command and its behaviour. There are no guarantees of stability for the
   on `import magic`. This misbehaviour no longer happens. (#1264)
 - Invalid SPDX license expressions are no longer recognized as used or missing
   licenses. (#1254)
+- `click` translations are now correctly loaded. (#1267)
 
 ## v6.1.2 - 2025-10-08
 
