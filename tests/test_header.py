@@ -11,7 +11,7 @@ from inspect import cleandoc
 
 import pytest
 
-from reuse.comment import CppCommentStyle
+from reuse.comment import CCommentStyle, CppCommentStyle
 from reuse.copyright import CopyrightNotice, ReuseInfo, SpdxExpression
 from reuse.exceptions import MissingReuseInfoError
 from reuse.header import add_new_header, create_header, find_and_replace_header
@@ -463,7 +463,7 @@ def test_find_and_replace_preserve_preceding():
     assert find_and_replace_header(text, info) == expected
 
 
-def test_find_and_replace_keep_shebang():
+def test_find_and_replace_keep_shebang(shebang_style):
     """When encountering a shebang, keep it and put the REUSE header beneath
     it.
     """
@@ -473,29 +473,25 @@ def test_find_and_replace_keep_shebang():
             CopyrightNotice.from_string("SPDX-FileCopyrightText: John Doe")
         },
     )
-    text = cleandoc(
-        """
-        #!/usr/bin/env python3
+    for shebang in shebang_style.SHEBANGS:
+        text = (
+            f"{shebang} metadata\n\n"
+            + shebang_style.create_comment("SPDX-FileCopyrightText: Jane Doe")
+            + "\n\npass"
+        )
+        expected = (
+            f"{shebang} metadata\n\n"
+            + shebang_style.create_comment(
+                "SPDX-FileCopyrightText: Jane Doe\n"
+                "SPDX-FileCopyrightText: John Doe\n\n"
+                "SPDX-License-Identifier: GPL-3.0-or-later"
+            )
+            + "\n\npass"
+        )
 
-        # SPDX-FileCopyrightText: Jane Doe
-
-        pass
-        """
-    )
-    expected = cleandoc(
-        """
-        #!/usr/bin/env python3
-
-        # SPDX-FileCopyrightText: Jane Doe
-        # SPDX-FileCopyrightText: John Doe
-        #
-        # SPDX-License-Identifier: GPL-3.0-or-later
-
-        pass
-        """
-    )
-
-    assert find_and_replace_header(text, info) == expected
+        assert (
+            find_and_replace_header(text, info, style=shebang_style) == expected
+        )
 
 
 def test_find_and_replace_separate_shebang():
@@ -528,51 +524,62 @@ def test_find_and_replace_separate_shebang():
     assert find_and_replace_header(text, info) == expected
 
 
-def test_find_and_replace_shebang_but_no_copyright():
+def test_find_and_replace_shebang_but_no_copyright(shebang_style):
     """When the file contains a shebang but no copyright information, keep it at
     the top of the file.
     """
-    info = ReuseInfo(spdx_expressions={SpdxExpression("GPL-3.0-or-later")})
-    text = cleandoc(
-        """
-        #!/usr/bin/env python3
-
-        # Hello, world!
-
-        pass
-        """
-    )
-    expected = cleandoc(
-        """
-        #!/usr/bin/env python3
-
-        # SPDX-License-Identifier: GPL-3.0-or-later
-
-        # Hello, world!
-
-        pass
-        """
-    )
-
-    assert find_and_replace_header(text, info) == expected
-
-
-def test_find_and_replace_only_shebang():
-    """When the file only contains a shebang, add copyright info below it."""
-    info = ReuseInfo(spdx_expressions={SpdxExpression("GPL-3.0-or-later")})
-    text = "#!/usr/bin/env python3"
-    expected = (
-        cleandoc(
-            """
-            #!/usr/bin/env python3
-
-            # SPDX-License-Identifier: GPL-3.0-or-later
-            """
+    info = ReuseInfo(spdx_expressions={SpdxExpression("MIT")})
+    for shebang in shebang_style.SHEBANGS:
+        text = (
+            f"{shebang} metadata\n\n"
+            + shebang_style.create_comment("Hello, world!")
+            + "\n\npass"
         )
-        + "\n"
-    )
+        expected = (
+            f"{shebang} metadata\n\n"
+            + shebang_style.create_comment("SPDX-License-Identifier: MIT")
+            + "\n\n"
+            + shebang_style.create_comment("Hello, world!")
+            + "\n\npass"
+        )
 
-    assert find_and_replace_header(text, info) == expected
+        assert (
+            find_and_replace_header(text, info, style=shebang_style) == expected
+        )
+
+
+def test_find_and_replace_only_shebang(shebang_style):
+    """When the file only contains a shebang, add copyright info below it."""
+    info = ReuseInfo(spdx_expressions={SpdxExpression("MIT")})
+    for shebang in shebang_style.SHEBANGS:
+        text = f"{shebang} metadata"
+        expected = (
+            f"{shebang} metadata\n\n"
+            + shebang_style.create_comment("SPDX-License-Identifier: MIT")
+            + "\n"
+        )
+
+        assert (
+            find_and_replace_header(text, info, style=shebang_style) == expected
+        )
+
+
+def test_find_and_replace_shebang_wrong_style(shebang_style):
+    """When a shebang is used in a file, but the detected comment style doesn't
+    support that shebang, do not put the shebang first.
+    """
+    info = ReuseInfo(spdx_expressions={SpdxExpression("MIT")})
+    for shebang in shebang_style.SHEBANGS:
+        text = f"{shebang} metadata"
+        expected = (
+            CCommentStyle.create_comment("SPDX-License-Identifier: MIT")
+            + "\n\n"
+            + f"{shebang} metadata"
+        )
+
+        assert (
+            find_and_replace_header(text, info, style=CCommentStyle) == expected
+        )
 
 
 def test_find_and_replace_keep_old_comment():

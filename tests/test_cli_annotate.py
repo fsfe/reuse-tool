@@ -396,6 +396,115 @@ class TestAnnotate:
         assert result.exit_code == 0
         assert simple_file.read_text() == expected
 
+    def test_markdown(self, fake_repository):
+        """Markdown uses the HTML comment style."""
+        simple_file = fake_repository / "foo.md"
+        simple_file.write_text(
+            cleandoc(
+                """
+                # Heading
+                """
+            )
+        )
+        expected = cleandoc(
+            """
+            <!--
+            SPDX-License-Identifier: MIT
+            -->
+
+            # Heading
+            """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--license",
+                "MIT",
+                "foo.md",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected
+
+    def test_frontmatter(self, fake_repository):
+        """Keep the frontmatter when annotating."""
+        simple_file = fake_repository / "foo.md"
+        simple_file.write_text(
+            cleandoc(
+                """
+                ---
+                description: test
+                ---
+                # Heading
+                """
+            )
+        )
+        expected = cleandoc(
+            """
+            ---
+            # SPDX-License-Identifier: MIT
+
+            description: test
+            ---
+            # Heading
+            """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--license",
+                "MIT",
+                "foo.md",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected
+
+    def test_frontmatter_wrong_comment_style(self, fake_repository):
+        """If a comment style does not support the frontmatter header at the
+        top, don't treat the shebang as special.
+        """
+        simple_file = fake_repository / "foo.sh"
+        simple_file.write_text(
+            cleandoc(
+                """
+                ---
+                description: test
+                ---
+                # Heading
+                """
+            )
+        )
+        expected = cleandoc(
+            """
+            # SPDX-License-Identifier: MIT
+
+            ---
+            description: test
+            ---
+            # Heading
+            """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--license",
+                "MIT",
+                "foo.sh",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected
+
     def test_contributors_only(
         self, fake_repository, mock_date_today, contributors
     ):

@@ -10,6 +10,7 @@
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
 # SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2025 Rivos Inc.
+# SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,7 +23,12 @@ from typing import NamedTuple, cast
 
 from jinja2 import Environment, PackageLoader, Template
 
-from .comment import CommentStyle, EmptyCommentStyle, PythonCommentStyle
+from .comment import (
+    CommentStyle,
+    EmptyCommentStyle,
+    HtmlCommentStyle,
+    PythonCommentStyle,
+)
 from .copyright import CopyrightNotice, ReuseInfo
 from .exceptions import CommentParseError, MissingReuseInfoError
 from .extract import contains_reuse_info, extract_reuse_info
@@ -42,6 +48,16 @@ class _TextSections(NamedTuple):
     before: str
     middle: str
     after: str
+
+
+class _FrontmatterCommentStyle(CommentStyle):
+    """Frontmatter comment style. Used specifically for e.g. Markdown."""
+
+    SHORTHAND = "frontmatter"
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["---"]
 
 
 def _create_new_header(
@@ -207,14 +223,19 @@ def _extract_shebang(prefix: str, text: str) -> tuple[str, str]:
 
 
 def place_header(
-    header: str, before: str, after: str, has_existing_header: bool
+    header: str,
+    before: str,
+    after: str,
+    has_existing_header: bool,
+    double_newline_after_before: bool = True,
 ) -> str:
     """Construct the resulting file with the header and the rest of the text
     in the file.
     """
     new_text = f"{header}\n"
     if before.strip():
-        new_text = f"{before.rstrip()}\n\n{new_text}"
+        newlines = "\n\n" if double_newline_after_before else "\n"
+        new_text = f"{before.rstrip()}{newlines}{new_text}"
     if after.strip():
         # Create space between header and following code only if a newline
         # doesn't already exist, and there wasn't previously a header.
@@ -260,6 +281,12 @@ def find_and_replace_header(
     if style is None:
         style = PythonCommentStyle
 
+    # Workaround: Treat Markdown files with frontmatter with the Frontmatter
+    # style instead.
+    frontmatter = text.startswith("---")
+    if style is HtmlCommentStyle and frontmatter:
+        style = _FrontmatterCommentStyle
+
     try:
         before, header, after = _find_first_spdx_comment(text, style=style)
     except MissingReuseInfoError:
@@ -297,7 +324,13 @@ def find_and_replace_header(
         merge_copyrights=merge_copyrights,
     )
 
-    return place_header(new_header, before, after, bool(header))
+    return place_header(
+        new_header,
+        before,
+        after,
+        bool(header),
+        double_newline_after_before=not frontmatter,
+    )
 
 
 # pylint: disable=too-many-arguments

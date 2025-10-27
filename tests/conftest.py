@@ -42,6 +42,11 @@ except ImportError:
 finally:
     from reuse import extract, report
     from reuse._util import setup_logging
+    from reuse.comment import (
+        EmptyCommentStyle,
+        UncommentableCommentStyle,
+        _all_style_classes,
+    )
     from reuse.global_licensing import ReuseDep5
     from reuse.lint import format_lines, format_lines_subset
     from reuse.vcs import GIT_EXE, HG_EXE, JUJUTSU_EXE, PIJUL_EXE
@@ -665,6 +670,41 @@ def mock_date_today(monkeypatch):
     date = create_autospec(datetime.date)
     date.today.return_value = datetime.date(2018, 1, 1)
     monkeypatch.setattr(datetime, "date", date)
+
+
+def _filtered_styles(predicate):
+    return [
+        Style
+        for Style in _all_style_classes()
+        if Style not in (EmptyCommentStyle, UncommentableCommentStyle)
+        and predicate(Style)
+    ]
+
+
+@pytest.fixture(params=_filtered_styles(lambda s: True))
+def comment_style(request):
+    """Yield all CommentStyle classes, excluding EmptyCommentStyle and
+    UncommentableCommentStyle.
+    """
+    yield request.param
+
+
+@pytest.fixture(params=_filtered_styles(lambda s: s.can_handle_single()))
+def single_style(request):
+    """Yield all CommentStyle classes that support single-line comments."""
+    yield request.param
+
+
+@pytest.fixture(params=_filtered_styles(lambda s: s.can_handle_multi()))
+def multi_style(request):
+    """Yield all CommentStyle classes that support multi-line comments."""
+    yield request.param
+
+
+@pytest.fixture(params=_filtered_styles(lambda s: s.SHEBANGS))
+def shebang_style(request):
+    """Yield all CommentStyle classes that support shebangs."""
+    yield request.param
 
 
 @pytest.fixture(

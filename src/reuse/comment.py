@@ -29,6 +29,7 @@
 # SPDX-FileCopyrightText: 2025 Sacha-Élie Ayoun <sachaayoun@gmail.com>
 # SPDX-FileCopyrightText: 2025 Thomas Gilon <thomas.gilon@openenergytransition.org>
 # SPDX-FileCopyrightText: 2025 Manlio Perillo <manlio.perillo@gmail.com>
+# SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
