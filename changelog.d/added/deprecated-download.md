@@ -1,1 +1,0 @@
-- Support deprecated licences for `reuse download`. (#606)

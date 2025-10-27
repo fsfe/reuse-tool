@@ -26,6 +26,37 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.2.0 - 2025-10-27
+
+### Added
+
+- Added `.arcconfig`, `.arclint`, `.arcunit` (all uncommentable) as recognized
+  file types for comments. (#1123)
+- Added `.nvmrc` (PythonCommentStyle) as recognized file types for comments.
+  (#1211)
+- Added `.smk`, `Snakefile`, `matplotlibrc` as recognized files / types for
+  comments. (https://github.com/fsfe/reuse-tool/pull/1206)
+- Added `.yamllint` (PythonCommentStyle) as recognized file types for comments.
+  (#1124)
+- Added `uv.lock` (UncommentableCommentStyle) as a recognised file type for
+  comments.
+- Support deprecated licences for `reuse download`. (#606)
+- Added comment support for the OCaml build system (`dune`, `dune-project`, and
+  `dune-workspace`).
+- `file-magic` is now supported as an additional module for detecting the
+  encoding of files. (#1264)
+- Markdown files which have frontmatter (i.e. yaml or toml between a `---` block
+  at the start of the file) now get Python-like comments inside of the
+  frontmatter when annotating. (#1170)
+
+### Fixed
+
+- When `file-magic` is installed simultaneously with `python-magic`, the tool
+  used to misbehave (read: crash), because either one of them could be imported
+  on `import magic`. This misbehaviour no longer happens. (#1264)
+- Invalid SPDX license expressions are no longer recognized as used or missing
+  licenses. (#1254)
+
 ## v6.1.2 - 2025-10-08
 
 ### Fixed
