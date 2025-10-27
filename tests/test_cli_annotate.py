@@ -445,7 +445,6 @@ class TestAnnotate:
         expected = cleandoc(
             """
             ---
-
             # SPDX-License-Identifier: MIT
 
             description: test

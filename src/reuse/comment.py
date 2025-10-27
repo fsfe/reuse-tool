@@ -406,16 +406,6 @@ class FortranCommentStyle(CommentStyle):
     INDENT_AFTER_SINGLE = " "
 
 
-class FrontmatterCommentStyle(CommentStyle):
-    """Frontmatter comment style."""
-
-    SHORTHAND = "frontmatter"
-
-    SINGLE_LINE = "#"
-    INDENT_AFTER_SINGLE = " "
-    SHEBANGS = ["---"]
-
-
 class ModernFortranCommentStyle(CommentStyle):
     """Fortran (free form) comment style."""
 

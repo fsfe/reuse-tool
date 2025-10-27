@@ -26,7 +26,6 @@ from jinja2 import Environment, PackageLoader, Template
 from .comment import (
     CommentStyle,
     EmptyCommentStyle,
-    FrontmatterCommentStyle,
     HtmlCommentStyle,
     PythonCommentStyle,
 )
@@ -49,6 +48,16 @@ class _TextSections(NamedTuple):
     before: str
     middle: str
     after: str
+
+
+class _FrontmatterCommentStyle(CommentStyle):
+    """Frontmatter comment style. Used specifically for e.g. Markdown."""
+
+    SHORTHAND = "frontmatter"
+
+    SINGLE_LINE = "#"
+    INDENT_AFTER_SINGLE = " "
+    SHEBANGS = ["---"]
 
 
 def _create_new_header(
@@ -214,14 +223,19 @@ def _extract_shebang(prefix: str, text: str) -> tuple[str, str]:
 
 
 def place_header(
-    header: str, before: str, after: str, has_existing_header: bool
+    header: str,
+    before: str,
+    after: str,
+    has_existing_header: bool,
+    double_newline_after_before: bool = True,
 ) -> str:
     """Construct the resulting file with the header and the rest of the text
     in the file.
     """
     new_text = f"{header}\n"
     if before.strip():
-        new_text = f"{before.rstrip()}\n\n{new_text}"
+        newlines = "\n\n" if double_newline_after_before else "\n"
+        new_text = f"{before.rstrip()}{newlines}{new_text}"
     if after.strip():
         # Create space between header and following code only if a newline
         # doesn't already exist, and there wasn't previously a header.
@@ -269,10 +283,9 @@ def find_and_replace_header(
 
     # Workaround: Treat Markdown files with frontmatter with the Frontmatter
     # style instead.
-    if style is HtmlCommentStyle and text.startswith(
-        FrontmatterCommentStyle.SHEBANGS[0]
-    ):
-        style = FrontmatterCommentStyle
+    frontmatter = text.startswith("---")
+    if style is HtmlCommentStyle and frontmatter:
+        style = _FrontmatterCommentStyle
 
     try:
         before, header, after = _find_first_spdx_comment(text, style=style)
@@ -311,7 +324,13 @@ def find_and_replace_header(
         merge_copyrights=merge_copyrights,
     )
 
-    return place_header(new_header, before, after, bool(header))
+    return place_header(
+        new_header,
+        before,
+        after,
+        bool(header),
+        double_newline_after_before=not frontmatter,
+    )
 
 
 # pylint: disable=too-many-arguments
