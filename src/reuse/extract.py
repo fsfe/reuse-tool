@@ -40,7 +40,7 @@ from .i18n import _
 
 _LOGGER = logging.getLogger(__name__)
 
-_ENCODING_MODULES = {
+_ENCODING_MODULES = {  # pylint: disable=invalid-name
     "python-magic": "magic",
     "file-magic": "magic",
     "charset_normalizer": "charset_normalizer",
@@ -49,7 +49,7 @@ _ENCODING_MODULES = {
 if _env_encoding_module := os.environ.get("REUSE_ENCODING_MODULE"):
     # Backwards compatibility. In v6.1.2, 'magic' used to mean 'python-magic'.
     if _env_encoding_module == "magic":
-        _env_encoding_module = "python-magic"  # pylint: disable=invalid-name
+        _env_encoding_module = "python-magic"
     if _env_encoding_module not in _ENCODING_MODULES:
         print(
             # TRANSLATORS: Do not translate REUSE_ENCODING_MODULE.
@@ -62,7 +62,7 @@ if _env_encoding_module := os.environ.get("REUSE_ENCODING_MODULE"):
             )
         )
         sys.exit(1)
-    _ENCODING_MODULES = {
+    _ENCODING_MODULES = {  # pylint: disable=invalid-name
         _env_encoding_module: (
             "magic" if "magic" in _env_encoding_module else _env_encoding_module
         )
