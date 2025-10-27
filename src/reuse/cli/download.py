@@ -15,7 +15,7 @@ from urllib.error import URLError
 
 import click
 
-from .._licenses import ALL_NON_DEPRECATED_MAP
+from .._licenses import ALL_MAP, ALL_NON_DEPRECATED_MAP
 from .._util import _strip_plus_from_identifier
 from ..download import _path_to_license_file, put_license_in_file
 from ..i18n import _
@@ -30,9 +30,6 @@ _LOGGER = logging.getLogger(__name__)
 def _similar_spdx_identifiers(identifier: str) -> list[str]:
     """Given an incorrect SPDX identifier, return a list of similar ones."""
     suggestions: list[str] = []
-    if identifier in ALL_NON_DEPRECATED_MAP:
-        return suggestions
-
     for valid_identifier in ALL_NON_DEPRECATED_MAP:
         distance = SequenceMatcher(
             a=identifier.lower(), b=valid_identifier[: len(identifier)].lower()
@@ -87,7 +84,7 @@ def _not_found(path: StrPath) -> None:
 def _could_not_download(identifier: str) -> None:
     click.echo(_("Error: Failed to download license."))
     click.echo("")
-    if identifier not in ALL_NON_DEPRECATED_MAP:
+    if identifier not in ALL_MAP:
         _print_incorrect_spdx_identifier(identifier, out=sys.stdout)
     else:
         click.echo(_("Is your internet connection working?"))
