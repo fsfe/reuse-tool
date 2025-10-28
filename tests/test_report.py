@@ -11,17 +11,15 @@ import os
 import re
 import warnings
 from inspect import cleandoc
-from pathlib import Path
 from textwrap import dedent
+
+from conftest import cpython, posix
 
 from reuse.copyright import SourceType
 from reuse.project import Project
 from reuse.report import FileReport, ProjectReport, ProjectSubsetReport
 
-
 # REUSE-IgnoreStart
-def _bad_open(*args, **kwargs):
-    raise OSError("simulated read error")
 
 
 class TestGenerateFileReport:
@@ -486,19 +484,20 @@ class TestGenerateProjectReport:
         assert "<invalid>" not in result.missing_licenses
         assert "<invalid>" not in result.used_licenses
 
-    def test_read_error(self, empty_directory, monkeypatch, multiprocessing):
+    @cpython
+    @posix
+    def test_read_error(self, fake_repository, multiprocessing):
         """Files that cannot be read are added to the read error list."""
-        (empty_directory / "bad").write_text("foo")
+        (fake_repository / "bad").write_text("foo")
+        (fake_repository / "bad").chmod(0o000)
 
-        project = Project.from_directory(empty_directory)
-
-        monkeypatch.setattr(Path, "open", _bad_open)
+        project = Project.from_directory(fake_repository)
         result = ProjectReport.generate(
             project, multiprocessing=multiprocessing
         )
 
         # pylint: disable=superfluous-parens
-        assert (empty_directory / "bad") in result.read_errors
+        assert (fake_repository / "bad") in result.read_errors
 
     def test_to_dict_lint(self, fake_repository, multiprocessing):
         """Generate dictionary output and verify correct ordering."""
@@ -573,12 +572,14 @@ class TestProjectSubsetReport:
         assert not result.files_without_copyright
         assert len(result.file_reports) == 1
 
-    def test_read_error(self, fake_repository, monkeypatch, multiprocessing):
+    @cpython
+    @posix
+    def test_read_error(self, fake_repository, multiprocessing):
         """Files that cannot be read are added to the read error list."""
         (fake_repository / "bad").write_text("foo")
-        project = Project.from_directory(fake_repository)
+        (fake_repository / "bad").chmod(0o000)
 
-        monkeypatch.setattr(Path, "open", _bad_open)
+        project = Project.from_directory(fake_repository)
         result = ProjectSubsetReport.generate(
             project, {fake_repository / "bad"}, multiprocessing=multiprocessing
         )

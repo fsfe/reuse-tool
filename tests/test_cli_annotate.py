@@ -12,6 +12,7 @@
 
 import datetime
 import os
+import stat
 from inspect import cleandoc
 from pathlib import PurePath
 from unittest.mock import create_autospec
@@ -1196,18 +1197,13 @@ class TestAnnotate:
         )
         assert simple_file.read_text() == "Preserve this"
 
-    def test_to_read_only_file_forbidden(self, fake_repository, monkeypatch):
+    def test_to_read_only_file_forbidden(
+        self, fake_repository, mock_date_today
+    ):
         """Cannot add a header without having write permission."""
         _file = fake_repository / "test.sh"
         _file.write_text("#!/bin/sh")
-
-        # This is used by click.
-        monkeypatch.setattr(
-            os,
-            "access",
-            lambda *args, **kwargs: not args[1] == os.W_OK,
-        )
-
+        _file.chmod(mode=stat.S_IREAD)
         result = CliRunner().invoke(
             main,
             [

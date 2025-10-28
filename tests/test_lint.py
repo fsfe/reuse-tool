@@ -9,17 +9,16 @@
 
 import shutil
 from inspect import cleandoc
-from pathlib import Path, PurePath
+from pathlib import PurePath
+
+from conftest import cpython, posix
 
 from reuse._util import cleandoc_nl
 from reuse.lint import format_lines, format_plain
 from reuse.project import Project
 from reuse.report import ProjectReport
 
-
 # REUSE-IgnoreStart
-def _bad_open(*args, **kwargs):
-    raise OSError("simulated read error")
 
 
 def test_lint_simple(fake_repository):
@@ -143,12 +142,13 @@ def test_lint_unused_licenses(fake_repository):
     assert "Fix unused licenses:" in result
 
 
-def test_lint_read_errors(empty_directory, monkeypatch):
+@cpython
+@posix
+def test_lint_read_errors(fake_repository):
     """A read error is detected."""
-    (empty_directory / "foo.py").write_text("foo")
-    project = Project.from_directory(empty_directory)
-
-    monkeypatch.setattr(Path, "open", _bad_open)
+    (fake_repository / "foo.py").write_text("foo")
+    (fake_repository / "foo.py").chmod(0o000)
+    project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
 
@@ -259,12 +259,13 @@ class TestFormatLines:
             """
         )
 
-    def test_read_errors(self, empty_directory, format_lines_func, monkeypatch):
+    @cpython
+    @posix
+    def test_read_errors(self, fake_repository, format_lines_func):
         """Check read error output"""
-        (empty_directory / "restricted.py").write_text("foo")
+        (fake_repository / "restricted.py").write_text("foo")
+        (fake_repository / "restricted.py").chmod(0o000)
         project = Project.from_directory(".")
-
-        monkeypatch.setattr(Path, "open", _bad_open)
         report = ProjectReport.generate(project)
         result = format_lines_func(report)
 
