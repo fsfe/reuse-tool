@@ -38,7 +38,7 @@ include = [
 ]
 
 homepage = "https://reuse.software/"
-repository = "https://github.com/fsfe/reuse-tool"
+repository = "https://codeberg.org/fsfe/reuse-tool"
 documentation = "https://reuse.readthedocs.org/"
 
 classifiers = [

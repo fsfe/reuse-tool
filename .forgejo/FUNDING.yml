@@ -5,4 +5,4 @@
 # These are supported funding model platforms
 github: [fsfe]
 custom:
-  ["https://my.fsfe.org/donate?referrer=https://github.com/fsfe/reuse-tool"]
+  ["https://my.fsfe.org/donate?referrer=https://codeberg.org/fsfe/reuse-tool"]
