@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-07 21:23+0000\n"
-"PO-Revision-Date: 2025-09-23 22:01+0000\n"
+"PO-Revision-Date: 2025-11-10 11:51+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -18,16 +18,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: src/reuse/lint.py:40
 msgid "BAD LICENSES"
 msgstr "CHYBNÉ LICENCE"
 
 #: src/reuse/lint.py:42
-#, fuzzy
 msgid "The following licenses are not valid SPDX licenses:"
-msgstr "Následující licence nejsou používány:"
+msgstr "Následující licence nejsou platnými licencemi SPDX:"
 
 #: src/reuse/lint.py:50
 msgid "DEPRECATED LICENSES"
@@ -71,12 +70,11 @@ msgstr "Nelze načíst:"
 
 #: src/reuse/lint.py:94
 msgid "INVALID SPDX LICENSE EXPRESSIONS"
-msgstr ""
+msgstr "NEPLATNÉ VÝRAZY LICENCE SPDX"
 
 #: src/reuse/lint.py:99
-#, fuzzy
 msgid "'{}' contains invalid SPDX License Expressions:"
-msgstr "'{}' není platný výraz SPDX."
+msgstr "'{}' obsahuje neplatné výrazy licence SPDX:"
 
 #: src/reuse/lint.py:124
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
@@ -129,9 +127,8 @@ msgid "Read errors:"
 msgstr "Chyby čtení:"
 
 #: src/reuse/lint.py:173
-#, fuzzy
 msgid "Invalid SPDX License Expressions:"
-msgstr "'{}' není platný výraz SPDX."
+msgstr "Neplatné výrazy licence SPDX:"
 
 #: src/reuse/lint.py:183
 msgid "Files with copyright information:"
@@ -158,39 +155,35 @@ msgid "RECOMMENDATIONS"
 msgstr "DOPORUČENÍ"
 
 #: src/reuse/lint.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "missing license '{lic}'"
-msgstr "{path}: chybí licence {lic}\n"
+msgstr "chybí licence '{lic}'"
 
 #: src/reuse/lint.py:291
-#, fuzzy
 msgid "read error"
-msgstr "Chyby čtení:"
+msgstr "chyba čtení"
 
 #: src/reuse/lint.py:296
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "invalid SPDX License Expression '{expression}'"
-msgstr "'{}' není platný výraz SPDX."
+msgstr "neplatný výraz licence SPDX '{expression}'"
 
 #: src/reuse/lint.py:303
-#, fuzzy
 msgid "no license identifier"
-msgstr "{path}: žádný identifikátor licence\n"
+msgstr "žádný identifikátor licence"
 
 #: src/reuse/lint.py:307
-#, fuzzy
 msgid "no copyright notice"
-msgstr "{path}: žádné upozornění na autorská práva\n"
+msgstr "žádné upozornění o autorských právech"
 
 #: src/reuse/lint.py:345
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "bad license '{lic}'"
-msgstr "{path}: špatná licence {lic}\n"
+msgstr "neplatná licence '{lic}'"
 
 #: src/reuse/lint.py:350
-#, fuzzy
 msgid "deprecated license"
-msgstr "Zastaralé licence:"
+msgstr "zastaralá licence"
 
 #: src/reuse/lint.py:355
 #, fuzzy
