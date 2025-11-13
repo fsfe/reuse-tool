@@ -829,6 +829,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".sld": LispCommentStyle,  # Scheme Library Definition (R7RS)
     # Visual Studio solution file, officially uncommentable:
     ".sln": UncommentableCommentStyle,
+    ".slnx": HtmlCommentStyle,
     ".sls": LispCommentStyle,  # Scheme Library Source (R6RS)
     ".smk": PythonCommentStyle,
     ".sml": MlCommentStyle,
