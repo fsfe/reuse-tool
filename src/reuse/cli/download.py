@@ -104,9 +104,16 @@ _ALL_MUTEX = ["all_", "output"]
 _HELP = (
     _("Download a license and place it in the LICENSES/ directory.")
     + "\n\n"
+    # TRANSLATORS: You may translate LICENSE, but not LICENSES/.
     + _(
-        "LICENSE must be a valid SPDX License Identifier. You may specify"
+        "LICENSE should be a valid SPDX License Identifier. You may specify"
         " LICENSE multiple times to download multiple licenses."
+    )
+    + "\n\n"
+    # TRANSLATORS: You may translate LICENSE, but not LICENSES/.
+    + _(
+        "If LICENSE starts with LicenseRef-, then a corresponding empty file is"
+        " created in the LICENSES/ directory."
     )
 )
 
@@ -132,7 +139,7 @@ _HELP = (
     "--source",
     type=click.Path(exists=True, readable=True, path_type=Path),
     help=_(
-        "Source from which to copy custom LicenseRef- licenses, either"
+        "Source from which to copy license files; either"
         " a directory that contains the file or the file itself."
     ),
 )
