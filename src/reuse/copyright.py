@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2021 Alliander N.V.
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2025 Martijn Saelens <https://github.com/MartenBE>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -153,18 +154,23 @@ class CopyrightPrefix(Enum):
 
     SPDX = "SPDX-FileCopyrightText:"
     SPDX_C = "SPDX-FileCopyrightText: (C)"
+    SPDX_C_LOWER = "SPDX-FileCopyrightText: (c)"
     SPDX_SYMBOL = "SPDX-FileCopyrightText: ©"
     SPDX_STRING = "SPDX-FileCopyrightText: Copyright"
     SPDX_STRING_C = "SPDX-FileCopyrightText: Copyright (C)"
+    SPDX_STRING_C_LOWER = "SPDX-FileCopyrightText: Copyright (c)"
     SPDX_STRING_SYMBOL = "SPDX-FileCopyrightText: Copyright ©"
     SNIPPET = "SPDX-SnippetCopyrightText:"
     SNIPPET_C = "SPDX-SnippetCopyrightText: (C)"
+    SNIPPET_C_LOWER = "SPDX-SnippetCopyrightText: (c)"
     SNIPPET_SYMBOL = "SPDX-SnippetCopyrightText: ©"
     SNIPPET_STRING = "SPDX-SnippetCopyrightText: Copyright"
     SNIPPET_STRING_C = "SPDX-SnippetCopyrightText: Copyright (C)"
+    SNIPPET_STRING_C_LOWER = "SPDX-SnippetCopyrightText: Copyright (c)"
     SNIPPET_STRING_SYMBOL = "SPDX-SnippetCopyrightText: Copyright ©"
     STRING = "Copyright"
     STRING_C = "Copyright (C)"
+    STRING_C_LOWER = "Copyright (c)"
     STRING_SYMBOL = "Copyright ©"
     SYMBOL = "©"
 
@@ -490,13 +496,11 @@ class CopyrightNotice:
         """Given a matched prefix from :const:`COPYRIGHT_NOTICE_PATTERN`, detect
         the associated prefix.
         """
-        prefix_lower = prefix.lower()
         # String-match the prefix.
         for prefix_enum in (
             cast(CopyrightPrefix, item) for item in reversed(CopyrightPrefix)
         ):
-            # lower() is used to match (C) as well as (c).
-            if prefix_lower == prefix_enum.value.lower():
+            if prefix == prefix_enum.value:
                 return prefix_enum
         # The prefix could not be string-matched, most likely because there
         # was unexpected spacing in the prefix. Get a close match using

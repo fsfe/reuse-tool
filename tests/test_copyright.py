@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: 2022 Nico Rikken <nico.rikken@fsfe.org>
 # SPDX-FileCopyrightText: 2022 Pietro Albini <pietro.albini@ferrous-systems.com>
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
+# SPDX-FileCopyrightText: 2025 Martijn Saelens <https://github.com/MartenBE>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -468,19 +469,33 @@ class TestCopyrightNoticeFromString:
         "text,prefix",
         [
             ("SPDX-FileCopyrightText:(C)", CopyrightPrefix.SPDX_C),
+            ("SPDX-FileCopyrightText:(c)", CopyrightPrefix.SPDX_C_LOWER),
             ("SPDX-FileCopyrightText:  (C)", CopyrightPrefix.SPDX_C),
+            ("SPDX-FileCopyrightText:  (c)", CopyrightPrefix.SPDX_C_LOWER),
             ("SPDX-FileCopyrightText:©", CopyrightPrefix.SPDX_SYMBOL),
             (
                 "SPDX-FileCopyrightText:Copyright(C)",
                 CopyrightPrefix.SPDX_STRING_C,
             ),
             (
+                "SPDX-FileCopyrightText:Copyright(c)",
+                CopyrightPrefix.SPDX_STRING_C_LOWER,
+            ),
+            (
                 "SPDX-FileCopyrightText:  Copyright(C)",
                 CopyrightPrefix.SPDX_STRING_C,
             ),
             (
+                "SPDX-FileCopyrightText:  Copyright(c)",
+                CopyrightPrefix.SPDX_STRING_C_LOWER,
+            ),
+            (
                 "SPDX-FileCopyrightText:  Copyright  (C)",
                 CopyrightPrefix.SPDX_STRING_C,
+            ),
+            (
+                "SPDX-FileCopyrightText:  Copyright  (c)",
+                CopyrightPrefix.SPDX_STRING_C_LOWER,
             ),
             (
                 "SPDX-FileCopyrightText:Copyright©",
@@ -495,7 +510,9 @@ class TestCopyrightNoticeFromString:
                 CopyrightPrefix.SPDX_STRING_SYMBOL,
             ),
             ("Copyright(C)", CopyrightPrefix.STRING_C),
+            ("Copyright(c)", CopyrightPrefix.STRING_C_LOWER),
             ("Copyright  (C)", CopyrightPrefix.STRING_C),
+            ("Copyright  (c)", CopyrightPrefix.STRING_C_LOWER),
             ("Copyright©", CopyrightPrefix.STRING_SYMBOL),
             ("Copyright  ©", CopyrightPrefix.STRING_SYMBOL),
         ],

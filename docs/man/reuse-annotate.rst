@@ -1,5 +1,6 @@
 ..
   SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+  SPDX-FileCopyrightText: 2025 Martijn Saelens <https://github.com/MartenBE>
   SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 
   SPDX-License-Identifier: CC-BY-SA-4.0
@@ -85,16 +86,19 @@ Other options
 
   .. code-block::
 
-    spdx:               SPDX-FileCopyrightText: <year> <author>
-    spdx-c:             SPDX-FileCopyrightText: (C) <year> <author>
-    spdx-symbol:        SPDX-FileCopyrightText: © <year> <author>
-    spdx-string:        SPDX-FileCopyrightText: Copyright <year> <author>
-    spdx-string-c:      SPDX-FileCopyrightText: Copyright (C) <year> <author>
-    spdx-string-symbol: SPDX-FileCopyrightText: Copyright © <year> <author>
-    string:             Copyright <year> <author>
-    string-c:           Copyright (C) <year> <author>
-    string-symbol:      Copyright © <year> <author>
-    symbol:             © <year> <author>
+    spdx:                 SPDX-FileCopyrightText: <year> <author>
+    spdx-c:               SPDX-FileCopyrightText: (C) <year> <author>
+    spdx-c-lower:         SPDX-FileCopyrightText: (c) <year> <author>
+    spdx-symbol:          SPDX-FileCopyrightText: © <year> <author>
+    spdx-string:          SPDX-FileCopyrightText: Copyright <year> <author>
+    spdx-string-c:        SPDX-FileCopyrightText: Copyright (C) <year> <author>
+    spdx-string-c-lower:  SPDX-FileCopyrightText: Copyright (c) <year> <author>
+    spdx-string-symbol:   SPDX-FileCopyrightText: Copyright © <year> <author>
+    string:               Copyright <year> <author>
+    string-c:             Copyright (C) <year> <author>
+    string-c-lower:       Copyright (c) <year> <author>
+    string-symbol:        Copyright © <year> <author>
+    symbol:               © <year> <author>
 
 .. option:: -t, --template TEMPLATE
 
