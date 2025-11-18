@@ -1,0 +1,1 @@
+- Added lower case (c) copyright prefix. (#1274)
