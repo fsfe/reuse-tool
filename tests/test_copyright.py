@@ -655,6 +655,23 @@ class TestCopyrightNoticeFromString:
             years=(YearRange(F("2017")),),
         )
 
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "2015  - 2017",
+            "2015 -  2017",
+            "2015  -  2017",
+        ],
+    )
+    def test_extraneous_spacing_around_year(self, text):
+        """Test a corner case where the spacing around the year is unusual."""
+        notice = CopyrightNotice.from_string(f"Copyright {text} Jane Doe")
+        assert notice == CopyrightNotice(
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            years=(YearRange(F("2015"), end=F("2017")),),
+        )
+
 
 class TestCopyrightNoticeToString:
     """Tests for CopyrightNotice.to_string."""
