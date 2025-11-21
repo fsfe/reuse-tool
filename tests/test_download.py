@@ -125,55 +125,80 @@ def test_put_custom_without_source(fake_repository):
     assert (fake_repository / "LICENSES/LicenseRef-hello.txt").read_text() == ""
 
 
-def test_put_custom_with_source(fake_repository):
-    """When 'downloading' a LicenseRef license with source file, copy the source
-    text.
-    """
+@pytest.mark.parametrize("custom_license", ["LicenseRef-hello", "MIT"])
+def test_put_custom_with_source(custom_license, fake_repository):
+    """When 'downloading' a license with source file, copy the source text."""
     (fake_repository / "foo.txt").write_text("foo")
 
     put_license_in_file(
-        "LicenseRef-hello",
-        "LICENSES/LicenseRef-hello.txt",
+        custom_license,
+        f"LICENSES/{custom_license}.txt",
         source=fake_repository / "foo.txt",
     )
 
-    assert (fake_repository / "LICENSES/LicenseRef-hello.txt").exists()
+    assert (fake_repository / f"LICENSES/{custom_license}.txt").exists()
     assert (
-        fake_repository / "LICENSES/LicenseRef-hello.txt"
+        fake_repository / f"LICENSES/{custom_license}.txt"
     ).read_text() == "foo"
 
 
-def test_put_custom_with_source_dir(fake_repository):
-    """When 'downloading' a LicenseRef license with source directory, copy the
-    source text from a matching file in the directory.
+@pytest.mark.parametrize("custom_license", ["LicenseRef-hello", "MIT"])
+def test_put_custom_with_source_dir(custom_license, fake_repository):
+    """When 'downloading' a license with source directory, copy the source text
+    from a matching file in the directory.
     """
     (fake_repository / "lics").mkdir()
-    (fake_repository / "lics/LicenseRef-hello.txt").write_text("foo")
+    (fake_repository / f"lics/{custom_license}.txt").write_text("foo")
 
     put_license_in_file(
-        "LicenseRef-hello",
-        "LICENSES/LicenseRef-hello.txt",
+        custom_license,
+        f"LICENSES/{custom_license}.txt",
         source=fake_repository / "lics",
     )
 
-    assert (fake_repository / "LICENSES/LicenseRef-hello.txt").exists()
+    assert (fake_repository / f"LICENSES/{custom_license}.txt").exists()
     assert (
-        fake_repository / "LICENSES/LicenseRef-hello.txt"
+        fake_repository / f"LICENSES/{custom_license}.txt"
     ).read_text() == "foo"
 
 
-def test_put_custom_with_false_source_dir(fake_repository):
-    """When 'downloading' a LicenseRef license with source directory, but the
-    source directory does not contain the license, expect a FileNotFoundError.
+@pytest.mark.parametrize(
+    "license_path", ["GPL-3.0-or-later", "GPL-3.0-or-later.txt"]
+)
+def test_put_custom_with_source_dir_file_extension(
+    license_path, empty_directory
+):
+    """When 'downloading' a license from a directory, the file in the directory
+    may have a .txt extension or no extension.
+    """
+    (empty_directory / "LICENSES").mkdir()
+    (empty_directory / "lics").mkdir()
+    (empty_directory / f"lics/{license_path}").write_text("foo")
+    put_license_in_file(
+        "GPL-3.0-or-later",
+        "LICENSES/GPL-3.0-or-later.txt",
+        source=empty_directory / "lics",
+    )
+
+    assert (empty_directory / "LICENSES/GPL-3.0-or-later.txt").exists()
+    assert (
+        empty_directory / "LICENSES/GPL-3.0-or-later.txt"
+    ).read_text() == "foo"
+
+
+@pytest.mark.parametrize("custom_license", ["LicenseRef-hello", "MIT"])
+def test_put_custom_with_false_source_dir(custom_license, fake_repository):
+    """When 'downloading' a license with source directory, but the source
+    directory does not contain the license, expect a FileNotFoundError.
     """
     (fake_repository / "lics").mkdir()
 
     with pytest.raises(FileNotFoundError) as exc_info:
         put_license_in_file(
-            "LicenseRef-hello",
-            "LICENSES/LicenseRef-hello.txt",
+            custom_license,
+            f"LICENSES/{custom_license}.txt",
             source=fake_repository / "lics",
         )
     assert exc_info.value.filename.endswith(
-        str(Path("lics") / "LicenseRef-hello.txt")
+        str(Path("lics") / f"{custom_license}.txt")
     )
