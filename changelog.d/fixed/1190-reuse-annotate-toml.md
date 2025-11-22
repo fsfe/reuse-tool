@@ -1,0 +1,1 @@
+- Reuse annotations from REUSE.toml when CLI metadata is omitted. (#1190)

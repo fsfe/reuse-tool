@@ -160,3 +160,4 @@ Contributors
 - Thomas Gilon <thomas.gilon@openenergytransition.org>
 - Yongmin Hong <yewon@revi.email>
 - Martijn Saelens <https://github.com/MartenBE>
+- Jan Gietzel <jan.gietzel@gmail.com>

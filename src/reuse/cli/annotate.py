@@ -9,6 +9,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
+# SPDX-FileCopyrightText: 2025 Jan Gietzel <jan.gietzel@gmail.com>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -20,6 +21,7 @@ import logging
 import os
 import sys
 from collections.abc import Collection, Iterable, Sequence
+from itertools import chain
 from pathlib import Path
 from typing import Any, cast
 
@@ -67,6 +69,28 @@ def test_mandatory_option_required(
                 " required."
             )
         )
+
+
+def validate_reuse_info(reuse_info: ReuseInfo, path: Path) -> None:
+    """Ensure reuse_info has at least one annotation."""
+    if not reuse_info.contains_info():
+        raise click.UsageError(
+            _(
+                "Option '--copyright', '--license', or '--contributor' is"
+                " required, or add annotations for '{path}' in REUSE.toml."
+            ).format(path=path)
+        )
+
+
+def collect_reuse_details(project: Project, path: Path) -> ReuseInfo:
+    """Return the union of all ReuseInfo objects for path from TOML config."""
+    result = ReuseInfo()
+    if project.global_licensing:
+        for info in chain.from_iterable(
+            project.global_licensing.reuse_info_of(path).values()
+        ):
+            result = result.union(info)
+    return result
 
 
 def all_paths(
@@ -478,8 +502,15 @@ def annotate(
 ) -> None:
     # pylint: disable=too-many-arguments,too-many-locals,missing-function-docstring
     project = obj.project
+    cli_reuse_info = ReuseInfo()
 
-    test_mandatory_option_required(copyrights, licenses, contributors)
+    if any((copyrights, licenses, contributors)):
+        years_tuple = get_years(years, exclude_year)
+        cli_reuse_info = get_reuse_info(
+            copyrights, licenses, contributors, copyright_prefix, years_tuple
+        )
+    elif not project.global_licensing:
+        test_mandatory_option_required(copyrights, licenses, contributors)
     paths = all_paths(paths, recursive, project)
     verify_paths_comment_style(
         style, fallback_dot_license, skip_unrecognised, force_dot_license, paths
@@ -487,13 +518,12 @@ def annotate(
     # Verify line handling and comment styles before proceeding.
     verify_paths_line_handling(single_line, multi_line, style, paths)
     template, commented = get_template(template_str, project)
-    years_tuple = get_years(years, exclude_year)
-    reuse_info = get_reuse_info(
-        copyrights, licenses, contributors, copyright_prefix, years_tuple
-    )
 
     result = 0
     for path in paths:
+        reuse_info = cli_reuse_info.union(collect_reuse_details(project, path))
+        validate_reuse_info(reuse_info, path)
+
         with path.open("rb") as fp:
             chunk = fp.read(HEURISTICS_CHUNK_SIZE)
         encoding = detect_encoding(chunk)

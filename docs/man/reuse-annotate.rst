@@ -46,9 +46,11 @@ comment style is available, a multi-line style is used.
 Mandatory options
 -----------------
 
-At least *one* among the following options is required. They contain the
-information which the tool will add to the file(s). You can repeat these
-options.
+At least *one* among the following options is required unless the annotation
+data for the files is already configured in ``REUSE.toml``. When no CLI options
+are given, :program:`reuse-annotate` reads the annotations for each file from
+``REUSE.toml``. These options contain the information which the tool will add
+to the file(s). You can repeat these options.
 
 .. option:: -c, --copyright COPYRIGHT
 
