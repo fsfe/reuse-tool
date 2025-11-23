@@ -90,7 +90,7 @@ YEAR_RANGE_PATTERN = re.compile(
     r"(?P<start>\d{4})"
     r"(?:"
     r"(?:(?P<separator_nonspaced>" + _ANY_SEPARATOR + r")"
-    r"(?P<end_nonspaced>\S+)?)"
+    r"(?P<end_nonspaced>[^\s,]+)?)"  # Non-whitespace AND no commas.
     r"|"
     r"(?:\s+(?P<separator_spaced>" + _ANY_SEPARATOR + r")"
     r"\s+(?P<end_spaced>\d{4}))"
@@ -126,15 +126,15 @@ _YEARS_PATTERN = re.compile(
     + _YEAR_RANGE_PATTERN_ANONYMISED
     + r"((\s*,\s*|\s+)"
     + _YEAR_RANGE_PATTERN_ANONYMISED
-    + r")*)(?P<suffix>,?(\s+|$))"
+    + r")*)(?P<suffix>(,|\s+|$))"
 )
-_COMMA_SPACE_PATTERN = re.compile(r"^,?\s+")
+_COMMA_SPACE_PATTERN = re.compile(r"^,?\s*")
 
 _LOOKBEHINDS = "".join(
     rf"(?<!\s{separator})"
     for separator in YearRangeSeparator.__args__  # type: ignore
 )
-_YEAR_RANGE_SPLIT_REGEX = re.compile(
+_YEAR_RANGE_SPLIT_PATTERN = re.compile(
     # Separated by comma (plus any whitespace)
     r",\s*|" +
     # Separated by whitespace only. However, we cannot split on
@@ -145,6 +145,7 @@ _YEAR_RANGE_SPLIT_REGEX = re.compile(
     _LOOKBEHINDS + r"\s+"
     rf"(?!{_ANY_SEPARATOR}\s)"
 )
+_WHITESPACE_PATTERN = re.compile(r"\s+")
 
 
 # TODO: In Python 3.11, turn this into a StrEnum
@@ -255,7 +256,12 @@ class YearRange:
             YearRangeParseError: The substring is not a valid year range.
         """
         years: list[YearRange] = []
-        for year in _YEAR_RANGE_SPLIT_REGEX.split(value):
+        # Convert all spaces to single spaces. The regex cannot handle anything
+        # else. This technically results in year ranges with 'original' values
+        # that aren't quite right, but it's the best we can do without complex
+        # logic.
+        value = _WHITESPACE_PATTERN.sub(" ", value)
+        for year in _YEAR_RANGE_SPLIT_PATTERN.split(value):
             if not year:
                 continue
             years.append(YearRange.from_string(year))

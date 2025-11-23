@@ -140,11 +140,12 @@ class TestYearRangeTupleFromString:
     def test_simple(self):
         """Try various ways of separating year ranges."""
         text = (
-            "2017, 2018,, 2019 2020 ,2021 , 2022  2023\t2024,,2025 2026--2027"
+            "2016,2017, 2018,, 2019 2020 ,2021 , 2022  2023\t2024,,2025"
+            " 2026  --\t2027"
         )
         result = YearRange.tuple_from_string(text)
         assert result == tuple(
-            [YearRange(F(str(num))) for num in range(2017, 2026)]
+            [YearRange(F(str(num))) for num in range(2016, 2026)]
             + [YearRange(F("2026"), "--", "2027")]
         )
 
@@ -152,11 +153,21 @@ class TestYearRangeTupleFromString:
         "separator",
         YearRangeSeparator.__args__,  # type: ignore
     )
-    def test_spacing_around_separator(self, separator):
+    @pytest.mark.parametrize(
+        "space_pre",
+        [" ", "\t", "  ", "\t ", " \t"],
+    )
+    @pytest.mark.parametrize(
+        "space_post",
+        [" ", "\t", "  ", "\t ", " \t"],
+    )
+    def test_spacing_around_separator(self, separator, space_pre, space_post):
         """A year range with a separator surrounded by whitespace is not split
         into two year ranges.
         """
-        result = YearRange.tuple_from_string(f"2017 {separator} 2019")
+        result = YearRange.tuple_from_string(
+            f"2017{space_pre}{separator}{space_post}2019"
+        )
         assert result == (YearRange(F("2017"), separator, "2019"),)
 
     def test_ambiguous_year_range(self):
@@ -587,12 +598,11 @@ class TestCopyrightNoticeFromString:
         with pytest.raises(CopyrightNoticeParseError):
             CopyrightNotice.from_string(text)
 
-    @pytest.mark.parametrize("year", ["2017", "2017,"])
-    def test_no_spaces_after_year(self, year):
+    def test_no_spaces_after_year(self):
         """If there is no space after the year, it is part of the name."""
-        notice = CopyrightNotice.from_string(f"Copyright {year}Jane Doe")
+        notice = CopyrightNotice.from_string("Copyright 2017Jane Doe")
         assert notice == CopyrightNotice(
-            f"{year}Jane Doe", prefix=CopyrightPrefix.STRING
+            "2017Jane Doe", prefix=CopyrightPrefix.STRING
         )
 
     def test_year_range(self):
@@ -654,6 +664,41 @@ class TestCopyrightNoticeFromString:
             prefix=CopyrightPrefix.STRING,
             years=(YearRange(F("2017")),),
         )
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "2015  - 2017",
+            "2015 -  2017",
+            "2015  -  2017",
+        ],
+    )
+    def test_extraneous_spacing_around_year(self, text):
+        """Test a corner case where the spacing around the year is unusual."""
+        notice = CopyrightNotice.from_string(f"Copyright {text} Jane Doe")
+        assert notice == CopyrightNotice(
+            "Jane Doe",
+            prefix=CopyrightPrefix.STRING,
+            years=(YearRange(F("2015"), end=F("2017")),),
+        )
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "2017-hello,helloworld",
+            "2017-2020,helloworld",
+            "2017 - 2020,helloworld",
+        ],
+    )
+    def test_after_range_contains_comma(self, text):
+        """Test a corner case where the end of a year range contains a comma."""
+        notice = CopyrightNotice.from_string(f"Copyright {text},Jane Doe")
+        assert notice.prefix == CopyrightPrefix.STRING
+        assert notice.years in [
+            (YearRange(F("2017"), end="hello"),),
+            (YearRange(F("2017"), end=F("2020")),),
+        ]
+        assert notice.name == "helloworld,Jane Doe"
 
 
 class TestCopyrightNoticeToString:
@@ -967,22 +1012,17 @@ class TestSpdxExpressionSort:
 @pytest.mark.parametrize(
     "args",
     [
-        {"spdx_expressions": {"GPL-3.0-or-later"}, "copyright_notices": set()},
         {
-            "spdx_expressions": set(),
-            "copyright_notices": {
-                CopyrightNotice.from_string(
-                    "SPDX-FileCopyrightText: 2017 Jane Doe"
-                )
-            },
+            "spdx_expressions": {SpdxExpression("GPL-3.0-or-later")},
+            "copyright_notices": set(),
         },
         {
-            "spdx_expressions": {"GPL-3.0-or-later"},
-            "copyright_notices": {
-                CopyrightNotice.from_string(
-                    "SPDX-FileCopyrightText: 2017 Jane Doe"
-                )
-            },
+            "spdx_expressions": set(),
+            "copyright_notices": {CopyrightNotice("Jane Doe")},
+        },
+        {
+            "spdx_expressions": {SpdxExpression("GPL-3.0-or-later")},
+            "copyright_notices": {CopyrightNotice("Jane Doe")},
         },
     ],
 )
