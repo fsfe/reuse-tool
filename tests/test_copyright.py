@@ -984,22 +984,17 @@ class TestSpdxExpressionSort:
 @pytest.mark.parametrize(
     "args",
     [
-        {"spdx_expressions": {"GPL-3.0-or-later"}, "copyright_notices": set()},
         {
-            "spdx_expressions": set(),
-            "copyright_notices": {
-                CopyrightNotice.from_string(
-                    "SPDX-FileCopyrightText: 2017 Jane Doe"
-                )
-            },
+            "spdx_expressions": {SpdxExpression("GPL-3.0-or-later")},
+            "copyright_notices": set(),
         },
         {
-            "spdx_expressions": {"GPL-3.0-or-later"},
-            "copyright_notices": {
-                CopyrightNotice.from_string(
-                    "SPDX-FileCopyrightText: 2017 Jane Doe"
-                )
-            },
+            "spdx_expressions": set(),
+            "copyright_notices": {CopyrightNotice("Jane Doe")},
+        },
+        {
+            "spdx_expressions": {SpdxExpression("GPL-3.0-or-later")},
+            "copyright_notices": {CopyrightNotice("Jane Doe")},
         },
     ],
 )
