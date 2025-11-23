@@ -141,7 +141,7 @@ class TestYearRangeTupleFromString:
         """Try various ways of separating year ranges."""
         text = (
             "2016,2017, 2018,, 2019 2020 ,2021 , 2022  2023\t2024,,2025"
-            " 2026--2027"
+            " 2026  --\t2027"
         )
         result = YearRange.tuple_from_string(text)
         assert result == tuple(
@@ -153,11 +153,21 @@ class TestYearRangeTupleFromString:
         "separator",
         YearRangeSeparator.__args__,  # type: ignore
     )
-    def test_spacing_around_separator(self, separator):
+    @pytest.mark.parametrize(
+        "space_pre",
+        [" ", "\t", "  ", "\t ", " \t"],
+    )
+    @pytest.mark.parametrize(
+        "space_post",
+        [" ", "\t", "  ", "\t ", " \t"],
+    )
+    def test_spacing_around_separator(self, separator, space_pre, space_post):
         """A year range with a separator surrounded by whitespace is not split
         into two year ranges.
         """
-        result = YearRange.tuple_from_string(f"2017 {separator} 2019")
+        result = YearRange.tuple_from_string(
+            f"2017{space_pre}{separator}{space_post}2019"
+        )
         assert result == (YearRange(F("2017"), separator, "2019"),)
 
     def test_ambiguous_year_range(self):
