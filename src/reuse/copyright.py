@@ -90,7 +90,7 @@ YEAR_RANGE_PATTERN = re.compile(
     r"(?P<start>\d{4})"
     r"(?:"
     r"(?:(?P<separator_nonspaced>" + _ANY_SEPARATOR + r")"
-    r"(?P<end_nonspaced>\S+)?)"
+    r"(?P<end_nonspaced>[^\s,]+)?)"  # Non-whitespace AND no commas.
     r"|"
     r"(?:\s+(?P<separator_spaced>" + _ANY_SEPARATOR + r")"
     r"\s+(?P<end_spaced>\d{4}))"
@@ -126,9 +126,9 @@ _YEARS_PATTERN = re.compile(
     + _YEAR_RANGE_PATTERN_ANONYMISED
     + r"((\s*,\s*|\s+)"
     + _YEAR_RANGE_PATTERN_ANONYMISED
-    + r")*)(?P<suffix>,?(\s+|$))"
+    + r")*)(?P<suffix>(,|\s+|$))"
 )
-_COMMA_SPACE_PATTERN = re.compile(r"^,?\s+")
+_COMMA_SPACE_PATTERN = re.compile(r"^,?\s*")
 
 _LOOKBEHINDS = "".join(
     rf"(?<!\s{separator})"

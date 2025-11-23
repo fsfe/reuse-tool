@@ -140,11 +140,12 @@ class TestYearRangeTupleFromString:
     def test_simple(self):
         """Try various ways of separating year ranges."""
         text = (
-            "2017, 2018,, 2019 2020 ,2021 , 2022  2023\t2024,,2025 2026--2027"
+            "2016,2017, 2018,, 2019 2020 ,2021 , 2022  2023\t2024,,2025"
+            " 2026--2027"
         )
         result = YearRange.tuple_from_string(text)
         assert result == tuple(
-            [YearRange(F(str(num))) for num in range(2017, 2026)]
+            [YearRange(F(str(num))) for num in range(2016, 2026)]
             + [YearRange(F("2026"), "--", "2027")]
         )
 
@@ -587,12 +588,11 @@ class TestCopyrightNoticeFromString:
         with pytest.raises(CopyrightNoticeParseError):
             CopyrightNotice.from_string(text)
 
-    @pytest.mark.parametrize("year", ["2017", "2017,"])
-    def test_no_spaces_after_year(self, year):
+    def test_no_spaces_after_year(self):
         """If there is no space after the year, it is part of the name."""
-        notice = CopyrightNotice.from_string(f"Copyright {year}Jane Doe")
+        notice = CopyrightNotice.from_string("Copyright 2017Jane Doe")
         assert notice == CopyrightNotice(
-            f"{year}Jane Doe", prefix=CopyrightPrefix.STRING
+            "2017Jane Doe", prefix=CopyrightPrefix.STRING
         )
 
     def test_year_range(self):
@@ -671,6 +671,24 @@ class TestCopyrightNoticeFromString:
             prefix=CopyrightPrefix.STRING,
             years=(YearRange(F("2015"), end=F("2017")),),
         )
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "2017-hello,helloworld",
+            "2017-2020,helloworld",
+            "2017 - 2020,helloworld",
+        ],
+    )
+    def test_after_range_contains_comma(self, text):
+        """Test a corner case where the end of a year range contains a comma."""
+        notice = CopyrightNotice.from_string(f"Copyright {text},Jane Doe")
+        assert notice.prefix == CopyrightPrefix.STRING
+        assert notice.years in [
+            (YearRange(F("2017"), end="hello"),),
+            (YearRange(F("2017"), end=F("2020")),),
+        ]
+        assert notice.name == "helloworld,Jane Doe"
 
 
 class TestCopyrightNoticeToString:
