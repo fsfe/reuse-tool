@@ -18,10 +18,6 @@ jobs:
     runs-on: debian-trixie
     steps:
       - uses: actions/checkout@v5
-        # The main branch is protected. fsfe-system has been granted an
-        # exception to the branch protection, so we'll use that account's
-        # token to push to the main branch.
-        token: ${{ secrets.FSFE_SYSTEM_TOKEN }}
       - name: Install poetry, gettext, and wlc
         run: |
           apt-get update
@@ -53,6 +49,7 @@ jobs:
           git config --global user.email "<>"
           git add po/reuse.pot po/*.po
           git commit -m "Update reuse.pot"
+          git remote set-url origin https://fsfe-system:${{ secrets.FSFE_SYSTEM_TOKEN }}@codeberg.org/fsfe/reuse-tool
           git push origin main
       - name: Unlock Weblate
         run: |
