@@ -18,7 +18,7 @@ on:
 
 jobs:
   third-party-lint:
-    runs-on: ubuntu-24.04
+    runs-on: debian-trixie
     strategy:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
@@ -29,40 +29,34 @@ jobs:
             "https://github.com/curl/curl",
           ]
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.10"
+      - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
-          pip install poetry~=1.3.0
+          apt-get update
+          apt-get install -y python3-poetry
           poetry install --no-interaction
       # Clone and lint repositories
       - name: Clone and lint repositories
         run:
-          poetry run python .github/workflows/third_party_lint.py --json ${{
+          poetry run python .forgejo/workflows/third_party_lint.py --json ${{
           matrix.repo }}
 
   third-party-lint-expect-failure:
-    runs-on: ubuntu-24.04
+    runs-on: debian-trixie
     strategy:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
       matrix:
         repo: ["https://github.com/spdx/license-list-XML"]
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.10"
+      - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
-          pip install poetry~=1.3.0
+          apt-get update
+          apt-get install -y python3-poetry
           poetry install --no-interaction
       # Clone and lint repositories
       - name: Clone and lint repositories
         run:
-          poetry run python .github/workflows/third_party_lint.py --json
+          poetry run python .forgejo/workflows/third_party_lint.py --json
           --expect-failure ${{ matrix.repo }}

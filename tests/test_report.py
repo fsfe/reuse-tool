@@ -13,7 +13,7 @@ import warnings
 from inspect import cleandoc
 from textwrap import dedent
 
-from conftest import cpython, posix
+from conftest import cpython, no_root, posix
 
 from reuse.copyright import SourceType
 from reuse.project import Project
@@ -484,6 +484,7 @@ class TestGenerateProjectReport:
         assert "<invalid>" not in result.missing_licenses
         assert "<invalid>" not in result.used_licenses
 
+    @no_root
     @cpython
     @posix
     def test_read_error(self, fake_repository, multiprocessing):
@@ -572,6 +573,7 @@ class TestProjectSubsetReport:
         assert not result.files_without_copyright
         assert len(result.file_reports) == 1
 
+    @no_root
     @cpython
     @posix
     def test_read_error(self, fake_repository, multiprocessing):

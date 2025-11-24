@@ -98,7 +98,7 @@ bug. If you use pre-commit, you can use this snippet:
 
 ```yaml
 repos:
-  - repo: https://github.com/fsfe/reuse-tool
+  - repo: https://codeberg.org/fsfe/reuse-tool
     rev: v6.1.0
     hooks:
       - id: reuse

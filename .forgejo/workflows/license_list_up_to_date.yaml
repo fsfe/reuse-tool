@@ -10,15 +10,11 @@ on:
 
 jobs:
   license-list-up-to-date:
-    runs-on: ubuntu-24.04
+    runs-on: debian-trixie
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
       - name: Verify that the license lists are up-to-date
         run: |
-          python .github/workflows/license_list_up_to_date.py
+          python .forgejo/workflows/license_list_up_to_date.py

@@ -6,8 +6,8 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 # Contribution guidelines
 
-Any issues or suggestions are welcome at <https://github.com/fsfe/reuse-tool> or
-via e-mail to one of the maintainers. General inquiries can be sent to
+Any issues or suggestions are welcome at <https://codeberg.org/fsfe/reuse-tool>
+or via e-mail to one of the maintainers. General inquiries can be sent to
 <reuse@lists.fsfe.org>.
 
 ## Code of conduct
@@ -57,7 +57,7 @@ Making a pull request generally necessitates the following steps:
 Starting local development is very simple, just execute the following commands:
 
 ```bash
-git clone git@github.com:fsfe/reuse-tool.git
+git clone git@codeberg.org:fsfe/reuse-tool.git
 cd reuse-tool/
 poetry install  # You may need to install poetry using your package manager.
 poetry run pre-commit install  # Using poetry is optional here if you already have pre-commit.
@@ -151,7 +151,6 @@ possible, run `poetry lock --no-update`.
 - `git push origin vx.y.z`
 - `make release`
 - Accept the PR.
-- Create a release on GitHub.
 
 ### After release
 

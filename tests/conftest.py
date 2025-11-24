@@ -76,7 +76,7 @@ cpython = pytest.mark.skipif(
 git = pytest.mark.skipif(not GIT_EXE, reason="requires git")
 hg = pytest.mark.skipif(not HG_EXE, reason="requires mercurial")
 pijul = pytest.mark.skipif(not PIJUL_EXE, reason="requires pijul")
-no_root = pytest.mark.xfail(is_root, reason="fails when user is root")
+no_root = pytest.mark.skipif(is_root, reason="user cannot be root")
 posix = pytest.mark.skipif(not is_posix, reason="Windows not supported")
 chardet = pytest.mark.skipif(not _chardet, reason="chardet is not installed")
 

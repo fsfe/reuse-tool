@@ -19,6 +19,7 @@ from unittest.mock import create_autospec
 
 import pytest
 from click.testing import CliRunner
+from conftest import cpython, no_root, posix
 
 from reuse.cli.main import main
 from reuse.copyright import CopyrightPrefix
@@ -1197,6 +1198,9 @@ class TestAnnotate:
         )
         assert simple_file.read_text() == "Preserve this"
 
+    @no_root
+    @cpython
+    @posix
     def test_to_read_only_file_forbidden(
         self, fake_repository, mock_date_today
     ):

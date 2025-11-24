@@ -17,7 +17,7 @@ reuse is a tool for compliance with the [REUSE](https://reuse.software/)
 recommendations.
 
 - Documentation: <https://reuse.readthedocs.io> and <https://reuse.software>
-- Source code: <https://github.com/fsfe/reuse-tool>
+- Source code: <https://codeberg.org/fsfe/reuse-tool>
 - PyPI: <https://pypi.python.org/pypi/reuse>
 - REUSE: 3.3
 - Python: 3.10+
@@ -277,7 +277,7 @@ Git. This uses [pre-commit](https://pre-commit.com/). Once you
 
 ```yaml
 repos:
-  - repo: https://github.com/fsfe/reuse-tool
+  - repo: https://codeberg.org/fsfe/reuse-tool
     rev: v6.2.0
     hooks:
       - id: reuse
@@ -292,7 +292,7 @@ use the following configuration:
 
 ```yaml
 repos:
-  - repo: https://github.com/fsfe/reuse-tool
+  - repo: https://codeberg.org/fsfe/reuse-tool
     rev: v6.2.0
     hooks:
       - id: reuse-lint-file
@@ -326,11 +326,12 @@ Alternatively, you can place the generated completion script in
 ## Contributing
 
 If you're interested in contributing to the reuse project, there are several
-ways to get involved. Development of the project takes place on GitHub at
-<https://github.com/fsfe/reuse-tool>. There, you can submit bug reports, feature
-requests, and pull requests. Even and especially when in doubt, feel free to
-open an issue with a question. Contributions of all types are welcome, and the
-development team is happy to provide guidance and support for new contributors.
+ways to get involved. Development of the project takes place on Codeberg at
+<https://codeberg.org/fsfe/reuse-tool>. There, you can submit bug reports,
+feature requests, and pull requests. Even and especially when in doubt, feel
+free to open an issue with a question. Contributions of all types are welcome,
+and the development team is happy to provide guidance and support for new
+contributors.
 
 You should exercise some caution when opening a pull request to make changes
 which were not (yet) acknowledged by the team as pertinent. Such pull requests

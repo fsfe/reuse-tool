@@ -16,22 +16,19 @@ on:
       - "tests/**.py"
 jobs:
   test-pijul:
-    runs-on: ubuntu-24.04
+    runs-on: debian-trixie
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
+      - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
-          pip install poetry~=1.3.0
+          apt-get update
+          apt-get install -y python3-poetry
           poetry install --no-interaction --only main,test
       # TODO: As soon as a binary is available for Ubuntu 22.04, use it instead
       # of manually building it.
       - name: Set up Pijul
         run: |
-          sudo apt install make libsodium-dev libclang-dev pkg-config libssl-dev libxxhash-dev libzstd-dev clang
+          apt-get install -y make libsodium-dev libclang-dev pkg-config libssl-dev libxxhash-dev libzstd-dev clang
           cargo install --locked pijul --version "1.0.0-beta.6"
           pijul identity new --no-prompt --display-name 'Jane Doe' --email 'jdoe@example.com' 'jdoe'
       - name: Run tests with pytest

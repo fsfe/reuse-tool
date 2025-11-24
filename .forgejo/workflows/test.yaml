@@ -1,0 +1,89 @@
+# SPDX-FileCopyrightText: 2019 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2022 Carmen Bianca Bakker <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2023 DB Systel GmbH
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Test suites
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: debian-trixie
+    container: ${{ matrix.container }}
+    strategy:
+      # do not abort the whole test job if one combination in the matrix fails
+      fail-fast: false
+      matrix:
+        container:
+          [
+            "nikolaik/python-nodejs:python3.10-nodejs24",
+            "nikolaik/python-nodejs:python3.14-nodejs24",
+          ]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Create test user
+        run: |
+          apt-get update
+          apt-get install -y sudo
+          useradd -m test
+          chown -R test .
+      - name: Install dependencies
+        run: |
+          sudo -u test poetry install --no-interaction --only main,test --all-extras
+      - name: Run tests with pytest
+        run: |
+          sudo -u test poetry run pytest -vv --cov=reuse
+
+  pylint-mypy:
+    runs-on: debian-trixie
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-poetry
+          poetry install --no-interaction --only main,dev,test
+      - name: Lint with Pylint
+        run: |
+          poetry run pylint src/reuse/ tests/
+      - name: Test typing with mypy
+        run: |
+          poetry run mypy
+
+  black-prettier-isort-reuse:
+    runs-on: debian-trixie
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-poetry
+          poetry install --no-interaction --only main,dev
+          npm install -g prettier@3.0.3
+      - name: Test formatting with black
+        run: poetry run black --check .
+      - name: Test formatting with prettier
+        run: npx prettier --check .
+      - name: Test import sorting with isort
+        run: poetry run isort --check src/ tests/
+      - name: Run reuse
+        run: poetry run reuse lint
+
+  docs:
+    runs-on: debian-trixie
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-poetry
+          poetry install --no-interaction --only main,docs
+      - name: Create docs with Sphinx
+        run: |
+          make docs

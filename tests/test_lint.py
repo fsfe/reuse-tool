@@ -11,7 +11,7 @@ import shutil
 from inspect import cleandoc
 from pathlib import PurePath
 
-from conftest import cpython, posix
+from conftest import cpython, no_root, posix
 
 from reuse._util import cleandoc_nl
 from reuse.lint import format_lines, format_plain
@@ -142,6 +142,7 @@ def test_lint_unused_licenses(fake_repository):
     assert "Fix unused licenses:" in result
 
 
+@no_root
 @cpython
 @posix
 def test_lint_read_errors(fake_repository):
@@ -259,6 +260,7 @@ class TestFormatLines:
             """
         )
 
+    @no_root
     @cpython
     @posix
     def test_read_errors(self, fake_repository, format_lines_func):
