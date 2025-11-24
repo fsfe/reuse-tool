@@ -11,18 +11,13 @@ on:
       - main
     paths:
       - "src/reuse/**.py"
+      - ".forgejo/workflows/gettext.yaml"
 
 jobs:
   create-pot:
     runs-on: debian-trixie
     steps:
       - uses: actions/checkout@v5
-        with:
-          fetch-depth: 1
-          # The main branch is protected. fsfe-system has been granted an
-          # exception to the branch protection, so we'll use that account's
-          # token to push to the main branch.
-          token: ${{ secrets.FSFE_SYSTEM_TOKEN }}
       - name: Install poetry, gettext, and wlc
         run: |
           apt-get update
