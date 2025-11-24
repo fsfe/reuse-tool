@@ -79,8 +79,8 @@ def put_license_in_file(
     Args:
         spdx_identifier: SPDX License Identifier of the license.
         destination: Where to put the license.
-        source: Path to file or directory containing the text for LicenseRef
-            licenses.
+        source: Path to file or directory containing the license text in lieu of
+            downloading.
 
     Raises:
         URLError: if the license could not be downloaded.
@@ -96,19 +96,27 @@ def put_license_in_file(
             errno.EEXIST, os.strerror(errno.EEXIST), str(destination)
         )
 
-    # LicenseRef- license; don't download anything.
-    if _LICENSEREF_PATTERN.match(spdx_identifier):
-        if source:
-            source = Path(source)
-            if source.is_dir():
-                source = source / f"{spdx_identifier}.txt"
-            if not source.exists():
-                raise FileNotFoundError(
-                    errno.ENOENT, os.strerror(errno.ENOENT), str(source)
-                )
-            shutil.copyfile(source, destination)
+    # Don't download if source is specified.
+    if source:
+        source = Path(source)
+        sources = [source]
+        if source.is_dir():
+            sources = [
+                source / f"{spdx_identifier}.txt",
+                source / spdx_identifier,
+            ]
+        for file_ in sources:
+            if file_.exists():
+                shutil.copyfile(file_, destination)
+                break
         else:
-            destination.touch()
+            raise FileNotFoundError(
+                errno.ENOENT, os.strerror(errno.ENOENT), str(sources[0])
+            )
+    # LicenseRef- license; don't download anything.
+    elif _LICENSEREF_PATTERN.match(spdx_identifier):
+        destination.touch()
+    # Download SPDX license.
     else:
         text = download_license(spdx_identifier)
         with destination.open("w", encoding="utf-8") as fp:

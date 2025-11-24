@@ -16,7 +16,9 @@ Description
 
 :program:`reuse-download` downloads licenses into your ``LICENSES/`` directory.
 
-The *license* arguments must be SPDX License Identifiers.
+The *license* arguments should be SPDX License Identifiers. If an argument
+instead starts with ``LicenseRef-``, then an empty file will be created in the
+``LICENSES/`` directory.
 
 The ``LICENSES/`` directory will be found in the root of your project. If you
 are already in a directory named ``LICENSES`` and you are not in a VCS
@@ -38,8 +40,12 @@ Options
 
 .. option:: --source PATH
 
-  Specify a source from which to copy custom ``LicenseRef-`` files. This can be
-  a directory containing such file, or a path to the file itself.
+  Specify a source from which to copy files. This can be a directory containing
+  such files, or a path to the file itself. If a directory is specified, it must
+  contain a file named ``<license>.txt`` or ``<license>``, where ``<license>``
+  equals the license being downloaded.
+
+  This option also works with licenses that start with ``LicenseRef-``.
 
 .. option:: --help
 
