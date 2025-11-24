@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 21:23+0000\n"
+"POT-Creation-Date: 2025-11-24 18:17+0000\n"
 "PO-Revision-Date: 2025-10-22 13:02+0000\n"
 "Last-Translator: \"T. E. Kalaycı\" <tekrei@members.fsf.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -16,6 +16,677 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.14-dev\n"
+
+#: src/reuse/_annotate.py:94
+#, python-brace-format
+msgid "Skipped unrecognised file '{path}'"
+msgstr "Tanımlanamayan '{path}' dosyası atlandı"
+
+#: src/reuse/_annotate.py:100
+#, python-brace-format
+msgid "'{path}' is not recognised; creating '{path}.license'"
+msgstr "'{path}‘ tanımlanamadı; '{path}.license' dosyası oluşturuluyor"
+
+#: src/reuse/_annotate.py:116
+#, python-brace-format
+msgid "Skipped file '{path}' already containing REUSE information"
+msgstr "Halihazırda REUSE bilgisi içeren '{path}' dosyası atlanıyor"
+
+#: src/reuse/_annotate.py:145
+#, python-brace-format
+msgid "Error: Could not create comment for '{path}'"
+msgstr "Hata: '{path}' için yorum oluşturulamıyor"
+
+#: src/reuse/_annotate.py:152
+#, python-brace-format
+msgid ""
+"Error: Generated comment header for '{path}' is missing copyright lines or "
+"license expressions. The template is probably incorrect. Did not write new "
+"header."
+msgstr ""
+"Hata: '{path}' için üretilen başlık yorumu telif hakkı satırlarını veya "
+"lisans ifadelerini içermiyor. Şablon hatalı olabilir. Yeni başlık yazılmadı."
+
+#. TODO: This may need to be rephrased more elegantly.
+#: src/reuse/_annotate.py:163
+#, python-brace-format
+msgid "Successfully changed header of {path}"
+msgstr "{path} başlığı başarılı bir şekilde değiştirildi"
+
+#: src/reuse/cli/annotate.py:66
+msgid "Option '--copyright', '--license', or '--contributor' is required."
+msgstr "'--copyright', '--license' veya '--contributor' seçeneği gereklidir."
+
+#: src/reuse/cli/annotate.py:127
+msgid ""
+"The following files do not have a recognised file extension. Please use '--"
+"style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
+"unrecognised':"
+msgstr ""
+"Aşağıdaki dosyalar tanınmayan bir dosya uzantısına sahiptir. Lütfen '--"
+"style', '--force-dot-license', '--fallback-dot-license' veya '--skip-"
+"unrecognised' seçeneklerini kullanın:"
+
+#: src/reuse/cli/annotate.py:160
+#, python-brace-format
+msgid ""
+"'{path}' does not support single-line comments, please do not use '--single-"
+"line'."
+msgstr ""
+"'{path}' tek satırlık yorumları desteklemez, lütfen '--single-line' "
+"kullanmayın."
+
+#: src/reuse/cli/annotate.py:167
+#, python-brace-format
+msgid ""
+"'{path}' does not support multi-line comments, please do not use '--multi-"
+"line'."
+msgstr ""
+"'{path}' çok satırlı yorumları desteklemez, lütfen '--multi-line' "
+"kullanmayın."
+
+#: src/reuse/cli/annotate.py:213
+#, python-brace-format
+msgid "Template '{template}' could not be found."
+msgstr "'{template}' şablonu bulunamadı."
+
+#: src/reuse/cli/annotate.py:236
+#, python-brace-format
+msgid "'{year}' is not a valid year range."
+msgstr "'{year}' geçerli bir yıl aralığı değildir."
+
+#: src/reuse/cli/annotate.py:245
+#, python-brace-format
+msgid ""
+"Your operating system's year is set to '{year}'. This is not four digits, "
+"and not supported."
+msgstr ""
+"İşletim sisteminizin yılı '{year}' olarak ayarlanmıştır. Bu dört basamaklı "
+"bir sayı değildir ve desteklenmemektedir."
+
+#: src/reuse/cli/annotate.py:287
+msgid "Add copyright and licensing into the headers of files."
+msgstr "Dosya başlıklarına telif hakkı ve lisans bilgilerini ekle."
+
+#: src/reuse/cli/annotate.py:290
+msgid ""
+"By using --copyright and --license, you can specify which copyright holders "
+"and licenses to add to the headers of the given files."
+msgstr ""
+"--copyright ve --license seçeneklerini kullanarak, belirli dosyaların "
+"başlıklarına hangi telif hakkı sahiplerinin ve lisansların ekleneceğini "
+"belirtebilirsiniz."
+
+#: src/reuse/cli/annotate.py:296
+msgid ""
+"By using --contributor, you can specify people or entity that contributed "
+"but are not copyright holder of the given files."
+msgstr ""
+"--contributor seçeneğini kullanarak, belirli dosyalara katkıda bulunmuş "
+"ancak telif hakkı sahibi olmayan kişileri veya kuruluşları belirtebilirsiniz."
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:309
+msgid "COPYRIGHT"
+msgstr "TELİF HAKKI"
+
+#: src/reuse/cli/annotate.py:312
+msgid "Copyright holder, repeatable."
+msgstr "Telif hakkı sahibi, tekrarlanabilir."
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:319
+msgid "SPDX_IDENTIFIER"
+msgstr "SPDX_TANIMLAYICI"
+
+#: src/reuse/cli/annotate.py:322
+msgid "SPDX License Identifier, repeatable."
+msgstr "SPDX Lisans Tanımlayıcı, tekrarlanabilir."
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:328
+msgid "CONTRIBUTOR"
+msgstr "KATKIDA BULUNANLAR"
+
+#: src/reuse/cli/annotate.py:331
+msgid "File contributor, repeatable."
+msgstr "Dosyaya katkıda bulunan, tekrarlanabilir."
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:338
+msgid "YEAR"
+msgstr "YIL"
+
+#: src/reuse/cli/annotate.py:343
+msgid ""
+"Year of copyright notice. You may define multiple years or a range of years."
+msgstr ""
+"Telif hakkı bildirimi yılı. Birden fazla yıl veya bir yıl aralığı "
+"tanımlayabilirsiniz."
+
+#: src/reuse/cli/annotate.py:353
+msgid "Comment style to use."
+msgstr "Kullanılacak yorum biçimi."
+
+#: src/reuse/cli/annotate.py:363
+msgid "Copyright prefix to use."
+msgstr "Kullanılacak telif hakkı ön eki."
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:375
+msgid "TEMPLATE"
+msgstr "ŞABLON"
+
+#: src/reuse/cli/annotate.py:377
+msgid "Name of template to use."
+msgstr "Kullanılacak şablonun adı."
+
+#: src/reuse/cli/annotate.py:384
+msgid "Do not include year in copyright notice."
+msgstr "Telif hakkı beyanına yıl eklenmesin."
+
+#: src/reuse/cli/annotate.py:390
+msgid "Merge copyright notices if they are identical except for their years."
+msgstr ""
+"Telif hakkı beyanları yıl dışında tamamen aynıysa telif hakkı bildirimlerini "
+"birleştir."
+
+#: src/reuse/cli/annotate.py:398
+msgid "Force single-line comment style."
+msgstr "Tek satırlık yorum biçimini zorla."
+
+#: src/reuse/cli/annotate.py:405
+msgid "Force multi-line comment style."
+msgstr "Çok satırlı yorum biçimini zorla."
+
+#: src/reuse/cli/annotate.py:411
+msgid "Add headers to all files under specified directories recursively."
+msgstr ""
+"Belirtilen dizinler altındaki tüm dosyalara yinelemeli olarak başlıklar ekle."
+
+#: src/reuse/cli/annotate.py:416
+msgid "Do not replace the first header in the file; just add a new one."
+msgstr "Dosyadaki ilk başlığı değiştirme; sadece yeni bir başlık ekle."
+
+#: src/reuse/cli/annotate.py:423
+msgid "Always write a .license file instead of a header inside the file."
+msgstr "Dosyada başlık yerine her zaman bir .license dosyası yaz."
+
+#: src/reuse/cli/annotate.py:430
+msgid "Write a .license file to files with unrecognised comment styles."
+msgstr ""
+"Tanınmayan yorum biçimleri içeren dosyalar için bir .license dosyası yaz."
+
+#: src/reuse/cli/annotate.py:437
+msgid "Skip files with unrecognised comment styles."
+msgstr "Tanınmayan yorum biçimleri içeren dosyaları atla."
+
+#: src/reuse/cli/annotate.py:448
+msgid "Skip files that already contain REUSE information."
+msgstr "REUSE bilgisi içeren dosyaları atla."
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/annotate.py:453
+msgid "PATH"
+msgstr "YOL"
+
+#: src/reuse/cli/annotate.py:510
+#, python-brace-format
+msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
+msgstr ""
+"'{path}' ikili bir dosya, bu nedenle başlık için '{new_path}' kullanılacak"
+
+#: src/reuse/cli/common.py:51
+#, python-brace-format
+msgid ""
+"'{path}' could not be parsed. We received the following error message: "
+"{message}"
+msgstr "'{path}' çözümlenemedi. Şu hata mesajını aldık: {message}"
+
+#: src/reuse/cli/common.py:87
+#, python-brace-format
+msgid "'{name}' is mutually exclusive with: {opts}"
+msgstr "'{name}' şununla birlikte kullanılamaz: {opts}"
+
+#: src/reuse/cli/common.py:103
+msgid "'{}' is not a valid SPDX expression."
+msgstr "'{}' geçerli bir SPDX ifadesi değildir."
+
+#: src/reuse/cli/convert_dep5.py:19
+msgid ""
+"Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
+"the project root and is semantically identical. The .reuse/dep5 file is "
+"subsequently deleted."
+msgstr ""
+".reuse/dep5 dosyasını REUSE.toml dosyasına dönüştürün. Oluşturulan dosya "
+"proje kök dizinine yerleştirilir ve anlamsal olarak aynıdır. .reuse/dep5 "
+"dosyası daha sonra silinir."
+
+#: src/reuse/cli/convert_dep5.py:31
+msgid "No '.reuse/dep5' file."
+msgstr "'.reuse/dep5' dosyası yok."
+
+#: src/reuse/cli/download.py:51
+msgid "'{}' is not a valid SPDX License Identifier."
+msgstr "'{}' geçerli bir SPDX Lisans Tanımlayıcısı değildir."
+
+#: src/reuse/cli/download.py:58
+msgid "Did you mean:"
+msgstr "Şunu mu demek istediniz:"
+
+#: src/reuse/cli/download.py:65
+msgid ""
+"See <https://spdx.org/licenses/> for a list of valid SPDX License "
+"Identifiers."
+msgstr ""
+"Geçerli SPDX Lisans Tanımlayıcılarının listesi için <https://spdx.org/"
+"licenses/> adresine bakın."
+
+#: src/reuse/cli/download.py:74
+#, python-brace-format
+msgid "Error: {spdx_identifier} already exists."
+msgstr "Hata: {spdx_identifier} zaten var."
+
+#: src/reuse/cli/download.py:81
+#, python-brace-format
+msgid "Error: {path} does not exist."
+msgstr "Hata: {path} mevcut değil."
+
+#: src/reuse/cli/download.py:85
+msgid "Error: Failed to download license."
+msgstr "Hata: Lisans indirilemedi."
+
+#: src/reuse/cli/download.py:90
+msgid "Is your internet connection working?"
+msgstr "İnternet bağlantınız çalışıyor mu?"
+
+#: src/reuse/cli/download.py:95
+#, python-brace-format
+msgid "Successfully downloaded {spdx_identifier}."
+msgstr "{spdx_identifier} başarıyla indirildi."
+
+#: src/reuse/cli/download.py:105
+msgid "Download a license and place it in the LICENSES/ directory."
+msgstr "Bir lisans indir ve LICENSES/ dizinine yerleştir."
+
+#: src/reuse/cli/download.py:109
+#, fuzzy
+msgid ""
+"LICENSE should be a valid SPDX License Identifier. You may specify LICENSE "
+"multiple times to download multiple licenses."
+msgstr ""
+"LICENSE, geçerli bir SPDX Lisans Tanımlayıcısı olmalıdır. Birden fazla "
+"lisans indirmek için LICENSE ifadesini birden fazla kez belirtebilirsiniz."
+
+#: src/reuse/cli/download.py:115
+msgid ""
+"If LICENSE starts with LicenseRef-, then a corresponding empty file is "
+"created in the LICENSES/ directory."
+msgstr ""
+
+#: src/reuse/cli/download.py:128
+msgid "Download all missing licenses detected in the project."
+msgstr "Projede tespit edilen tüm eksik lisansları indir."
+
+#: src/reuse/cli/download.py:136
+msgid "Path to download to."
+msgstr "İndirme yolu."
+
+#: src/reuse/cli/download.py:142
+#, fuzzy
+msgid ""
+"Source from which to copy license files; either a directory that contains "
+"the file or the file itself."
+msgstr ""
+"Özel LicenseRef lisanslarını kopyalamak için kaynak, dosyayı içeren bir "
+"dizin veya dosyanın kendisi."
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/download.py:149
+msgid "LICENSE"
+msgstr "LİSANS"
+
+#: src/reuse/cli/download.py:165
+msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
+msgstr "'LICENSE' argümanı ve '--all' seçeneklerinden biri olmalıdır."
+
+#: src/reuse/cli/download.py:177
+msgid "Cannot use '--output' with more than one license."
+msgstr "'--output' birden fazla lisansla birlikte kullanılamaz."
+
+#: src/reuse/cli/lint.py:28
+#, python-brace-format
+msgid ""
+"Lint the project directory for REUSE compliance. This version of the tool "
+"checks against version {reuse_version} of the REUSE Specification. You can "
+"find the latest version of the specification at <https://reuse.software/spec/"
+">."
+msgstr ""
+"Proje dizinini REUSE uyumluluğu için denetleyin. Bu araç sürümü, REUSE "
+"Belirtiminin {reuse_version} sürümüne göre denetler. Belirtimin en son "
+"sürümünü <https://reuse.software/spec/> adresinde bulabilirsiniz."
+
+#: src/reuse/cli/lint.py:34
+msgid "Specifically, the following criteria are checked:"
+msgstr "Özellikle, aşağıdaki kriterler denetlenir:"
+
+#: src/reuse/cli/lint.py:38
+msgid ""
+"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
+"project?"
+msgstr "- Projede kötü (tanınmayan, SPDX ile uyumlu olmayan) lisanslar var mı?"
+
+#: src/reuse/cli/lint.py:43
+msgid "- Are there any deprecated licenses in the project?"
+msgstr "- Projede kullanımdan kaldırılmış lisanslar var mı?"
+
+#: src/reuse/cli/lint.py:47
+msgid ""
+"- Are there any license files in the LICENSES/ directory without file "
+"extension?"
+msgstr ""
+"- LICENSES/ dizininde dosya uzantısı olmayan herhangi bir lisans dosyası var "
+"mı?"
+
+#: src/reuse/cli/lint.py:54
+msgid ""
+"- Are any licenses referred to inside of the project, but not included in "
+"the LICENSES/ directory?"
+msgstr ""
+"- Proje içinde atıfta bulunulan ancak LICENSES/ dizininde bulunmayan "
+"herhangi bir lisans var mı?"
+
+#: src/reuse/cli/lint.py:61
+msgid ""
+"- Are any licenses included in the LICENSES/ directory that are not used "
+"inside of the project?"
+msgstr ""
+"- LICENSES/ dizininde, proje içinde kullanılmayan herhangi bir lisans var mı?"
+
+#: src/reuse/cli/lint.py:66
+msgid "- Are there any read errors?"
+msgstr "- Okuma hatası var mı?"
+
+#: src/reuse/cli/lint.py:69
+msgid "- Do all files have valid copyright and licensing information?"
+msgstr "- Tüm dosyalar geçerli telif hakkı ve lisans bilgilerine sahip mi?"
+
+#: src/reuse/cli/lint.py:81 src/reuse/cli/lint_file.py:38
+msgid "Prevent output."
+msgstr "Çıktıyı önle."
+
+#: src/reuse/cli/lint.py:89 src/reuse/cli/supported_licenses.py:28
+msgid "Format output as JSON."
+msgstr "Çıktıyı JSON olarak biçimlendir."
+
+#: src/reuse/cli/lint.py:97
+msgid "Format output as plain text. (default)"
+msgstr "Çıktıyı düz metin olarak biçimlendir. (varsayılan)"
+
+#: src/reuse/cli/lint.py:105
+msgid "Format output as errors per line."
+msgstr "Çıktıyı satır başına hatalar olarak biçimlendir."
+
+#: src/reuse/cli/lint_file.py:25
+msgid ""
+"Lint individual files for REUSE compliance. The specified FILEs are checked "
+"for the presence of copyright and licensing information, and whether the "
+"found licenses are included in the LICENSES/ directory."
+msgstr ""
+"REUSE uyumluluğu için tek tek dosyaları denetle. Belirtilen DOSYALAR, telif "
+"hakkı ve lisans bilgilerinin varlığı açısından denetlenir ve bulunan "
+"lisansların LICENSES/ dizininde yer alıp almadığına bakılır."
+
+#: src/reuse/cli/lint_file.py:46
+msgid "Format output as errors per line. (default)"
+msgstr "Çıktıyı satır başına hata olarak biçimlendir. (varsayılan)"
+
+#. TRANSLATORS: You may translate this. Please preserve capital letters.
+#: src/reuse/cli/lint_file.py:51
+msgid "FILE"
+msgstr "DOSYA"
+
+#: src/reuse/cli/lint_file.py:65
+#, python-brace-format
+msgid "'{file}' is not inside of '{root}'."
+msgstr "'{file}' '{root}' içinde değil."
+
+#: src/reuse/cli/main.py:36
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:465
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr "%(prog)s, sürüm %(version)s"
+
+#: src/reuse/cli/main.py:39
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
+msgstr ""
+"Bu program özgür bir yazılımdır: Özgür Yazılım Vakfı tarafından yayınlanan "
+"GNU Genel Kamu Lisansı'nın şartları altında, Lisansın 3. sürümü veya "
+"(tercihinize bağlı olarak) daha sonraki herhangi bir sürümü altında yeniden "
+"dağıtabilir ve/veya değiştirebilirsiniz."
+
+#: src/reuse/cli/main.py:46
+msgid ""
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
+"more details."
+msgstr ""
+"Bu program, yararlı olacağı umuduyla dağıtılmaktadır, ancak HERHANGİ BİR "
+"GARANTİ VERİLMEMEKTEDİR; TİCARİ ELVERİŞLİLİK veya BELİRLİ BİR AMACA UYGUNLUK "
+"konusunda zımni garanti bile verilmez. Daha fazla bilgi için GNU Genel Kamu "
+"Lisansını inceleyin."
+
+#: src/reuse/cli/main.py:53
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"this program. If not, see <https://www.gnu.org/licenses/>."
+msgstr ""
+"Bu programla birlikte GNU Genel Kamu Lisansı'nın bir kopyasını almış "
+"olmalısınız. Eğer almadıysanız, <https://www.gnu.org/licenses/> adresine "
+"bakın."
+
+#: src/reuse/cli/main.py:61
+msgid ""
+"reuse is a tool for compliance with the REUSE recommendations. See <https://"
+"reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
+"for the online documentation."
+msgstr ""
+"reuse, REUSE önerilerine uyum için kullanılan bir araçtır. Daha fazla bilgi "
+"için <https://reuse.software/> adresini, çevrimiçi belgeler için ise "
+"<https://reuse.readthedocs.io/> adresini ziyaret edin."
+
+#: src/reuse/cli/main.py:68
+msgid ""
+"This version of reuse is compatible with version {} of the REUSE "
+"Specification."
+msgstr "Bu reuse sürümü, REUSE Belirtiminin {} sürümüyle uyumludur."
+
+#: src/reuse/cli/main.py:72
+msgid "Support the FSFE's work:"
+msgstr "FSFE'nin çalışmalarını destekleyin:"
+
+#: src/reuse/cli/main.py:77
+msgid ""
+"Donations are critical to our strength and autonomy. They enable us to "
+"continue working for Free Software wherever necessary. Please consider "
+"making a donation at <https://fsfe.org/donate/>."
+msgstr ""
+"Bağışlar, gücümüz ve özerkliğimiz için çok önemlidir. Bağışlar, gerektiğinde "
+"Özgür Yazılım için çalışmaya devam etmemizi sağlar. Lütfen <https://fsfe.org/"
+"donate/> adresinden bağış yapmayı düşünün."
+
+#: src/reuse/cli/main.py:88
+msgid "Enable debug statements."
+msgstr "Hata ayıklama ifadelerini etkinleştir."
+
+#: src/reuse/cli/main.py:93
+msgid "Hide deprecation warnings."
+msgstr "Kullanımdan kalkma uyarılarını gizle."
+
+#: src/reuse/cli/main.py:98
+msgid "Do not skip over Git submodules."
+msgstr "Git submodullerini atlama."
+
+#: src/reuse/cli/main.py:103
+msgid "Do not skip over Meson subprojects."
+msgstr "Meson alt projelerini atlama."
+
+#: src/reuse/cli/main.py:108
+msgid "Do not use multiprocessing."
+msgstr "Çoklu işlem kullanma."
+
+#: src/reuse/cli/main.py:118
+msgid "Define root of project."
+msgstr "Projenin kök dizinini tanımla."
+
+#: src/reuse/cli/spdx.py:22
+msgid "Generate an SPDX bill of materials."
+msgstr "SPDX ürün ağacı oluştur."
+
+#: src/reuse/cli/spdx.py:32
+msgid "File to write to."
+msgstr "Yazılacak dosya."
+
+#: src/reuse/cli/spdx.py:38
+msgid ""
+"Populate the LicenseConcluded field; note that reuse cannot guarantee that "
+"the field is accurate."
+msgstr ""
+"LicenseConcluded alanını doldur; yeniden kullanımın bu alanın doğruluğunu "
+"garanti etmediğini unutmayın."
+
+#: src/reuse/cli/spdx.py:50
+msgid "Name of the person signing off on the SPDX report."
+msgstr "SPDX raporunu imzalayan kişinin adı."
+
+#: src/reuse/cli/spdx.py:54
+msgid "Name of the organization signing off on the SPDX report."
+msgstr "SPDX raporunu imzalayan kuruluşun adı."
+
+#: src/reuse/cli/spdx.py:81
+msgid ""
+"'--creator-person' or '--creator-organization' is required when '--add-"
+"license-concluded' is provided."
+msgstr ""
+"'--add-license-concluded' seçeneği belirtildiğinde '--creator-person' veya "
+"'--creator-organization' seçeneği zorunludur."
+
+#: src/reuse/cli/spdx.py:96
+#, python-brace-format
+msgid ""
+"'{path}' does not match a common SPDX file pattern. Find the suggested "
+"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
+"standard-data-format-requirements"
+msgstr ""
+"'{path}' ortak SPDX dosya deseniyle eşleşmiyor. Önerilen adlandırma "
+"kurallarını burada bulabilirsiniz: https://spdx.github.io/spdx-spec/"
+"conformance/#44-standard-data-format-requirements"
+
+#: src/reuse/cli/supported_licenses.py:19
+msgid "List all licenses on the SPDX License List."
+msgstr "SPDX Lisans Listesi'ndeki tüm lisansları listele."
+
+#: src/reuse/extract.py:57
+#, python-brace-format
+msgid ""
+"REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
+"Aborting."
+msgstr ""
+"REUSE_ENCODING_MODULE, {modules} içinde bir değere sahip olmalıdır; "
+"‘{env_module}’ değerine sahiptir. İptal ediliyor."
+
+#: src/reuse/extract.py:84
+msgid ""
+"No supported module that can detect the encoding of files could be "
+"successfully imported. Re-read the installation instructions for the reuse "
+"package, or try the following:"
+msgstr ""
+"Dosyaların karakter kodlamasını algılamayan desteklenen hiçbir modül "
+"başarıyla içe aktarılamadı. Yeniden kullanım paketi için kurulum "
+"talimatlarını tekrar okuyun veya aşağıdakileri deneyin:"
+
+#: src/reuse/extract.py:90
+msgid ""
+"- If you are running a Linux distribution, try your equivalent of `apt "
+"install file` or `dnf install file`."
+msgstr ""
+"- Linux dağıtımı kullanıyorsanız, `apt install file` veya `dnf install file` "
+"komutlarının eşdeğerini deneyin."
+
+#: src/reuse/extract.py:95
+msgid ""
+"- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx' with 'pip' "
+"if you are not using pipx."
+msgstr ""
+"- ` pipx install reuse[charset-normalizer]` komutunu çalıştırın. Pipx "
+"kullanmıyorsanız, 'pipx' yerine 'pip' yazın."
+
+#: src/reuse/extract.py:487
+#, python-brace-format
+msgid ""
+"'{path}' was detected as a binary file; not searching its contents for REUSE "
+"information."
+msgstr ""
+"'{path}' ikili dosya olarak algılandı; içeriğinde REUSE bilgisi aranmıyor."
+
+#: src/reuse/extract.py:498
+#, python-brace-format
+msgid ""
+"extracting REUSE information from '{path}' (encoding {encoding}, encoding "
+"module {module}, newline {newline})"
+msgstr ""
+"'{path}' adresinden REUSE bilgilerini ayıklama (kodlama {encoding}, kodlama "
+"modülü {module}, satır sonu {newline})"
+
+#: src/reuse/global_licensing.py:92
+#, python-brace-format
+msgid ""
+"{attr_name} must be a {type_name} (got {value} that is a {value_class})."
+msgstr ""
+"{attr_name} bir {type_name} olmalıdır (bir {value_class} olan {value} "
+"değerine sahiptir)."
+
+#: src/reuse/global_licensing.py:106
+#, python-brace-format
+msgid ""
+"Item in {attr_name} collection must be a {type_name} (got {item_value} that "
+"is a {item_class})."
+msgstr ""
+"{attr_name} koleksiyonundaki öğe {type_name} olmalıdır ({item_class} olan "
+"{item_value} elde edildi)."
+
+#: src/reuse/global_licensing.py:118
+#, python-brace-format
+msgid "{attr_name} must not be empty."
+msgstr "{attr_name} boş bırakılmamalıdır."
+
+#: src/reuse/global_licensing.py:142
+#, python-brace-format
+msgid "{name} must be a {type} (got {value} that is a {value_type})."
+msgstr ""
+"{name} bir {type} olmalıdır ({value_type} olan {value} değerine sahiptir)."
+
+#: src/reuse/global_licensing.py:166
+#, python-brace-format
+msgid ""
+"The value of 'precedence' must be one of {precedence_vals} (got {received})"
+msgstr ""
+"'öncelik' değeri {precedence_vals} değerlerinden biri olmalıdır (elde edilen "
+"değer {received})"
+
+#: src/reuse/global_licensing.py:219
+#, python-brace-format
+msgid "Could not parse '{notice}'"
+msgstr "'{notice}' çözümlenemiyor"
+
+#: src/reuse/header.py:103
+msgid "generated comment is missing copyright lines or license expressions"
+msgstr "oluşturulan yorumda telif hakkı satırları veya lisans ifadeleri eksik"
 
 #: src/reuse/lint.py:40
 msgid "BAD LICENSES"
@@ -252,73 +923,17 @@ msgid ""
 msgstr ""
 "'{}' projesi bir VCS deposu değil veya gerekli VCS yazılımı kurulu değil"
 
-#: src/reuse/extract.py:49
-#, python-brace-format
-msgid ""
-"REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
-"Aborting."
-msgstr ""
-"REUSE_ENCODING_MODULE, {modules} içinde bir değere sahip olmalıdır; "
-"‘{env_module}’ değerine sahiptir. İptal ediliyor."
-
-#: src/reuse/extract.py:69
-msgid ""
-"No supported module that can detect the encoding of files could be "
-"successfully imported. Re-read the installation instructions for the reuse "
-"package, or try the following:"
-msgstr ""
-"Dosyaların karakter kodlamasını algılamayan desteklenen hiçbir modül "
-"başarıyla içe aktarılamadı. Yeniden kullanım paketi için kurulum "
-"talimatlarını tekrar okuyun veya aşağıdakileri deneyin:"
-
-#: src/reuse/extract.py:75
-msgid ""
-"- If you are running a Linux distribution, try your equivalent of `apt "
-"install file` or `dnf install file`."
-msgstr ""
-"- Linux dağıtımı kullanıyorsanız, `apt install file` veya `dnf install file` "
-"komutlarının eşdeğerini deneyin."
-
-#: src/reuse/extract.py:80
-msgid ""
-"- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx' with 'pip' "
-"if you are not using pipx."
-msgstr ""
-"- ` pipx install reuse[charset-normalizer]` komutunu çalıştırın. Pipx "
-"kullanmıyorsanız, 'pipx' yerine 'pip' yazın."
-
-#: src/reuse/extract.py:451
-#, python-brace-format
-msgid ""
-"'{path}' was detected as a binary file; not searching its contents for REUSE "
-"information."
-msgstr ""
-"'{path}' ikili dosya olarak algılandı; içeriğinde REUSE bilgisi aranmıyor."
-
-#: src/reuse/extract.py:462
-#, python-brace-format
-msgid ""
-"extracting REUSE information from '{path}' (encoding {encoding}, encoding "
-"module {module}, newline {newline})"
-msgstr ""
-"'{path}' adresinden REUSE bilgilerini ayıklama "
-"(kodlama {encoding}, kodlama modülü {module}, satır sonu {newline})"
-
-#: src/reuse/header.py:87
-msgid "generated comment is missing copyright lines or license expressions"
-msgstr "oluşturulan yorumda telif hakkı satırları veya lisans ifadeleri eksik"
-
-#: src/reuse/report.py:160
+#: src/reuse/report.py:161
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "'{path}' okunamıyor"
 
-#: src/reuse/report.py:165
+#: src/reuse/report.py:166
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "'{path}' çözümlenirken beklenmedik bir hata oluştu"
 
-#: src/reuse/report.py:521
+#: src/reuse/report.py:522
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -331,7 +946,7 @@ msgstr ""
 "başlamamaktadır. Özel lisanslarla ilgili SSS: https://reuse.software/faq/"
 "#custom-license"
 
-#: src/reuse/report.py:532
+#: src/reuse/report.py:533
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -345,7 +960,7 @@ msgstr ""
 "önerilen yeni tanımlayıcılar burada bulunabilir: <https://spdx.org/licenses/"
 "#deprecated>"
 
-#: src/reuse/report.py:543
+#: src/reuse/report.py:544
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -355,7 +970,7 @@ msgstr ""
 "lisans metin dosyasının '.txt' dosya uzantısı yoktur. Lütfen dosya(ları) "
 "uygun şekilde yeniden adlandırın."
 
-#: src/reuse/report.py:552
+#: src/reuse/report.py:553
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -367,10 +982,10 @@ msgstr ""
 "sağlanan lisans tanımlayıcılarından en az biri için, 'LICENSES' dizininde "
 "karşılık gelen lisans metin dosyası bulunmamaktadır. SPDX lisans "
 "tanımlayıcıları için, eksik olanları almak üzere 'reuse download --all' "
-"komutunu çalıştırmanız yeterlidir. Özel lisanslar için "
-"('LicenseRef-' ile başlayan), bu dosyaları kendiniz eklemeniz gerekir."
+"komutunu çalıştırmanız yeterlidir. Özel lisanslar için ('LicenseRef-' ile "
+"başlayan), bu dosyaları kendiniz eklemeniz gerekir."
 
-#: src/reuse/report.py:564
+#: src/reuse/report.py:565
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -385,7 +1000,7 @@ msgstr ""
 "veya hiçbir dosya veya kod parçacığının bu şekilde lisanslanmadığından "
 "eminseniz, kullanılmayan lisans metnini silin."
 
-#: src/reuse/report.py:575
+#: src/reuse/report.py:576
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -396,7 +1011,7 @@ msgstr ""
 "dosyalar, kaydedilen hata mesajlarının bir parçası olarak çıktının en "
 "üstünde bulunur."
 
-#: src/reuse/report.py:584
+#: src/reuse/report.py:585
 msgid ""
 "Fix invalid SPDX License Expressions: In one or more files there are SPDX "
 "License Expressions which cannot be parse. Check whether the value that "
@@ -410,13 +1025,13 @@ msgstr ""
 "edin. Algılanan ifadenin geçerli olması amaçlanmıyorsa, onu 'REUSE-"
 "IgnoreStart' ve 'REUSE-IgnoreEnd' yorumları arasına yerleştirin."
 
-#: src/reuse/report.py:595
+#: src/reuse/report.py:596
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
 "adding 'SPDX-FileCopyrightText' and 'SPDX-License-Identifier' tags to each "
-"file. The tutorial explains additional ways to do this: <https://reuse."
-"software/tutorial/>"
+"file. The tutorial explains additional ways to do this: <https://"
+"reuse.software/tutorial/>"
 msgstr ""
 "Eksik telif hakkı/lisans bilgilerini düzeltin: Bir veya daha fazla dosya "
 "için, araç telif hakkı ve/veya lisans bilgilerini bulamıyor. Bunu genellikle "
@@ -424,639 +1039,211 @@ msgstr ""
 "ekleyerek yapabilirsiniz. Öğretici, bunu yapmanın başka yollarını da "
 "açıklamaktadır: <https://reuse.software/tutorial/>"
 
-#: src/reuse/cli/lint.py:28
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:608
 #, python-brace-format
-msgid ""
-"Lint the project directory for REUSE compliance. This version of the tool "
-"checks against version {reuse_version} of the REUSE Specification. You can "
-"find the latest version of the specification at <https://reuse.software/spec/"
-">."
-msgstr ""
-"Proje dizinini REUSE uyumluluğu için denetleyin. Bu araç sürümü, REUSE "
-"Belirtiminin {reuse_version} sürümüne göre denetler. Belirtimin en son "
-"sürümünü <https://reuse.software/spec/> adresinde bulabilirsiniz."
+msgid "{editor}: Editing failed"
+msgstr "{editor}: Düzenleme başarısız oldu"
 
-#: src/reuse/cli/lint.py:34
-msgid "Specifically, the following criteria are checked:"
-msgstr "Özellikle, aşağıdaki kriterler denetlenir:"
-
-#: src/reuse/cli/lint.py:38
-msgid ""
-"- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
-"project?"
-msgstr "- Projede kötü (tanınmayan, SPDX ile uyumlu olmayan) lisanslar var mı?"
-
-#: src/reuse/cli/lint.py:43
-msgid "- Are there any deprecated licenses in the project?"
-msgstr "- Projede kullanımdan kaldırılmış lisanslar var mı?"
-
-#: src/reuse/cli/lint.py:47
-msgid ""
-"- Are there any license files in the LICENSES/ directory without file "
-"extension?"
-msgstr ""
-"- LICENSES/ dizininde dosya uzantısı olmayan herhangi bir lisans dosyası var "
-"mı?"
-
-#: src/reuse/cli/lint.py:54
-msgid ""
-"- Are any licenses referred to inside of the project, but not included in "
-"the LICENSES/ directory?"
-msgstr ""
-"- Proje içinde atıfta bulunulan ancak LICENSES/ dizininde bulunmayan "
-"herhangi bir lisans var mı?"
-
-#: src/reuse/cli/lint.py:61
-msgid ""
-"- Are any licenses included in the LICENSES/ directory that are not used "
-"inside of the project?"
-msgstr ""
-"- LICENSES/ dizininde, proje içinde kullanılmayan herhangi bir lisans var mı?"
-
-#: src/reuse/cli/lint.py:66
-msgid "- Are there any read errors?"
-msgstr "- Okuma hatası var mı?"
-
-#: src/reuse/cli/lint.py:69
-msgid "- Do all files have valid copyright and licensing information?"
-msgstr "- Tüm dosyalar geçerli telif hakkı ve lisans bilgilerine sahip mi?"
-
-#: src/reuse/cli/lint.py:81 src/reuse/cli/lint_file.py:38
-msgid "Prevent output."
-msgstr "Çıktıyı önle."
-
-#: src/reuse/cli/lint.py:89 src/reuse/cli/supported_licenses.py:28
-msgid "Format output as JSON."
-msgstr "Çıktıyı JSON olarak biçimlendir."
-
-#: src/reuse/cli/lint.py:97
-msgid "Format output as plain text. (default)"
-msgstr "Çıktıyı düz metin olarak biçimlendir. (varsayılan)"
-
-#: src/reuse/cli/lint.py:105
-msgid "Format output as errors per line."
-msgstr "Çıktıyı satır başına hatalar olarak biçimlendir."
-
-#: src/reuse/cli/convert_dep5.py:19
-msgid ""
-"Convert .reuse/dep5 into a REUSE.toml file. The generated file is placed in "
-"the project root and is semantically identical. The .reuse/dep5 file is "
-"subsequently deleted."
-msgstr ""
-".reuse/dep5 dosyasını REUSE.toml dosyasına dönüştürün. Oluşturulan dosya "
-"proje kök dizinine yerleştirilir ve anlamsal olarak aynıdır. .reuse/dep5 "
-"dosyası daha sonra silinir."
-
-#: src/reuse/cli/convert_dep5.py:31
-msgid "No '.reuse/dep5' file."
-msgstr "'.reuse/dep5' dosyası yok."
-
-#: src/reuse/cli/lint_file.py:25
-msgid ""
-"Lint individual files for REUSE compliance. The specified FILEs are checked "
-"for the presence of copyright and licensing information, and whether the "
-"found licenses are included in the LICENSES/ directory."
-msgstr ""
-"REUSE uyumluluğu için tek tek dosyaları denetle. Belirtilen DOSYALAR, telif "
-"hakkı ve lisans bilgilerinin varlığı açısından denetlenir ve bulunan "
-"lisansların LICENSES/ dizininde yer alıp almadığına bakılır."
-
-#: src/reuse/cli/lint_file.py:46
-msgid "Format output as errors per line. (default)"
-msgstr "Çıktıyı satır başına hata olarak biçimlendir. (varsayılan)"
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/lint_file.py:51
-msgid "FILE"
-msgstr "DOSYA"
-
-#: src/reuse/cli/lint_file.py:65
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:612
 #, python-brace-format
-msgid "'{file}' is not inside of '{root}'."
-msgstr "'{file}' '{root}' içinde değil."
+msgid "{editor}: Editing failed: {e}"
+msgstr "{editor}: Düzenleme başarısız oldu: {e}"
 
-#: src/reuse/cli/spdx.py:22
-msgid "Generate an SPDX bill of materials."
-msgstr "SPDX ürün ağacı oluştur."
-
-#: src/reuse/cli/spdx.py:32
-msgid "File to write to."
-msgstr "Yazılacak dosya."
-
-#: src/reuse/cli/spdx.py:38
-msgid ""
-"Populate the LicenseConcluded field; note that reuse cannot guarantee that "
-"the field is accurate."
-msgstr ""
-"LicenseConcluded alanını doldur; yeniden kullanımın bu alanın doğruluğunu "
-"garanti etmediğini unutmayın."
-
-#: src/reuse/cli/spdx.py:50
-msgid "Name of the person signing off on the SPDX report."
-msgstr "SPDX raporunu imzalayan kişinin adı."
-
-#: src/reuse/cli/spdx.py:54
-msgid "Name of the organization signing off on the SPDX report."
-msgstr "SPDX raporunu imzalayan kuruluşun adı."
-
-#: src/reuse/cli/spdx.py:81
-msgid ""
-"'--creator-person' or '--creator-organization' is required when '--add-"
-"license-concluded' is provided."
-msgstr ""
-"'--add-license-concluded' seçeneği belirtildiğinde '--creator-person' veya "
-"'--creator-organization' seçeneği zorunludur."
-
-#: src/reuse/cli/spdx.py:96
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1104
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1141
 #, python-brace-format
+msgid "{text} {deprecated_message}"
+msgstr "{text} {deprecated_message}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1160
+msgid "Options"
+msgstr "Seçenekler"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1222
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] "Beklenmedik ekstra argüman ({args})"
+msgstr[1] "Beklenmedik ekstra argümanlar ({args})"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1241
+msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
+msgstr ""
+"KullanımdanKaldırıldıUyarısı: {name!r} komutu kullanımdan kaldırılmıştır."
+"{extra_message}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1425
+msgid "Aborted!"
+msgstr "İptal edildi!"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1799
+msgid "Commands"
+msgstr "Komutlar"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1830
+msgid "Missing command."
+msgstr "Eksik komut."
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1908
+msgid "No such command {name!r}."
+msgstr "{name!r} adlı komut yok."
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2332
+msgid "Value must be an iterable."
+msgstr "Değer yinelenebilir olmalıdır."
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2355
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] "{nargs} değer alır, ancak 1 değer verildi."
+msgstr[1] "{nargs} değer alır, ancak {len} değer verildi."
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2505
 msgid ""
-"'{path}' does not match a common SPDX file pattern. Find the suggested "
-"naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
-"standard-data-format-requirements"
+"DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
 msgstr ""
-"'{path}' ortak SPDX dosya deseniyle eşleşmiyor. Önerilen adlandırma "
-"kurallarını burada bulabilirsiniz: https://spdx.github.io/spdx-spec/"
-"conformance/#44-standard-data-format-requirements"
+"KullanımdanKaldırıldıUyarısı: {param_type} {name!r} komutu kullanımdan "
+"kaldırılmıştır.{extra_message}"
 
-#: src/reuse/cli/main.py:36
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:465
-#, python-format
-msgid "%(prog)s, version %(version)s"
-msgstr "%(prog)s, sürüm %(version)s"
-
-#: src/reuse/cli/main.py:39
-msgid ""
-"This program is free software: you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation, either version 3 of the License, or (at your option) "
-"any later version."
-msgstr ""
-"Bu program özgür bir yazılımdır: Özgür Yazılım Vakfı tarafından yayınlanan "
-"GNU Genel Kamu Lisansı'nın şartları altında, Lisansın 3. sürümü veya "
-"(tercihinize bağlı olarak) daha sonraki herhangi bir sürümü altında yeniden "
-"dağıtabilir ve/veya değiştirebilirsiniz."
-
-#: src/reuse/cli/main.py:46
-msgid ""
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details."
-msgstr ""
-"Bu program, yararlı olacağı umuduyla dağıtılmaktadır, ancak HERHANGİ BİR "
-"GARANTİ VERİLMEMEKTEDİR; TİCARİ ELVERİŞLİLİK veya BELİRLİ BİR AMACA UYGUNLUK "
-"konusunda zımni garanti bile verilmez. Daha fazla bilgi için GNU Genel Kamu "
-"Lisansını inceleyin."
-
-#: src/reuse/cli/main.py:53
-msgid ""
-"You should have received a copy of the GNU General Public License along with "
-"this program. If not, see <https://www.gnu.org/licenses/>."
-msgstr ""
-"Bu programla birlikte GNU Genel Kamu Lisansı'nın bir kopyasını almış "
-"olmalısınız. Eğer almadıysanız, <https://www.gnu.org/licenses/> adresine "
-"bakın."
-
-#: src/reuse/cli/main.py:61
-msgid ""
-"reuse is a tool for compliance with the REUSE recommendations. See <https://"
-"reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
-"for the online documentation."
-msgstr ""
-"reuse, REUSE önerilerine uyum için kullanılan bir araçtır. Daha fazla bilgi "
-"için <https://reuse.software/> adresini, çevrimiçi belgeler için ise "
-"<https://reuse.readthedocs.io/> adresini ziyaret edin."
-
-#: src/reuse/cli/main.py:68
-msgid ""
-"This version of reuse is compatible with version {} of the REUSE "
-"Specification."
-msgstr "Bu reuse sürümü, REUSE Belirtiminin {} sürümüyle uyumludur."
-
-#: src/reuse/cli/main.py:72
-msgid "Support the FSFE's work:"
-msgstr "FSFE'nin çalışmalarını destekleyin:"
-
-#: src/reuse/cli/main.py:77
-msgid ""
-"Donations are critical to our strength and autonomy. They enable us to "
-"continue working for Free Software wherever necessary. Please consider "
-"making a donation at <https://fsfe.org/donate/>."
-msgstr ""
-"Bağışlar, gücümüz ve özerkliğimiz için çok önemlidir. Bağışlar, gerektiğinde "
-"Özgür Yazılım için çalışmaya devam etmemizi sağlar. Lütfen <https://fsfe.org/"
-"donate/> adresinden bağış yapmayı düşünün."
-
-#: src/reuse/cli/main.py:88
-msgid "Enable debug statements."
-msgstr "Hata ayıklama ifadelerini etkinleştir."
-
-#: src/reuse/cli/main.py:93
-msgid "Hide deprecation warnings."
-msgstr "Kullanımdan kalkma uyarılarını gizle."
-
-#: src/reuse/cli/main.py:98
-msgid "Do not skip over Git submodules."
-msgstr "Git submodullerini atlama."
-
-#: src/reuse/cli/main.py:103
-msgid "Do not skip over Meson subprojects."
-msgstr "Meson alt projelerini atlama."
-
-#: src/reuse/cli/main.py:108
-msgid "Do not use multiprocessing."
-msgstr "Çoklu işlem kullanma."
-
-#: src/reuse/cli/main.py:118
-msgid "Define root of project."
-msgstr "Projenin kök dizinini tanımla."
-
-#: src/reuse/cli/common.py:51
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2956
 #, python-brace-format
-msgid ""
-"'{path}' could not be parsed. We received the following error message: "
-"{message}"
-msgstr "'{path}' çözümlenemedi. Şu hata mesajını aldık: {message}"
+msgid "env var: {var}"
+msgstr "ortam değişkeni: {var}"
 
-#: src/reuse/cli/common.py:87
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2959
 #, python-brace-format
-msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr "'{name}' şununla birlikte kullanılamaz: {opts}"
+msgid "default: {default}"
+msgstr "varsayılan: {default}"
 
-#: src/reuse/cli/common.py:103
-msgid "'{}' is not a valid SPDX expression."
-msgstr "'{}' geçerli bir SPDX ifadesi değildir."
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3023
+msgid "(dynamic)"
+msgstr "(dinamik)"
 
-#: src/reuse/cli/download.py:54
-msgid "'{}' is not a valid SPDX License Identifier."
-msgstr "'{}' geçerli bir SPDX Lisans Tanımlayıcısı değildir."
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:522
+msgid "Show the version and exit."
+msgstr "Sürümü göster ve çık."
 
-#: src/reuse/cli/download.py:61
-msgid "Did you mean:"
-msgstr "Şunu mu demek istediniz:"
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:548
+msgid "Show this message and exit."
+msgstr "Bu mesajı göster ve çık."
 
-#: src/reuse/cli/download.py:68
-msgid ""
-"See <https://spdx.org/licenses/> for a list of valid SPDX License "
-"Identifiers."
-msgstr ""
-"Geçerli SPDX Lisans Tanımlayıcılarının listesi için <https://spdx.org/"
-"licenses/> adresine bakın."
-
-#: src/reuse/cli/download.py:77
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:50
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:89
 #, python-brace-format
-msgid "Error: {spdx_identifier} already exists."
-msgstr "Hata: {spdx_identifier} zaten var."
+msgid "Error: {message}"
+msgstr "Hata: {message}"
 
-#: src/reuse/cli/download.py:84
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:81
 #, python-brace-format
-msgid "Error: {path} does not exist."
-msgstr "Hata: {path} mevcut değil."
+msgid "Try '{command} {option}' for help."
+msgstr "Yardım için '{command} {option}' deneyin."
 
-#: src/reuse/cli/download.py:88
-msgid "Error: Failed to download license."
-msgstr "Hata: Lisans indirilemedi."
-
-#: src/reuse/cli/download.py:93
-msgid "Is your internet connection working?"
-msgstr "İnternet bağlantınız çalışıyor mu?"
-
-#: src/reuse/cli/download.py:98
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:130
 #, python-brace-format
-msgid "Successfully downloaded {spdx_identifier}."
-msgstr "{spdx_identifier} başarıyla indirildi."
+msgid "Invalid value: {message}"
+msgstr "Geçersiz değer: {message}"
 
-#: src/reuse/cli/download.py:108
-msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "Bir lisans indir ve LICENSES/ dizinine yerleştir."
-
-#: src/reuse/cli/download.py:111
-msgid ""
-"LICENSE must be a valid SPDX License Identifier. You may specify LICENSE "
-"multiple times to download multiple licenses."
-msgstr ""
-"LICENSE, geçerli bir SPDX Lisans Tanımlayıcısı olmalıdır. Birden fazla "
-"lisans indirmek için LICENSE ifadesini birden fazla kez belirtebilirsiniz."
-
-#: src/reuse/cli/download.py:124
-msgid "Download all missing licenses detected in the project."
-msgstr "Projede tespit edilen tüm eksik lisansları indir."
-
-#: src/reuse/cli/download.py:132
-msgid "Path to download to."
-msgstr "İndirme yolu."
-
-#: src/reuse/cli/download.py:138
-msgid ""
-"Source from which to copy custom LicenseRef- licenses, either a directory "
-"that contains the file or the file itself."
-msgstr ""
-"Özel LicenseRef lisanslarını kopyalamak için kaynak, dosyayı içeren bir "
-"dizin veya dosyanın kendisi."
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/download.py:145
-msgid "LICENSE"
-msgstr "LİSANS"
-
-#: src/reuse/cli/download.py:161
-msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr "'LICENSE' argümanı ve '--all' seçeneklerinden biri olmalıdır."
-
-#: src/reuse/cli/download.py:173
-msgid "Cannot use '--output' with more than one license."
-msgstr "'--output' birden fazla lisansla birlikte kullanılamaz."
-
-#: src/reuse/cli/annotate.py:66
-msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "'--copyright', '--license' veya '--contributor' seçeneği gereklidir."
-
-#: src/reuse/cli/annotate.py:127
-msgid ""
-"The following files do not have a recognised file extension. Please use '--"
-"style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
-"unrecognised':"
-msgstr ""
-"Aşağıdaki dosyalar tanınmayan bir dosya uzantısına sahiptir. Lütfen '--"
-"style', '--force-dot-license', '--fallback-dot-license' veya '--skip-"
-"unrecognised' seçeneklerini kullanın:"
-
-#: src/reuse/cli/annotate.py:160
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:132
 #, python-brace-format
-msgid ""
-"'{path}' does not support single-line comments, please do not use '--single-"
-"line'."
-msgstr ""
-"'{path}' tek satırlık yorumları desteklemez, lütfen '--single-line' "
-"kullanmayın."
+msgid "Invalid value for {param_hint}: {message}"
+msgstr "{param_hint} için geçersiz değer: {message}"
 
-#: src/reuse/cli/annotate.py:167
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:190
+msgid "Missing argument"
+msgstr "Eksik argüman"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:192
+msgid "Missing option"
+msgstr "Eksik seçenek"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:194
+msgid "Missing parameter"
+msgstr "Eksik parametre"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:196
 #, python-brace-format
-msgid ""
-"'{path}' does not support multi-line comments, please do not use '--multi-"
-"line'."
-msgstr ""
-"'{path}' çok satırlı yorumları desteklemez, lütfen '--multi-line' "
-"kullanmayın."
+msgid "Missing {param_type}"
+msgstr "{param_type} eksik"
 
-#: src/reuse/cli/annotate.py:213
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:203
 #, python-brace-format
-msgid "Template '{template}' could not be found."
-msgstr "'{template}' şablonu bulunamadı."
+msgid "Missing parameter: {param_name}"
+msgstr "Eksik parametre: {param_name}"
 
-#: src/reuse/cli/annotate.py:236
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:223
 #, python-brace-format
-msgid "'{year}' is not a valid year range."
-msgstr "'{year}' geçerli bir yıl aralığı değildir."
+msgid "No such option: {name}"
+msgstr "Böyle bir seçenek yok: {name}"
 
-#: src/reuse/cli/annotate.py:245
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:235
 #, python-brace-format
-msgid ""
-"Your operating system's year is set to '{year}'. This is not four digits, "
-"and not supported."
-msgstr ""
-"İşletim sisteminizin yılı '{year}' olarak ayarlanmıştır. Bu dört basamaklı "
-"bir sayı değildir ve desteklenmemektedir."
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] "{possibility} mi demek istediniz?"
+msgstr[1] "(Olası seçenekler: {possibilities})"
 
-#: src/reuse/cli/annotate.py:287
-msgid "Add copyright and licensing into the headers of files."
-msgstr "Dosya başlıklarına telif hakkı ve lisans bilgilerini ekle."
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:282
+msgid "unknown error"
+msgstr "bilinmeyen hata"
 
-#: src/reuse/cli/annotate.py:290
-msgid ""
-"By using --copyright and --license, you can specify which copyright holders "
-"and licenses to add to the headers of the given files."
-msgstr ""
-"--copyright ve --license seçeneklerini kullanarak, belirli dosyaların "
-"başlıklarına hangi telif hakkı sahiplerinin ve lisansların ekleneceğini "
-"belirtebilirsiniz."
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:289
+msgid "Could not open file {filename!r}: {message}"
+msgstr "{filename!r} dosyası açılamadı: {message}"
 
-#: src/reuse/cli/annotate.py:296
-msgid ""
-"By using --contributor, you can specify people or entity that contributed "
-"but are not copyright holder of the given files."
-msgstr ""
-"--contributor seçeneğini kullanarak, belirli dosyalara katkıda bulunmuş "
-"ancak telif hakkı sahibi olmayan kişileri veya kuruluşları belirtebilirsiniz."
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:156
+#, fuzzy
+msgid "Usage:"
+msgstr "kullanım: "
 
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:309
-msgid "COPYRIGHT"
-msgstr "TELİF HAKKI"
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:199
+msgid "Argument {name!r} takes {nargs} values."
+msgstr "{name!r} argümanı {nargs} değer alır."
 
-#: src/reuse/cli/annotate.py:312
-msgid "Copyright holder, repeatable."
-msgstr "Telif hakkı sahibi, tekrarlanabilir."
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:381
+msgid "Option {name!r} does not take a value."
+msgstr "{name!r} seçeneği bir değer almıyor."
 
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:319
-msgid "SPDX_IDENTIFIER"
-msgstr "SPDX_TANIMLAYICI"
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:444
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] "{name!r} seçeneği bir argüman gerektirir."
+msgstr[1] "{name!r} seçeneği {nargs} argüman gerektirir."
 
-#: src/reuse/cli/annotate.py:322
-msgid "SPDX License Identifier, repeatable."
-msgstr "SPDX Lisans Tanımlayıcı, tekrarlanabilir."
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:332
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr "Kabuk tamamlama, 4.4'ten eski Bash sürümlerinde desteklenmemektedir."
 
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:328
-msgid "CONTRIBUTOR"
-msgstr "KATKIDA BULUNANLAR"
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:339
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr "Bash sürümü algılanamadı, kabuk tamamlama desteklenmiyor."
 
-#: src/reuse/cli/annotate.py:331
-msgid "File contributor, repeatable."
-msgstr "Dosyaya katkıda bulunan, tekrarlanabilir."
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:338
-msgid "YEAR"
-msgstr "YIL"
-
-#: src/reuse/cli/annotate.py:343
-msgid ""
-"Year of copyright notice. You may define multiple years or a range of years."
-msgstr ""
-"Telif hakkı bildirimi yılı. Birden fazla yıl veya bir yıl aralığı "
-"tanımlayabilirsiniz."
-
-#: src/reuse/cli/annotate.py:353
-msgid "Comment style to use."
-msgstr "Kullanılacak yorum biçimi."
-
-#: src/reuse/cli/annotate.py:363
-msgid "Copyright prefix to use."
-msgstr "Kullanılacak telif hakkı ön eki."
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:375
-msgid "TEMPLATE"
-msgstr "ŞABLON"
-
-#: src/reuse/cli/annotate.py:377
-msgid "Name of template to use."
-msgstr "Kullanılacak şablonun adı."
-
-#: src/reuse/cli/annotate.py:384
-msgid "Do not include year in copyright notice."
-msgstr "Telif hakkı beyanına yıl eklenmesin."
-
-#: src/reuse/cli/annotate.py:390
-msgid "Merge copyright notices if they are identical except for their years."
-msgstr ""
-"Telif hakkı beyanları yıl dışında tamamen aynıysa telif hakkı bildirimlerini "
-"birleştir."
-
-#: src/reuse/cli/annotate.py:398
-msgid "Force single-line comment style."
-msgstr "Tek satırlık yorum biçimini zorla."
-
-#: src/reuse/cli/annotate.py:405
-msgid "Force multi-line comment style."
-msgstr "Çok satırlı yorum biçimini zorla."
-
-#: src/reuse/cli/annotate.py:411
-msgid "Add headers to all files under specified directories recursively."
-msgstr ""
-"Belirtilen dizinler altındaki tüm dosyalara yinelemeli olarak başlıklar ekle."
-
-#: src/reuse/cli/annotate.py:416
-msgid "Do not replace the first header in the file; just add a new one."
-msgstr "Dosyadaki ilk başlığı değiştirme; sadece yeni bir başlık ekle."
-
-#: src/reuse/cli/annotate.py:423
-msgid "Always write a .license file instead of a header inside the file."
-msgstr "Dosyada başlık yerine her zaman bir .license dosyası yaz."
-
-#: src/reuse/cli/annotate.py:430
-msgid "Write a .license file to files with unrecognised comment styles."
-msgstr ""
-"Tanınmayan yorum biçimleri içeren dosyalar için bir .license dosyası yaz."
-
-#: src/reuse/cli/annotate.py:437
-msgid "Skip files with unrecognised comment styles."
-msgstr "Tanınmayan yorum biçimleri içeren dosyaları atla."
-
-#: src/reuse/cli/annotate.py:448
-msgid "Skip files that already contain REUSE information."
-msgstr "REUSE bilgisi içeren dosyaları atla."
-
-#. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:453
-msgid "PATH"
-msgstr "YOL"
-
-#: src/reuse/cli/annotate.py:510
-#, python-brace-format
-msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
-msgstr ""
-"'{path}' ikili bir dosya, bu nedenle başlık için '{new_path}' kullanılacak"
-
-#: src/reuse/cli/supported_licenses.py:19
-msgid "List all licenses on the SPDX License List."
-msgstr "SPDX Lisans Listesi'ndeki tüm lisansları listele."
-
-#: src/reuse/global_licensing.py:92
-#, python-brace-format
-msgid ""
-"{attr_name} must be a {type_name} (got {value} that is a {value_class})."
-msgstr ""
-"{attr_name} bir {type_name} olmalıdır "
-"(bir {value_class} olan {value} değerine sahiptir)."
-
-#: src/reuse/global_licensing.py:106
-#, python-brace-format
-msgid ""
-"Item in {attr_name} collection must be a {type_name} (got {item_value} that "
-"is a {item_class})."
-msgstr ""
-"{attr_name} koleksiyonundaki öğe {type_name} olmalıdır "
-"({item_class} olan {item_value} elde edildi)."
-
-#: src/reuse/global_licensing.py:118
-#, python-brace-format
-msgid "{attr_name} must not be empty."
-msgstr "{attr_name} boş bırakılmamalıdır."
-
-#: src/reuse/global_licensing.py:142
-#, python-brace-format
-msgid "{name} must be a {type} (got {value} that is a {value_type})."
-msgstr ""
-"{name} bir {type} olmalıdır ({value_type} olan {value} değerine sahiptir)."
-
-#: src/reuse/global_licensing.py:166
-#, python-brace-format
-msgid ""
-"The value of 'precedence' must be one of {precedence_vals} (got {received})"
-msgstr ""
-"'öncelik' değeri {precedence_vals} değerlerinden biri olmalıdır "
-"(elde edilen değer {received})"
-
-#: src/reuse/global_licensing.py:219
-#, python-brace-format
-msgid "Could not parse '{notice}'"
-msgstr "'{notice}' çözümlenemiyor"
-
-#: src/reuse/_annotate.py:94
-#, python-brace-format
-msgid "Skipped unrecognised file '{path}'"
-msgstr "Tanımlanamayan '{path}' dosyası atlandı"
-
-#: src/reuse/_annotate.py:100
-#, python-brace-format
-msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr "'{path}‘ tanımlanamadı; '{path}.license' dosyası oluşturuluyor"
-
-#: src/reuse/_annotate.py:116
-#, python-brace-format
-msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Halihazırda REUSE bilgisi içeren '{path}' dosyası atlanıyor"
-
-#: src/reuse/_annotate.py:145
-#, python-brace-format
-msgid "Error: Could not create comment for '{path}'"
-msgstr "Hata: '{path}' için yorum oluşturulamıyor"
-
-#: src/reuse/_annotate.py:152
-#, python-brace-format
-msgid ""
-"Error: Generated comment header for '{path}' is missing copyright lines or "
-"license expressions. The template is probably incorrect. Did not write new "
-"header."
-msgstr ""
-"Hata: '{path}' için üretilen başlık yorumu telif hakkı satırlarını veya "
-"lisans ifadelerini içermiyor. Şablon hatalı olabilir. Yeni başlık yazılmadı."
-
-#. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:163
-#, python-brace-format
-msgid "Successfully changed header of {path}"
-msgstr "{path} başlığı başarılı bir şekilde değiştirildi"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:162
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:162
 msgid "Repeat for confirmation"
 msgstr "Onay için tekrarlayın"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:178
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:178
 msgid "Error: The value you entered was invalid."
 msgstr "Hata: Girdiğiniz değer geçersiz."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:180
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:180
 #, python-brace-format
 msgid "Error: {e.message}"
 msgstr "Hata: {e.message}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:191
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:191
 msgid "Error: The two entered values do not match."
 msgstr "Hata: Girilen iki değer birbiriyle uyuşmuyor."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:247
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:247
 msgid "Error: invalid input"
 msgstr "Hata: geçersiz giriş"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/termui.py:866
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:866
 msgid "Press any key to continue..."
 msgstr "Devam etmek için bir tuşa basın..."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:332
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:332
 #, python-brace-format
 msgid ""
 "Choose from:\n"
@@ -1065,251 +1252,77 @@ msgstr ""
 "Aşağıdakilerden seçin:\n"
 "\t{choices}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:369
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:369
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
 msgstr[0] "{value!r} {choice} değildir."
 msgstr[1] "{value!r} {choice}'lardan biri değildir."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:460
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:460
 msgid "{value!r} does not match the format {format}."
 msgid_plural "{value!r} does not match the formats {formats}."
 msgstr[0] "{value!r} {format} biçimiyle eşleşmiyor."
 msgstr[1] "{value!r} {formats} biçimleriyle eşleşmiyor."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:482
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:482
 msgid "{value!r} is not a valid {number_type}."
 msgstr "{value!r} geçerli bir {number_type} değildir."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:538
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:538
 #, python-brace-format
 msgid "{value} is not in the range {range}."
 msgstr "{value} {range} aralığında değildir."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:719
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:719
 msgid "{value!r} is not a valid boolean. Recognized values: {states}"
 msgstr "{value!r} geçerli bir boolean değildir. Tanınan değerler: {states}"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:747
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:747
 msgid "{value!r} is not a valid UUID."
 msgstr "{value!r} geçerli bir UUID değildir."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:937
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:937
 msgid "file"
 msgstr "dosya"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:939
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:939
 msgid "directory"
 msgstr "dizin"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:941
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:941
 msgid "path"
 msgstr "yol"
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:988
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:988
 msgid "{name} {filename!r} does not exist."
 msgstr "{name} {filename!r} mevcut değil."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:997
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:997
 msgid "{name} {filename!r} is a file."
 msgstr "{name} {filename!r} bir dosya."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1005
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1005
 msgid "{name} {filename!r} is a directory."
 msgstr "{name} {filename!r} bir dizin."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1014
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1014
 msgid "{name} {filename!r} is not readable."
 msgstr "{name} {filename!r} okunabilir değil."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1023
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1023
 msgid "{name} {filename!r} is not writable."
 msgstr "{name} {filename!r} yazılabilir değil."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1032
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1032
 msgid "{name} {filename!r} is not executable."
 msgstr "{name} {filename!r} çalıştırılabilir değil."
 
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/types.py:1099
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1099
 #, python-brace-format
 msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] "{len_type} değeri gerekli, ancak {len_value} verilmiş."
 msgstr[1] "{len_type} değerleri gerekli, ancak {len_value} verilmiş."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:332
-msgid "Shell completion is not supported for Bash versions older than 4.4."
-msgstr "Kabuk tamamlama, 4.4'ten eski Bash sürümlerinde desteklenmemektedir."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/shell_completion.py:339
-msgid "Couldn't detect Bash version, shell completion is not supported."
-msgstr "Bash sürümü algılanamadı, kabuk tamamlama desteklenmiyor."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:50
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:89
-#, python-brace-format
-msgid "Error: {message}"
-msgstr "Hata: {message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:81
-#, python-brace-format
-msgid "Try '{command} {option}' for help."
-msgstr "Yardım için '{command} {option}' deneyin."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:130
-#, python-brace-format
-msgid "Invalid value: {message}"
-msgstr "Geçersiz değer: {message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:132
-#, python-brace-format
-msgid "Invalid value for {param_hint}: {message}"
-msgstr "{param_hint} için geçersiz değer: {message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:190
-msgid "Missing argument"
-msgstr "Eksik argüman"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:192
-msgid "Missing option"
-msgstr "Eksik seçenek"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:194
-msgid "Missing parameter"
-msgstr "Eksik parametre"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:196
-#, python-brace-format
-msgid "Missing {param_type}"
-msgstr "{param_type} eksik"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:203
-#, python-brace-format
-msgid "Missing parameter: {param_name}"
-msgstr "Eksik parametre: {param_name}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:223
-#, python-brace-format
-msgid "No such option: {name}"
-msgstr "Böyle bir seçenek yok: {name}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:235
-#, python-brace-format
-msgid "Did you mean {possibility}?"
-msgid_plural "(Possible options: {possibilities})"
-msgstr[0] "{possibility} mi demek istediniz?"
-msgstr[1] "(Olası seçenekler: {possibilities})"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:282
-msgid "unknown error"
-msgstr "bilinmeyen hata"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/exceptions.py:289
-msgid "Could not open file {filename!r}: {message}"
-msgstr "{filename!r} dosyası açılamadı: {message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1104
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1141
-#, python-brace-format
-msgid "{text} {deprecated_message}"
-msgstr "{text} {deprecated_message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1160
-msgid "Options"
-msgstr "Seçenekler"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1222
-#, python-brace-format
-msgid "Got unexpected extra argument ({args})"
-msgid_plural "Got unexpected extra arguments ({args})"
-msgstr[0] "Beklenmedik ekstra argüman ({args})"
-msgstr[1] "Beklenmedik ekstra argümanlar ({args})"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1241
-msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
-msgstr ""
-"KullanımdanKaldırıldıUyarısı: {name!r} komutu kullanımdan "
-"kaldırılmıştır.{extra_message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1425
-msgid "Aborted!"
-msgstr "İptal edildi!"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1799
-msgid "Commands"
-msgstr "Komutlar"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1830
-msgid "Missing command."
-msgstr "Eksik komut."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:1908
-msgid "No such command {name!r}."
-msgstr "{name!r} adlı komut yok."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2332
-msgid "Value must be an iterable."
-msgstr "Değer yinelenebilir olmalıdır."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2355
-#, python-brace-format
-msgid "Takes {nargs} values but 1 was given."
-msgid_plural "Takes {nargs} values but {len} were given."
-msgstr[0] "{nargs} değer alır, ancak 1 değer verildi."
-msgstr[1] "{nargs} değer alır, ancak {len} değer verildi."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2505
-msgid ""
-"DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
-msgstr ""
-"KullanımdanKaldırıldıUyarısı: {param_type} {name!r} komutu kullanımdan "
-"kaldırılmıştır.{extra_message}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2956
-#, python-brace-format
-msgid "env var: {var}"
-msgstr "ortam değişkeni: {var}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:2959
-#, python-brace-format
-msgid "default: {default}"
-msgstr "varsayılan: {default}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/core.py:3023
-msgid "(dynamic)"
-msgstr "(dinamik)"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:199
-msgid "Argument {name!r} takes {nargs} values."
-msgstr "{name!r} argümanı {nargs} değer alır."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:381
-msgid "Option {name!r} does not take a value."
-msgstr "{name!r} seçeneği bir değer almıyor."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/parser.py:444
-msgid "Option {name!r} requires an argument."
-msgid_plural "Option {name!r} requires {nargs} arguments."
-msgstr[0] "{name!r} seçeneği bir argüman gerektirir."
-msgstr[1] "{name!r} seçeneği {nargs} argüman gerektirir."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:608
-#, python-brace-format
-msgid "{editor}: Editing failed"
-msgstr "{editor}: Düzenleme başarısız oldu"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/_termui_impl.py:612
-#, python-brace-format
-msgid "{editor}: Editing failed: {e}"
-msgstr "{editor}: Düzenleme başarısız oldu: {e}"
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:522
-msgid "Show the version and exit."
-msgstr "Sürümü göster ve çık."
-
-#: /home/runner/.cache/pypoetry/virtualenvs/reuse-MK6tuBk_-py3.12/lib/python3.12/site-packages/click/decorators.py:548
-msgid "Show this message and exit."
-msgstr "Bu mesajı göster ve çık."
 
 #, fuzzy, python-brace-format
 #~ msgid "{path}: read error\n"
@@ -1430,9 +1443,6 @@ msgstr "Bu mesajı göster ve çık."
 
 #~ msgid "the following arguments are required: license"
 #~ msgstr "şu değişkenler gerekiyor: license"
-
-#~ msgid "usage: "
-#~ msgstr "kullanım: "
 
 #~ msgid ".__call__() not defined"
 #~ msgstr ".__call__() tanımlı değil"
@@ -1655,10 +1665,10 @@ msgstr "Bu mesajı göster ve çık."
 #~ "belirleyebilirsiniz.\n"
 #~ "\n"
 #~ "Başlık yorumu şablonunu --template değişkenini kullanarak "
-#~ "değiştirebilirsiniz. Bir Jinja2 şablonunu .reuse/templates/mytemplate."
-#~ "jinja2 içerisine koyun. Şablonu '--template mytemplate' şeklinde "
-#~ "kullanabilirsiniz. Bu özelliği nasıl kullanabileceğinizi çevrimiçi "
-#~ "belgelerden öğrenebilirsiniz.\n"
+#~ "değiştirebilirsiniz. Bir Jinja2 şablonunu .reuse/templates/"
+#~ "mytemplate.jinja2 içerisine koyun. Şablonu '--template mytemplate' "
+#~ "şeklinde kullanabilirsiniz. Bu özelliği nasıl kullanabileceğinizi "
+#~ "çevrimiçi belgelerden öğrenebilirsiniz.\n"
 #~ "\n"
 #~ "Eğer ikili bir dosya tespit edilirse veya eğer --explicit-license "
 #~ "tanımlıysa, başlık .license dosyasına koyulacaktır."
