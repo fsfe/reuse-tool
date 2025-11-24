@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links:
+  - name: REUSE issue tracker at Codeberg
+    url: https://codeberg.org/fsfe/reuse-tool/issues/new
+    about: Please file issues in the Codeberg repo issue tracker
+
