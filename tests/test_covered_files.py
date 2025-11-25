@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2025 Nguyễn Gia Phong <cnx@loang.net>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -10,10 +11,15 @@
 import os
 from pathlib import Path
 
-from conftest import git, hg, pijul, posix
+from conftest import fossil, git, hg, pijul, posix
 
 from reuse.covered_files import iter_files
-from reuse.vcs import VCSStrategyGit, VCSStrategyHg, VCSStrategyPijul
+from reuse.vcs import (
+    VCSStrategyFossil,
+    VCSStrategyGit,
+    VCSStrategyHg,
+    VCSStrategyPijul,
+)
 
 
 class TestIterFiles:
@@ -205,6 +211,48 @@ class TestIterFilesSubet:
             iter_files(fake_repository, subset_files={"src/custom.py"})
         )
         assert result == [fake_repository / "src/custom.py"]
+
+
+@fossil
+class TestAllFilesFossil:
+    """Test the iter_files function with Fossil.
+
+    Note that Fossil does not support newlines in file paths.
+    """
+
+    def test_simple(self, fossil_checkout):
+        """Test that ignored files in a Fossil checkout are not yielded."""
+        strategy = VCSStrategyFossil(fossil_checkout)
+        all_files = iter_files(fossil_checkout, vcs_strategy=strategy)
+        assert Path("build/hello.py").absolute() not in all_files
+
+    def test_different_cwd(self, fossil_checkout):
+        """Test that ignored files in a Fossil checkout are not yielded.
+
+        Be in a different CWD during the test.
+        """
+        os.chdir(fossil_checkout / "LICENSES")
+        strategy = VCSStrategyFossil(fossil_checkout)
+        all_files = iter_files(fossil_checkout, vcs_strategy=strategy)
+        assert Path("build/hello.py").absolute() not in all_files
+
+    def test_ignored_contains_space(self, fossil_checkout):
+        """File names that contain spaces are also ignored."""
+        path = fossil_checkout / "I contain spaces.pyc"
+        assert path.is_absolute()
+        path.touch()
+        strategy = VCSStrategyFossil(fossil_checkout)
+        all_files = iter_files(fossil_checkout, vcs_strategy=strategy)
+        assert path not in all_files
+
+    def test_extra(self, fossil_checkout):
+        """Test file not part of the current check-out and not ignored."""
+        path = fossil_checkout / "doc" / "extra.md"
+        assert path.is_absolute() and not path.exists()
+        path.write_text("file not part of the current checkout")
+        strategy = VCSStrategyFossil(fossil_checkout)
+        all_files = iter_files(fossil_checkout, vcs_strategy=strategy)
+        assert path in all_files
 
 
 @git

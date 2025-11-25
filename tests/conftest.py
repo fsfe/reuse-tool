@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 Matthias Riße
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
+# SPDX-FileCopyrightText: 2025 Nguyễn Gia Phong <cnx@loang.net>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,7 +20,7 @@ import os
 import shutil
 import subprocess
 import sys
-from collections.abc import Generator
+from collections.abc import Generator, Iterator
 from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
@@ -49,7 +50,7 @@ finally:
     )
     from reuse.global_licensing import ReuseDep5
     from reuse.lint import format_lines, format_lines_subset
-    from reuse.vcs import GIT_EXE, HG_EXE, JUJUTSU_EXE, PIJUL_EXE
+    from reuse.vcs import FOSSIL_EXE, GIT_EXE, HG_EXE, JUJUTSU_EXE, PIJUL_EXE
 
 try:
     _chardet = bool(importlib.import_module("chardet"))
@@ -73,6 +74,7 @@ except ImportError:
 cpython = pytest.mark.skipif(
     sys.implementation.name != "cpython", reason="only CPython supported"
 )
+fossil = pytest.mark.skipif(not FOSSIL_EXE, reason="requires fossil")
 git = pytest.mark.skipif(not GIT_EXE, reason="requires git")
 hg = pytest.mark.skipif(not HG_EXE, reason="requires mercurial")
 pijul = pytest.mark.skipif(not PIJUL_EXE, reason="requires pijul")
@@ -116,6 +118,23 @@ def pytest_runtest_teardown(item):
     # pylint: disable=unused-argument
     # Make sure to restore CWD
     os.chdir(CWD)
+
+
+@pytest.fixture(scope="session")
+def fossil_exe() -> str:
+    """Run the test with Fossil."""
+    if not FOSSIL_EXE:
+        pytest.skip("cannot run this test without Fossil")
+        assert False  # pytest.skip is already NoReturn
+    return FOSSIL_EXE
+
+
+@pytest.fixture(params=[True, False])
+def optional_fossil_exe(request, monkeypatch) -> Iterator[str | None]:
+    """Run the test with or without fossil."""
+    exe = FOSSIL_EXE if request.param else ""
+    monkeypatch.setattr("reuse.vcs.FOSSIL_EXE", exe)
+    yield exe
 
 
 @pytest.fixture(scope="session")
@@ -296,6 +315,38 @@ def _repo_contents(
     build_dir = fake_repository / "build"
     build_dir.mkdir()
     (build_dir / "hello.py").write_text("foo")
+
+
+@pytest.fixture(scope="session")
+def _cached_fossil_checkout(
+    _cached_fake_repository: Path, tmp_path_factory, fossil_exe: str
+) -> Path:
+    """Create a Fossil checkout with ignored files."""
+    repo = tmp_path_factory.mktemp("museum") / "example.fossil"
+    subprocess.run([fossil_exe, "init", "-A", "example", repo], check=True)
+    ckout = tmp_path_factory.mktemp("cached_fossil_checkout")
+    subprocess.run([fossil_exe, "open", repo, "--workdir", ckout], check=True)
+
+    shutil.copytree(_cached_fake_repository, ckout, dirs_exist_ok=True)
+    os.chdir(ckout)
+    (ckout / ".fossil-settings").mkdir()
+    _repo_contents(ckout, ".fossil-settings/ignore-glob")
+
+    # Files whose name starts with "." are ignored by fossil add.
+    subprocess.run([fossil_exe, "add", ".fossil-settings"], check=True)
+    subprocess.run([fossil_exe, "add", ckout], check=True)
+    subprocess.run([fossil_exe, "user", "default", "example"], check=True)
+    subprocess.run([fossil_exe, "settings", "clearsign", "0"], check=True)
+    subprocess.run([fossil_exe, "ci", "-m", "initial"], check=True)
+    return ckout
+
+
+@pytest.fixture()
+def fossil_checkout(_cached_fossil_checkout, tmp_path) -> Path:
+    """Create a git repository with ignored files."""
+    shutil.copytree(_cached_fossil_checkout, tmp_path, dirs_exist_ok=True)
+    os.chdir(tmp_path)
+    return tmp_path
 
 
 @pytest.fixture(scope="session")

@@ -81,6 +81,7 @@ following system dependencies of `reuse`:
   - Mercurial 4.3+
   - Pijul
   - Jujutsu
+  - Fossil
 
 Excepting Python, these dependencies are all _optional_. `reuse` will still work
 if they are not installed.
