@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
+# SPDX-FileCopyrightText: 2025 Nguyễn Gia Phong <cnx@loang.net>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -10,46 +11,18 @@
 
 import os
 from pathlib import Path
-from typing import cast
 
-from reuse import vcs
-
-
-def test_find_root_in_git_repo(git_repository):
-    """When using reuse from a child directory in a Git repo, always find the
-    root directory.
-    """
-    os.chdir("src")
-    result = cast(Path, vcs.find_root())
-
-    assert Path(result).absolute().resolve() == git_repository
+from conftest import vcs_params
 
 
-def test_find_root_in_hg_repo(hg_repository):
-    """When using reuse from a child directory in a Mercurial repo, always find
-    the root directory.
-    """
-    os.chdir("src")
-    result = cast(Path, vcs.find_root())
+@vcs_params
+class TestVCSStrategyCommon:
+    """Common tests that should work for all strategies.."""
 
-    assert Path(result).absolute().resolve() == hg_repository
-
-
-def test_find_root_in_jujutsu_repo(jujutsu_repository):
-    """When using reuse from a child directory in a Jujutsu repo, always find
-    the root directory.
-    """
-    os.chdir("src")
-    result = cast(Path, vcs.find_root())
-
-    assert Path(result).absolute().resolve() == jujutsu_repository
-
-
-def test_find_root_in_pijul_repo(pijul_repository):
-    """When using reuse from a child directory in a Pijul repo, always find
-    the root directory.
-    """
-    os.chdir("src")
-    result = cast(Path, vcs.find_root())
-
-    assert Path(result).absolute().resolve() == pijul_repository
+    def test_find_root(self, vcs_strategy, vcs_repo):
+        """When using reuse in a child directory of a VCS repo, always find the
+        root directory.
+        """
+        os.chdir("src")
+        result = vcs_strategy.find_root()
+        assert result == Path(os.path.relpath(vcs_repo, Path.cwd()))

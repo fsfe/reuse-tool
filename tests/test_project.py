@@ -17,7 +17,7 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
-from conftest import RESOURCES_DIRECTORY
+from conftest import RESOURCES_DIRECTORY, vcs_params
 
 from reuse.copyright import (
     CopyrightNotice,
@@ -32,6 +32,7 @@ from reuse.exceptions import (
 )
 from reuse.global_licensing import ReuseDep5, ReuseTOML
 from reuse.project import Project
+from reuse.vcs import VCSStrategyNone
 
 # REUSE-IgnoreStart
 
@@ -121,6 +122,24 @@ class TestProjectAllFiles:
             include_meson_subprojects=project.include_meson_subprojects,
             vcs_strategy=project.vcs_strategy,
         )
+
+
+@vcs_params
+class TestProjectVCSStrategy:
+    """Tests for the interaction between Project and VCSStrategy."""
+
+    def test_from_directory(self, vcs_strategy, vcs_repo):
+        """project.vcs_strategy is correctly assigned in a vcs repo."""
+        project = Project.from_directory(vcs_repo)
+        assert isinstance(project.vcs_strategy, vcs_strategy)
+
+    def test_from_directory_deep(self, vcs_strategy, vcs_repo):
+        """project.vcs_strategy is unset when the root is deeper in the vcs
+        repo. It wouldn't really make sense otherwise.
+        """
+        # pylint: disable=unused-argument
+        project = Project.from_directory(vcs_repo / "src")
+        assert isinstance(project.vcs_strategy, VCSStrategyNone)
 
 
 def test_reuse_info_of_file_does_not_exist(fake_repository):

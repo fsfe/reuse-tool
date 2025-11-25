@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: 2022 Florian Snow <florian@familysnow.net>
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
+# SPDX-FileCopyrightText: 2025 Nguyễn Gia Phong <cnx@loang.net>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -10,10 +11,11 @@
 import os
 from pathlib import Path
 
-from conftest import git, hg, pijul, posix
+import pytest
+from conftest import git, posix, vcs_params
 
 from reuse.covered_files import iter_files
-from reuse.vcs import VCSStrategyGit, VCSStrategyHg, VCSStrategyPijul
+from reuse.vcs import VCSStrategyFossil, VCSStrategyGit, VCSStrategyPijul
 
 
 class TestIterFiles:
@@ -128,7 +130,7 @@ class TestIterFiles:
         assert list(iter_files(empty_directory, include_reuse_tomls=True))
 
 
-class TestIterFilesSubet:
+class TestIterFilesSubset:
     """Tests for  subset_files in iter_files."""
 
     def test_single(self, fake_repository):
@@ -207,47 +209,66 @@ class TestIterFilesSubet:
         assert result == [fake_repository / "src/custom.py"]
 
 
-@git
-class TestAllFilesGit:
-    """Test the iter_files function with git."""
+@vcs_params
+class TestIterFilesVCSCommon:
+    """Test the iter_files function with all version control systems."""
 
-    def test_simple(self, git_repository):
-        """Given a Git repository where some files are ignored, do not yield
-        those files.
+    def test_simple(self, vcs_strategy, vcs_repo):
+        """Given a repository where some files are ignored, do not yield those
+        files.
         """
         assert Path("build/hello.py").absolute() not in iter_files(
-            git_repository, vcs_strategy=VCSStrategyGit(git_repository)
+            vcs_repo, vcs_strategy=vcs_strategy(vcs_repo)
         )
 
-    def test_not_ignored_if_no_strategy(self, git_repository):
-        """If no strategy is provided, the file is not ignored."""
-        assert Path("build/hello.py").absolute() in iter_files(git_repository)
-
-    def test_different_cwd(self, git_repository):
-        """Given a Git repository where some files are ignored, do not yield
-        those files.
+    def test_different_cwd(self, vcs_strategy, vcs_repo):
+        """Given a repository where some files are ignored, do not
+        yield those files.
 
         Be in a different CWD during the above.
         """
-        os.chdir(git_repository / "LICENSES")
+        os.chdir(vcs_repo / "LICENSES")
         assert Path("build/hello.py").absolute() not in iter_files(
-            git_repository, vcs_strategy=VCSStrategyGit(git_repository)
+            vcs_repo, vcs_strategy=vcs_strategy(vcs_repo)
         )
 
-    def test_ignored_contains_space(self, git_repository):
-        """Files that contain spaces are also ignored."""
-        (git_repository / "I contain spaces.pyc").write_text("foo")
+    def test_not_ignored_if_no_strategy(self, vcs_strategy, vcs_repo):
+        """If no strategy is provided, the file is not ignored."""
+        # pylint: disable=unused-argument
+        assert Path("build/hello.py").absolute() in iter_files(vcs_repo)
+
+    def test_ignored_contains_space(self, vcs_strategy, vcs_repo):
+        """File names that contain spaces are also ignored."""
+        (vcs_repo / "I contain spaces.pyc").touch()
         assert Path("I contain spaces.pyc").absolute() not in iter_files(
-            git_repository, vcs_strategy=VCSStrategyGit(git_repository)
+            vcs_repo, vcs_strategy=vcs_strategy(vcs_repo)
         )
 
     @posix
-    def test_ignored_contains_newline(self, git_repository):
-        """Files that contain newlines are also ignored."""
-        (git_repository / "hello\nworld.pyc").write_text("foo")
+    def test_ignored_contains_newline(self, vcs_strategy, vcs_repo):
+        """File names that contain newlines are also ignored."""
+        if vcs_strategy in [VCSStrategyFossil]:
+            pytest.skip("vcs does not support newlines in files")
+        (vcs_repo / "hello\nworld.pyc").touch()
         assert Path("hello\nworld.pyc").absolute() not in iter_files(
-            git_repository, vcs_strategy=VCSStrategyGit(git_repository)
+            vcs_repo, vcs_strategy=vcs_strategy(vcs_repo)
         )
+
+    def test_new_file_not_ignored(self, vcs_strategy, vcs_repo):
+        """A new file should show up in iter_files."""
+        if vcs_strategy in [VCSStrategyPijul]:
+            pytest.skip("this test is too hard to write for pijul")
+        path = vcs_repo / "doc" / "extra.md"
+        assert path.is_absolute() and not path.exists()
+        path.write_text("file not part of the current repository")
+        assert path in list(
+            iter_files(vcs_repo, vcs_strategy=vcs_strategy(vcs_repo))
+        )
+
+
+@git
+class TestIterFilesGit:
+    """Test the iter_files function with git."""
 
     def test_ignore_submodules(self, submodule_repository):
         """Normally ignore submodules."""
@@ -276,82 +297,4 @@ class TestAllFilesGit:
         assert Path("submodule/foo.py").absolute() not in iter_files(
             submodule_repository,
             vcs_strategy=VCSStrategyGit(submodule_repository),
-        )
-
-
-@hg
-class TestAllFilesHg:
-    """Test the iter_files function with Mercurial."""
-
-    def test_simple(self, hg_repository):
-        """Given a mercurial repository where some files are ignored, do not
-        yield those files.
-        """
-        assert Path("build/hello.py").absolute() not in iter_files(
-            hg_repository, vcs_strategy=VCSStrategyHg(hg_repository)
-        )
-
-    def test_different_cwd(self, hg_repository):
-        """Given a mercurial repository where some files are ignored, do not
-        yield those files.
-
-        Be in a different CWD during the above.
-        """
-        os.chdir(hg_repository / "LICENSES")
-        assert Path("build/hello.py").absolute() not in iter_files(
-            hg_repository, vcs_strategy=VCSStrategyHg(hg_repository)
-        )
-
-    def test_ignored_contains_space(self, hg_repository):
-        """File names that contain spaces are also ignored."""
-        (hg_repository / "I contain spaces.pyc").touch()
-        assert Path("I contain spaces.pyc").absolute() not in iter_files(
-            hg_repository, vcs_strategy=VCSStrategyHg(hg_repository)
-        )
-
-    @posix
-    def test_ignored_contains_newline(self, hg_repository):
-        """File names that contain newlines are also ignored."""
-        (hg_repository / "hello\nworld.pyc").touch()
-        assert Path("hello\nworld.pyc").absolute() not in iter_files(
-            hg_repository, vcs_strategy=VCSStrategyHg(hg_repository)
-        )
-
-
-@pijul
-class TestAllFilesPijul:
-    """Test the iter_files function with Pijul."""
-
-    def test_simple(self, pijul_repository):
-        """Given a pijul repository where some files are ignored, do not yield
-        those files.
-        """
-        assert Path("build/hello.py").absolute() not in iter_files(
-            pijul_repository, vcs_strategy=VCSStrategyPijul(pijul_repository)
-        )
-
-    def test_iter_files_pijul_ignored_different_cwd(self, pijul_repository):
-        """Given a pijul repository where some files are ignored, do not yield
-        those files.
-
-        Be in a different CWD during the above.
-        """
-        os.chdir(pijul_repository / "LICENSES")
-        assert Path("build/hello.py").absolute() not in iter_files(
-            pijul_repository, vcs_strategy=VCSStrategyPijul(pijul_repository)
-        )
-
-    def test_ignored_contains_space(self, pijul_repository):
-        """File names that contain spaces are also ignored."""
-        (pijul_repository / "I contain spaces.pyc").touch()
-        assert Path("I contain spaces.pyc").absolute() not in iter_files(
-            pijul_repository, vcs_strategy=VCSStrategyPijul(pijul_repository)
-        )
-
-    @posix
-    def test_ignored_contains_newline(self, pijul_repository):
-        """File names that contain newlines are also ignored."""
-        (pijul_repository / "hello\nworld.pyc").touch()
-        assert Path("hello\nworld.pyc").absolute() not in iter_files(
-            pijul_repository, vcs_strategy=VCSStrategyPijul(pijul_repository)
         )

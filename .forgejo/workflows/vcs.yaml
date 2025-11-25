@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-name: Test with different version control systems
+name: Test version control systems
 
 # These tests are run exclusively on the main branch to reduce CPU time wasted
 # on every single PR that very likely does not affect VCS functionality.
@@ -55,4 +55,17 @@ jobs:
       - name: Run tests with pytest
         run: |
           export PATH="/root/.cargo/bin:$PATH"
+          poetry run pytest -vv --cov=reuse
+
+  test-fossil:
+    runs-on: debian-trixie
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-poetry fossil
+          poetry install --no-interaction --only main,test
+      - name: Run tests with pytest
+        run: |
           poetry run pytest -vv --cov=reuse

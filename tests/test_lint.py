@@ -11,7 +11,7 @@ import shutil
 from inspect import cleandoc
 from pathlib import PurePath
 
-from conftest import cpython, no_root, posix
+from conftest import cpython, git, no_root, posix, vcs_params
 
 from reuse._util import cleandoc_nl
 from reuse.lint import format_lines, format_plain
@@ -29,14 +29,17 @@ def test_lint_simple(fake_repository):
     assert result
 
 
-def test_lint_git(git_repository):
-    """Extremely simple test for lint with a git repository."""
-    project = Project.from_directory(git_repository)
+@vcs_params
+def test_lint_vcs(vcs_strategy, vcs_repo):
+    """Extremely simple test for lint with a VCS repository."""
+    # pylint: disable=unused-argument
+    project = Project.from_directory(vcs_repo)
     report = ProjectReport.generate(project)
     result = format_plain(report)
     assert result
 
 
+@git
 def test_lint_submodule(submodule_repository):
     """Extremely simple test for lint with an ignored submodule."""
     project = Project.from_directory(submodule_repository)
@@ -46,6 +49,7 @@ def test_lint_submodule(submodule_repository):
     assert result
 
 
+@git
 def test_lint_submodule_included(submodule_repository):
     """Extremely simple test for lint with an included submodule."""
     project = Project.from_directory(

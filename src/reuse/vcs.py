@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023 Markus Haug <korrat@proton.me>
 # SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
 # SPDX-FileCopyrightText: 2025 Jonas Fierlings <fnoegip@gmail.com>
+# SPDX-FileCopyrightText: 2025 Nguyễn Gia Phong <cnx@loang.net>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -28,10 +29,11 @@ if TYPE_CHECKING:
 
 _LOGGER = logging.getLogger(__name__)
 
-GIT_EXE = shutil.which("git")
-HG_EXE = shutil.which("hg")
-JUJUTSU_EXE = shutil.which("jj")
-PIJUL_EXE = shutil.which("pijul")
+FOSSIL_EXE = shutil.which("fossil") or ""
+GIT_EXE = shutil.which("git") or ""
+HG_EXE = shutil.which("hg") or ""
+JUJUTSU_EXE = shutil.which("jj") or ""
+PIJUL_EXE = shutil.which("pijul") or ""
 
 
 def _find_ancestor(
@@ -97,6 +99,62 @@ class VCSStrategyNone(VCSStrategy):
 
     @classmethod
     def find_root(cls, cwd: StrPath | None = None) -> Path | None:
+        return None
+
+
+class VCSStrategyFossil(VCSStrategy):
+    """Strategy that is used for Fossil."""
+
+    EXE = FOSSIL_EXE
+
+    def __init__(self, root: StrPath):
+        super().__init__(root)
+        if not self.EXE:
+            raise FileNotFoundError("Could not find binary for Fossil")
+        self._all_paths_not_ignored = self._find_all_paths_not_ignored()
+
+    def _find_all_paths_not_ignored(self) -> set[Path]:
+        """Return all tracked paths in the current Fossil check-out."""
+        assert self.EXE
+        ls = execute_command([self.EXE, "ls"], _LOGGER, cwd=self.root)
+        paths = set()
+        for file in map(Path, ls.stdout.decode("utf-8").split("\n")):
+            paths.add(file)
+            paths.update(file.parents)
+        extras = execute_command([self.EXE, "extras"], _LOGGER, cwd=self.root)
+        for file in map(Path, extras.stdout.decode("utf-8").split("\n")):
+            paths.add(file)
+            paths.update(file.parents)
+        return paths
+
+    def is_ignored(self, path: Path) -> bool:
+        path = relative_from_root(path, self.root)
+        return path not in self._all_paths_not_ignored
+
+    def is_submodule(self, path: StrPath) -> bool:
+        return False
+
+    @classmethod
+    def in_repo(cls, directory: StrPath) -> bool:
+        if not Path(directory).is_dir():
+            raise NotADirectoryError()
+        if _find_ancestor(directory, ".fslckout", is_directory=False):
+            assert cls.EXE
+            command = [cls.EXE, "changes"]
+            result = execute_command(command, _LOGGER, cwd=directory)
+            return result.returncode == 0
+        return False
+
+    @classmethod
+    def find_root(cls, cwd: StrPath | None = None) -> Path | None:
+        if cwd is None:
+            cwd = Path.cwd()
+        path = Path(cwd).resolve()
+        if not path.is_dir():
+            raise NotADirectoryError()
+        ckout_db = _find_ancestor(path, ".fslckout", is_directory=False)
+        if ckout_db is not None:
+            return Path(os.path.relpath(ckout_db.parent, cwd))
         return None
 
 
@@ -416,7 +474,7 @@ class VCSStrategyPijul(VCSStrategy):
 
         dot_pijul = _find_ancestor(path, ".pijul")
         if dot_pijul is not None:
-            return dot_pijul.parent
+            return Path(os.path.relpath(dot_pijul.parent, cwd))
         return None
 
 

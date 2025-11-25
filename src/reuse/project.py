@@ -18,7 +18,7 @@ import warnings
 from collections import defaultdict
 from collections.abc import Collection, Iterator
 from pathlib import Path
-from typing import NamedTuple
+from typing import NamedTuple, cast
 
 import attrs
 
@@ -473,6 +473,17 @@ class Project:
         """
         for strategy in all_vcs_strategies():
             if strategy.EXE and strategy.in_repo(root):
+                if (
+                    cast(Path, strategy.find_root(root)).resolve().absolute()
+                    != Path(root).resolve().absolute()
+                ):
+                    _LOGGER.info(
+                        _(
+                            "'{path}' is inside of a '{exe}' repository, but it"
+                            " is not its root directory. ignoring the VCS."
+                        ).format(path=root, exe=strategy.EXE)
+                    )
+                    return VCSStrategyNone(root)
                 return strategy(root)
 
         _LOGGER.info(

@@ -1336,6 +1336,21 @@ pytest = ">=7"
 testing = ["process-tests", "pytest-xdist", "virtualenv"]
 
 [[package]]
+name = "pytest-lazy-fixtures"
+version = "1.4.0"
+description = "Allows you to use fixtures in @pytest.mark.parametrize."
+optional = false
+python-versions = ">=3.8"
+groups = ["test"]
+files = [
+    {file = "pytest_lazy_fixtures-1.4.0-py3-none-any.whl", hash = "sha256:c5db4506fa0ade5887189d1a18857fec4c329b4f49043fef6732c67c9553389a"},
+    {file = "pytest_lazy_fixtures-1.4.0.tar.gz", hash = "sha256:f544b60c96b909b307558a62cc1f28f026f11e9f03d7f583a1dc636de3dbcb10"},
+]
+
+[package.dependencies]
+pytest = ">=7"
+
+[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 description = "Extensions to the standard Python datetime module"
@@ -2118,4 +2133,4 @@ file-magic = ["file-magic"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "f6baf943e3dba01a6cf2823643e1270691f72ac3c229c18016ae4407de40a6ae"
+content-hash = "752c6f467ab90960aa813bb57f1b1e1fc0d8398f75b657bce36e54e3f142a9df"
