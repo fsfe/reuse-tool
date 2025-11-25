@@ -143,6 +143,8 @@ possible, run `poetry lock --no-update`.
   <https://github.com/readthedocs/readthedocs.org/issues/11624>). Update
   versions in `.pre-commit-config.yaml` as necessary.
 - Bump Alpine and Debian in Dockerfile.
+- Verify whether the Windows and macOS tests are successful on GitHub.
+  <https://github.com/fsfe/reuse-tool>
 - Do some final tweaks/bugfixes (and alter changelog)
 - `make test-release`
 - `pip install -i https://test.pypi.org/simple reuse` and test the package.
