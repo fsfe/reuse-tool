@@ -32,4 +32,5 @@ jobs:
           export PATH=~/.cargo/bin:$PATH
       - name: Run tests with pytest
         run: |
+          export PATH="/root/.cargo/bin:$PATH"
           poetry run pytest -vv --cov=reuse

@@ -35,4 +35,5 @@ jobs:
           pijul identity new --no-prompt --display-name 'Jane Doe' --email 'jdoe@example.com' 'jdoe'
       - name: Run tests with pytest
         run: |
+          export PATH="/root/.cargo/bin:$PATH"
           poetry run pytest -vv --cov=reuse
