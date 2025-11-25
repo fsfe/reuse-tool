@@ -27,7 +27,7 @@ jobs:
           poetry install --no-interaction --only main,test
       - name: Set up Jujutsu
         run: |
-          sudo apt-get install -y build-essential cargo
+          apt-get install -y build-essential cargo
           cargo install cargo-binstall
           cargo binstall --strategies crate-meta-data jj-cli --no-confirm
           export PATH=~/.cargo/bin:$PATH
