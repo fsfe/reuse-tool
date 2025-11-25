@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2023 Free Software Foundation Europe e.V.
+# SPDX-FileCopyrightText: 2024 Skyler Grey <sky@a.starrysky.fyi>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Test with different version control systems
+
+# These tests are run exclusively on the main branch to reduce CPU time wasted
+# on every single PR that very likely does not affect VCS functionality.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/reuse/**.py"
+      - "tests/**.py"
+      - ".forgejo/workflows/vcs.yaml"
+
+jobs:
+  test-pijul:
+    runs-on: debian-trixie
+    # This version of Alpine is old because of this regression:
+    # <https://nest.pijul.com/pijul/pijul/discussions/953>
+    container: "alpine:3.20"
+    steps:
+      - name: Install Node
+        run: |
+          apk add nodejs
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          apk add poetry pijul
+          poetry install --no-interaction --only main,test
+      - name: Set up Pijul
+        run: |
+          pijul identity new --no-prompt --display-name 'Jane Doe' --email 'jdoe@example.com' 'jdoe'
+      - name: Run tests with pytest
+        run: |
+          export PATH="/root/.cargo/bin:$PATH"
+          poetry run pytest -vv --cov=reuse
+
+  test-jujutsu:
+    runs-on: debian-trixie
+    container: "alpine:3.22"
+    steps:
+      - name: Install Node
+        run: |
+          apk add nodejs
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          apk add poetry jujutsu
+          poetry install --no-interaction --only main,test
+      - name: Run tests with pytest
+        run: |
+          export PATH="/root/.cargo/bin:$PATH"
+          poetry run pytest -vv --cov=reuse
