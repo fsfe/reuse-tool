@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-24 18:17+0000\n"
-"PO-Revision-Date: 2025-10-25 12:02+0000\n"
+"PO-Revision-Date: 2025-11-25 23:51+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
@@ -334,6 +334,8 @@ msgid ""
 "If LICENSE starts with LicenseRef-, then a corresponding empty file is "
 "created in the LICENSES/ directory."
 msgstr ""
+"Si LICENSE comienza con LicenseRef -, se crea un archivo vacío "
+"correspondiente en el directorio LICENSES/."
 
 #: src/reuse/cli/download.py:128
 msgid "Download all missing licenses detected in the project."
