@@ -14,6 +14,7 @@ on:
     paths:
       - "src/reuse/**.py"
       - "tests/**.py"
+      - ".forgejo/workflows/pijul.yaml"
 jobs:
   test-pijul:
     runs-on: debian-trixie
@@ -28,7 +29,7 @@ jobs:
       # of manually building it.
       - name: Set up Pijul
         run: |
-          apt-get install -y make libsodium-dev libclang-dev pkg-config libssl-dev libxxhash-dev libzstd-dev clang
+          apt-get install -y make libsodium-dev libclang-dev pkg-config libssl-dev libxxhash-dev libzstd-dev clang cargo
           cargo install --locked pijul --version "1.0.0-beta.6"
           pijul identity new --no-prompt --display-name 'Jane Doe' --email 'jdoe@example.com' 'jdoe'
       - name: Run tests with pytest
