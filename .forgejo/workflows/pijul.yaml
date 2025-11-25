@@ -31,6 +31,7 @@ jobs:
         run: |
           apt-get install -y make libsodium-dev libclang-dev pkg-config libssl-dev libxxhash-dev libzstd-dev clang cargo
           cargo install --locked pijul --version "1.0.0-beta.6"
+          export PATH="/root/.cargo/bin:$PATH"
           pijul identity new --no-prompt --display-name 'Jane Doe' --email 'jdoe@example.com' 'jdoe'
       - name: Run tests with pytest
         run: |
