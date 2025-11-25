@@ -69,9 +69,12 @@ Options
 
 .. option:: --root PATH
 
-  Set the root of the project to PATH. Normally this defaults to the root of the
-  current working directory's VCS repository, or to the current working
+  Set the root of the project to ``PATH``. Normally this defaults to the root of
+  the current working directory's VCS repository, or to the current working
   directory.
+
+  If ``PATH`` is a child directory of a VCS repository's root, then reuse's VCS
+  logic will not be enabled.
 
 .. option::  --help
 
