@@ -42,12 +42,11 @@ jobs:
 
   pylint-mypy:
     runs-on: debian-trixie
+    container: "nikolaik/python-nodejs:python3.10-nodejs24"
     steps:
       - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
-          apt-get update
-          apt-get install -y python3-poetry
           poetry install --no-interaction --only main,dev,test
       - name: Lint with Pylint
         run: |
@@ -58,12 +57,11 @@ jobs:
 
   black-prettier-isort-reuse:
     runs-on: debian-trixie
+    container: "nikolaik/python-nodejs:python3.10-nodejs24"
     steps:
       - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
-          apt-get update
-          apt-get install -y python3-poetry
           poetry install --no-interaction --only main,dev
           npm install -g prettier@3.0.3
       - name: Test formatting with black
@@ -77,12 +75,11 @@ jobs:
 
   docs:
     runs-on: debian-trixie
+    container: "nikolaik/python-nodejs:python3.10-nodejs24"
     steps:
       - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
-          apt-get update
-          apt-get install -y python3-poetry
           poetry install --no-interaction --only main,docs
       - name: Create docs with Sphinx
         run: |
