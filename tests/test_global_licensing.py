@@ -9,7 +9,7 @@ from inspect import cleandoc
 from pathlib import Path
 
 import pytest
-from conftest import RESOURCES_DIRECTORY, posix
+from conftest import RESOURCES_DIRECTORY, git, posix, vcs_params
 from debian.copyright import Copyright
 
 from reuse.copyright import (
@@ -30,7 +30,7 @@ from reuse.global_licensing import (
     ReuseDep5,
     ReuseTOML,
 )
-from reuse.vcs import VCSStrategyGit
+from reuse.vcs import VCSStrategyGit, VCSStrategyPijul
 
 # REUSE-IgnoreStart
 
@@ -811,20 +811,24 @@ class TestNestedReuseTOMLFindReuseTomls:
             fake_repository_reuse_toml / "src/REUSE.toml",
         }
 
-    def test_with_vcs_strategy(self, git_repository):
+    @vcs_params
+    def test_with_vcs_strategy(self, vcs_strategy, vcs_repo):
         """Ignore the correct files ignored by the repository."""
-        (git_repository / "REUSE.toml").write_text("version = 1")
-        (git_repository / "build/REUSE.toml").write_text("version =1")
-        (git_repository / "src/REUSE.toml").write_text("version = 1")
+        if vcs_strategy in [VCSStrategyPijul]:
+            pytest.skip("this test is too hard to write for pijul")
+        (vcs_repo / "REUSE.toml").write_text("version = 1")
+        (vcs_repo / "build/REUSE.toml").write_text("version =1")
+        (vcs_repo / "src/REUSE.toml").write_text("version = 1")
 
         result = NestedReuseTOML.find_reuse_tomls(
-            git_repository, vcs_strategy=VCSStrategyGit(git_repository)
+            vcs_repo, vcs_strategy=vcs_strategy(vcs_repo)
         )
         assert set(result) == {
-            git_repository / "REUSE.toml",
-            git_repository / "src/REUSE.toml",
+            vcs_repo / "REUSE.toml",
+            vcs_repo / "src/REUSE.toml",
         }
 
+    @git
     def test_includes_submodule(self, submodule_repository):
         """include_submodules is correctly implemented."""
         (submodule_repository / "REUSE.toml").write_text("version = 1")

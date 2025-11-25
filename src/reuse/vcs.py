@@ -29,11 +29,11 @@ if TYPE_CHECKING:
 
 _LOGGER = logging.getLogger(__name__)
 
-FOSSIL_EXE = shutil.which("fossil")
-GIT_EXE = shutil.which("git")
-HG_EXE = shutil.which("hg")
-JUJUTSU_EXE = shutil.which("jj")
-PIJUL_EXE = shutil.which("pijul")
+FOSSIL_EXE = shutil.which("fossil") or ""
+GIT_EXE = shutil.which("git") or ""
+HG_EXE = shutil.which("hg") or ""
+JUJUTSU_EXE = shutil.which("jj") or ""
+PIJUL_EXE = shutil.which("pijul") or ""
 
 
 def _find_ancestor(
@@ -154,7 +154,7 @@ class VCSStrategyFossil(VCSStrategy):
             raise NotADirectoryError()
         ckout_db = _find_ancestor(path, ".fslckout", is_directory=False)
         if ckout_db is not None:
-            return ckout_db.parent
+            return Path(os.path.relpath(ckout_db.parent, cwd))
         return None
 
 
@@ -474,7 +474,7 @@ class VCSStrategyPijul(VCSStrategy):
 
         dot_pijul = _find_ancestor(path, ".pijul")
         if dot_pijul is not None:
-            return dot_pijul.parent
+            return Path(os.path.relpath(dot_pijul.parent, cwd))
         return None
 
 
