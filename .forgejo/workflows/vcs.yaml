@@ -56,3 +56,16 @@ jobs:
         run: |
           export PATH="/root/.cargo/bin:$PATH"
           poetry run pytest -vv --cov=reuse
+
+  test-fossil:
+    runs-on: debian-trixie
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-poetry fossil
+          poetry install --no-interaction --only main,test
+      - name: Run tests with pytest
+        run: |
+          poetry run pytest -vv --cov=reuse
