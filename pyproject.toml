@@ -86,6 +86,7 @@ chardet = ["chardet"]
 [tool.poetry.group.test.dependencies]
 pytest = ">=6.0.0"
 pytest-cov = ">=2.10.0"
+pytest-lazy-fixtures = ">=1.1.1"
 freezegun = ">=1.0.0"
 
 [tool.poetry.group.docs.dependencies]
