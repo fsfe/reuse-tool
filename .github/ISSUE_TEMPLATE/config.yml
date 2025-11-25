@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2025 Free Software Foundation Europe e.V. <https://fsfe.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+blank_issues_enabled: false
+contact_links:
+  - name: REUSE issue tracker at Codeberg
+    url: https://codeberg.org/fsfe/reuse-tool/issues/new
+    about: Please file issues in the Codeberg issue tracker
