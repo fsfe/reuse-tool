@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-24 18:17+0000\n"
-"PO-Revision-Date: 2025-07-11 11:01+0000\n"
+"PO-Revision-Date: 2025-11-25 23:51+0000\n"
 "Last-Translator: Bonnie <bonnie@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "de/>\n"
@@ -16,17 +16,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
-msgstr ""
+msgstr "Nicht erkannte Datei '{path}' übersprungen."
 
 #: src/reuse/_annotate.py:100
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr ""
+msgstr "'{path}' wird nicht erkannt; erstelle '{path}.license'"
 
 #: src/reuse/_annotate.py:116
 #, fuzzy, python-brace-format
