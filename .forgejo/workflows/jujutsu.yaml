@@ -28,8 +28,7 @@ jobs:
       - name: Set up Jujutsu
         run: |
           apt-get install -y build-essential cargo
-          cargo install cargo-binstall
-          cargo binstall --strategies crate-meta-data jj-cli --no-confirm
+          cargo install --locked jj-cli --version "0.33.0"
           export PATH=~/.cargo/bin:$PATH
       - name: Run tests with pytest
         run: |
