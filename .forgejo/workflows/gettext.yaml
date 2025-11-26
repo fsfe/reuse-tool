@@ -46,10 +46,10 @@ jobs:
         if: ${{ steps.diff.outputs.changed != '0' }}
         run: |
           git config --global user.name "fsfe-system"
-          git config --global user.email "<noreply@fsfe.org>"
+          git config --global user.email "<>"
           git add po/reuse.pot po/*.po
           git commit -m "Update reuse.pot"
-          git push https://fsfe-system:${{ secrets.FSFE_SYSTEM_TOKEN }}@codeberg.org/fsfe/reuse-tool HEAD:main
+          git push origin HEAD:main
       - name: Unlock Weblate
         run: |
           wlc --url https://hosted.weblate.org/api/ --key ${{ secrets.WEBLATE_KEY }} pull fsfe/reuse-tool
