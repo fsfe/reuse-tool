@@ -49,8 +49,7 @@ jobs:
           git config --global user.email "<>"
           git add po/reuse.pot po/*.po
           git commit -m "Update reuse.pot"
-          git remote set-url origin https://fsfe-system:${{ secrets.FSFE_SYSTEM_TOKEN }}@codeberg.org/fsfe/reuse-tool
-          git push origin main
+          git push https://fsfe-system:${{ secrets.FSFE_SYSTEM_TOKEN }}@codeberg.org/fsfe/reuse-tool HEAD:main
       - name: Unlock Weblate
         run: |
           wlc --url https://hosted.weblate.org/api/ --key ${{ secrets.WEBLATE_KEY }} pull fsfe/reuse-tool
