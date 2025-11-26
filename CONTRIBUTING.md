@@ -70,6 +70,7 @@ Next, you'll find the following commands handy:
 - `poetry run pylint src`
 - `poetry run mypy`
 - `make docs`
+- `pre-commit run --all` (runs all linters, including `prettier`)
 
 ### Make changes
 
