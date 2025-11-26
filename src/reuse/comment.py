@@ -879,6 +879,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".yml": PythonCommentStyle,
     ".yrl": TexCommentStyle,
     ".zig": CppSingleCommentStyle,
+    ".zon": CppSingleCommentStyle,
     ".zsh": PythonCommentStyle,
 }
 
