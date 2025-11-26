@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-11-25 23:51+0000\n"
+"PO-Revision-Date: 2025-11-27 14:13+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -955,6 +955,8 @@ msgid ""
 "'{path}' is inside of a '{exe}' repository, but it is not its root "
 "directory. ignoring the VCS."
 msgstr ""
+"'{path}' está dentro de un repositorio '{exe}', pero no es su directorio "
+"raíz. ignorando los VCS."
 
 #: src/reuse/project.py:491
 msgid ""
@@ -1232,9 +1234,8 @@ msgid "Could not open file {filename!r}: {message}"
 msgstr "No se pudo abrir el archivo {filename!r}: {message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:156
-#, fuzzy
 msgid "Usage:"
-msgstr "uso: "
+msgstr "uso:"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:199
 msgid "Argument {name!r} takes {nargs} values."
