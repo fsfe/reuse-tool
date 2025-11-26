@@ -157,6 +157,7 @@ possible, run `poetry lock --no-update`.
 
 ### After release
 
+- Make a release at <https://codeberg.org/fsfe/reuse-tool/releases>.
 - Update readthedocs (if not happened automatically)
 - Update API worker: https://git.fsfe.org/reuse/api-worker#user-content-server
 - Make sure package is updated in distros (contact maintainers)
