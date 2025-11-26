@@ -95,10 +95,6 @@ def is_path_ignored(
                 return True
     # Directory.
     elif stat.S_ISDIR(stat_result.st_mode):
-        if subset_files is not None and not any(
-            Path(file_).is_relative_to(path.resolve()) for file_ in subset_files
-        ):
-            return True
         for pattern in _IGNORE_DIR_PATTERNS:
             if pattern.match(name):
                 return True
