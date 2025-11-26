@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-24 18:17+0000\n"
+"POT-Creation-Date: 2025-11-26 02:18+0000\n"
 "PO-Revision-Date: 2025-10-22 13:02+0000\n"
 "Last-Translator: \"T. E. Kalaycı\" <tekrei@members.fsf.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -916,7 +916,14 @@ msgstr ""
 "{identifier}, hem {path} hem de {other_path} için SPDX Lisans "
 "Tanımlayıcısıdır"
 
-#: src/reuse/project.py:480
+#: src/reuse/project.py:482
+#, python-brace-format
+msgid ""
+"'{path}' is inside of a '{exe}' repository, but it is not its root "
+"directory. ignoring the VCS."
+msgstr ""
+
+#: src/reuse/project.py:491
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
