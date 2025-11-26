@@ -20,12 +20,9 @@ from io import BytesIO
 import pytest
 from conftest import RESOURCES_DIRECTORY, chardet
 
-from reuse.copyright import (
-    CopyrightNotice,
-    CopyrightPrefix,
-    ReuseInfo,
-    SpdxExpression,
-)
+from reuse.copyright import CopyrightNotice, CopyrightPrefix
+from reuse.copyright import FourDigitString as F
+from reuse.copyright import ReuseInfo, SpdxExpression, YearRange
 from reuse.exceptions import NoEncodingModuleError
 from reuse.extract import (
     contains_reuse_info,
@@ -188,25 +185,33 @@ class TestExtractReuseInfo:
             CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
         }
 
-    def test_special_endings(self):
+    @pytest.mark.parametrize(
+        "text",
+        [
+            '<tag value="Copyright 2019 Jane Doe">',
+            '<tag value="Copyright 2019 Jane Doe" >',
+            '<tag value="Copyright 2019 Jane Doe"/>',
+            '<tag value="Copyright 2019 Jane Doe" />',
+            "<tag value='Copyright 2019 Jane Doe'>",
+            "<tag value='Copyright 2019 Jane Doe' >",
+            "<tag value='Copyright 2019 Jane Doe'/>",
+            "<tag value='Copyright 2019 Jane Doe' />",
+            "[Copyright 2019 Jane Doe] ::",
+            '(comment 1 "Copyright 2019 Jane Doe")',
+        ],
+    )
+    def test_special_endings(self, text):
         """Strip some non-comment-style endings from the end of copyright and
         licensing information.
         """
-        text = cleandoc(
-            """
-            <tag value="Copyright 2019 Jane Doe">
-            <tag value="Copyright 2019 John Doe" >
-            <tag value="Copyright 2019 Joe Somebody" />
-            <tag value='Copyright 2019 Alice'>
-            <tag value='Copyright 2019 Bob' >
-            <tag value='Copyright 2019 Eve' />
-            [Copyright 2019 Ajnulo] ::
-            """
-        )
         result = extract_reuse_info(text)
-        for item in result.copyright_notices:
-            assert ">" not in str(item)
-            assert "] ::" not in str(item)
+        assert result.copyright_notices == {
+            CopyrightNotice(
+                "Jane Doe",
+                prefix=CopyrightPrefix.STRING,
+                years=(YearRange(F("2019")),),
+            )
+        }
 
     def test_special_ending_with_spacing_after(self):
         """Strip spacing after a special ending."""
