@@ -162,6 +162,8 @@ _END_PATTERN = r"\s*(?:{})*\s*$".format(
                     r"'\s*/*>",
                     # ex: [SPDX-License-Identifier: GPL-3.0-or-later] ::
                     r"\]\s*::",
+                    # ex: (comment 1 "Copyright Jane Doe")
+                    r'"\s*\)',
                 ),
             )
         )
