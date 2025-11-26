@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-10-09 21:52+0000\n"
+"PO-Revision-Date: 2025-11-26 15:50+0000\n"
 "Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "it/>\n"
@@ -15,22 +15,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
-msgstr ""
+msgstr "File non riconosciuto saltato '{path}'"
 
 #: src/reuse/_annotate.py:100
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr ""
+msgstr "'{path}' non è riconosciuto; creazione di '{path}.license'"
 
 #: src/reuse/_annotate.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "File con informazioni sulla licenza: {count} / {total}"
+msgstr "Il file saltato '{path}' contiene già informazioni REUSE"
 
 #: src/reuse/_annotate.py:145
 #, python-brace-format
@@ -55,9 +55,8 @@ msgid "Successfully changed header of {path}"
 msgstr "Instestazione di {path} aggiornata"
 
 #: src/reuse/cli/annotate.py:66
-#, fuzzy
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "è necessario specificare il parametro --copyright o --license"
+msgstr "Parametro necessario '--copyright', '--license' o '--contributor'."
 
 #: src/reuse/cli/annotate.py:127
 #, fuzzy
