@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2023 DB Systel GmbH
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: CC0-1.0
 
 # Build reuse-tool and lint 3rd party repositories for which we know that they
 # are reliably REUSE compliant, rather complex, use several annotation
