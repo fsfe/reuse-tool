@@ -18,7 +18,7 @@ on:
 jobs:
   third-party-lint:
     runs-on: debian-trixie
-    container: "nikolaik/python-nodejs:python3.10-nodejs24"
+    container: "nikolaik/python-nodejs:python3.10-nodejs24-slim"
     strategy:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
@@ -41,7 +41,7 @@ jobs:
 
   third-party-lint-expect-failure:
     runs-on: debian-trixie
-    container: "nikolaik/python-nodejs:python3.10-nodejs24"
+    container: "nikolaik/python-nodejs:python3.10-nodejs24-slim"
     strategy:
       # do not abort the whole test job if one combination in the matrix fails
       fail-fast: false
