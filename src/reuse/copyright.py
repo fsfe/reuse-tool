@@ -550,12 +550,16 @@ class CopyrightNotice:
         name = _COMMA_SPACE_PATTERN.sub("", name)
         years: tuple[YearRange, ...] = tuple()
         if year_ranges_substrings:
-            years = tuple(
-                chain.from_iterable(
-                    YearRange.tuple_from_string(match.group("years"))
-                    for match in year_ranges_substrings
+            # Corner case where the notice only contains year ranges.
+            if not name:
+                name = re_text
+            else:
+                years = tuple(
+                    chain.from_iterable(
+                        YearRange.tuple_from_string(match.group("years"))
+                        for match in year_ranges_substrings
+                    )
                 )
-            )
         result = cls(
             name=name,
             prefix=prefix,
