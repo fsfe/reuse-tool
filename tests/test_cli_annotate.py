@@ -1903,7 +1903,7 @@ class TestAnnotateMerge:
 
     def test_no_year_in_existing(self, fake_repository, mock_date_today):
         """This checks the issue reported in
-        <https://github.com/fsfe/reuse-tool/issues/866>. If an existing
+        <https://codeberg.org/fsfe/reuse-tool/issues/866>. If an existing
         copyright line doesn't have a year, everything should still work.
         """
         (fake_repository / "foo.py").write_text(

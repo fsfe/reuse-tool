@@ -43,7 +43,7 @@ _IGNORE_FILE_PATTERNS = [
     re.compile(r"^\.hgtags$"),
     re.compile(r".*\.license$"),
     re.compile(r"^REUSE\.toml$"),
-    # Workaround for https://github.com/fsfe/reuse-tool/issues/229
+    # Workaround for https://codeberg.org/fsfe/reuse-tool/issues/229
     re.compile(r"^CAL-1.0(-Combined-Work-Exception)?(\..+)?$"),
     re.compile(r"^SHL-2.1(\..+)?$"),
 ]

@@ -48,5 +48,8 @@ SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = "changelog.d/**/*.md"
+# override because fragments may contain examples which we don't want to be
+# linted by REUSE.
+precedence = "override"
 SPDX-FileCopyrightText = "REUSE contributors"
 SPDX-License-Identifier = "CC-BY-SA-4.0 OR GPL-3.0-or-later"
