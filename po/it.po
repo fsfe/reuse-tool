@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-11-26 15:50+0000\n"
+"PO-Revision-Date: 2025-11-27 14:13+0000\n"
 "Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "it/>\n"
@@ -73,6 +73,8 @@ msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
+"'{path}' non supporta commenti su una sola riga, non utilizzare '--single-"
+"line'."
 
 #: src/reuse/cli/annotate.py:167
 #, python-brace-format
@@ -80,16 +82,17 @@ msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
+"'{path}' non supporta commenti su più righe, non utilizzare '--multi-line'."
 
 #: src/reuse/cli/annotate.py:213
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "il modello {template} non è stato trovato"
+msgstr "Modello {template} non trovato."
 
 #: src/reuse/cli/annotate.py:236
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{year}' is not a valid year range."
-msgstr "'{}' non è una espressione valida SPDX, interruzione"
+msgstr "'{year}' non è un intervallo di anni valido."
 
 #: src/reuse/cli/annotate.py:245
 #, python-brace-format
@@ -97,90 +100,88 @@ msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
+"L'anno del tuo sistema operativo è impostato su \"{year}\". Questo valore "
+"non è composto da quattro cifre e non è supportato."
 
 #: src/reuse/cli/annotate.py:287
-#, fuzzy
 msgid "Add copyright and licensing into the headers of files."
-msgstr ""
-"aggiunge le informazioni sul copyright e sulla licenza nell'intestazione dei "
-"file"
+msgstr "Aggiungere copyright e licenze nelle intestazioni dei file."
 
 #: src/reuse/cli/annotate.py:290
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
+"Utilizzando --copyright e --license, è possibile specificare quali titolari "
+"di copyright e licenze aggiungere alle intestazioni dei file specificati."
 
 #: src/reuse/cli/annotate.py:296
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Utilizzando --contributor, si può specificare le persone o le entità che "
+"hanno contribuito ma non sono titolari del copyright dei file specificati."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:309
 msgid "COPYRIGHT"
-msgstr ""
+msgstr "COPYRIGHT"
 
 #: src/reuse/cli/annotate.py:312
-#, fuzzy
 msgid "Copyright holder, repeatable."
-msgstr "dichiarazione del copyright, ripetibile"
+msgstr "Titolare del copyright, ripetibile."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:319
 msgid "SPDX_IDENTIFIER"
-msgstr ""
+msgstr "IDENTIFICATIVO_SPDX"
 
 #: src/reuse/cli/annotate.py:322
-#, fuzzy
 msgid "SPDX License Identifier, repeatable."
-msgstr "Identificativo SPDX, ripetibile"
+msgstr "Identificativo licenza SPDX, ripetibile."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:328
 msgid "CONTRIBUTOR"
-msgstr ""
+msgstr "CONTRIBUITORE"
 
 #: src/reuse/cli/annotate.py:331
-#, fuzzy
 msgid "File contributor, repeatable."
-msgstr "Identificativo SPDX, ripetibile"
+msgstr "Contribuitore al file, ripetibile."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:338
 msgid "YEAR"
-msgstr ""
+msgstr "ANNO"
 
 #: src/reuse/cli/annotate.py:343
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
+"Anno della nota di copyright. È possibile definire più anni o un intervallo "
+"di anni."
 
 #: src/reuse/cli/annotate.py:353
-#, fuzzy
 msgid "Comment style to use."
-msgstr "stile dei commenti da usare, opzionale"
+msgstr "Stile commenti da usare."
 
 #: src/reuse/cli/annotate.py:363
-#, fuzzy
 msgid "Copyright prefix to use."
-msgstr "stile dei commenti da usare, opzionale"
+msgstr "Prefisso del Copyright da usare."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:375
 msgid "TEMPLATE"
-msgstr ""
+msgstr "MODELLO"
 
 #: src/reuse/cli/annotate.py:377
-#, fuzzy
 msgid "Name of template to use."
-msgstr "nome del template da usare, opzionale"
+msgstr "Nome del modello da usare."
 
 #: src/reuse/cli/annotate.py:384
-#, fuzzy
 msgid "Do not include year in copyright notice."
-msgstr "non include l'anno nella dichiarazione"
+msgstr "Non includere l'anno nella dichiarazione di copyright."
 
 #: src/reuse/cli/annotate.py:390
 #, fuzzy
