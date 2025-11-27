@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 Free Software Foundation Europe e.V.
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Test compliance with latest release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  reuse:
+    runs-on: debian-trixie
+    container: fsfe/reuse:latest
+    steps:
+      - run: |
+          apk add nodejs
+      - uses: actions/checkout@v5
+      - name: Verify REUSE compliance
+        run: |
+          reuse lint
