@@ -668,6 +668,20 @@ class TestCopyrightNoticeFromString:
     @pytest.mark.parametrize(
         "text",
         [
+            "2017",
+            "2017-2018",
+            "2017 2018",
+            "2017, 2018",
+        ],
+    )
+    def test_only_year(self, text):
+        """If the notice contains only a year, interpret it as a name."""
+        notice = CopyrightNotice.from_string(f"Copyright {text}")
+        assert notice == CopyrightNotice(text, prefix=CopyrightPrefix.STRING)
+
+    @pytest.mark.parametrize(
+        "text",
+        [
             "2015  - 2017",
             "2015 -  2017",
             "2015  -  2017",
