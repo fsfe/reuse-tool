@@ -347,8 +347,9 @@ You can find the full contribution guidelines at
 
 ## Licensing
 
-This work is licensed under multiple licences. Because keeping this section
-up-to-date is challenging, here is a brief summary as of April 2024:
+This repository is itself REUSE-compliant. The licensing of each file can be
+divined with `reuse spdx` or `reuse lint --json`, but here is a best-effort
+summary:
 
 - All original source code is licensed under GPL-3.0-or-later.
 - All documentation is licensed under CC-BY-SA-4.0.
@@ -356,5 +357,3 @@ up-to-date is challenging, here is a brief summary as of April 2024:
 - Some code borrowed from
   [spdx/tools-python](https://github.com/spdx/tools-python) is licensed under
   Apache-2.0.
-
-For more accurate information, check the individual files.
