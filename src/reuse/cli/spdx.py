@@ -70,7 +70,7 @@ def spdx(
 
     # The SPDX spec mandates that a creator must be specified when a license
     # conclusion is made, so here we enforce that. More context:
-    # https://github.com/fsfe/reuse-tool/issues/586#issuecomment-1310425706
+    # https://codeberg.org/fsfe/reuse-tool/issues/586
     if (
         add_license_concluded
         and creator_person is None

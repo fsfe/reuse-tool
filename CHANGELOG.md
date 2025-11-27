@@ -88,8 +88,8 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 This release adds a simple feature as a workaround for a bug that will be
 resolved in a later version. The bug is described in
-<https://github.com/fsfe/reuse-tool/issues/1244>, and can be summarised as: When
-`charset-normalizer` is used to detect the encoding of a file, it will
+<https://codeberg.org/fsfe/reuse-tool/issues/1244>, and can be summarised as:
+When `charset-normalizer` is used to detect the encoding of a file, it will
 erroneously detect a UTF-8 file as having no encoding (i.e. a binary file) when
 the 2048th byte is a non-final byte of a multi-byte glyph.
 
@@ -476,7 +476,7 @@ This changeset also contains the changes of v3.1.0a1.
 
 This release contains a lot of small improvements and changes without anything
 big per se. Rather, it is made in advance of a release which will contain a
-single feature: [REUSE.toml](https://github.com/fsfe/reuse-tool/issues/779), a
+single feature: [REUSE.toml](https://codeberg.org/fsfe/reuse-tool/issues/779), a
 replacement for `.reuse/dep5`. `.reuse/dep5` will still be supported as a
 deprecated feature for some time.
 
