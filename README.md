@@ -58,13 +58,10 @@ a step-by-step guide through these three steps. The
 copyright, and more complex use cases. Advanced users and integrators will find
 the [full specification](https://reuse.software/spec) helpful.
 
-This tool exists to facilitate the developer in complying with the above
-recommendations.
-
 There are [other tools](https://reuse.software/comparison) that have a lot more
 features and functionality surrounding the analysis and inspection of copyright
-and licenses in software projects. The REUSE helper tool, on the other hand, is
-solely designed to be a simple tool to assist in compliance with the REUSE
+and licenses in software projects. The REUSE tool, on the other hand, is solely
+designed to be a simple tool to assist in compliance with the REUSE
 recommendations.
 
 ## Install
