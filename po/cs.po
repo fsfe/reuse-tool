@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-11-10 11:51+0000\n"
+"PO-Revision-Date: 2025-11-30 09:00+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -94,9 +94,9 @@ msgid "Template '{template}' could not be found."
 msgstr "Šablonu {template} se nepodařilo najít."
 
 #: src/reuse/cli/annotate.py:236
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{year}' is not a valid year range."
-msgstr "{value!r} není platný boolean."
+msgstr "'{year}' není platný rozsah let."
 
 #: src/reuse/cli/annotate.py:245
 #, python-brace-format
@@ -104,6 +104,8 @@ msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
+"Rok vašeho operačního systému je nastaven na '{year}'. Toto číslo není "
+"čtyřmístné a není podporováno."
 
 #: src/reuse/cli/annotate.py:287
 msgid "Add copyright and licensing into the headers of files."
@@ -131,9 +133,8 @@ msgid "COPYRIGHT"
 msgstr "COPYRIGHT"
 
 #: src/reuse/cli/annotate.py:312
-#, fuzzy
 msgid "Copyright holder, repeatable."
-msgstr "Prohlášení o autorských právech, opakovatelné."
+msgstr "Držitel autorských práv, opakovatelné."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:319
@@ -161,7 +162,7 @@ msgstr "ROK"
 #: src/reuse/cli/annotate.py:343
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
-msgstr ""
+msgstr "Rok autorského práva. Můžete definovat více let nebo rozsah let."
 
 #: src/reuse/cli/annotate.py:353
 msgid "Comment style to use."
@@ -181,16 +182,12 @@ msgid "Name of template to use."
 msgstr "Název šablony, která se má použít."
 
 #: src/reuse/cli/annotate.py:384
-#, fuzzy
 msgid "Do not include year in copyright notice."
-msgstr "V prohlášení o autorských právech neuvádějte rok."
+msgstr "Do upozornění o autorských právech neuvádějte rok."
 
 #: src/reuse/cli/annotate.py:390
-#, fuzzy
 msgid "Merge copyright notices if they are identical except for their years."
-msgstr ""
-"Slučte řádky s autorskými právy, pokud jsou prohlášení o autorských právech "
-"totožná."
+msgstr "Sloučte informace o autorských právech, pokud se liší pouze rokem."
 
 #: src/reuse/cli/annotate.py:398
 msgid "Force single-line comment style."
@@ -310,19 +307,20 @@ msgid "Download a license and place it in the LICENSES/ directory."
 msgstr "Stáhněte si licenci a umístěte ji do adresáře LICENSES/."
 
 #: src/reuse/cli/download.py:109
-#, fuzzy
 msgid ""
 "LICENSE should be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
 msgstr ""
-"LICENSE musí být platný identifikátor licence SPDX. Pro stažení více licencí "
-"můžete zadat LICENSE vícekrát."
+"LICENSE by měl být platný identifikátor licence SPDX. LICENSE můžete zadat "
+"vícekrát, abyste stáhli více licencí."
 
 #: src/reuse/cli/download.py:115
 msgid ""
 "If LICENSE starts with LicenseRef-, then a corresponding empty file is "
 "created in the LICENSES/ directory."
 msgstr ""
+"Pokud LICENSE začíná LicenseRef-, vytvoří se odpovídající prázdný soubor v "
+"adresáři LICENSES/."
 
 #: src/reuse/cli/download.py:128
 msgid "Download all missing licenses detected in the project."
@@ -597,6 +595,8 @@ msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
+"REUSE_ENCODING_MODULE musí mít hodnotu v {modules}; má hodnotu'{env_module}"
+"'. Přerušeno."
 
 #: src/reuse/extract.py:84
 msgid ""
@@ -604,18 +604,25 @@ msgid ""
 "successfully imported. Re-read the installation instructions for the reuse "
 "package, or try the following:"
 msgstr ""
+"Nepodařilo se úspěšně importovat žádný podporovaný modul, který dokáže "
+"detekovat kódování souborů. Přečtěte si znovu instalační pokyny pro balíček "
+"reuse nebo zkuste následující:"
 
 #: src/reuse/extract.py:90
 msgid ""
 "- If you are running a Linux distribution, try your equivalent of `apt "
 "install file` or `dnf install file`."
 msgstr ""
+"- Pokud používáte distribuci Linuxu, zkuste ekvivalent příkazu `apt install "
+"file` nebo `dnf install file`."
 
 #: src/reuse/extract.py:95
 msgid ""
 "- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx' with 'pip' "
 "if you are not using pipx."
 msgstr ""
+"- Spusťte příkaz ` pipx install reuse[charset-normalizer]`. Pokud "
+"nepoužíváte pipx, nahraďte 'pipx' za 'pip'."
 
 #: src/reuse/extract.py:487
 #, python-brace-format
@@ -632,6 +639,8 @@ msgid ""
 "extracting REUSE information from '{path}' (encoding {encoding}, encoding "
 "module {module}, newline {newline})"
 msgstr ""
+"extrahování informací REUSE z '{path}' "
+"(encoding {encoding}, encoding module {module}, newline {newline})"
 
 #: src/reuse/global_licensing.py:92
 #, python-brace-format
@@ -667,9 +676,9 @@ msgstr ""
 "Hodnota 'precedence' musí být jedna z {precedence_vals} (got {received})"
 
 #: src/reuse/global_licensing.py:219
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not parse '{notice}'"
-msgstr "Nepodařilo se analyzovat '{expression}'"
+msgstr "Nelze analyzovat '{notice}'"
 
 #: src/reuse/header.py:103
 msgid "generated comment is missing copyright lines or license expressions"
@@ -843,14 +852,12 @@ msgid "deprecated license"
 msgstr "zastaralá licence"
 
 #: src/reuse/lint.py:355
-#, fuzzy
 msgid "license without file extension"
-msgstr "Licence bez přípony souboru:"
+msgstr "licence bez přípony souboru"
 
 #: src/reuse/lint.py:360
-#, fuzzy
 msgid "unused license"
-msgstr "Nepoužité licence:"
+msgstr "nepoužité licence"
 
 #: src/reuse/project.py:253
 #, python-brace-format
