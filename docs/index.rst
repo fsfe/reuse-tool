@@ -14,6 +14,14 @@ reuse documentation
 This is the documentation for the REUSE tool. You may find more information
 about REUSE at `<https://reuse.software>`_.
 
+.. important::
+  If you are new to REUSE, you should start with
+  `the tutorial <https://reuse.software/tutorial/>`__, which is a
+  lightning-quick introduction to the fundamentals of REUSE. You may also want
+  to peruse the
+  `frequently asked questions <https://reuse.software/faq/>`__ to learn about
+  copyright, licensing, and more complex use cases.
+
 .. toctree::
    :maxdepth: 2
 
