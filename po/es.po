@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-11-27 14:13+0000\n"
+"PO-Revision-Date: 2025-12-01 13:00+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -347,13 +347,12 @@ msgid "Path to download to."
 msgstr "Ruta a la que descargar."
 
 #: src/reuse/cli/download.py:142
-#, fuzzy
 msgid ""
 "Source from which to copy license files; either a directory that contains "
 "the file or the file itself."
 msgstr ""
-"Fuente desde la que copiar las licencias LicenseRef- personalizadas, ya sea "
-"un directorio que contenga el archivo o el propio archivo"
+"Fuente desde la que copiar los archivos de licencias; ya sea un directorio "
+"que contenga el archivo o el propio archivo"
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:149
