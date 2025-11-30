@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-11-30 09:00+0000\n"
+"PO-Revision-Date: 2025-12-01 13:00+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
 ">\n"
@@ -331,13 +331,12 @@ msgid "Path to download to."
 msgstr "Cesta ke stažení."
 
 #: src/reuse/cli/download.py:142
-#, fuzzy
 msgid ""
 "Source from which to copy license files; either a directory that contains "
 "the file or the file itself."
 msgstr ""
-"Zdroj, ze kterého se kopírují vlastní licence LicenseRef- nebo adresář, "
-"který soubor obsahuje, nebo samotný soubor."
+"Zdroj, ze kterého se mají kopírovat licenční soubory; buď adresář obsahující "
+"soubor, nebo samotný soubor."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:149
@@ -918,6 +917,8 @@ msgid ""
 "'{path}' is inside of a '{exe}' repository, but it is not its root "
 "directory. ignoring the VCS."
 msgstr ""
+"'{path}' se nachází uvnitř úložiště '{exe}', ale není jeho kořenovým "
+"adresářem. Ignorování VCS."
 
 #: src/reuse/project.py:491
 msgid ""
@@ -1020,6 +1021,11 @@ msgid ""
 "not meant to be valid, put it between 'REUSE-IgnoreStart' and 'REUSE-"
 "IgnoreEnd' comments."
 msgstr ""
+"Opravte neplatné výrazy licence SPDX: V jednom nebo více souborech se "
+"nacházejí výrazy licence SPDX, které nelze analyzovat. Zkontrolujte, zda je "
+"hodnota následující za „SPDX-License-Identifier:“ správná. Pokud zjištěný "
+"výraz nemá být platný, vložte jej mezi komentáře „REUSE-IgnoreStart“ a "
+"„REUSE-IgnoreEnd“."
 
 #: src/reuse/report.py:596
 msgid ""
@@ -1050,7 +1056,7 @@ msgstr "{editor}: Úpravy se nezdařily: {e}"
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1141
 #, python-brace-format
 msgid "{text} {deprecated_message}"
-msgstr ""
+msgstr "{text} {deprecated_message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1160
 msgid "Options"
@@ -1065,9 +1071,8 @@ msgstr[1] "Má ({args}) neočekávané argumenty navíc"
 msgstr[2] "Má ({args}) neočekávaných argumentů navíc"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1241
-#, fuzzy
 msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
-msgstr "Upozornění na zastarání: Příkaz {name!r} je zastaralý."
+msgstr "DeprecationWarning: Příkaz {name!r} je zastaralý.{extra_message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1425
 msgid "Aborted!"
@@ -1098,10 +1103,9 @@ msgstr[1] "Přijímá hodnoty {nargs}, ale byly zadány hodnoty {len}."
 msgstr[2] "Přijímá hodnoty {nargs}, ale byly zadány hodnoty {len}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2505
-#, fuzzy
 msgid ""
 "DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
-msgstr "Upozornění na zastarání: Příkaz {name!r} je zastaralý."
+msgstr "DeprecationWarning: {param_type} {name!r} je zastaralý.{extra_message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2956
 #, python-brace-format
@@ -1190,9 +1194,8 @@ msgid "Could not open file {filename!r}: {message}"
 msgstr "Nelze otevřít soubor {filename!r}: {message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:156
-#, fuzzy
 msgid "Usage:"
-msgstr "použití: "
+msgstr "Použití:"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:199
 msgid "Argument {name!r} takes {nargs} values."
@@ -1276,9 +1279,8 @@ msgid "{value} is not in the range {range}."
 msgstr "{value} není v rozsahu {range}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:719
-#, fuzzy
 msgid "{value!r} is not a valid boolean. Recognized values: {states}"
-msgstr "{value!r} není platný boolean."
+msgstr "{value!r} není platná logická hodnota. Rozpoznané hodnoty: {states}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:747
 msgid "{value!r} is not a valid UUID."
