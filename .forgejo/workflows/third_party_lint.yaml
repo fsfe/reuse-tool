@@ -33,6 +33,8 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --no-interaction
+          apt-get update
+          apt-get install -y git
       # Clone and lint repositories
       - name: Clone and lint repositories
         run:
@@ -52,6 +54,8 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --no-interaction
+          apt-get update
+          apt-get install -y git
       # Clone and lint repositories
       - name: Clone and lint repositories
         run:
