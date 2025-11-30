@@ -18,7 +18,20 @@ on:
       - ".forgejo/workflows/vcs.yaml"
 
 jobs:
-  test-pijul:
+  mercurial:
+    runs-on: debian-trixie
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-poetry mercurial
+          poetry install --no-interaction --only main,test
+      - name: Run tests with pytest
+        run: |
+          poetry run pytest -vv --cov=reuse
+
+  pijul:
     runs-on: debian-trixie
     # This version of Alpine is old because of this regression:
     # <https://nest.pijul.com/pijul/pijul/discussions/953>
@@ -40,7 +53,7 @@ jobs:
           export PATH="/root/.cargo/bin:$PATH"
           poetry run pytest -vv --cov=reuse
 
-  test-jujutsu:
+  jujutsu:
     runs-on: debian-trixie
     container: "alpine:3.22"
     steps:
@@ -57,7 +70,7 @@ jobs:
           export PATH="/root/.cargo/bin:$PATH"
           poetry run pytest -vv --cov=reuse
 
-  test-fossil:
+  fossil:
     runs-on: debian-trixie
     steps:
       - uses: actions/checkout@v5
