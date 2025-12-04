@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-12-01 13:00+0000\n"
+"PO-Revision-Date: 2025-12-05 13:00+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -133,9 +133,8 @@ msgid "COPYRIGHT"
 msgstr "DERECHOS DE AUTOR"
 
 #: src/reuse/cli/annotate.py:312
-#, fuzzy
 msgid "Copyright holder, repeatable."
-msgstr "Declaración de derechos de autor, repetible."
+msgstr "Titular de los derechos de autor, repetible."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:319
