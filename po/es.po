@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-12-05 13:00+0000\n"
+"PO-Revision-Date: 2025-12-08 13:00+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -1346,9 +1346,8 @@ msgid "{name} {filename!r} is a file."
 msgstr "{name} {filename!r} es un archivo."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1005
-#, fuzzy
 msgid "{name} {filename!r} is a directory."
-msgstr "{name} '{filename}' es un directorio."
+msgstr "{name} {filename} es un directorio."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1014
 msgid "{name} {filename!r} is not readable."
