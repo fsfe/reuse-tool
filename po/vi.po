@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-12-19 07:00+0000\n"
+"Last-Translator: Nguyễn Gia Phong <cnx@loang.net>\n"
+"Language-Team: Vietnamese <https://hosted.weblate.org/projects/fsfe/reuse-"
+"tool/vi/>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
@@ -92,6 +94,8 @@ msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
+"Chỉ hỗ trợ các năm có bốn chữ số, trong khi hệ điều hành được đặt ở năm \""
+"{year}\"."
 
 #: src/reuse/cli/annotate.py:287
 msgid "Add copyright and licensing into the headers of files."
@@ -139,7 +143,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:338
 msgid "YEAR"
-msgstr ""
+msgstr "NĂM"
 
 #: src/reuse/cli/annotate.py:343
 msgid ""
