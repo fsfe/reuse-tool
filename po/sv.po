@@ -9,8 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
 "PO-Revision-Date: 2025-12-21 18:00+0000\n"
-"Last-Translator: Stefan Bjornelund the Gnome "
-"<stefan.bjornelund.gnome@gmail.com>\n"
+"Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "sv/>\n"
 "Language: sv\n"
@@ -1155,7 +1154,7 @@ msgstr "standard: {default}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3023
 msgid "(dynamic)"
-msgstr ""
+msgstr "(dynamiskt)"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:522
 #, fuzzy
