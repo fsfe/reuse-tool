@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2025-12-08 13:00+0000\n"
+"PO-Revision-Date: 2026-01-03 12:01+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
@@ -320,13 +320,12 @@ msgid "Download a license and place it in the LICENSES/ directory."
 msgstr "Descargar una licencia y colocarla en el directorio LICENSES/ ."
 
 #: src/reuse/cli/download.py:109
-#, fuzzy
 msgid ""
 "LICENSE should be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
 msgstr ""
-"LICENSE debe ser un identificador de licencia SPDX válido. Puede especificar "
-"LICENSE varias veces para descargar varias licencias."
+"LICENSE ha de ser un identificador de licencia SPDX válido. Puede "
+"especificar LICENSE varias veces para descargar varias licencias."
 
 #: src/reuse/cli/download.py:115
 msgid ""
