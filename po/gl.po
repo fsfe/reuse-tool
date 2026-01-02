@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2023-06-21 09:53+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-01-03 12:01+0000\n"
+"Last-Translator: itagenata <ivan@tagenata.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "gl/>\n"
 "Language: gl\n"
@@ -15,22 +15,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
-msgstr ""
+msgstr "Omitiuse o ficheiro non recoñecido '{path}'"
 
 #: src/reuse/_annotate.py:100
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr ""
+msgstr "'{path}' non se recoñece; creando '{path}.license'"
 
 #: src/reuse/_annotate.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Arquivos con información de licenza: {count} / {total}"
+msgstr "Omitiuse o ficheiro '{path}' porque xa contén información REUSE"
 
 #: src/reuse/_annotate.py:145
 #, python-brace-format
@@ -55,19 +55,19 @@ msgid "Successfully changed header of {path}"
 msgstr "A cabeceira de {path} cambiada con éxito"
 
 #: src/reuse/cli/annotate.py:66
-#, fuzzy
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr "precisase a opción --copyright ou --license"
+msgstr ""
+"É obrigatorio indicar a opción '--copyright', '--license' ou '--contributor'."
 
 #: src/reuse/cli/annotate.py:127
-#, fuzzy
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
 "unrecognised':"
 msgstr ""
-"'{path}' non ten unha extensión de arquivo recoñecida, precisa usar --style "
-"ou --explicit-license"
+"Os seguintes ficheiros non teñen unha extensión de ficheiro recoñecida. Usa "
+"'--style', '--force-dot-license', '--fallback-dot-license' ou '--skip-"
+"unrecognised':"
 
 #: src/reuse/cli/annotate.py:160
 #, python-brace-format
@@ -75,6 +75,7 @@ msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
+"'{path}' non admite comentarios dunha soa liña; non uses '--single-line'."
 
 #: src/reuse/cli/annotate.py:167
 #, python-brace-format
@@ -82,16 +83,17 @@ msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
+"'{path}' non admite comentarios de varias liñas; non uses '--multi-line'."
 
 #: src/reuse/cli/annotate.py:213
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Template '{template}' could not be found."
-msgstr "no se atopa o modelo {template}"
+msgstr "O modelo '{template}' non se puido atopar."
 
 #: src/reuse/cli/annotate.py:236
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{year}' is not a valid year range."
-msgstr "'{}' non é unha expresión SPDX válida, cancelando"
+msgstr "'{year}' non é un intervalo de anos válido."
 
 #: src/reuse/cli/annotate.py:245
 #, python-brace-format
@@ -99,133 +101,138 @@ msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
+"O ano do teu sistema operativo está estabelecido en '{year}'. Non ten catro "
+"díxitos e non é compatible."
 
 #: src/reuse/cli/annotate.py:287
-#, fuzzy
 msgid "Add copyright and licensing into the headers of files."
-msgstr "engadir copyright e licenza na cabeceira dos arquivos"
+msgstr "Engadir dereitos de autoría e licenza nas cabeceiras dos ficheiros."
 
 #: src/reuse/cli/annotate.py:290
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
+"Ao usar --copyright e --license, podes especificar que titulares de dereitos "
+"de autor e que licenzas engadir ás cabeceiras dos ficheiros indicados."
 
 #: src/reuse/cli/annotate.py:296
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Ao usar --contributor, podes especificar persoas ou entidades que "
+"contribuíron pero non son titulares dos dereitos de autor dos ficheiros "
+"indicados."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:309
 msgid "COPYRIGHT"
-msgstr ""
+msgstr "DEREITOS DE AUTORÍA"
 
 #: src/reuse/cli/annotate.py:312
-#, fuzzy
 msgid "Copyright holder, repeatable."
-msgstr "declaración de copyright, repetibel"
+msgstr "Titular dos dereitos de autor, repetible."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:319
 msgid "SPDX_IDENTIFIER"
-msgstr ""
+msgstr "IDENTIFICADOR_SPDX"
 
 #: src/reuse/cli/annotate.py:322
-#, fuzzy
 msgid "SPDX License Identifier, repeatable."
-msgstr "Identificador SPDX, repetibel"
+msgstr "Identificador de licenza SPDX, repetible."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:328
 msgid "CONTRIBUTOR"
-msgstr ""
+msgstr "COLABORADOR"
 
 #: src/reuse/cli/annotate.py:331
-#, fuzzy
 msgid "File contributor, repeatable."
-msgstr "Identificador SPDX, repetibel"
+msgstr "Colaborador de ficheiros, repetible."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:338
 msgid "YEAR"
-msgstr ""
+msgstr "ANO"
 
 #: src/reuse/cli/annotate.py:343
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
+"Ano do aviso dos dereitos de autor. Podes definir varios anos ou un "
+"intervalo de anos."
 
 #: src/reuse/cli/annotate.py:353
-#, fuzzy
 msgid "Comment style to use."
-msgstr "estilo de comentario a usar, opcional"
+msgstr "Estilo de comentario que se vai usar."
 
 #: src/reuse/cli/annotate.py:363
-#, fuzzy
 msgid "Copyright prefix to use."
-msgstr "estilo de comentario a usar, opcional"
+msgstr "Prefixo dos dereitos de autor que se vai usar."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:375
 msgid "TEMPLATE"
-msgstr ""
+msgstr "MODELO"
 
 #: src/reuse/cli/annotate.py:377
-#, fuzzy
 msgid "Name of template to use."
-msgstr "nome do modelo a usar, opcional"
+msgstr "Nome do modelo que se vai usar."
 
 #: src/reuse/cli/annotate.py:384
-#, fuzzy
 msgid "Do not include year in copyright notice."
-msgstr "non incluir ano na declaración"
+msgstr "Non incluír o ano no aviso dos dereitos de autor."
 
 #: src/reuse/cli/annotate.py:390
-#, fuzzy
 msgid "Merge copyright notices if they are identical except for their years."
-msgstr "ano da declaración de copyright, opcional"
+msgstr ""
+"Combinar os avisos de dereitos de autor se son idénticos agás nos seus anos."
 
 #: src/reuse/cli/annotate.py:398
-#, fuzzy
 msgid "Force single-line comment style."
-msgstr "estilo de comentario a usar, opcional"
+msgstr "Forzar o estilo de comentario dunha soa liña."
 
 #: src/reuse/cli/annotate.py:405
-#, fuzzy
 msgid "Force multi-line comment style."
-msgstr "estilo de comentario a usar, opcional"
+msgstr "Forzar o estilo de comentario de varias liñas."
 
 #: src/reuse/cli/annotate.py:411
 msgid "Add headers to all files under specified directories recursively."
 msgstr ""
+"Engadir cabeceiras a todos os ficheiros dos directorios especificados de "
+"xeito recursivo."
 
 #: src/reuse/cli/annotate.py:416
 msgid "Do not replace the first header in the file; just add a new one."
-msgstr ""
+msgstr "Non substituír a primeira cabeceira do arquivo; só engadir unha nova."
 
 #: src/reuse/cli/annotate.py:423
 msgid "Always write a .license file instead of a header inside the file."
 msgstr ""
+"Escribir sempre un ficheiro .license no canto dunha cabeceira dentro do "
+"arquivo."
 
 #: src/reuse/cli/annotate.py:430
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr ""
+"Escribir un ficheiro .license para os arquivos con estilos de comentario non "
+"recoñecidos."
 
 #: src/reuse/cli/annotate.py:437
 msgid "Skip files with unrecognised comment styles."
-msgstr ""
+msgstr "Omitir os arquivos con estilos de comentario non recoñecidos."
 
 #: src/reuse/cli/annotate.py:448
-#, fuzzy
 msgid "Skip files that already contain REUSE information."
-msgstr "Arquivos con información de licenza: {count} / {total}"
+msgstr "Omitir os arquivos que xa conteñen información REUSE."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:453
+#, fuzzy
 msgid "PATH"
-msgstr ""
+msgstr "PATH"
 
 #: src/reuse/cli/annotate.py:510
 #, python-brace-format
@@ -238,16 +245,17 @@ msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
+"'{path}' non se puido analizar. Recibimos a seguinte mensaxe de erro: "
+"{message}"
 
 #: src/reuse/cli/common.py:87
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr ""
+msgstr "'{name}' é mutuamente excluínte con: {opts}"
 
 #: src/reuse/cli/common.py:103
-#, fuzzy
 msgid "'{}' is not a valid SPDX expression."
-msgstr "'{}' non é unha expresión SPDX válida, cancelando"
+msgstr "'{}' non é unha expresión SPDX válida."
 
 #: src/reuse/cli/convert_dep5.py:19
 msgid ""
@@ -255,11 +263,13 @@ msgid ""
 "the project root and is semantically identical. The .reuse/dep5 file is "
 "subsequently deleted."
 msgstr ""
+"Converter .reuse/dep5 nun ficheiro REUSE.toml. O arquivo xerado colócase na "
+"carpeta raíz do proxecto e é semanticamente idéntico. O ficheiro .reuse/dep5 "
+"elimínase a continuación."
 
 #: src/reuse/cli/convert_dep5.py:31
-#, fuzzy
 msgid "No '.reuse/dep5' file."
-msgstr "Creando .reuse/dep5"
+msgstr "Non hai ningún arquivo '.reuse/dep5'."
 
 #: src/reuse/cli/download.py:51
 msgid "'{}' is not a valid SPDX License Identifier."
@@ -267,7 +277,7 @@ msgstr "'{}' non é un Identificador de Licenza SPDX válido."
 
 #: src/reuse/cli/download.py:58
 msgid "Did you mean:"
-msgstr ""
+msgstr "Quixeches dicir:"
 
 #: src/reuse/cli/download.py:65
 msgid ""
@@ -283,9 +293,9 @@ msgid "Error: {spdx_identifier} already exists."
 msgstr "Erro: {spdx_identifier} xa existe."
 
 #: src/reuse/cli/download.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error: {path} does not exist."
-msgstr "'{path}' non remata en .spdx"
+msgstr "Erro: {path} non existe."
 
 #: src/reuse/cli/download.py:85
 msgid "Error: Failed to download license."
@@ -301,52 +311,54 @@ msgid "Successfully downloaded {spdx_identifier}."
 msgstr "Descargouse correctamente o {spdx_identifier}."
 
 #: src/reuse/cli/download.py:105
-#, fuzzy
 msgid "Download a license and place it in the LICENSES/ directory."
-msgstr "Descargar unha licenza e gardala na carpeta LICENSES/"
+msgstr "Descargar unha licenza e colocala no directorio LICENSES/."
 
 #: src/reuse/cli/download.py:109
 msgid ""
 "LICENSE should be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
 msgstr ""
+"LICENSE debe ser un identificador de licenza SPDX válido. Podes especificar "
+"LICENSE varias veces para descargar varias licenzas."
 
 #: src/reuse/cli/download.py:115
 msgid ""
 "If LICENSE starts with LicenseRef-, then a corresponding empty file is "
 "created in the LICENSES/ directory."
 msgstr ""
+"Se LICENSE comeza por LicenseRef-, entón créase un ficheiro baleiro "
+"correspondente no directorio LICENSES/."
 
 #: src/reuse/cli/download.py:128
-#, fuzzy
 msgid "Download all missing licenses detected in the project."
-msgstr "descargar todas as licenzas detectadas mais non atopadas no proxecto"
+msgstr ""
+"Descargar todas as licenzas que faltan e que foron detectadas no proxecto."
 
 #: src/reuse/cli/download.py:136
 msgid "Path to download to."
-msgstr ""
+msgstr "Ruta de descarga."
 
 #: src/reuse/cli/download.py:142
 msgid ""
 "Source from which to copy license files; either a directory that contains "
 "the file or the file itself."
 msgstr ""
+"Orixe desde a que copiar os ficheiros de licenza; pode ser un directorio que "
+"o conteña ou o propio ficheiro."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:149
-#, fuzzy
 msgid "LICENSE"
-msgstr "LICENZAS DEFECTUOSAS"
+msgstr "LICENZA"
 
 #: src/reuse/cli/download.py:165
-#, fuzzy
 msgid "The 'LICENSE' argument and '--all' option are mutually exclusive."
-msgstr "as opcións --exclude-year e --year non se poden usar á vez"
+msgstr "O argumento 'LICENSE' e a opción '--all' son mutuamente excluíntes."
 
 #: src/reuse/cli/download.py:177
-#, fuzzy
 msgid "Cannot use '--output' with more than one license."
-msgstr "non se pode usar --output con máis dunha licenza"
+msgstr "Non se pode usar '--output' con máis dunha licenza."
 
 #: src/reuse/cli/lint.py:28
 #, python-brace-format
@@ -356,43 +368,54 @@ msgid ""
 "find the latest version of the specification at <https://reuse.software/spec/"
 ">."
 msgstr ""
+"Comprobar que o directorio do proxecto cumpre coa especificación REUSE. Esta "
+"versión da ferramenta comproba a conformidade coa versión {reuse_version} da "
+"especificación REUSE. Podes atopar a última versión da especificación en "
+"https://reuse.software/spec/."
 
 #: src/reuse/cli/lint.py:34
 msgid "Specifically, the following criteria are checked:"
-msgstr ""
+msgstr "En concreto, compróbanse os seguintes criterios:"
 
 #: src/reuse/cli/lint.py:38
 msgid ""
 "- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
 "project?"
 msgstr ""
+"- Hai algunha licenza incorrecta (non recoñecida ou non conforme con SPDX) "
+"no proxecto?"
 
 #: src/reuse/cli/lint.py:43
-#, fuzzy
 msgid "- Are there any deprecated licenses in the project?"
-msgstr "Cal é o enderezo en internet do proxecto?"
+msgstr "- Hai algunha licenza obsoleta no proxecto?"
 
 #: src/reuse/cli/lint.py:47
 msgid ""
 "- Are there any license files in the LICENSES/ directory without file "
 "extension?"
 msgstr ""
+"- Hai algún ficheiro de licenza no directorio LICENSES/ sen extensión de "
+"ficheiro?"
 
 #: src/reuse/cli/lint.py:54
 msgid ""
 "- Are any licenses referred to inside of the project, but not included in "
 "the LICENSES/ directory?"
 msgstr ""
+"- Hai algunha licenza á que se faga referencia dentro do proxecto pero que "
+"non estea incluída no directorio LICENSES/?"
 
 #: src/reuse/cli/lint.py:61
 msgid ""
 "- Are any licenses included in the LICENSES/ directory that are not used "
 "inside of the project?"
 msgstr ""
+"- Hai algunha licenza incluída no directorio LICENSES/ que non se use dentro "
+"do proxecto?"
 
 #: src/reuse/cli/lint.py:66
 msgid "- Are there any read errors?"
-msgstr ""
+msgstr "Hai algún erro de lectura?"
 
 #: src/reuse/cli/lint.py:69
 #, fuzzy
