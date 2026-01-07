@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2026-01-03 12:01+0000\n"
+"PO-Revision-Date: 2026-01-08 13:01+0000\n"
 "Last-Translator: itagenata <ivan@tagenata.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "gl/>\n"
@@ -230,9 +230,8 @@ msgstr "Omitir os arquivos que xa conteñen información REUSE."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:453
-#, fuzzy
 msgid "PATH"
-msgstr "PATH"
+msgstr "RUTA"
 
 #: src/reuse/cli/annotate.py:510
 #, python-brace-format
@@ -418,10 +417,9 @@ msgid "- Are there any read errors?"
 msgstr "Hai algún erro de lectura?"
 
 #: src/reuse/cli/lint.py:69
-#, fuzzy
 msgid "- Do all files have valid copyright and licensing information?"
 msgstr ""
-"Os seguintes arquivos non teñen información de licenza nen de copyright:"
+"Todos os arquivos teñen información válida sobre o copyright e a licenza?"
 
 #: src/reuse/cli/lint.py:81 src/reuse/cli/lint_file.py:38
 msgid "Prevent output."
@@ -462,9 +460,9 @@ msgstr ""
 
 #: src/reuse/cli/main.py:36
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:465
-#, fuzzy, python-format
+#, python-format
 msgid "%(prog)s, version %(version)s"
-msgstr "%(prog)s: erro: %(message)s\n"
+msgstr "%(prog)s, versión %(version)s"
 
 #: src/reuse/cli/main.py:39
 msgid ""
@@ -520,18 +518,16 @@ msgstr ""
 "doazón a <https://fsfe.org/donate/> ."
 
 #: src/reuse/cli/main.py:88
-#, fuzzy
 msgid "Enable debug statements."
-msgstr "habilitar sentencias de depuración"
+msgstr "Activar declaracións de depuración."
 
 #: src/reuse/cli/main.py:93
 msgid "Hide deprecation warnings."
 msgstr ""
 
 #: src/reuse/cli/main.py:98
-#, fuzzy
 msgid "Do not skip over Git submodules."
-msgstr "non salte os submódulos de Git"
+msgstr "Non omitir os submódulos de Git."
 
 #: src/reuse/cli/main.py:103
 #, fuzzy
