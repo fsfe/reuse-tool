@@ -16,7 +16,7 @@
 # SPDX-FileCopyrightText: 2023 Mathias Dannesbo <md@magenta.dk>
 # SPDX-FileCopyrightText: 2023 Maxim Cournoyer <maxim.cournoyer@gmail.com>
 # SPDX-FileCopyrightText: 2023 Redradix S.L. <info@redradix.com>
-# SPDX-FileCopyrightText: 2023 Shun Sakai <sorairolake@protonmail.ch>
+# SPDX-FileCopyrightText: 2023-2026 Shun Sakai <sorairolake@protonmail.ch>
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: 2024 Anthony Loiseau <anthony.loiseau@allcircuits.com>
 # SPDX-FileCopyrightText: 2024 Yongmin Hong <yewon@revi.email>
@@ -919,6 +919,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".prettierrc": UncommentableCommentStyle,  # could either be JSON or YAML
     ".prettierignore": PythonCommentStyle,
     ".pylintrc": PythonCommentStyle,
+    ".python-version": UncommentableCommentStyle,
     ".Renviron": PythonCommentStyle,
     ".Rprofile": PythonCommentStyle,
     ".shellcheckrc": PythonCommentStyle,
