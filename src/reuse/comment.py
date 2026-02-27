@@ -32,6 +32,7 @@
 # SPDX-FileCopyrightText: 2025 Manlio Perillo <manlio.perillo@gmail.com>
 # SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
 # SPDX-FileCopyrightText: 2026 Quentin BETTOUM <quentin@bettoum.fr>
+# SPDX-FileCopyrightText: 2026 Mercury Technologies, Inc
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -639,6 +640,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".bbclass": PythonCommentStyle,
     ".bib": BibTexCommentStyle,
     ".blade.php": BladeCommentStyle,
+    ".bxl": PythonCommentStyle,  # Buck2 eXtension Language
     ".bzl": PythonCommentStyle,
     ".c": CCommentStyle,
     ".cabal": HaskellCommentStyle,
@@ -828,6 +830,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     # SuperCollider synth definition (binary)
     ".scsyndef": UncommentableCommentStyle,
     ".sh": PythonCommentStyle,
+    ".sky": PythonCommentStyle,  # Starlark (legacy Skylark extension)
     ".sld": LispCommentStyle,  # Scheme Library Definition (R7RS)
     # Visual Studio solution file, officially uncommentable:
     ".sln": UncommentableCommentStyle,
@@ -838,6 +841,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".soy": CppCommentStyle,
     ".sps": LispCommentStyle,  # Scheme Program Source (R6RS)
     ".sql": HaskellCommentStyle,
+    ".star": PythonCommentStyle,  # Starlark
     ".sty": TexCommentStyle,
     ".svg": UncommentableCommentStyle,
     ".svelte": HtmlCommentStyle,
@@ -931,6 +935,8 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".yarnrc": PythonCommentStyle,
     "ansible.cfg": PythonCommentStyle,
     "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
+    "BUCK": PythonCommentStyle,  # Buck2 build file
+    "BUILD": PythonCommentStyle,  # Bazel build file
     "cabal.project": HaskellCommentStyle,
     "Cargo.lock": UncommentableCommentStyle,
     "CMakeLists.txt": PythonCommentStyle,
@@ -956,6 +962,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "matplotlibrc": PythonCommentStyle,
     "meson.build": PythonCommentStyle,
     "meson_options.txt": PythonCommentStyle,
+    "PACKAGE": PythonCommentStyle,  # Buck2 package configuration file
     "poetry.lock": UncommentableCommentStyle,
     "pubspec.lock": UncommentableCommentStyle,
     "pylintrc": PythonCommentStyle,
