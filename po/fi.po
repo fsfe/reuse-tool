@@ -8,19 +8,21 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-03-08 15:09+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"Language-Team: Finnish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
+"fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
-msgstr ""
+msgstr "Ohitettu tunnistamaton tiedosto '{path}'"
 
 #: src/reuse/_annotate.py:100
 #, python-brace-format
@@ -30,7 +32,7 @@ msgstr ""
 #: src/reuse/_annotate.py:116
 #, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr ""
+msgstr "Ohitettu tiedosto '{path}' joka sisältää jo REUSE-tiedot"
 
 #: src/reuse/_annotate.py:145
 #, python-brace-format
@@ -53,7 +55,7 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:66
 msgid "Option '--copyright', '--license', or '--contributor' is required."
-msgstr ""
+msgstr "Valitsin '--copyright', '--license' tai '--contributor' vaaditaan."
 
 #: src/reuse/cli/annotate.py:127
 msgid ""
@@ -95,7 +97,7 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:287
 msgid "Add copyright and licensing into the headers of files."
-msgstr ""
+msgstr "Lisää tekijänoikeus- ja lisensointitieto tiedostojen otsakkeisiin."
 
 #: src/reuse/cli/annotate.py:290
 msgid ""
@@ -112,7 +114,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:309
 msgid "COPYRIGHT"
-msgstr ""
+msgstr "TEKIJÄNOIKEUS"
 
 #: src/reuse/cli/annotate.py:312
 msgid "Copyright holder, repeatable."
@@ -121,7 +123,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:319
 msgid "SPDX_IDENTIFIER"
-msgstr ""
+msgstr "SPDX_IDENTIFIER"
 
 #: src/reuse/cli/annotate.py:322
 msgid "SPDX License Identifier, repeatable."
@@ -139,7 +141,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:338
 msgid "YEAR"
-msgstr ""
+msgstr "VUOSI"
 
 #: src/reuse/cli/annotate.py:343
 msgid ""
@@ -165,7 +167,7 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:384
 msgid "Do not include year in copyright notice."
-msgstr ""
+msgstr "Älä sisällytä vuotta tekijänoikeusilmoitukseen."
 
 #: src/reuse/cli/annotate.py:390
 msgid "Merge copyright notices if they are identical except for their years."
@@ -173,11 +175,11 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:398
 msgid "Force single-line comment style."
-msgstr ""
+msgstr "Pakota yhden rivin kommenttityyli."
 
 #: src/reuse/cli/annotate.py:405
 msgid "Force multi-line comment style."
-msgstr ""
+msgstr "Pakota usean rivin kommenttityyli."
 
 #: src/reuse/cli/annotate.py:411
 msgid "Add headers to all files under specified directories recursively."
@@ -206,7 +208,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:453
 msgid "PATH"
-msgstr ""
+msgstr "POLKU"
 
 #: src/reuse/cli/annotate.py:510
 #, python-brace-format
@@ -227,7 +229,7 @@ msgstr ""
 
 #: src/reuse/cli/common.py:103
 msgid "'{}' is not a valid SPDX expression."
-msgstr ""
+msgstr "'{}' ei ole kelvollinen SPDX-ilmaus."
 
 #: src/reuse/cli/convert_dep5.py:19
 msgid ""
@@ -246,7 +248,7 @@ msgstr ""
 
 #: src/reuse/cli/download.py:58
 msgid "Did you mean:"
-msgstr ""
+msgstr "Tarkoititko:"
 
 #: src/reuse/cli/download.py:65
 msgid ""
@@ -257,29 +259,29 @@ msgstr ""
 #: src/reuse/cli/download.py:74
 #, python-brace-format
 msgid "Error: {spdx_identifier} already exists."
-msgstr ""
+msgstr "Virhe: {spdx_identifier} on jo olemassa."
 
 #: src/reuse/cli/download.py:81
 #, python-brace-format
 msgid "Error: {path} does not exist."
-msgstr ""
+msgstr "Virhe: Polkua {path} ei ole olemassa."
 
 #: src/reuse/cli/download.py:85
 msgid "Error: Failed to download license."
-msgstr ""
+msgstr "Virhe: Lisenssin lataus epäonnistui."
 
 #: src/reuse/cli/download.py:90
 msgid "Is your internet connection working?"
-msgstr ""
+msgstr "Toimiiko Internet-yhteytesi?"
 
 #: src/reuse/cli/download.py:95
 #, python-brace-format
 msgid "Successfully downloaded {spdx_identifier}."
-msgstr ""
+msgstr "Ladattu onnistuneesti {spdx_identifier}."
 
 #: src/reuse/cli/download.py:105
 msgid "Download a license and place it in the LICENSES/ directory."
-msgstr ""
+msgstr "Lataa lisenssi ja aseta se hakemistoon LICENSES/."
 
 #: src/reuse/cli/download.py:109
 msgid ""
@@ -295,7 +297,7 @@ msgstr ""
 
 #: src/reuse/cli/download.py:128
 msgid "Download all missing licenses detected in the project."
-msgstr ""
+msgstr "Lataa kaikki projektissa havaitut puuttuvat lisenssit."
 
 #: src/reuse/cli/download.py:136
 msgid "Path to download to."
@@ -375,7 +377,7 @@ msgstr ""
 
 #: src/reuse/cli/lint.py:89 src/reuse/cli/supported_licenses.py:28
 msgid "Format output as JSON."
-msgstr ""
+msgstr "Muotoile tuloste JSON:iksi."
 
 #: src/reuse/cli/lint.py:97
 msgid "Format output as plain text. (default)"
@@ -399,7 +401,7 @@ msgstr ""
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/lint_file.py:51
 msgid "FILE"
-msgstr ""
+msgstr "TIEDOSTO"
 
 #: src/reuse/cli/lint_file.py:65
 #, python-brace-format
@@ -410,7 +412,7 @@ msgstr ""
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:465
 #, python-format
 msgid "%(prog)s, version %(version)s"
-msgstr ""
+msgstr "%(prog)s, versio %(version)s"
 
 #: src/reuse/cli/main.py:39
 msgid ""
@@ -440,16 +442,20 @@ msgid ""
 "reuse.software/> for more information, and <https://reuse.readthedocs.io/> "
 "for the online documentation."
 msgstr ""
+"reuse on työkalu REUSE-suositusten vaatimustenmukaisuuden varmistamiseen. "
+"Lue <https://reuse.software/> saadaksesi lisätietoja, ja dokumentaatio "
+"verkossa <https://reuse.readthedocs.io/>."
 
 #: src/reuse/cli/main.py:68
 msgid ""
 "This version of reuse is compatible with version {} of the REUSE "
 "Specification."
 msgstr ""
+"Tämä reusen versio on yhteensopiva REUSE-spesifikaation version {} kanssa."
 
 #: src/reuse/cli/main.py:72
 msgid "Support the FSFE's work:"
-msgstr ""
+msgstr "Tue FSFE:n työtä:"
 
 #: src/reuse/cli/main.py:77
 msgid ""
@@ -457,6 +463,10 @@ msgid ""
 "continue working for Free Software wherever necessary. Please consider "
 "making a donation at <https://fsfe.org/donate/>."
 msgstr ""
+"Lahjoitukset ovat elintärkeitä vahvuudellemme ja itsenäisyydellemme. "
+"Lahjoitusten avulla voimme jatkaa työskentelyä vapaiden ohjelmistojen "
+"puolesta siellä, missä sitä tarvitaan. Harkitse lahjoituksen tekemistä: "
+"<https://fsfe.org/donate/>."
 
 #: src/reuse/cli/main.py:88
 msgid "Enable debug statements."
@@ -606,7 +616,7 @@ msgstr ""
 
 #: src/reuse/lint.py:42
 msgid "The following licenses are not valid SPDX licenses:"
-msgstr ""
+msgstr "Seuraavat lisenssit eivät ole kelvollisia SPDX-lisenssejä:"
 
 #: src/reuse/lint.py:50
 msgid "DEPRECATED LICENSES"
@@ -614,7 +624,7 @@ msgstr ""
 
 #: src/reuse/lint.py:52
 msgid "The following licenses are deprecated by SPDX:"
-msgstr ""
+msgstr "Seuraavat lisenssit on vanhennettu SPDX:n toimesta:"
 
 #: src/reuse/lint.py:60
 msgid "LICENSES WITHOUT FILE EXTENSION"
@@ -622,7 +632,7 @@ msgstr ""
 
 #: src/reuse/lint.py:62
 msgid "The following licenses have no file extension:"
-msgstr ""
+msgstr "Seuraavilla lisensseillä ei ole tiedostopäätettä:"
 
 #: src/reuse/lint.py:70
 msgid "MISSING LICENSES"
@@ -638,7 +648,7 @@ msgstr ""
 
 #: src/reuse/lint.py:80
 msgid "The following licenses are not used:"
-msgstr ""
+msgstr "Seuraavia lisenssejä ei käytetä:"
 
 #: src/reuse/lint.py:87
 msgid "READ ERRORS"
@@ -646,7 +656,7 @@ msgstr ""
 
 #: src/reuse/lint.py:88
 msgid "Could not read:"
-msgstr ""
+msgstr "Ei voitu lukea:"
 
 #: src/reuse/lint.py:94
 msgid "INVALID SPDX LICENSE EXPRESSIONS"
@@ -658,93 +668,97 @@ msgstr ""
 
 #: src/reuse/lint.py:124
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
-msgstr ""
+msgstr "PUUTTUVAT TEKIJÄNOIKEUS- JA LISENSSITIEDOT"
 
 #: src/reuse/lint.py:130
 msgid "The following files have no copyright and licensing information:"
-msgstr ""
+msgstr "Seuraavissa tiedostoissa ei ole tekijänoikeus- ja lisenssitietoa:"
 
 #: src/reuse/lint.py:141
 msgid "The following files have no copyright information:"
-msgstr ""
+msgstr "Seuraavissa tiedostoissa ei ole tekijänoikeustietoa:"
 
 #: src/reuse/lint.py:150
 msgid "The following files have no licensing information:"
-msgstr ""
+msgstr "Seuraavissa tiedostoissa ei ole lisenssitietoa:"
 
 #: src/reuse/lint.py:157
 msgid "SUMMARY"
-msgstr ""
+msgstr "YHTEENVETO"
 
 #: src/reuse/lint.py:162
 msgid "Bad licenses:"
-msgstr ""
+msgstr "Virheelliset lisenssit:"
 
 #: src/reuse/lint.py:163
 msgid "Deprecated licenses:"
-msgstr ""
+msgstr "Vanhennetut lisenssit:"
 
 #: src/reuse/lint.py:166
 msgid "Licenses without file extension:"
-msgstr ""
+msgstr "Lisenssit ilman tiedostopäätettä:"
 
 #: src/reuse/lint.py:169
 msgid "Missing licenses:"
-msgstr ""
+msgstr "Puuttuvat lisenssit:"
 
 #: src/reuse/lint.py:170
 msgid "Unused licenses:"
-msgstr ""
+msgstr "Käyttämättömät lisenssit:"
 
 #: src/reuse/lint.py:171
 msgid "Used licenses:"
-msgstr ""
+msgstr "Käytetyt lisenssit:"
 
 #: src/reuse/lint.py:172
 msgid "Read errors:"
-msgstr ""
+msgstr "Lukuvirheet:"
 
 #: src/reuse/lint.py:173
 msgid "Invalid SPDX License Expressions:"
-msgstr ""
+msgstr "Virheelliset SPDX-lisenssi-ilmaisut:"
 
 #: src/reuse/lint.py:183
 msgid "Files with copyright information:"
-msgstr ""
+msgstr "Tiedostot tekijänoikeustiedolla:"
 
 #: src/reuse/lint.py:187
 msgid "Files with license information:"
-msgstr ""
+msgstr "Tiedostot lisenssitiedolla:"
 
 #: src/reuse/lint.py:204
 msgid ""
 "Congratulations! Your project is compliant with version {} of the REUSE "
 "Specification :-)"
 msgstr ""
+"Onnittelut! Projektisi toteuttaa REUSE-spesifikaation version {} "
+"vaatimuksenmukaisuuden :-)"
 
 #: src/reuse/lint.py:211
 msgid ""
 "Unfortunately, your project is not compliant with version {} of the REUSE "
 "Specification :-("
 msgstr ""
+"Valitettavasti projektisi ei toteuta REUSE-spesifikaation version {} "
+"vaatimustenmukaisuutta :-("
 
 #: src/reuse/lint.py:218
 msgid "RECOMMENDATIONS"
-msgstr ""
+msgstr "SUOSITUKSET"
 
 #: src/reuse/lint.py:286
 #, python-brace-format
 msgid "missing license '{lic}'"
-msgstr ""
+msgstr "puuttuva lisenssi '{lic}'"
 
 #: src/reuse/lint.py:291
 msgid "read error"
-msgstr ""
+msgstr "lukuvirhe"
 
 #: src/reuse/lint.py:296
 #, python-brace-format
 msgid "invalid SPDX License Expression '{expression}'"
-msgstr ""
+msgstr "virheellinen SPDX-lisenssi-ilmaus '{expression}'"
 
 #: src/reuse/lint.py:303
 msgid "no license identifier"
@@ -765,11 +779,11 @@ msgstr ""
 
 #: src/reuse/lint.py:355
 msgid "license without file extension"
-msgstr ""
+msgstr "lisenssi ilman tiedostopäätettä"
 
 #: src/reuse/lint.py:360
 msgid "unused license"
-msgstr ""
+msgstr "käyttämätön lisenssi"
 
 #: src/reuse/project.py:253
 #, python-brace-format
@@ -798,7 +812,7 @@ msgstr ""
 #: src/reuse/project.py:419
 #, python-brace-format
 msgid "{path} does not have a file extension"
-msgstr ""
+msgstr "{path} ei sisällä tiedostopäätettä"
 
 #: src/reuse/project.py:429
 #, python-brace-format
@@ -831,7 +845,7 @@ msgstr ""
 #: src/reuse/report.py:161
 #, python-brace-format
 msgid "Could not read '{path}'"
-msgstr ""
+msgstr "Ei voitu lukea polkua '{path}'"
 
 #: src/reuse/report.py:166
 #, python-brace-format
@@ -904,6 +918,11 @@ msgid ""
 "file. The tutorial explains additional ways to do this: <https://"
 "reuse.software/tutorial/>"
 msgstr ""
+"Korjaa puuttuvat tekijänoikeus-/lisenssitiedot: Tämä työkalu ei löydä "
+"yhdelle tai useammalle tiedostolle tekijänoikeus- ja/tai lisenssitietoa. "
+"Voit yleensä korjata tämän lisäämällä tunnisteet 'SPDX-FileCopyrightText' ja "
+"'SPDX-License-Identifier' jokaiseen tiedostoon. Tämä opas kertoo muita "
+"tapoja korjata tämä ongelmatilanne: <https://reuse.software/tutorial/>"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:608
 #, python-brace-format
@@ -923,7 +942,7 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1160
 msgid "Options"
-msgstr ""
+msgstr "Valitsimet"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1222
 #, python-brace-format
@@ -942,19 +961,19 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1799
 msgid "Commands"
-msgstr ""
+msgstr "Komennot"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1830
 msgid "Missing command."
-msgstr ""
+msgstr "Puuttuva komento."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1908
 msgid "No such command {name!r}."
-msgstr ""
+msgstr "Ei komentoa {name!r}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2332
 msgid "Value must be an iterable."
-msgstr ""
+msgstr "Arvon tulee olla iteroitava."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2355
 #, python-brace-format
@@ -976,7 +995,7 @@ msgstr ""
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2959
 #, python-brace-format
 msgid "default: {default}"
-msgstr ""
+msgstr "oletus: {default}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3023
 msgid "(dynamic)"
@@ -984,27 +1003,27 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:522
 msgid "Show the version and exit."
-msgstr ""
+msgstr "Näytä versio ja lopeta."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:548
 msgid "Show this message and exit."
-msgstr ""
+msgstr "Näytä tämä viesti ja lopeta."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:50
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:89
 #, python-brace-format
 msgid "Error: {message}"
-msgstr ""
+msgstr "Virhe: {message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:81
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
-msgstr ""
+msgstr "Kokeile '{command} {option}' saadaksesi lisätietoja."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:130
 #, python-brace-format
 msgid "Invalid value: {message}"
-msgstr ""
+msgstr "Virheellinen arvo: {message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:132
 #, python-brace-format
@@ -1013,25 +1032,25 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:190
 msgid "Missing argument"
-msgstr ""
+msgstr "Puuttuva argumentti"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:192
 msgid "Missing option"
-msgstr ""
+msgstr "Puuttuva valitsin"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:194
 msgid "Missing parameter"
-msgstr ""
+msgstr "Puuttuva parametri"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:196
 #, python-brace-format
 msgid "Missing {param_type}"
-msgstr ""
+msgstr "Puuttuva {param_type}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:203
 #, python-brace-format
 msgid "Missing parameter: {param_name}"
-msgstr ""
+msgstr "Puuttuva parametri: {param_name}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:223
 #, python-brace-format
@@ -1047,29 +1066,29 @@ msgstr[1] ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:282
 msgid "unknown error"
-msgstr ""
+msgstr "tuntematon virhe"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:289
 msgid "Could not open file {filename!r}: {message}"
-msgstr ""
+msgstr "Ei voitu avata tiedostoa {filename!r}: {message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:156
 msgid "Usage:"
-msgstr ""
+msgstr "Käyttö:"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:199
 msgid "Argument {name!r} takes {nargs} values."
-msgstr ""
+msgstr "Argumentti {name!r} ottaa {nargs} arvoa."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:381
 msgid "Option {name!r} does not take a value."
-msgstr ""
+msgstr "Valitsin {name!r} ei ota arvoa."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:444
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Valitsin {name!r} vaatii argumentin."
+msgstr[1] "Valitsin {name!r} vaatii {nargs} argumenttia."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:332
 msgid "Shell completion is not supported for Bash versions older than 4.4."
@@ -1085,12 +1104,12 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:178
 msgid "Error: The value you entered was invalid."
-msgstr ""
+msgstr "Virhe: syöttämäsi arvo oli virheellinen."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:180
 #, python-brace-format
 msgid "Error: {e.message}"
-msgstr ""
+msgstr "Virhe: {e.message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:191
 msgid "Error: The two entered values do not match."
@@ -1098,11 +1117,11 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:247
 msgid "Error: invalid input"
-msgstr ""
+msgstr "Virhe: virheellinen syöte"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:866
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "Paina mitä tahansa näppäintä jatkaaksesi..."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:332
 #, python-brace-format
@@ -1138,43 +1157,43 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:747
 msgid "{value!r} is not a valid UUID."
-msgstr ""
+msgstr "{value!r} ei ole kelvollinen UUID."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:937
 msgid "file"
-msgstr ""
+msgstr "tiedosto"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:939
 msgid "directory"
-msgstr ""
+msgstr "hakemisto"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:941
 msgid "path"
-msgstr ""
+msgstr "polku"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:988
 msgid "{name} {filename!r} does not exist."
-msgstr ""
+msgstr "{name} {filename!r} ei ole olemassa."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:997
 msgid "{name} {filename!r} is a file."
-msgstr ""
+msgstr "{name} {filename!r} on tiedosto."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1005
 msgid "{name} {filename!r} is a directory."
-msgstr ""
+msgstr "{name} {filename!r} on hakemisto."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1014
 msgid "{name} {filename!r} is not readable."
-msgstr ""
+msgstr "{name} {filename!r} ei ole luettavissa."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1023
 msgid "{name} {filename!r} is not writable."
-msgstr ""
+msgstr "{name} {filename!r} ei ole kirjoitettavissa."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1032
 msgid "{name} {filename!r} is not executable."
-msgstr ""
+msgstr "{name} {filename!r} ei ole suoritettavissa."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1099
 #, python-brace-format
