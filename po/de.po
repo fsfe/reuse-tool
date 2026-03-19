@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2026-03-12 17:09+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2026-03-19 14:09+0000\n"
+"Last-Translator: Henning Rumpf <henning.rumpf@gmx.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "de/>\n"
 "Language: de\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: src/reuse/_annotate.py:94
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
-msgstr "Nicht erkannte Datei '{path}' übersprungen."
+msgstr "Nicht erkannte Datei '{path}' übersprungen"
 
 #: src/reuse/_annotate.py:100
 #, python-brace-format
@@ -85,6 +85,8 @@ msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
+"'{path}' unterstützt keine mehrzeiligen Kommentare, '--multi-line' bitte "
+"nicht verwenden."
 
 #: src/reuse/cli/annotate.py:213
 #, python-brace-format
@@ -102,29 +104,35 @@ msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
+"Das Jahr ihres Betriebssystems ist auf '{year}' eingestellt. Dies ist keine "
+"vierstellige Zahl und wird nicht unterstützt."
 
 #: src/reuse/cli/annotate.py:287
-#, fuzzy
 msgid "Add copyright and licensing into the headers of files."
 msgstr ""
-"schreibe Urheberrechts- und Lizenzinformationen in die Kopfzeilen von Dateien"
+"Schreibe Urheberrechts- und Lizenzinformationen in die Kopfzeilen von Dateien"
 
 #: src/reuse/cli/annotate.py:290
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
+"Mit --copyright und --license kannst du angeben welche Urheberrechtsinhaber "
+"und Lizenzen den Kopfzeilen der angegebenen Dateien hinzufügt werden."
 
 #: src/reuse/cli/annotate.py:296
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Durch die Verwendung von --contributor kannst du Personen oder "
+"Körperschaften angeben die mitgewirkt haben, aber nicht Urheberrechtsinhaber "
+"der angegebenen Dateien sind."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:309
 msgid "COPYRIGHT"
-msgstr ""
+msgstr "URHEBERRECHT"
 
 #: src/reuse/cli/annotate.py:312
 #, fuzzy
@@ -144,7 +152,7 @@ msgstr "SPDX-Lizenz-Identifikator, wiederholbar"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:328
 msgid "CONTRIBUTOR"
-msgstr ""
+msgstr "MITWIRKENDER"
 
 #: src/reuse/cli/annotate.py:331
 #, fuzzy
@@ -154,12 +162,14 @@ msgstr "Dateimitwirkender, wiederholbar"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:338
 msgid "YEAR"
-msgstr ""
+msgstr "JAHR"
 
 #: src/reuse/cli/annotate.py:343
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
+"Jahr des Urheberrechtshinweises. Du kannst auch mehrere Jahre oder eine "
+"Zeitspanne von Jahren angeben."
 
 #: src/reuse/cli/annotate.py:353
 #, fuzzy
@@ -174,7 +184,7 @@ msgstr "zu benutzender Kommentarstil, optional"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:375
 msgid "TEMPLATE"
-msgstr ""
+msgstr "VORLAGE"
 
 #: src/reuse/cli/annotate.py:377
 #, fuzzy
@@ -204,10 +214,13 @@ msgstr "zu benutzender Kommentarstil, optional"
 #: src/reuse/cli/annotate.py:411
 msgid "Add headers to all files under specified directories recursively."
 msgstr ""
+"Füge rekursiv Kopfzeilen zu allen Dateien in den angegebenen Verzeichnissen "
+"hinzu."
 
 #: src/reuse/cli/annotate.py:416
+#, fuzzy
 msgid "Do not replace the first header in the file; just add a new one."
-msgstr ""
+msgstr "Erste Kopfzeile in der Datei nicht ersetzen, sondern neue hinzufügen"
 
 #: src/reuse/cli/annotate.py:423
 msgid "Always write a .license file instead of a header inside the file."
@@ -238,12 +251,12 @@ msgstr ""
 "'{path}' ist im Binärformat, benutze daher '{new_path}' für die Kopfzeilen"
 
 #: src/reuse/cli/common.py:51
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
-"'{dep5}' konnte nicht geparst werden. Wir erhielten folgende Fehlermeldung: "
+"'{path}' konnte nicht geparst werden. Wir erhielten folgende Fehlermeldung: "
 "{message}"
 
 #: src/reuse/cli/common.py:87
@@ -404,10 +417,8 @@ msgid "- Are there any read errors?"
 msgstr ""
 
 #: src/reuse/cli/lint.py:69
-#, fuzzy
 msgid "- Do all files have valid copyright and licensing information?"
-msgstr ""
-"Die folgenden Dateien haben keine Urheberrechts- und Lizenzinformationen:"
+msgstr "Haben alle Dateien gültige Urheberrechts- und Lizenzinformationen?"
 
 #: src/reuse/cli/lint.py:81 src/reuse/cli/lint_file.py:38
 #, fuzzy
@@ -453,9 +464,9 @@ msgstr ""
 
 #: src/reuse/cli/main.py:36
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:465
-#, fuzzy, python-format
+#, python-format
 msgid "%(prog)s, version %(version)s"
-msgstr "%(prog)s: Fehler: %(message)s\n"
+msgstr "%(prog)s, Version %(version)s"
 
 #: src/reuse/cli/main.py:39
 msgid ""
@@ -656,9 +667,9 @@ msgid ""
 msgstr ""
 
 #: src/reuse/global_licensing.py:219
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not parse '{notice}'"
-msgstr "Kann '{expression}' nicht parsen"
+msgstr "Kann '{notice}' nicht parsen"
 
 #: src/reuse/header.py:103
 msgid "generated comment is missing copyright lines or license expressions"
@@ -809,9 +820,9 @@ msgid "RECOMMENDATIONS"
 msgstr "EMPFEHLUNGEN"
 
 #: src/reuse/lint.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "missing license '{lic}'"
-msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
+msgstr "fehlende Lizenz '{lic}'"
 
 #: src/reuse/lint.py:291
 #, fuzzy
@@ -834,9 +845,9 @@ msgid "no copyright notice"
 msgstr "'{}' ist kein gültiger SPDX-Lizenz-Identifikator."
 
 #: src/reuse/lint.py:345
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "bad license '{lic}'"
-msgstr "Unbenutzte Lizenzen:"
+msgstr "fehlerhafte Lizenz '{lic}'"
 
 #: src/reuse/lint.py:350
 #, fuzzy
@@ -854,9 +865,9 @@ msgid "unused license"
 msgstr "Unbenutzte Lizenzen:"
 
 #: src/reuse/project.py:253
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{path}' covered by {global_path}"
-msgstr "'{path}' abgedeckt durch .reuse/dep5"
+msgstr "'{path}' abgedeckt durch {global_path}"
 
 #: src/reuse/project.py:261
 #, python-brace-format
@@ -1045,11 +1056,11 @@ msgid "Options"
 msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1222
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Got unexpected extra argument ({args})"
 msgid_plural "Got unexpected extra arguments ({args})"
-msgstr[0] "erwartete ein Argument"
-msgstr[1] "erwartete ein Argument"
+msgstr[0] "Unerwartetes zusätzliches Argument erhalten ({args})"
+msgstr[1] "Unerwartete zusätzliche Argumente erhalten ({args})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1241
 msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
@@ -1164,11 +1175,11 @@ msgid "No such option: {name}"
 msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:235
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
-msgstr[0] "Meinten Sie:"
-msgstr[1] "Meinten Sie:"
+msgstr[0] "Meintest du {possibility}?"
+msgstr[1] "(Mögliche Optionen: {possibilities})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:282
 msgid "unknown error"
@@ -1179,9 +1190,8 @@ msgid "Could not open file {filename!r}: {message}"
 msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:156
-#, fuzzy
 msgid "Usage:"
-msgstr "Benutzung: "
+msgstr "Benutzung:"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:199
 msgid "Argument {name!r} takes {nargs} values."
