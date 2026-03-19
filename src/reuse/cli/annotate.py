@@ -10,6 +10,7 @@
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2026 Lily A.N. <minekpo1@murena.io>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 

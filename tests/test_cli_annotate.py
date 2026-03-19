@@ -1996,5 +1996,81 @@ class TestAnnotateMerge:
                 """
             )
 
+    def test_replace_license(self, fake_repository, mock_date_today):
+        """Test --replace-license"""
+        simple_file = fake_repository / "foo.py"
+        simple_file.write_text(
+            cleandoc(
+                """
+                # SPDX-FileCopyrightText: 2026 Jane Doe
+                #
+                # SPDX-License-Identifier: MIT
+
+                pass
+                """
+            )
+        )
+        expected = cleandoc(
+            """
+            # SPDX-FileCopyrightText: 2026 Jane Doe
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--replace-license",
+                "--license",
+                "GPL-3.0-or-later",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected
+
+    def test_no_replace_license(self, fake_repository, mock_date_today):
+        """Make sure code handling --replace-license does not always trigger"""
+        simple_file = fake_repository / "foo.py"
+        simple_file.write_text(
+            cleandoc(
+                """
+                # SPDX-FileCopyrightText: 2026 Jane Doe
+                #
+                # SPDX-License-Identifier: MIT
+
+                pass
+                """
+            )
+        )
+        expected = cleandoc(
+            """
+            # SPDX-FileCopyrightText: 2026 Jane Doe
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: MIT
+
+            pass
+            """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--license",
+                "GPL-3.0-or-later",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected
+
 
 # REUSE-IgnoreEnd
