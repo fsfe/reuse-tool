@@ -79,6 +79,7 @@ def add_header_to_file(
     fallback_dot_license: bool = False,
     merge_copyrights: bool = False,
     replace: bool = True,
+    replace_license: bool = False,
     out: IO[str] = sys.stdout,
 ) -> int:
     """Helper function."""
@@ -129,6 +130,7 @@ def add_header_to_file(
                 style=comment_style,
                 force_multi=force_multi,
                 merge_copyrights=merge_copyrights,
+                replace_license=replace_license,
             )
         else:
             output = add_new_header(

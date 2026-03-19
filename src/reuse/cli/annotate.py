@@ -447,6 +447,11 @@ _HELP = (
     is_flag=True,
     help=_("Skip files that already contain REUSE information."),
 )
+@click.option(
+    "--replace-license",
+    is_flag=True,
+    help=_("Do not keep old license identifiers."),
+)
 @click.argument(
     "paths",
     # TRANSLATORS: You may translate this. Please preserve capital letters.
@@ -474,6 +479,7 @@ def annotate(
     fallback_dot_license: bool,
     skip_unrecognised: bool,
     skip_existing: bool,
+    replace_license: bool,
     paths: Sequence[Path],
 ) -> None:
     # pylint: disable=too-many-arguments,too-many-locals,missing-function-docstring
@@ -491,6 +497,13 @@ def annotate(
     reuse_info = get_reuse_info(
         copyrights, licenses, contributors, copyright_prefix, years_tuple
     )
+
+    # warn the user if both --no-replace and --replace-license are provided
+    #  (--no-replace overrides --replace-license)
+    if no_replace and replace_license:
+        _LOGGER.warning(
+            "Ignoring '--replace-license' as '--no-replace' was provided."
+        )
 
     result = 0
     for path in paths:
@@ -528,6 +541,7 @@ def annotate(
             fallback_dot_license=fallback_dot_license,
             merge_copyrights=merge_copyrights,
             replace=not no_replace,
+            replace_license=replace_license,
             out=sys.stdout,
         )
 
