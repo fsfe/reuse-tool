@@ -250,6 +250,19 @@ def get_years(year: str | None, exclude_year: bool) -> tuple[YearRange, ...]:
     return result
 
 
+def test_no_replace_and_replace_license(
+    no_replace: bool, replace_license: bool
+) -> None:
+    """
+    warn the user if both --no-replace and --replace-license are provided
+      (--no-replace overrides --replace-license)
+    """
+    if no_replace and replace_license:
+        _LOGGER.warning(
+            "Ignoring '--replace-license' as '--no-replace' was provided."
+        )
+
+
 def get_reuse_info(
     copyrights: Collection[str],
     licenses: Collection[SpdxExpression],
@@ -498,13 +511,7 @@ def annotate(
     reuse_info = get_reuse_info(
         copyrights, licenses, contributors, copyright_prefix, years_tuple
     )
-
-    # warn the user if both --no-replace and --replace-license are provided
-    #  (--no-replace overrides --replace-license)
-    if no_replace and replace_license:
-        _LOGGER.warning(
-            "Ignoring '--replace-license' as '--no-replace' was provided."
-        )
+    test_no_replace_and_replace_license(no_replace, replace_license)
 
     result = 0
     for path in paths:
