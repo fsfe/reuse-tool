@@ -1,1 +1,1 @@
-- added `--replace-license` flag (#XXXX)
+- added `--replace-license` flag (#1345)
