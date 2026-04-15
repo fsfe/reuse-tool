@@ -31,6 +31,7 @@
 # SPDX-FileCopyrightText: 2025 Thomas Gilon <thomas.gilon@openenergytransition.org>
 # SPDX-FileCopyrightText: 2025 Manlio Perillo <manlio.perillo@gmail.com>
 # SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
+# SPDX-FileCopyrightText: 2026 Quentin BETTOUM <quentin@bettoum.fr>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -652,6 +653,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".code-workspace": CppCommentStyle,
     ".coffee": PythonCommentStyle,
     ".cpp": CppCommentStyle,
+    ".cr": PythonCommentStyle,
     ".cs": CppCommentStyle,
     ".csl": HtmlCommentStyle,  # Bibliography (XML based)
     ".cson": PythonCommentStyle,
