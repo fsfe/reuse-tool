@@ -163,3 +163,4 @@ Contributors
 - Nguyễn Gia Phong <cnx@loang.net>
 - Quentin BETTOUM <quentin@bettoum.fr>
 - Jack Davies <https://github.com/jgsdavies>
+- Martin Sladecek <martin.sladecek@gmail.com>

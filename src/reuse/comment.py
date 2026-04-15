@@ -33,6 +33,7 @@
 # SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
 # SPDX-FileCopyrightText: 2026 Quentin BETTOUM <quentin@bettoum.fr>
 # SPDX-FileCopyrightText: 2026 Jack Davies <https://github.com/jgsdavies>
+# SPDX-FileCopyrightText: 2026 Martin Sladecek <martin.sladecek@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -778,6 +779,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".odb": UncommentableCommentStyle,
     ".odf": UncommentableCommentStyle,
     ".odg": UncommentableCommentStyle,
+    ".odin": CCommentStyle,
     ".odm": UncommentableCommentStyle,
     ".odp": UncommentableCommentStyle,
     ".ods": UncommentableCommentStyle,
