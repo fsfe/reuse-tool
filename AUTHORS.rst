@@ -161,3 +161,4 @@ Contributors
 - Yongmin Hong <yewon@revi.email>
 - Martijn Saelens <https://github.com/MartenBE>
 - Nguyễn Gia Phong <cnx@loang.net>
+- Quentin BETTOUM <quentin@bettoum.fr>
