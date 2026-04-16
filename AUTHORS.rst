@@ -162,3 +162,4 @@ Contributors
 - Martijn Saelens <https://github.com/MartenBE>
 - Nguyễn Gia Phong <cnx@loang.net>
 - Quentin BETTOUM <quentin@bettoum.fr>
+- Jack Davies <https://github.com/jgsdavies>
