@@ -1,1 +1,1 @@
-- Added support for Pascal and Delphi comments.
+- Added support for Pascal and Delphi comments (#1354)
