@@ -1,0 +1,21 @@
+# Codespell configuration is within pyproject.toml
+---
+name: Codespell
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  codespell:
+    name: Check for spelling errors
+    runs-on: docker
+    container:
+      image: ghcr.io/codespell-project/actions-codespell/master:latest
+    steps:
+      - name: Checkout
+        uses: https://code.forgejo.org/actions/checkout@v4
+      - name: Codespell
+        run: codespell .
