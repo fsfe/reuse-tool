@@ -197,7 +197,12 @@ ignore_missing_imports = true
 
 [tool.codespell]
 # Ref: https://github.com/codespell-project/codespell#using-a-config-file
-skip = '.git,.gitignore,.gitattributes,*.svg,*.lock'
+# po/ - translation files in foreign languages (cs, de, eo, es, fi, fr, gl, it,
+#       nl, pt, sv, tr) trigger many false positives against English dictionary
+skip = '.git,.gitignore,.gitattributes,*.svg,*.lock,po'
 check-hidden = true
-# ignore-regex = ''
-# ignore-words-list = ''
+# uery - part of regex `.xq(l|m|y|uery|)` listing XQuery file extensions
+# useable, unparseable - alternative valid English spellings used in historical
+#   CHANGELOG entries
+# vie - French word used in a poem in tests/test_extract.py fixture
+ignore-words-list = 'uery,useable,unparseable,vie'
