@@ -320,7 +320,7 @@ class YearRange:
     @classmethod
     def compact(cls, ranges: Iterable["YearRange"]) -> tuple["YearRange", ...]:
         """Given an iterable of :class:`YearRange`, compact them such that a new
-        more concise list is returne without losing information. This process
+        more concise list is returned without losing information. This process
         also sorts the ranges, such that ranges with lower starts come before
         ranges with higher starts.
 
