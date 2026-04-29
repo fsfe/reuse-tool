@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-26 02:18+0000\n"
-"PO-Revision-Date: 2026-03-20 16:09+0000\n"
+"PO-Revision-Date: 2026-04-30 15:09+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: src/reuse/_annotate.py:94
 #, python-brace-format
@@ -854,9 +854,8 @@ msgid "missing license '{lic}'"
 msgstr "licencia que falta '{lic}'"
 
 #: src/reuse/lint.py:291
-#, fuzzy
 msgid "read error"
-msgstr "Errores de lectura:"
+msgstr "Error de lectura:"
 
 #: src/reuse/lint.py:296
 #, python-brace-format
@@ -885,9 +884,8 @@ msgid "license without file extension"
 msgstr "Licencias sin extensión de fichero"
 
 #: src/reuse/lint.py:360
-#, fuzzy
 msgid "unused license"
-msgstr "Licencias no utilizadas:"
+msgstr "Licencia no utilizada:"
 
 #: src/reuse/project.py:253
 #, python-brace-format
