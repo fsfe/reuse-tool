@@ -169,3 +169,4 @@ Contributors
 - Benjamin Cabé <benjamin@zephyrproject.org>
 - Jan Gietzel <jan.gietzel@gmail.com>
 - Rishvic Pushpakaran <rishvic@gmail.com>
+- Jonathan Ströbele <mail@jonathanstroebele.de>

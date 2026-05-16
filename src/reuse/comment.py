@@ -36,6 +36,7 @@
 # SPDX-FileCopyrightText: 2026 Martin Sladecek <martin.sladecek@gmail.com>
 # SPDX-FileCopyrightText: 2026 Mercury Technologies, Inc
 # SPDX-FileCopyrightText: 2026 Rishvic Pushpakaran <rishvic@gmail.com>
+# SPDX-FileCopyrightText: 2026 Jonathan Ströbele <mail@jonathanstroebele.de>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -580,6 +581,14 @@ class TexCommentStyle(CommentStyle):
     SHEBANGS = ["% !TEX", "%!TEX", "#!"]
 
 
+class TwigCommentStyle(CommentStyle):
+    """Twig comment style."""
+
+    SHORTHAND = "twig"
+
+    MULTI_LINE = MultiLineSegments("{#", "", "#}")
+
+
 class UncommentableCommentStyle(EmptyCommentStyle):
     """A pseudo comment style to indicate that this file is uncommentable. This
     results in an external .license file for binaries and --force-dot-license.
@@ -878,6 +887,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".tsx": CppCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
     ".typ": CppCommentStyle,  # typst files
+    ".twig": TwigCommentStyle,
     ".ui": HtmlCommentStyle,
     ".v": CppCommentStyle,  # V-Lang source code
     ".vala": CppCommentStyle,
