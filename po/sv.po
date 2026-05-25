@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-26 02:18+0000\n"
+"POT-Creation-Date: 2026-05-25 19:35+0000\n"
 "PO-Revision-Date: 2025-12-21 18:00+0000\n"
 "Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -19,27 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.15.1\n"
 
-#: src/reuse/_annotate.py:94
+#: src/reuse/_annotate.py:96
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
 msgstr "Hoppar över fil som inte känns igen '{path}'"
 
-#: src/reuse/_annotate.py:100
+#: src/reuse/_annotate.py:102
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
 msgstr "'{path}' känns inte igen; skapar '{path}.license'"
 
-#: src/reuse/_annotate.py:116
+#: src/reuse/_annotate.py:118
 #, fuzzy, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
 msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
 
-#: src/reuse/_annotate.py:145
+#: src/reuse/_annotate.py:148
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr "Fel: Kunde inte skapa kommentar för '{path}'"
 
-#: src/reuse/_annotate.py:152
+#: src/reuse/_annotate.py:155
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -51,16 +51,16 @@ msgstr ""
 "inte."
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:163
+#: src/reuse/_annotate.py:166
 #, fuzzy, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr "Lyckades ändra filhuvudet för {path}"
 
-#: src/reuse/cli/annotate.py:66
+#: src/reuse/cli/annotate.py:67
 msgid "Option '--copyright', '--license', or '--contributor' is required."
 msgstr "Alternativet '--copyright', '--license', eller '--contributor' krävs."
 
-#: src/reuse/cli/annotate.py:127
+#: src/reuse/cli/annotate.py:128
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
@@ -70,7 +70,7 @@ msgstr ""
 "'--style','force-dot-license','--fallback-dot-license', eller '--skip-"
 "unrecognised':"
 
-#: src/reuse/cli/annotate.py:160
+#: src/reuse/cli/annotate.py:161
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
@@ -79,7 +79,7 @@ msgstr ""
 "'{path}' har inte stöd för kommentarer på en rad, vänligen använd inte '--"
 "single-line'."
 
-#: src/reuse/cli/annotate.py:167
+#: src/reuse/cli/annotate.py:168
 #, fuzzy, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
@@ -87,17 +87,17 @@ msgid ""
 msgstr ""
 "'{path}' stöjder inte kommentarer på flera rader, använd inte --multi-line"
 
-#: src/reuse/cli/annotate.py:213
+#: src/reuse/cli/annotate.py:214
 #, fuzzy, python-brace-format
 msgid "Template '{template}' could not be found."
 msgstr "'{dep5}' kunde inte avkodas som UTF-8."
 
-#: src/reuse/cli/annotate.py:236
+#: src/reuse/cli/annotate.py:237
 #, fuzzy, python-brace-format
 msgid "'{year}' is not a valid year range."
 msgstr "{value!r} är inte en giltig boolean."
 
-#: src/reuse/cli/annotate.py:245
+#: src/reuse/cli/annotate.py:246
 #, python-brace-format
 msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
@@ -106,12 +106,16 @@ msgstr ""
 "Ditt operativsystems årtal är inställt på '{year}'. Detta är inte fyra "
 "siffror och stöds inte."
 
-#: src/reuse/cli/annotate.py:287
+#: src/reuse/cli/annotate.py:262
+msgid "'--replace-license' and '--no-replace' cannot be used together."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:301
 #, fuzzy
 msgid "Add copyright and licensing into the headers of files."
 msgstr "Lägg till upphovsrätt och licenser i filhuvudena."
 
-#: src/reuse/cli/annotate.py:290
+#: src/reuse/cli/annotate.py:304
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
@@ -120,7 +124,7 @@ msgstr ""
 "upphovsrättsinnehavare och licenser som ska läggas till i filhuvuden på de "
 "givna filerna."
 
-#: src/reuse/cli/annotate.py:296
+#: src/reuse/cli/annotate.py:310
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
@@ -129,109 +133,113 @@ msgstr ""
 "bidragit men inte är upphovsrättsinnehavare till de givna filerna."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:309
+#: src/reuse/cli/annotate.py:323
 msgid "COPYRIGHT"
 msgstr "KOPIERINGSSKYDD"
 
-#: src/reuse/cli/annotate.py:312
+#: src/reuse/cli/annotate.py:326
 msgid "Copyright holder, repeatable."
 msgstr "Upphovsrättsinnehavare, upprepningsbar."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:319
+#: src/reuse/cli/annotate.py:333
 msgid "SPDX_IDENTIFIER"
 msgstr "SPDX_IDENTIFIERARE"
 
-#: src/reuse/cli/annotate.py:322
+#: src/reuse/cli/annotate.py:336
 msgid "SPDX License Identifier, repeatable."
 msgstr "SPDX-licensidentifierare, repeterbar."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:328
+#: src/reuse/cli/annotate.py:342
 #, fuzzy
 msgid "CONTRIBUTOR"
 msgstr "BIDRAGSGIVARE"
 
-#: src/reuse/cli/annotate.py:331
+#: src/reuse/cli/annotate.py:345
 msgid "File contributor, repeatable."
 msgstr "Filbidragsgivare, repeterbar."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:338
+#: src/reuse/cli/annotate.py:352
 msgid "YEAR"
 msgstr "ÅR"
 
-#: src/reuse/cli/annotate.py:343
+#: src/reuse/cli/annotate.py:357
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
 "År för upphovsrättsmeddelande. Du kan ange flera år eller ett årintervall."
 
-#: src/reuse/cli/annotate.py:353
+#: src/reuse/cli/annotate.py:367
 msgid "Comment style to use."
 msgstr "Kommentarstilen att använda."
 
-#: src/reuse/cli/annotate.py:363
+#: src/reuse/cli/annotate.py:377
 msgid "Copyright prefix to use."
 msgstr "Upphovsrättsprefix att använda."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:375
+#: src/reuse/cli/annotate.py:389
 msgid "TEMPLATE"
 msgstr "MALL"
 
-#: src/reuse/cli/annotate.py:377
+#: src/reuse/cli/annotate.py:391
 msgid "Name of template to use."
 msgstr "Namnet på mallen som ska användas."
 
-#: src/reuse/cli/annotate.py:384
+#: src/reuse/cli/annotate.py:398
 msgid "Do not include year in copyright notice."
 msgstr "Ange inte årtal i upphovsrättsmeddelandet."
 
-#: src/reuse/cli/annotate.py:390
+#: src/reuse/cli/annotate.py:404
 msgid "Merge copyright notices if they are identical except for their years."
 msgstr "Sammanfoga upphovsrättsmeddelanden om de är identiska förutom årtalen."
 
-#: src/reuse/cli/annotate.py:398
+#: src/reuse/cli/annotate.py:412
 msgid "Force single-line comment style."
 msgstr "Tvinga en-rads kommentarsstil."
 
-#: src/reuse/cli/annotate.py:405
+#: src/reuse/cli/annotate.py:419
 #, fuzzy
 msgid "Force multi-line comment style."
 msgstr "Tvinga fler-rads kommentarsstil."
 
-#: src/reuse/cli/annotate.py:411
+#: src/reuse/cli/annotate.py:425
 msgid "Add headers to all files under specified directories recursively."
 msgstr "Lägg till huvuden i alla filer under angivna kataloger rekursivt."
 
-#: src/reuse/cli/annotate.py:416
+#: src/reuse/cli/annotate.py:430
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr "Ersätt inte den första rubriken i filen; lägg bara till en ny."
 
-#: src/reuse/cli/annotate.py:423
+#: src/reuse/cli/annotate.py:437
 msgid "Always write a .license file instead of a header inside the file."
 msgstr "Skriv alltid en .license-fil istället för en header inuti filen."
 
-#: src/reuse/cli/annotate.py:430
+#: src/reuse/cli/annotate.py:444
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr "Skriv en .licens-fil med icke igenkända kommentarstilar."
 
-#: src/reuse/cli/annotate.py:437
+#: src/reuse/cli/annotate.py:451
 msgid "Skip files with unrecognised comment styles."
 msgstr "Hoppa över filer med icke igenkända kommentarstilar."
 
-#: src/reuse/cli/annotate.py:448
+#: src/reuse/cli/annotate.py:462
 #, fuzzy
 msgid "Skip files that already contain REUSE information."
 msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
 
+#: src/reuse/cli/annotate.py:468
+msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
+msgstr ""
+
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:453
+#: src/reuse/cli/annotate.py:475
 msgid "PATH"
 msgstr "GENVÄG"
 
-#: src/reuse/cli/annotate.py:510
+#: src/reuse/cli/annotate.py:534
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr "'{path}' är en binär, använder därför '{new_path}' för huvudet"
@@ -610,8 +618,8 @@ msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
-"REUSE_ENCODING_MODULE måste ha ett värde i {modules}; det har '{env_module}"
-"'. Avbryter."
+"REUSE_ENCODING_MODULE måste ha ett värde i {modules}; det har "
+"'{env_module}'. Avbryter."
 
 #: src/reuse/extract.py:84
 msgid ""
@@ -639,7 +647,7 @@ msgstr ""
 "- Kör `pipx install reuse[charset-normalizer]`. Ersätt 'pipx' med 'pip' om "
 "du inte använder pipx."
 
-#: src/reuse/extract.py:487
+#: src/reuse/extract.py:489
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -648,7 +656,7 @@ msgstr ""
 "'{path}' upptäcktes som en binär fil; söker inte igenom dess innehåll efter "
 "REUSE information."
 
-#: src/reuse/extract.py:498
+#: src/reuse/extract.py:500
 #, python-brace-format
 msgid ""
 "extracting REUSE information from '{path}' (encoding {encoding}, encoding "
@@ -697,7 +705,8 @@ msgstr "Kunde inte tolka '{expression}'"
 
 #: src/reuse/header.py:103
 msgid "generated comment is missing copyright lines or license expressions"
-msgstr "den genererade kommentaren saknar upphovsrättsrader eller licensuttryck"
+msgstr ""
+"den genererade kommentaren saknar upphovsrättsrader eller licensuttryck"
 
 #: src/reuse/lint.py:40
 #, fuzzy
@@ -1024,8 +1033,8 @@ msgstr ""
 "tillhandahålls av taggarna 'SPDX-License-Identifier' finns det ingen "
 "motsvarande licenstextfil i katalogen 'LICENSES'. För SPDX-"
 "licensidentifierare kan du helt enkelt köra 'reuse download --all' för att "
-"hämta eventuella saknade. För anpassade licenser (som börjar med 'LicenseRef-"
-"') måste du lägga till dessa filer själv."
+"hämta eventuella saknade. För anpassade licenser (som börjar med "
+"'LicenseRef-') måste du lägga till dessa filer själv."
 
 #: src/reuse/report.py:565
 msgid ""

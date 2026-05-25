@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-26 02:18+0000\n"
+"POT-Creation-Date: 2026-05-25 19:35+0000\n"
 "PO-Revision-Date: 2025-12-01 13:00+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -20,27 +20,27 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Generator: Weblate 5.15-dev\n"
 
-#: src/reuse/_annotate.py:94
+#: src/reuse/_annotate.py:96
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
 msgstr "Přeskočen nerozpoznaný soubor '{path}'"
 
-#: src/reuse/_annotate.py:100
+#: src/reuse/_annotate.py:102
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
 msgstr "'{path}' není rozpoznán; vytváří se '{path}.license'"
 
-#: src/reuse/_annotate.py:116
+#: src/reuse/_annotate.py:118
 #, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
 msgstr "Přeskočený soubor '{path}' již obsahuje informace REUSE"
 
-#: src/reuse/_annotate.py:145
+#: src/reuse/_annotate.py:148
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr "Chyba: Nepodařilo se vytvořit komentář pro '{path}'"
 
-#: src/reuse/_annotate.py:152
+#: src/reuse/_annotate.py:155
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -52,16 +52,16 @@ msgstr ""
 "Nepodařilo se zapsat novou hlavičku."
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:163
+#: src/reuse/_annotate.py:166
 #, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr "Úspěšně změněna hlavička {path}"
 
-#: src/reuse/cli/annotate.py:66
+#: src/reuse/cli/annotate.py:67
 msgid "Option '--copyright', '--license', or '--contributor' is required."
 msgstr "Je vyžadována možnost „--copyright“, „--licence“ nebo „--contributor“."
 
-#: src/reuse/cli/annotate.py:127
+#: src/reuse/cli/annotate.py:128
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
@@ -71,7 +71,7 @@ msgstr ""
 "style“, „--force-dot-license“, „--fallback-dot-license“ nebo „--skip-"
 "unrecognised“:"
 
-#: src/reuse/cli/annotate.py:160
+#: src/reuse/cli/annotate.py:161
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
@@ -80,7 +80,7 @@ msgstr ""
 "'{path}' nepodporuje jednořádkové komentáře, nepoužívejte prosím --single-"
 "line."
 
-#: src/reuse/cli/annotate.py:167
+#: src/reuse/cli/annotate.py:168
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
@@ -88,17 +88,17 @@ msgid ""
 msgstr ""
 "'{path}' nepodporuje víceřádkové komentáře, nepoužívejte prosím --multi-line."
 
-#: src/reuse/cli/annotate.py:213
+#: src/reuse/cli/annotate.py:214
 #, python-brace-format
 msgid "Template '{template}' could not be found."
 msgstr "Šablonu {template} se nepodařilo najít."
 
-#: src/reuse/cli/annotate.py:236
+#: src/reuse/cli/annotate.py:237
 #, python-brace-format
 msgid "'{year}' is not a valid year range."
 msgstr "'{year}' není platný rozsah let."
 
-#: src/reuse/cli/annotate.py:245
+#: src/reuse/cli/annotate.py:246
 #, python-brace-format
 msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
@@ -107,11 +107,15 @@ msgstr ""
 "Rok vašeho operačního systému je nastaven na '{year}'. Toto číslo není "
 "čtyřmístné a není podporováno."
 
-#: src/reuse/cli/annotate.py:287
+#: src/reuse/cli/annotate.py:262
+msgid "'--replace-license' and '--no-replace' cannot be used together."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:301
 msgid "Add copyright and licensing into the headers of files."
 msgstr "Přidání autorských práv a licencí do záhlaví souborů."
 
-#: src/reuse/cli/annotate.py:290
+#: src/reuse/cli/annotate.py:304
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
@@ -119,7 +123,7 @@ msgstr ""
 "Pomocí --copyright a --license můžete určit, které držitele autorských práv "
 "a licence přidat do záhlaví daných souborů."
 
-#: src/reuse/cli/annotate.py:296
+#: src/reuse/cli/annotate.py:310
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
@@ -128,105 +132,109 @@ msgstr ""
 "nejsou držiteli autorských práv k daným souborům."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:309
+#: src/reuse/cli/annotate.py:323
 msgid "COPYRIGHT"
 msgstr "COPYRIGHT"
 
-#: src/reuse/cli/annotate.py:312
+#: src/reuse/cli/annotate.py:326
 msgid "Copyright holder, repeatable."
 msgstr "Držitel autorských práv, opakovatelné."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:319
+#: src/reuse/cli/annotate.py:333
 msgid "SPDX_IDENTIFIER"
 msgstr "SPDX_IDENTIFIER"
 
-#: src/reuse/cli/annotate.py:322
+#: src/reuse/cli/annotate.py:336
 msgid "SPDX License Identifier, repeatable."
 msgstr "Identifikátor licence SPDX, opakovatelný."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:328
+#: src/reuse/cli/annotate.py:342
 msgid "CONTRIBUTOR"
 msgstr "PŘISPĚVATEL"
 
-#: src/reuse/cli/annotate.py:331
+#: src/reuse/cli/annotate.py:345
 msgid "File contributor, repeatable."
 msgstr "Přispěvatel souboru, opakovatelný."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:338
+#: src/reuse/cli/annotate.py:352
 msgid "YEAR"
 msgstr "ROK"
 
-#: src/reuse/cli/annotate.py:343
+#: src/reuse/cli/annotate.py:357
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr "Rok autorského práva. Můžete definovat více let nebo rozsah let."
 
-#: src/reuse/cli/annotate.py:353
+#: src/reuse/cli/annotate.py:367
 msgid "Comment style to use."
 msgstr "Styl komentáře k použití."
 
-#: src/reuse/cli/annotate.py:363
+#: src/reuse/cli/annotate.py:377
 msgid "Copyright prefix to use."
 msgstr "Předpona autorských práv k užití."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:375
+#: src/reuse/cli/annotate.py:389
 msgid "TEMPLATE"
 msgstr "ŠABLONA"
 
-#: src/reuse/cli/annotate.py:377
+#: src/reuse/cli/annotate.py:391
 msgid "Name of template to use."
 msgstr "Název šablony, která se má použít."
 
-#: src/reuse/cli/annotate.py:384
+#: src/reuse/cli/annotate.py:398
 msgid "Do not include year in copyright notice."
 msgstr "Do upozornění o autorských právech neuvádějte rok."
 
-#: src/reuse/cli/annotate.py:390
+#: src/reuse/cli/annotate.py:404
 msgid "Merge copyright notices if they are identical except for their years."
 msgstr "Sloučte informace o autorských právech, pokud se liší pouze rokem."
 
-#: src/reuse/cli/annotate.py:398
+#: src/reuse/cli/annotate.py:412
 msgid "Force single-line comment style."
 msgstr "Vyžadujte jednořádkový styl komentáře."
 
-#: src/reuse/cli/annotate.py:405
+#: src/reuse/cli/annotate.py:419
 msgid "Force multi-line comment style."
 msgstr "Vyžadujte víceřádkový styl komentáře."
 
-#: src/reuse/cli/annotate.py:411
+#: src/reuse/cli/annotate.py:425
 msgid "Add headers to all files under specified directories recursively."
 msgstr "Rekurzivně přidejte hlavičky ke všem souborům v zadaných adresářích."
 
-#: src/reuse/cli/annotate.py:416
+#: src/reuse/cli/annotate.py:430
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr "První záhlaví v souboru nenahrazujte, pouze přidejte nové."
 
-#: src/reuse/cli/annotate.py:423
+#: src/reuse/cli/annotate.py:437
 msgid "Always write a .license file instead of a header inside the file."
 msgstr "Místo hlavičky uvnitř souboru vždy napište soubor .license."
 
-#: src/reuse/cli/annotate.py:430
+#: src/reuse/cli/annotate.py:444
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr "Zapište soubor .license do souborů s nerozpoznanými styly komentářů."
 
-#: src/reuse/cli/annotate.py:437
+#: src/reuse/cli/annotate.py:451
 msgid "Skip files with unrecognised comment styles."
 msgstr "Přeskočte soubory s nerozpoznanými styly komentářů."
 
-#: src/reuse/cli/annotate.py:448
+#: src/reuse/cli/annotate.py:462
 msgid "Skip files that already contain REUSE information."
 msgstr "Přeskočte soubory, které již obsahují informace REUSE."
 
+#: src/reuse/cli/annotate.py:468
+msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
+msgstr ""
+
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:453
+#: src/reuse/cli/annotate.py:475
 msgid "PATH"
 msgstr "CESTA"
 
-#: src/reuse/cli/annotate.py:510
+#: src/reuse/cli/annotate.py:534
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr "'{path}' je binární soubor, proto použijte '{new_path}' pro hlavičku"
@@ -594,8 +602,8 @@ msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
-"REUSE_ENCODING_MODULE musí mít hodnotu v {modules}; má hodnotu'{env_module}"
-"'. Přerušeno."
+"REUSE_ENCODING_MODULE musí mít hodnotu v {modules}; má "
+"hodnotu'{env_module}'. Přerušeno."
 
 #: src/reuse/extract.py:84
 msgid ""
@@ -623,7 +631,7 @@ msgstr ""
 "- Spusťte příkaz ` pipx install reuse[charset-normalizer]`. Pokud "
 "nepoužíváte pipx, nahraďte 'pipx' za 'pip'."
 
-#: src/reuse/extract.py:487
+#: src/reuse/extract.py:489
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -632,14 +640,14 @@ msgstr ""
 "'{path}' byl rozpoznán jako binární soubor; v jeho obsahu nebyly hledány "
 "informace o REUSE."
 
-#: src/reuse/extract.py:498
+#: src/reuse/extract.py:500
 #, python-brace-format
 msgid ""
 "extracting REUSE information from '{path}' (encoding {encoding}, encoding "
 "module {module}, newline {newline})"
 msgstr ""
-"extrahování informací REUSE z '{path}' "
-"(encoding {encoding}, encoding module {module}, newline {newline})"
+"extrahování informací REUSE z '{path}' (encoding {encoding}, encoding module "
+"{module}, newline {newline})"
 
 #: src/reuse/global_licensing.py:92
 #, python-brace-format

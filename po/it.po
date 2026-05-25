@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-26 02:18+0000\n"
+"POT-Creation-Date: 2026-05-25 19:35+0000\n"
 "PO-Revision-Date: 2026-01-20 09:01+0000\n"
 "Last-Translator: scollovati <20740642+scollovati@users.noreply.github.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -17,27 +17,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.16-dev\n"
 
-#: src/reuse/_annotate.py:94
+#: src/reuse/_annotate.py:96
 #, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
 msgstr "File non riconosciuto saltato '{path}'"
 
-#: src/reuse/_annotate.py:100
+#: src/reuse/_annotate.py:102
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
 msgstr "'{path}' non è riconosciuto; creazione di '{path}.license'"
 
-#: src/reuse/_annotate.py:116
+#: src/reuse/_annotate.py:118
 #, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
 msgstr "Il file saltato '{path}' contiene già informazioni REUSE"
 
-#: src/reuse/_annotate.py:145
+#: src/reuse/_annotate.py:148
 #, python-brace-format
 msgid "Error: Could not create comment for '{path}'"
 msgstr "Errore: Non è possibile creare il commento per '{path}'"
 
-#: src/reuse/_annotate.py:152
+#: src/reuse/_annotate.py:155
 #, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
@@ -49,16 +49,16 @@ msgstr ""
 "incorretto. Non è stata scritta una nuova intestazione."
 
 #. TODO: This may need to be rephrased more elegantly.
-#: src/reuse/_annotate.py:163
+#: src/reuse/_annotate.py:166
 #, python-brace-format
 msgid "Successfully changed header of {path}"
 msgstr "Instestazione di {path} aggiornata"
 
-#: src/reuse/cli/annotate.py:66
+#: src/reuse/cli/annotate.py:67
 msgid "Option '--copyright', '--license', or '--contributor' is required."
 msgstr "Parametro necessario '--copyright', '--license' o '--contributor'."
 
-#: src/reuse/cli/annotate.py:127
+#: src/reuse/cli/annotate.py:128
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
@@ -67,7 +67,7 @@ msgstr ""
 "I seguenti file non hanno un'estensione riconosciuta. Utilizzare '--style', "
 "'--force-dot-license', '--fallback-dot-license' o '--skip-unrecognised':"
 
-#: src/reuse/cli/annotate.py:160
+#: src/reuse/cli/annotate.py:161
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
@@ -75,7 +75,7 @@ msgid ""
 msgstr ""
 "'{path}' non supporta i commenti su una sola riga, non usare '--single-line'."
 
-#: src/reuse/cli/annotate.py:167
+#: src/reuse/cli/annotate.py:168
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
@@ -83,17 +83,17 @@ msgid ""
 msgstr ""
 "'{path}' non supporta i commenti su più righe, non usare '--multi-line'."
 
-#: src/reuse/cli/annotate.py:213
+#: src/reuse/cli/annotate.py:214
 #, python-brace-format
 msgid "Template '{template}' could not be found."
 msgstr "Modello {template} non trovato."
 
-#: src/reuse/cli/annotate.py:236
+#: src/reuse/cli/annotate.py:237
 #, python-brace-format
 msgid "'{year}' is not a valid year range."
 msgstr "'{year}' non è un intervallo di anni valido."
 
-#: src/reuse/cli/annotate.py:245
+#: src/reuse/cli/annotate.py:246
 #, python-brace-format
 msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
@@ -102,11 +102,15 @@ msgstr ""
 "L'anno del tuo sistema operativo è impostato su \"{year}\". Questo valore "
 "non è composto da quattro cifre e non è supportato."
 
-#: src/reuse/cli/annotate.py:287
+#: src/reuse/cli/annotate.py:262
+msgid "'--replace-license' and '--no-replace' cannot be used together."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:301
 msgid "Add copyright and licensing into the headers of files."
 msgstr "Aggiungere copyright e licenze nelle intestazioni dei file."
 
-#: src/reuse/cli/annotate.py:290
+#: src/reuse/cli/annotate.py:304
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
@@ -114,7 +118,7 @@ msgstr ""
 "Usando --copyright e --license, puoi specificare quali detentori di "
 "copyright e licenze aggiungere alle intestazioni dei file indicati."
 
-#: src/reuse/cli/annotate.py:296
+#: src/reuse/cli/annotate.py:310
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
@@ -123,114 +127,118 @@ msgstr ""
 "hanno contribuito ma non sono titolari del copyright dei file specificati."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:309
+#: src/reuse/cli/annotate.py:323
 msgid "COPYRIGHT"
 msgstr "COPYRIGHT"
 
-#: src/reuse/cli/annotate.py:312
+#: src/reuse/cli/annotate.py:326
 msgid "Copyright holder, repeatable."
 msgstr "Titolare del copyright, ripetibile."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:319
+#: src/reuse/cli/annotate.py:333
 msgid "SPDX_IDENTIFIER"
 msgstr "IDENTIFICATIVO_SPDX"
 
-#: src/reuse/cli/annotate.py:322
+#: src/reuse/cli/annotate.py:336
 msgid "SPDX License Identifier, repeatable."
 msgstr "Identificativo licenza SPDX, ripetibile."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:328
+#: src/reuse/cli/annotate.py:342
 msgid "CONTRIBUTOR"
 msgstr "CONTRIBUITORE"
 
-#: src/reuse/cli/annotate.py:331
+#: src/reuse/cli/annotate.py:345
 msgid "File contributor, repeatable."
 msgstr "Contribuitore al file, ripetibile."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:338
+#: src/reuse/cli/annotate.py:352
 msgid "YEAR"
 msgstr "ANNO"
 
-#: src/reuse/cli/annotate.py:343
+#: src/reuse/cli/annotate.py:357
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
 "Anno della nota di copyright. È possibile definire più anni o un intervallo "
 "di anni."
 
-#: src/reuse/cli/annotate.py:353
+#: src/reuse/cli/annotate.py:367
 msgid "Comment style to use."
 msgstr "Stile commenti da usare."
 
-#: src/reuse/cli/annotate.py:363
+#: src/reuse/cli/annotate.py:377
 msgid "Copyright prefix to use."
 msgstr "Prefisso del Copyright da usare."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:375
+#: src/reuse/cli/annotate.py:389
 msgid "TEMPLATE"
 msgstr "MODELLO"
 
-#: src/reuse/cli/annotate.py:377
+#: src/reuse/cli/annotate.py:391
 msgid "Name of template to use."
 msgstr "Nome del modello da usare."
 
-#: src/reuse/cli/annotate.py:384
+#: src/reuse/cli/annotate.py:398
 msgid "Do not include year in copyright notice."
 msgstr "Non includere l'anno nella dichiarazione di copyright."
 
-#: src/reuse/cli/annotate.py:390
+#: src/reuse/cli/annotate.py:404
 msgid "Merge copyright notices if they are identical except for their years."
 msgstr ""
 "Unire le note sul copyright se sono identiche, fatta eccezione per gli anni."
 
-#: src/reuse/cli/annotate.py:398
+#: src/reuse/cli/annotate.py:412
 msgid "Force single-line comment style."
 msgstr "Forza lo stile commento su singola riga."
 
-#: src/reuse/cli/annotate.py:405
+#: src/reuse/cli/annotate.py:419
 msgid "Force multi-line comment style."
 msgstr "Forza lo stile commento su più righe."
 
-#: src/reuse/cli/annotate.py:411
+#: src/reuse/cli/annotate.py:425
 msgid "Add headers to all files under specified directories recursively."
 msgstr ""
 "Aggiunge intestazioni a tutti i file nelle cartelle specificate in modo "
 "ricorsivo."
 
-#: src/reuse/cli/annotate.py:416
+#: src/reuse/cli/annotate.py:430
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr ""
 "Non sostituire la prima intestazione nel file; aggiungine semplicemente una "
 "nuova."
 
-#: src/reuse/cli/annotate.py:423
+#: src/reuse/cli/annotate.py:437
 msgid "Always write a .license file instead of a header inside the file."
 msgstr ""
 "Scrivere sempre un file .license anziché un'intestazione all'interno del "
 "file."
 
-#: src/reuse/cli/annotate.py:430
+#: src/reuse/cli/annotate.py:444
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr "Scrivi un file .license nei file con stili commento non riconosciuti."
 
-#: src/reuse/cli/annotate.py:437
+#: src/reuse/cli/annotate.py:451
 msgid "Skip files with unrecognised comment styles."
 msgstr "Ignora i file con stili commento non riconosciuti."
 
-#: src/reuse/cli/annotate.py:448
+#: src/reuse/cli/annotate.py:462
 msgid "Skip files that already contain REUSE information."
 msgstr "Ignora i file che contengono già informazioni REUSE."
 
+#: src/reuse/cli/annotate.py:468
+msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
+msgstr ""
+
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:453
+#: src/reuse/cli/annotate.py:475
 msgid "PATH"
 msgstr "PERCORSO"
 
-#: src/reuse/cli/annotate.py:510
+#: src/reuse/cli/annotate.py:534
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
@@ -262,8 +270,8 @@ msgid ""
 "subsequently deleted."
 msgstr ""
 "Convertire .reuse/dep5 in un file REUSE.toml. Il file generato viene "
-"inserito nella radice del progetto ed è semanticamente identico. Il file "
-".reuse/dep5 verrà successivamente eliminato."
+"inserito nella radice del progetto ed è semanticamente identico. Il "
+"file .reuse/dep5 verrà successivamente eliminato."
 
 #: src/reuse/cli/convert_dep5.py:31
 msgid "No '.reuse/dep5' file."
@@ -493,8 +501,8 @@ msgid ""
 "this program. If not, see <https://www.gnu.org/licenses/>."
 msgstr ""
 "Dovresti aver ricevuto una copia della GNU General Public License insieme a "
-"questo programma. In caso contrario, consulta <https://www.gnu.org/licenses/>"
-"."
+"questo programma. In caso contrario, consulta <https://www.gnu.org/licenses/"
+">."
 
 #: src/reuse/cli/main.py:61
 msgid ""
@@ -635,7 +643,7 @@ msgstr ""
 "- Eseguire `pipx install reuse[charset-normalizer]`. Sostituire 'pipx' con "
 "'pip' se non sta utilizzando pipx."
 
-#: src/reuse/extract.py:487
+#: src/reuse/extract.py:489
 #, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
@@ -644,7 +652,7 @@ msgstr ""
 "'{path}' è stato rilevato come file binario; non è stata eseguita la ricerca "
 "di informazioni sul REUSE nel suo contenuto."
 
-#: src/reuse/extract.py:498
+#: src/reuse/extract.py:500
 #, python-brace-format
 msgid ""
 "extracting REUSE information from '{path}' (encoding {encoding}, encoding "
@@ -1092,7 +1100,8 @@ msgstr[1] "Ho ricevuto argomenti extra inaspettati ({args})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1241
 msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
-msgstr "Avviso di deprecazione: il comando {name!r} è deprecato.{extra_message}"
+msgstr ""
+"Avviso di deprecazione: il comando {name!r} è deprecato.{extra_message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1425
 msgid "Aborted!"
@@ -1347,7 +1356,8 @@ msgstr "{name} {filename!r} non è eseguibile."
 #, python-brace-format
 msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
-msgstr[0] "Sono richiesti valori {len_type}, ma è stato specificato {len_value}."
+msgstr[0] ""
+"Sono richiesti valori {len_type}, ma è stato specificato {len_value}."
 msgstr[1] ""
 "Sono richiesti valori {len_type}, ma sono stati specificati {len_value}."
 
