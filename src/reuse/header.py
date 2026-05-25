@@ -119,6 +119,7 @@ def create_header(
     style: type[CommentStyle] | None = None,
     force_multi: bool = False,
     merge_copyrights: bool = False,
+    replace_license: bool = False,
 ) -> str:
     """Create a header containing *reuse_info*. *header* is an optional argument
     containing a header which should be modified to include *reuse_info*. If
@@ -150,6 +151,8 @@ def create_header(
             spdx_copyrights = reuse_info.copyright_notices.union(
                 existing_spdx.copyright_notices
             )
+        if replace_license and reuse_info.spdx_expressions:
+            existing_spdx.spdx_expressions.clear()
 
         # TODO: This behaviour does not match the docstring.
         reuse_info = existing_spdx | reuse_info
@@ -257,6 +260,7 @@ def find_and_replace_header(
     style: type[CommentStyle] | None = None,
     force_multi: bool = False,
     merge_copyrights: bool = False,
+    replace_license: bool = False,
 ) -> str:
     """Find the first SPDX comment block in *text*. That comment block is
     replaced by a new comment block containing *reuse_info*. It is formatted as
@@ -322,6 +326,7 @@ def find_and_replace_header(
         style=style,
         force_multi=force_multi,
         merge_copyrights=merge_copyrights,
+        replace_license=replace_license,
     )
 
     return place_header(

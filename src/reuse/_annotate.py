@@ -10,6 +10,7 @@
 # SPDX-FileCopyrightText: 2022 Yaman Qalieh
 # SPDX-FileCopyrightText: 2024 Rivos Inc.
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+# SPDX-FileCopyrightText: 2026 Lily A.N. <minekpo1@murena.io>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -79,6 +80,7 @@ def add_header_to_file(
     fallback_dot_license: bool = False,
     merge_copyrights: bool = False,
     replace: bool = True,
+    replace_license: bool = False,
     out: IO[str] = sys.stdout,
 ) -> int:
     """Helper function."""
@@ -129,6 +131,7 @@ def add_header_to_file(
                 style=comment_style,
                 force_multi=force_multi,
                 merge_copyrights=merge_copyrights,
+                replace_license=replace_license,
             )
         else:
             output = add_new_header(

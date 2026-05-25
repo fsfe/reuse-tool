@@ -1997,4 +1997,214 @@ class TestAnnotateMerge:
             )
 
 
+class TestMultipleLicense:
+    """Test behaviour when more than one license is involved."""
+
+    def test_replace_license(self, fake_repository):
+        """Test --replace-license"""
+        simple_file = fake_repository / "foo.py"
+        simple_file.write_text(
+            cleandoc(
+                """
+                # SPDX-FileCopyrightText: 2026 Jane Doe
+                #
+                # SPDX-License-Identifier: MIT
+
+                pass
+                """
+            )
+        )
+        expected = cleandoc(
+            """
+            # SPDX-FileCopyrightText: 2026 Jane Doe
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--replace-license",
+                "--license",
+                "GPL-3.0-or-later",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected
+
+    def test_no_replace_license(self, fake_repository):
+        """Make sure code handling --replace-license does not always trigger"""
+        simple_file = fake_repository / "foo.py"
+        simple_file.write_text(
+            cleandoc(
+                """
+                # SPDX-FileCopyrightText: 2026 Jane Doe
+                #
+                # SPDX-License-Identifier: MIT
+
+                pass
+                """
+            )
+        )
+        expected = cleandoc(
+            """
+            # SPDX-FileCopyrightText: 2026 Jane Doe
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
+            # SPDX-License-Identifier: MIT
+
+            pass
+            """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--license",
+                "GPL-3.0-or-later",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected
+
+    def test_replace_multiple_licenses(self, fake_repository):
+        """Make sure --replace-license can handle
+        multple licenses being present."""
+        simple_file = fake_repository / "foo.py"
+        simple_file.write_text(
+            cleandoc(
+                """
+                # SPDX-FileCopyrightText: 2026 Jane Doe
+                #
+                # SPDX-License-Identifier: GPL-2.0-or-later
+                # SPDX-License-Identifier: MIT
+
+                pass
+                """
+            )
+        )
+
+        expected = cleandoc(
+            """
+            # SPDX-FileCopyrightText: 2026 Jane Doe
+            #
+            # SPDX-License-Identifier: GPL-3.0-or-later
+
+            pass
+            """
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--replace-license",
+                "--license",
+                "GPL-3.0-or-later",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected
+
+    def test_replace_license_and_no_replace(self, fake_repository):
+        """Ensure a usage error is created when both --replace-license and
+        --no-replace are used."""
+        simple_file = fake_repository / "foo.py"
+        simple_file.write_text(
+            cleandoc(
+                """
+                # SPDX-FileCopyrightText: 2026 Jane Doe
+                #
+                # SPDX-License-Identifier: MIT
+
+                pass
+                """
+            )
+        )
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--replace-license",
+                "--no-replace",
+                "--license",
+                "GPL-3.0-or-later",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code > 0
+        assert (
+            "Error: '--replace-license' and"
+            " '--no-replace' cannot be used together."
+        ) in result.output
+
+    def test_replace_license_and_dot_license(self, fake_repository):
+        """Test --replace-license works with --force-dot-license"""
+        simple_file = fake_repository / "foo.py"
+        simple_file.write_text(
+            cleandoc(
+                """
+                pass
+                """
+            )
+        )
+
+        dot_license = fake_repository / "foo.py.license"
+        dot_license.write_text(
+            cleandoc(
+                """
+                SPDX-FileCopyrightText: 2026 Jane Doe
+
+                SPDX-License-Identifier: MIT
+                """
+            )
+        )
+
+        expected_simple_file = cleandoc(
+            """
+            pass
+            """
+        )
+
+        expected_dot_license = (
+            cleandoc(
+                """
+                SPDX-FileCopyrightText: 2026 Jane Doe
+
+                SPDX-License-Identifier: GPL-3.0-or-later
+                """
+            )
+            + "\n"
+        )  # hopefully this doesnt cause issues on non POSIX platforms (NT)
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--replace-license",
+                "--force-dot-license",
+                "--license",
+                "GPL-3.0-or-later",
+                "foo.py",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert simple_file.read_text() == expected_simple_file
+        assert dot_license.read_text() == expected_dot_license
+
+
 # REUSE-IgnoreEnd

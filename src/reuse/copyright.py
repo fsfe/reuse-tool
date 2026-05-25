@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2021 Alliander N.V.
 # SPDX-FileCopyrightText: 2023 Carmen Bianca BAKKER <carmenbianca@fsfe.org>
 # SPDX-FileCopyrightText: 2025 Martijn Saelens <https://github.com/MartenBE>
+# SPDX-FileCopyrightText: 2026 Lily A.N. <minekpo1@murena.io>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 

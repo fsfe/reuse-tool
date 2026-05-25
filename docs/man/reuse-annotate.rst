@@ -148,6 +148,10 @@ Other options
   Instead of aborting when a file extension does not have an associated comment
   style, skip those files.
 
+.. option:: --replace-license
+
+  Replace existing SPDX-License-Identifiers, instead of adding onto them.
+
 .. option:: --help
 
   Display help and exit.
