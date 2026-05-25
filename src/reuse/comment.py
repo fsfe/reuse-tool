@@ -32,6 +32,7 @@
 # SPDX-FileCopyrightText: 2025 Manlio Perillo <manlio.perillo@gmail.com>
 # SPDX-FileCopyrightText: 2025 Matthias Schoettle <opensource@mattsch.com>
 # SPDX-FileCopyrightText: 2026 Quentin BETTOUM <quentin@bettoum.fr>
+# SPDX-FileCopyrightText: 2026 Jack Davies <https://github.com/jgsdavies>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -514,6 +515,17 @@ class MlCommentStyle(CommentStyle):
     INDENT_BEFORE_END = " "
 
 
+class PascalCommentStyle(CommentStyle):
+    """Pascal comment style."""
+
+    SHORTHAND = "pascal"
+
+    SINGLE_LINE = "//"
+    INDENT_AFTER_SINGLE = " "
+    MULTI_LINE = MultiLineSegments("{", "", "}")
+    INDENT_AFTER_MIDDLE = " "
+
+
 class PlantUmlCommentStyle(CommentStyle):
     """PlantUML comment style."""
 
@@ -669,6 +681,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".doc": UncommentableCommentStyle,
     ".docx": UncommentableCommentStyle,
     ".dotx": UncommentableCommentStyle,
+    ".dpr": PascalCommentStyle,
+    ".dpk": PascalCommentStyle,
     ".dtd": HtmlCommentStyle,
     ".dts": CppCommentStyle,
     ".dtsi": CppCommentStyle,
@@ -773,6 +787,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".otp": UncommentableCommentStyle,
     ".ots": UncommentableCommentStyle,
     ".ott": UncommentableCommentStyle,
+    ".pas": PascalCommentStyle,
     ".pdf": UncommentableCommentStyle,
     ".pem": UncommentableCommentStyle,
     ".php": CppCommentStyle,
