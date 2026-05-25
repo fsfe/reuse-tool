@@ -65,6 +65,7 @@ Contributors
 - FeRD (Frank Dana) <ferdnyc@gmail.com>
 - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 - Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+- Jade Lovelace <jadel at mercury dot com>
 - Jakelyst <86010593+Jakelyst@users.noreply.github.com>
 - Jiri Vlasak <jiri.hubacek@gmail.com>
 - Johannes Zarl-Zierl <johannes@zarl-zierl.at>
