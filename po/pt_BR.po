@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-25 19:35+0000\n"
-"PO-Revision-Date: 2026-05-18 00:09+0000\n"
+"PO-Revision-Date: 2026-05-27 01:11+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/fsfe/"
 "reuse-tool/pt_BR/>\n"
@@ -110,7 +110,7 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:262
 msgid "'--replace-license' and '--no-replace' cannot be used together."
-msgstr ""
+msgstr "\"--replace-license\" e \"--no-replace\" não podem ser usados juntos."
 
 #: src/reuse/cli/annotate.py:301
 msgid "Add copyright and licensing into the headers of files."
@@ -243,6 +243,8 @@ msgstr "Pula linhas que já contêm informações de REUSE."
 #: src/reuse/cli/annotate.py:468
 msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
 msgstr ""
+"Substitui os Identificadores de Licença SPDX existentes, em vez de adicionar "
+"novos."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:475
