@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-25 19:35+0000\n"
-"PO-Revision-Date: 2026-04-30 15:09+0000\n"
+"PO-Revision-Date: 2026-05-27 01:11+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: src/reuse/_annotate.py:96
 #, python-brace-format
@@ -107,7 +107,7 @@ msgstr ""
 
 #: src/reuse/cli/annotate.py:262
 msgid "'--replace-license' and '--no-replace' cannot be used together."
-msgstr ""
+msgstr "'--replace-license' y '--no-replace' no se pueden usar juntos."
 
 #: src/reuse/cli/annotate.py:301
 msgid "Add copyright and licensing into the headers of files."
@@ -239,6 +239,8 @@ msgstr "Omitir los archivos que ya contienen la información REUSE"
 #: src/reuse/cli/annotate.py:468
 msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
 msgstr ""
+"Reemplace los identificadores de licencia SPDX existentes, en lugar de "
+"agregarlos."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:475
