@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-25 19:35+0000\n"
-"PO-Revision-Date: 2025-10-22 13:02+0000\n"
-"Last-Translator: \"T. E. Kalaycı\" <tekrei@members.fsf.org>\n"
+"PO-Revision-Date: 2026-06-04 12:01+0000\n"
+"Last-Translator: Mert Şişmanoğlu <me@mertsismanoglu.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "tr/>\n"
 "Language: tr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 2026.6\n"
 
 #: src/reuse/_annotate.py:96
 #, python-brace-format
@@ -1207,9 +1207,8 @@ msgid "Could not open file {filename!r}: {message}"
 msgstr "{filename!r} dosyası açılamadı: {message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:156
-#, fuzzy
 msgid "Usage:"
-msgstr "kullanım: "
+msgstr "Kullanım:"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:199
 msgid "Argument {name!r} takes {nargs} values."
