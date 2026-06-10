@@ -582,7 +582,8 @@ class TexCommentStyle(CommentStyle):
 
 
 class TwigCommentStyle(CommentStyle):
-    """Twig comment style."""
+    """Twig comment style. The style is identical to JinjaCommentStyle, but to
+    allow using it explicitly via --style twig it's duplicated."""
 
     SHORTHAND = "twig"
 
