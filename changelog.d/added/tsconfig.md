@@ -1,0 +1,1 @@
+- Added support for `tsconfig.json` file. (#1366)

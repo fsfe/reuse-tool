@@ -35,6 +35,7 @@
 # SPDX-FileCopyrightText: 2026 Jack Davies <https://github.com/jgsdavies>
 # SPDX-FileCopyrightText: 2026 Martin Sladecek <martin.sladecek@gmail.com>
 # SPDX-FileCopyrightText: 2026 Mercury Technologies, Inc
+# SPDX-FileCopyrightText: 2026 Rishvic Pushpakaran <rishvic@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -992,6 +993,7 @@ FILENAME_COMMENT_STYLE_MAP = {
     "pylintrc": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
     "setup.cfg": PythonCommentStyle,
+    "tsconfig.json": CppCommentStyle,  # JSON, but supports comments
     "uv.lock": UncommentableCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
