@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-25 19:35+0000\n"
-"PO-Revision-Date: 2026-06-23 16:01+0000\n"
+"PO-Revision-Date: 2026-06-24 17:01+0000\n"
 "Last-Translator: Tino Tempesta <foxort@fsfe.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "fr/>\n"
@@ -331,7 +331,6 @@ msgid "Download a license and place it in the LICENSES/ directory."
 msgstr "Télécharge une licence dans le répertoire LICENSES."
 
 #: src/reuse/cli/download.py:109
-#, fuzzy
 msgid ""
 "LICENSE should be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
@@ -344,6 +343,8 @@ msgid ""
 "If LICENSE starts with LicenseRef-, then a corresponding empty file is "
 "created in the LICENSES/ directory."
 msgstr ""
+"Si LICENSE débute avec LicenseRef-, un fichier vide correspondant sera créé "
+"dans le dossier LICENSES/."
 
 #: src/reuse/cli/download.py:128
 msgid "Download all missing licenses detected in the project."
@@ -354,13 +355,12 @@ msgid "Path to download to."
 msgstr "Chemin pour le téléchargement."
 
 #: src/reuse/cli/download.py:142
-#, fuzzy
 msgid ""
 "Source from which to copy license files; either a directory that contains "
 "the file or the file itself."
 msgstr ""
-"Source pour la copie des licences personnalisées LicenseRef-, au choix un "
-"dossier contenant le fichier ou bien directement un fichier."
+"Source depuis laquelle copier les fichiers de licence ; cela peut être soit "
+"un dossier contenant le fichier, soit le fichier lui-même."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:149
@@ -626,6 +626,8 @@ msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
+"REUSE_ENCODING_MODULE doit avoir une valeur dans {modules} ; il contient '"
+"{env_module}'. Annulation."
 
 #: src/reuse/extract.py:84
 msgid ""
