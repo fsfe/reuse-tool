@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-25 19:35+0000\n"
-"PO-Revision-Date: 2025-10-09 21:52+0000\n"
+"PO-Revision-Date: 2026-06-27 06:01+0000\n"
 "Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
 "tool/eo/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: src/reuse/_annotate.py:96
 #, fuzzy, python-brace-format
@@ -26,7 +26,7 @@ msgstr "Preterpasis nekonatan dosieron {path}"
 #: src/reuse/_annotate.py:102
 #, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr ""
+msgstr "'{path}' ne estas rekonata; kreante '{path}.license'"
 
 #: src/reuse/_annotate.py:118
 #, python-brace-format
@@ -101,10 +101,12 @@ msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
 "and not supported."
 msgstr ""
+"La jaro de via mastruma sistemo estas agordita al '{year}'. Ĉi tio ne estas "
+"kvarcifera, kaj ne estas subtenata."
 
 #: src/reuse/cli/annotate.py:262
 msgid "'--replace-license' and '--no-replace' cannot be used together."
-msgstr ""
+msgstr "'--replace-license' kaj '--no-replace' ne povas esti uzataj kune."
 
 #: src/reuse/cli/annotate.py:301
 #, fuzzy
@@ -116,17 +118,21 @@ msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
 msgstr ""
+"Per uzado de --copyright kaj --license, vi povas specifi, kiujn "
+"kopirajtulojn kaj licencojn aldoni al la titoloj de la donitaj dosieroj."
 
 #: src/reuse/cli/annotate.py:310
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
 msgstr ""
+"Per uzado de --contributor, vi povas specifi homojn aŭ entojn, kiuj "
+"kontribuis sed ne estas kopirajtulo de la donitaj dosieroj."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:323
 msgid "COPYRIGHT"
-msgstr ""
+msgstr "KOPIRAJTO"
 
 #: src/reuse/cli/annotate.py:326
 #, fuzzy
@@ -136,7 +142,7 @@ msgstr "kopirajtlinio, ripetabla"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:333
 msgid "SPDX_IDENTIFIER"
-msgstr ""
+msgstr "SPDX_IDENTIFILO"
 
 #: src/reuse/cli/annotate.py:336
 #, fuzzy
@@ -146,7 +152,7 @@ msgstr "SPDX Identigilo, ripetabla"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:342
 msgid "CONTRIBUTOR"
-msgstr ""
+msgstr "KONTRIBUANTO"
 
 #: src/reuse/cli/annotate.py:345
 #, fuzzy
@@ -156,12 +162,14 @@ msgstr "SPDX Identigilo, ripetabla"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:352
 msgid "YEAR"
-msgstr ""
+msgstr "JARO"
 
 #: src/reuse/cli/annotate.py:357
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
+"Jaro de kopirajta avizo. Vi povas difini plurajn jarojn aŭ intervalon de "
+"jaroj."
 
 #: src/reuse/cli/annotate.py:367
 #, fuzzy
@@ -176,7 +184,7 @@ msgstr "uzenda komentstilo, malnepra"
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:389
 msgid "TEMPLATE"
-msgstr ""
+msgstr "ŜABLONO"
 
 #: src/reuse/cli/annotate.py:391
 #, fuzzy
@@ -205,23 +213,23 @@ msgstr "uzenda komentstilo, malnepra"
 
 #: src/reuse/cli/annotate.py:425
 msgid "Add headers to all files under specified directories recursively."
-msgstr ""
+msgstr "Aldoni kapliniojn al ĉiuj dosieroj sub specifaj dosierujoj rekursie."
 
 #: src/reuse/cli/annotate.py:430
 msgid "Do not replace the first header in the file; just add a new one."
-msgstr ""
+msgstr "Ne anstataŭigu la unuan kaplinion en la dosiero; simple aldonu novan."
 
 #: src/reuse/cli/annotate.py:437
 msgid "Always write a .license file instead of a header inside the file."
-msgstr ""
+msgstr "Ĉiam skribu .license dosieron anstataŭ kaplinon ene de la dosiero."
 
 #: src/reuse/cli/annotate.py:444
 msgid "Write a .license file to files with unrecognised comment styles."
-msgstr ""
+msgstr "Skribu .license dosieron al dosieroj kun nekonataj komentostiloj."
 
 #: src/reuse/cli/annotate.py:451
 msgid "Skip files with unrecognised comment styles."
-msgstr ""
+msgstr "Preterlasi dosierojn kun nekonataj komentostiloj."
 
 #: src/reuse/cli/annotate.py:462
 #, fuzzy
@@ -231,11 +239,12 @@ msgstr "Preterpasis dosieron '{path}' kiu jam enhavas REUSE-informojn"
 #: src/reuse/cli/annotate.py:468
 msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
 msgstr ""
+"Anstataŭigu ekzistantajn SPDX-Licenco-Identigilojn, anstataŭ aldoni al ili."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:475
 msgid "PATH"
-msgstr ""
+msgstr "VOJO"
 
 #: src/reuse/cli/annotate.py:534
 #, python-brace-format
@@ -248,11 +257,12 @@ msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
+"'{path}' ne povis esti analizita. Ni ricevis la jenan erarmesaĝon: {message}"
 
 #: src/reuse/cli/common.py:87
 #, python-brace-format
 msgid "'{name}' is mutually exclusive with: {opts}"
-msgstr ""
+msgstr "'{name}' estas reciproke ekskluziva kun: {opts}"
 
 #: src/reuse/cli/common.py:103
 #, fuzzy
@@ -321,12 +331,16 @@ msgid ""
 "LICENSE should be a valid SPDX License Identifier. You may specify LICENSE "
 "multiple times to download multiple licenses."
 msgstr ""
+"LICENSE devus esti valida SPDX-licenca identigilo. Vi povas specifi LICENSE "
+"plurfoje por elŝuti plurajn licencojn."
 
 #: src/reuse/cli/download.py:115
 msgid ""
 "If LICENSE starts with LicenseRef-, then a corresponding empty file is "
 "created in the LICENSES/ directory."
 msgstr ""
+"Se LICENSE komenciĝas per LicenseRef-, pro tio koresponda malplena dosiero "
+"kreiĝas en la dosierujo LICENSES/."
 
 #: src/reuse/cli/download.py:128
 #, fuzzy
@@ -370,7 +384,7 @@ msgstr ""
 
 #: src/reuse/cli/lint.py:34
 msgid "Specifically, the following criteria are checked:"
-msgstr ""
+msgstr "Specife, la jenaj kriterioj estas kontrolitaj:"
 
 #: src/reuse/cli/lint.py:38
 msgid ""
@@ -443,9 +457,9 @@ msgid "FILE"
 msgstr ""
 
 #: src/reuse/cli/lint_file.py:65
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "'{file}' is not inside of '{root}'."
-msgstr ""
+msgstr "'{dosiero}' ne estas ene de '{root}'."
 
 #: src/reuse/cli/main.py:36
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:465
