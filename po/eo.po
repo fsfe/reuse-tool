@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-25 19:35+0000\n"
-"PO-Revision-Date: 2026-06-27 06:01+0000\n"
+"PO-Revision-Date: 2026-06-30 16:01+0000\n"
 "Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/fsfe/reuse-"
 "tool/eo/>\n"
@@ -349,13 +349,15 @@ msgstr "elŝuti ĉiujn mankantajn permesilojn kiujn oni eltrovis en la projekto"
 
 #: src/reuse/cli/download.py:136
 msgid "Path to download to."
-msgstr ""
+msgstr "Vojo elŝuti al."
 
 #: src/reuse/cli/download.py:142
 msgid ""
 "Source from which to copy license files; either a directory that contains "
 "the file or the file itself."
 msgstr ""
+"Fonto el kie kopii licencajn dosierojn; aŭ dosierujo kiu enhavas la dosieron "
+"aŭ la dosiero mem."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/download.py:149
