@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-25 19:35+0000\n"
-"PO-Revision-Date: 2026-06-24 17:01+0000\n"
+"PO-Revision-Date: 2026-07-02 05:01+0000\n"
 "Last-Translator: Tino Tempesta <foxort@fsfe.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "fr/>\n"
@@ -242,6 +242,8 @@ msgstr "Ignorer les fichiers qui contiennent déjà les données REUSE."
 #: src/reuse/cli/annotate.py:468
 msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
 msgstr ""
+"Remplacez les SPDX-License-Identifiers existants, au lieu d'y ajouter de "
+"nouveaux éléments."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:475
@@ -800,7 +802,7 @@ msgstr "RÉSUMÉ"
 
 #: src/reuse/lint.py:162
 msgid "Bad licenses:"
-msgstr "Mauvaises licences :"
+msgstr "Licences invalides :"
 
 #: src/reuse/lint.py:163
 msgid "Deprecated licenses:"
@@ -832,7 +834,7 @@ msgstr "Expressions de licence SPDX invalides :"
 
 #: src/reuse/lint.py:183
 msgid "Files with copyright information:"
-msgstr "Fichiers contenant des mentions de droits d'auteur :"
+msgstr "Fichiers contenant des informations de droits d'auteur :"
 
 #: src/reuse/lint.py:187
 msgid "Files with license information:"
@@ -883,7 +885,7 @@ msgstr "aucun avis de droit d'auteur"
 #: src/reuse/lint.py:345
 #, python-brace-format
 msgid "bad license '{lic}'"
-msgstr "licence incorrecte '{lic}'"
+msgstr "licence invalide '{lic}'"
 
 #: src/reuse/lint.py:350
 msgid "deprecated license"
@@ -984,11 +986,11 @@ msgid ""
 "valid SPDX License Identifiers or do not start with 'LicenseRef-'. FAQ about "
 "custom licenses: https://reuse.software/faq/#custom-license"
 msgstr ""
-"Corrigez les mauvaises licences : Au moins une licence du dossier LICENSES "
+"Corrigez les licences invalides : Au moins une licence du dossier LICENSES "
 "et/ou fournie par l'étiquette 'SPDX-License-Identifier' est invalide. Soit "
 "il ne s'agit pas d'identifiants de licence SPDX valides, soit ces "
 "identifiants personnalisés ne commencent pas par 'LicenseRef-'. FAQ à propos "
-"des licences personnalisées : https://reuse.software/faq/#custom-license"
+"des licences personnalisées : https://reuse.software/faq/#custom-license"
 
 #: src/reuse/report.py:533
 msgid ""
