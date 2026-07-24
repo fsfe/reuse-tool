@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2023 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2026 Benjamin Cabé <benjamin@zephyrproject.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -329,6 +330,16 @@ class AnnotationsItem:
         validator=_validate_collection_of(set, str, optional=True),
         default=None,
     )
+    #: Keys of the [[annotations]] table that reuse does not itself recognise,
+    #: preserved verbatim. reuse does not interpret these; they are exposed so
+    #: that downstream tools can attach their own metadata to an annotation.
+    #:
+    #: The specification allows these keys, but does not define their
+    #: semantics, and RECOMMENDS reusing existing SPDX tags for them.
+    custom_properties: dict[str, Any] = attrs.field(
+        factory=dict,
+        validator=_instance_of(dict),
+    )
 
     def __attrs_post_init__(self) -> None:
         # Immediately trigger cached properties to get error as needed.
@@ -389,6 +400,10 @@ class AnnotationsItem:
     def from_dict(cls, values: dict[str, Any]) -> "AnnotationsItem":
         """Create an :class:`AnnotationsItem` from a dictionary that uses the
         key-value pairs for an [[annotations]] table in REUSE.toml.
+
+        Keys that reuse does not recognise are not discarded; they are kept in
+        :attr:`custom_properties`. The specification RECOMMENDS that such keys
+        reuse existing SPDX tags, hence why there is no further validation here.
         """
         new_dict = {}
         new_dict["paths"] = values.get(_TOML_KEYS["paths"])
@@ -401,6 +416,11 @@ class AnnotationsItem:
         new_dict["spdx_expressions"] = values.get(
             _TOML_KEYS["_spdx_expressions"]
         )
+        new_dict["custom_properties"] = {
+            key: value
+            for key, value in values.items()
+            if key not in _TOML_KEYS.values()
+        }
         return cls(**new_dict)  # type: ignore
 
     def matches(self, path: str) -> bool:
@@ -442,14 +462,18 @@ class ReuseTOML(GlobalLicensing):
 
     @classmethod
     def from_toml(cls, toml: str, source: str) -> "ReuseTOML":
-        """Create a :class:`ReuseTOML` from TOML text."""
+        """Create a :class:`ReuseTOML` from TOML text.
+
+        All values are unwrapped into plain Python objects. tomlkit's
+        style-preserving types are never part of the result.
+        """
         try:
-            tomldict = tomlkit.loads(toml)
+            document = tomlkit.loads(toml)
         except tomlkit.exceptions.TOMLKitError as error:
             raise GlobalLicensingParseError(
                 str(error), source=source
             ) from error
-        return cls.from_dict(tomldict, source)
+        return cls.from_dict(document.unwrap(), source)
 
     @classmethod
     def from_file(cls, path: StrPath, **kwargs: Any) -> "ReuseTOML":

@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2023 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2026 Benjamin Cabé <benjamin@zephyrproject.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -253,6 +254,47 @@ class TestAnnotationsItemFromDict:
         assert not item.copyright_notices
         assert not item.spdx_expressions
 
+    def test_custom_properties(self):
+        """Keys that reuse does not recognise are preserved in
+        custom_properties.
+        """
+        item = AnnotationsItem.from_dict(
+            {
+                "path": {"foo.py"},
+                "SPDX-License-Identifier": {"MIT"},
+                "Custom-Foo": "Bar",
+                "SPDX-FileComment": "Lorem ipsum dolor sit amet.",
+            }
+        )
+        assert item.custom_properties == {
+            "Custom-Foo": "Bar",
+            "SPDX-FileComment": "Lorem ipsum dolor sit amet.",
+        }
+
+    def test_custom_properties_excludes_known_keys(self):
+        """Recognised keys are not duplicated into custom_properties."""
+        item = AnnotationsItem.from_dict(
+            {
+                "path": {"foo.py"},
+                "precedence": "override",
+                "SPDX-FileCopyrightText": {"2023 Jane Doe"},
+                "SPDX-License-Identifier": {"MIT"},
+            }
+        )
+        assert item.custom_properties == {}
+
+    def test_custom_properties_default_empty(self):
+        """custom_properties defaults to an empty dict."""
+        assert AnnotationsItem(paths={"foo.py"}).custom_properties == {}
+
+    def test_custom_properties_bad_type(self):
+        """custom_properties must be a dict."""
+        with pytest.raises(GlobalLicensingParseTypeError):
+            AnnotationsItem(
+                {"foo.py"},
+                custom_properties="foo",  # type: ignore[arg-type]
+            )
+
 
 class TestAnnotationsItemMatches:
     """Test AnnotationsItem's matches method."""
@@ -461,6 +503,23 @@ class TestReuseTOMLFromDict:
         assert result.source == "REUSE.toml"
         assert result.annotations[0] == annotations_item
 
+    def test_custom_properties(self):
+        """Custom annotation keys survive parsing into ReuseTOML."""
+        result = ReuseTOML.from_dict(
+            {
+                "version": 1,
+                "annotations": [
+                    {
+                        "path": {"foo.py"},
+                        "SPDX-License-Identifier": {"MIT"},
+                        "Custom-Foo": "Bar",
+                    }
+                ],
+            },
+            "REUSE.toml",
+        )
+        assert result.annotations[0].custom_properties == {"Custom-Foo": "Bar"}
+
     def test_no_annotations(self):
         """It's OK to not provide annotations."""
         result = ReuseTOML.from_dict({"version": 1}, source="REUSE.toml")
@@ -534,6 +593,36 @@ class TestReuseTOMLFromToml:
         """If there is a TOML syntax error, raise a GlobalLicensingParseError"""
         with pytest.raises(GlobalLicensingParseError):
             ReuseTOML.from_toml("version = 1,", "REUSE.toml")
+
+    def test_no_tomlkit_types(self):
+        """The parsed values are plain Python objects, not tomlkit's
+        style-preserving subclasses of them.
+        """
+        # isinstance would also accept the tomlkit subclasses.
+        # pylint: disable=unidiomatic-typecheck
+        text = cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            SPDX-License-Identifier = "MIT"
+            Custom-Number = 42
+            Custom-List = ["Hello", "world"]
+            Custom-Table = { Hello = "world" }
+            """
+        )
+        result = ReuseTOML.from_toml(text, "REUSE.toml")
+        item = result.annotations[0]
+        assert type(result.version) is int
+        assert all(type(path) is str for path in item.paths)
+        assert type(item.custom_properties["Custom-Number"]) is int
+        assert type(item.custom_properties["Custom-List"]) is list
+        assert all(
+            type(value) is str
+            for value in item.custom_properties["Custom-List"]
+        )
+        assert type(item.custom_properties["Custom-Table"]) is dict
 
 
 class TestReuseTOMLEscaping:
