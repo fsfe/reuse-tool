@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2023 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2026 Benjamin Cabé <benjamin@zephyrproject.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -534,6 +535,26 @@ class TestReuseTOMLFromToml:
         """If there is a TOML syntax error, raise a GlobalLicensingParseError"""
         with pytest.raises(GlobalLicensingParseError):
             ReuseTOML.from_toml("version = 1,", "REUSE.toml")
+
+    def test_no_tomlkit_types(self):
+        """The parsed values are plain Python objects, not tomlkit's
+        style-preserving subclasses of them.
+        """
+        # isinstance would also accept the tomlkit subclasses.
+        # pylint: disable=unidiomatic-typecheck
+        text = cleandoc(
+            """
+            version = 1
+
+            [[annotations]]
+            path = "foo.py"
+            SPDX-License-Identifier = "MIT"
+            """
+        )
+        result = ReuseTOML.from_toml(text, "REUSE.toml")
+        item = result.annotations[0]
+        assert type(result.version) is int
+        assert all(type(path) is str for path in item.paths)
 
 
 class TestReuseTOMLEscaping:

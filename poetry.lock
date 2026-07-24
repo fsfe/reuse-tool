@@ -2133,4 +2133,4 @@ file-magic = ["file-magic"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "752c6f467ab90960aa813bb57f1b1e1fc0d8398f75b657bce36e54e3f142a9df"
+content-hash = "55c3fd82ac6353aec33019965fd23757746e6baafaeb138974f8c26804cdb5f3"

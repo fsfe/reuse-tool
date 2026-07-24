@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2023 Free Software Foundation Europe e.V. <https://fsfe.org>
+# SPDX-FileCopyrightText: 2026 Benjamin Cabé <benjamin@zephyrproject.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -442,14 +443,18 @@ class ReuseTOML(GlobalLicensing):
 
     @classmethod
     def from_toml(cls, toml: str, source: str) -> "ReuseTOML":
-        """Create a :class:`ReuseTOML` from TOML text."""
+        """Create a :class:`ReuseTOML` from TOML text.
+
+        All values are unwrapped into plain Python objects. tomlkit's
+        style-preserving types are never part of the result.
+        """
         try:
-            tomldict = tomlkit.loads(toml)
+            document = tomlkit.loads(toml)
         except tomlkit.exceptions.TOMLKitError as error:
             raise GlobalLicensingParseError(
                 str(error), source=source
             ) from error
-        return cls.from_dict(tomldict, source)
+        return cls.from_dict(document.unwrap(), source)
 
     @classmethod
     def from_file(cls, path: StrPath, **kwargs: Any) -> "ReuseTOML":
