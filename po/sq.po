@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-25 19:35+0000\n"
-"PO-Revision-Date: 2026-08-21 23:35+0000\n"
+"PO-Revision-Date: 2026-08-22 23:51+0000\n"
 "Last-Translator: Juri <eng.juri@gmail.com>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "sq/>\n"
@@ -20,19 +20,19 @@ msgstr ""
 "X-Generator: Weblate 2026.9.dev0\n"
 
 #: src/reuse/_annotate.py:96
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped unrecognised file '{path}'"
-msgstr "Skedari i panjohur \"{ path}\" u anashkalua"
+msgstr "Skedari i panjohur \"{path}\" u anashkalua"
 
 #: src/reuse/_annotate.py:102
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{path}' is not recognised; creating '{path}.license'"
-msgstr "'{rruga}' nuk njihet; duke krijuar '{path}.license'"
+msgstr "'{path}' nuk njihet; duke krijuar '{path}.license'"
 
 #: src/reuse/_annotate.py:118
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Skedari '{ path}' i kapërcyer tashmë përmban informacion RIPERDORIM"
+msgstr "Skedari '{path}' i kapërcyer tashmë përmban informacion RIPERDORIM"
 
 #: src/reuse/_annotate.py:148
 #, python-brace-format
@@ -40,13 +40,13 @@ msgid "Error: Could not create comment for '{path}'"
 msgstr "Gabim: Nuk mund të krijohej koment për \"{path}\""
 
 #: src/reuse/_annotate.py:155
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Error: Generated comment header for '{path}' is missing copyright lines or "
 "license expressions. The template is probably incorrect. Did not write new "
 "header."
 msgstr ""
-"Gabim: Kreu i komentit të krijuar për '{rrugë}' i mungojnë linjat e të "
+"Gabim: Kreu i komentit të krijuar për '{path}' i mungojnë linjat e të "
 "drejtës së autorit ose shprehjet e licencës. Modeli është ndoshta i pasaktë. "
 "Nuk ka shkruar një titull të ri."
 
@@ -72,21 +72,21 @@ msgstr ""
 "ose \"--skip-i panjohur\":"
 
 #: src/reuse/cli/annotate.py:161
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
 "line'."
 msgstr ""
-"'{ path}' nuk mbështet komente me një rresht, ju lutemi mos përdorni '--"
+"'{path}' nuk mbështet komente me një rresht, ju lutemi mos përdorni '--"
 "single-line'."
 
 #: src/reuse/cli/annotate.py:168
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
 "line'."
 msgstr ""
-"'{ path}' nuk mbështet komente me shumë rreshta, ju lutemi mos përdorni '--"
+"'{path}' nuk mbështet komente me shumë rreshta, ju lutemi mos përdorni '--"
 "multi-line'."
 
 #: src/reuse/cli/annotate.py:214
@@ -249,17 +249,17 @@ msgid "PATH"
 msgstr "SHTEG"
 
 #: src/reuse/cli/annotate.py:534
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
-msgstr "'{ path}' është një binar, prandaj përdor '{new_path}' për kokën"
+msgstr "'{path}' është një binar, prandaj përdor '{new_path}' për kokën"
 
 #: src/reuse/cli/common.py:51
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' could not be parsed. We received the following error message: "
 "{message}"
 msgstr ""
-"'{rruga}' nuk mund të analizohej. Ne morëm mesazhin e mëposhtëm të gabimit: "
+"'{path}' nuk mund të analizohej. Ne morëm mesazhin e mëposhtëm të gabimit: "
 "{message}"
 
 #: src/reuse/cli/common.py:87
@@ -307,9 +307,9 @@ msgid "Error: {spdx_identifier} already exists."
 msgstr "Gabim: {spdx_identifier} ekziston tashmë."
 
 #: src/reuse/cli/download.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error: {path} does not exist."
-msgstr "Gabim: {rruga} nuk ekziston."
+msgstr "Gabim: {path} nuk ekziston."
 
 #: src/reuse/cli/download.py:85
 msgid "Error: Failed to download license."
@@ -603,13 +603,13 @@ msgstr ""
 "shto-licencë-përfunduar\"."
 
 #: src/reuse/cli/spdx.py:96
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' does not match a common SPDX file pattern. Find the suggested "
 "naming conventions here: https://spdx.github.io/spdx-spec/conformance/#44-"
 "standard-data-format-requirements"
 msgstr ""
-"'{ path}' nuk përputhet me një model skedari të zakonshëm SPDX. Gjeni "
+"'{path}' nuk përputhet me një model skedari të zakonshëm SPDX. Gjeni "
 "konventat e sugjeruara të emërtimit këtu: https://spdx.github.io/spdx-spec/"
 "conformance/#44-standard-data-format-requirements"
 
@@ -653,21 +653,21 @@ msgstr ""
 "Zëvendësoni 'pipx' me 'pip' nëse nuk jeni duke përdorur pipx."
 
 #: src/reuse/extract.py:489
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' was detected as a binary file; not searching its contents for REUSE "
 "information."
 msgstr ""
-"'{ path}' u zbulua si një skedar binar; duke mos kërkuar përmbajtjen e tij "
+"'{path}' u zbulua si një skedar binar; duke mos kërkuar përmbajtjen e tij "
 "për informacion RIPERDORIM."
 
 #: src/reuse/extract.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "extracting REUSE information from '{path}' (encoding {encoding}, encoding "
 "module {module}, newline {newline})"
 msgstr ""
-"nxjerrja e informacionit të RIPERDORIMIT nga '{rruga}' (kodimi {encoding}, "
+"nxjerrja e informacionit të RIPERDORIMIT nga '{path}' (encoding {encoding}, "
 "moduli i kodimit {module}, rreshti i ri {newline})"
 
 #: src/reuse/global_licensing.py:92
@@ -699,11 +699,12 @@ msgstr ""
 "{name} duhet të jetë një {type} (ka marrë {value} që është një {value_type})."
 
 #: src/reuse/global_licensing.py:166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
 msgstr ""
-"Vlera e 'precedencës' duhet të jetë një nga {precedence_vals} (u {marr})"
+"Vlera e 'precedencës' duhet të jetë një nga {precedence_vals} (got\n"
+"{received})"
 
 #: src/reuse/global_licensing.py:219
 #, python-brace-format
@@ -894,16 +895,16 @@ msgid "unused license"
 msgstr "licencë e papërdorur"
 
 #: src/reuse/project.py:253
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'{path}' covered by {global_path}"
-msgstr "'{ path}' mbuluar nga {global_path}"
+msgstr "'{path}' mbuluar nga {global_path}"
 
 #: src/reuse/project.py:261
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' is covered exclusively by REUSE.toml. Not reading the file contents."
 msgstr ""
-"'{rruga}' mbulohet ekskluzivisht nga REUSE.toml. Mos leximi i përmbajtjes së "
+"'{path}' mbulohet ekskluzivisht nga REUSE.toml. Mos leximi i përmbajtjes së "
 "skedarit."
 
 #: src/reuse/project.py:334
@@ -950,12 +951,12 @@ msgstr ""
 "{other_path}"
 
 #: src/reuse/project.py:482
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "'{path}' is inside of a '{exe}' repository, but it is not its root "
 "directory. ignoring the VCS."
 msgstr ""
-"'{ path}' është brenda një depoje '{exe}', por nuk është direktoria e saj "
+"'{path}' është brenda një depoje '{exe}', por nuk është direktoria e saj "
 "rrënjësore. duke injoruar VCS."
 
 #: src/reuse/project.py:491
@@ -967,14 +968,14 @@ msgstr ""
 "instaluar"
 
 #: src/reuse/report.py:161
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read '{path}'"
-msgstr "Nuk mund të lexohej \"{rruga}\""
+msgstr "Nuk mund të lexohej \"{path}\""
 
 #: src/reuse/report.py:166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
-msgstr "Ndodhi një gabim i papritur gjatë analizimit të '{ path}'"
+msgstr "Ndodhi një gabim i papritur gjatë analizimit të '{path}'"
 
 #: src/reuse/report.py:522
 msgid ""
@@ -1085,9 +1086,9 @@ msgstr ""
 "<https://reuse.software/tutorial/>"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{editor}: Editing failed"
-msgstr "{redaktori}: Redaktimi dështoi"
+msgstr "{editor}: Redaktimi dështoi"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:612
 #, python-brace-format
@@ -1219,11 +1220,11 @@ msgid "No such option: {name}"
 msgstr "Nuk ka opsion të tillë: {name}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:235
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
-msgstr[0] "E kishe fjalën për {mundësi}?"
-msgstr[1] "(Opsionet e mundshme: {mundësitë})"
+msgstr[0] "E kishe fjalën për {possibility}"
+msgstr[1] "(Opsionet e mundshme: {possibilities}?)"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:282
 msgid "unknown error"
@@ -1287,13 +1288,13 @@ msgid "Press any key to continue..."
 msgstr "Shtypni çdo buton për të vazhduar..."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:332
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Choose from:\n"
 "\t{choices}"
 msgstr ""
 "Zgjidhni nga:\n"
-"\t{zgjedhje}"
+"\t{choices}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:369
 msgid "{value!r} is not {choice}."
