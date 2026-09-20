@@ -800,6 +800,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".php5": CppCommentStyle,
     ".pl": PythonCommentStyle,
     ".plantuml": PlantUmlCommentStyle,
+    ".plx": PythonCommentStyle,
+    ".pm": PythonCommentStyle,
     ".png": UncommentableCommentStyle,
     ".po": PythonCommentStyle,
     ".pod": PythonCommentStyle,
@@ -812,6 +814,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".properties": PythonCommentStyle,
     ".proto": CppCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
+    ".psgi": PythonCommentStyle,
     ".psm1": PythonCommentStyle,  # TODO: Multiline comments
     ".pu": PlantUmlCommentStyle,
     ".puml": PlantUmlCommentStyle,
@@ -896,6 +899,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".xqy": XQueryCommentStyle,
     ".xquery": XQueryCommentStyle,
     ".xrl": TexCommentStyle,
+    ".xs": CCommentStyle,
     ".xsd": HtmlCommentStyle,
     ".xsh": PythonCommentStyle,
     ".xsl": HtmlCommentStyle,
