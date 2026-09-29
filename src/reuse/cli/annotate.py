@@ -30,7 +30,7 @@ from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
 from .._annotate import add_header_to_file
-from .._util import _determine_license_path, _determine_license_suffix_path
+from .._util import determine_license_path, determine_license_suffix_path
 from ..comment import (
     NAME_STYLE_MAP,
     CommentStyle,
@@ -96,7 +96,7 @@ def all_paths(
                 }
     else:
         result = set(paths)
-    return [_determine_license_path(path) for path in result if path.is_file()]
+    return [determine_license_path(path) for path in result if path.is_file()]
 
 
 def verify_paths_comment_style(
@@ -540,7 +540,7 @@ def annotate(
             else os.linesep
         )
         if encoding is None or is_uncommentable(path) or force_dot_license:
-            new_path = _determine_license_suffix_path(path)
+            new_path = determine_license_suffix_path(path)
             if encoding is None:
                 _LOGGER.info(
                     _(

@@ -25,7 +25,7 @@ from typing import IO, Literal, cast
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
-from ._util import _determine_license_suffix_path, relative_from_root
+from ._util import determine_license_suffix_path, relative_from_root
 from .comment import (
     NAME_STYLE_MAP,
     CommentStyle,
@@ -110,7 +110,7 @@ def add_header_to_file(
                 ).format(path=path)
             )
             out.write("\n")
-            path = _determine_license_suffix_path(path)
+            path = determine_license_suffix_path(path)
             path.touch()
             comment_style = EmptyCommentStyle
 
