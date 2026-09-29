@@ -23,7 +23,7 @@ from typing import NamedTuple, cast
 import attrs
 
 from ._licenses import EXCEPTION_MAP, LICENSE_MAP
-from ._util import _determine_license_path, relative_from_root
+from ._util import determine_license_path, relative_from_root
 from .copyright import ReuseInfo, SourceType
 from .covered_files import iter_files
 from .exceptions import (
@@ -230,7 +230,7 @@ class Project:
         """
         # pylint: disable=too-many-branches
         original_path = Path(path)
-        path = _determine_license_path(path)
+        path = determine_license_path(path)
 
         # This means that only one 'source' of licensing/copyright information
         # is captured in ReuseInfo

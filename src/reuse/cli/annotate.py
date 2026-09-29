@@ -30,7 +30,11 @@ from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
 from .._annotate import add_header_to_file
-from .._util import _determine_license_path, _determine_license_suffix_path
+from .._util import (
+    determine_license_path,
+    determine_license_suffix_path,
+    relative_from_root,
+)
 from ..comment import (
     NAME_STYLE_MAP,
     CommentStyle,
@@ -48,12 +52,35 @@ from ..copyright import (
 )
 from ..exceptions import YearRangeParseError
 from ..extract import HEURISTICS_CHUNK_SIZE, detect_encoding, detect_newline
+from ..global_licensing import GlobalLicensing
 from ..i18n import _
 from ..project import Project
 from .common import ClickObj, MutexOption, spdx_identifier
 from .main import main
 
 _LOGGER = logging.getLogger(__name__)
+
+
+def _is_annotated_by_precedence(
+    path: Path,
+    skip_global_precedences: Collection[str],
+    global_licensing: GlobalLicensing | None,
+) -> str | Literal[False]:
+    """Return the path of the global licensing file (read: REUSE.toml file)
+    which annotates *path* for one of the given precedences.
+    """
+    if global_licensing is not None:
+        global_info_dicts = global_licensing.reuse_info_of(
+            relative_from_root(Path(path), global_licensing.root)
+        )
+        for precedence, global_infos in global_info_dicts.items():
+            for global_info in global_infos:
+                if (
+                    global_info.contains_info()
+                    and precedence.value in skip_global_precedences
+                ):
+                    return str(global_info.source_path)
+    return False
 
 
 def test_mandatory_option_required(
@@ -96,7 +123,7 @@ def all_paths(
                 }
     else:
         result = set(paths)
-    return [_determine_license_path(path) for path in result if path.is_file()]
+    return [determine_license_path(path) for path in result if path.is_file()]
 
 
 def verify_paths_comment_style(
@@ -528,6 +555,8 @@ def annotate(
     reuse_info = get_reuse_info(
         copyrights, licenses, contributors, copyright_prefix, years_tuple
     )
+    if skip_global:
+        skip_precedence = ["aggregate", "closest", "override"]
 
     result = 0
     for path in paths:
@@ -539,8 +568,25 @@ def annotate(
             if encoding is not None
             else os.linesep
         )
+
+        # Skip files by precedence.
+        if skip_precedence:
+            skip_path = _is_annotated_by_precedence(
+                path, skip_precedence, project.global_licensing
+            )
+            if skip_path:
+                sys.stdout.write(
+                    _(
+                        "Skipped file '{path}' which is already covered"
+                        " by '{source}'"
+                    ).format(path=path, source=skip_path)
+                )
+                sys.stdout.write("\n")
+                continue
+
+        # Write .license file instead.
         if encoding is None or is_uncommentable(path) or force_dot_license:
-            new_path = _determine_license_suffix_path(path)
+            new_path = determine_license_suffix_path(path)
             if encoding is None:
                 _LOGGER.info(
                     _(
@@ -551,22 +597,17 @@ def annotate(
                 encoding = "utf_8"
             path = Path(new_path)
             path.touch()
+
         result += add_header_to_file(
             path=path,
             reuse_info=reuse_info,
             template=template,
             template_is_commented=commented,
             style=style,
-            global_licensing=project.global_licensing,
             encoding=encoding,
             newline=newline,
             force_multi=multi_line,
             skip_existing=skip_existing,
-            skip_global_precedences=(
-                ["aggregate", "closest", "override"]
-                if skip_global
-                else skip_precedence
-            ),
             skip_unrecognised=skip_unrecognised,
             fallback_dot_license=fallback_dot_license,
             merge_copyrights=merge_copyrights,

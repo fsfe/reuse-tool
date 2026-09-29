@@ -91,17 +91,17 @@ def find_licenses_directory(root: StrPath | None = None) -> Path:
     return licenses_path
 
 
-def _determine_license_path(path: StrPath) -> Path:
+def determine_license_path(path: StrPath) -> Path:
     """Given a path FILE, return FILE.license if it exists, otherwise return
     FILE.
     """
     license_path = Path(f"{path}.license")
     if not license_path.exists():
-        license_path = Path(path)
+        return Path(path)
     return license_path
 
 
-def _determine_license_suffix_path(path: StrPath) -> Path:
+def determine_license_suffix_path(path: StrPath) -> Path:
     """Given a path FILE or FILE.license, return FILE.license."""
     path = Path(path)
     if path.suffix == ".license":
