@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 19:35+0000\n"
+"POT-Creation-Date: 2026-09-29 12:58+0000\n"
 "PO-Revision-Date: 2026-08-22 23:51+0000\n"
 "Last-Translator: Juri <eng.juri@gmail.com>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -56,12 +56,12 @@ msgstr ""
 msgid "Successfully changed header of {path}"
 msgstr "Titulli i {path} u ndryshua me sukses"
 
-#: src/reuse/cli/annotate.py:67
+#: src/reuse/cli/annotate.py:95
 msgid "Option '--copyright', '--license', or '--contributor' is required."
 msgstr ""
 "Kërkohet opsioni '--e drejta e autorit', '--licencë' ose '--kontribues'."
 
-#: src/reuse/cli/annotate.py:128
+#: src/reuse/cli/annotate.py:156
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
@@ -71,7 +71,7 @@ msgstr ""
 "përdorni \"--style\", \"--force-dot-license\", \"--fallback-dot-license\" "
 "ose \"--skip-i panjohur\":"
 
-#: src/reuse/cli/annotate.py:161
+#: src/reuse/cli/annotate.py:189
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
@@ -80,7 +80,7 @@ msgstr ""
 "'{path}' nuk mbështet komente me një rresht, ju lutemi mos përdorni '--"
 "single-line'."
 
-#: src/reuse/cli/annotate.py:168
+#: src/reuse/cli/annotate.py:196
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
@@ -89,17 +89,17 @@ msgstr ""
 "'{path}' nuk mbështet komente me shumë rreshta, ju lutemi mos përdorni '--"
 "multi-line'."
 
-#: src/reuse/cli/annotate.py:214
+#: src/reuse/cli/annotate.py:242
 #, python-brace-format
 msgid "Template '{template}' could not be found."
 msgstr "Modeli '{template}' nuk mund të gjendej."
 
-#: src/reuse/cli/annotate.py:237
+#: src/reuse/cli/annotate.py:265
 #, python-brace-format
 msgid "'{year}' is not a valid year range."
 msgstr "\"{year}\" nuk është një interval vjetor i vlefshëm."
 
-#: src/reuse/cli/annotate.py:246
+#: src/reuse/cli/annotate.py:274
 #, python-brace-format
 msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
@@ -108,16 +108,11 @@ msgstr ""
 "Viti i sistemit tuaj operativ është caktuar në '{year}'. Kjo nuk është katër "
 "shifra dhe nuk mbështetet."
 
-#: src/reuse/cli/annotate.py:262
-msgid "'--replace-license' and '--no-replace' cannot be used together."
-msgstr ""
-"\"--replace-license\" dhe \"--no-replace\" nuk mund të përdoren së bashku."
-
-#: src/reuse/cli/annotate.py:301
+#: src/reuse/cli/annotate.py:318
 msgid "Add copyright and licensing into the headers of files."
 msgstr "Shtoni të drejtat e autorit dhe licencimin në titujt e skedarëve."
 
-#: src/reuse/cli/annotate.py:304
+#: src/reuse/cli/annotate.py:321
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
@@ -126,7 +121,7 @@ msgstr ""
 "mbajtës të së drejtës së autorit dhe licenca të shtohen në titujt e "
 "skedarëve të dhënë."
 
-#: src/reuse/cli/annotate.py:310
+#: src/reuse/cli/annotate.py:327
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
@@ -136,119 +131,134 @@ msgstr ""
 "skedarëve të dhënë."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:323
+#: src/reuse/cli/annotate.py:340
 msgid "COPYRIGHT"
 msgstr "E DREJTA E AUTORIT"
 
-#: src/reuse/cli/annotate.py:326
+#: src/reuse/cli/annotate.py:343
 msgid "Copyright holder, repeatable."
 msgstr "Mbajtësi i të drejtës së autorit, i përsëritshëm."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:333
+#: src/reuse/cli/annotate.py:350
 msgid "SPDX_IDENTIFIER"
 msgstr "SPDX_IDENTIFIER"
 
-#: src/reuse/cli/annotate.py:336
+#: src/reuse/cli/annotate.py:353
 msgid "SPDX License Identifier, repeatable."
 msgstr "Identifikuesi i licencës SPDX, i përsëritshëm."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:342
+#: src/reuse/cli/annotate.py:359
 msgid "CONTRIBUTOR"
 msgstr "KONTRIBUTOR"
 
-#: src/reuse/cli/annotate.py:345
+#: src/reuse/cli/annotate.py:362
 msgid "File contributor, repeatable."
 msgstr "Kontribues skedari, i përsëritshëm."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:352
+#: src/reuse/cli/annotate.py:369
 msgid "YEAR"
 msgstr "VITI"
 
-#: src/reuse/cli/annotate.py:357
+#: src/reuse/cli/annotate.py:374
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
 "Viti i njoftimit për të drejtën e autorit. Ju mund të përcaktoni vite të "
 "shumta ose një varg vitesh."
 
-#: src/reuse/cli/annotate.py:367
+#: src/reuse/cli/annotate.py:384
 msgid "Comment style to use."
 msgstr "Stili i komenteve për t'u përdorur."
 
-#: src/reuse/cli/annotate.py:377
+#: src/reuse/cli/annotate.py:394
 msgid "Copyright prefix to use."
 msgstr "Prefiksi i autorit për t'u përdorur."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:389
+#: src/reuse/cli/annotate.py:406
 msgid "TEMPLATE"
 msgstr "SHBALL"
 
-#: src/reuse/cli/annotate.py:391
+#: src/reuse/cli/annotate.py:408
 msgid "Name of template to use."
 msgstr "Emri i shabllonit për t'u përdorur."
 
-#: src/reuse/cli/annotate.py:398
+#: src/reuse/cli/annotate.py:415
 msgid "Do not include year in copyright notice."
 msgstr "Mos përfshini vitin në njoftimin për të drejtën e autorit."
 
-#: src/reuse/cli/annotate.py:404
+#: src/reuse/cli/annotate.py:421
 msgid "Merge copyright notices if they are identical except for their years."
 msgstr ""
 "Bashkoni njoftimet për të drejtën e autorit nëse ato janë identike, përveç "
 "viteve të tyre."
 
-#: src/reuse/cli/annotate.py:412
+#: src/reuse/cli/annotate.py:429
 msgid "Force single-line comment style."
 msgstr "Forco stilin e komenteve me një rresht."
 
-#: src/reuse/cli/annotate.py:419
+#: src/reuse/cli/annotate.py:436
 msgid "Force multi-line comment style."
 msgstr "Forco stilin e komenteve me shumë rreshta."
 
-#: src/reuse/cli/annotate.py:425
+#: src/reuse/cli/annotate.py:442
 msgid "Add headers to all files under specified directories recursively."
 msgstr ""
 "Shtoni titujt në të gjithë skedarët nën drejtoritë e specifikuara në mënyrë "
 "rekursive."
 
-#: src/reuse/cli/annotate.py:430
+#: src/reuse/cli/annotate.py:449
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr "Mos e zëvendësoni kokën e parë në skedar; thjesht shtoni një të re."
 
-#: src/reuse/cli/annotate.py:437
+#: src/reuse/cli/annotate.py:457
+msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
+msgstr ""
+"Zëvendësoni identifikuesit ekzistues SPDX-License, në vend që t'i shtoni ato."
+
+#: src/reuse/cli/annotate.py:466
 msgid "Always write a .license file instead of a header inside the file."
 msgstr ""
 "Shkruani gjithmonë një skedar .license në vend të një titulli brenda "
 "skedarit."
 
-#: src/reuse/cli/annotate.py:444
+#: src/reuse/cli/annotate.py:473
 msgid "Write a .license file to files with unrecognised comment styles."
 msgstr ""
 "Shkruani një skedar .license në skedarë me stile komentesh të panjohura."
 
-#: src/reuse/cli/annotate.py:451
+#: src/reuse/cli/annotate.py:480
 msgid "Skip files with unrecognised comment styles."
 msgstr "Kapërceni skedarët me stile komentesh të panjohura."
 
-#: src/reuse/cli/annotate.py:462
+#: src/reuse/cli/annotate.py:491
 msgid "Skip files that already contain REUSE information."
 msgstr "Kapërceni skedarët që tashmë përmbajnë informacion RIPERDORIM."
 
-#: src/reuse/cli/annotate.py:468
-msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
+#: src/reuse/cli/annotate.py:498
+msgid "Skip files that are covered by REUSE.toml or .reuse/dep5."
 msgstr ""
-"Zëvendësoni identifikuesit ekzistues SPDX-License, në vend që t'i shtoni ato."
+
+#: src/reuse/cli/annotate.py:507
+msgid ""
+"Skip files that are covered by REUSE.toml or .reuse/dep5 with a specific "
+"precedence level, repeatable."
+msgstr ""
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:475
+#: src/reuse/cli/annotate.py:514
 msgid "PATH"
 msgstr "SHTEG"
 
-#: src/reuse/cli/annotate.py:534
+#: src/reuse/cli/annotate.py:580
+#, fuzzy, python-brace-format
+msgid "Skipped file '{path}' which is already covered by '{source}'"
+msgstr "Skedari '{path}' i kapërcyer tashmë përmban informacion RIPERDORIM"
+
+#: src/reuse/cli/annotate.py:593
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr "'{path}' është një binar, prandaj përdor '{new_path}' për kokën"
@@ -623,8 +633,8 @@ msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
-"REUSE_ENCODING_MODULE duhet të ketë një vlerë në {modules}; ka '{env_module}"
-"'. Aborti."
+"REUSE_ENCODING_MODULE duhet të ketë një vlerë në {modules}; ka "
+"'{env_module}'. Aborti."
 
 #: src/reuse/extract.py:84
 msgid ""
@@ -670,7 +680,7 @@ msgstr ""
 "nxjerrja e informacionit të RIPERDORIMIT nga '{path}' (encoding {encoding}, "
 "moduli i kodimit {module}, rreshti i ri {newline})"
 
-#: src/reuse/global_licensing.py:92
+#: src/reuse/global_licensing.py:93
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
@@ -678,7 +688,7 @@ msgstr ""
 "{attr_name} duhet të jetë një {type_name} (ka marrë {value} që është një "
 "{value_class})."
 
-#: src/reuse/global_licensing.py:106
+#: src/reuse/global_licensing.py:107
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
@@ -687,18 +697,18 @@ msgstr ""
 "Artikulli në koleksionin {attr_name} duhet të jetë një {type_name} (ka marrë "
 "{item_value} që është një {item_class})."
 
-#: src/reuse/global_licensing.py:118
+#: src/reuse/global_licensing.py:119
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr "{attr_name} nuk duhet të jetë bosh."
 
-#: src/reuse/global_licensing.py:142
+#: src/reuse/global_licensing.py:143
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
 msgstr ""
 "{name} duhet të jetë një {type} (ka marrë {value} që është një {value_type})."
 
-#: src/reuse/global_licensing.py:166
+#: src/reuse/global_licensing.py:167
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -706,7 +716,7 @@ msgstr ""
 "Vlera e 'precedencës' duhet të jetë një nga {precedence_vals} (got\n"
 "{received})"
 
-#: src/reuse/global_licensing.py:219
+#: src/reuse/global_licensing.py:220
 #, python-brace-format
 msgid "Could not parse '{notice}'"
 msgstr "\"{notice}\" nuk mund të analizohej"
@@ -924,12 +934,12 @@ msgstr ""
 "U gjetën edhe '{new_path}' dhe '{old_path}'. Ju nuk mund t'i mbani të dy "
 "skedarët njëkohësisht; ato nuk janë të përputhshme."
 
-#: src/reuse/project.py:419
+#: src/reuse/project.py:421
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} nuk ka një shtesë skedari"
 
-#: src/reuse/project.py:429
+#: src/reuse/project.py:431
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -942,7 +952,7 @@ msgstr ""
 "licencave që gjendet në <https://spdx.org/licenses/> ose që fillon me "
 "'LicenseRef-' dhe se ka një shtesë skedari."
 
-#: src/reuse/project.py:441
+#: src/reuse/project.py:443
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
@@ -950,7 +960,7 @@ msgstr ""
 "{identifier} është identifikuesi i licencës SPDX për të dy {path} dhe "
 "{other_path}"
 
-#: src/reuse/project.py:482
+#: src/reuse/project.py:484
 #, python-brace-format
 msgid ""
 "'{path}' is inside of a '{exe}' repository, but it is not its root "
@@ -959,7 +969,7 @@ msgstr ""
 "'{path}' është brenda një depoje '{exe}', por nuk është direktoria e saj "
 "rrënjësore. duke injoruar VCS."
 
-#: src/reuse/project.py:491
+#: src/reuse/project.py:493
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -967,17 +977,17 @@ msgstr ""
 "projekti '{}' nuk është një depo VCS ose softueri i kërkuar VCS nuk është i "
 "instaluar"
 
-#: src/reuse/report.py:161
+#: src/reuse/report.py:162
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Nuk mund të lexohej \"{path}\""
 
-#: src/reuse/report.py:166
+#: src/reuse/report.py:167
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Ndodhi një gabim i papritur gjatë analizimit të '{path}'"
 
-#: src/reuse/report.py:522
+#: src/reuse/report.py:523
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -990,7 +1000,7 @@ msgstr ""
 "nuk fillojnë me 'LicenseRef-'. FAQ rreth licencave të personalizuara: "
 "https://reuse.software/faq/#custom-license"
 
-#: src/reuse/report.py:533
+#: src/reuse/report.py:534
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -1004,7 +1014,7 @@ msgstr ""
 "rinj të rekomanduar përkatës mund të gjenden këtu: <https://spdx.org/"
 "licenses/#deprecated>"
 
-#: src/reuse/report.py:544
+#: src/reuse/report.py:545
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -1014,7 +1024,7 @@ msgstr ""
 "licencës në drejtorinë \"LICENCA\" nuk ka një shtesë skedari \".txt\". Ju "
 "lutemi riemërtoni skedarin(et) në përputhje me rrethanat."
 
-#: src/reuse/report.py:553
+#: src/reuse/report.py:554
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -1030,7 +1040,7 @@ msgstr ""
 "personalizuara (duke filluar me 'LicenseRef-'), duhet t'i shtoni vetë këta "
 "skedarë."
 
-#: src/reuse/report.py:565
+#: src/reuse/report.py:566
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -1045,7 +1055,7 @@ msgstr ""
 "papërdorur të licencës nëse jeni i sigurt se asnjë skedar ose copë kodi nuk "
 "është i licencuar si i tillë."
 
-#: src/reuse/report.py:576
+#: src/reuse/report.py:577
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -1056,7 +1066,7 @@ msgstr ""
 "t'i gjeni skedarët e prekur në krye të daljes si pjesë e mesazheve të "
 "gabimit të regjistruar."
 
-#: src/reuse/report.py:585
+#: src/reuse/report.py:586
 msgid ""
 "Fix invalid SPDX License Expressions: In one or more files there are SPDX "
 "License Expressions which cannot be parse. Check whether the value that "
@@ -1070,7 +1080,7 @@ msgstr ""
 "Nëse shprehja e zbuluar nuk është menduar të jetë e vlefshme, vendoseni "
 "midis komenteve \"REUSE-IgnoreStart\" dhe \"REUSE-IgnoreEnd\"."
 
-#: src/reuse/report.py:596
+#: src/reuse/report.py:597
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
@@ -1367,3 +1377,7 @@ msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] "Kërkohen vlera {len_type}, por është dhënë {len_value}."
 msgstr[1] "Kërkohen vlera {len_type}, por {len_value} janë dhënë."
+
+#~ msgid "'--replace-license' and '--no-replace' cannot be used together."
+#~ msgstr ""
+#~ "\"--replace-license\" dhe \"--no-replace\" nuk mund të përdoren së bashku."

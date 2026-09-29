@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 19:35+0000\n"
+"POT-Creation-Date: 2026-09-29 12:58+0000\n"
 "PO-Revision-Date: 2026-07-02 05:01+0000\n"
 "Last-Translator: Tino Tempesta <foxort@fsfe.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -55,11 +55,11 @@ msgstr ""
 msgid "Successfully changed header of {path}"
 msgstr "En-tête de {path} modifié avec succès"
 
-#: src/reuse/cli/annotate.py:67
+#: src/reuse/cli/annotate.py:95
 msgid "Option '--copyright', '--license', or '--contributor' is required."
 msgstr "L'option '--copyright', '--license' ou '--contributor' est nécessaire."
 
-#: src/reuse/cli/annotate.py:128
+#: src/reuse/cli/annotate.py:156
 msgid ""
 "The following files do not have a recognised file extension. Please use '--"
 "style', '--force-dot-license', '--fallback-dot-license', or '--skip-"
@@ -69,7 +69,7 @@ msgstr ""
 "style', '--force-dot-license', '--fallback-dot-license' ou '--skip-"
 "unrecognised' :"
 
-#: src/reuse/cli/annotate.py:161
+#: src/reuse/cli/annotate.py:189
 #, python-brace-format
 msgid ""
 "'{path}' does not support single-line comments, please do not use '--single-"
@@ -78,7 +78,7 @@ msgstr ""
 "'{path}' ne supporte pas les commentaires mono-lignes, merci de ne pas "
 "utiliser '--single-line'."
 
-#: src/reuse/cli/annotate.py:168
+#: src/reuse/cli/annotate.py:196
 #, python-brace-format
 msgid ""
 "'{path}' does not support multi-line comments, please do not use '--multi-"
@@ -87,17 +87,17 @@ msgstr ""
 "'{path}' ne supporte pas les commentaires multi-lignes, merci de ne pas "
 "utiliser '--multi-line'."
 
-#: src/reuse/cli/annotate.py:214
+#: src/reuse/cli/annotate.py:242
 #, python-brace-format
 msgid "Template '{template}' could not be found."
 msgstr "Le modèle '{template}' est introuvable."
 
-#: src/reuse/cli/annotate.py:237
+#: src/reuse/cli/annotate.py:265
 #, python-brace-format
 msgid "'{year}' is not a valid year range."
 msgstr "'{year}' n'est pas une plage d'années valide."
 
-#: src/reuse/cli/annotate.py:246
+#: src/reuse/cli/annotate.py:274
 #, python-brace-format
 msgid ""
 "Your operating system's year is set to '{year}'. This is not four digits, "
@@ -106,18 +106,13 @@ msgstr ""
 "L'année de votre système est définie à '{year}' : Elle ne comporte pas "
 "quatre chiffres et n'est pas compatible."
 
-#: src/reuse/cli/annotate.py:262
-msgid "'--replace-license' and '--no-replace' cannot be used together."
-msgstr ""
-"'--replace-license' et '--no-replace' ne peuvent être utilisés ensembles."
-
-#: src/reuse/cli/annotate.py:301
+#: src/reuse/cli/annotate.py:318
 msgid "Add copyright and licensing into the headers of files."
 msgstr ""
 "Ajouter les informations de droits d'auteur et de licence dans les en-têtes "
 "des fichiers."
 
-#: src/reuse/cli/annotate.py:304
+#: src/reuse/cli/annotate.py:321
 msgid ""
 "By using --copyright and --license, you can specify which copyright holders "
 "and licenses to add to the headers of the given files."
@@ -126,7 +121,7 @@ msgstr ""
 "titulaires de droit d'auteur et de licence à ajouter dans l'en-tête des "
 "fichiers."
 
-#: src/reuse/cli/annotate.py:310
+#: src/reuse/cli/annotate.py:327
 msgid ""
 "By using --contributor, you can specify people or entity that contributed "
 "but are not copyright holder of the given files."
@@ -135,122 +130,137 @@ msgstr ""
 "qui ont contribué mais ne sont pas titulaires de droit d'auteur des fichiers."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:323
+#: src/reuse/cli/annotate.py:340
 msgid "COPYRIGHT"
 msgstr "COPYRIGHT"
 
-#: src/reuse/cli/annotate.py:326
+#: src/reuse/cli/annotate.py:343
 msgid "Copyright holder, repeatable."
 msgstr "Titulaires de droits d'auteur, répétable."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:333
+#: src/reuse/cli/annotate.py:350
 msgid "SPDX_IDENTIFIER"
 msgstr "SPDX_IDENTIFIER"
 
-#: src/reuse/cli/annotate.py:336
+#: src/reuse/cli/annotate.py:353
 msgid "SPDX License Identifier, repeatable."
 msgstr "Identifiant de licence SPDX, répétable."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:342
+#: src/reuse/cli/annotate.py:359
 msgid "CONTRIBUTOR"
 msgstr "CONTRIBUTEUR"
 
-#: src/reuse/cli/annotate.py:345
+#: src/reuse/cli/annotate.py:362
 msgid "File contributor, repeatable."
 msgstr "Contributeur au fichier, répétable."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:352
+#: src/reuse/cli/annotate.py:369
 msgid "YEAR"
 msgstr "ANNÉE"
 
-#: src/reuse/cli/annotate.py:357
+#: src/reuse/cli/annotate.py:374
 msgid ""
 "Year of copyright notice. You may define multiple years or a range of years."
 msgstr ""
 "Année de la publication de droit d'auteur. Vous pouvez indiquer plusieurs "
 "années ou une plage d'années."
 
-#: src/reuse/cli/annotate.py:367
+#: src/reuse/cli/annotate.py:384
 msgid "Comment style to use."
 msgstr "Style de commentaire à utiliser."
 
-#: src/reuse/cli/annotate.py:377
+#: src/reuse/cli/annotate.py:394
 msgid "Copyright prefix to use."
 msgstr "Préfixe de droits d'auteur à utiliser."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:389
+#: src/reuse/cli/annotate.py:406
 msgid "TEMPLATE"
 msgstr "TEMPLATE"
 
-#: src/reuse/cli/annotate.py:391
+#: src/reuse/cli/annotate.py:408
 msgid "Name of template to use."
 msgstr "Nom de modèle à utiliser."
 
-#: src/reuse/cli/annotate.py:398
+#: src/reuse/cli/annotate.py:415
 msgid "Do not include year in copyright notice."
 msgstr "Ne pas inclure d'année dans l'avis de droit d'auteur."
 
-#: src/reuse/cli/annotate.py:404
+#: src/reuse/cli/annotate.py:421
 msgid "Merge copyright notices if they are identical except for their years."
 msgstr ""
 "Fusionner les mentions de droits d'auteur si elles sont identiques, à "
 "l'exception de l'année."
 
-#: src/reuse/cli/annotate.py:412
+#: src/reuse/cli/annotate.py:429
 msgid "Force single-line comment style."
 msgstr "Forcer le style de commentaire monoligne."
 
-#: src/reuse/cli/annotate.py:419
+#: src/reuse/cli/annotate.py:436
 msgid "Force multi-line comment style."
 msgstr "Forcer le style de commentaire multiligne."
 
-#: src/reuse/cli/annotate.py:425
+#: src/reuse/cli/annotate.py:442
 msgid "Add headers to all files under specified directories recursively."
 msgstr ""
 "Ajouter récursivement les en-têtes dans tous les fichiers des répertoires "
 "spécifiés."
 
-#: src/reuse/cli/annotate.py:430
+#: src/reuse/cli/annotate.py:449
 msgid "Do not replace the first header in the file; just add a new one."
 msgstr ""
 "Ne pas remplacer le premier en-tête dans le fichier, mais simplement en "
 "ajouter un."
 
-#: src/reuse/cli/annotate.py:437
-msgid "Always write a .license file instead of a header inside the file."
-msgstr ""
-"Toujours écrire un fichier .license au lieu d'un en-tête dans le fichier."
-
-#: src/reuse/cli/annotate.py:444
-msgid "Write a .license file to files with unrecognised comment styles."
-msgstr ""
-"Écrire un fichier .license pour les fichiers au style de commentaire inconnu."
-
-#: src/reuse/cli/annotate.py:451
-msgid "Skip files with unrecognised comment styles."
-msgstr ""
-"Ignorer les fichiers comportant des styles de commentaires non reconnus."
-
-#: src/reuse/cli/annotate.py:462
-msgid "Skip files that already contain REUSE information."
-msgstr "Ignorer les fichiers qui contiennent déjà les données REUSE."
-
-#: src/reuse/cli/annotate.py:468
+#: src/reuse/cli/annotate.py:457
 msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
 msgstr ""
 "Remplacez les SPDX-License-Identifiers existants, au lieu d'y ajouter de "
 "nouveaux éléments."
 
+#: src/reuse/cli/annotate.py:466
+msgid "Always write a .license file instead of a header inside the file."
+msgstr ""
+"Toujours écrire un fichier .license au lieu d'un en-tête dans le fichier."
+
+#: src/reuse/cli/annotate.py:473
+msgid "Write a .license file to files with unrecognised comment styles."
+msgstr ""
+"Écrire un fichier .license pour les fichiers au style de commentaire inconnu."
+
+#: src/reuse/cli/annotate.py:480
+msgid "Skip files with unrecognised comment styles."
+msgstr ""
+"Ignorer les fichiers comportant des styles de commentaires non reconnus."
+
+#: src/reuse/cli/annotate.py:491
+msgid "Skip files that already contain REUSE information."
+msgstr "Ignorer les fichiers qui contiennent déjà les données REUSE."
+
+#: src/reuse/cli/annotate.py:498
+msgid "Skip files that are covered by REUSE.toml or .reuse/dep5."
+msgstr ""
+
+#: src/reuse/cli/annotate.py:507
+msgid ""
+"Skip files that are covered by REUSE.toml or .reuse/dep5 with a specific "
+"precedence level, repeatable."
+msgstr ""
+
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
-#: src/reuse/cli/annotate.py:475
+#: src/reuse/cli/annotate.py:514
 msgid "PATH"
 msgstr "CHEMIN"
 
-#: src/reuse/cli/annotate.py:534
+#: src/reuse/cli/annotate.py:580
+#, fuzzy, python-brace-format
+msgid "Skipped file '{path}' which is already covered by '{source}'"
+msgstr "Le fichier ignoré {path} contenait déjà les données REUSE"
+
+#: src/reuse/cli/annotate.py:593
 #, python-brace-format
 msgid "'{path}' is a binary, therefore using '{new_path}' for the header"
 msgstr ""
@@ -628,8 +638,8 @@ msgid ""
 "REUSE_ENCODING_MODULE must have a value in {modules}; it has '{env_module}'. "
 "Aborting."
 msgstr ""
-"REUSE_ENCODING_MODULE doit avoir une valeur dans {modules} ; il contient '"
-"{env_module}'. Annulation."
+"REUSE_ENCODING_MODULE doit avoir une valeur dans {modules} ; il contient "
+"'{env_module}'. Annulation."
 
 #: src/reuse/extract.py:84
 msgid ""
@@ -675,7 +685,7 @@ msgstr ""
 "Extraction des informations REUSE à partir de '{path}' (encodage {encoding}, "
 "module d'encodage {module}, saut de ligne {newline})"
 
-#: src/reuse/global_licensing.py:92
+#: src/reuse/global_licensing.py:93
 #, python-brace-format
 msgid ""
 "{attr_name} must be a {type_name} (got {value} that is a {value_class})."
@@ -683,7 +693,7 @@ msgstr ""
 "{attr_name} doit être un(e) {type_name} (obtenu {value} qui est un(e) "
 "{value_class})."
 
-#: src/reuse/global_licensing.py:106
+#: src/reuse/global_licensing.py:107
 #, python-brace-format
 msgid ""
 "Item in {attr_name} collection must be a {type_name} (got {item_value} that "
@@ -692,17 +702,18 @@ msgstr ""
 "Les éléments de la collection {attr_name} doivent être des {type_name} "
 "(obtenu {item_value} qui et un(e) {item_class})."
 
-#: src/reuse/global_licensing.py:118
+#: src/reuse/global_licensing.py:119
 #, python-brace-format
 msgid "{attr_name} must not be empty."
 msgstr "{attr_name} ne doit pas être vide."
 
-#: src/reuse/global_licensing.py:142
+#: src/reuse/global_licensing.py:143
 #, python-brace-format
 msgid "{name} must be a {type} (got {value} that is a {value_type})."
-msgstr "{name} doit être un(e) {type} (obtenu {value} qui est un {value_type})."
+msgstr ""
+"{name} doit être un(e) {type} (obtenu {value} qui est un {value_type})."
 
-#: src/reuse/global_licensing.py:166
+#: src/reuse/global_licensing.py:167
 #, python-brace-format
 msgid ""
 "The value of 'precedence' must be one of {precedence_vals} (got {received})"
@@ -710,7 +721,7 @@ msgstr ""
 "La valeur de 'precedence' doit être parmi {precedence_vals} (obtenu "
 "{received})"
 
-#: src/reuse/global_licensing.py:219
+#: src/reuse/global_licensing.py:220
 #, python-brace-format
 msgid "Could not parse '{notice}'"
 msgstr "Impossible d'analyser '{notice}'"
@@ -928,12 +939,12 @@ msgstr ""
 "'{new_path}' et '{old_path}' ont tous deux été détectés. Vous ne pouvez pas "
 "conserver ces deux fichiers en même temps ; ils sont incompatibles."
 
-#: src/reuse/project.py:419
+#: src/reuse/project.py:421
 #, python-brace-format
 msgid "{path} does not have a file extension"
 msgstr "{path} n'a pas d'extension de fichier"
 
-#: src/reuse/project.py:429
+#: src/reuse/project.py:431
 #, python-brace-format
 msgid ""
 "Could not resolve SPDX License Identifier of {path}, resolving to "
@@ -946,13 +957,13 @@ msgstr ""
 "fournie à<https://spdx.org/licenses/>, soit qu'elle débute par 'LicenseRef-' "
 "et qu'elle contient une extension de fichier."
 
-#: src/reuse/project.py:441
+#: src/reuse/project.py:443
 #, python-brace-format
 msgid ""
 "{identifier} is the SPDX License Identifier of both {path} and {other_path}"
 msgstr "{identifier} est l'identifiant SPXD de {path} comme de {other_path}"
 
-#: src/reuse/project.py:482
+#: src/reuse/project.py:484
 #, python-brace-format
 msgid ""
 "'{path}' is inside of a '{exe}' repository, but it is not its root "
@@ -961,7 +972,7 @@ msgstr ""
 "'{path}' est dans un dépôt {exe}, mais ce n'est pas son dossier racine. "
 "abstraction faite du VCS."
 
-#: src/reuse/project.py:491
+#: src/reuse/project.py:493
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -969,17 +980,17 @@ msgstr ""
 "le projet '{}' n'est pas un dépôt VCS ou le logiciel VCS requis n'est pas "
 "installé"
 
-#: src/reuse/report.py:161
+#: src/reuse/report.py:162
 #, python-brace-format
 msgid "Could not read '{path}'"
 msgstr "Lecture de '{path}' impossible"
 
-#: src/reuse/report.py:166
+#: src/reuse/report.py:167
 #, python-brace-format
 msgid "Unexpected error occurred while parsing '{path}'"
 msgstr "Erreur inattendue lors de l'analyse de '{path}'"
 
-#: src/reuse/report.py:522
+#: src/reuse/report.py:523
 msgid ""
 "Fix bad licenses: At least one license in the LICENSES directory and/or "
 "provided by 'SPDX-License-Identifier' tags is invalid. They are either not "
@@ -992,7 +1003,7 @@ msgstr ""
 "identifiants personnalisés ne commencent pas par 'LicenseRef-'. FAQ à propos "
 "des licences personnalisées : https://reuse.software/faq/#custom-license"
 
-#: src/reuse/report.py:533
+#: src/reuse/report.py:534
 msgid ""
 "Fix deprecated licenses: At least one of the licenses in the LICENSES "
 "directory and/or provided by an 'SPDX-License-Identifier' tag or in '.reuse/"
@@ -1006,7 +1017,7 @@ msgstr ""
 "leur nouvel identifiant recommandé peut être trouvé ici : <https://spdx.org/"
 "licenses/#deprecated>"
 
-#: src/reuse/report.py:544
+#: src/reuse/report.py:545
 msgid ""
 "Fix licenses without file extension: At least one license text file in the "
 "'LICENSES' directory does not have a '.txt' file extension. Please rename "
@@ -1016,7 +1027,7 @@ msgstr ""
 "licence dans le dossier 'LICENSES' n'a pas l'extension de fichier '.txt'. "
 "Veuillez renommer ce(s) fichier(s)."
 
-#: src/reuse/report.py:553
+#: src/reuse/report.py:554
 msgid ""
 "Fix missing licenses: For at least one of the license identifiers provided "
 "by the 'SPDX-License-Identifier' tags, there is no corresponding license "
@@ -1031,7 +1042,7 @@ msgstr ""
 "fichiers licence manquants. Pour les licences personnalisées (commençant par "
 "'LicenseRef-'), vous devez ajouter ces fichiers vous-même."
 
-#: src/reuse/report.py:565
+#: src/reuse/report.py:566
 msgid ""
 "Fix unused licenses: At least one of the license text files in 'LICENSES' is "
 "not referenced by any file, e.g. by an 'SPDX-License-Identifier' tag. Please "
@@ -1045,7 +1056,7 @@ msgstr ""
 "concernés par ces licences, ou supprimez les licences inutiles si vous êtes "
 "sûr qu'aucun document ou extrait de code n'est concerné par ces licences."
 
-#: src/reuse/report.py:576
+#: src/reuse/report.py:577
 msgid ""
 "Fix read errors: At least one of the files in your directory cannot be read "
 "by the tool. Please check the file permissions. You will find the affected "
@@ -1055,7 +1066,7 @@ msgstr ""
 "peut pas être lu par l'outil. Vérifiez ces permissions. Vous trouverez les "
 "fichiers concernés en tête de la sortie, avec les messages d'erreur."
 
-#: src/reuse/report.py:585
+#: src/reuse/report.py:586
 msgid ""
 "Fix invalid SPDX License Expressions: In one or more files there are SPDX "
 "License Expressions which cannot be parse. Check whether the value that "
@@ -1069,7 +1080,7 @@ msgstr ""
 "correcte. Si l'expression détectée n'est pas censée être valide, placez-la "
 "entre les commantaires 'REUSE-IgnoreStart' et 'REUSE-IgnoreEnd'."
 
-#: src/reuse/report.py:596
+#: src/reuse/report.py:597
 msgid ""
 "Fix missing copyright/licensing information: For one or more files, the tool "
 "cannot find copyright and/or licensing information. You typically do this by "
@@ -1371,6 +1382,10 @@ msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] "{len_type} valeurs sont nécessaires, mais {len_value} a été donnée."
 msgstr[1] ""
 "{len_type} valeurs sont nécessaires, mais {len_value} ont été données."
+
+#~ msgid "'--replace-license' and '--no-replace' cannot be used together."
+#~ msgstr ""
+#~ "'--replace-license' et '--no-replace' ne peuvent être utilisés ensembles."
 
 #, python-brace-format
 #~ msgid "{path}: read error\n"
