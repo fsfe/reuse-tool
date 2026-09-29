@@ -18,14 +18,12 @@
 
 import logging
 import sys
-from collections.abc import Collection
-from pathlib import Path
-from typing import IO, Literal, cast
+from typing import IO, cast
 
 from jinja2 import Environment, FileSystemLoader, Template
 from jinja2.exceptions import TemplateNotFound
 
-from ._util import determine_license_suffix_path, relative_from_root
+from ._util import determine_license_suffix_path
 from .comment import (
     NAME_STYLE_MAP,
     CommentStyle,
@@ -35,7 +33,6 @@ from .comment import (
 from .copyright import ReuseInfo
 from .exceptions import CommentCreateError, MissingReuseInfoError
 from .extract import contains_reuse_info
-from .global_licensing import GlobalLicensing
 from .header import add_new_header, find_and_replace_header
 from .i18n import _
 from .project import Project
@@ -75,14 +72,10 @@ def add_header_to_file(
     template: Template | None,
     template_is_commented: bool,
     style: str | None,
-    global_licensing: GlobalLicensing | None = None,
     encoding: str = "utf-8",
     newline: str = "\n",
     force_multi: bool = False,
     skip_existing: bool = False,
-    skip_global_precedences: (
-        Collection[Literal["aggregate", "closest", "override"]] | None
-    ) = None,
     skip_unrecognised: bool = False,
     fallback_dot_license: bool = False,
     merge_copyrights: bool = False,
@@ -91,7 +84,7 @@ def add_header_to_file(
     out: IO[str] = sys.stdout,
 ) -> int:
     """Helper function."""
-    # pylint: disable=too-many-arguments,too-many-locals,too-many-branches
+    # pylint: disable=too-many-arguments,too-many-locals
     result = 0
     comment_style: type[CommentStyle] | None = NAME_STYLE_MAP.get(
         cast(str, style)
@@ -127,26 +120,6 @@ def add_header_to_file(
         )
         out.write("\n")
         return result
-    if skip_global_precedences is None:
-        skip_global_precedences = []
-    if skip_global_precedences and global_licensing is not None:
-        global_info_dicts = global_licensing.reuse_info_of(
-            relative_from_root(Path(path), global_licensing.root)
-        )
-        for precedence, global_infos in global_info_dicts.items():
-            for global_info in global_infos:
-                if (
-                    global_info.contains_info()
-                    and precedence.value in skip_global_precedences
-                ):
-                    out.write(
-                        _(
-                            "Skipped file '{path}' which is already covered by"
-                            " '{source}'"
-                        ).format(path=path, source=global_info.source_path)
-                    )
-                    out.write("\n")
-                    return result
 
     try:
         if replace:
