@@ -813,6 +813,97 @@ class TestAnnotate:
             """
         )
 
+    def test_skip_global_reuse_toml_uncommentable(
+        self, fake_repository_reuse_toml, mock_date_today
+    ):
+        """Skip uncommentable files which are covered by REUSE.toml. Regression
+        test for <https://github.com/fsfe/reuse-tool/issues/1190>: the global
+        licensing lookup used to run against the rewritten '*.license' path,
+        which is generally absent from REUSE.toml, so the file was never
+        recognised as already covered and a stray '.license' file was created
+        for it instead of being skipped.
+        """
+        skip_file = fake_repository_reuse_toml / "doc/data.json"
+        skip_file.write_text("{}")
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--copyright",
+                "Jane Doe",
+                "--skip-global",
+                "doc/data.json",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert (
+            "Skipped file 'doc/data.json' which is already covered by"
+            " 'REUSE.toml'"
+        ) in result.stdout
+        assert skip_file.read_text() == "{}"
+        assert not skip_file.with_suffix(".license").exists()
+
+    def test_skip_global_reuse_toml_dot_license(
+        self, fake_repository_reuse_toml, mock_date_today
+    ):
+        """Skip files which are covered by REUSE.toml which also have a .license
+        file. Regression test for
+        <https://github.com/fsfe/reuse-tool/issues/1190>.
+
+        """
+        skip_file = fake_repository_reuse_toml / "doc/foo.py"
+        skip_file.write_text("pass")
+        skip_file_license = skip_file.with_suffix(".license")
+        skip_file_license.touch()
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--copyright",
+                "Jane Doe",
+                "--skip-global",
+                "doc/foo.py",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert (
+            "Skipped file 'doc/foo.py' which is already covered by"
+            " 'REUSE.toml'"
+        ) in result.stdout
+        assert skip_file.read_text() == "pass"
+        assert not skip_file_license.read_text()
+
+    def test_skip_global_reuse_toml_binary(
+        self, fake_repository_reuse_toml, binary_string, mock_date_today
+    ):
+        """Skip binary files which are covered by REUSE.toml. Regression test
+        for <https://github.com/fsfe/reuse-tool/issues/1190>.
+        """
+        binary_file = fake_repository_reuse_toml / "doc/foo.png"
+        binary_file.write_bytes(binary_string)
+
+        result = CliRunner().invoke(
+            main,
+            [
+                "annotate",
+                "--copyright",
+                "Jane Doe",
+                "--skip-global",
+                "doc/foo.png",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert (
+            "Skipped file 'doc/foo.png' which is already covered by"
+            " 'REUSE.toml'"
+        ) in result.stdout
+        assert not binary_file.with_suffix(".license").exists()
+
     def test_skip_global_reuse_dep5(self, fake_repository_dep5):
         """Skip files which are covered by .reuse/dep5."""
         skip_file = fake_repository_dep5 / "doc/index.py"
