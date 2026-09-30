@@ -168,3 +168,4 @@ Contributors
 - Lily A.N. <minekpo1@murena.io>
 - Benjamin Cabé <benjamin@zephyrproject.org>
 - Jan Gietzel <jan.gietzel@gmail.com>
+- Rishvic Pushpakaran <rishvic@gmail.com>
