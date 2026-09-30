@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-29 12:58+0000\n"
-"PO-Revision-Date: 2026-05-27 01:11+0000\n"
+"PO-Revision-Date: 2026-09-30 08:43+0000\n"
 "Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
 "tool/uk/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: src/reuse/_annotate.py:96
 #, python-brace-format
@@ -235,12 +235,15 @@ msgstr "Пропускати файли, які вже містять інфор
 #: src/reuse/cli/annotate.py:498
 msgid "Skip files that are covered by REUSE.toml or .reuse/dep5."
 msgstr ""
+"Пропустити файли, на які поширюється дія файлів REUSE.toml або .reuse/dep5."
 
 #: src/reuse/cli/annotate.py:507
 msgid ""
 "Skip files that are covered by REUSE.toml or .reuse/dep5 with a specific "
 "precedence level, repeatable."
 msgstr ""
+"Пропускати файли, на які поширюється дія файлу REUSE.toml або .reuse/dep5 із "
+"певним рівнем пріоритету, повторювано."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:514
@@ -248,9 +251,9 @@ msgid "PATH"
 msgstr "ШЛЯХ"
 
 #: src/reuse/cli/annotate.py:580
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped file '{path}' which is already covered by '{source}'"
-msgstr "Пропущений файл '{path}' вже містить інформацію REUSE"
+msgstr "Пропущено файл '{path}', який вже охоплено файлом '{source}'"
 
 #: src/reuse/cli/annotate.py:593
 #, python-brace-format
