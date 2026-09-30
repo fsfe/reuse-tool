@@ -19,6 +19,7 @@ from reuse.comment import (
     HtmlCommentStyle,
     LispCommentStyle,
     PythonCommentStyle,
+    UncommentableCommentStyle,
     get_comment_style,
 )
 from reuse.exceptions import CommentCreateError, CommentParseError
@@ -679,3 +680,12 @@ def test_get_comment_style():
     assert get_comment_style("foo.blade.php") == BladeCommentStyle
     assert get_comment_style("foo.bar.blade.php") == CppCommentStyle
     assert get_comment_style("foo.php.blade") is None
+
+
+def test_get_comment_style_overridden_by_filename():
+    """In some cases a file extension has a certain comment style, but a full
+    filename which incorporates that extension has a different style. The file
+    name's style should be respected.
+    """
+    assert get_comment_style("data.json") == UncommentableCommentStyle
+    assert get_comment_style("tsconfig.json") == CppCommentStyle
