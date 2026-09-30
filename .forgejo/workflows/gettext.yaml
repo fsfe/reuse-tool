@@ -61,5 +61,4 @@ jobs:
       - name: Unlock Weblate
         if: always()
         run: |
-          wlc --url https://hosted.weblate.org/api/ --key ${{ secrets.WEBLATE_KEY }} pull fsfe/reuse-tool
           wlc --url https://hosted.weblate.org/api/ --key ${{ secrets.WEBLATE_KEY }} unlock fsfe/reuse-tool
