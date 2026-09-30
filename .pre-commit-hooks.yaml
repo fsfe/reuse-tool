@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: 2026 Free Software Foundation Europe e.V. <https://fsfe.org>
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -9,6 +10,7 @@
   language: python
   additional_dependencies: [".[charset-normalizer,chardet]"]
   pass_filenames: false
+  always_run: true
   description:
     "Lint the project directory for compliance with the REUSE Specification."
 
@@ -18,5 +20,6 @@
   args: ["lint-file"]
   language: python
   additional_dependencies: [".[charset-normalizer,chardet]"]
+  always_run: true
   description:
     "Lint the changed files for compliance with the REUSE Specification."
