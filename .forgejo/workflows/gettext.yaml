@@ -13,6 +13,9 @@ on:
       - "src/reuse/**.py"
       - ".forgejo/workflows/gettext.yaml"
 
+concurrency:
+  cancel-in-progress: false
+
 jobs:
   create-pot:
     runs-on: debian-trixie
