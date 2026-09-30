@@ -27,6 +27,7 @@ jobs:
         run: poetry install --no-interaction --only main
       - name: Lock Weblate
         run: |
+          wlc --url https://hosted.weblate.org/api/ --key ${{secrets.WEBLATE_KEY }} commit fsfe/reuse-tool
           wlc --url https://hosted.weblate.org/api/ --key ${{secrets.WEBLATE_KEY }} lock fsfe/reuse-tool
       - name: Push changes from Weblate to upstream repository
         run: |
