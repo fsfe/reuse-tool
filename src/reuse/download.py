@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 
 # All raw text files are available as files underneath this path.
 _SPDX_REPOSITORY_BASE_URL = (
-    "https://raw.githubusercontent.com/spdx/license-list-data/master/text/"
+    "https://raw.githubusercontent.com/spdx/license-list-data/main/text/"
 )
 
 
