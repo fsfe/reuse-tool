@@ -626,6 +626,8 @@ class XQueryCommentStyle(CommentStyle):
 
 #: A map of (common) file extensions against comment types.
 EXTENSION_COMMENT_STYLE_MAP = {
+    ".R": PythonCommentStyle,
+    ".Rmd": HtmlCommentStyle,
     ".adb": HaskellCommentStyle,
     ".adoc": CppCommentStyle,
     ".ads": HaskellCommentStyle,
@@ -672,8 +674,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".cs": CppCommentStyle,
     ".csl": HtmlCommentStyle,  # Bibliography (XML based)
     ".cson": PythonCommentStyle,
-    ".css": CCommentStyle,
     ".csproj": HtmlCommentStyle,
+    ".css": CCommentStyle,
     ".csv": UncommentableCommentStyle,
     ".cu": CppCommentStyle,
     ".cuh": CppCommentStyle,
@@ -684,19 +686,18 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".doc": UncommentableCommentStyle,
     ".docx": UncommentableCommentStyle,
     ".dotx": UncommentableCommentStyle,
-    ".dpr": PascalCommentStyle,
     ".dpk": PascalCommentStyle,
+    ".dpr": PascalCommentStyle,
     ".dtd": HtmlCommentStyle,
     ".dts": CppCommentStyle,
     ".dtsi": CppCommentStyle,
     ".el": LispCommentStyle,
     ".erl": TexCommentStyle,
-    ".escript": TexCommentStyle,
     ".es": TexCommentStyle,
+    ".escript": TexCommentStyle,
     ".ex": PythonCommentStyle,
     ".exs": PythonCommentStyle,
     ".f": FortranCommentStyle,
-    ".fsproj": HtmlCommentStyle,
     ".f03": ModernFortranCommentStyle,
     ".f08": ModernFortranCommentStyle,
     ".f90": ModernFortranCommentStyle,
@@ -707,19 +708,20 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".fods": UncommentableCommentStyle,
     ".fodt": UncommentableCommentStyle,
     ".for": FortranCommentStyle,
-    ".ftn": FortranCommentStyle,
     ".fpp": FortranCommentStyle,
     ".fs": CppCommentStyle,
+    ".fsproj": HtmlCommentStyle,
     ".fsx": CppCommentStyle,
     ".ftl": FtlCommentStyle,
+    ".ftn": FortranCommentStyle,
     ".gemspec": PythonCommentStyle,
     ".gleam": CppSingleCommentStyle,
     ".go": CppCommentStyle,
     ".gperf": CppCommentStyle,
+    ".gqls": PythonCommentStyle,
     ".gradle": CppCommentStyle,
     ".graphql": PythonCommentStyle,
     ".graphqls": PythonCommentStyle,
-    ".gqls": PythonCommentStyle,
     ".groovy": CppCommentStyle,
     ".h": CCommentStyle,
     ".ha": CppSingleCommentStyle,
@@ -743,8 +745,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".jinja": JinjaCommentStyle,
     ".jinja2": JinjaCommentStyle,
     ".jl": JuliaCommentStyle,
-    ".jpg": UncommentableCommentStyle,
     ".jpeg": UncommentableCommentStyle,
+    ".jpg": UncommentableCommentStyle,
     ".js": CppCommentStyle,
     ".json": UncommentableCommentStyle,
     ".json5": CppCommentStyle,
@@ -810,8 +812,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".pptx": UncommentableCommentStyle,
     ".pri": PythonCommentStyle,
     ".pro": PythonCommentStyle,
-    ".props": HtmlCommentStyle,  # MSBuild files
     ".properties": PythonCommentStyle,
+    ".props": HtmlCommentStyle,  # MSBuild files
     ".proto": CppCommentStyle,
     ".ps1": PythonCommentStyle,  # TODO: Multiline comments
     ".psgi": PythonCommentStyle,
@@ -827,13 +829,11 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".qml": CppCommentStyle,
     ".qrc": HtmlCommentStyle,
     ".qss": CCommentStyle,
-    ".R": PythonCommentStyle,
     ".rake": PythonCommentStyle,
     ".rb": PythonCommentStyle,
     ".rbw": PythonCommentStyle,
     ".rbx": PythonCommentStyle,
     ".rkt": LispCommentStyle,
-    ".Rmd": HtmlCommentStyle,
     ".rs": CppCommentStyle,
     ".rss": HtmlCommentStyle,
     ".rst": ReStructedTextCommentStyle,
@@ -847,13 +847,11 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".scpt": AppleScriptCommentStyle,
     ".scptd": AppleScriptCommentStyle,
     ".scss": CCommentStyle,
-    # SuperCollider synth definition (binary)
-    ".scsyndef": UncommentableCommentStyle,
+    ".scsyndef": UncommentableCommentStyle,  # SuperCollider synth definition
     ".sh": PythonCommentStyle,
     ".sky": PythonCommentStyle,  # Starlark (legacy Skylark extension)
     ".sld": LispCommentStyle,  # Scheme Library Definition (R7RS)
-    # Visual Studio solution file, officially uncommentable:
-    ".sln": UncommentableCommentStyle,
+    ".sln": UncommentableCommentStyle,  # Visual Studio solution file
     ".slnx": HtmlCommentStyle,
     ".sls": LispCommentStyle,  # Scheme Library Source (R6RS)
     ".smk": PythonCommentStyle,
@@ -863,8 +861,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".sql": HaskellCommentStyle,
     ".star": PythonCommentStyle,  # Starlark
     ".sty": TexCommentStyle,
-    ".svg": UncommentableCommentStyle,
     ".svelte": HtmlCommentStyle,
+    ".svg": UncommentableCommentStyle,
     ".swift": CppCommentStyle,
     ".t": PythonCommentStyle,
     ".tcl": PythonCommentStyle,
@@ -896,8 +894,8 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".xq": XQueryCommentStyle,
     ".xql": XQueryCommentStyle,
     ".xqm": XQueryCommentStyle,
-    ".xqy": XQueryCommentStyle,
     ".xquery": XQueryCommentStyle,
+    ".xqy": XQueryCommentStyle,
     ".xrl": TexCommentStyle,
     ".xs": CCommentStyle,
     ".xsd": HtmlCommentStyle,
@@ -916,6 +914,8 @@ EXTENSION_COMMENT_STYLE_MAP_LOWERCASE = {
 }
 
 FILENAME_COMMENT_STYLE_MAP = {
+    ".Renviron": PythonCommentStyle,
+    ".Rprofile": PythonCommentStyle,
     ".arcconfig": UncommentableCommentStyle,  # is a JSON file
     ".arclint": UncommentableCommentStyle,  # is a JSON file
     ".arcunit": UncommentableCommentStyle,  # is a JSON file
@@ -929,8 +929,8 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".dockerignore": PythonCommentStyle,
     ".earthlyignore": PythonCommentStyle,
     ".editorconfig": PythonCommentStyle,
-    ".envrc": PythonCommentStyle,
     ".empty": EmptyCommentStyle,
+    ".envrc": PythonCommentStyle,
     ".eslintignore": PythonCommentStyle,
     ".eslintrc": UncommentableCommentStyle,
     ".gitattributes": PythonCommentStyle,
@@ -938,62 +938,60 @@ FILENAME_COMMENT_STYLE_MAP = {
     ".gitmodules": PythonCommentStyle,
     ".htaccess": PythonCommentStyle,
     ".mailmap": PythonCommentStyle,
-    ".metadata": UncommentableCommentStyle,
     ".mdlrc": PythonCommentStyle,  # Markdown-linter config
+    ".metadata": UncommentableCommentStyle,
     ".npmignore": PythonCommentStyle,
     ".npmrc": SemicolonCommentStyle,
     ".nvmrc": PythonCommentStyle,
-    ".prettierrc": UncommentableCommentStyle,  # could either be JSON or YAML
     ".prettierignore": PythonCommentStyle,
+    ".prettierrc": UncommentableCommentStyle,  # could either be JSON or YAML
     ".pylintrc": PythonCommentStyle,
     ".python-version": UncommentableCommentStyle,
-    ".Renviron": PythonCommentStyle,
-    ".Rprofile": PythonCommentStyle,
     ".shellcheckrc": PythonCommentStyle,
     ".taprc": PythonCommentStyle,
     ".vimrc": VimCommentStyle,
-    ".zshrc": PythonCommentStyle,
     ".yamllint": PythonCommentStyle,  # is a YAML file
     ".yarnrc": PythonCommentStyle,
-    "ansible.cfg": PythonCommentStyle,
-    "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
+    ".zshrc": PythonCommentStyle,
     "BUCK": PythonCommentStyle,  # Buck2 build file
     "BUILD": PythonCommentStyle,  # Bazel build file
-    "cabal.project": HaskellCommentStyle,
-    "Cargo.lock": UncommentableCommentStyle,
     "CMakeLists.txt": PythonCommentStyle,
     "CODEOWNERS": PythonCommentStyle,
-    "configure.ac": M4CommentStyle,
+    "Cargo.lock": UncommentableCommentStyle,
     "Containerfile": PythonCommentStyle,
     "Dockerfile": PythonCommentStyle,
     "Doxyfile": PythonCommentStyle,
+    "Earthfile": PythonCommentStyle,
+    "Gemfile": PythonCommentStyle,
+    "Jenkinsfile": CppCommentStyle,
+    "MANIFEST.in": PythonCommentStyle,
+    "Makefile": PythonCommentStyle,
+    "Makefile.am": PythonCommentStyle,
+    "PACKAGE": PythonCommentStyle,  # Buck2 package configuration file
+    "ROOT": MlCommentStyle,
+    "Rakefile": PythonCommentStyle,
+    "Snakefile": PythonCommentStyle,
+    "ansible.cfg": PythonCommentStyle,
+    "archive.sctxar": UncommentableCommentStyle,  # SuperCollider global archive
+    "cabal.project": HaskellCommentStyle,
+    "configure.ac": M4CommentStyle,
     "dune": SemicolonCommentStyle,  # OCaml build system
     "dune-project": SemicolonCommentStyle,  # OCaml build system
     "dune-workspace": SemicolonCommentStyle,  # OCaml build system
-    "Earthfile": PythonCommentStyle,
     "flake.lock": UncommentableCommentStyle,  # is a JSON file
-    "Gemfile": PythonCommentStyle,
     "go.mod": CppCommentStyle,
     "go.sum": UncommentableCommentStyle,
     "gradlew": PythonCommentStyle,
-    "Jenkinsfile": CppCommentStyle,
-    "Makefile.am": PythonCommentStyle,
-    "Makefile": PythonCommentStyle,
-    "MANIFEST.in": PythonCommentStyle,
     "manifest": PythonCommentStyle,  # used by cdist
     "matplotlibrc": PythonCommentStyle,
     "meson.build": PythonCommentStyle,
     "meson_options.txt": PythonCommentStyle,
-    "PACKAGE": PythonCommentStyle,  # Buck2 package configuration file
     "poetry.lock": UncommentableCommentStyle,
     "pubspec.lock": UncommentableCommentStyle,
-    "pylintrc": PythonCommentStyle,
     "py.typed": PythonCommentStyle,
-    "Rakefile": PythonCommentStyle,
+    "pylintrc": PythonCommentStyle,
     "requirements.txt": PythonCommentStyle,
-    "ROOT": MlCommentStyle,
     "setup.cfg": PythonCommentStyle,
-    "Snakefile": PythonCommentStyle,
     "uv.lock": UncommentableCommentStyle,
     "yarn.lock": UncommentableCommentStyle,
 }
