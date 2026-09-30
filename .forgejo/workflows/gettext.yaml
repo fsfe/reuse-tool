@@ -59,6 +59,7 @@ jobs:
           git commit -m "Update reuse.pot"
           git push origin HEAD:main
       - name: Unlock Weblate
+        if: always()
         run: |
           wlc --url https://hosted.weblate.org/api/ --key ${{ secrets.WEBLATE_KEY }} pull fsfe/reuse-tool
           wlc --url https://hosted.weblate.org/api/ --key ${{ secrets.WEBLATE_KEY }} unlock fsfe/reuse-tool
