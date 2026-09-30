@@ -34,6 +34,10 @@ jobs:
           wlc --url https://hosted.weblate.org/api/ --key ${{secrets.WEBLATE_KEY }} lock fsfe/reuse-tool
       - name: Push changes from Weblate to upstream repository
         run: |
+          # This step sometimes fails with error:
+          # Error: HTTP error 423: Locked {'detail': 'Another repository operation is already in progress.'}
+          # Presumably the weblate repository is still busy locking. The sleep hopefully fixes this.
+          sleep 5
           wlc --url https://hosted.weblate.org/api/ --key ${{secrets.WEBLATE_KEY }} push fsfe/reuse-tool
       - name: Pull Weblate translations
         run: git pull origin main
