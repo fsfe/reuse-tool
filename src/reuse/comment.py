@@ -36,6 +36,7 @@
 # SPDX-FileCopyrightText: 2026 Martin Sladecek <martin.sladecek@gmail.com>
 # SPDX-FileCopyrightText: 2026 Mercury Technologies, Inc
 # SPDX-FileCopyrightText: 2026 Rishvic Pushpakaran <rishvic@gmail.com>
+# SPDX-FileCopyrightText: 2026 Jonathan Ströbele <mail@jonathanstroebele.de>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -878,6 +879,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".tsx": CppCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
     ".typ": CppCommentStyle,  # typst files
+    ".twig": JinjaCommentStyle,
     ".ui": HtmlCommentStyle,
     ".v": CppCommentStyle,  # V-Lang source code
     ".vala": CppCommentStyle,
