@@ -581,15 +581,6 @@ class TexCommentStyle(CommentStyle):
     SHEBANGS = ["% !TEX", "%!TEX", "#!"]
 
 
-class TwigCommentStyle(CommentStyle):
-    """Twig comment style. The style is identical to JinjaCommentStyle, but to
-    allow using it explicitly via --style twig it's duplicated."""
-
-    SHORTHAND = "twig"
-
-    MULTI_LINE = MultiLineSegments("{#", "", "#}")
-
-
 class UncommentableCommentStyle(EmptyCommentStyle):
     """A pseudo comment style to indicate that this file is uncommentable. This
     results in an external .license file for binaries and --force-dot-license.
@@ -888,7 +879,7 @@ EXTENSION_COMMENT_STYLE_MAP = {
     ".tsx": CppCommentStyle,
     ".ttl": PythonCommentStyle,  # Turtle/RDF
     ".typ": CppCommentStyle,  # typst files
-    ".twig": TwigCommentStyle,
+    ".twig": JinjaCommentStyle,
     ".ui": HtmlCommentStyle,
     ".v": CppCommentStyle,  # V-Lang source code
     ".vala": CppCommentStyle,
