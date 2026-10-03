@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-29 12:58+0000\n"
-"PO-Revision-Date: 2026-07-02 05:01+0000\n"
+"PO-Revision-Date: 2026-10-04 12:52+0000\n"
 "Last-Translator: Tino Tempesta <foxort@fsfe.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "fr/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 #: src/reuse/_annotate.py:96
 #, python-brace-format
@@ -242,13 +242,15 @@ msgstr "Ignorer les fichiers qui contiennent déjà les données REUSE."
 
 #: src/reuse/cli/annotate.py:498
 msgid "Skip files that are covered by REUSE.toml or .reuse/dep5."
-msgstr ""
+msgstr "Ignorer les fichiers couverts par REUSE.toml ou .reuse/dep5."
 
 #: src/reuse/cli/annotate.py:507
 msgid ""
 "Skip files that are covered by REUSE.toml or .reuse/dep5 with a specific "
 "precedence level, repeatable."
 msgstr ""
+"Ignorer les fichiers couverts par REUSE.toml ou .reuse/dep5 avec un niveau "
+"de priorité spécifique, répétable."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:514
@@ -256,9 +258,9 @@ msgid "PATH"
 msgstr "CHEMIN"
 
 #: src/reuse/cli/annotate.py:580
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped file '{path}' which is already covered by '{source}'"
-msgstr "Le fichier ignoré {path} contenait déjà les données REUSE"
+msgstr "Le fichier '{path}' a été ignoré, étant déjà couvert par '{source}'"
 
 #: src/reuse/cli/annotate.py:593
 #, python-brace-format
