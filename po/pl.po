@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-29 12:58+0000\n"
-"PO-Revision-Date: 2026-10-11 21:42+0000\n"
+"PO-Revision-Date: 2026-10-11 21:59+0000\n"
 "Last-Translator: SpacingBat3 <git@spacingbat3.anonaddy.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "pl/>\n"
@@ -397,7 +397,8 @@ msgid ""
 "- Are there any bad (unrecognised, not compliant with SPDX) licenses in the "
 "project?"
 msgstr ""
-"- Czy są jakieś złe (nierozpoznane, nie zgodne z SPDX) licencje w projekcie?"
+"- Czy są jakieś niepoprawne (nierozpoznane, nie zgodne z SPDX) licencje w "
+"projekcie?"
 
 #: src/reuse/cli/lint.py:43
 msgid "- Are there any deprecated licenses in the project?"
@@ -717,7 +718,7 @@ msgstr ""
 
 #: src/reuse/lint.py:40
 msgid "BAD LICENSES"
-msgstr "ZŁE LICENCJE"
+msgstr "NIEPOPRAWNE LICENCJE"
 
 #: src/reuse/lint.py:42
 msgid "The following licenses are not valid SPDX licenses:"
@@ -795,7 +796,7 @@ msgstr "PODSUMOWANIE"
 
 #: src/reuse/lint.py:162
 msgid "Bad licenses:"
-msgstr "Złe licencje:"
+msgstr "Niepoprawne licencje:"
 
 #: src/reuse/lint.py:163
 msgid "Deprecated licenses:"
@@ -875,7 +876,7 @@ msgstr "brak adnotacji o prawach autorskich"
 #: src/reuse/lint.py:345
 #, python-brace-format
 msgid "bad license '{lic}'"
-msgstr "błędna licencja „{lic}”"
+msgstr "niepoprawna licencja „{lic}”"
 
 #: src/reuse/lint.py:350
 msgid "deprecated license"
@@ -979,11 +980,11 @@ msgid ""
 "valid SPDX License Identifiers or do not start with 'LicenseRef-'. FAQ about "
 "custom licenses: https://reuse.software/faq/#custom-license"
 msgstr ""
-"Napraw błędne licencje: Co najmniej jedna licencja w katalogu LICENSES i/lub "
-"dostarczona przez tagi „SPDX-License-Identifier” jest nieprawidłowa. Nie "
-"posiadają ani ważnych identyfikatorów licencji SPDX, ani nie zaczynają się "
-"od „LicenseRef-”. Często zadawane pyrania odnośnie własnych licencji: "
-"https://reuse.software/faq/#custom-license"
+"Napraw niepoprawne licencje: Co najmniej jedna z licencji w katalogu "
+"LICENSES i/lub dostarczona przez tagi „SPDX-License-Identifier” jest błędna. "
+"Nie posiadają one ani ważnych identyfikatorów licencji SPDX, ani nie "
+"zaczynają się od „LicenseRef-”. Często zadawane pytania odnośnie własnych "
+"licencji: https://reuse.software/faq/#custom-license"
 
 #: src/reuse/report.py:534
 msgid ""
