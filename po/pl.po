@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-29 12:58+0000\n"
-"PO-Revision-Date: 2026-10-11 21:59+0000\n"
-"Last-Translator: SpacingBat3 <git@spacingbat3.anonaddy.com>\n"
+"PO-Revision-Date: 2026-10-13 12:51+0000\n"
+"Last-Translator: SpacingBat3 <spacingbat3@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "pl/>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.10.1.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: src/reuse/_annotate.py:96
 #, python-brace-format
@@ -828,7 +828,7 @@ msgstr "Błędne wyrażenia licencji SPDX:"
 
 #: src/reuse/lint.py:183
 msgid "Files with copyright information:"
-msgstr "Pliki bez informacji o prawach autorskich:"
+msgstr "Pliki z informacją o prawach autorskich:"
 
 #: src/reuse/lint.py:187
 msgid "Files with license information:"
