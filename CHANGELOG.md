@@ -63,13 +63,6 @@ work correctly. **Maintainers:** You can find the relevant patch in commit
   by REUSE.toml (dependent on precedence of the annotation in the case of
   `--skip-precedence`). (#1303)
 
-### Changed
-
-- Previously when using `reuse --root PATH` where `PATH` was nested inside of a
-  VCS repository, the behaviour differed per VCS, and was effectively undefined.
-  Now, if `PATH` is not also the root of the repository, reuse will pretend that
-  the directory is not in a VCS repository. (#1294)
-
 ### Fixed
 
 - Fixed a cornercase where the reuse `pre-commit` hooks would sometimes not run

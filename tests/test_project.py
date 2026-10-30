@@ -32,7 +32,6 @@ from reuse.exceptions import (
 )
 from reuse.global_licensing import ReuseDep5, ReuseTOML
 from reuse.project import Project
-from reuse.vcs import VCSStrategyNone
 
 # REUSE-IgnoreStart
 
@@ -134,12 +133,11 @@ class TestProjectVCSStrategy:
         assert isinstance(project.vcs_strategy, vcs_strategy)
 
     def test_from_directory_deep(self, vcs_strategy, vcs_repo):
-        """project.vcs_strategy is unset when the root is deeper in the vcs
-        repo. It wouldn't really make sense otherwise.
+        """project.vcs_strategy is assigned also in a subdirectory of a VCS
+        root. This doesn't necessarily make a lot of sense.
         """
-        # pylint: disable=unused-argument
         project = Project.from_directory(vcs_repo / "src")
-        assert isinstance(project.vcs_strategy, VCSStrategyNone)
+        assert isinstance(project.vcs_strategy, vcs_strategy)
 
 
 def test_reuse_info_of_file_does_not_exist(fake_repository):
