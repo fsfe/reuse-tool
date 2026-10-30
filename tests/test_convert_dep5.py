@@ -16,19 +16,14 @@ from reuse.convert_dep5 import toml_from_dep5
 
 def test_toml_from_dep5_single_file():
     """Correctly convert a DEP5 file with a single file."""
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
             Files: hello.txt
             Copyright: 2018 Jane Doe
             License: MIT
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
 
         [[annotations]]
@@ -36,8 +31,7 @@ def test_toml_from_dep5_single_file():
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2018 Jane Doe"
         SPDX-License-Identifier = "MIT"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected
 
 
@@ -45,19 +39,14 @@ def test_toml_from_dep5_asterisks():
     """Single asterisks get converted to double asterisks. Double asterisks get
     left alone.
     """
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
             Files: */**/***
             Copyright: 2018 Jane Doe
             License: MIT
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
 
         [[annotations]]
@@ -65,26 +54,20 @@ def test_toml_from_dep5_asterisks():
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2018 Jane Doe"
         SPDX-License-Identifier = "MIT"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected
 
 
 def test_toml_from_dep5_multiple_files_in_paragraph():
     """Correctly convert a DEP5 file with a more files in a paragraph."""
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
             Files: hello.txt foo*.txt
             Copyright: 2018 Jane Doe
             License: MIT
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
 
         [[annotations]]
@@ -92,16 +75,13 @@ def test_toml_from_dep5_multiple_files_in_paragraph():
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2018 Jane Doe"
         SPDX-License-Identifier = "MIT"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected
 
 
 def test_toml_from_dep5_multiple_paragraphs():
     """Correctly convert a DEP5 file with multiple paragraphs."""
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
             Files: hello.txt
@@ -111,11 +91,8 @@ def test_toml_from_dep5_multiple_paragraphs():
             Files: world.txt
             Copyright: 2018 John Doe
             License: 0BSD
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
 
         [[annotations]]
@@ -129,27 +106,21 @@ def test_toml_from_dep5_multiple_paragraphs():
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2018 John Doe"
         SPDX-License-Identifier = "0BSD"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected
 
 
 def test_toml_from_dep5_multiple_copyright():
     """Correctly convert a DEP5 file with multiple copyright holders."""
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
             Files: hello.txt
             Copyright: 2018 Jane Doe
                 2018 John Doe
             License: MIT
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
 
         [[annotations]]
@@ -157,16 +128,13 @@ def test_toml_from_dep5_multiple_copyright():
         precedence = "aggregate"
         SPDX-FileCopyrightText = ["2018 Jane Doe", "2018 John Doe"]
         SPDX-License-Identifier = "MIT"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected
 
 
 def test_toml_from_dep5_comments():
     """Optionally include comments."""
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
             Files: hello.txt
@@ -177,11 +145,8 @@ def test_toml_from_dep5_comments():
             Files: world.txt
             Copyright: 2018 Jane Doe
             License: MIT
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
 
         [[annotations]]
@@ -196,16 +161,13 @@ def test_toml_from_dep5_comments():
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2018 Jane Doe"
         SPDX-License-Identifier = "MIT"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected
 
 
 def test_toml_from_dep5_header():
     """Optionally include header fields."""
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
             Upstream-Name: Some project
             Upstream-Contact: Jane Doe
@@ -215,11 +177,8 @@ def test_toml_from_dep5_header():
             Files: hello.txt
             Copyright: 2018 Jane Doe
             License: MIT
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
         SPDX-PackageName = "Some project"
         SPDX-PackageSupplier = "Jane Doe"
@@ -231,16 +190,13 @@ def test_toml_from_dep5_header():
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2018 Jane Doe"
         SPDX-License-Identifier = "MIT"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected
 
 
 def test_toml_from_dep5_header_multiple_contacts():
     """Return a list of contacts."""
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
             Upstream-Contact: Jane Doe
                 John Doe
@@ -248,11 +204,8 @@ def test_toml_from_dep5_header_multiple_contacts():
             Files: hello.txt
             Copyright: 2018 Jane Doe
             License: MIT
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
         SPDX-PackageSupplier = ["Jane Doe", "John Doe"]
 
@@ -261,16 +214,13 @@ def test_toml_from_dep5_header_multiple_contacts():
         precedence = "aggregate"
         SPDX-FileCopyrightText = "2018 Jane Doe"
         SPDX-License-Identifier = "MIT"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected
 
 
 def test_toml_from_dep5_man_example():
     """Test the example from the man page."""
-    text = StringIO(
-        cleandoc_nl(
-            """
+    text = StringIO(cleandoc_nl("""
             Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
             Upstream-Name: Some project
             Upstream-Contact: Jane Doe
@@ -286,11 +236,8 @@ def test_toml_from_dep5_man_example():
             Copyright: 2018 Jane Doe
                 2019 John Doe
             License: MIT
-            """
-        )
-    )
-    expected = cleandoc_nl(
-        """
+            """))
+    expected = cleandoc_nl("""
         version = 1
         SPDX-PackageName = "Some project"
         SPDX-PackageSupplier = "Jane Doe"
@@ -309,6 +256,5 @@ def test_toml_from_dep5_man_example():
         precedence = "aggregate"
         SPDX-FileCopyrightText = ["2018 Jane Doe", "2019 John Doe"]
         SPDX-License-Identifier = "MIT"
-        """
-    )
+        """)
     assert toml_from_dep5(Copyright(text)) == expected

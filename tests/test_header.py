@@ -27,13 +27,11 @@ def test_create_header_simple():
             CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
         },
     )
-    expected = cleandoc(
-        """
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
-        """
-    )
+        """)
 
     assert create_header(info).strip() == expected
 
@@ -47,14 +45,12 @@ def test_create_header_simple_with_contributor():
         },
         contributor_lines={"John Doe"},
     )
-    expected = cleandoc(
-        """
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         # SPDX-FileContributor: John Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
-        """
-    )
+        """)
 
     assert create_header(info).strip() == expected
 
@@ -67,15 +63,13 @@ def test_create_header_template_simple(template_simple):
             CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
         },
     )
-    expected = cleandoc(
-        """
+    expected = cleandoc("""
         # Hello, world!
         #
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
-        """
-    )
+        """)
 
     assert create_header(info, template=template_simple).strip() == expected
 
@@ -101,15 +95,13 @@ def test_create_header_template_commented(template_commented):
             CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
         },
     )
-    expected = cleandoc(
-        """
+    expected = cleandoc("""
         # Hello, world!
         #
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
-        """
-    )
+        """)
 
     assert (
         create_header(
@@ -130,22 +122,18 @@ def test_create_header_already_contains_spdx():
             CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
         },
     )
-    existing = cleandoc(
-        """
+    existing = cleandoc("""
         # SPDX-FileCopyrightText: John Doe
         #
         # SPDX-License-Identifier: MIT
-        """
-    )
-    expected = cleandoc(
-        """
+        """)
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         # SPDX-FileCopyrightText: John Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
         # SPDX-License-Identifier: MIT
-        """
-    )
+        """)
 
     assert create_header(info, header=existing).strip() == expected
 
@@ -160,22 +148,18 @@ def test_create_header_existing_is_wrong():
             CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
         },
     )
-    existing = cleandoc(
-        """
+    existing = cleandoc("""
         # SPDX-FileCopyrightText: John Doe
         #
         # SPDX-License-Identifier: MIT AND OR 0BSD
-        """
-    )
-    expected = cleandoc(
-        """
+        """)
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         # SPDX-FileCopyrightText: John Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
         # SPDX-License-Identifier: MIT AND OR 0BSD
-        """
-    )
+        """)
 
     assert create_header(info, header=existing) == expected
 
@@ -183,18 +167,14 @@ def test_create_header_existing_is_wrong():
 def test_create_header_old_syntax():
     """Old copyright syntax is preserved when creating a new header."""
     info = ReuseInfo(spdx_expressions={SpdxExpression("GPL-3.0-or-later")})
-    existing = cleandoc(
-        """
+    existing = cleandoc("""
         # Copyright John Doe
-        """
-    )
-    expected = cleandoc(
-        """
+        """)
+    expected = cleandoc("""
         # Copyright John Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
-        """
-    )
+        """)
 
     assert create_header(info, header=existing).strip() == expected
 
@@ -202,22 +182,18 @@ def test_create_header_old_syntax():
 def test_create_header_remove_fluff():
     """Any stuff that isn't REUSE info is removed when using create_header."""
     info = ReuseInfo(spdx_expressions={SpdxExpression("GPL-3.0-or-later")})
-    existing = cleandoc(
-        """
+    existing = cleandoc("""
         # SPDX-FileCopyrightText: John Doe
         #
         # Hello, world!
 
         pass
-        """
-    )
-    expected = cleandoc(
-        """
+        """)
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: John Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
-        """
-    )
+        """)
 
     assert create_header(info, header=existing).strip() == expected
 
@@ -232,17 +208,14 @@ def test_add_new_header_simple():
             CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
         },
     )
-    text = cleandoc(
-        """
+    text = cleandoc("""
         # SPDX-FileCopyrightText: John Doe
         #
         # SPDX-License-Identifier: MIT
 
         pass
-        """
-    )
-    expected = cleandoc(
-        """
+        """)
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
@@ -252,8 +225,7 @@ def test_add_new_header_simple():
         # SPDX-License-Identifier: MIT
 
         pass
-        """
-    )
+        """)
     assert add_new_header(text, info) == expected
 
 
@@ -266,15 +238,13 @@ def test_find_and_replace_no_header():
         },
     )
     text = "pass"
-    expected = cleandoc(
-        """
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
-        """
-    )
+        """)
 
     assert (
         find_and_replace_header(text, info)
@@ -292,15 +262,13 @@ def test_find_and_replace_no_header_with_newline():
         },
     )
     text = "\npass"
-    expected = cleandoc(
-        """
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
-        """
-    )
+        """)
 
     assert (
         find_and_replace_header(text, info)
@@ -319,16 +287,14 @@ def test_find_and_replace_no_header_multiple_newlines():
         },
     )
     text = "\n\npass"
-    expected = cleandoc(
-        """
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
 
 
         pass
-        """
-    )
+        """)
 
     assert (
         find_and_replace_header(text, info)
@@ -340,15 +306,13 @@ def test_find_and_replace_no_header_multiple_newlines():
 def test_find_and_replace_verbatim():
     """Replace a header with itself."""
     info = ReuseInfo()
-    text = cleandoc(
-        """
+    text = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
-        """
-    )
+        """)
 
     assert find_and_replace_header(text, info) == text
 
@@ -356,14 +320,12 @@ def test_find_and_replace_verbatim():
 def test_find_and_replace_verbatim_no_newline():
     """Do not add an empty line after existing headers."""
     info = ReuseInfo()
-    text = cleandoc(
-        """
+    text = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
         pass
-        """
-    )
+        """)
 
     assert find_and_replace_header(text, info) == text
 
@@ -380,16 +342,14 @@ def test_find_and_replace_preserve_indentation():
     )
     text = '    # Hello\n    print("world")'
 
-    assert find_and_replace_header(text, info) == cleandoc(
-        """
+    assert find_and_replace_header(text, info) == cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
 
             # Hello
             print("world")
-        """
-    )
+        """)
 
 
 def test_find_and_replace_newline_before_header():
@@ -402,24 +362,20 @@ def test_find_and_replace_newline_before_header():
             CopyrightNotice.from_string("SPDX-FileCopyrightText: John Doe")
         },
     )
-    text = cleandoc(
-        """
+    text = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
 
         pass
-        """
-    )
+        """)
     text = "\n" + text
-    expected = cleandoc(
-        """
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         # SPDX-FileCopyrightText: John Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
-        """
-    )
+        """)
 
     assert find_and_replace_header(text, info) == expected
 
@@ -432,8 +388,7 @@ def test_find_and_replace_preserve_preceding():
             CopyrightNotice.from_string("SPDX-FileCopyrightText: John Doe")
         },
     )
-    text = cleandoc(
-        """
+    text = cleandoc("""
         # Hello, world!
 
         def foo(bar):
@@ -442,10 +397,8 @@ def test_find_and_replace_preserve_preceding():
         # SPDX-FileCopyrightText: Jane Doe
 
         pass
-        """
-    )
-    expected = cleandoc(
-        """
+        """)
+    expected = cleandoc("""
         # Hello, world!
 
         def foo(bar):
@@ -457,8 +410,7 @@ def test_find_and_replace_preserve_preceding():
         # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
-        """
-    )
+        """)
 
     assert find_and_replace_header(text, info) == expected
 
@@ -499,17 +451,14 @@ def test_find_and_replace_separate_shebang():
     separate the two.
     """
     info = ReuseInfo(spdx_expressions={SpdxExpression("GPL-3.0-or-later")})
-    text = cleandoc(
-        """
+    text = cleandoc("""
         #!/usr/bin/env python3
         #!nix-shell -p python3
         # SPDX-FileCopyrightText: Jane Doe
 
         pass
-        """
-    )
-    expected = cleandoc(
-        """
+        """)
+    expected = cleandoc("""
         #!/usr/bin/env python3
         #!nix-shell -p python3
 
@@ -518,8 +467,7 @@ def test_find_and_replace_separate_shebang():
         # SPDX-License-Identifier: GPL-3.0-or-later
 
         pass
-        """
-    )
+        """)
 
     assert find_and_replace_header(text, info) == expected
 
@@ -592,15 +540,12 @@ def test_find_and_replace_keep_old_comment():
             CopyrightNotice.from_string("SPDX-FileCopyrightText: Jane Doe")
         },
     )
-    text = cleandoc(
-        """
+    text = cleandoc("""
         # Hello, world!
 
         pass
-        """
-    )
-    expected = cleandoc(
-        """
+        """)
+    expected = cleandoc("""
         # SPDX-FileCopyrightText: Jane Doe
         #
         # SPDX-License-Identifier: GPL-3.0-or-later
@@ -608,8 +553,7 @@ def test_find_and_replace_keep_old_comment():
         # Hello, world!
 
         pass
-        """
-    )
+        """)
 
     assert find_and_replace_header(text, info) == expected
 
@@ -618,18 +562,13 @@ def test_find_and_replace_preserve_newline():
     """If the file content ends with a newline, don't remove it."""
 
     info = ReuseInfo()
-    text = (
-        cleandoc(
-            """
+    text = cleandoc("""
             # SPDX-FileCopyrightText: Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
-        + "\n"
-    )
+            """) + "\n"
 
     assert find_and_replace_header(text, info) == text
 

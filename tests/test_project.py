@@ -202,9 +202,7 @@ def test_reuse_info_of_only_copyright(fake_repository):
 
 def test_reuse_info_of_toml_precedence(empty_directory):
     """When the precedence is set to toml, ignore file contents."""
-    (empty_directory / "REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
@@ -212,19 +210,13 @@ def test_reuse_info_of_toml_precedence(empty_directory):
             precedence = "override"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
-            """
-        )
-    )
-    (empty_directory / "foo.py").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "foo.py").write_text(cleandoc("""
             # The below should give a parser error. Not going to happen because
             # the file is never parsed.
             SPDX-License-Identifier: ignored AND
             SPDX-FileCopyrightText: ignored
-            """
-        )
-    )
+            """))
     project = Project.from_directory(empty_directory)
     reuse_infos = project.reuse_info_of("foo.py")
     assert len(reuse_infos) == 1
@@ -241,9 +233,7 @@ def test_reuse_info_of_toml_precedence(empty_directory):
 
 def test_reuse_info_of_closest_precedence(empty_directory):
     """When the precedence is set to closest, ignore REUSE.toml contents."""
-    (empty_directory / "REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
@@ -251,17 +241,11 @@ def test_reuse_info_of_closest_precedence(empty_directory):
             precedence = "closest"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
-            """
-        )
-    )
-    (empty_directory / "foo.py").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "foo.py").write_text(cleandoc("""
             SPDX-License-Identifier: MIT
             SPDX-FileCopyrightText: In File
-            """
-        )
-    )
+            """))
     project = Project.from_directory(empty_directory)
     reuse_infos = project.reuse_info_of("foo.py")
     assert len(reuse_infos) == 1
@@ -280,9 +264,7 @@ def test_reuse_info_of_closest_precedence_empty(empty_directory):
     """When the precedence is set to closest, but the file is empty, use
     REUSE.toml contents.
     """
-    (empty_directory / "REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
@@ -290,9 +272,7 @@ def test_reuse_info_of_closest_precedence_empty(empty_directory):
             precedence = "closest"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
-            """
-        )
-    )
+            """))
     (empty_directory / "foo.py").touch()
     project = Project.from_directory(empty_directory)
     reuse_infos = project.reuse_info_of("foo.py")
@@ -310,9 +290,7 @@ def test_reuse_info_of_closest_precedence_empty(empty_directory):
 
 def test_reuse_info_of_aggregate_precedence(empty_directory):
     """When the precedence is set to aggregate, aggregate sources."""
-    (empty_directory / "REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
@@ -320,17 +298,11 @@ def test_reuse_info_of_aggregate_precedence(empty_directory):
             precedence = "aggregate"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
-            """
-        )
-    )
-    (empty_directory / "foo.py").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "foo.py").write_text(cleandoc("""
             SPDX-License-Identifier: MIT
             SPDX-FileCopyrightText: In File
-            """
-        )
-    )
+            """))
     project = Project.from_directory(empty_directory)
     reuse_infos = project.reuse_info_of("foo.py")
     assert len(reuse_infos) == 2
@@ -365,9 +337,7 @@ def test_reuse_info_of_aggregate_and_closest(empty_directory):
     aggregated with the file contents IF they exist. Else, aggregate with the
     nearest REUSE.toml info.
     """
-    (empty_directory / "REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
@@ -375,13 +345,9 @@ def test_reuse_info_of_aggregate_and_closest(empty_directory):
             precedence = "aggregate"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
-            """
-        )
-    )
+            """))
     (empty_directory / "src").mkdir()
-    (empty_directory / "src/REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "src/REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
@@ -389,9 +355,7 @@ def test_reuse_info_of_aggregate_and_closest(empty_directory):
             precedence = "closest"
             SPDX-FileCopyrightText = "2017 John Doe"
             SPDX-License-Identifier = "MIT"
-            """
-        )
-    )
+            """))
     (empty_directory / "src/foo.py").touch()
     project = Project.from_directory(empty_directory)
     assert project.reuse_info_of("src/foo.py") == [
@@ -420,14 +384,10 @@ def test_reuse_info_of_aggregate_and_closest(empty_directory):
     ]
 
     # Populate the file.
-    (empty_directory / "src/foo.py").write_text(
-        cleandoc(
-            """
+    (empty_directory / "src/foo.py").write_text(cleandoc("""
             # Copyright Example
             # SPDX-License-Identifier: 0BSD
-            """
-        )
-    )
+            """))
     assert project.reuse_info_of("src/foo.py") == [
         ReuseInfo(
             spdx_expressions={SpdxExpression("CC0-1.0")},
@@ -457,9 +417,7 @@ def test_reuse_info_of_copyright_xor_licensing(empty_directory):
     file (copyright xor licensing). Get the missing information from the
     REUSE.toml.
     """
-    (empty_directory / "REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
@@ -470,23 +428,13 @@ def test_reuse_info_of_copyright_xor_licensing(empty_directory):
             [[annotations]]
             path = "bar.py"
             SPDX-License-Identifier = "CC0-1.0"
-            """
-        )
-    )
-    (empty_directory / "foo.py").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "foo.py").write_text(cleandoc("""
             SPDX-License-Identifier: MIT
-            """
-        )
-    )
-    (empty_directory / "bar.py").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "bar.py").write_text(cleandoc("""
             SPDX-FileCopyrightText: 2017 John Doe
-            """
-        )
-    )
+            """))
     project = Project.from_directory(empty_directory)
 
     foo_infos = project.reuse_info_of("foo.py")
@@ -513,9 +461,7 @@ def test_reuse_info_of_reuse_toml_dot_license(empty_directory):
     .license file, and REUSE.toml. Only the REUSE information from the .license
     file and REUSE.toml should be applied to this file.
     """
-    (empty_directory / "REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
@@ -523,23 +469,13 @@ def test_reuse_info_of_reuse_toml_dot_license(empty_directory):
             precedence = "aggregate"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
-            """
-        )
-    )
-    (empty_directory / "foo.py").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "foo.py").write_text(cleandoc("""
             SPDX-FileCopyrightText: NONE
-            """
-        )
-    )
-    (empty_directory / "foo.py.license").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "foo.py.license").write_text(cleandoc("""
             SPDX-FileCopyrightText: 2017 John Doe
-            """
-        )
-    )
+            """))
     project = Project.from_directory(empty_directory)
 
     infos = project.reuse_info_of("foo.py")
@@ -562,34 +498,22 @@ def test_reuse_info_of_reuse_toml_dot_license(empty_directory):
 
 def test_reuse_info_of_dot_license_invalid_target(empty_directory):
     """file.license is an invalid target in REUSE.toml."""
-    (empty_directory / "REUSE.toml").write_text(
-        cleandoc(
-            """
+    (empty_directory / "REUSE.toml").write_text(cleandoc("""
             version = 1
 
             [[annotations]]
             path = "foo.py.license"
             SPDX-FileCopyrightText = "2017 Jane Doe"
             SPDX-License-Identifier = "CC0-1.0"
-            """
-        )
-    )
-    (empty_directory / "foo.py").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "foo.py").write_text(cleandoc("""
             SPDX-FileCopyrightText: 2017 John Doe
 
             SPDX-License-Identifier: MIT
-            """
-        )
-    )
-    (empty_directory / "foo.py.license").write_text(
-        cleandoc(
-            """
+            """))
+    (empty_directory / "foo.py.license").write_text(cleandoc("""
             Empty
-            """
-        )
-    )
+            """))
     project = Project.from_directory(empty_directory)
 
     infos = project.reuse_info_of("foo.py")
@@ -755,8 +679,7 @@ def test_find_global_licensing_conflict(fake_repository_dep5):
 
 def test_duplicate_field_dep5(empty_directory):
     """When a duplicate field is in a dep5 file, correctly handle errors."""
-    dep5_text = cleandoc(
-        """
+    dep5_text = cleandoc("""
         Format: https://example.com/format/1.0
         Upstream-Name: Some project
         Upstream-Contact: Jane Doe
@@ -766,8 +689,7 @@ def test_duplicate_field_dep5(empty_directory):
         Copyright: 2017 Jane Doe
         Copyright: 2017 John Doe
         License: GPL-3.0-or-later
-        """
-    )
+        """)
     (empty_directory / ".reuse").mkdir()
     (empty_directory / ".reuse/dep5").write_text(dep5_text)
 

@@ -40,15 +40,13 @@ class TestAnnotate:
         """Add a header to a file that does not have one."""
         simple_file = fake_repository / "foo.py"
         simple_file.write_text("pass")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # SPDX-FileCopyrightText: 2018 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -69,15 +67,13 @@ class TestAnnotate:
         "Add a header to a Scheme file."
         simple_file = fake_repository / "foo.scm"
         simple_file.write_text("(setq show-trailing-whitespace t)")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             ;;; SPDX-FileCopyrightText: 2018 Jane Doe
             ;;;
             ;;; SPDX-License-Identifier: GPL-3.0-or-later
 
             (setq show-trailing-whitespace t)
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -97,26 +93,20 @@ class TestAnnotate:
     def test_scheme_standardised(self, fake_repository, mock_date_today):
         """The comment block is rewritten/standardised."""
         simple_file = fake_repository / "foo.scm"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 ; SPDX-FileCopyrightText: 2018 Jane Doe
                 ;
                 ; SPDX-License-Identifier: GPL-3.0-or-later
 
                 #t
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             ;;; SPDX-FileCopyrightText: 2018 Jane Doe
             ;;;
             ;;; SPDX-License-Identifier: GPL-3.0-or-later
 
             #t
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -136,26 +126,20 @@ class TestAnnotate:
     def test_scheme_standardised2(self, fake_repository, mock_date_today):
         """The comment block is rewritten/standardised."""
         simple_file = fake_repository / "foo.scm"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 ;; SPDX-FileCopyrightText: 2018 Jane Doe
                 ;;
                 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
                 #t
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             ;;; SPDX-FileCopyrightText: 2018 Jane Doe
             ;;;
             ;;; SPDX-License-Identifier: GPL-3.0-or-later
 
             #t
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -185,19 +169,14 @@ class TestAnnotate:
     def test_simple_no_replace(self, fake_repository, mock_date_today):
         """Add a header to a file without replacing the existing header."""
         simple_file = fake_repository / "foo.py"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 # SPDX-FileCopyrightText: 2017 John Doe
                 #
                 # SPDX-License-Identifier: MIT
 
                 pass
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             # SPDX-FileCopyrightText: 2018 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
@@ -207,8 +186,7 @@ class TestAnnotate:
             # SPDX-License-Identifier: MIT
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -230,15 +208,13 @@ class TestAnnotate:
         """Add a header to a file with a custom year."""
         simple_file = fake_repository / "foo.py"
         simple_file.write_text("pass")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # SPDX-FileCopyrightText: 2016 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -261,15 +237,13 @@ class TestAnnotate:
         """Add a header to a file without a year."""
         simple_file = fake_repository / "foo.py"
         simple_file.write_text("pass")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # SPDX-FileCopyrightText: Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -298,15 +272,13 @@ class TestAnnotate:
         """
         simple_file = fake_repository / "foo.py"
         simple_file.write_text("pass")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # Copyright 2018 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -328,24 +300,18 @@ class TestAnnotate:
     def test_shebang(self, fake_repository):
         """Keep the shebang when annotating."""
         simple_file = fake_repository / "foo.py"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 #!/usr/bin/env python3
 
                 pass
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             #!/usr/bin/env python3
 
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -365,17 +331,12 @@ class TestAnnotate:
         treat the shebang as special.
         """
         simple_file = fake_repository / "foo.html"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 #!/usr/bin/env python3
 
                 pass
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             <!--
             SPDX-License-Identifier: GPL-3.0-or-later
             -->
@@ -383,8 +344,7 @@ class TestAnnotate:
             #!/usr/bin/env python3
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -402,22 +362,16 @@ class TestAnnotate:
     def test_markdown(self, fake_repository):
         """Markdown uses the HTML comment style."""
         simple_file = fake_repository / "foo.md"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 # Heading
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             <!--
             SPDX-License-Identifier: MIT
             -->
 
             # Heading
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -435,26 +389,20 @@ class TestAnnotate:
     def test_frontmatter(self, fake_repository):
         """Keep the frontmatter when annotating."""
         simple_file = fake_repository / "foo.md"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 ---
                 description: test
                 ---
                 # Heading
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             ---
             # SPDX-License-Identifier: MIT
 
             description: test
             ---
             # Heading
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -474,26 +422,20 @@ class TestAnnotate:
         top, don't treat the shebang as special.
         """
         simple_file = fake_repository / "foo.sh"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 ---
                 description: test
                 ---
                 # Heading
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             # SPDX-License-Identifier: MIT
 
             ---
             description: test
             ---
             # Heading
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -582,15 +524,13 @@ class TestAnnotate:
         """Add header to a file that does not have one, using a custom style."""
         simple_file = fake_repository / "foo.py"
         simple_file.write_text("pass")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             // SPDX-FileCopyrightText: 2018 Jane Doe
             //
             // SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -635,15 +575,13 @@ class TestAnnotate:
         """Add a header to a file that has a recognised extension."""
         simple_file = fake_repository / "foo.js"
         simple_file.write_text("pass")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             // SPDX-FileCopyrightText: 2018 Jane Doe
             //
             // SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -664,15 +602,13 @@ class TestAnnotate:
         """Add a header to a filename that is recognised."""
         simple_file = fake_repository / "Makefile"
         simple_file.write_text("pass")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # SPDX-FileCopyrightText: 2018 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -805,13 +741,11 @@ class TestAnnotate:
             " 'REUSE.toml'"
         ) in result.stdout
         assert skip_file.read_text() == "pass"
-        assert other_file.read_text() == cleandoc(
-            """
+        assert other_file.read_text() == cleandoc("""
             # SPDX-FileCopyrightText: 2018 Jane Doe
 
             pass
-            """
-        )
+            """)
 
     def test_skip_global_reuse_toml_uncommentable(
         self, fake_repository_reuse_toml, mock_date_today
@@ -941,9 +875,7 @@ class TestAnnotate:
         --skip-precedence.
         """
         all_precedences = ["aggregate", "closest", "override"]
-        (empty_directory / "REUSE.toml").write_text(
-            cleandoc(
-                """
+        (empty_directory / "REUSE.toml").write_text(cleandoc("""
                 version = 1
 
                 [[annotations]]
@@ -963,9 +895,7 @@ class TestAnnotate:
                 precedence = 'override'
                 SPDX-FileCopyrightText = 'Jane Doe'
                 SPDX-License-Identifier = 'MIT'
-                """
-            )
-        )
+                """))
         for precedence in all_precedences:
             (empty_directory / precedence).write_text("pass")
 
@@ -994,13 +924,11 @@ class TestAnnotate:
             assert (empty_directory / precedence).read_text() == "pass"
 
         for precedence in set(all_precedences) - set(precedences):
-            assert (empty_directory / precedence).read_text() == cleandoc(
-                """
+            assert (empty_directory / precedence).read_text() == cleandoc("""
                 # SPDX-FileCopyrightText: 2018 Alice
 
                 pass
-                """
-            )
+                """)
 
     def test_skip_precedence_and_skip_global_mutex(self, fake_repository):
         """--skip-precedence is mutually exclusive with --skip-global."""
@@ -1032,8 +960,7 @@ class TestAnnotate:
         template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
         template_file.parent.mkdir(parents=True, exist_ok=True)
         template_file.write_text(template_simple_source)
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # Hello, world!
             #
             # SPDX-FileCopyrightText: 2018 Jane Doe
@@ -1041,8 +968,7 @@ class TestAnnotate:
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1088,8 +1014,7 @@ class TestAnnotate:
 
         assert result.exit_code == 0
         for simple_file in simple_files:
-            expected = cleandoc(
-                """
+            expected = cleandoc("""
                 # Hello, world!
                 #
                 # SPDX-FileCopyrightText: 2018 Jane Doe
@@ -1097,8 +1022,7 @@ class TestAnnotate:
                 # SPDX-License-Identifier: GPL-3.0-or-later
 
                 pass
-                """
-            )
+                """)
             assert simple_file.read_text() == expected
 
     def test_template_no_spdx(self, fake_repository, template_no_spdx_source):
@@ -1136,8 +1060,7 @@ class TestAnnotate:
         )
         template_file.parent.mkdir(parents=True, exist_ok=True)
         template_file.write_text(template_commented_source)
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # Hello, world!
             #
             # SPDX-FileCopyrightText: 2018 Jane Doe
@@ -1145,8 +1068,7 @@ class TestAnnotate:
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1199,8 +1121,7 @@ class TestAnnotate:
         template_file = fake_repository / ".reuse/templates/mytemplate.jinja2"
         template_file.parent.mkdir(parents=True, exist_ok=True)
         template_file.write_text(template_simple_source)
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # Hello, world!
             #
             # SPDX-FileCopyrightText: 2018 Jane Doe
@@ -1208,8 +1129,7 @@ class TestAnnotate:
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1232,13 +1152,11 @@ class TestAnnotate:
         """Add a header to a .license file if the file is a binary."""
         binary_file = fake_repository / "foo.png"
         binary_file.write_bytes(binary_string)
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             SPDX-FileCopyrightText: 2018 Jane Doe
 
             SPDX-License-Identifier: GPL-3.0-or-later
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1266,13 +1184,11 @@ class TestAnnotate:
         """
         json_file = fake_repository / "foo.json"
         json_file.write_text('{"foo": 23, "bar": 42}')
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             SPDX-FileCopyrightText: 2018 Jane Doe
 
             SPDX-License-Identifier: GPL-3.0-or-later
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1299,20 +1215,16 @@ class TestAnnotate:
         (fake_repository / "foo.py").write_text("Foo")
         (fake_repository / "foo.foo").write_text("Foo")
 
-        expected_py = cleandoc(
-            """
+        expected_py = cleandoc("""
             # SPDX-FileCopyrightText: 2018 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
-            """
-        )
-        expected_foo = cleandoc(
-            """
+            """)
+        expected_foo = cleandoc("""
             SPDX-FileCopyrightText: 2018 Jane Doe
 
             SPDX-License-Identifier: GPL-3.0-or-later
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1343,13 +1255,11 @@ class TestAnnotate:
         """Add a header to a .license file if --force-dot-license is given."""
         simple_file = fake_repository / "foo.py"
         simple_file.write_text("pass")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             SPDX-FileCopyrightText: 2018 Jane Doe
 
             SPDX-License-Identifier: GPL-3.0-or-later
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1383,13 +1293,11 @@ class TestAnnotate:
 
         simple_file.write_text("foo")
         simple_file_license.write_text("foo")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             SPDX-FileCopyrightText: 2018 Jane Doe
 
             SPDX-License-Identifier: GPL-3.0-or-later
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1416,13 +1324,11 @@ class TestAnnotate:
         """
         simple_file = fake_repository / "foo.txt"
         simple_file.write_text("Preserve this")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             SPDX-FileCopyrightText: 2018 Jane Doe
 
             SPDX-License-Identifier: GPL-3.0-or-later
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -1478,26 +1384,17 @@ class TestAnnotate:
         simple_file = fake_repository / "foo.py"
         simple_file.write_text("foo")
         license_file = fake_repository / "foo.py.license"
-        license_file.write_text(
-            cleandoc(
-                """
+        license_file.write_text(cleandoc("""
                 SPDX-FileCopyrightText: 2016 John Doe
 
                 Hello
-                """
-            )
-        )
-        expected = (
-            cleandoc(
-                """
+                """))
+        expected = cleandoc("""
                 SPDX-FileCopyrightText: 2016 John Doe
                 SPDX-FileCopyrightText: 2018 Jane Doe
 
                 SPDX-License-Identifier: GPL-3.0-or-later
-                """
-            )
-            + "\n"
-        )
+                """) + "\n"
 
         result = CliRunner().invoke(
             main,
@@ -1524,27 +1421,17 @@ class TestAnnotate:
         simple_file = fake_repository / "foo.py"
         simple_file.write_text("foo")
         license_file = fake_repository / "foo.py.license"
-        license_file.write_text(
-            cleandoc(
-                """
+        license_file.write_text(cleandoc("""
                 SPDX-FileCopyrightText: 2016 John Doe
 
                 Hello
-                """
-            )
-            + "\n"
-        )
-        expected = (
-            cleandoc(
-                """
+                """) + "\n")
+        expected = cleandoc("""
                 SPDX-FileCopyrightText: 2016 John Doe
                 SPDX-FileCopyrightText: 2018 Jane Doe
 
                 SPDX-License-Identifier: GPL-3.0-or-later
-                """
-            )
-            + "\n"
-        )
+                """) + "\n"
 
         result = CliRunner().invoke(
             main,
@@ -1690,8 +1577,7 @@ class TestAnnotate:
         """--multi-line forces a multi-line comment for C."""
         simple_file = fake_repository / "foo.c"
         simple_file.write_text("foo")
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
                     /*
                      * SPDX-FileCopyrightText: 2018 Jane Doe
                      *
@@ -1699,8 +1585,7 @@ class TestAnnotate:
                      */
 
                     foo
-                    """
-        )
+                    """)
 
         result = CliRunner().invoke(
             main,
@@ -1725,16 +1610,14 @@ class TestAnnotate:
         simple_file.write_bytes(
             line_ending.encode("utf-8").join([b"hello", b"world"])
         )
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
                 # SPDX-FileCopyrightText: 2018 Jane Doe
                 #
                 # SPDX-License-Identifier: GPL-3.0-or-later
 
                 hello
                 world
-                """
-        ).replace("\n", line_ending)
+                """).replace("\n", line_ending)
 
         result = CliRunner().invoke(
             main,
@@ -1759,24 +1642,20 @@ class TestAnnotate:
         """
         for path in ("foo.py", "bar.py"):
             (fake_repository / path).write_text("pass")
-        expected_foo = cleandoc(
-            """
+        expected_foo = cleandoc("""
             # SPDX-FileCopyrightText: 2018 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
-        expected_bar = cleandoc(
-            """
+            """)
+        expected_bar = cleandoc("""
             # SPDX-FileCopyrightText: 2018 John Doe
             #
             # SPDX-License-Identifier: MIT
 
             pass
-            """
-        )
+            """)
 
         CliRunner().invoke(
             main,
@@ -1811,13 +1690,9 @@ class TestAnnotate:
     def test_recursive(self, fake_repository, mock_date_today):
         """Add a header to a directory recursively."""
         (fake_repository / "src/one/two").mkdir(parents=True)
-        (fake_repository / "src/one/two/foo.py").write_text(
-            cleandoc(
-                """
+        (fake_repository / "src/one/two/foo.py").write_text(cleandoc("""
                 # SPDX-License-Identifier: GPL-3.0-or-later
-                """
-            )
-        )
+                """))
         (fake_repository / "src/hello.py").touch()
         (fake_repository / "src/one/world.py").touch()
         (fake_repository / "bar").mkdir(parents=True)
@@ -1969,18 +1844,11 @@ class TestAnnotate:
             ],
         )
 
-        assert (
-            (empty_directory / "foo.py").read_bytes()
-            == cleandoc(
-                """
+        assert (empty_directory / "foo.py").read_bytes() == cleandoc("""
                 # SPDX-FileCopyrightText: 2018 Jane Doe
 
                 pass
-                """
-            )
-            .replace("\n", os.linesep)
-            .encode(encoding)
-        )
+                """).replace("\n", os.linesep).encode(encoding)
 
 
 class TestAnnotateMerge:
@@ -2007,15 +1875,13 @@ class TestAnnotateMerge:
         )
 
         assert result.exit_code == 0
-        assert simple_file.read_text() == cleandoc(
-            """
+        assert simple_file.read_text() == cleandoc("""
                 # SPDX-FileCopyrightText: 2016 Mary Sue
                 #
                 # SPDX-License-Identifier: GPL-3.0-or-later
 
                 pass
-                """
-        )
+                """)
 
         result = CliRunner().invoke(
             main,
@@ -2031,15 +1897,13 @@ class TestAnnotateMerge:
         )
 
         assert result.exit_code == 0
-        assert simple_file.read_text() == cleandoc(
-            """
+        assert simple_file.read_text() == cleandoc("""
                 # SPDX-FileCopyrightText: 2016, 2018 Mary Sue
                 #
                 # SPDX-License-Identifier: GPL-3.0-or-later
 
                 pass
-                """
-        )
+                """)
 
         result = CliRunner().invoke(
             main,
@@ -2055,15 +1919,13 @@ class TestAnnotateMerge:
         )
 
         assert result.exit_code == 0
-        assert simple_file.read_text() == cleandoc(
-            """
+        assert simple_file.read_text() == cleandoc("""
                 # SPDX-FileCopyrightText: 2016-2018 Mary Sue
                 #
                 # SPDX-License-Identifier: GPL-3.0-or-later
 
                 pass
-                """
-        )
+                """)
 
     def test_multi_prefix(self, fake_repository):
         """Add multiple headers to a file with merge copyrights."""
@@ -2106,8 +1968,7 @@ class TestAnnotateMerge:
 
             assert result.exit_code == 0
 
-        assert simple_file.read_text() == cleandoc(
-            """
+        assert simple_file.read_text() == cleandoc("""
             # SPDX-FileCopyrightText: 2010 Mary Sue
             # SPDX-FileCopyrightText: 2011 Mary Sue
             # SPDX-FileCopyrightText: 2012 Mary Sue
@@ -2120,8 +1981,7 @@ class TestAnnotateMerge:
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -2139,28 +1999,22 @@ class TestAnnotateMerge:
         )
 
         assert result.exit_code == 0
-        assert simple_file.read_text() == cleandoc(
-            """
+        assert simple_file.read_text() == cleandoc("""
             # Copyright (C) 2010-2012, 2015-2019 Mary Sue
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
     def test_no_year_in_existing(self, fake_repository, mock_date_today):
         """This checks the issue reported in
         <https://codeberg.org/fsfe/reuse-tool/issues/866>. If an existing
         copyright line doesn't have a year, everything should still work.
         """
-        (fake_repository / "foo.py").write_text(
-            cleandoc(
-                """
+        (fake_repository / "foo.py").write_text(cleandoc("""
                 # SPDX-FileCopyrightText: Jane Doe
-                """
-            )
-        )
+                """))
         CliRunner().invoke(
             main,
             [
@@ -2171,15 +2025,10 @@ class TestAnnotateMerge:
                 "foo.py",
             ],
         )
-        assert (
-            cleandoc(
-                """
+        assert cleandoc("""
                 # SPDX-FileCopyrightText: 2018 John Doe
                 # SPDX-FileCopyrightText: Jane Doe
-                """
-            )
-            in (fake_repository / "foo.py").read_text()
-        )
+                """) in (fake_repository / "foo.py").read_text()
 
     def test_all_prefixes(self, fake_repository, mock_date_today):
         """Test that merging works for all copyright prefixes."""
@@ -2207,15 +2056,13 @@ class TestAnnotateMerge:
                 ],
             )
             assert result.exit_code == 0
-            assert simple_file.read_text(encoding="utf-8") == cleandoc(
-                f"""
+            assert simple_file.read_text(encoding="utf-8") == cleandoc(f"""
                     # {prefix.value} 2016 Jane Doe
                     #
                     # SPDX-License-Identifier: GPL-3.0-or-later
 
                     pass
-                    """
-            )
+                    """)
 
             result = CliRunner().invoke(
                 main,
@@ -2234,15 +2081,13 @@ class TestAnnotateMerge:
                 ],
             )
             assert result.exit_code == 0
-            assert simple_file.read_text(encoding="utf-8") == cleandoc(
-                f"""
+            assert simple_file.read_text(encoding="utf-8") == cleandoc(f"""
                 # {prefix.value} 2016, 2018 Jane Doe
                 #
                 # SPDX-License-Identifier: GPL-3.0-or-later
 
                 pass
-                """
-            )
+                """)
 
 
 class TestMultipleLicense:
@@ -2251,26 +2096,20 @@ class TestMultipleLicense:
     def test_replace_license(self, fake_repository):
         """Test --replace-license"""
         simple_file = fake_repository / "foo.py"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 # SPDX-FileCopyrightText: 2026 Jane Doe
                 #
                 # SPDX-License-Identifier: MIT
 
                 pass
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             # SPDX-FileCopyrightText: 2026 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -2289,27 +2128,21 @@ class TestMultipleLicense:
     def test_no_replace_license(self, fake_repository):
         """Make sure code handling --replace-license does not always trigger"""
         simple_file = fake_repository / "foo.py"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 # SPDX-FileCopyrightText: 2026 Jane Doe
                 #
                 # SPDX-License-Identifier: MIT
 
                 pass
-                """
-            )
-        )
-        expected = cleandoc(
-            """
+                """))
+        expected = cleandoc("""
             # SPDX-FileCopyrightText: 2026 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
             # SPDX-License-Identifier: MIT
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -2328,28 +2161,22 @@ class TestMultipleLicense:
         """Make sure --replace-license can handle
         multple licenses being present."""
         simple_file = fake_repository / "foo.py"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 # SPDX-FileCopyrightText: 2026 Jane Doe
                 #
                 # SPDX-License-Identifier: GPL-2.0-or-later
                 # SPDX-License-Identifier: MIT
 
                 pass
-                """
-            )
-        )
+                """))
 
-        expected = cleandoc(
-            """
+        expected = cleandoc("""
             # SPDX-FileCopyrightText: 2026 Jane Doe
             #
             # SPDX-License-Identifier: GPL-3.0-or-later
 
             pass
-            """
-        )
+            """)
 
         result = CliRunner().invoke(
             main,
@@ -2368,17 +2195,13 @@ class TestMultipleLicense:
     def test_replace_license_no_replace_mutex(self, fake_repository):
         """--replace-license and --no-replace are mutually exclusive."""
         simple_file = fake_repository / "foo.py"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 # SPDX-FileCopyrightText: 2026 Jane Doe
                 #
                 # SPDX-License-Identifier: MIT
 
                 pass
-                """
-            )
-        )
+                """))
 
         result = CliRunner().invoke(
             main,
@@ -2398,40 +2221,27 @@ class TestMultipleLicense:
     def test_replace_license_and_dot_license(self, fake_repository):
         """Test --replace-license works with --force-dot-license"""
         simple_file = fake_repository / "foo.py"
-        simple_file.write_text(
-            cleandoc(
-                """
+        simple_file.write_text(cleandoc("""
                 pass
-                """
-            )
-        )
+                """))
 
         dot_license = fake_repository / "foo.py.license"
-        dot_license.write_text(
-            cleandoc(
-                """
+        dot_license.write_text(cleandoc("""
                 SPDX-FileCopyrightText: 2026 Jane Doe
 
                 SPDX-License-Identifier: MIT
-                """
-            )
-        )
+                """))
 
-        expected_simple_file = cleandoc(
-            """
+        expected_simple_file = cleandoc("""
             pass
-            """
-        )
+            """)
 
         expected_dot_license = (
-            cleandoc(
-                """
+            cleandoc("""
                 SPDX-FileCopyrightText: 2026 Jane Doe
 
                 SPDX-License-Identifier: GPL-3.0-or-later
-                """
-            )
-            + "\n"
+                """) + "\n"
         )  # hopefully this doesnt cause issues on non POSIX platforms (NT)
 
         result = CliRunner().invoke(

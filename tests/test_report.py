@@ -6,7 +6,6 @@
 
 """Tests for reuse.report"""
 
-
 import os
 import re
 import warnings
@@ -132,25 +131,21 @@ class TestGenerateFileReport:
         string.
         """
         (empty_directory / "foo.py").write_text(
-            cleandoc(
-                """
+            cleandoc("""
                 SPDX-FileCopyrightText: 2019 Alice
                 Copyright Bob
                 © 2017 Jane Doe
-                """
-            ),
+                """),
             encoding="utf-8",
         )
         project = Project.from_directory(empty_directory)
         result = FileReport.generate(project, "foo.py")
 
-        assert result.copyright == cleandoc(
-            """
+        assert result.copyright == cleandoc("""
             © 2017 Jane Doe
             SPDX-FileCopyrightText: 2019 Alice
             Copyright Bob
-            """
-        )
+            """)
 
     def test_exception(self, fake_repository, add_license_concluded):
         """Simple generate test to test if the exception is detected."""
@@ -261,13 +256,9 @@ class TestGenerateFileReport:
         """When a file is covered both by DEP5 and its file header, the lint
         dict should correctly convey the source information.
         """
-        (fake_repository_dep5 / "doc/foo.py").write_text(
-            dedent(
-                """
+        (fake_repository_dep5 / "doc/foo.py").write_text(dedent("""
                 SPDX-License-Identifier: MIT OR 0BSD
-                SPDX-FileCopyrightText: in file"""
-            )
-        )
+                SPDX-FileCopyrightText: in file"""))
         project = Project.from_directory(fake_repository_dep5)
         with warnings.catch_warnings(record=True):
             report = FileReport.generate(
@@ -523,9 +514,7 @@ class TestGenerateProjectReport:
 
     def test_partial_info_in_toml(self, empty_directory, multiprocessing):
         """Some information is in REUSE.toml, and some is inside of the file."""
-        (empty_directory / "REUSE.toml").write_text(
-            cleandoc(
-                """
+        (empty_directory / "REUSE.toml").write_text(cleandoc("""
                 version = 1
 
                 [[annotations]]
@@ -534,9 +523,7 @@ class TestGenerateProjectReport:
                 SPDX-FileCopyrightText = "Jane Doe"
                 # This is ignored because it's in the file!
                 SPDX-License-Identifier = "MIT"
-                """
-            )
-        )
+                """))
         (empty_directory / "foo.py").write_text(
             "# SPDX-License-Identifier: 0BSD"
         )

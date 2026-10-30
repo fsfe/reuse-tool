@@ -55,27 +55,21 @@ class TestExtractReuseInfo:
     @pytest.mark.parametrize(
         "art",
         [
-            cleandoc(
-                r"""
+            cleandoc(r"""
                 /**********************************\
                 |*  SPDX-License-Identifier: MIT  *|
                 \**********************************/
-                """
-            ),
-            cleandoc(
-                """
+                """),
+            cleandoc("""
                 //////////////////////////////////
                 // SPDX-License-Identifier: MIT //
                 //////////////////////////////////
-                """
-            ),
-            cleandoc(
-                """
+                """),
+            cleandoc("""
                 ################################
                 # SPDX-License-Identifier: MIT #
                 ################################
-                """
-            ),
+                """),
             # Technically not art, but uses the same prefix-suffix mechanism.
             '"SPDX-License-Identifier: MIT"',
         ],
@@ -154,8 +148,7 @@ class TestExtractReuseInfo:
         """There are multiple ways to declare copyright. All should be
         detected.
         """
-        text = cleandoc(
-            """
+        text = cleandoc("""
             SPDX-FileCopyrightText: 2019 spdx
             SPDX-FileCopyrightText: (C) 2019 spdx-c
             SPDX-FileCopyrightText: © 2019 spdx-symbol
@@ -165,8 +158,7 @@ class TestExtractReuseInfo:
             Copyright (C) 2019 string-c
             Copyright © 2019 string-symbol
             © 2019 symbol
-            """
-        )
+            """)
 
         result = extract_reuse_info(text)
         lines = text.splitlines()
@@ -223,11 +215,9 @@ class TestExtractReuseInfo:
 
     def test_contributors(self):
         """Correctly extract SPDX-FileContributor information from text."""
-        text = cleandoc(
-            """
+        text = cleandoc("""
             # SPDX-FileContributor: Jane Doe
-            """
-        )
+            """)
         result = extract_reuse_info(text)
         assert result.contributor_lines == {"Jane Doe"}
 
@@ -248,8 +238,7 @@ class TestDetectEncoding:
     )
     def test_simple(self, encoding):
         """Given some text, correctly detect the decoding."""
-        text = cleandoc(
-            """
+        text = cleandoc("""
             # Copyright © 1911 Émile Verhaeren
 
             Si nos coeurs ont brûlé en des jours exaltants
@@ -271,10 +260,10 @@ class TestDetectEncoding:
             Si dans notre hiver et nos brumes
             N'éclatait point, tel un flambeau, le souvenir
             Des âmes fières que nous fûmes.
-            """
-        )
+            """)
         encoded = text.encode(encoding)
         result = detect_encoding(encoded)
+        assert result is not None
         if encoding != "iso8859_1":
             assert result == encoding
         else:
@@ -289,8 +278,7 @@ class TestDetectEncoding:
 
     def test_never_ascii(self):
         """When something could be encoded in ASCII, expect UTF-8 instead."""
-        text = cleandoc(
-            """
+        text = cleandoc("""
             Beautiful is better than ugly.
             Explicit is better than implicit.
             Simple is better than complex.
@@ -310,8 +298,7 @@ class TestDetectEncoding:
             If the implementation is hard to explain, it's a bad idea.
             If the implementation is easy to explain, it may be a good idea.
             Namespaces are one honking great idea -- let's do more of those!
-            """
-        ).encode("ascii")
+            """).encode("ascii")
         assert detect_encoding(text) == "utf_8"
 
     def test_empty_is_utf_8(self):
@@ -334,9 +321,7 @@ class TestReuseInfoOfFile:
         """Ensure that the copyright and licensing information inside the ignore
         block is actually ignored.
         """
-        buffer = BytesIO(
-            cleandoc(
-                f"""
+        buffer = BytesIO(cleandoc(f"""
                 SPDX-FileCopyrightText: 2019 Jane Doe
                 SPDX-License-Identifier: CC0-1.0
                 REUSE-IgnoreStart
@@ -344,9 +329,7 @@ class TestReuseInfoOfFile:
                 SPDX-License-Identifier: GPL-3.0-or-later
                 {_IGNORE_END}
                 SPDX-FileCopyrightText: 2019 Eve
-                """
-            ).encode("utf-8")
-        )
+                """).encode("utf-8"))
         result = reuse_info_of_file(buffer, chunk_size=10)
         assert len(result.copyright_notices) == 2
         assert len(result.spdx_expressions) == 1
@@ -355,17 +338,13 @@ class TestReuseInfoOfFile:
         """Even with a very small buffer, the entire file is correctly read and
         parsed.
         """
-        buffer = BytesIO(
-            cleandoc(
-                """
+        buffer = BytesIO(cleandoc("""
                 SPDX-FileCopyrightText: 2019 Jane Doe
                 SPDX-FileCopyrightText: 2019 John Doe
                 SPDX-FileCopyrightText: 2019 Eve
                 SPDX-License-Identifier: GPL-3.0-or-later
                 SPDX-License-Identifier: CC0-1.0
-                """
-            ).encode("utf-8")
-        )
+                """).encode("utf-8"))
         result = reuse_info_of_file(buffer, chunk_size=5, line_size=50)
         assert len(result.copyright_notices) == 3
         assert len(result.spdx_expressions) == 2
@@ -406,12 +385,10 @@ class TestReuseInfoOfFile:
     @pytest.mark.parametrize("newline", ["\r\n", "\r", "\n"])
     def test_all_newlines(self, newline):
         """Can lint files with any newline."""
-        text = cleandoc(
-            """
+        text = cleandoc("""
             SPDX-FileCopyrightText: Jane Doe
             SPDX-FileCopyrightText: John Doe
-            """
-        ).replace("\n", newline)
+            """).replace("\n", newline)
         buffer = BytesIO(text.encode("utf-8"))
         result = reuse_info_of_file(buffer)
         assert result == ReuseInfo(
@@ -433,12 +410,10 @@ class TestReuseInfoOfFile:
     )
     def test_encodings(self, encoding):
         """Can lint files with any encoding."""
-        text = cleandoc(
-            """
+        text = cleandoc("""
             SPDX-FileCopyrightText: Jane Doe
             SPDX-FileCopyrightText: John Doe
-            """
-        )
+            """)
         buffer = BytesIO(text.encode(encoding))
         result = reuse_info_of_file(buffer)
         assert result == ReuseInfo(
@@ -456,15 +431,13 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if start and end
         markers are in comment style.
         """
-        text = cleandoc(
-            f"""
+        text = cleandoc(f"""
             Relevant text
             # REUSE-IgnoreStart
             Ignored text
             # {_IGNORE_END}
             Other relevant text
-            """
-        )
+            """)
         expected = "Relevant text\n# \nOther relevant text"
 
         result = filter_ignore_block(text)
@@ -474,22 +447,18 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if start and end
         markers are not comment style.
         """
-        text = cleandoc(
-            f"""
+        text = cleandoc(f"""
             Relevant text
             REUSE-IgnoreStart
             Ignored text
             {_IGNORE_END}
             Other relevant text
-            """
-        )
-        expected = cleandoc(
-            """
+            """)
+        expected = cleandoc("""
             Relevant text
 
             Other relevant text
-            """
-        )
+            """)
 
         result = filter_ignore_block(text)
         assert result == (expected, False)
@@ -498,22 +467,18 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if there is
         information to be ignored on the same line.
         """
-        text = cleandoc(
-            f"""
+        text = cleandoc(f"""
             Relevant text
             REUSE-IgnoreStart Copyright me
             Ignored text
             sdojfsd{_IGNORE_END}
             Other relevant text
-            """
-        )
-        expected = cleandoc(
-            """
+            """)
+        expected = cleandoc("""
             Relevant text
 
             Other relevant text
-            """
-        )
+            """)
 
         result = filter_ignore_block(text)
         assert result == (expected, False)
@@ -522,13 +487,11 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if it has relevant
         information on the same line.
         """
-        text = cleandoc(
-            f"""
+        text = cleandoc(f"""
             Relevant textREUSE-IgnoreStart
             Ignored text
             {_IGNORE_END}Other relevant text
-            """
-        )
+            """)
         expected = "Relevant textOther relevant text"
 
         result = filter_ignore_block(text)
@@ -540,18 +503,14 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if it has relevant
         information on the same line.
         """
-        text = cleandoc(
-            f"""
+        text = cleandoc(f"""
             Relevant textREUSE-IgnoreStartIgnored text{_IGNORE_END}Other
             relevant text
-            """
-        )
-        expected = cleandoc(
-            """
+            """)
+        expected = cleandoc("""
             Relevant textOther
             relevant text
-            """
-        )
+            """)
 
         result = filter_ignore_block(text)
         assert result == (expected, False)
@@ -570,24 +529,20 @@ class TestFilterIgnoreBlock:
         """Test that an ignore block is properly removed even if the string
         starts with an end instruction.
         """
-        text = cleandoc(
-            f"""
+        text = cleandoc(f"""
             {_IGNORE_END}
             Relevant text
             REUSE-IgnoreStart
             IgnoredText
             REUSE-IgnoreEnd
             More relevant text
-            """
-        )
-        expected = cleandoc(
-            f"""
+            """)
+        expected = cleandoc(f"""
             {_IGNORE_END}
             Relevant text
 
             More relevant text
-            """
-        )
+            """)
 
         result = filter_ignore_block(text)
         assert result == (expected, False)
@@ -596,14 +551,12 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if it has relevant
         information on the same line.
         """
-        text = cleandoc(
-            """
+        text = cleandoc("""
             Relevant text
             REUSE-IgnoreStart
             Ignored text
             Other ignored text
-            """
-        )
+            """)
         expected = "Relevant text\n"
 
         result = filter_ignore_block(text)
@@ -613,8 +566,7 @@ class TestFilterIgnoreBlock:
         """Test that the ignore block is properly removed if it has relevant
         information on the same line.
         """
-        text = cleandoc(
-            f"""
+        text = cleandoc(f"""
             Relevant text
             REUSE-IgnoreStart
             Ignored text
@@ -624,17 +576,14 @@ class TestFilterIgnoreBlock:
             Other ignored text
             {_IGNORE_END}
             Even more relevant text
-            """
-        )
-        expected = cleandoc(
-            """
+            """)
+        expected = cleandoc("""
             Relevant text
 
             Other relevant text
 
             Even more relevant text
-            """
-        )
+            """)
 
         result = filter_ignore_block(text)
         assert result == (expected, False)
@@ -706,15 +655,11 @@ class TestContainsReuseInfo:
 
     def test_ignore_block(self):
         """If the info is in an ignore block, expect False."""
-        assert not contains_reuse_info(
-            cleandoc(
-                f"""
+        assert not contains_reuse_info(cleandoc(f"""
                 REUSE-IgnoreStart
                 Copyright Jane Doe
                 {_IGNORE_END}
-                """
-            )
-        )
+                """))
 
 
 class TestEncodingModule:

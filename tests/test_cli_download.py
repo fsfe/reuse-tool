@@ -89,12 +89,10 @@ class TestDownload:
         """If both EUPL-1.2 and EUPL-1.2+ is detected, download EUPL-1.2 only
         once.
         """
-        Path("foo.py").write_text(
-            """
+        Path("foo.py").write_text("""
             # SPDX-License-Identifier: EUPL-1.2+
             # SPDX-License-Identifier: EUPL-1.2
-            """
-        )
+            """)
         result = CliRunner().invoke(main, ["download", "--all"])
 
         assert result.exit_code == 0
