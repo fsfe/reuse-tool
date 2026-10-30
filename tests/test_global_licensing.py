@@ -600,8 +600,7 @@ class TestReuseTOMLFromToml:
 
     def test_simple(self, annotations_item):
         """Simple case"""
-        text = cleandoc(
-            """
+        text = cleandoc("""
             version = 1
 
             [[annotations]]
@@ -609,8 +608,7 @@ class TestReuseTOMLFromToml:
             precedence = "override"
             SPDX-FileCopyrightText = "2023 Jane Doe"
             SPDX-License-Identifier = "MIT"
-            """
-        )
+            """)
         result = ReuseTOML.from_toml(text, "REUSE.toml", Path("."))
         assert result.version == 1
         assert result.source == "REUSE.toml"
@@ -628,8 +626,7 @@ class TestReuseTOMLFromToml:
         """
         # isinstance would also accept the tomlkit subclasses.
         # pylint: disable=unidiomatic-typecheck
-        text = cleandoc(
-            """
+        text = cleandoc("""
             version = 1
 
             [[annotations]]
@@ -638,8 +635,7 @@ class TestReuseTOMLFromToml:
             Custom-Number = 42
             Custom-List = ["Hello", "world"]
             Custom-Table = { Hello = "world" }
-            """
-        )
+            """)
         result = ReuseTOML.from_toml(text, "REUSE.toml", Path("."))
         item = result.annotations[0]
         assert type(result.version) is int
@@ -660,16 +656,14 @@ class TestReuseTOMLEscaping:
 
     def test_escape_asterisk(self):
         """Handle escape asterisk."""
-        text = cleandoc(
-            r"""
+        text = cleandoc(r"""
             version = 1
 
             [[annotations]]
             path = "\\*.py"
             SPDX-FileCopyrightText = "2023 Jane Doe"
             SPDX-License-Identifier = "MIT"
-            """
-        )
+            """)
         toml = ReuseTOML.from_toml(text, "REUSE.toml", Path("."))
         assert toml.reuse_info_of(r"*.py")
         assert not toml.reuse_info_of(r"\*.py")
@@ -679,16 +673,14 @@ class TestReuseTOMLEscaping:
     @posix
     def test_escape_escape(self):
         """Handle escape escape."""
-        text = cleandoc(
-            r"""
+        text = cleandoc(r"""
             version = 1
 
             [[annotations]]
             path = "\\\\.py"
             SPDX-FileCopyrightText = "2023 Jane Doe"
             SPDX-License-Identifier = "MIT"
-            """
-        )
+            """)
         toml = ReuseTOML.from_toml(text, "REUSE.toml", Path("."))
         assert toml.reuse_info_of(r"\.py")
 
@@ -821,9 +813,7 @@ class TestReuseTOMLFromFile:
 
     def test_simple(self, annotations_item, empty_directory):
         """Simple case."""
-        (empty_directory / "REUSE.toml").write_text(
-            cleandoc(
-                """
+        (empty_directory / "REUSE.toml").write_text(cleandoc("""
                 version = 1
 
                 [[annotations]]
@@ -831,9 +821,7 @@ class TestReuseTOMLFromFile:
                 precedence = "override"
                 SPDX-FileCopyrightText = "2023 Jane Doe"
                 SPDX-License-Identifier = "MIT"
-                """
-            )
-        )
+                """))
         result = ReuseTOML.from_file(Path("REUSE.toml"), empty_directory)
         assert result.version == 1
         assert result.source == "REUSE.toml"
@@ -841,18 +829,14 @@ class TestReuseTOMLFromFile:
 
     def test_precedence_implicit(self, empty_directory):
         """When precedence is not set, default to closest."""
-        (empty_directory / "REUSE.toml").write_text(
-            cleandoc(
-                """
+        (empty_directory / "REUSE.toml").write_text(cleandoc("""
                 version = 1
 
                 [[annotations]]
                 path = "foo.py"
                 SPDX-FileCopyrightText = "2023 Jane Doe"
                 SPDX-License-Identifier = "MIT"
-                """
-            )
-        )
+                """))
         result = ReuseTOML.from_file(Path("REUSE.toml"), empty_directory)
         assert result.annotations[0].precedence == PrecedenceType.CLOSEST
 
@@ -1418,9 +1402,7 @@ class TestReuseDep5FromFile:
 
     def test_double_copyright_parse_error(self, empty_directory):
         """Raise GlobalLicensingParseError on double Copyright lines."""
-        (empty_directory / "foo").write_text(
-            cleandoc(
-                """
+        (empty_directory / "foo").write_text(cleandoc("""
                 Format: something
                 Upstream-Name: example
                 Upstream-Contact: Jane Doe
@@ -1430,9 +1412,7 @@ class TestReuseDep5FromFile:
                 Copyright: Jane Doe
                 Copyright: John Doe
                 License: MIT
-                """
-            )
-        )
+                """))
         with pytest.raises(GlobalLicensingParseError) as exc_info:
             ReuseDep5.from_file(empty_directory / "foo", empty_directory)
         error = exc_info.value

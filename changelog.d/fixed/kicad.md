@@ -1,1 +1,0 @@
-- KiCad comments which end with `")` are now correctly parsed. (#1302)

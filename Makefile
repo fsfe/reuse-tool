@@ -63,6 +63,7 @@ docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 .PHONY: dist
 dist: clean-build clean-pyc clean-docs ## builds source and wheel package
 	poetry build
+	poetry run wheel tags --python-tag py3 --abi-tag none --platform-tag any --remove dist/reuse-*.whl
 	ls -l dist
 
 .PHONY: create-pot
@@ -79,15 +80,15 @@ update-po-files: create-pot  ## update .po files
 	find ./po -name "*.po" -exec msgmerge --width=79 --output={} {} po/reuse.pot \;
 
 .PHONY: test-release
-test-release: ## package and upload to testpypi
+test-release: dist ## package and upload to testpypi
 	poetry config repositories.test-pypi https://test.pypi.org/legacy/
 	# You may need to use `poetry config pypi-token.test-pypi pypi-YYYYYYYY`
-	poetry publish --build -r test-pypi
+	poetry publish -r test-pypi
 
 .PHONY: release
-release: ## package and upload a release
+release: dist ## package and upload a release
 	# You may need to use `poetry config pypi-token.pypi pypi-YYYYYYYY`
-	poetry publish --build
+	poetry publish
 
 .PHONY: update-resources
 update-resources: ## update spdx data files

@@ -112,12 +112,10 @@ class TestLint:
         """Successfully lint when Meson subprojects are included."""
         # ./subprojects/libfoo/foo.c has license and linter succeeds
         (subproject_repository / "subprojects/libfoo/foo.c").write_text(
-            cleandoc(
-                """
+            cleandoc("""
                 SPDX-FileCopyrightText: 2022 Jane Doe
                 SPDX-License-Identifier: GPL-3.0-or-later
-                """
-            )
+                """)
         )
         result = CliRunner().invoke(
             main, ["--include-meson-subprojects", "lint"]
@@ -175,16 +173,12 @@ class TestLint:
         self, fake_repository_reuse_toml, capsys
     ):
         """If there is an error in an annotation, print an error."""
-        (fake_repository_reuse_toml / "REUSE.toml").write_text(
-            cleandoc_nl(
-                """
+        (fake_repository_reuse_toml / "REUSE.toml").write_text(cleandoc_nl("""
                 version = 1
 
                 [[annotations]]
                 path = 1
-                """
-            )
-        )
+                """))
         result = CliRunner().invoke(main, ["lint"])
         assert result.exit_code != 0
         assert str(fake_repository_reuse_toml / "REUSE.toml") in result.output

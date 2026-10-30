@@ -327,15 +327,13 @@ def _cached_git_repository(
 
     subprocess.run([GIT_EXE, "init", str(directory)], check=True)
     Path(".git/config").write_text(
-        cleandoc(
-            """
+        cleandoc("""
             [user]
               name = Example
               email = example@example.com
             [commit]
               gpgSign = false
-            """
-        ),
+            """),
         encoding="utf-8",
     )
     subprocess.run([GIT_EXE, "add", str(directory)], check=True)
@@ -466,13 +464,11 @@ def _cached_submodule_repository(
     """Create a git repository that contains a submodule."""
     directory = tmp_path_factory.mktemp("cached_submodule_repository")
     shutil.copytree(_cached_git_repository, directory, dirs_exist_ok=True)
-    header = cleandoc(
-        """
+    header = cleandoc("""
             SPDX-FileCopyrightText: 2019 Jane Doe
 
             SPDX-License-Identifier: CC0-1.0
-            """
-    )
+            """)
 
     submodule = tmp_path_factory.mktemp("submodule")
     (submodule / "foo.py").write_text(header, encoding="utf-8")
@@ -481,15 +477,13 @@ def _cached_submodule_repository(
 
     subprocess.run([GIT_EXE, "init", str(submodule)], check=True)
     Path(".git/config").write_text(
-        cleandoc(
-            """
+        cleandoc("""
             [user]
               name = Example
               email = example@example.com
             [commit]
               gpgSign = false
-            """
-        ),
+            """),
         encoding="utf-8",
     )
 
@@ -532,15 +526,11 @@ def _cached_submodule_repository(
         with open(
             directory / ".gitmodules", mode="a", encoding="utf-8"
         ) as gitmodules_file:
-            gitmodules_file.write(
-                cleandoc(
-                    f"""
+            gitmodules_file.write(cleandoc(f"""
                     [submodule "submodule"]
                       path = submodule
                       url = {submodule.resolve().as_posix()}
-                    """
-                )
-            )
+                    """))
         subprocess.run(
             [
                 GIT_EXE,
@@ -572,27 +562,19 @@ def submodule_repository(_cached_submodule_repository, tmp_path) -> Path:
 @pytest.fixture()
 def subproject_repository(fake_repository: Path) -> Path:
     """Add a Meson subproject to the fake repo."""
-    (fake_repository / "meson.build").write_text(
-        cleandoc(
-            """
+    (fake_repository / "meson.build").write_text(cleandoc("""
             SPDX-FileCopyrightText: 2022 Jane Doe
             SPDX-License-Identifier: CC0-1.0
-            """
-        )
-    )
+            """))
     subprojects_dir = fake_repository / "subprojects"
     subprojects_dir.mkdir()
     libfoo_dir = subprojects_dir / "libfoo"
     libfoo_dir.mkdir()
     # ./subprojects/foo.wrap has license and linter succeeds
-    (subprojects_dir / "foo.wrap").write_text(
-        cleandoc(
-            """
+    (subprojects_dir / "foo.wrap").write_text(cleandoc("""
             SPDX-FileCopyrightText: 2022 Jane Doe
             SPDX-License-Identifier: CC0-1.0
-            """
-        )
-    )
+            """))
     # ./subprojects/libfoo/foo.c misses license but is ignored
     (libfoo_dir / "foo.c").write_text("foo")
     return fake_repository
@@ -622,8 +604,7 @@ def binary_string():
 @pytest.fixture()
 def template_simple_source():
     """Source code of simple Jinja2 template."""
-    return cleandoc(
-        """
+    return cleandoc("""
         Hello, world!
 
         {% for copyright_line in copyright_lines %}
@@ -633,8 +614,7 @@ def template_simple_source():
         {% for expression in spdx_expressions %}
         SPDX-License-Identifier: {{ expression }}
         {% endfor %}
-        """
-    )
+        """)
 
 
 @pytest.fixture()
@@ -660,8 +640,7 @@ def template_no_spdx(template_no_spdx_source):
 @pytest.fixture()
 def template_commented_source():
     """Source code of a simple Jinja2 template that is already commented."""
-    return cleandoc(
-        """
+    return cleandoc("""
         # Hello, world!
         #
         {% for copyright_line in copyright_lines %}
@@ -671,10 +650,7 @@ def template_commented_source():
         {% for expression in spdx_expressions %}
         # SPDX-License-Identifier: {{ expression }}
         {% endfor %}
-        """.replace(
-            "spdx-Lic", "SPDX-Lic"
-        )
-    )
+        """.replace("spdx-Lic", "SPDX-Lic"))
 
 
 @pytest.fixture()

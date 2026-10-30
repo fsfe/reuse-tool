@@ -44,6 +44,11 @@ def main():
         msgfmt = shutil.which(executable)
         if msgfmt:
             break
+    else:
+        _LOGGER.warning(
+            "Translation files of reuse are NOT built/included because"
+            " 'msgfmt' is not installed."
+        )
 
     if msgfmt:
         po_files = glob.glob(f"{PO_DIR}/*.po")

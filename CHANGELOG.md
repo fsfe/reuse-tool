@@ -26,6 +26,67 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.3.0 - 2026-10-30
+
+This release fixes a broken `reuse download`. The URL from which licenses are
+downloaded is stored internally in the code, but the URL was changed. Without an
+update to this release of `reuse` or without a patch, `reuse download` will not
+work correctly. **Maintainers:** You can find the relevant patch in commit
+605b27f.
+
+### Added
+
+- Added new file extensions and files:
+  - `.plx`, `.pm`, `.psgi`, and `.xs` Perl files (#1379)
+  - `.odin` (#1353)
+  - `.pas`, `.dpr`, and `.dpk` Pascal and Delphi files (#1354)
+  - `.python-version` (#1334)
+  - `.slnx` (#1270)
+  - Bazel/Buck2/Copybara: `.bxl`, `BUCK`, `BUILD`, `.sky`, `.star` (#1340)
+  - `tsconfig.json` (#1366)
+  - `.twig` (#1360)
+  - `.zon` (#1271)
+  - `.cr` Crystal files (#1333)
+- Added lower case (c) copyright prefix. (#1274)
+- `AnnotationsItem` now preserves keys of a `REUSE.toml` `[[annotations]]` table
+  that reuse does not recognise, exposing them through the new
+  `custom_properties` attribute instead of discarding them. (#1368)
+- The `--source` option of `reuse download` now also works for non-custom
+  licenses (i.e. licenses that do not start with `LicenseRef-`). (#1276)
+- Previously when a directory was passed to the `--source` option of
+  `reuse download`, the files within had to equal `<identifier>.txt`. Now, the
+  files may also be named `<identifier>`. (#1276)
+- Added support for Fossil SCM. (#1285, #1294)
+- Added `--replace-license` flag (#1345)
+- Added `--skip-global` and `--skip-precedence` to `reuse annotate`. These
+  options allow skipping the annotation of files when they are already covered
+  by REUSE.toml (dependent on precedence of the annotation in the case of
+  `--skip-precedence`). (#1303)
+
+### Fixed
+
+- Fixed a cornercase where the reuse `pre-commit` hooks would sometimes not run
+  when files were deleted, and no files were modified or added. (#1385)
+- KiCad comments which end with `")` are now correctly parsed. (#1302)
+- Drastically improved the performance of `reuse lint-file` when using a large
+  set of arguments. (#1295)
+- Fixed the internally stored URL for downloading licenses from
+  [spdx/license-list-data](https://github.com/spdx/license-list-data). Without
+  this update or without a patch, `reuse download` is broken. (#1384)
+- `ReuseTOML.from_toml` no longer exposes tomlkit's style-preserving objects.
+  The values parsed from a `REUSE.toml` file are now plain Python objects. This
+  raises the minimum required version of tomlkit to 0.11.7. (#1368)
+- If a copyright notice contains only a year (e.g. `Copyright 2017`), the tool
+  will no longer fail to parse this. It is not technically compliant with the
+  REUSE spec to include no author, but the parsing shouldn't fail. (#1306)
+- Fixed two corner cases of parsing year ranges in copyright notices that could
+  cause unintended errors. These errors occurred when there was too much spacing
+  inside of a year range (e.g. `© 2017  -  2020 Jane Doe`, with more than one
+  space preceding and/or succeeding the separator) or when there wasn't spacing
+  following the comma after a year range (e.g. `© 2017-2020,Jane Doe`). (#1278)
+- The `.whl` is now published without any specific Python, operating system, or
+  architecture tags. It should work in any supported Python environment. (#1394)
+
 ## v6.2.0 - 2025-10-27
 
 ### Added

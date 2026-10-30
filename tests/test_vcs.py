@@ -8,7 +8,6 @@
 
 """Tests for reuse.vcs"""
 
-
 import os
 from pathlib import Path
 

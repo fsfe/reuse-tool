@@ -166,17 +166,13 @@ def test_lint_read_errors(fake_repository):
 
 def test_invalid_spdx_expressions(fake_repository):
     """An invalid expression is detected."""
-    (fake_repository / "foo.py").write_text(
-        cleandoc(
-            """
+    (fake_repository / "foo.py").write_text(cleandoc("""
             Copyright Jane Doe
 
             SPDX-License-Identifier: MIT OR
             SPDX-License-Identifier: Apache-2.0 AND
             SPDX-License-Identifier: 0BSD
-            """
-        )
-    )
+            """))
     project = Project.from_directory(fake_repository)
     report = ProjectReport.generate(project)
     result = format_plain(report)
@@ -246,23 +242,17 @@ class TestFormatLines:
 
     def test_missing_licenses(self, empty_directory, format_lines_func):
         """List missing licenses."""
-        (empty_directory / "foo.py").write_text(
-            cleandoc(
-                """
+        (empty_directory / "foo.py").write_text(cleandoc("""
                 Copyright Jane Doe
                 SPDX-License-Identifier: MIT OR 0BSD
-                """
-            )
-        )
+                """))
         project = Project.from_directory(".")
         report = ProjectReport.generate(project)
         result = format_lines_func(report)
-        assert result == cleandoc_nl(
-            """
+        assert result == cleandoc_nl("""
             foo.py: missing license '0BSD'
             foo.py: missing license 'MIT'
-            """
-        )
+            """)
 
     @no_root
     @cpython
@@ -279,36 +269,26 @@ class TestFormatLines:
 
     def test_invalid_spdx_expressions(self, empty_directory, format_lines_func):
         """List invalid SPDX License Expressions."""
-        (empty_directory / "foo.py").write_text(
-            cleandoc(
-                """
+        (empty_directory / "foo.py").write_text(cleandoc("""
                 Copyright Jane Doe
                 SPDX-License-Identifier: MIT OR
                 SPDX-License-Identifier: <>
-                """
-            )
-        )
-        (empty_directory / "bar.py").write_text(
-            cleandoc(
-                """
+                """))
+        (empty_directory / "bar.py").write_text(cleandoc("""
                 Copyright John Doe
                 SPDX-License-Identifier: MIT OR
-                """
-            )
-        )
+                """))
         project = Project.from_directory(".")
         report = ProjectReport.generate(project)
         result = format_lines_func(report)
 
-        assert result == cleandoc_nl(
-            """
+        assert result == cleandoc_nl("""
             bar.py: invalid SPDX License Expression 'MIT OR'
             bar.py: no license identifier
             foo.py: invalid SPDX License Expression '<>'
             foo.py: invalid SPDX License Expression 'MIT OR'
             foo.py: no license identifier
-            """
-        )
+            """)
 
     def test_no_copyright_or_licensing(
         self, empty_directory, format_lines_func
@@ -323,15 +303,13 @@ class TestFormatLines:
         report = ProjectReport.generate(project)
         result = format_lines_func(report)
 
-        assert result == cleandoc_nl(
-            """
+        assert result == cleandoc_nl("""
             no_copy.py: missing license 'MIT'
             no_copy.py: no copyright notice
             no_lic.py: no license identifier
             none.py: no license identifier
             none.py: no copyright notice
-            """
-        )
+            """)
 
     def test_bad_license(self, empty_directory):
         """List bad licenses."""
@@ -342,12 +320,10 @@ class TestFormatLines:
         result = format_lines(report)
 
         path = PurePath("LICENSES/bad.txt")
-        assert result == cleandoc_nl(
-            f"""
+        assert result == cleandoc_nl(f"""
             {path}: bad license 'bad'
             {path}: unused license
-            """
-        )
+            """)
 
     def test_deprecated_license(self, empty_directory):
         """List deprecated licenses."""
@@ -358,12 +334,10 @@ class TestFormatLines:
         result = format_lines(report)
 
         path = PurePath("LICENSES/GPL-3.0.txt")
-        assert result == cleandoc_nl(
-            f"""
+        assert result == cleandoc_nl(f"""
             {path}: deprecated license
             {path}: unused license
-            """
-        )
+            """)
 
     def test_licenses_without_extension(self, empty_directory):
         """List licenses without extension."""
@@ -374,12 +348,10 @@ class TestFormatLines:
         result = format_lines(report)
 
         path = PurePath("LICENSES/MIT")
-        assert result == cleandoc_nl(
-            f"""
+        assert result == cleandoc_nl(f"""
             {path}: license without file extension
             {path}: unused license
-            """
-        )
+            """)
 
 
 # REUSE-IgnoreEnd
