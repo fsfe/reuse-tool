@@ -63,7 +63,7 @@ docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 .PHONY: dist
 dist: clean-build clean-pyc clean-docs ## builds source and wheel package
 	poetry build
-	wheel tags --python-tag py3 --abi-tag none --platform-tag any --remove dist/reuse-*.whl
+	poetry run wheel tags --python-tag py3 --abi-tag none --platform-tag any --remove dist/reuse-*.whl
 	ls -l dist
 
 .PHONY: create-pot
