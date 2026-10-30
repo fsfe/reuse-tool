@@ -1,1 +1,0 @@
-- Added support for Fossil SCM. (#1285, #1294)

@@ -1,1 +1,0 @@
-- Added support for `.slnx` file. (#1270)

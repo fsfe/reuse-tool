@@ -1,1 +1,0 @@
-- Add support for [Crystal](https://crystal-lang.org/) comments

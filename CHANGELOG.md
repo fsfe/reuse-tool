@@ -26,6 +26,71 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 <!-- protokolo-section-tag -->
 
+## v6.3.0 - 2026-10-30
+
+**IMPORTANT:** As part of the release notes, mention that the URL for
+spdx/license-list-data was changed. Point maintainers to the correct commit they
+can patch onto old versions of reuse (605b27f).
+
+### Added
+
+- Added lower case (c) copyright prefix. (#1274)
+- `AnnotationsItem` now preserves keys of a `REUSE.toml` `[[annotations]]` table
+  that reuse does not recognise, exposing them through the new
+  `custom_properties` attribute instead of discarding them.
+- Add support for [Crystal](https://crystal-lang.org/) comments
+- The `--source` option of `reuse download` now also works for non-custom
+  licenses (i.e. licenses that do not start with `LicenseRef-`). (#1276)
+- Previously when a directory was passed to the `--source` option of
+  `reuse download`, the files within had to equal `<identifier>.txt`. Now, the
+  files may also be named `<identifier>`. (#1276)
+- Added support for `.plx`, `.pm`, `.psgi`, and `.xs` Perl files. (#1379)
+- Added support for Fossil SCM. (#1285, #1294)
+- Added support for `.odin` files.
+- Added support for Pascal and Delphi comments (#1354)
+- Added support for `.python-version` file. (#1334)
+- added `--replace-license` flag (#1345)
+- Added `--skip-global` and `--skip-precedence` to `reuse annotate`. These
+  options allow skipping the annotation of files when they are already covered
+  by REUSE.toml (dependent on precedence of the annotation in the case of
+  `--skip-precedence`). (#1303)
+- Added support for `.slnx` file. (#1270)
+- Added several Starlark file types for Bazel/Buck2/Copybara: `.bxl`, `BUCK`,
+  `BUILD`, `.sky`, `.star` (#1340)
+- Added support for `tsconfig.json` file. (#1366)
+- Added support for [Twig](https://twig.symfony.com/) (`.twig`) comments.
+  (#1360)
+- Added support for `.zon` file. (#1271)
+
+### Changed
+
+- Previously when using `reuse --root PATH` where `PATH` was nested inside of a
+  VCS repository, the behaviour differed per VCS, and was effectively undefined.
+  Now, if `PATH` is not also the root of the repository, reuse will pretend that
+  the directory is not in a VCS repository. (#1294)
+
+### Fixed
+
+- Fixed a cornercase where the reuse `pre-commit` hooks would sometimes not run
+  when files were deleted, and no files were modified or added. (#1385)
+- KiCad comments which end with `")` are now correctly parsed. (#1302)
+- Drastically improved the performance of `reuse lint-file` when using a large
+  set of arguments. (#1295)
+- Fixed the internally stored URL for downloading licenses from
+  [spdx/license-list-data](https://github.com/spdx/license-list-data). Without
+  this update or without a patch, `reuse download` is broken. (#1384)
+- `ReuseTOML.from_toml` no longer exposes tomlkit's style-preserving objects.
+  The values parsed from a `REUSE.toml` file are now plain Python objects. This
+  raises the minimum required version of tomlkit to 0.11.7.
+- If a copyright notice contains only a year (e.g. `Copyright 2017`), the tool
+  will no longer fail to parse this. It is not technically compliant with the
+  REUSE spec to include no author, but the parsing shouldn't fail.
+- Fixed two corner cases of parsing year ranges in copyright notices that could
+  cause unintended errors. These errors occurred when there was too much spacing
+  inside of a year range (e.g. `© 2017  -  2020 Jane Doe`, with more than one
+  space preceding and/or succeeding the separator) or when there wasn't spacing
+  following the comma after a year range (e.g. `© 2017-2020,Jane Doe`).
+
 ## v6.2.0 - 2025-10-27
 
 ### Added

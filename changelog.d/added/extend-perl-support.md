@@ -1,1 +1,0 @@
-- Added support for `.plx`, `.pm`, `.psgi`, and `.xs` Perl files. (#1379)
