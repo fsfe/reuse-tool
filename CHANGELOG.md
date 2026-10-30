@@ -36,6 +36,16 @@ work correctly. **Maintainers:** You can find the relevant patch in commit
 
 ### Added
 
+- Added new file extensions and files:
+  - `.plx`, `.pm`, `.psgi`, and `.xs` Perl files (#1379)
+  - `.odin` (#1353)
+  - `.pas`, `.dpr`, and `.dpk` Pascal and Delphi files (#1354)
+  - `.python-version` (#1334)
+  - `.slnx` (#1270)
+  - Bazel/Buck2/Copybara: `.bxl`, `BUCK`, `BUILD`, `.sky`, `.star` (#1340)
+  - `tsconfig.json` (#1366)
+  - `.twig` (#1360)
+  - `.zon` (#1271)
 - Added lower case (c) copyright prefix. (#1274)
 - `AnnotationsItem` now preserves keys of a `REUSE.toml` `[[annotations]]` table
   that reuse does not recognise, exposing them through the new
@@ -46,23 +56,12 @@ work correctly. **Maintainers:** You can find the relevant patch in commit
 - Previously when a directory was passed to the `--source` option of
   `reuse download`, the files within had to equal `<identifier>.txt`. Now, the
   files may also be named `<identifier>`. (#1276)
-- Added support for `.plx`, `.pm`, `.psgi`, and `.xs` Perl files. (#1379)
 - Added support for Fossil SCM. (#1285, #1294)
-- Added support for `.odin` files.
-- Added support for Pascal and Delphi comments (#1354)
-- Added support for `.python-version` file. (#1334)
-- added `--replace-license` flag (#1345)
+- Added `--replace-license` flag (#1345)
 - Added `--skip-global` and `--skip-precedence` to `reuse annotate`. These
   options allow skipping the annotation of files when they are already covered
   by REUSE.toml (dependent on precedence of the annotation in the case of
   `--skip-precedence`). (#1303)
-- Added support for `.slnx` file. (#1270)
-- Added several Starlark file types for Bazel/Buck2/Copybara: `.bxl`, `BUCK`,
-  `BUILD`, `.sky`, `.star` (#1340)
-- Added support for `tsconfig.json` file. (#1366)
-- Added support for [Twig](https://twig.symfony.com/) (`.twig`) comments.
-  (#1360)
-- Added support for `.zon` file. (#1271)
 
 ### Changed
 
