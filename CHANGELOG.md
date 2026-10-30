@@ -46,11 +46,11 @@ work correctly. **Maintainers:** You can find the relevant patch in commit
   - `tsconfig.json` (#1366)
   - `.twig` (#1360)
   - `.zon` (#1271)
+  - `.cr` Crystal files (#1333)
 - Added lower case (c) copyright prefix. (#1274)
 - `AnnotationsItem` now preserves keys of a `REUSE.toml` `[[annotations]]` table
   that reuse does not recognise, exposing them through the new
-  `custom_properties` attribute instead of discarding them.
-- Add support for [Crystal](https://crystal-lang.org/) comments
+  `custom_properties` attribute instead of discarding them. (#1368)
 - The `--source` option of `reuse download` now also works for non-custom
   licenses (i.e. licenses that do not start with `LicenseRef-`). (#1276)
 - Previously when a directory was passed to the `--source` option of
@@ -75,15 +75,15 @@ work correctly. **Maintainers:** You can find the relevant patch in commit
   this update or without a patch, `reuse download` is broken. (#1384)
 - `ReuseTOML.from_toml` no longer exposes tomlkit's style-preserving objects.
   The values parsed from a `REUSE.toml` file are now plain Python objects. This
-  raises the minimum required version of tomlkit to 0.11.7.
+  raises the minimum required version of tomlkit to 0.11.7. (#1368)
 - If a copyright notice contains only a year (e.g. `Copyright 2017`), the tool
   will no longer fail to parse this. It is not technically compliant with the
-  REUSE spec to include no author, but the parsing shouldn't fail.
+  REUSE spec to include no author, but the parsing shouldn't fail. (#1306)
 - Fixed two corner cases of parsing year ranges in copyright notices that could
   cause unintended errors. These errors occurred when there was too much spacing
   inside of a year range (e.g. `© 2017  -  2020 Jane Doe`, with more than one
   space preceding and/or succeeding the separator) or when there wasn't spacing
-  following the comma after a year range (e.g. `© 2017-2020,Jane Doe`).
+  following the comma after a year range (e.g. `© 2017-2020,Jane Doe`). (#1278)
 - The `.whl` is now published without any specific Python, operating system, or
   architecture tags. It should work in any supported Python environment. (#1394)
 
