@@ -267,8 +267,9 @@ class TestDetectEncoding:
         if encoding != "iso8859_1":
             assert result == encoding
         else:
-            # A special case where cp1252 is a superset of iso8859_1.
-            assert result in ["iso8859_1", "cp1252"]
+            # A special case where iso8859_15 and cp1252 are supersets of
+            # iso8859_1.
+            assert result in ["iso8859_1", "iso8859_15", "cp1252"]
         assert encoded.decode(result) == text
 
     def test_binary(self):
