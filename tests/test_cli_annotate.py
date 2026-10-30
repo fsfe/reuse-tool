@@ -737,8 +737,8 @@ class TestAnnotate:
 
         assert result.exit_code == 0
         assert (
-            "Skipped file 'doc/index.py' which is already covered by"
-            " 'REUSE.toml'"
+            f"Skipped file '{PurePath('doc/index.py')}' which is already"
+            " covered by 'REUSE.toml'"
         ) in result.stdout
         assert skip_file.read_text() == "pass"
         assert other_file.read_text() == cleandoc("""
@@ -773,8 +773,8 @@ class TestAnnotate:
 
         assert result.exit_code == 0
         assert (
-            "Skipped file 'doc/data.json' which is already covered by"
-            " 'REUSE.toml'"
+            f"Skipped file '{PurePath('doc/data.json')}' which is already"
+            " covered by 'REUSE.toml'"
         ) in result.stdout
         assert skip_file.read_text() == "{}"
         assert not skip_file.with_suffix(".license").exists()
@@ -805,8 +805,8 @@ class TestAnnotate:
 
         assert result.exit_code == 0
         assert (
-            "Skipped file 'doc/foo.py' which is already covered by"
-            " 'REUSE.toml'"
+            f"Skipped file '{PurePath('doc/foo.py')}' which is already"
+            " covered by 'REUSE.toml'"
         ) in result.stdout
         assert skip_file.read_text() == "pass"
         assert not skip_file_license.read_text()
@@ -833,8 +833,8 @@ class TestAnnotate:
 
         assert result.exit_code == 0
         assert (
-            "Skipped file 'doc/foo.png' which is already covered by"
-            " 'REUSE.toml'"
+            f"Skipped file '{PurePath('doc/foo.png')}' which is already"
+            " covered by 'REUSE.toml'"
         ) in result.stdout
         assert not binary_file.with_suffix(".license").exists()
 
@@ -856,8 +856,8 @@ class TestAnnotate:
 
         assert result.exit_code == 0
         assert result.stdout == (
-            "Skipped file 'doc/index.py' which is already covered by"
-            " '.reuse/dep5'\n"
+            f"Skipped file '{PurePath('doc/index.py')}' which is already"
+            " covered by '.reuse/dep5'\n"
         )
         assert skip_file.read_text() == "pass"
 
