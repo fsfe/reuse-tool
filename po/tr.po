@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSFE reuse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 12:58+0000\n"
+"POT-Creation-Date: 2026-10-30 13:38+0000\n"
 "PO-Revision-Date: 2026-06-04 12:01+0000\n"
 "Last-Translator: Mert Şişmanoğlu <me@mertsismanoglu.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
@@ -471,7 +471,7 @@ msgid "'{file}' is not inside of '{root}'."
 msgstr "'{file}' '{root}' içinde değil."
 
 #: src/reuse/cli/main.py:36
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:465
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:482
 #, python-format
 msgid "%(prog)s, version %(version)s"
 msgstr "%(prog)s, sürüm %(version)s"
@@ -935,14 +935,7 @@ msgstr ""
 "{identifier}, hem {path} hem de {other_path} için SPDX Lisans "
 "Tanımlayıcısıdır"
 
-#: src/reuse/project.py:484
-#, python-brace-format
-msgid ""
-"'{path}' is inside of a '{exe}' repository, but it is not its root "
-"directory. ignoring the VCS."
-msgstr ""
-
-#: src/reuse/project.py:493
+#: src/reuse/project.py:482
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -1065,210 +1058,262 @@ msgstr ""
 "ekleyerek yapabilirsiniz. Öğretici, bunu yapmanın başka yollarını da "
 "açıklamaktadır: <https://reuse.software/tutorial/>"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:608
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:186
+msgid "d"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:736
 #, python-brace-format
 msgid "{editor}: Editing failed"
 msgstr "{editor}: Düzenleme başarısız oldu"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:612
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:740
 #, python-brace-format
 msgid "{editor}: Editing failed: {e}"
 msgstr "{editor}: Düzenleme başarısız oldu: {e}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1104
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1141
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_winconsole.py:156
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_winconsole.py:173
 #, python-brace-format
-msgid "{text} {deprecated_message}"
-msgstr "{text} {deprecated_message}"
+msgid "Windows error: {error}"
+msgstr ""
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1160
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:104
+#, fuzzy
+msgid "deprecated"
+msgstr "kullanımdan kalkmış lisans"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1304
 msgid "Options"
 msgstr "Seçenekler"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1222
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1316
+#, fuzzy
+msgid "Positional arguments"
+msgstr "isteğe bağlı değişkenler"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1391
 #, python-brace-format
 msgid "Got unexpected extra argument ({args})"
 msgid_plural "Got unexpected extra arguments ({args})"
 msgstr[0] "Beklenmedik ekstra argüman ({args})"
 msgstr[1] "Beklenmedik ekstra argümanlar ({args})"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1241
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1407
 msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
 msgstr ""
 "KullanımdanKaldırıldıUyarısı: {name!r} komutu kullanımdan kaldırılmıştır."
 "{extra_message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1425
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1594
 msgid "Aborted!"
 msgstr "İptal edildi!"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1799
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1981
 msgid "Commands"
 msgstr "Komutlar"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1830
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2012
 msgid "Missing command."
 msgstr "Eksik komut."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1908
-msgid "No such command {name!r}."
-msgstr "{name!r} adlı komut yok."
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2332
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2547
 msgid "Value must be an iterable."
 msgstr "Değer yinelenebilir olmalıdır."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2355
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2570
 #, python-brace-format
 msgid "Takes {nargs} values but 1 was given."
 msgid_plural "Takes {nargs} values but {len} were given."
 msgstr[0] "{nargs} değer alır, ancak 1 değer verildi."
 msgstr[1] "{nargs} değer alır, ancak {len} değer verildi."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2505
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2767
 msgid ""
 "DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
 msgstr ""
 "KullanımdanKaldırıldıUyarısı: {param_type} {name!r} komutu kullanımdan "
 "kaldırılmıştır.{extra_message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2956
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3246
+#, python-brace-format
+msgid "Name '{name}' defined twice"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3262
+msgid "Boolean option {decl!r} cannot use the same flag for true/false."
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3281
+msgid "Could not determine name for option with declarations {decls!r}"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3288
+#, python-brace-format
+msgid ""
+"No options defined but a name was passed ({name}). Did you mean to declare "
+"an argument instead? Did you mean to pass '--{name}'?"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3368
 #, python-brace-format
 msgid "env var: {var}"
 msgstr "ortam değişkeni: {var}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2959
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3371
 #, python-brace-format
 msgid "default: {default}"
 msgstr "varsayılan: {default}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3023
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3435
 msgid "(dynamic)"
 msgstr "(dinamik)"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:522
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3754
+#, python-brace-format
+msgid ""
+"Arguments take exactly one parameter declaration, got {length}: {decls}."
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:399
+msgid "Do you want to continue?"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:400
+msgid "Confirm the action without prompting."
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:556
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:598
 msgid "Show the version and exit."
 msgstr "Sürümü göster ve çık."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:548
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:624
 msgid "Show this message and exit."
 msgstr "Bu mesajı göster ve çık."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:50
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:89
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:29
+#, fuzzy, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Did you mean one of: {possibilities}?)"
+msgstr[0] "{possibility} mi demek istediniz?"
+msgstr[1] "(Olası seçenekler: {possibilities})"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:62
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:108
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:275
 #, python-brace-format
 msgid "Error: {message}"
 msgstr "Hata: {message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:81
+#. Pick the longest name (like ``--help`` over ``-h``) for
+#. readability in error messages.
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:99
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
 msgstr "Yardım için '{command} {option}' deneyin."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:130
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:152
 #, python-brace-format
 msgid "Invalid value: {message}"
 msgstr "Geçersiz değer: {message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:132
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:154
 #, python-brace-format
 msgid "Invalid value for {param_hint}: {message}"
 msgstr "{param_hint} için geçersiz değer: {message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:190
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:214
 msgid "Missing argument"
 msgstr "Eksik argüman"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:192
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:216
 msgid "Missing option"
 msgstr "Eksik seçenek"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:194
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:218
 msgid "Missing parameter"
 msgstr "Eksik parametre"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:196
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:220
 #, python-brace-format
 msgid "Missing {param_type}"
 msgstr "{param_type} eksik"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:203
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:227
 #, python-brace-format
 msgid "Missing parameter: {param_name}"
 msgstr "Eksik parametre: {param_name}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:223
-#, python-brace-format
-msgid "No such option: {name}"
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:249
+#, fuzzy
+msgid "No such option {name!r}."
 msgstr "Böyle bir seçenek yok: {name}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:235
-#, python-brace-format
-msgid "Did you mean {possibility}?"
-msgid_plural "(Possible options: {possibilities})"
-msgstr[0] "{possibility} mi demek istediniz?"
-msgstr[1] "(Olası seçenekler: {possibilities})"
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:285
+msgid "No such command {name!r}."
+msgstr "{name!r} adlı komut yok."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:282
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:350
 msgid "unknown error"
 msgstr "bilinmeyen hata"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:289
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:357
 msgid "Could not open file {filename!r}: {message}"
 msgstr "{filename!r} dosyası açılamadı: {message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:156
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:167
 msgid "Usage:"
 msgstr "Kullanım:"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:199
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:145
+#, python-brace-format
+msgid "Invalid start character for option ({option})"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:203
 msgid "Argument {name!r} takes {nargs} values."
 msgstr "{name!r} argümanı {nargs} değer alır."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:381
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:382
 msgid "Option {name!r} does not take a value."
 msgstr "{name!r} seçeneği bir değer almıyor."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:444
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:445
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
 msgstr[0] "{name!r} seçeneği bir argüman gerektirir."
 msgstr[1] "{name!r} seçeneği {nargs} argüman gerektirir."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:332
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:417
 msgid "Shell completion is not supported for Bash versions older than 4.4."
 msgstr "Kabuk tamamlama, 4.4'ten eski Bash sürümlerinde desteklenmemektedir."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:339
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:424
 msgid "Couldn't detect Bash version, shell completion is not supported."
 msgstr "Bash sürümü algılanamadı, kabuk tamamlama desteklenmiyor."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:162
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:256
 msgid "Repeat for confirmation"
 msgstr "Onay için tekrarlayın"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:178
-msgid "Error: The value you entered was invalid."
-msgstr "Hata: Girdiğiniz değer geçersiz."
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:180
-#, python-brace-format
-msgid "Error: {e.message}"
-msgstr "Hata: {e.message}"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:191
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:286
 msgid "Error: The two entered values do not match."
 msgstr "Hata: Girilen iki değer birbiriyle uyuşmuyor."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:247
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:340
 msgid "Error: invalid input"
 msgstr "Hata: geçersiz giriş"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:866
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:638
+msgid "Unknown color {colour!r}"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:1003
 msgid "Press any key to continue..."
 msgstr "Devam etmek için bir tuşa basın..."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:332
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:439
 #, python-brace-format
 msgid ""
 "Choose from:\n"
@@ -1277,77 +1322,101 @@ msgstr ""
 "Aşağıdakilerden seçin:\n"
 "\t{choices}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:369
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:476
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
 msgstr[0] "{value!r} {choice} değildir."
 msgstr[1] "{value!r} {choice}'lardan biri değildir."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:460
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:482
+#, fuzzy, python-brace-format
+msgid "Choice({choices})"
+msgstr ""
+"Aşağıdakilerden seçin:\n"
+"\t{choices}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:570
 msgid "{value!r} does not match the format {format}."
 msgid_plural "{value!r} does not match the formats {formats}."
 msgstr[0] "{value!r} {format} biçimiyle eşleşmiyor."
 msgstr[1] "{value!r} {formats} biçimleriyle eşleşmiyor."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:482
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:594
 msgid "{value!r} is not a valid {number_type}."
 msgstr "{value!r} geçerli bir {number_type} değildir."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:538
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:679
 #, python-brace-format
 msgid "{value} is not in the range {range}."
 msgstr "{value} {range} aralığında değildir."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:719
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:866
 msgid "{value!r} is not a valid boolean. Recognized values: {states}"
 msgstr "{value!r} geçerli bir boolean değildir. Tanınan değerler: {states}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:747
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:892
 msgid "{value!r} is not a valid UUID."
 msgstr "{value!r} geçerli bir UUID değildir."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:937
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1116
 msgid "file"
 msgstr "dosya"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:939
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1118
 msgid "directory"
 msgstr "dizin"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:941
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1120
 msgid "path"
 msgstr "yol"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:988
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1167
 msgid "{name} {filename!r} does not exist."
 msgstr "{name} {filename!r} mevcut değil."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:997
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1176
 msgid "{name} {filename!r} is a file."
 msgstr "{name} {filename!r} bir dosya."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1005
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1184
 msgid "{name} {filename!r} is a directory."
 msgstr "{name} {filename!r} bir dizin."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1014
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1193
 msgid "{name} {filename!r} is not readable."
 msgstr "{name} {filename!r} okunabilir değil."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1023
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1202
 msgid "{name} {filename!r} is not writable."
 msgstr "{name} {filename!r} yazılabilir değil."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1032
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1211
 msgid "{name} {filename!r} is not executable."
 msgstr "{name} {filename!r} çalıştırılabilir değil."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1099
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1283
 #, python-brace-format
 msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] "{len_type} değeri gerekli, ancak {len_value} verilmiş."
 msgstr[1] "{len_type} değerleri gerekli, ancak {len_value} verilmiş."
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/utils.py:362
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/utils.py:389
+#, python-brace-format
+msgid "Unknown standard stream '{name}'"
+msgstr ""
+
+#, python-brace-format
+#~ msgid "{text} {deprecated_message}"
+#~ msgstr "{text} {deprecated_message}"
+
+#~ msgid "Error: The value you entered was invalid."
+#~ msgstr "Hata: Girdiğiniz değer geçersiz."
+
+#, python-brace-format
+#~ msgid "Error: {e.message}"
+#~ msgstr "Hata: {e.message}"
 
 #, fuzzy, python-brace-format
 #~ msgid "{path}: read error\n"
@@ -1725,9 +1794,6 @@ msgstr[1] "{len_type} değerleri gerekli, ancak {len_value} verilmiş."
 
 #~ msgid ".reuse/dep5 has syntax errors"
 #~ msgstr ".reuse/dep5 sözdizim hataları içeriyor"
-
-#~ msgid "optional arguments"
-#~ msgstr "isteğe bağlı değişkenler"
 
 #~ msgid "deprecated in favor of annotate"
 #~ msgstr "annotate için kullanımdan kaldırıldı"

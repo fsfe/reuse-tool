@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 12:58+0000\n"
+"POT-Creation-Date: 2026-10-30 13:38+0000\n"
 "PO-Revision-Date: 2025-12-01 13:00+0000\n"
 "Last-Translator: Jiří Podhorecký <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/fsfe/reuse-tool/cs/"
@@ -471,7 +471,7 @@ msgid "'{file}' is not inside of '{root}'."
 msgstr "'{file}' není uvnitř '{root}'."
 
 #: src/reuse/cli/main.py:36
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:465
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:482
 #, python-format
 msgid "%(prog)s, version %(version)s"
 msgstr "%(prog)s, verze %(version)s"
@@ -930,16 +930,7 @@ msgid ""
 msgstr ""
 "{identifier} je identifikátor licence SPDX jak {path}, tak {other_path}"
 
-#: src/reuse/project.py:484
-#, python-brace-format
-msgid ""
-"'{path}' is inside of a '{exe}' repository, but it is not its root "
-"directory. ignoring the VCS."
-msgstr ""
-"'{path}' se nachází uvnitř úložiště '{exe}', ale není jeho kořenovým "
-"adresářem. Ignorování VCS."
-
-#: src/reuse/project.py:493
+#: src/reuse/project.py:482
 msgid ""
 "project '{}' is not a VCS repository or required VCS software is not "
 "installed"
@@ -1061,27 +1052,41 @@ msgstr ""
 "jsou vysvětleny další způsoby, jak to provést: <https://reuse.software/"
 "tutorial/>"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:608
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:186
+msgid "d"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:736
 #, python-brace-format
 msgid "{editor}: Editing failed"
 msgstr "{editor}: Editace se nezdařila"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:612
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:740
 #, python-brace-format
 msgid "{editor}: Editing failed: {e}"
 msgstr "{editor}: Úpravy se nezdařily: {e}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1104
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1141
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_winconsole.py:156
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_winconsole.py:173
 #, python-brace-format
-msgid "{text} {deprecated_message}"
-msgstr "{text} {deprecated_message}"
+msgid "Windows error: {error}"
+msgstr ""
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1160
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:104
+#, fuzzy
+msgid "deprecated"
+msgstr "zastaralá licence"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1304
 msgid "Options"
 msgstr "Možnosti"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1222
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1316
+#, fuzzy
+msgid "Positional arguments"
+msgstr "nepovinné argumenty"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1391
 #, python-brace-format
 msgid "Got unexpected extra argument ({args})"
 msgid_plural "Got unexpected extra arguments ({args})"
@@ -1089,31 +1094,27 @@ msgstr[0] "Má ({args}) neočekávaný argument"
 msgstr[1] "Má ({args}) neočekávané argumenty navíc"
 msgstr[2] "Má ({args}) neočekávaných argumentů navíc"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1241
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1407
 msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
 msgstr "DeprecationWarning: Příkaz {name!r} je zastaralý.{extra_message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1425
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1594
 msgid "Aborted!"
 msgstr "Přerušeno!"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1799
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1981
 msgid "Commands"
 msgstr "Příkazy"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1830
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2012
 msgid "Missing command."
 msgstr "Chybějící příkaz."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1908
-msgid "No such command {name!r}."
-msgstr "Žádný takový příkaz {name!r}."
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2332
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2547
 msgid "Value must be an iterable."
 msgstr "Hodnota musí být iterovatelná."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2355
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2570
 #, python-brace-format
 msgid "Takes {nargs} values but 1 was given."
 msgid_plural "Takes {nargs} values but {len} were given."
@@ -1121,151 +1122,193 @@ msgstr[0] "Přijímá hodnoty {nargs}, ale byla zadána 1."
 msgstr[1] "Přijímá hodnoty {nargs}, ale byly zadány hodnoty {len}."
 msgstr[2] "Přijímá hodnoty {nargs}, ale byly zadány hodnoty {len}."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2505
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2767
 msgid ""
 "DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
 msgstr "DeprecationWarning: {param_type} {name!r} je zastaralý.{extra_message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2956
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3246
+#, python-brace-format
+msgid "Name '{name}' defined twice"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3262
+msgid "Boolean option {decl!r} cannot use the same flag for true/false."
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3281
+msgid "Could not determine name for option with declarations {decls!r}"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3288
+#, python-brace-format
+msgid ""
+"No options defined but a name was passed ({name}). Did you mean to declare "
+"an argument instead? Did you mean to pass '--{name}'?"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3368
 #, python-brace-format
 msgid "env var: {var}"
 msgstr "env var: {var}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2959
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3371
 #, python-brace-format
 msgid "default: {default}"
 msgstr "výchozí: {default}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3023
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3435
 msgid "(dynamic)"
 msgstr "(dynamický)"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:522
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3754
+#, python-brace-format
+msgid ""
+"Arguments take exactly one parameter declaration, got {length}: {decls}."
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:399
+msgid "Do you want to continue?"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:400
+msgid "Confirm the action without prompting."
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:556
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:598
 msgid "Show the version and exit."
 msgstr "Zobrazit verzi a ukončit."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:548
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:624
 msgid "Show this message and exit."
 msgstr "Zobrazit tuto zprávu a ukončit."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:50
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:89
-#, python-brace-format
-msgid "Error: {message}"
-msgstr "Chyba: {message}"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:81
-#, python-brace-format
-msgid "Try '{command} {option}' for help."
-msgstr "Pro nápovědu zkuste '{command} {option}'."
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:130
-#, python-brace-format
-msgid "Invalid value: {message}"
-msgstr "Neplatná hodnota: {message}"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:132
-#, python-brace-format
-msgid "Invalid value for {param_hint}: {message}"
-msgstr "Neplatná hodnota pro {param_hint}: {message}"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:190
-msgid "Missing argument"
-msgstr "Chybějící argument"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:192
-msgid "Missing option"
-msgstr "Chybějící možnost"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:194
-msgid "Missing parameter"
-msgstr "Chybějící parametr"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:196
-#, python-brace-format
-msgid "Missing {param_type}"
-msgstr "Chybějící {param_type}"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:203
-#, python-brace-format
-msgid "Missing parameter: {param_name}"
-msgstr "Chybějící parametr: {param_name}"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:223
-#, python-brace-format
-msgid "No such option: {name}"
-msgstr "Žádná taková možnost neexistuje: {name}"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:235
-#, python-brace-format
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:29
+#, fuzzy, python-brace-format
 msgid "Did you mean {possibility}?"
-msgid_plural "(Possible options: {possibilities})"
+msgid_plural "(Did you mean one of: {possibilities}?)"
 msgstr[0] "Měl jste na mysli {possibility}?"
 msgstr[1] "Měl jste na mysli {possibilities})"
 msgstr[2] "Měl jste na mysli {possibilities})"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:282
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:62
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:108
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:275
+#, python-brace-format
+msgid "Error: {message}"
+msgstr "Chyba: {message}"
+
+#. Pick the longest name (like ``--help`` over ``-h``) for
+#. readability in error messages.
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:99
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr "Pro nápovědu zkuste '{command} {option}'."
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:152
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr "Neplatná hodnota: {message}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:154
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr "Neplatná hodnota pro {param_hint}: {message}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:214
+msgid "Missing argument"
+msgstr "Chybějící argument"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:216
+msgid "Missing option"
+msgstr "Chybějící možnost"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:218
+msgid "Missing parameter"
+msgstr "Chybějící parametr"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:220
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr "Chybějící {param_type}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:227
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr "Chybějící parametr: {param_name}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:249
+#, fuzzy
+msgid "No such option {name!r}."
+msgstr "Žádná taková možnost neexistuje: {name}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:285
+msgid "No such command {name!r}."
+msgstr "Žádný takový příkaz {name!r}."
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:350
 msgid "unknown error"
 msgstr "neznámá chyba"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:289
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:357
 msgid "Could not open file {filename!r}: {message}"
 msgstr "Nelze otevřít soubor {filename!r}: {message}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:156
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:167
 msgid "Usage:"
 msgstr "Použití:"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:199
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:145
+#, python-brace-format
+msgid "Invalid start character for option ({option})"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:203
 msgid "Argument {name!r} takes {nargs} values."
 msgstr "Argument {name!r} nabývá hodnot {nargs}."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:381
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:382
 msgid "Option {name!r} does not take a value."
 msgstr "Možnost {name!r} nepřebírá hodnotu."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:444
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:445
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
 msgstr[0] "Možnost {name!r} vyžaduje argument."
 msgstr[1] "Možnost {name!r} vyžaduje argumenty {nargs}."
 msgstr[2] "Možnost {name!r} vyžaduje argumenty {nargs}."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:332
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:417
 msgid "Shell completion is not supported for Bash versions older than 4.4."
 msgstr ""
 "Doplňování shellu není podporováno ve verzích jazyka Bash starších než 4.4."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:339
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/shell_completion.py:424
 msgid "Couldn't detect Bash version, shell completion is not supported."
 msgstr "Nepodařilo se zjistit verzi Bash, doplňování shellu není podporováno."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:162
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:256
 msgid "Repeat for confirmation"
 msgstr "Opakovat pro potvrzení"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:178
-msgid "Error: The value you entered was invalid."
-msgstr "Chyba: Zadaná hodnota je neplatná."
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:180
-#, python-brace-format
-msgid "Error: {e.message}"
-msgstr "Chyba: {e.message}"
-
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:191
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:286
 msgid "Error: The two entered values do not match."
 msgstr "Chyba: Dvě zadané hodnoty se neshodují."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:247
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:340
 msgid "Error: invalid input"
 msgstr "Chyba: neplatné zadání"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:866
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:638
+msgid "Unknown color {colour!r}"
+msgstr ""
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:1003
 msgid "Press any key to continue..."
 msgstr "Pro pokračování stiskněte libovolnou klávesu..."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:332
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:439
 #, python-brace-format
 msgid ""
 "Choose from:\n"
@@ -1274,74 +1317,81 @@ msgstr ""
 "Vyberte si z:\n"
 "\t{choices}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:369
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:476
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
 msgstr[0] "{value!r} není {choice}."
 msgstr[1] "{value!r} není jednou z {choices}."
 msgstr[2] "{value!r} není jednou z {choices}."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:460
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:482
+#, fuzzy, python-brace-format
+msgid "Choice({choices})"
+msgstr ""
+"Vyberte si z:\n"
+"\t{choices}"
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:570
 msgid "{value!r} does not match the format {format}."
 msgid_plural "{value!r} does not match the formats {formats}."
 msgstr[0] "{value!r} neodpovídá formátu {format}."
 msgstr[1] "{value!r} neodpovídá formátům {formats}."
 msgstr[2] "{value!r} neodpovídá formátům {formats}."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:482
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:594
 msgid "{value!r} is not a valid {number_type}."
 msgstr "{value!r} není platný {number_type}."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:538
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:679
 #, python-brace-format
 msgid "{value} is not in the range {range}."
 msgstr "{value} není v rozsahu {range}."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:719
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:866
 msgid "{value!r} is not a valid boolean. Recognized values: {states}"
 msgstr "{value!r} není platná logická hodnota. Rozpoznané hodnoty: {states}"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:747
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:892
 msgid "{value!r} is not a valid UUID."
 msgstr "{value!r} není platný UUID."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:937
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1116
 msgid "file"
 msgstr "soubor"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:939
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1118
 msgid "directory"
 msgstr "adresář"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:941
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1120
 msgid "path"
 msgstr "cesta"
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:988
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1167
 msgid "{name} {filename!r} does not exist."
 msgstr "{name} {filename!r} neexistuje."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:997
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1176
 msgid "{name} {filename!r} is a file."
 msgstr "{name} {filename!r} je soubor."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1005
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1184
 msgid "{name} {filename!r} is a directory."
 msgstr "{name} {filename!r} je adresář."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1014
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1193
 msgid "{name} {filename!r} is not readable."
 msgstr "{name} {filename!r} není čitelný."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1023
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1202
 msgid "{name} {filename!r} is not writable."
 msgstr "{name} {filename!r} není zapisovatelný."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1032
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1211
 msgid "{name} {filename!r} is not executable."
 msgstr "{name} {filename!r} není spustitelný."
 
-#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1099
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1283
 #, python-brace-format
 msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
@@ -1351,6 +1401,31 @@ msgstr[1] ""
 "Hodnoty {len_type} jsou povinné, ale byly zadány {len_value} hodnoty."
 msgstr[2] ""
 "Hodnoty {len_type} jsou povinné, ale bylo zadáno {len_value} hodnot."
+
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/utils.py:362
+#: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/utils.py:389
+#, python-brace-format
+msgid "Unknown standard stream '{name}'"
+msgstr ""
+
+#, python-brace-format
+#~ msgid ""
+#~ "'{path}' is inside of a '{exe}' repository, but it is not its root "
+#~ "directory. ignoring the VCS."
+#~ msgstr ""
+#~ "'{path}' se nachází uvnitř úložiště '{exe}', ale není jeho kořenovým "
+#~ "adresářem. Ignorování VCS."
+
+#, python-brace-format
+#~ msgid "{text} {deprecated_message}"
+#~ msgstr "{text} {deprecated_message}"
+
+#~ msgid "Error: The value you entered was invalid."
+#~ msgstr "Chyba: Zadaná hodnota je neplatná."
+
+#, python-brace-format
+#~ msgid "Error: {e.message}"
+#~ msgstr "Chyba: {e.message}"
 
 #, python-brace-format
 #~ msgid "{path}: read error\n"
@@ -1736,9 +1811,6 @@ msgstr[2] ""
 
 #~ msgid ".reuse/dep5 has syntax errors"
 #~ msgstr ".reuse/dep5 obsahuje chyby syntaxe"
-
-#~ msgid "optional arguments"
-#~ msgstr "nepovinné argumenty"
 
 #, fuzzy
 #~ msgid "deprecated in favor of annotate"
