@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-30 13:38+0000\n"
-"PO-Revision-Date: 2026-09-30 08:43+0000\n"
-"Last-Translator: Hotripak <hotr1pak@gmail.com>\n"
+"PO-Revision-Date: 2026-10-31 14:51+0000\n"
+"Last-Translator: Hotripak <hotr1pak@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/fsfe/reuse-"
 "tool/uk/>\n"
 "Language: uk\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: src/reuse/_annotate.py:96
 #, python-brace-format
@@ -1065,7 +1065,7 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:186
 msgid "d"
-msgstr ""
+msgstr "д"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:736
 #, python-brace-format
@@ -1081,21 +1081,19 @@ msgstr "{editor}: Редагування не вдалося: {e}"
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_winconsole.py:173
 #, python-brace-format
 msgid "Windows error: {error}"
-msgstr ""
+msgstr "Помилка Windows: {error}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:104
-#, fuzzy
 msgid "deprecated"
-msgstr "застаріла ліцензія"
+msgstr "застарілий"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1304
 msgid "Options"
 msgstr "Параметри"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1316
-#, fuzzy
 msgid "Positional arguments"
-msgstr "необов'язкові аргументи"
+msgstr "Позиційні аргументи"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1391
 #, python-brace-format
@@ -1142,15 +1140,17 @@ msgstr ""
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3246
 #, python-brace-format
 msgid "Name '{name}' defined twice"
-msgstr ""
+msgstr "Ім'я '{name}' визначено двічі"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3262
 msgid "Boolean option {decl!r} cannot use the same flag for true/false."
 msgstr ""
+"Булевий параметр {decl!r} не може використовувати один і той самий прапор "
+"для значень «true» та «false»."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3281
 msgid "Could not determine name for option with declarations {decls!r}"
-msgstr ""
+msgstr "Не вдалося визначити ім’я для опції з деклараціями {decls!r}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3288
 #, python-brace-format
@@ -1158,6 +1158,8 @@ msgid ""
 "No options defined but a name was passed ({name}). Did you mean to declare "
 "an argument instead? Did you mean to pass '--{name}'?"
 msgstr ""
+"Параметри не визначено, але передано ім’я ({name}). Можливо, ви хотіли "
+"замість цього оголосити аргумент? Можливо, ви хотіли передати '--{name}'?"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3368
 #, python-brace-format
@@ -1178,14 +1180,15 @@ msgstr "(динамічно)"
 msgid ""
 "Arguments take exactly one parameter declaration, got {length}: {decls}."
 msgstr ""
+"Аргументи приймають рівно одну декларацію параметра, отже {length}: {decls}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:399
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "Чи бажаєте ви продовжити?"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:400
 msgid "Confirm the action without prompting."
-msgstr ""
+msgstr "Підтвердити дію без запиту."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:556
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:598
@@ -1197,12 +1200,12 @@ msgid "Show this message and exit."
 msgstr "Показати це повідомлення та вийти."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:29
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Did you mean one of: {possibilities}?)"
 msgstr[0] "Ви мали на увазі {possibility}?"
 msgstr[1] "(Можливі опції: {possibilities})"
-msgstr[2] "(Можливі опції: {possibilities})"
+msgstr[2] "(Можливих опцій: {possibilities})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:62
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:108
@@ -1252,9 +1255,8 @@ msgid "Missing parameter: {param_name}"
 msgstr "Відсутній параметр: {param_name}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:249
-#, fuzzy
 msgid "No such option {name!r}."
-msgstr "Немає такої опції: {name}"
+msgstr "Такої опції {name!r} немає."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:285
 msgid "No such command {name!r}."
@@ -1275,7 +1277,7 @@ msgstr "Використання:"
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:145
 #, python-brace-format
 msgid "Invalid start character for option ({option})"
-msgstr ""
+msgstr "Неправильний початковий символ для опції ({option})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:203
 msgid "Argument {name!r} takes {nargs} values."
@@ -1315,7 +1317,7 @@ msgstr "Помилка: невірне введення"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:638
 msgid "Unknown color {colour!r}"
-msgstr ""
+msgstr "Невідомий колір {colour!r}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:1003
 msgid "Press any key to continue..."
@@ -1338,11 +1340,9 @@ msgstr[1] "{value!r} не є одним з {choices}."
 msgstr[2] "{value!r} не є одним з {choices}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:482
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Choice({choices})"
-msgstr ""
-"Оберіть з:\n"
-"\t{choices}"
+msgstr "Вибір({choices})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:570
 msgid "{value!r} does not match the format {format}."
@@ -1417,7 +1417,7 @@ msgstr[2] "Потрібні значення {len_type}, але було над�
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/utils.py:389
 #, python-brace-format
 msgid "Unknown standard stream '{name}'"
-msgstr ""
+msgstr "Невідомий стандартний потік '{name}'"
 
 #, python-brace-format
 #~ msgid ""
