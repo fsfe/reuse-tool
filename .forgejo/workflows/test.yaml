@@ -60,10 +60,10 @@ jobs:
     runs-on: debian-trixie
     container: "nikolaik/python-nodejs:python3.10-nodejs24-slim"
     steps:
-      - name: Install git
+      - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y git
+          apt-get install -y git libmagic1
       - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
