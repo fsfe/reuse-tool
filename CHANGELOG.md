@@ -84,6 +84,8 @@ work correctly. **Maintainers:** You can find the relevant patch in commit
   inside of a year range (e.g. `© 2017  -  2020 Jane Doe`, with more than one
   space preceding and/or succeeding the separator) or when there wasn't spacing
   following the comma after a year range (e.g. `© 2017-2020,Jane Doe`).
+- The `.whl` is now published without any specific Python, operating system, or
+  architecture tags. It should work in any supported Python environment. (#1394)
 
 ## v6.2.0 - 2025-10-27
 
