@@ -28,9 +28,11 @@ CLI command and its behaviour. There are no guarantees of stability for the
 
 ## v6.3.0 - 2026-10-30
 
-**IMPORTANT:** As part of the release notes, mention that the URL for
-spdx/license-list-data was changed. Point maintainers to the correct commit they
-can patch onto old versions of reuse (605b27f).
+This release fixes a broken `reuse download`. The URL from which licenses are
+downloaded is stored internally in the code, but the URL was changed. Without an
+update to this release of `reuse` or without a patch, `reuse download` will not
+work correctly. **Maintainers:** You can find the relevant patch in commit
+605b27f.
 
 ### Added
 
