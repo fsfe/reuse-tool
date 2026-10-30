@@ -105,6 +105,7 @@ pylint = ">=2.12.2"
 mypy = ">=1.0"
 GitPython = ">=3.0"
 protokolo = { version = ">=3.0.2", python = ">=3.11" }
+wheel = ">=0.46"
 
 [tool.poetry.group.lsp]
 optional = true
