@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-30 13:38+0000\n"
-"PO-Revision-Date: 2025-11-26 01:22+0000\n"
-"Last-Translator: Elvira Pescu <elvirapesku@gmail.com>\n"
+"PO-Revision-Date: 2026-11-01 17:51+0000\n"
+"Last-Translator: Арман Жолбарысхан "
+"<zholbaryskhan.ar@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "ru/>\n"
 "Language: ru\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: src/reuse/_annotate.py:96
 #, python-brace-format
@@ -634,18 +635,25 @@ msgid ""
 "successfully imported. Re-read the installation instructions for the reuse "
 "package, or try the following:"
 msgstr ""
+"Не удалось импортировать ни один из поддерживаемых модулей для определения "
+"кодировки файлов. Повторно ознакомьтесь с инструкциями по установке пакета "
+"`reuse` или попробуйте следующее:"
 
 #: src/reuse/extract.py:90
 msgid ""
 "- If you are running a Linux distribution, try your equivalent of `apt "
 "install file` or `dnf install file`."
 msgstr ""
+"- Если вы используете дистрибутив Linux, попробуйте выполнить "
+"соответствующую команду `apt install file` или `dnf install file`."
 
 #: src/reuse/extract.py:95
 msgid ""
 "- Run ` pipx install reuse[charset-normalizer]`. Replace 'pipx' with 'pip' "
 "if you are not using pipx."
 msgstr ""
+"- Выполните команду `pipx install reuse[charset-normalizer]`. Если вы не "
+"используете `pipx`, замените его на `pip`."
 
 #: src/reuse/extract.py:489
 #, python-brace-format
@@ -662,6 +670,8 @@ msgid ""
 "extracting REUSE information from '{path}' (encoding {encoding}, encoding "
 "module {module}, newline {newline})"
 msgstr ""
+"Извлечение информации REUSE из файла «{path}» (кодировка: {encoding}, модуль "
+"определения кодировки: {module}, символ перевода строки: {newline})"
 
 #: src/reuse/global_licensing.py:93
 #, python-brace-format
@@ -700,9 +710,9 @@ msgstr ""
 "{received})"
 
 #: src/reuse/global_licensing.py:220
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not parse '{notice}'"
-msgstr "Не удалось разобрать '{expression}'"
+msgstr "Не удалось извлечь и преобразовать'{notice}'"
 
 #: src/reuse/header.py:103
 msgid "generated comment is missing copyright lines or license expressions"
@@ -716,9 +726,8 @@ msgid "BAD LICENSES"
 msgstr "НЕИСПОЛЬЗОВАННЫЕ ЛИЦЕНЗИИ"
 
 #: src/reuse/lint.py:42
-#, fuzzy
 msgid "The following licenses are not valid SPDX licenses:"
-msgstr "Следующие лицензии не используются:"
+msgstr "Следующие лицензии не являются допустимыми лицензиями SPDX:"
 
 #: src/reuse/lint.py:50
 msgid "DEPRECATED LICENSES"
@@ -762,12 +771,11 @@ msgstr "Не удалось прочитать:"
 
 #: src/reuse/lint.py:94
 msgid "INVALID SPDX LICENSE EXPRESSIONS"
-msgstr ""
+msgstr "НЕДЕЙСТВИТЕЛЬНЫЕ ВЫРАЖЕНИЯ ЛИЦЕНЗИИ SPDX"
 
 #: src/reuse/lint.py:99
-#, fuzzy
 msgid "'{}' contains invalid SPDX License Expressions:"
-msgstr "'{}' не является допустимым выражением SPDX."
+msgstr "'{}' содержит недопустимое выражением SPDX."
 
 #: src/reuse/lint.py:124
 msgid "MISSING COPYRIGHT AND LICENSING INFORMATION"
@@ -819,9 +827,8 @@ msgid "Read errors:"
 msgstr "Читайте ошибки:"
 
 #: src/reuse/lint.py:173
-#, fuzzy
 msgid "Invalid SPDX License Expressions:"
-msgstr "'{}' не является допустимым выражением SPDX."
+msgstr "Некорректные выражения лицензий SPDX:"
 
 #: src/reuse/lint.py:183
 msgid "Files with copyright information:"
@@ -854,34 +861,31 @@ msgid "missing license '{lic}'"
 msgstr "отсутствует лицензия '{lic}'"
 
 #: src/reuse/lint.py:291
-#, fuzzy
 msgid "read error"
-msgstr "Читайте ошибки:"
+msgstr "Ошибка при чтении"
 
 #: src/reuse/lint.py:296
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "invalid SPDX License Expression '{expression}'"
-msgstr "'{}' не является допустимым выражением SPDX."
+msgstr "'{expression}' не является допустимым выражением SPDX."
 
 #: src/reuse/lint.py:303
-#, fuzzy
 msgid "no license identifier"
-msgstr "{path}: нет идентификатора лицензии\n"
+msgstr "нет идентификатора лицензии"
 
 #: src/reuse/lint.py:307
 #, fuzzy
 msgid "no copyright notice"
-msgstr "{path}: нет уведомления об авторских правах\n"
+msgstr "{path}: нет уведомления об авторских правах"
 
 #: src/reuse/lint.py:345
 #, fuzzy, python-brace-format
 msgid "bad license '{lic}'"
-msgstr "{path}: плохая лицензия {lic}\n"
+msgstr "{path}: плохая лицензия {lic}"
 
 #: src/reuse/lint.py:350
-#, fuzzy
 msgid "deprecated license"
-msgstr "Утраченные лицензии:"
+msgstr "устаревшая лицензия"
 
 #: src/reuse/lint.py:355
 #, fuzzy
@@ -1052,6 +1056,12 @@ msgid ""
 "not meant to be valid, put it between 'REUSE-IgnoreStart' and 'REUSE-"
 "IgnoreEnd' comments."
 msgstr ""
+"Исправьте недопустимые выражения лицензий SPDX: В одном или нескольких "
+"файлах обнаружены выражения лицензий SPDX, которые не удалось разобрать. "
+"Проверьте правильность значения, указанного после `SPDX-License-"
+"Identifier:`. Если обнаруженное выражение не предназначено для разбора как "
+"допустимое выражение SPDX, поместите его между комментариями `REUSE-"
+"IgnoreStart` и `REUSE-IgnoreEnd`."
 
 #: src/reuse/report.py:597
 msgid ""
@@ -1070,7 +1080,7 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:186
 msgid "d"
-msgstr ""
+msgstr "д"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:736
 #, python-brace-format
@@ -1086,7 +1096,7 @@ msgstr "{editor}: Редактирование не удалось: {e}"
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_winconsole.py:173
 #, python-brace-format
 msgid "Windows error: {error}"
-msgstr ""
+msgstr "Ошибка Windows: {error}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:104
 #, fuzzy
@@ -1111,9 +1121,8 @@ msgstr[1] "Получили неожиданных дополнительных 
 msgstr[2] "Получили неожиданных дополнительных аргументов ({args})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1407
-#, fuzzy
 msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
-msgstr "DeprecationWarning: Команда {name!r} устарела."
+msgstr "DeprecationWarning: Команда {name!r} устарела.{extra_message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:1594
 msgid "Aborted!"
@@ -1140,23 +1149,24 @@ msgstr[1] "Принимает значения {nargs}, но было задан
 msgstr[2] "Принимает значений {nargs}, но было задано {len}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:2767
-#, fuzzy
 msgid ""
 "DeprecationWarning: The {param_type} {name!r} is deprecated.{extra_message}"
-msgstr "DeprecationWarning: Команда {name!r} устарела."
+msgstr "DeprecationWarning: Команда {name!r} устарела.{extra_message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3246
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Name '{name}' defined twice"
-msgstr ""
+msgstr "Имя '{name}' было инициализировано два раза."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3262
 msgid "Boolean option {decl!r} cannot use the same flag for true/false."
 msgstr ""
+"Для логического параметра {decl!r} нельзя использовать один и тот же флаг "
+"для значений true и false."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3281
 msgid "Could not determine name for option with declarations {decls!r}"
-msgstr ""
+msgstr "Не удалось определить имя параметра по его объявлениям {decls!r'}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3288
 #, python-brace-format
@@ -1164,6 +1174,8 @@ msgid ""
 "No options defined but a name was passed ({name}). Did you mean to declare "
 "an argument instead? Did you mean to pass '--{name}'?"
 msgstr ""
+"Параметры не определены, но было передано имя ({name}). Возможно, вы хотели "
+"объявить позиционный аргумент? Или передать '--{name}'?"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3368
 #, fuzzy, python-brace-format
@@ -1184,14 +1196,16 @@ msgstr "(динамика)"
 msgid ""
 "Arguments take exactly one parameter declaration, got {length}: {decls}."
 msgstr ""
+"Для позиционного аргумента допускается ровно одно объявление параметра, но "
+"получено {length}: {decls}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:399
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "Хотите ли вы продолжить?"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:400
 msgid "Confirm the action without prompting."
-msgstr ""
+msgstr "Подтвердить действие без запроса."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:556
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:598
@@ -1207,7 +1221,7 @@ msgstr "Покажите это сообщение и выйдите."
 msgid "Did you mean {possibility}?"
 msgid_plural "(Did you mean one of: {possibilities}?)"
 msgstr[0] "Вы имели в виду {possibility}?"
-msgstr[1] "(Возможных вариантов: {possibilities})"
+msgstr[1] "(Возможно вы имели в виду одно из: {possibilities})"
 msgstr[2] "(Возможных вариантов: {possibilities})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/exceptions.py:62
@@ -1274,14 +1288,13 @@ msgid "Could not open file {filename!r}: {message}"
 msgstr "Не удалось открыть файл {filename!r}: {message}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/formatting.py:167
-#, fuzzy
 msgid "Usage:"
-msgstr "использование: "
+msgstr "Использование:"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:145
 #, python-brace-format
 msgid "Invalid start character for option ({option})"
-msgstr ""
+msgstr "Недопустимый начальный символ в параметре ({option})."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:203
 msgid "Argument {name!r} takes {nargs} values."
@@ -1321,7 +1334,7 @@ msgstr "Ошибка: недопустимый ввод"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:638
 msgid "Unknown color {colour!r}"
-msgstr ""
+msgstr "Неопознанный цвет {colour!r}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:1003
 msgid "Press any key to continue..."
@@ -1344,11 +1357,9 @@ msgstr[1] "{value!r} не является одним из {choices}."
 msgstr[2] "{value!r} не является одним из {choices}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:482
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Choice({choices})"
-msgstr ""
-"Выберите из:\n"
-"{choices}"
+msgstr "Выберите из: {choices}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:570
 msgid "{value!r} does not match the format {format}."
@@ -1367,7 +1378,6 @@ msgid "{value} is not in the range {range}."
 msgstr "{value} не входит в диапазон {range}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:866
-#, fuzzy
 msgid "{value!r} is not a valid boolean. Recognized values: {states}"
 msgstr "{value!r} не является допустимым булевым числом."
 
@@ -1384,9 +1394,8 @@ msgid "directory"
 msgstr "каталог"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1120
-#, fuzzy
 msgid "path"
-msgstr "path"
+msgstr "путь"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1167
 msgid "{name} {filename!r} does not exist."
@@ -1397,7 +1406,6 @@ msgid "{name} {filename!r} is a file."
 msgstr "{name}filename!r} - это файл."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/types.py:1184
-#, fuzzy
 msgid "{name} {filename!r} is a directory."
 msgstr "{name} '{filename}' - это каталог."
 
@@ -1425,7 +1433,7 @@ msgstr[2] "{len_type} значения необходимы, но {len_value} б
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/utils.py:389
 #, python-brace-format
 msgid "Unknown standard stream '{name}'"
-msgstr ""
+msgstr "Unknown standard stream '{name}'"
 
 #~ msgid "Error: The value you entered was invalid."
 #~ msgstr "Ошибка: Введенное значение недействительно."
