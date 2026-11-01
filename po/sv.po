@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-30 13:38+0000\n"
-"PO-Revision-Date: 2025-12-21 18:00+0000\n"
-"Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
+"PO-Revision-Date: 2026-11-01 17:51+0000\n"
+"Last-Translator: Daniel Nylander "
+"<yeagersthlm2@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/fsfe/reuse-tool/"
 "sv/>\n"
 "Language: sv\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: src/reuse/_annotate.py:96
 #, python-brace-format
@@ -30,9 +31,10 @@ msgid "'{path}' is not recognised; creating '{path}.license'"
 msgstr "'{path}' känns inte igen; skapar '{path}.license'"
 
 #: src/reuse/_annotate.py:118
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Skipped file '{path}' already containing REUSE information"
-msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
+msgstr ""
+"Hoppade över filen '{path}' eftersom den redan innehåller REUSE-information."
 
 #: src/reuse/_annotate.py:148
 #, python-brace-format
@@ -212,6 +214,7 @@ msgstr "Ersätt inte den första rubriken i filen; lägg bara till en ny."
 #: src/reuse/cli/annotate.py:457
 msgid "Replace existing SPDX-License-Identifiers, instead of adding onto them."
 msgstr ""
+"Ersätt befintliga SPDX-licensidentifierare i stället för att lägga till dem."
 
 #: src/reuse/cli/annotate.py:466
 msgid "Always write a .license file instead of a header inside the file."
@@ -232,13 +235,15 @@ msgstr "Hoppade över fil '{path}' innehåller redan REUSE information"
 
 #: src/reuse/cli/annotate.py:498
 msgid "Skip files that are covered by REUSE.toml or .reuse/dep5."
-msgstr ""
+msgstr "Hoppa över filer som omfattas av REUSE.toml eller .reuse/dep5."
 
 #: src/reuse/cli/annotate.py:507
 msgid ""
 "Skip files that are covered by REUSE.toml or .reuse/dep5 with a specific "
 "precedence level, repeatable."
 msgstr ""
+"Hoppa över filer som omfattas av REUSE.toml eller .reuse/dep5 med en viss "
+"prioritetsnivå. Kan anges flera gånger."
 
 #. TRANSLATORS: You may translate this. Please preserve capital letters.
 #: src/reuse/cli/annotate.py:514
@@ -1092,7 +1097,7 @@ msgstr ""
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:186
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_termui_impl.py:736
 #, python-brace-format
@@ -1108,7 +1113,7 @@ msgstr "{editor}: Redigeringen misslyckades: {e}"
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/_winconsole.py:173
 #, python-brace-format
 msgid "Windows error: {error}"
-msgstr ""
+msgstr "Windows-fel: {error}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:104
 #, fuzzy
@@ -1166,15 +1171,18 @@ msgstr "Utfasningsvarning: {param_type} {name!r} är föråldrad.{extra_message}
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3246
 #, python-brace-format
 msgid "Name '{name}' defined twice"
-msgstr ""
+msgstr "Namnet ”{name}” har definierats två gånger"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3262
 msgid "Boolean option {decl!r} cannot use the same flag for true/false."
 msgstr ""
+"Det booleska alternativet {decl!r} kan inte använda samma flagga för sant/"
+"falskt."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3281
 msgid "Could not determine name for option with declarations {decls!r}"
 msgstr ""
+"Kunde inte fastställa namnet för alternativet med deklarationerna {decls!r}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3288
 #, python-brace-format
@@ -1182,6 +1190,8 @@ msgid ""
 "No options defined but a name was passed ({name}). Did you mean to declare "
 "an argument instead? Did you mean to pass '--{name}'?"
 msgstr ""
+"Inga alternativ har definierats men ett namn angavs ({name}). Menade du att "
+"deklarera ett argument i stället? Menade du att ange ”--{name}”?"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/core.py:3368
 #, python-brace-format
@@ -1201,15 +1211,15 @@ msgstr "(dynamiskt)"
 #, python-brace-format
 msgid ""
 "Arguments take exactly one parameter declaration, got {length}: {decls}."
-msgstr ""
+msgstr "Argument tar exakt en parameterdeklaration, fick {length}: {decls}."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:399
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "Vill du fortsätta?"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:400
 msgid "Confirm the action without prompting."
-msgstr ""
+msgstr "Bekräfta åtgärden utan att fråga."
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:556
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/decorators.py:598
@@ -1298,7 +1308,7 @@ msgstr "Användning:"
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:145
 #, python-brace-format
 msgid "Invalid start character for option ({option})"
-msgstr ""
+msgstr "Ogiltigt starttecken för alternativet ({option})"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/parser.py:203
 msgid "Argument {name!r} takes {nargs} values."
@@ -1336,7 +1346,7 @@ msgstr "Fel: ogiltig inmatning"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:638
 msgid "Unknown color {colour!r}"
-msgstr ""
+msgstr "Okänd färg {colour!r}"
 
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/termui.py:1003
 msgid "Press any key to continue..."
@@ -1437,7 +1447,7 @@ msgstr[1] "{len_type}-värden är obligatoriska, men {len_value} angavs."
 #: /root/.cache/pypoetry/virtualenvs/reuse-3tQ3zmSa-py3.13/lib/python3.13/site-packages/click/utils.py:389
 #, python-brace-format
 msgid "Unknown standard stream '{name}'"
-msgstr ""
+msgstr "Okänd standardström ”{name}”"
 
 #, python-brace-format
 #~ msgid ""
